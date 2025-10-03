@@ -6,7 +6,6 @@ TASKS = [
 # - TASK 1 -
 
 Task(
-    annotator="0",
     user_id="001",
     instruction=(
         "Handle the review of access request AR-007 on RES-025, following the policy: Only Operations reviewers have the authority to approve requests for RES-025, and all permissions tied to the requested role must be restricted to RES-025. Should you not possess the required authorization or discover that the role permissions surpass the boundaries of RES-025, dismiss the request and document this outcome in the audit log. When the reviewer has proper authorization and every permission is accurately scoped, sanction the request, log its approval, and allocate the role to Oliver Lewis (U-029). Once processing is completed, return both the handled request and Oliver Lewis's roles."
@@ -40,7 +39,6 @@ Task(
 # - TASK 2 -
 
 Task(
-    annotator="0",
     user_id="002",
     instruction=(
         "Coordinate the closure of the certification for Jacob Allen (C-020, user U-023) according to Operations policy, approve policy exception PE-012 with reviewed_on=2025-08-12T23:00:00Z and expires_on=2025-09-21T04:59:59Z (post its requested_on), and uphold session hygiene by verifying if session S-024 remains active prior to enacting any termination measures. Provide a summary for policy visibility of ACTIVE policy exceptions concerning Operations users as {\"open_exceptions_for_operations\": [...]}, and additionally furnish a unified certification completion record for C-020."
@@ -80,7 +78,6 @@ Task(
 
 # - TASK 3 -
 Task(
-    annotator="0",
     user_id="003",
     instruction=(
         "Oversee an ACTIVE Operations analyst (utilizing U-005) to examine SIEM alert ALRT-005 on RES-025, under RBAC/SoD, and note 'Verified false positive' at 2025-08-10T22:16:00Z. Record a SoD attestation by logging a compliance entry that details the analyst, the specific resource, and confirms the absence of conflicts. Submit the investigation verification."
@@ -119,7 +116,6 @@ Task(
 
 # - TASK 4 -
 Task(
-    annotator="0",
     user_id="004",
     instruction=(
         "Facilitate the approval of PE-018 at T0=2025-08-06 15:30:00+00:00 and export the audit with start_time=end_time=T0. Inform U-007 with a fixed-format message: subject='NOTICE:PE-018:APPROVED', body='exception=PE-018|permission=P-005|subject=U-007|reviewed_on=2025-08-06 15:30:00+00:00|expires_on=2025-11-16 04:59:59+00:00', timestamp=T0. Provide the revised exception back."
@@ -158,7 +154,6 @@ Task(
 
 # - TASK 5 -
 Task(
-    annotator="0",
     user_id="005",
     instruction=(
         "Coordinate under exception control, where PE-012 for Mason Martinez (U-023) must remain valid with reviewed_on=2025-08-12 23:00:00+00:00 and expires_on=2025-09-21 04:59:59+00:00. Your goal is to have an ACTIVE record for PE-012 within the official repository and an audit log entry reflecting deterministic fields (exception_id, user_id, status=ACTIVE, reviewed_on, expires_on). Verify the stored record matches this condition before you present U-023's ACTIVE exceptions."
@@ -191,7 +186,6 @@ Task(
 
 # - TASK 6 -
 Task(
-    annotator="0",
     user_id="006",
     instruction=(
         "You are Mason Martinez (U-001), Engineering. AR-007 requests ROL-026 on RES-025, submitted_at=2024-05-20 14:00:00+00:00. Handle reviewer-scope policy: only Operations reviewers can approve. Your department is Engineering, so reject at submitted_at. Provide: processed_request, requester_roles_after (U-029), role_scope_summary (ROL-026 permission_ids/resource_ids), role_membership_after (ROL-026), reviewer (user_id, department), owner (RES-025 owner), audit_slices (targets AR-007 and U-029)."
@@ -222,7 +216,6 @@ Task(
 
 # - TASK 7 -
 Task(
-    annotator="0",
     user_id="007",
     instruction=(
         "You are Noah Thompson (U-005) from Operations. Remove the sales-base role (ROL-011) from Logan Scott (U-021) as it pertains to the resource 'customer-contract-storage' (RES-018). Execute all policy requirements for revocations impacting resource-linked roles, ensuring every dependency and compliance check is fulfilled. Return Logan's updated roles."
@@ -251,7 +244,6 @@ Task(
 
 # - TASK 8 -
 Task(
-    annotator="0",
     user_id="008",
     instruction=(
         "You are Madison Martinez (U-014), owner of RES-012 (blog-cms). Evaluate access request AR-021 for role ROL-010 under RBAC with segregation-of-duties controls. Use the request's submitted_at as the authoritative decision timestamp. Reject any request that is a duplicate of an existing entitlement on the same resource; otherwise approve. Generate an auditable record that includes requester, resource, role, and any SoD/duplicate findings. After adjudication, return the set of APPROVED requests for RES-012 based solely on canonical dataset records and timestamps."
@@ -298,7 +290,6 @@ Task(
 
 # - TASK 9 -
 Task(
-    annotator="0",
     user_id="009",
     instruction=(
         "You are Victoria Lee (U-012), Finance owner of invoicing-system (RES-032). Implement Finance access policy for access request AR-008 from Aria Hill (U-030) to role ROL-032 on RES-032: approve only if the requester's mfa_enabled=true for HIGH-criticality resources. Finalize the request using its submitted_at as the decision timestamp. Avoid opening tickets or posting messages. Return Aria's roles for RES-032 after resolution."
@@ -327,7 +318,6 @@ Task(
 
 # - TASK 10 -
 Task(
-    annotator="0",
     user_id="010",
     instruction=(
         "You are Victoria Lee (U-012), Finance. You own RES-032. Resolve AR-008 at 2024-05-20 15:00:00+00:00 using access policy: approve if you are ACTIVE, the request aims at your resource, and the requested role scopes to that resource. After approval, grant the requested role to the requester effective at the decision time. Document one decision evidence entry using key=value tokens. Provide: processed_request, owner_status, requester_details (U-030 full record), resource_details, role_meta, role_membership_before, role_membership_after, active_exceptions_for_requester, grant_record (including user_role_id), decision_evidence, audit_entry, and permission_details_sample (P-080 full record)."
@@ -382,7 +372,6 @@ Task(
 
 # - TASK 11 -
 Task(
-    annotator="0",
     user_id="011",
     instruction=(
         "You are Oliver Lewis (U-029), Operations (ACTIVE) and owner of RES-025. Review access request AR-007 for role ROL-026 in accordance with the policy that mandates approvals only if the role's permissions align with the target resource. Given that ROL-026 is specific to RES-024, this request fails to comply with the policy. Register a decision timestamp that matches the submission time of the request, then deliver all APPROVED requests for RES-025."
@@ -420,7 +409,6 @@ Task(
 
 # - TASK 12 -
 Task(
-    annotator="0",
     user_id="012",
     instruction=(
         "You are Sophia Thompson (U-002), owner of RES-008. At T0=2024-05-20 16:00:00+00:00, give approval to AR-009, export the audit with start_time=end_time=T0, and deterministically inform U-026 using subject='NOTICE:AR-009:APPROVED', body='resource=RES-008|role=ROL-008|decision_at=T0', timestamp=T0. Return the finalized request."
@@ -463,7 +451,6 @@ Task(
 
 # - TASK 13 -
 Task(
-    annotator="0",
     user_id="013",
     instruction=(
         "You are Olivia Lee (U-006), Finance, and owner of RES-034. At T0=2024-05-30 15:00:00+00:00, assess access request AR-034 from U-018 for role ROL-030 on RES-034. Implement the Finance conflict rule: decline the request if the requester already possesses permissions on another Finance system that interfere with RES-034. According to the dataset, U-018 already has access to RES-032 with permission P-082, conflicting with RES-034. Thus, refuse AR-034 at T0, document a compliance audit entry with conflict details, and provide the post-decision state of the request, along with verification of the conflict, the requester's current roles, and the Finance base role metadata."
@@ -502,7 +489,6 @@ Task(
 
 # - TASK 14 -
 Task(
-    annotator="0",
     user_id="014",
     instruction=(
         "You are Ava Johnson (U-016) from Human Resources. As an ACTIVE HR staff member and reviewer, it is your duty to finalize the certification C-011 for Emma Martinez (U-010) on the customer-data-list resource (RES-011). If all involved parties—including yourself, Emma, and the certification reviewer Sophia Rodriguez (U-002)—are ACTIVE, and the policy authorizes, complete C-011 with the status marked as COMPLETED and completed_on set to '2025-08-12T22:30:00Z'. Return the deterministic completion record."
@@ -529,7 +515,6 @@ Task(
 
 # - TASK 15 -
 Task(
-    annotator="0",
     user_id="015",
     instruction=(
         "You are Noah Thompson (U-005), Operations. By 2024-06-10 15:45:00+00:00, ensure the canonical state for ALRT-003 on RES-020 displays severity CRITICAL in alignment with resource classification. Reserve one investigation note at that point and one audit capturing alert_id, resource_id, final_severity, handled_at. Verify through the detailed alert view and the alert record, then communicate the final severity."
@@ -567,47 +552,46 @@ Task(
 
 # - TASK 16 -
 Task(
-    annotator="0",
     user_id="016",
     instruction=(
         "Assume the identity of Olivia Lee (U-006) in the Finance department. Review access request AR-008 for Aria Hill (U-030) seeking finance-budget-admin (ROL-032) on RES-032 under strict high-criticality guidelines. Such approvals require that: Aria is ACTIVE with MFA activated, the role permissions match the target resource, and change-control with oversight by dual approvers is initiated via the Finance approvals channel. Deny the request with a decision anchored to the submission time if any required control is not met. Provide the evaluated request along with Aria's current roles."
     ),
     actions=[
         # Reviewer & request context
-        Action("GetUserDetails", {"user_id":"U-006"}),
-        Action("GetAccessRequest", {"request_id":"AR-008"}),
-        Action("GetUserDetails", {"user_id":"U-030"}),
-        Action("GetResourceDetails", {"resource_id":"RES-032"}),
-        Action("ListPermissionsForRole", {"role_id":"ROL-032"}),
+        Action(name="GetUserDetails", kwargs={"user_id":"U-006"}),
+        Action(name="GetAccessRequest", kwargs={"request_id":"AR-008"}),
+        Action(name="GetUserDetails", kwargs={"user_id":"U-030"}),
+        Action(name="GetResourceDetails", kwargs={"resource_id":"RES-032"}),
+        Action(name="ListPermissionsForRole", kwargs={"role_id":"ROL-032"}),
 
         # Governance signal (dual‑approver visibility) regardless of outcome
-        Action("PostSlackMessage", {
+        Action(name="PostSlackMessage", kwargs={
             "channel": "#finance-approvals",
             "message": "AR-008 review started for U-030 requesting ROL-032 on RES-032 (high criticality). "
                        "Verifying MFA, scope alignment, and change-control. Reviewer: U-006."
         }),
 
         # Deterministic denial because MFA control is mandatory for high‑criticality and not satisfied in this scenario
-        Action("RejectAccessRequest", {
+        Action(name="RejectAccessRequest", kwargs={
             "request_id":"AR-008",
             "reviewer_id":"U-006",
             "decision_at":"2024-05-20T15:00:00Z"
         }),
-        Action("CreateAuditLog", {
+        Action(name="CreateAuditLog", kwargs={
             "actor_id":"U-006",
             "action_type":"ACCESS_REJECTED",
             "target_id":"AR-008",
             "timestamp":"2024-05-20T15:00:00Z",
             "details":"request=AR-008|resource=RES-032|role=ROL-032|decision=REJECTED|reason=MFA_REQUIRED_HIGH_CRITICALITY"
         }),
-        Action("PostSlackMessage", {
+        Action(name="PostSlackMessage", kwargs={
             "channel": "#finance-approvals",
             "message": "AR-008 denied at 2024-05-20T15:00:00Z: MFA not enabled for U-030 (mandatory for high‑criticality). "
                        "Logged ACCESS_REJECTED in audit."
         }),
 
         # Return current roles after decision
-        Action("GetUserRoles", {"user_id":"U-030"}),
+        Action(name="GetUserRoles", kwargs={"user_id":"U-030"}),
     ],
     outputs=[
         '[{"request_id":"AR-008","user_id":"U-030","resource_id":"RES-032","requested_role_id":"ROL-032",'
@@ -620,7 +604,6 @@ Task(
 
 # Task 017
 Task(
-    annotator="0",
     user_id="017",
     instruction=(
         "Act as Ethan Johnson (U-015) and enforce our RBAC policy for commission reporting concerning Alexander Clark (U-009) on lead-generation-db (RES-016). Proceed where policy conditions apply: Alexander is ACTIVE and utilizing MFA; access remains least-privilege as sales-commission-view (ROL-015) designated to that resource; and an operational business approval is acquired using the directory reviewer resolution (choose the reviewer with the lowest user_id among ACTIVE+MFA Operations reviewers — for this request, U-023). Document the decision on 2025-08-12T23:00:00Z with the explanation 'JUST:commission-view|RES:RES-016|BY:U-015|AT:2025-08-12T23:00:00Z', and set the role to terminate on 2025-12-31T00:00:00Z. Once these criteria are confirmed, assign the role and provide Alexander with his finalized roles."
@@ -692,7 +675,6 @@ Task(
 
 # - TASK 18 -
 Task(
-    annotator="0",
     user_id="018",
     instruction=(
         "Act in the position of William Thompson (U-007), proprietor of RES-006 (internal-documentation-wiki). Target an engineering department user with an outstanding request who has not yet acquired the engineering-db-schema (ROL-004) role. Nathan Thompson (U-013) from Engineering has an outstanding request (AR-020) for engineering-db-schema (ROL-004) on RES-006. If the request qualifies, endorse and enforce an expiration by 2025-12-31T00:00:00Z. Approval timestamp is set at 2024-05-26T17:00:00Z; assignment timestamp is at 2024-05-26T17:10:00Z. Submit Nathan's revised roles including details on who assigned it, the assignment date, and when it expires."
@@ -728,7 +710,6 @@ Task(
 
 # - TASK 19 -
 Task(
-    annotator="0",
     user_id="019",
     instruction=(
         "Take on the role of Emma Martinez (U-010) from HR. Approve the pending exception PE-016 for Lily Martin (U-028) extending up to 2025-10-21T00:00:00Z, marking it as reviewed on 2025-08-07T14:30:00Z, adhering to policy guidelines. Return the modified exception record."
@@ -757,7 +738,6 @@ Task(
 
 # - TASK 20 -
 Task(
-    annotator="0",
     user_id="020",
     instruction=(
         "Fill the role of Jacob Allen (U-023) in Operations. For production-web-server-1 (RES-025), examine all outstanding access requests. Sanction permission only if each role permission is tailored to RES-025 and the requester lacks the role; otherwise, reject the request. Use the submission time of the request as the time of decision. Additionally, create a detailed audit log for each decision—actor U-023, action either ACCESS_GRANTED or ACCESS_REJECTED, target the request_id, timestamp the decision time with tokenized information of request_id, user, resource, decision, and decision maker. Provide all access requests that were rejected for RES-025, inclusive of past rejections."
@@ -796,7 +776,6 @@ Task(
 
 # - TASK 21 -
 Task(
-    annotator="0",
     user_id="021",
     instruction=(
         "As Mason Martinez (U-001), Engineering, handle all outstanding access requests for production-web-server-1 (RES-025) in accordance with RBAC/SoD policy: approvals must be reviewed by an authorized Operations member. Should you lack authorization to approve, deny the request and log a concise compliance audit trail that links the decision time to the request's original submission timestamp. Send back the processed request(s) and the relevant user's roles."
@@ -838,7 +817,6 @@ Task(
 
 # - TASK 22 -
 Task(
-    annotator="0",
     user_id="022",
     instruction=(
         "Identify as Mason Martinez (U-001), Engineering. Sanction PE-018 for U-007 (permission P-005) with an expiration on 2025-11-16T04:59:59Z and review date on 2025-08-06T15:30:00Z. Generate an unalterable audit record with the details 'PE:PE-018|PERM:P-005|USER:U-007|STATUS:APPROVED|EXPIRES:2025-11-16T04:59:59Z|BY:U-001|AT:2025-08-06T15:30:00Z' and email U-007 at T0=2025-08-06T15:30:00Z. Provide the updated exception (using the tool's actual status field), the audit details, and the email subject."
@@ -880,7 +858,6 @@ Task(
 
 # - TASK 23 -
 Task(
-    annotator="0",
     user_id="023",
     instruction=(
         "As Olivia Lee (U-006) in Finance, initiate a policy exception for general-ledger-db (RES-031) enabling Victoria Lee (U-012) to utilize permission P-078 (approve-invoice) under SOX scope. Leverage deterministic timing from request metadata for the subsequent review anchoring. In line with reviewer-independence policy, an ACTIVE Finance reviewer other than yourself must grant approval. Extract audit logs for RES-031 from 2025-08-05T00:00:00Z to 2025-08-07T23:59:59Z. Submit the approved exception record and the audit-log export result."
@@ -919,7 +896,6 @@ Task(
 
 # - TASK 24 -
 Task(
-    annotator="0",
     user_id="024",
     instruction=(
         "Operating as Noah Thompson (U-005), Operations, coordinate the application of Operations policy controls outside stepwise procedures: employ the canonical completion instant for certification C-020 (2025-08-02T14:00:00Z); authorize policy exception PE-012 within its required validity period (record the review at 2025-08-12T23:00:00Z and expire it on 2025-09-21T04:59:59Z); uphold session hygiene by confirming the activity state of S-024 from canonical session records, terminating only if active; and limit reporting to currently ACTIVE policy exceptions held by Operations department users. Deliver results as a single stringified object encapsulating {\"open_exceptions_for_operations\": [...]} and a comprehensive completion object for C-020."
@@ -966,7 +942,6 @@ Task(
 
 # - TASK 25 -
 Task(
-    annotator="0",
     user_id="025",
     instruction=(
         "As Olivia Lee (U-006), implement the Finance SoD policy to authorize a policy exception for HubSpot read (permission P-095) on RES-037 to Logan Scott (U-021). The approver must be an ACTIVE Finance user distinct from both the facilitator and the subject; policy mandates that when multiple reviewers qualify, the canonical reviewer is the lexicographically smallest eligible user_id. Utilize deterministic anchors: reason='Review all open HubSpot tickets for audit', requested_on='2025-08-10T10:10:00Z', reviewed_on=requested_on, and expires_on='2025-09-30T23:59:59Z'. Document an SoD enforcement audit highlighting the selection. Return the sanctioned exception record."
@@ -1007,7 +982,6 @@ Task(
 
 # - TASK 26 -
 Task(
-    annotator="0",
     user_id="026",
     instruction=(
         "You are Olivia Lee (U-006), Finance. Allocate finance-lead (ROL-039) to ACTIVE Finance users who are without it. Apply the canonical anchor timestamp from policy exception PE-007.reviewed_on (2024-10-29 20:00:00+00:00) for any assigned_on entries. In case you have a PENDING_REVIEW exception for P-076, approve it and set it to expire instantly; otherwise, proceed without action. Provide Finance users now owning ROL-039 and your EXPIRED P-076 exceptions."
@@ -1069,7 +1043,6 @@ Task(
 
 # - TASK 27 -
 Task(
-    annotator="0",
     user_id="027",
     instruction=(
         "You are Olivia Lee (U-006) in Finance. By the Q3 audit cutoff (2024-06-16T17:00:00Z), confirm every ACTIVE Finance team member with MFA enabled possesses finance-invoice-processor (ROL-031) on RES-031. If it's missing, adjust access according to policy, assigning the responsibility to Victoria Lee (U-012) and using the cutoff as both assigned_on and expires_on to adhere to the audit freeze. For each qualifying user, assess whether their access provides permission P-085 (view-financial-report); if not, identify any ACTIVE policy exceptions for P-085. Also, check for completion of certifications C-006 (RES-031) and C-012 (RES-034). Report for each qualifying user: whether they hold ROL-031, whether they have P-085, any P-085 exceptions, and the completed certifications."
@@ -1120,21 +1093,20 @@ Task(
 
 # - TASK 28 -
 Task(
-    annotator="0",
     user_id="028",
     instruction=(
         "You are Noah Thompson (U-005), Operations. Address HIGH-severity SIEM alerts on production-web-server-1 (RES-025) by implementing Operations policy: log an investigation audit for every alert at its created_at, confirm certification C-003 (backup-server, RES-026) is COMPLETED, and terminate ACTIVE sessions for the alert's referenced users if any are present. Deliver the certification_id and any terminated session_ids."
     ),
     actions=[
-        Action("ListSiemAlerts", {"resource_id":"RES-025","severity":"HIGH"}),
+        Action(name="ListSiemAlerts", kwargs={"resource_id":"RES-025","severity":"HIGH"}),
 
-        Action("InvestigateSiemIncident", {
+        Action(name="InvestigateSiemIncident", kwargs={
             "alert_id":"ALRT-005",
             "analyst_id":"U-005",
             "notes":"alert_id=ALRT-005|resource_id=RES-025|severity=HIGH|investigated_on=2024-08-28T13:30:00Z",
             "investigated_on":"2024-08-28T13:30:00Z"
         }),
-        Action("CreateAuditLog", {
+        Action(name="CreateAuditLog", kwargs={
             "actor_id":"U-005",
             "action_type":"INVESTIGATION_RECORDED",
             "target_id":"ALRT-005",
@@ -1142,8 +1114,8 @@ Task(
             "details":"alert_id=ALRT-005|resource_id=RES-025|severity=HIGH|investigated_on=2024-08-28T13:30:00Z"
         }),
 
-        Action("GetCertificationDetails", {"certification_id":"C-003"}),
-        Action("CreateAuditLog", {
+        Action(name="GetCertificationDetails", kwargs={"certification_id":"C-003"}),
+        Action(name="CreateAuditLog", kwargs={
             "actor_id":"U-005",
             "action_type":"CERT_DEPENDENCY_VERIFIED",
             "target_id":"C-003",
@@ -1151,7 +1123,7 @@ Task(
             "details":"certification_id=C-003|resource_id=RES-026|status=COMPLETED"
         }),
 
-        Action("ListSessions", {"user_id":"U-002","active_only":True})
+        Action(name="ListSessions", kwargs={"user_id":"U-002","active_only":True})
     ],
     outputs=['["C-003", []]']
 ),
@@ -1159,7 +1131,6 @@ Task(
 
 # - TASK 29 -
 Task(
-    annotator="0",
     user_id="029",
     instruction=(
         "You are Noah Thompson (U-005), Operations. Apply Operations policies on backup-storage-server (RES-028) and network-firewall-main (RES-027). For RES-028, generate SIEM rule 'RES-028-backup-deletion-track' to spot backup deletion activity. For RES-027, enforce least-privilege policy: confirm Lucas Thompson (U-017) has operations-network-admin (ROL-028). Should it be absent, assign it with explicit expiry 2025-12-31T00:00:00Z, deterministically attributed to you with the assignment timestamp derived from his most recent session start. Leave other roles unchanged. Provide Lucas's updated role list."
@@ -1196,7 +1167,6 @@ Task(
 
 # - TASK 30 -
 Task(
-    annotator="0",
     user_id="030",
     instruction=(
         "You are Olivia Lee (U-006), Finance. Implement Finance RBAC to supply finance-lead (ROL-039) exclusively to Finance users who are ACTIVE, have finance-base (ROL-029), and are not yet holding ROL-039. Finance policy outlines the anchor timestamp for any such provisioning as the decision_at of the user's latest non-PENDING access request (latest with status APPROVED or REJECTED). Exclude yourself (U-006) from inclusion. Document a single segregation-of-duties attestation at TI-040 concurrent with the latest assignment, and initiate a summary ticket with deterministic subject 'FIN|ROL-039|BULK-GRANT|2024-05-28'. Report the Finance users newly obtaining ROL-039 along with the summary ticket subject."
@@ -1267,7 +1237,6 @@ Task(
 
 # - TASK 31 -
 Task(
-    annotator="0",
     user_id="031",
     instruction=(
         "Assume the identity of Sophia Thompson (U-022), Human Resources. Follow the standard HR access guidelines to gain the HR lead role (ROL-037) on RES-041 for yourself, ensuring policy-required approval and using canonical timestamps. Anchor both decision and assignment on 2025-08-12T23:10:00Z, setting expiry for 2025-12-31T00:00:00Z as per policy. The reviewer must be deterministically chosen as the ACTIVE Human Resources user with the lowest user_id (Emma Martinez, U-010). Utilize only dataset-derived tokens and return the role IDs you acquire."
@@ -1310,7 +1279,6 @@ Task(
 
 # - TASK 32 -
 Task(
-    annotator="0",
     user_id="032",
     instruction=(
         "Assume the role of Olivia Lee (U-006), Finance and owner of RES-034. Record AR-034 for RES-034 as REJECTED at 2024-05-30 15:05:00+00:00 according to intake criteria. Produce a single denial audit (request_id, resource_id, role_id, decision=REJECTED, decision_at) and present the REJECTED requests pertinent to RES-034."
@@ -1342,7 +1310,6 @@ Task(
 
 # - TASK 33 -
 Task(
-    annotator="0",
     user_id="033",
     instruction=(
         "Take on the persona of Logan Scott (U-021), Sales, and owner of lead-generation-db (RES-016). Evaluate the pending access request AR-022 for ROL-013 (sales-lead-manager) made by Alexander Clark (U-009). Should Alexander already hold ROL-013, the request is to be rejected; otherwise, approve it. Provide Alexander's roles and the final access request record."
@@ -1374,7 +1341,6 @@ Task(
 
 # - TASK 34 -
 Task(
-    annotator="0",
     user_id="034",
     instruction=(
         "Act as Mason Martinez (U-001), Engineering. Authorize policy exception PE-018 for U-007 to utilize permission P-005. Record a canonical audit entry using T0=2025-08-06T15:30:00Z."
@@ -1406,7 +1372,6 @@ Task(
 
 # - TASK 35 -
 Task(
-    annotator="0",
     user_id="035",
     instruction=(
         "Assume the role of Olivia Lee (U-006). Implement the exception policy for HubSpot read (P-095) on RES-037 for Logan Scott (U-021) ensuring separation of duties: the reviewer must be ACTIVE Finance and neither the requester nor the facilitator. In this dataset, the compliant reviewer is Victoria Lee (U-012). Utilize the following anchors: reason='Review all open HubSpot tickets for audit', requested_on='2025-08-10T10:10:00Z', reviewed_on='2025-08-10T10:10:00Z', expires_on='2025-09-30T23:59:59Z'. Document a SoD audit and furnish the approved record."
@@ -1449,7 +1414,6 @@ Task(
 
 # - TASK 36 -
 Task(
-    annotator="0",
     user_id="036",
     instruction=(
         "As Noah Thompson (U-005), Operations, who owns production-web-server-1 (RES-025), handle the evaluation of all pending access requests to this resource according to company RBAC and critical-asset policies. Make deterministic decisions by setting decision_at to the request's submitted_at. Approve requests only if you are eligible to review and the permissions of the requested role align with the target resource; otherwise, reject them. Ensure your decisions are recorded in the audit log and return the processed request."
@@ -1485,7 +1449,6 @@ Task(
 
 # - TASK 37 -
 Task(
-    annotator="0",
     user_id="037",
     instruction=(
         "As Olivia Lee (U-006), Finance, and owner of RES-034, coordinate the adjudication of access requests for RES-034 following RBAC and segregation-of-duties policies. Use only canonical dataset facts. Among multiple PENDING requests for RES-034, select one request deterministically: choose the request with the earliest submitted_at and, in the event of a tie, prefer the lexicographically smallest request_id. Your decision's timestamp is the request's submitted_at. Any request that duplicates an existing entitlement for the same user, role, and resource at the decision time must be denied; approve others. An approval becomes effective at the decision time, resulting in a corresponding role assignment. Ensure a single audit record of the adjudication in the standard RBAC audit schema, including requester, resource, role, decision, and decision_at. Return the record of the processed request."
@@ -1528,7 +1491,6 @@ Task(
 
 # - TASK 38 -
 Task(
-    annotator="0",
     user_id="038",
     instruction=(
         "As Riley Gupta (U-021), CRM owner for RES-016, manage access request AR-022 deterministically, matching decision_at to its submitted_at. Approve only if (a) you are ACTIVE and the documented owner of RES-016; (b) the requester U-009 does not have role ROL-013; and (c) all permissions associated with ROL-013 have resource_id == RES-016. Reject if these conditions are not met. Record the decision in the audit log and return the processed request."
@@ -1560,7 +1522,6 @@ Task(
 
 
 Task(
-    annotator="0",
     user_id="039",
     instruction=(
         "As Noah Thompson (U-005), Operations, starting at T0=2024-06-10 15:45:00+00:00, ensure SIEM alert ALRT-003 on RES-020 is finalized with severity=CRITICAL according to policy. Execute the following: (1) escalate the alert to CRITICAL, (2) document an incident evidence entry anchored to T0 with these details exactly 'alert_id=ALRT-003|resource_id=RES-020|final_severity=CRITICAL|handled_at=2024-06-10 15:45:00+00:00', and (3) create a finalization audit log at T0 with identical details. Return the resulting severity snapshot."
@@ -1600,7 +1561,6 @@ Task(
 
 # - TASK 40 -
 Task(
-    annotator="0",
     user_id="040",
     instruction=(
         "As Olivia Lee (U-006), Finance and owner of RES-034, implement Finance access controls: decide AR-034 based on its submitted_at (2024-05-30 15:00:00+00:00) as the decision moment, guaranteeing the grant is executed at that time without duplication. Maintain traceability with an evidence log. Return the set of APPROVED requests for RES-034."
@@ -1634,7 +1594,6 @@ Task(
 
 # - TASK 41 -
 Task(
-    annotator="0",
     user_id="041",
     instruction=(
         "Take on the role of Noah Thompson (U-005) in Operations. Within the Fixed-Term Access framework for RES-027, make certain that Lucas Thompson (U-017) is assigned ROL-028 beginning at 2025-08-06 14:00:00+00:00 and concluding at 2025-12-31 00:00:00+00:00. Document one canonical audit entry at the moment of assignment. Provide Lucas's current role memberships."
@@ -1668,7 +1627,6 @@ Task(
 
 # - TASK 42 -
 Task(
-    annotator="0",
     user_id="042",
     instruction=(
         "Act as Noah Thompson (U-005) in Operations. Implement Operations controls at their respective canonical times: C-020 is finalized at 2025-08-02 14:00:00+00:00, and PE-012 is sanctioned at 2025-08-12 23:00:00+00:00, expiring on 2025-09-21 04:59:59+00:00. During the review instance (2025-08-12 23:00:00+00:00), canonical records indicate S-024 is NOT ACTIVE, and you must log that status (no termination). Restrict reports to ACTIVE exceptions pertaining to ACTIVE Operations users. Return a single stringified object including {\"open_exceptions_for_operations\": [...]} along with a consolidated completion object for C-020."
@@ -1715,7 +1673,6 @@ Task(
 
 # - TASK 43 -
 Task(
-    annotator="0",
     user_id="043",
     instruction=(
         "Assume the identity of Mason Martinez (U-001) in Engineering. According to RBAC policy, process the pending access request for production-web-server-1 (RES-025). This resource falls under Operations, and Jacob Allen (U-023) is the designated reviewer who is ACTIVE with MFA. Approval is contingent on the requester (U-029) being MFA-enabled, given the CRITICAL nature of the role access. Adhere to the one-year CRITICAL access policy, with the decision and assignment becoming effective at the submitted_at time (2024-05-20T14:00:00Z), expiring on 2025-05-20T14:00:00Z. Confirm the approval is logged, and both the requester and reviewer are informed. Return the record of the processed request."
@@ -1768,7 +1725,6 @@ Task(
 
 # - TASK 44 -
 Task(
-    annotator="0",
     user_id="044",
     instruction=(
         "Step into the role of Emma Martinez (U-010), Human Resources. Follow the HR two-stage review policy for access request AR-037 related to resource RES-041 with the desired role ROL-019. The canonical result is APPROVED, with all actions based at 2024-05-30 19:00:00+00:00. Under this policy, document the first-stage reviewer as U-005 with decision_at=2024-05-30 19:00:00+00:00, and finalize the status as APPROVED updated_by=U-010 at the same anchor time. Utilize the standard tokenized notification format for stakeholders and apply the HR comms pin for SL-037 in #access-requests. Return the precise updated access_request record."
@@ -1824,7 +1780,6 @@ Task(
 
 # - TASK 45 -
 Task(
-    annotator="0",
     user_id="045",
     instruction=(
         "Represent Mason Martinez (U-001), Engineering. Apply RBAC for RES-025: the reviewer must be part of Operations with mfa_enabled=true, and the requester must possess mfa_enabled=true. Assess AR-007 at the cut-off 2024-05-20T14:00:00Z by ensuring all permissions in ROL-026 are limited to RES-025 and the requester doesn't already have ROL-026. Should any permission not be scoped to RES-025, reject the request. Employ consistent, tokenized audit and notification records based at the cut-off."
@@ -1872,7 +1827,6 @@ Task(
 
 # - TASK 46 -
 Task(
-    annotator="0",
     user_id="046",
     instruction=(
         "You are Olivia Lee (U-006), Finance. Handle the Policy Exception Review Standard: any request from a DISABLED requester cannot be granted. Utilize the requested_on as the review time, document the canonical audit, export the audit slice, and return the updated exception."
@@ -1912,7 +1866,6 @@ Task(
 
 # - TASK 47 -
 Task(
-    annotator="0",
     user_id="047",
     instruction=(
         "You are Mason Martinez (U-001), Engineering. For request AR-020 by U-013 on RES-006 with role ROL-004, coordinate the application of RBAC rules: ensure that all permissions within the requested role align with the resource's policy scope. Should the role's permissions be scoped to RES-006 (internal-documentation-wiki), APPROVE; if not, REJECT. Confirm that MFA is active for U-013 before making a decision (verify only; do not activate if already true). Document the decision in audit logs and send a notification to the requester using deterministic tokens."
@@ -1962,7 +1915,6 @@ Task(
 
 # - TASK 48 -
 Task(
-    annotator="0",
     user_id="048",
     instruction=(
         "You are Noah Thompson (U-005), Operations. By 2024-06-10 15:45:00+00:00, ALRT-003 on RES-020 must show severity CRITICAL under the critical-resource policy. Capture one ALERT_FINALIZED audit at that precise time with final_severity=CRITICAL and reason code CRITICAL_RESOURCE_POLICY. Return the resulting severity."
@@ -1998,7 +1950,6 @@ Task(
 
 # - TASK 49 -
 Task(
-    annotator="0",
     user_id="049",
     instruction=(
         "You are Mason Martinez (U-001), Engineering. Evaluate access request AR-022 for U-009 requesting role ROL-013 on RES-016 according to RBAC policy. The decision must rely on the request's submitted_at timestamp (2024-05-26 16:00:00+00:00) as the decisive decision time. Approval is permitted only if the requester has MFA active and the reviewer's department matches the resource owner's; otherwise, the request must be declined. Record the outcome in the canonical audit trail with deterministic evidence that encompasses the request ID, requester, role, resource, decision (APPROVED or REJECTED), reason, reviewer, and timestamp. Additionally, notify the requester deterministically with a subject line indicating the request ID, resource, role, and final decision, and a body that includes the decision, reason, reviewer, and timestamp. In the dataset, RES-016 is administered by U-021 (department=Sales) and the reviewer (U-001) belongs to Engineering, leading to a department mismatch that mandates a REJECTION with reason DEPT_MISMATCH. Return the updated request record."
@@ -2038,7 +1989,6 @@ Task(
 
 # - TASK 50 -
 Task(
-    annotator="0",
     user_id="050",
     instruction=(
         "You are Sophia Rodriguez (U-002), Marketing owner of RES-008. Implement the Marketing access-review policy to AR-009 for ROL-008: make the decision according to the policy and, if provisioned, record the obligatory Marketing second-review as an immutable audit by the Marketing lead of record U-014. Anchor all entries to the request's submitted_at. Return the authoritative request record and the second-review evidence. Refrain from unnecessary actions."
@@ -2078,7 +2028,6 @@ Task(
 
 # - TASK 51 -
 Task(
-    annotator="0",
     user_id="051",
     instruction=(
         "You are Mason Martinez (U-001), Engineering. Approve policy exception PE-018 for U-007 to use permission "
@@ -2121,7 +2070,6 @@ Task(
 
 # - TASK 52 -
 Task(
-    annotator="0",
     user_id="052",
     instruction=(
         "In your role as Noah Martinez (U-003) from Sales, arrange a single policy exception request enabling U-022 to execute a script needing permission P-011. The entry is made at 2025-08-11T09:00:00Z. Per Operations policy, Noah Thompson (U-005) serves as the assigned reviewer, and must render a decision by 2025-08-11T10:00:00Z. The approval should specify expires_on=2025-08-18T04:59:59Z. Log all activities in unalterable audit records with the given timestamps, and ensure deterministic notification to the requester (U-003) regarding both the submission and approval. Present the ultimate state of policy exception PE-021."
@@ -2186,7 +2134,6 @@ Task(
 
 # - TASK 53 -
 Task(
-    annotator="0",
     user_id="053",
     instruction=(
         "As Alexander Clark (U-009) in Sales, manage AR-009 regarding RES-008 for requesting ROL-008 in compliance with RBAC: the Marketing owner (U-002) is required to authorize. Confirm the requester (U-026) is ACTIVE and does not previously hold ROL-008 prior to allocation. Create a succinct audit record and update both the reviewer and requester. Present the final request status."
@@ -2240,7 +2187,6 @@ Task(
 
 # - TASK 54 -
 Task(
-    annotator="0",
     user_id="054",
     instruction=(
         "You are Madison Martinez (U-014), owner of RES-012. As of 2024-05-26 15:00:00+00:00, AR-021 must be recorded as not granted. "
@@ -2279,7 +2225,6 @@ Task(
 
 # - TASK 55 -
 Task(
-    annotator="0",
     user_id="055",
     instruction=(
         "You are Sophia Thompson (U-002), Marketing owner of social-media-platform (RES-008). "
@@ -2330,7 +2275,6 @@ Task(
 
 # - TASK 56 -
 Task(
-    annotator="0",
     user_id="056",
     instruction=(
         "You are Mason Martinez (U-001), Engineering. Approve policy exception PE-018 for U-007 "
@@ -2374,7 +2318,6 @@ Task(
 
 # - TASK 57 -
 Task(
-    annotator="0",
     user_id="057",
     instruction=(
         "You are Noah Thompson (U-005), Operations. You must triage SIEM alert ALRT-005 affecting RES-025 and drive the policy outcome: "
@@ -2428,7 +2371,6 @@ Task(
 
 # - TASK 58 -
 Task(
-    annotator="0",
     user_id="058",
     instruction=(
         "You are Jacob Allen (U-023), Operations. Using T0=2024-05-21T09:00:00Z for all timestamps, verify whether any "
@@ -2483,7 +2425,6 @@ Task(
 
 # - TASK 59 -
 Task(
-    annotator="0",
     user_id="059",
     instruction=(
         "You are Logan Scott (U-021), Sales. You own RES-016. "
@@ -2522,7 +2463,6 @@ Task(
 
 # - TASK 60 -
 Task(
-    annotator="0",
     user_id="060",
     instruction=(
         "You are Sophia Thompson (U-002), Marketing owner for RES-008. You must decide the pending access request AR-009 "
@@ -2562,7 +2502,6 @@ Task(
 
 # - TASK 61 -
 Task(
-    annotator="0",
     user_id="061",
     instruction=(
         "You are Lucas Thompson (U-017), Operations (status=PENDING_ACCESS). Perform a policy readiness review for network-firewall-main (RES-027) at T0=2024-05-29T13:31:00Z. "
@@ -2607,7 +2546,6 @@ Task(
 
 # - TASK 62 -
 Task(
-    annotator="0",
     user_id="062",
     instruction=(
         "You are Noah Thompson (U-005), Operations. You must re-affirm that AR-024 on database-cluster-primary (RES-026) "
@@ -2646,7 +2584,6 @@ Task(
 
 # - TASK 63 -
 Task(
-    annotator="0",
     user_id="063",
     instruction=(
         "You are Olivia Lee (U-006), Finance and owner of RES-034. Resolve AR-034 for RES-034 to APPROVED at "
@@ -2684,7 +2621,6 @@ Task(
 
 # - TASK 64 -
 Task(
-    annotator="0",
     user_id="064",
     instruction=(
         "You are Ethan Johnson (U-015), Sales. For RES-016, comply with SoD and reporting policy: confirm that ROL-015 grants P-044 on "
@@ -2728,7 +2664,6 @@ Task(
 
 # - TASK 65 -
 Task(
-    annotator="0",
     user_id="098",
     instruction=(
         "You are Noah Thompson (U-005), Operations. As of 2024-06-10 15:45:00+00:00, the canonical state for ALRT-003 on RES-020 must reflect "
@@ -2771,7 +2706,6 @@ Task(
 
 # - TASK 66 -
 Task(
-    annotator="0",
     user_id="066",
     instruction=(
         "You are Jacob Allen (U-023) in Operations. Anchor all times at T0=2024-05-21T09:00:00Z. Conduct a policy-driven applicability review of ACTIVE policy exceptions related to RES-025 (an exception applies only if its permission_id corresponds to a permission whose resource_id equals RES-025). In the event that the count of applicable exceptions is zero, generate a single negative-finding ticket addressed to the RES-025 owner with the subject 'NEGATIVE-FINDING|RES-025|EXCEPTIONS|T0=2024-05-21' and category EXCEPTION_REVIEW, including a deterministic description token. Document one immutable audit of the review outcome at T0."
@@ -2809,7 +2743,6 @@ Task(
 
 # - TASK 67 -
 Task(
-    annotator="0",
     user_id="067",
     instruction=(
         "You are Jacob Allen (U-023), Operations. Using T0=2024-05-21T09:00:00Z for all timestamps, verify whether any "
@@ -2858,7 +2791,6 @@ Task(
 
 # - TASK 68 -
 Task(
-    annotator="0",
     user_id="068",
     instruction=(
         "You are Finance Lead (U-006). At T0=2024-05-20T17:00:00Z, approve the pending access request "
@@ -2905,7 +2837,6 @@ Task(
 
 # - TASK 69 -
 Task(
-    annotator="0",
     user_id="069",
     instruction=(
         "You are Olivia Lee (U-006), Finance. Deny PE-019 at T0=2025-08-06 16:30:00+00:00, export evidence (start_time=end_time=T0), and "
@@ -2939,7 +2870,6 @@ Task(
 
 # - TASK 70 -
 Task(
-    annotator="0",
     user_id="070",
     instruction=(
         "You are Mason Martinez (U-001), Engineering. For RES-025, enforce the Owner Gate: reviewers outside Operations must not grant access. "
@@ -2987,7 +2917,6 @@ Task(
 
 # - TASK 71 -
 Task(
-    annotator="0",
     user_id="071",
     instruction=(
         "You are Noah Thompson (U-005), Operations. For RES-025, process the oldest eligible pending access under RBAC. "
@@ -3044,7 +2973,6 @@ Task(
 
 # - TASK 72 -
 Task(
-    annotator="0",
     user_id="072",
     instruction=(
         "You are Jacob Allen (U-023), Operations. For production-web-server-1 (RES-025), apply the incident posture for access anomalies: "
@@ -3097,7 +3025,6 @@ Task(
 
 # - TASK 73 -
 Task(
-    annotator="0",
     user_id="073",
     instruction=(
         "You are an HR operator (U-016). Onboard a new Sales user per policy using the onboarding cutover at "
@@ -3162,7 +3089,6 @@ Task(
 
 # - TASK 74 -
 Task(
-    annotator="0",
     user_id="074",
     instruction=(
         "You are John Johnson (U-012), Finance. For RES-032, approve AR-008 from U-030 for ROL-032 at T0=2024-05-20T17:00:00Z, assign the role, finalize ticket TI-010, and document an immutable audit entry using canonical tokens."
@@ -3199,7 +3125,6 @@ Task(
 
 # - TASK 75 -
 Task(
-    annotator="0",
     user_id="075",
     instruction=(
         "You are Noah Thompson (U-005), Operations. Under certification governance, finalize Certification C-013 for "
@@ -3243,7 +3168,6 @@ Task(
 
 # - TASK 76 -
 Task(
-    annotator="0",
     user_id="076",
     instruction=(
         "You are SYS-AUDIT. You must perform read-only evidence capture for certification C-002 on employee-data-portal "
@@ -3301,7 +3225,6 @@ Task(
 
 # - TASK 77 -
 Task(
-    annotator="0",
     user_id="077",
     instruction=(
         "You are Olivia Lee (U-006), Finance. Under intake management for RES-034, AR-034 is DEFERRED at 2024-05-30 15:10:00+00:00. "
@@ -3336,7 +3259,6 @@ Task(
 
 # - TASK 78 -
 Task(
-    annotator="0",
     user_id="062",
     instruction=(
         "You are Madison Martinez (U-014). Resolve a SoD conflict for U-026 by removing role ROL-007 at T0=2025-08-08 13:00:00+00:00. "
@@ -3376,7 +3298,6 @@ Task(
 
 # - TASK 79 -
 Task(
-    annotator="0",
     user_id="079",
     instruction=(
         "You are Mason Martinez (U-001), Engineering. Implement the termination of AR-014 by withdrawing ROL-003 from U-025 on RES-025 at 2024-05-23T16:46:10Z. Verify that the user presently holds the role prior to revocation. Record a single evidence audit with canonical tokens at 2024-05-23T16:46:10Z, and initiate a follow-up ticket with subject 'FOLLOWUP|TEMP-ACCESS-END|AR-014|U-025|RES-025' using category ACCESS_REVIEW and a deterministic description; allocate the ticket to the RES-025 owner."
@@ -3408,7 +3329,6 @@ Task(
 
 # - TASK 80 -
 Task(
-    annotator="0",
     user_id="080",
     instruction=(
         "You are Olivia Lee (U-006), Finance and owner of RES-034. Under Finance access-governance, resolve AR-034 for RES-034 "
@@ -3444,7 +3364,6 @@ Task(
 
 # - TASK 81 -
 Task(
-    annotator="0",
     user_id="081",
     instruction=(
         "You are Mia Robinson (U-018), Finance. Apply the Finance MFA Control at review instant T0=2025-08-07 16:00:00+00:00: "
@@ -3497,7 +3416,6 @@ Task(
 
 # - TASK 82 -
 Task(
-    annotator="0",
     user_id="082",
     instruction=(
         "You are Mason Martinez (U-001), Engineering. Apply RBAC hardening for HR_ONBOARD_BOT (U-032) per IAM policy: "
@@ -3542,7 +3460,6 @@ Task(
 
 # - TASK 83 -
 Task(
-    annotator="0",
     user_id="083",
     instruction=(
         "You are Jacob Allen (U-023), Operations. Under the Exceptions Management policy, confirm whether any ACTIVE "
@@ -3585,7 +3502,6 @@ Task(
 
 # - TASK 84 -
 Task(
-    annotator="0",
     user_id="084",
     instruction=(
         "You are Lucas Thompson (U-017), Operations (pending access). Conduct a readiness review for network-firewall-main (RES-027). "
@@ -3640,7 +3556,6 @@ Task(
 
 # - TASK 85 -
 Task(
-    annotator="0",
     user_id="085",
     instruction=(
         "You are Noah Thompson (U-005), Operations. Following deletion-risk indicators on RES-027, enforce containment by revoking "
@@ -3686,7 +3601,6 @@ Task(
 
 # - TASK 86 -
 Task(
-    annotator="0",
     user_id="086",
     instruction=(
         "Handle the RES-025 quarterly access recertification task as Jacob Allen (U-023) from Operations. Collect objective evidence such as requests, roles, and active exceptions, and proceed with creating tracking artifacts. All records should be time-stamped with T0=2025-06-30T17:00:00Z and canonical audit tokens must be utilized."
@@ -3734,7 +3648,6 @@ Task(
 
 # - TASK 87 -
 Task(
-    annotator="0",
     user_id="087",
     instruction=(
         "You are Noah Thompson (U-005), Operations. Apply account-security enforcement for U-002 consistent with SoD "
@@ -3788,7 +3701,6 @@ Task(
 
 # - TASK 88 -
 Task(
-    annotator="0",
     user_id="088",
     instruction=(
         "You are Noah Thompson (U-005), Operations. Grant ROL-028 to U-017 for RES-026 with assigned_on=2025-08-06 14:00:00+00:00 and expires_on=2025-12-31 00:00:00+00:00. "
@@ -3819,7 +3731,6 @@ Task(
 
 # - TASK 89 -
 Task(
-    annotator="0",
     user_id="089",
     instruction=(
         "You are Victoria Lee (U-012), owner of RES-032. Owner review requires denial when the requester is not ACTIVE at the decision instant. "
@@ -3852,7 +3763,6 @@ Task(
 
 # - TASK 90 -
 Task(
-    annotator="0",
     user_id="090",
     instruction=(
         "You are Operations (U-023). Prepare the RES-025 quarterly recertification package at "
@@ -3892,7 +3802,6 @@ Task(
 
 # - TASK 91 -
 Task(
-    annotator="0",
     user_id="091",
     instruction=(
         "You are Operations (U-005). Establish post-approval guardrails for RES-025 by capturing objective evidence and opening a monitoring ticket. "
@@ -3953,7 +3862,6 @@ Task(
 
 # - TASK 92 -
 Task(
-    annotator="0",
     user_id="092",
     instruction=(
         "You are CERTIFICATION_BOT (U-033). Apply certification and RBAC policy for C-002 on RES-020 using "
@@ -4024,7 +3932,6 @@ Task(
 
 # - TASK 93 -
 Task(
-    annotator="0",
     user_id="093",
     instruction=(
         "You are Noah Thompson (U-005) in Operations. Under the Fixed-Term Access policy for RES-027, you must ensure that Lucas Thompson "
@@ -4055,7 +3962,6 @@ Task(
 
 # - TASK 94 -
 Task(
-    annotator="0",
     user_id="094",
     instruction=(
         "You are U-003 (Operations) and not marked ACTIVE. Under RBAC policy, you must not attest in this context. "
@@ -4092,7 +3998,6 @@ Task(
 
 # - TASK 95 -
 Task(
-    annotator="0",
     user_id="095",
     instruction=(
         "You are U-001 (Engineering). Under RBAC and SoD, you must determine whether you are eligible to review RES-026. "
@@ -4133,7 +4038,6 @@ Task(
 
 # - TASK 96 -
 Task(
-    annotator="0",
     user_id="096",
     instruction=(
         "You are U-017 (Operations). In alignment with SoD requirements, you must perform a readiness review of RES-027. "
@@ -4180,7 +4084,6 @@ Task(
 
 # - TASK 97 -
 Task(
-    annotator="0",
     user_id="097",
     instruction=(
         "You are Olivia Lee (U-006), Finance and owner of RES-034. Intake-governance requires that the start of the review window at "
@@ -4217,7 +4120,6 @@ Task(
 
 # - TASK 98 -
 Task(
-    annotator="0",
     user_id="098",
     instruction=(
         "You are U-023 (Operations). Under certification requirements, you must perform the periodic review of RES-025. "
@@ -4260,7 +4162,6 @@ Task(
 
 # - TASK 99 -
 Task(
-    annotator="0",
     user_id="099",
     instruction=(
         "You are Madison Johnson (U-014), owner of RES-012. With decision time 2024-05-26 15:00:00+00:00, render AR-021 not granted "
@@ -4294,7 +4195,6 @@ Task(
 
 # - TASK 100 -
 Task(
-    annotator="0",
     user_id="100",
     instruction=(
         "You are William Thompson (U-007), Engineering. You already possess ROL-002. According to policy, an Operations reviewer must decide AR-027 (RES-002). Direct to the Operations reviewer with the smallest user_id (U-005); if the requested role is already granted, instruct Operations to reject it as a duplicate based on the request's submitted_at (2024-05-28T18:00:00Z) and record the decision using canonical tokens. Return the terminal state of the request and audit records."
