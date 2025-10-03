@@ -16,11 +16,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'blog-lite', 'number': 1, 'label': 'docs'}),
             Action(name="ListPrs", kwargs={'repo': 'blog-lite', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "docs"',
-            '"title": "Home section"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 701
@@ -38,11 +34,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'support-bot', 'number': 1, 'label': 'feature'}),
             Action(name="ListPrs", kwargs={'repo': 'support-bot', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "feature"',
-            '"title": "Resize feature"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 702
@@ -60,11 +52,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'img-tool', 'number': 1, 'label': 'api'}),
             Action(name="ListPrs", kwargs={'repo': 'img-tool', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "api"',
-            '"title": "README"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 703
@@ -82,11 +70,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'calc-pro', 'number': 1, 'label': 'ops'}),
             Action(name="ListPrs", kwargs={'repo': 'calc-pro', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ops"',
-            '"title": "Cron jobs"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 704
@@ -104,11 +88,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'docs-kit', 'number': 1, 'label': 'security'}),
             Action(name="ListPrs", kwargs={'repo': 'docs-kit', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "security"',
-            '"title": "README badges"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 705
@@ -126,11 +106,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'portal-ui', 'number': 1, 'label': 'infra'}),
             Action(name="ListPrs", kwargs={'repo': 'portal-ui', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "infra"',
-            '"title": "Dark theme"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 706
@@ -148,11 +124,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'backup-tool', 'number': 1, 'label': 'seo'}),
             Action(name="ListPrs", kwargs={'repo': 'backup-tool', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "seo"',
-            '"title": "Indexer v2"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 707
@@ -170,11 +142,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'pkg-index', 'number': 1, 'label': 'ui'}),
             Action(name="ListPrs", kwargs={'repo': 'pkg-index', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ui"',
-            '"title": "SMTP auth"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 708
@@ -192,11 +160,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'core-lib', 'number': 1, 'label': 'docs'}),
             Action(name="ListPrs", kwargs={'repo': 'core-lib', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "docs"',
-            '"title": "Landing page"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 709
@@ -214,11 +178,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'data-cleaner', 'number': 1, 'label': 'feature'}),
             Action(name="ListPrs", kwargs={'repo': 'data-cleaner', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "feature"',
-            '"title": "VAT support"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 710
@@ -236,11 +196,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'docs-kit-plus', 'number': 1, 'label': 'api'}),
             Action(name="ListPrs", kwargs={'repo': 'docs-kit-plus', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "api"',
-            '"title": "Sitemap"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 711
@@ -258,11 +214,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'payments-svc', 'number': 1, 'label': 'ops'}),
             Action(name="ListPrs", kwargs={'repo': 'payments-svc', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ops"',
-            '"title": "PagerDuty webhook"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 712
@@ -280,11 +232,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'cli-tool', 'number': 1, 'label': 'security'}),
             Action(name="ListPrs", kwargs={'repo': 'cli-tool', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "security"',
-            '"title": "Embeddings"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 713
@@ -302,11 +250,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'scheduler', 'number': 1, 'label': 'infra'}),
             Action(name="ListPrs", kwargs={'repo': 'scheduler', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "infra"',
-            '"title": "SMS support"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 714
@@ -324,11 +268,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'search-api', 'number': 1, 'label': 'seo'}),
             Action(name="ListPrs", kwargs={'repo': 'search-api', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "seo"',
-            '"title": "GeoJSON import"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 715
@@ -346,11 +286,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'monitor', 'number': 1, 'label': 'ui'}),
             Action(name="ListPrs", kwargs={'repo': 'monitor', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ui"',
-            '"title": "Batch process"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 716
@@ -368,11 +304,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'mail-svc', 'number': 1, 'label': 'docs'}),
             Action(name="ListPrs", kwargs={'repo': 'mail-svc', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "docs"',
-            '"title": "Quick replies"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 717
@@ -390,11 +322,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'report-gen', 'number': 1, 'label': 'feature'}),
             Action(name="ListPrs", kwargs={'repo': 'report-gen', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "feature"',
-            '"title": "Nightly cron"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 718
@@ -412,11 +340,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'auth-svc', 'number': 1, 'label': 'api'}),
             Action(name="ListPrs", kwargs={'repo': 'auth-svc', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "api"',
-            '"title": "Android CI"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 719
@@ -434,11 +358,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'ui-lib', 'number': 1, 'label': 'ops'}),
             Action(name="ListPrs", kwargs={'repo': 'ui-lib', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ops"',
-            '"title": "Airflow DAG"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 720
@@ -456,11 +376,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'db-migrator', 'number': 1, 'label': 'security'}),
             Action(name="ListPrs", kwargs={'repo': 'db-migrator', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "security"',
-            '"title": "Add minimax"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 721
@@ -478,11 +394,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'kafka-consumer', 'number': 1, 'label': 'infra'}),
             Action(name="ListPrs", kwargs={'repo': 'kafka-consumer', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "infra"',
-            '"title": "Tile cache"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 722
@@ -500,11 +412,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'notifier', 'number': 1, 'label': 'seo'}),
             Action(name="ListPrs", kwargs={'repo': 'notifier', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "seo"',
-            '"title": "Session init"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 723
@@ -522,11 +430,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'crawler', 'number': 1, 'label': 'ui'}),
             Action(name="ListPrs", kwargs={'repo': 'crawler', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ui"',
-            '"title": "ETL v1"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 724
@@ -544,11 +448,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'logger', 'number': 1, 'label': 'docs'}),
             Action(name="ListPrs", kwargs={'repo': 'logger', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "docs"',
-            '"title": "VAT rounding"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 725
@@ -566,11 +466,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'game-ai', 'number': 1, 'label': 'feature'}),
             Action(name="ListPrs", kwargs={'repo': 'game-ai', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "feature"',
-            '"title": "Cron jobs v2"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 726
@@ -588,11 +484,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'image-cdn', 'number': 1, 'label': 'api'}),
             Action(name="ListPrs", kwargs={'repo': 'image-cdn', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "api"',
-            '"title": "OAuth route"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 727
@@ -610,11 +502,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'analytics', 'number': 1, 'label': 'ops'}),
             Action(name="ListPrs", kwargs={'repo': 'analytics', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ops"',
-            '"title": "GraphQL schema"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 728
@@ -632,11 +520,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'seo-helper', 'number': 1, 'label': 'security'}),
             Action(name="ListPrs", kwargs={'repo': 'seo-helper', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "security"',
-            '"title": "Avatar generator"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 729
@@ -654,11 +538,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'release-bot', 'number': 1, 'label': 'infra'}),
             Action(name="ListPrs", kwargs={'repo': 'release-bot', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "infra"',
-            '"title": "Fee calc"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 730
@@ -676,11 +556,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'docs-site', 'number': 1, 'label': 'seo'}),
             Action(name="ListPrs", kwargs={'repo': 'docs-site', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "seo"',
-            '"title": "Profile page"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 731
@@ -698,11 +574,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'billing-svc', 'number': 1, 'label': 'ui'}),
             Action(name="ListPrs", kwargs={'repo': 'billing-svc', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ui"',
-            '"title": "Event bus"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 732
@@ -720,11 +592,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'feature-flag', 'number': 1, 'label': 'docs'}),
             Action(name="ListPrs", kwargs={'repo': 'feature-flag', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "docs"',
-            '"title": "Comments UI"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 733
@@ -742,11 +610,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'cache-layer', 'number': 1, 'label': 'feature'}),
             Action(name="ListPrs", kwargs={'repo': 'cache-layer', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "feature"',
-            '"title": "Notify rules"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 734
@@ -764,11 +628,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'ml-pipeline', 'number': 1, 'label': 'api'}),
             Action(name="ListPrs", kwargs={'repo': 'ml-pipeline', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "api"',
-            '"title": "Realtime hub"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 735
@@ -786,11 +646,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'mobile-app', 'number': 1, 'label': 'ops'}),
             Action(name="ListPrs", kwargs={'repo': 'mobile-app', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ops"',
-            '"title": "Delta sync"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 736
@@ -808,11 +664,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'web-auth', 'number': 1, 'label': 'security'}),
             Action(name="ListPrs", kwargs={'repo': 'web-auth', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "security"',
-            '"title": "PDF export"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 737
@@ -830,11 +682,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'observability', 'number': 1, 'label': 'infra'}),
             Action(name="ListPrs", kwargs={'repo': 'observability', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "infra"',
-            '"title": "Thumbnailer"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 738
@@ -852,11 +700,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'map-service', 'number': 1, 'label': 'seo'}),
             Action(name="ListPrs", kwargs={'repo': 'map-service', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "seo"',
-            '"title": "Scheduler core"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 739
@@ -874,11 +718,7 @@ TASKS = [
             Action(name="AddLabel", kwargs={'kind': 'pr', 'repo': 'api-gateway', 'number': 1, 'label': 'ui'}),
             Action(name="ListPrs", kwargs={'repo': 'api-gateway', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ui"',
-            '"title": "Event bus v2"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 740
@@ -895,11 +735,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'data-lake', 'number': 1, 'username': 'chris'}),
             Action(name="ListIssues", kwargs={'repo': 'data-lake'}),
         ],
-        outputs=[
-            '"label": "ops"',
-            '"assignees": ["chris"]',
-            '"title": "Reply delay"',
-        ],
+        outputs=[]
     ),
 
     # 741
@@ -916,11 +752,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'chat-bot', 'number': 1, 'username': 'chris'}),
             Action(name="ListIssues", kwargs={'repo': 'chat-bot'}),
         ],
-        outputs=[
-            '"label": "api"',
-            '"assignees": ["chris"]',
-            '"title": "Rate limit"',
-        ],
+        outputs=[]
     ),
 
     # 742
@@ -937,11 +769,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'cron-runner', 'number': 1, 'username': 'elena'}),
             Action(name="ListIssues", kwargs={'repo': 'cron-runner'}),
         ],
-        outputs=[
-            '"label": "priority"',
-            '"assignees": ["elena"]',
-            '"title": "Bad rounding"',
-        ],
+        outputs=[]
     ),
 
     # 743
@@ -958,11 +786,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'oncall-bot', 'number': 1, 'username': 'jake'}),
             Action(name="ListIssues", kwargs={'repo': 'oncall-bot'}),
         ],
-        outputs=[
-            '"label": "bug"',
-            '"assignees": ["jake"]',
-            '"title": "Null handling"',
-        ],
+        outputs=[]
     ),
 
     # 744
@@ -979,11 +803,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'linter', 'number': 1, 'username': 'olivia'}),
             Action(name="ListIssues", kwargs={'repo': 'linter'}),
         ],
-        outputs=[
-            '"label": "infra"',
-            '"assignees": ["olivia"]',
-            '"title": "S3 lifecycle"',
-        ],
+        outputs=[]
     ),
 
     # 745
@@ -1000,11 +820,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'ai-sdk', 'number': 1, 'username': 'arjun'}),
             Action(name="ListIssues", kwargs={'repo': 'ai-sdk'}),
         ],
-        outputs=[
-            '"label": "security"',
-            '"assignees": ["arjun"]',
-            '"title": "Token expiry bug"',
-        ],
+        outputs=[]
     ),
 
     # 746
@@ -1021,11 +837,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'design-system', 'number': 1, 'username': 'nora'}),
             Action(name="ListIssues", kwargs={'repo': 'design-system'}),
         ],
-        outputs=[
-            '"label": "planning"',
-            '"assignees": ["nora"]',
-            '"title": "Eviction policy"',
-        ],
+        outputs=[]
     ),
 
     # 747
@@ -1042,11 +854,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'etl-runner', 'number': 1, 'username': 'zayn'}),
             Action(name="ListIssues", kwargs={'repo': 'etl-runner'}),
         ],
-        outputs=[
-            '"label": "feature"',
-            '"assignees": ["zayn"]',
-            '"title": "Add cron parser"',
-        ],
+        outputs=[]
     ),
 
     # 748
@@ -1063,11 +871,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'geo-index', 'number': 1, 'username': 'amin'}),
             Action(name="ListIssues", kwargs={'repo': 'geo-index'}),
         ],
-        outputs=[
-            '"label": "bug"',
-            '"assignees": ["amin"]',
-            '"title": "Healthcheck fails"',
-        ],
+        outputs=[]
     ),
 
     # 749
@@ -1084,11 +888,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'queue-svc', 'number': 1, 'username': 'emma'}),
             Action(name="ListIssues", kwargs={'repo': 'queue-svc'}),
         ],
-        outputs=[
-            '"label": "planning"',
-            '"assignees": ["emma"]',
-            '"title": "Add migration plan"',
-        ],
+        outputs=[]
     ),
 
     # 750
@@ -1105,11 +905,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'rate-limiter', 'number': 1, 'username': 'emma'}),
             Action(name="ListIssues", kwargs={'repo': 'rate-limiter'}),
         ],
-        outputs=[
-            '"label": "feature"',
-            '"assignees": ["emma"]',
-            '"title": "CSV export"',
-        ],
+        outputs=[]
     ),
 
     # 751
@@ -1126,11 +922,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'uploader', 'number': 1, 'username': 'amin'}),
             Action(name="ListIssues", kwargs={'repo': 'uploader'}),
         ],
-        outputs=[
-            '"label": "compliance"',
-            '"assignees": ["amin"]',
-            '"title": "Respect robots.txt"',
-        ],
+        outputs=[]
     ),
 
     # 752
@@ -1147,11 +939,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'image-proc', 'number': 1, 'username': 'olivia'}),
             Action(name="ListIssues", kwargs={'repo': 'image-proc'}),
         ],
-        outputs=[
-            '"label": "enhancement"',
-            '"assignees": ["olivia"]',
-            '"title": "Rule for imports"',
-        ],
+        outputs=[]
     ),
 
     # 753
@@ -1168,11 +956,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'webhooks', 'number': 1, 'username': 'karim'}),
             Action(name="ListIssues", kwargs={'repo': 'webhooks'}),
         ],
-        outputs=[
-            '"label": "bug"',
-            '"assignees": ["karim"]',
-            '"title": "Toggle not saved"',
-        ],
+        outputs=[]
     ),
 
     # 754
@@ -1189,11 +973,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'form-builder', 'number': 1, 'username': 'olivia'}),
             Action(name="ListIssues", kwargs={'repo': 'form-builder'}),
         ],
-        outputs=[
-            '"label": "api"',
-            '"assignees": ["olivia"]',
-            '"title": "Rate limit header"',
-        ],
+        outputs=[]
     ),
 
     # 755
@@ -1210,11 +990,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'markdown-viewer', 'number': 1, 'username': 'emma'}),
             Action(name="ListIssues", kwargs={'repo': 'markdown-viewer'}),
         ],
-        outputs=[
-            '"label": "observability"',
-            '"assignees": ["emma"]',
-            '"title": "Add dashboard"',
-        ],
+        outputs=[]
     ),
 
     # 756
@@ -1231,11 +1007,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'audit-log', 'number': 1, 'username': 'elena'}),
             Action(name="ListIssues", kwargs={'repo': 'audit-log'}),
         ],
-        outputs=[
-            '"label": "ops"',
-            '"assignees": ["elena"]',
-            '"title": "Cold start"',
-        ],
+        outputs=[]
     ),
 
     # 757
@@ -1252,11 +1024,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'session-store', 'number': 1, 'username': 'jake'}),
             Action(name="ListIssues", kwargs={'repo': 'session-store'}),
         ],
-        outputs=[
-            '"label": "api"',
-            '"assignees": ["jake"]',
-            '"title": "Webhook retry"',
-        ],
+        outputs=[]
     ),
 
     # 758
@@ -1273,11 +1041,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'graphql-gw', 'number': 1, 'username': 'nora'}),
             Action(name="ListIssues", kwargs={'repo': 'graphql-gw'}),
         ],
-        outputs=[
-            '"label": "ui"',
-            '"assignees": ["nora"]',
-            '"title": "Dark mode toggle"',
-        ],
+        outputs=[]
     ),
 
     # 759
@@ -1294,11 +1058,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'repo': 'oauth-proxy', 'number': 1, 'username': 'chris'}),
             Action(name="ListIssues", kwargs={'repo': 'oauth-proxy'}),
         ],
-        outputs=[
-            '"label": "bug"',
-            '"assignees": ["chris"]',
-            '"title": "Timezone bug"',
-        ],
+        outputs=[]
     ),
 
     # 760
@@ -1316,12 +1076,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'owner': 'core-team', 'repo': 'profile-svc', 'number': 1, 'username': 'nora'}),
             Action(name="ListIssues", kwargs={'owner': 'core-team', 'repo': 'profile-svc'}),
         ],
-        outputs=[
-            '"owner": "core-team"',
-            '"title": "Deprecate old API"',
-            '"label": "deprecate"',
-            '"assignees": ["nora"]',
-        ],
+        outputs=[]
     ),
 
     # 761
@@ -1339,12 +1094,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'owner': 'edge-team', 'repo': 'comments-api', 'number': 1, 'username': 'amin'}),
             Action(name="ListIssues", kwargs={'owner': 'edge-team', 'repo': 'comments-api'}),
         ],
-        outputs=[
-            '"owner": "edge-team"',
-            '"title": "Purge endpoint"',
-            '"label": "ops"',
-            '"assignees": ["amin"]',
-        ],
+        outputs=[]
     ),
 
     # 762
@@ -1362,12 +1112,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'owner': 'security-group', 'repo': 'notifications', 'number': 1, 'username': 'arjun'}),
             Action(name="ListIssues", kwargs={'owner': 'security-group', 'repo': 'notifications'}),
         ],
-        outputs=[
-            '"owner": "security-group"',
-            '"title": "Rotate keys"',
-            '"label": "security"',
-            '"assignees": ["arjun"]',
-        ],
+        outputs=[]
     ),
 
     # 763
@@ -1385,12 +1130,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'owner': 'data-team', 'repo': 'realtime-hub', 'number': 1, 'username': 'emma'}),
             Action(name="ListIssues", kwargs={'owner': 'data-team', 'repo': 'realtime-hub'}),
         ],
-        outputs=[
-            '"owner": "data-team"',
-            '"title": "Partition table"',
-            '"label": "infra"',
-            '"assignees": ["emma"]',
-        ],
+        outputs=[]
     ),
 
     # 764
@@ -1408,12 +1148,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'owner': 'platform', 'repo': 'delta-sync', 'number': 1, 'username': 'karim'}),
             Action(name="ListIssues", kwargs={'owner': 'platform', 'repo': 'delta-sync'}),
         ],
-        outputs=[
-            '"owner": "platform"',
-            '"title": "Feature flags"',
-            '"label": "feature"',
-            '"assignees": ["karim"]',
-        ],
+        outputs=[]
     ),
 
     # 765
@@ -1431,12 +1166,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'owner': 'growth', 'repo': 'pdf-tool', 'number': 1, 'username': 'emma'}),
             Action(name="ListIssues", kwargs={'owner': 'growth', 'repo': 'pdf-tool'}),
         ],
-        outputs=[
-            '"owner": "growth"',
-            '"title": "ETL ownership"',
-            '"label": "analytics"',
-            '"assignees": ["emma"]',
-        ],
+        outputs=[]
     ),
 
     # 766
@@ -1454,12 +1184,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'owner': 'sre-team', 'repo': 'thumbnailer', 'number': 1, 'username': 'zayn'}),
             Action(name="ListIssues", kwargs={'owner': 'sre-team', 'repo': 'thumbnailer'}),
         ],
-        outputs=[
-            '"owner": "sre-team"',
-            '"title": "Alert routing"',
-            '"label": "ops"',
-            '"assignees": ["zayn"]',
-        ],
+        outputs=[]
     ),
 
     # 767
@@ -1477,12 +1202,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'owner': 'ml-team', 'repo': 'scheduler-pro', 'number': 1, 'username': 'nora'}),
             Action(name="ListIssues", kwargs={'owner': 'ml-team', 'repo': 'scheduler-pro'}),
         ],
-        outputs=[
-            '"owner": "ml-team"',
-            '"title": "Model registry"',
-            '"label": "ml"',
-            '"assignees": ["nora"]',
-        ],
+        outputs=[]
     ),
 
     # 768
@@ -1500,12 +1220,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'owner': 'infra-team', 'repo': 'event-bus', 'number': 1, 'username': 'olivia'}),
             Action(name="ListIssues", kwargs={'owner': 'infra-team', 'repo': 'event-bus'}),
         ],
-        outputs=[
-            '"owner": "infra-team"',
-            '"title": "VPC peering"',
-            '"label": "infra"',
-            '"assignees": ["olivia"]',
-        ],
+        outputs=[]
     ),
 
     # 769
@@ -1523,12 +1238,7 @@ TASKS = [
             Action(name="AssignUser", kwargs={'kind': 'issue', 'owner': 'design-team', 'repo': 'payment-ui', 'number': 1, 'username': 'elena'}),
             Action(name="ListIssues", kwargs={'owner': 'design-team', 'repo': 'payment-ui'}),
         ],
-        outputs=[
-            '"owner": "design-team"',
-            '"title": "Icon refresh"',
-            '"label": "ui"',
-            '"assignees": ["elena"]',
-        ],
+        outputs=[]
     ),
 
     # 770
@@ -1548,11 +1258,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'coupon-svc', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'coupon-svc', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ops"',
-            '"title": "Feature 1"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 771
@@ -1572,11 +1278,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'shipping-svc', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'shipping-svc', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "security"',
-            '"title": "Feature 2"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 772
@@ -1596,11 +1298,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'catalog-api', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'catalog-api', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "infra"',
-            '"title": "Feature 3"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 773
@@ -1620,11 +1318,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'inventory-svc', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'inventory-svc', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "seo"',
-            '"title": "Feature 4"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 774
@@ -1644,11 +1338,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'recommendation', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'recommendation', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ui"',
-            '"title": "Feature 5"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 775
@@ -1668,11 +1358,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'ab-testing', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'ab-testing', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "docs"',
-            '"title": "Feature 6"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 776
@@ -1692,11 +1378,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'experiments', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'experiments', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "feature"',
-            '"title": "Feature 7"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 777
@@ -1716,11 +1398,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'feature-gates', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'feature-gates', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "api"',
-            '"title": "Feature 8"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 778
@@ -1740,11 +1418,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'content-api', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'content-api', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ops"',
-            '"title": "Feature 9"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 779
@@ -1764,11 +1438,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'feed-svc', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'feed-svc', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "security"',
-            '"title": "Feature 10"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 780
@@ -1788,11 +1458,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'media-cdn', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'media-cdn', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "infra"',
-            '"title": "Feature 11"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 781
@@ -1812,11 +1478,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'avatar-gen', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'avatar-gen', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "seo"',
-            '"title": "Feature 12"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 782
@@ -1836,11 +1498,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'geo-routing', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'geo-routing', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ui"',
-            '"title": "Feature 13"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 783
@@ -1860,11 +1518,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'fraud-detect', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'fraud-detect', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "docs"',
-            '"title": "Feature 14"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 784
@@ -1884,11 +1538,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'vector-search', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'vector-search', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "feature"',
-            '"title": "Feature 15"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 785
@@ -1908,11 +1558,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'sso-portal', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'sso-portal', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "api"',
-            '"title": "Feature 16"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 786
@@ -1932,11 +1578,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'tenant-admin', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'tenant-admin', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "ops"',
-            '"title": "Feature 17"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 787
@@ -1956,11 +1598,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'workspace-api', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'workspace-api', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "security"',
-            '"title": "Feature 18"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 788
@@ -1980,11 +1618,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'notes-app', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'notes-app', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "infra"',
-            '"title": "Feature 19"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 789
@@ -2004,11 +1638,7 @@ TASKS = [
             Action(name="ReopenPr", kwargs={'repo': 'doc-editor', 'number': 1}),
             Action(name="ListPrs", kwargs={'repo': 'doc-editor', 'state': 'open'}),
         ],
-        outputs=[
-            '"label": "seo"',
-            '"title": "Feature 20"',
-            '"state": "open"',
-        ],
+        outputs=[]
     ),
 
     # 790
@@ -2025,10 +1655,7 @@ TASKS = [
             Action(name="AddCommit", kwargs={'repo': 'renderer', 'message': 'readme'}),
             Action(name="ListBranches", kwargs={'repo': 'renderer'}),
         ],
-        outputs=[
-            '"topics": ["ui", "components"]',
-            '"branches": ["main"]',
-        ],
+        outputs=[]
     ),
 
     # 791
@@ -2045,10 +1672,7 @@ TASKS = [
             Action(name="AddCommit", kwargs={'repo': 'state-store', 'message': 'readme'}),
             Action(name="ListBranches", kwargs={'repo': 'state-store'}),
         ],
-        outputs=[
-            '"topics": ["cli", "tools"]',
-            '"branches": ["main"]',
-        ],
+        outputs=[]
     ),
 
     # 792
@@ -2065,10 +1689,7 @@ TASKS = [
             Action(name="AddCommit", kwargs={'repo': 'odata-gw', 'message': 'readme'}),
             Action(name="ListBranches", kwargs={'repo': 'odata-gw'}),
         ],
-        outputs=[
-            '"topics": ["security", "auth"]',
-            '"branches": ["main"]',
-        ],
+        outputs=[]
     ),
 
     # 793
@@ -2085,10 +1706,7 @@ TASKS = [
             Action(name="AddCommit", kwargs={'repo': 'image-filter', 'message': 'readme'}),
             Action(name="ListBranches", kwargs={'repo': 'image-filter'}),
         ],
-        outputs=[
-            '"topics": ["data", "etl"]',
-            '"branches": ["main"]',
-        ],
+        outputs=[]
     ),
 
     # 794
@@ -2105,10 +1723,7 @@ TASKS = [
             Action(name="AddCommit", kwargs={'repo': 'push-gw', 'message': 'readme'}),
             Action(name="ListBranches", kwargs={'repo': 'push-gw'}),
         ],
-        outputs=[
-            '"topics": ["ops", "cron"]',
-            '"branches": ["main"]',
-        ],
+        outputs=[]
     ),
 
     # 795
@@ -2125,10 +1740,7 @@ TASKS = [
             Action(name="AddCommit", kwargs={'repo': 'sync-agent', 'message': 'readme'}),
             Action(name="ListBranches", kwargs={'repo': 'sync-agent'}),
         ],
-        outputs=[
-            '"topics": ["api", "gateway"]',
-            '"branches": ["main"]',
-        ],
+        outputs=[]
     ),
 
     # 796
@@ -2145,10 +1757,7 @@ TASKS = [
             Action(name="AddCommit", kwargs={'repo': 'idp-core', 'message': 'readme'}),
             Action(name="ListBranches", kwargs={'repo': 'idp-core'}),
         ],
-        outputs=[
-            '"topics": ["ml", "models"]',
-            '"branches": ["main"]',
-        ],
+        outputs=[]
     ),
 
     # 797
@@ -2165,10 +1774,7 @@ TASKS = [
             Action(name="AddCommit", kwargs={'repo': 'policy-svc', 'message': 'readme'}),
             Action(name="ListBranches", kwargs={'repo': 'policy-svc'}),
         ],
-        outputs=[
-            '"topics": ["search", "index"]',
-            '"branches": ["main"]',
-        ],
+        outputs=[]
     ),
 
     # 798
@@ -2185,10 +1791,7 @@ TASKS = [
             Action(name="AddCommit", kwargs={'repo': 'usage-collector', 'message': 'readme'}),
             Action(name="ListBranches", kwargs={'repo': 'usage-collector'}),
         ],
-        outputs=[
-            '"topics": ["media", "cdn"]',
-            '"branches": ["main"]',
-        ],
+        outputs=[]
     ),
 
     # 799
@@ -2205,9 +1808,6 @@ TASKS = [
             Action(name="AddCommit", kwargs={'repo': 'query-planner', 'message': 'readme'}),
             Action(name="ListBranches", kwargs={'repo': 'query-planner'}),
         ],
-        outputs=[
-            '"topics": ["geo", "routing"]',
-            '"branches": ["main"]',
-        ],
+        outputs=[]
     ),
 ]

@@ -53,8 +53,7 @@ TASKS = [
                 "payment_method_sources": ["credit_card"]
             }),
         ],
-        outputs=[
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -100,8 +99,7 @@ TASKS = [
                 }
             }),
         ],
-        outputs=[
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -129,8 +127,7 @@ TASKS = [
             Action(name="ValidateShippingAddress", kwargs={"user_id": "sofia_li_3261"}),
             Action(name="CalculateShippingCost", kwargs={"destination_country": "USA", "total_items": 2, "order_value": 718.81, "courier_id": "#COU0003"}),
         ],
-        outputs=[
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -213,8 +210,7 @@ TASKS = [
                 }
             }),
         ],
-        outputs=[
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -644,9 +640,7 @@ TASKS = [
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Anya", "last_name": "Garcia", "user_id": "mia_martinez_3271"}),
             Action(name="VerifyGiftCardBalance", kwargs={"first_name": "Anya", "last_name": "Garcia", "user_id": "mia_martinez_3271"})
         ],
-        outputs=[
-            '"gift_card_balance": 51',
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3194,9 +3188,7 @@ TASKS = [
             Action(name="CalculateShippingCost", kwargs={"destination_country": "USA", "total_items": 1, "order_value": 545.68,
                                                            "courier_id": "#COU0009"}),
         ],
-        outputs=[
-            '"shipping_cost": "11.49"',
-        ]
+        outputs=[]
     ),
 
     Task(

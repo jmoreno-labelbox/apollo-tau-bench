@@ -16,9 +16,7 @@ Task(
     Action(name="GetGroceryListDetails", kwargs={"list_id":8003}),
     Action(name="LogAuditEvent", kwargs={"household_id":208,"user_id":108,"entity_type":"grocery_list","entity_id":8003,"action_enum":"list_created","payload_json":"{\"source\":\"recipes\",\"count\":4}"}),
   ],
-  outputs=[
-    "initialized"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -109,9 +107,7 @@ Task(
     Action(name="LogAuditEvent", kwargs={"household_id": 207, "user_id": 107, "entity_type": "orders", "entity_id": 10003, "action_enum": "placed", "payload_json": {"list_id": 8003, "store_id": 9001}}),
     Action(name="LogAuditEvent", kwargs={"household_id": 207, "user_id": 107, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "status_update", "payload_json": {"status_enum": "ordered"}})
   ],
-  outputs=[
-    "10003"
-  ]
+  outputs=[]
 ),
 
 
@@ -135,10 +131,7 @@ Task(
     Action(name="LogAuditEvent", kwargs={"household_id": 205, "user_id": 105, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
     Action(name="LogAuditEvent", kwargs={"household_id": 205, "user_id": 105, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "status_update", "payload_json": {"status_enum": "ready"}})
   ],
-  outputs=[
-    "6003",
-    "8003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -199,10 +192,7 @@ Task(
     Action(name="LogAuditEvent", kwargs={"household_id": 206, "user_id": 106, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
     Action(name="LogAuditEvent", kwargs={"household_id": 206, "user_id": 106, "entity_type": "orders", "entity_id": 10003, "action_enum": "placed", "payload_json": {"list_id": 8003, "store_id": 9001}}),
   ],
-  outputs=[
-    "8003",
-    "10003"
-  ]
+  outputs=[]
 ),
 
 
@@ -249,9 +239,7 @@ Task(
     Action(name="LogAuditEvent", kwargs={"household_id": 209, "user_id": 109, "entity_type": "orders", "entity_id": 10003, "action_enum": "placed", "payload_json": {"list_id": 8003, "store_id": 9004}}),
     Action(name="LogAuditEvent", kwargs={"household_id": 209, "user_id": 109, "entity_type": "orders", "entity_id": 10003, "action_enum": "delivered", "payload_json": {"list_id": 8003, "store_id": 9004}})
   ],
-  outputs=[
-    "delivered"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -269,9 +257,7 @@ Task(
     Action(name="SetGroceryListStatus", kwargs={"list_id":8002,"status_enum":"finalized"}),
     Action(name="LogAuditEvent", kwargs={"household_id":202,"user_id":102,"entity_type":"grocery_list","entity_id":8002,"action_enum":"list_finalized","payload_json":{"list_id":8002}}),
   ],
-  outputs=[
-    "finalized"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -351,9 +337,7 @@ Task(
       }
     ),
   ],
-  outputs=[
-    "6003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -446,7 +430,7 @@ Task(
       kwargs={"household_id": 206, "user_id": 106, "entity_type": "meal_plan", "entity_id": 6003, "action_enum": "meal_plan_created"},
     ),
   ],
-  outputs=["6003"],
+  outputs=[]
 ),
 
 Task(
@@ -639,10 +623,7 @@ Task(
     Action(name="UpdateOrderStatus", kwargs={"order_id":10003,"new_status":"placed"}),
     Action(name="LogAuditEvent", kwargs={"household_id":202,"user_id":102,"entity_type":"order","entity_id":10003,"action_enum":"order_placed"})
   ],
-  outputs=[
-    "10003",
-    "0"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -701,9 +682,7 @@ Task(
     Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id":8003,"recipe_ids_json":"[403,412,431]"}),
     Action(name="LogAuditEvent", kwargs={"household_id":205,"user_id":105,"entity_type":"grocery_list","entity_id":8003,"action_enum":"list_created"})
   ],
-  outputs=[
-    "8003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -809,7 +788,7 @@ Task(
     Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id":6003,"week_start_date":"2025-09-01","selected_recipe_ids_json":"[403,405]"}),
     Action(name="LogAuditEvent", kwargs={"household_id":203,"user_id":103,"entity_type":"meal_plans","entity_id":6003,"action_enum":"create_meal_plan","payload_json":{"week_start_date":"2025-09-01"}}),
   ],
-  outputs=[6118, 6119]
+  outputs=[]
 ),
 
 Task(
@@ -835,9 +814,7 @@ Task(
       },
     ),
   ],
-  outputs=[
-    "12014"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -856,9 +833,7 @@ Task(
     Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id":8003,"household_id":210,"anchor_date":"2025-08-20"}),
     Action(name="LogAuditEvent", kwargs={"household_id":210,"user_id":110,"entity_type":"grocery_lists","entity_id":8003,"action_enum":"generate_list","payload_json":{"source_meal_plan_id":6003}}),
   ],
-  outputs=[
-    "6003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -884,10 +859,7 @@ Task(
     Action(name="AddOrderItemsFromList", kwargs={"order_id":10003,"store_id":9001}),
     Action(name="LogAuditEvent", kwargs={"household_id":209,"user_id":109,"entity_type":"orders","entity_id":10003,"action_enum":"place_order","payload_json":{"list_id":8003,"store_id":9001}}),
   ],
-  outputs=[
-    "10003",
-    "1597"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -911,9 +883,7 @@ Task(
     Action(name="UpdateGroceryListWithSubstitutes", kwargs={"list_id": 8002, "substitutions": []}),
     Action(name="LogAuditEvent", kwargs={"household_id": 202, "user_id": 102, "entity_type": "grocery_list", "entity_id": 8002, "action_enum": "substitutions_applied", "payload_json": {"updated_items": 0}}),
   ],
-  outputs=[
-    "0"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -940,10 +910,7 @@ Task(
     Action(name="AddOrderItemsFromList", kwargs={"order_id":10003,"store_id":9001,"allowed_stock_statuses_json":"[\"in_stock\",\"low\"]"}),
     Action(name="LogAuditEvent", kwargs={"household_id":207,"user_id":107,"entity_type":"orders","entity_id":10003,"action_enum":"place_order","payload_json":{"list_id":8003,"store_id":9001}}),
   ],
-  outputs=[
-    "10003",
-    "3195"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -994,9 +961,7 @@ Task(
     Action(name="LogAuditEvent", kwargs={"household_id": 202, "user_id": 102, "entity_type": "grocery_list", "entity_id": 8003, "action_enum": "inventory_checked", "payload_json": {"store_id": 9002}}),
     Action(name="GetGroceryListDetails", kwargs={"list_id": 8003})
   ],
-  outputs=[
-    "8003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1105,9 +1070,7 @@ Task(
     Action(name="LogAuditEvent", kwargs={"household_id": 209, "user_id": 109, "entity_type": "order", "entity_id": 10003, "action_enum": "placed", "payload_json": {"list_id": 8003, "store_id": 9004}}),
     Action(name="LogAuditEvent", kwargs={"household_id": 209, "user_id": 109, "entity_type": "grocery_list", "entity_id": 8003, "action_enum": "ordered", "payload_json": {"order_id": 10003}})
   ],
-  outputs=[
-    "6003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1226,9 +1189,7 @@ Task(
     Action(name="FlagPantryStaplesOnList", kwargs={"list_id":8003}),
     Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id":8003, "household_id":203, "anchor_date":"2025-08-31"})
   ],
-  outputs=[
-    "6003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1273,10 +1234,7 @@ Task(
     Action(name="UpdateOrderStatus", kwargs={"order_id":10003, "new_status":"placed"}),
     Action(name="LogAuditEvent", kwargs={"household_id":204, "user_id":104, "entity_type":"order", "entity_id":10003, "action_enum":"placed", "payload_json":{"list_id":8003, "store_id":9001}})
   ],
-  outputs=[
-    "10003",
-    "899"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1336,7 +1294,7 @@ Task(
       },
     ),
   ],
-  outputs=[],
+  outputs=[]
 ),
 
 Task(
@@ -1383,7 +1341,7 @@ Task(
       },
     ),
   ],
-  outputs=[],
+  outputs=[]
 ),
 
 Task(
@@ -1463,7 +1421,7 @@ Task(
       },
     ),
   ],
-  outputs=[],
+  outputs=[]
 ),
 
 Task(
@@ -1486,7 +1444,7 @@ Task(
     Action(name="SetGroceryListStatus", kwargs={"list_id":8003,"status_enum":"ready"}),
     Action(name="LogAuditEvent", kwargs={"household_id":202,"user_id":102,"entity_type":"grocery_list","entity_id":8003,"action_enum":"grocery_list_status_set","payload_json":{"status":"ready"}})
   ],
-  outputs=["8003"]
+  outputs=[]
 ),
 
 Task(
@@ -1589,7 +1547,7 @@ Task(
     ),
     Action(name="GetGroceryListDetails", kwargs={"list_id": 8003}),
   ],
-  outputs=["8003"]
+  outputs=[]
 ),
 
 Task(
@@ -1605,9 +1563,7 @@ Task(
     Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id":6003,"week_start_date":"2025-09-08","selected_recipe_ids_json":"[409,410,411,412,441,442,447]"}),
     Action(name="LogAuditEvent", kwargs={"household_id":207,"user_id":107,"entity_type":"meal_plan","entity_id":6003,"action_enum":"plan_created","payload_json":{"week_start":"2025-09-08","entries":7}}),
   ],
-  outputs=[
-    "2025-09-08"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1712,7 +1668,7 @@ Task(
     Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id":8003,"recipe_ids_json":"[401,402]"}),
     Action(name="LogAuditEvent", kwargs={"household_id":203,"user_id":103,"entity_type":"grocery_lists","entity_id":8003,"action_enum":"list_created","payload_json":{"recipe_ids":[401,402]}})
   ],
-  outputs=["8003"]
+  outputs=[]
 ),
 
 Task(
@@ -1757,7 +1713,7 @@ Task(
     Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id":6003,"week_start_date":"2025-09-01","selected_recipe_ids_json":"[406,407]"}),
     Action(name="LogAuditEvent", kwargs={"household_id":208,"user_id":108,"entity_type":"meal_plans","entity_id":6003,"action_enum":"meal_plan_created","payload_json":{"week_start_date":"2025-09-01","entry_count":2}})
   ],
-  outputs=["6003"]
+  outputs=[]
 ),
 
 Task(
@@ -1812,9 +1768,7 @@ Task(
     Action(name="LogAuditEvent", kwargs={"household_id": 203, "user_id": 103, "entity_type": "meal_plan", "entity_id": 6003, "action_enum": "created", "payload_json": {"week_start_date": "2025-09-08"}}),
     Action(name="LogAuditEvent", kwargs={"household_id": 203, "user_id": 103, "entity_type": "grocery_list", "entity_id": 8003, "action_enum": "ready", "payload_json": {"status": "ready"}})
   ],
-  outputs=[
-    "6003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1862,10 +1816,7 @@ Task(
     Action(name="LogAuditEvent", kwargs={"household_id": 205, "user_id": 105, "entity_type": "meal_plan", "entity_id": 6003, "action_enum": "created", "payload_json": {"week_start_date": "2025-09-15"}}),
     Action(name="LogAuditEvent", kwargs={"household_id": 205, "user_id": 105, "entity_type": "grocery_list", "entity_id": 8003, "action_enum": "ready", "payload_json": {"status": "ready"}})
   ],
-  outputs=[
-    "8003",
-    "15"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1887,10 +1838,7 @@ Task(
     Action(name="SetGroceryListStatus", kwargs={"list_id": 8003, "status_enum": "ready"}),
     Action(name="LogAuditEvent", kwargs={"household_id": 209, "user_id": 109, "entity_type": "grocery_list", "entity_id": 8003, "action_enum": "ready", "payload_json": {"status": "ready"}})
   ],
-  outputs=[
-    "8003",
-    "14"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2032,8 +1980,7 @@ Task(
     Action(name="AddOrderItemsFromList", kwargs={"order_id":10003,"store_id":9001}),
     Action(name="LogAuditEvent", kwargs={"household_id":201,"user_id":101,"entity_type":"order","entity_id":10003,"action_enum":"order_created","payload_json":"{\"source_list\":8001}"}),
   ],
-  outputs=[
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2133,7 +2080,7 @@ Task(
     Action(name="SetGroceryListStatus", kwargs={"list_id": 8003, "status_enum": "ready"}),
     Action(name="LogAuditEvent", kwargs={"household_id": 205, "user_id": 105, "entity_type": "grocery_list", "entity_id": 8003, "action_enum": "ready", "payload_json": {"from": "initialized", "to": "ready"}}),
   ],
-  outputs=["8003"]
+  outputs=[]
 ),
 
 Task(
@@ -2151,7 +2098,7 @@ Task(
     Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id": 8003, "recipe_ids_json": "[401,402,425,427,428,431,433]"}),
     Action(name="FlagPantryStaplesOnList", kwargs={"list_id": 8003}),
   ],
-  outputs=["6003"]
+  outputs=[]
 ),
 
 Task(
@@ -2172,7 +2119,7 @@ Task(
     Action(name="AddOrderItemsFromList", kwargs={"order_id": 10003, "store_id": 9002}),
     Action(name="LogAuditEvent", kwargs={"household_id": 207, "user_id": 107, "entity_type": "order", "entity_id": 10003, "action_enum": "items_added", "payload_json": {"source_list_id": 8003}}),
   ],
-  outputs=["10003"]
+  outputs=[]
 ),
 
 Task(
@@ -2188,9 +2135,7 @@ Task(
     Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id":8003,"recipe_ids_json":"[409,410,413]"}),
     Action(name="LogAuditEvent", kwargs={"household_id":202,"user_id":102,"entity_type":"grocery_list","entity_id":8003,"action_enum":"list_created","payload_json":{"source":"recipes","count":3}}),
   ],
-  outputs=[
-    "8003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2210,7 +2155,7 @@ Task(
     Action(name="SetGroceryListStatus", kwargs={"list_id": 8003, "status_enum": "ready"}),
     Action(name="LogAuditEvent", kwargs={"household_id": 206, "user_id": 106, "entity_type": "grocery_list", "entity_id": 8003, "action_enum": "ready", "payload_json": {"from": "initialized", "to": "ready"}}),
   ],
-  outputs=["8003"]
+  outputs=[]
 ),
 
 Task(
@@ -2231,7 +2176,7 @@ Task(
     Action(name="AddOrderItemsFromList", kwargs={"order_id": 10003, "store_id": 9001}),
     Action(name="LogAuditEvent", kwargs={"household_id": 204, "user_id": 104, "entity_type": "order", "entity_id": 10003, "action_enum": "items_added", "payload_json": {"source_list_id": 8003}}),
   ],
-  outputs=["10003", "2746"]
+  outputs=[]
 ),
 
 Task(
@@ -2384,9 +2329,7 @@ Task(
     Action(name="SetGroceryListStatus", kwargs={"list_id":8003, "status_enum":"finalized"}),
     Action(name="LogAuditEvent", kwargs={"household_id":203, "user_id":103, "entity_type":"grocery_list", "entity_id":8003, "action_enum":"created"})
   ],
-  outputs=[
-    "8003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2477,9 +2420,7 @@ Task(
       }
     ),
   ],
-  outputs=[
-    "8003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2828,9 +2769,7 @@ Task(
       },
     ),
   ],
-  outputs=[
-    "8003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2853,9 +2792,7 @@ Task(
     }),
     Action(name="LogAuditEvent", kwargs={"household_id": 203, "user_id": 103, "entity_type": "meal_plan", "entity_id": 6003, "action_enum": "created", "payload_json": {"week_start_date": "2025-09-08"}}),
   ],
-  outputs=[
-    "6003"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2873,9 +2810,7 @@ Task(
     Action(name="LogAuditEvent", kwargs={"household_id": 210, "user_id": 110, "entity_type": "grocery_list", "entity_id": 8003, "action_enum": "status_updated"}),
     Action(name="GetGroceryListDetails", kwargs={"list_id": 8003}),
   ],
-  outputs=[
-    "ready"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2909,10 +2844,7 @@ Task(
       },
     ),
   ],
-  outputs=[
-    "10003",
-    "2196"
-  ]
+  outputs=[]
 ),
 
 

@@ -68,7 +68,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 2
     Task(
@@ -138,7 +138,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 3
     Task(
@@ -206,7 +206,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 4
     Task(
@@ -259,11 +259,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "75000.0 EUR",
-            "450000",
-            "Sakura Express",
-        ],
+        outputs=[]
     ),
     # Task 5
     Task(
@@ -317,9 +313,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 6
     Task(
@@ -372,9 +366,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 7
     Task(
@@ -412,7 +404,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 8
     Task(
@@ -438,7 +430,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 9
     Task(
@@ -491,9 +483,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 10
     Task(
@@ -561,7 +551,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 11
     Task(
@@ -633,7 +623,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 12
     Task(
@@ -688,9 +678,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 13
     Task(
@@ -774,7 +762,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 14
     Task(
@@ -849,7 +837,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 15
     Task(
@@ -907,7 +895,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 16
     Task(
@@ -960,9 +948,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "160000.0",
-        ],
+        outputs=[]
     ),
     # Task 17
     Task(
@@ -1015,9 +1001,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 18
     Task(
@@ -1071,9 +1055,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 19
     Task(
@@ -1126,9 +1108,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 20
     Task(
@@ -1182,9 +1162,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 21
     Task(
@@ -1261,7 +1239,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 22
     Task(
@@ -1314,9 +1292,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 23
     Task(
@@ -1387,7 +1363,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 24
     Task(
@@ -1440,9 +1416,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 25
     Task(
@@ -1497,9 +1471,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 26
     Task(
@@ -1552,9 +1524,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 27
     Task(
@@ -1647,7 +1617,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 28
     Task(
@@ -1711,9 +1681,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "25000.0",
-        ],
+        outputs=[]
     ),
     # Task 29
     Task(
@@ -1787,10 +1755,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "2024-06-28",
-        ],
+        outputs=[]
     ),
     # Task 30
     Task(
@@ -1845,9 +1810,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 31
     Task(
@@ -1914,10 +1877,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "SwiftDelivery",
-        ],
+        outputs=[]
     ),
     # Task 32
     Task(
@@ -1970,9 +1930,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "88000.0",
-        ],
+        outputs=[]
     ),
     # Task 33
     Task(
@@ -2052,10 +2010,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "Desert Falcon Cargo",
-        ],
+        outputs=[]
     ),
     # Task 34
     Task(
@@ -2120,10 +2075,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "Cleveland Chemical Storage",
-        ],
+        outputs=[]
     ),
     # Task 35
     Task(
@@ -2199,10 +2151,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "INV-0026",
-        ],
+        outputs=[]
     ),
     # Task 36
     Task(
@@ -2249,9 +2198,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "220000.0",
-        ],
+        outputs=[]
     ),
     # Task 37
     Task(
@@ -2298,10 +2245,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "INV-0001",
-            "SHIP-0001",
-        ],
+        outputs=[]
     ),
     # Task 38
     Task(
@@ -2371,7 +2315,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 39
     Task(
@@ -2426,9 +2370,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 40
     Task(
@@ -2500,9 +2442,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 41
     Task(
@@ -2586,11 +2526,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "SHIP-0001",
-            "SHIP-0009",
-            "SHIP-0025",
-        ],
+        outputs=[]
     ),
     # Task 42
     Task(
@@ -2649,10 +2585,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "INV-0003",
-            "INV-0008",
-        ],
+        outputs=[]
     ),
     # Task 43
     Task(
@@ -2777,10 +2710,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "SHIP-0010",
-            "SHIP-0029",
-        ],
+        outputs=[]
     ),
     # Task 44
     Task(
@@ -2834,11 +2764,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "SHIP-0010",
-            "SHIP-0027",
-            "SHIP-0029",
-        ],
+        outputs=[]
     ),
     # Task 45
     Task(
@@ -2890,9 +2816,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 46
     Task(
@@ -2951,9 +2875,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 47
     Task(
@@ -3000,10 +2922,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "INV-0023",
-            "INV-0014",
-        ],
+        outputs=[]
     ),
     # Task 48
     Task(
@@ -3044,10 +2963,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "SHIP-0006",
-            "SHIP-0021",
-        ],
+        outputs=[]
     ),
     # Task 49
     Task(
@@ -3106,9 +3022,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 50
     Task(
@@ -3160,9 +3074,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 51
     Task(
@@ -3243,10 +3155,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "INV-0022",
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 52
     Task(
@@ -3299,7 +3208,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 53
     Task(
@@ -3352,7 +3261,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 54
     Task(
@@ -3406,7 +3315,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 55
     Task(
@@ -3459,7 +3368,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 56
     Task(
@@ -3513,7 +3422,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 57
     Task(
@@ -3566,10 +3475,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "2024-08-24",
-        ],
+        outputs=[]
     ),
     # Task 58
     Task(
@@ -3623,10 +3529,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "2024-08-31",
-        ],
+        outputs=[]
     ),
     # Task 59
     Task(
@@ -3680,10 +3583,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "2024-09-16",
-        ],
+        outputs=[]
     ),
     # Task 60
     Task(
@@ -3736,10 +3636,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "2024-09-04",
-        ],
+        outputs=[]
     ),
     # Task 61
     Task(
@@ -3816,12 +3713,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0006",
-            "ORD-0007",
-            "ORD-0008",
-            "ORD-0009",
-        ],
+        outputs=[]
     ),
     # Task 62
     Task(
@@ -3923,11 +3815,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "INV-0009",
-            "INV-0014",
-            "INV-0019",
-        ],
+        outputs=[]
     ),
     # Task 63
     Task(
@@ -3998,10 +3886,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "SHIP-0013",
-            "SHIP-0012",
-        ],
+        outputs=[]
     ),
     # Task 64
     Task(
@@ -4055,7 +3940,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 65
     Task(
@@ -4108,10 +3993,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "2024-08-16",
-        ],
+        outputs=[]
     ),
     # Task 66
     Task(
@@ -4165,10 +4047,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "2024-08-21",
-        ],
+        outputs=[]
     ),
     # Task 67
     Task(
@@ -4221,10 +4100,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "2024-09-09",
-        ],
+        outputs=[]
     ),
     # Task 68
     Task(
@@ -4277,9 +4153,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 69
     Task(
@@ -4333,9 +4207,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 70
     Task(
@@ -4382,10 +4254,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "West Coast Distribution Hub",
-        ],
+        outputs=[]
     ),
     # Task 71
     Task(
@@ -4439,10 +4308,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "NorthStar Shipping",
-        ],
+        outputs=[]
     ),
     # Task 72
     Task(
@@ -4503,10 +4369,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "DeutschLogistik",
-        ],
+        outputs=[]
     ),
     # Task 73
     Task(
@@ -4553,10 +4416,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "West Coast Distribution Hub",
-        ],
+        outputs=[]
     ),
     # Task 74
     Task(
@@ -4615,10 +4475,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "Midwest Parts Warehouse",
-        ],
+        outputs=[]
     ),
     # Task 75
     Task(
@@ -4675,10 +4532,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "Desert Falcon Cargo",
-        ],
+        outputs=[]
     ),
     # Task 76
     Task(
@@ -4734,10 +4588,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "Gulf Coast Food Storage",
-        ],
+        outputs=[]
     ),
     # Task 77
     Task(
@@ -4792,10 +4643,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "Dallas Home Goods DC",
-        ],
+        outputs=[]
     ),
     # Task 78
     Task(
@@ -4850,10 +4698,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "West Coast Distribution Hub",
-        ],
+        outputs=[]
     ),
     # Task 79
     Task(
@@ -4907,10 +4752,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "Northwest Fulfillment Center",
-        ],
+        outputs=[]
     ),
     # Task 80
     Task(
@@ -4966,10 +4808,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "Dallas Home Goods DC",
-        ],
+        outputs=[]
     ),
     # Task 81
     Task(
@@ -5019,11 +4858,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "SHIP-0001",
-            "SHIP-0025",
-            "SHIP-0018",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5075,7 +4910,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 83
     Task(
@@ -5134,7 +4969,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 84
     Task(
@@ -5214,10 +5049,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "SHIP-0011",
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 85
     Task(
@@ -5284,10 +5116,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "SwiftDelivery",
-        ],
+        outputs=[]
     ),
     # Task 86
     Task(
@@ -5363,10 +5192,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "INV-0008",
-        ],
+        outputs=[]
     ),
     # Task 87
     Task(
@@ -5448,7 +5274,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 88
     Task(
@@ -5510,10 +5336,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Flagged shipments: SHIP-0003, SHIP-0016, SHIP-0019, SHIP-0023",
-            "Total at-risk inventory value: $300000.00",
-        ],
+        outputs=[]
     ),
     # Task 89
     Task(
@@ -5579,10 +5402,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "INV-0026",
-        ],
+        outputs=[]
     ),
     # Task 90
     Task(
@@ -5646,10 +5466,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "INV-0024",
-            "PO-2024-0031",
-        ],
+        outputs=[]
     ),
     # Task 91
     Task(
@@ -5720,7 +5537,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 92
     Task(
@@ -5797,7 +5614,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 93
     Task(
@@ -5867,9 +5684,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 94
     Task(
@@ -5934,10 +5749,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PO-2024-0031",
-            "Bangkok Furniture Co.",
-        ],
+        outputs=[]
     ),
     # Task 95
     Task(
@@ -6017,10 +5829,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "INV-0026",
-        ],
+        outputs=[]
     ),
     # Task 96
     Task(
@@ -6102,10 +5911,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Inventory Record Quarantined: INV-0023",
-            "RTV Order ID: ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 97
     Task(
@@ -6185,10 +5991,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-            "INV-0025",
-        ],
+        outputs=[]
     ),
     # Task 98
     Task(
@@ -6258,10 +6061,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Original Order Updated: ORD-0001",
-            "Return Shipment ID: SHIP-0031",
-        ],
+        outputs=[]
     ),
     # Task 99
     Task(
@@ -6314,9 +6114,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "ORD-0017",
-        ],
+        outputs=[]
     ),
     # Task 100
     Task(
@@ -6380,9 +6178,6 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Inventory Record Adjusted: INV-0001",
-            "New PO Number: PO-2024-0031",
-        ],
+        outputs=[]
     ),
 ]

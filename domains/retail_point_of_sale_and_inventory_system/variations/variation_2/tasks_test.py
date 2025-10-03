@@ -17,10 +17,7 @@ TASKS = [
             Action(name="GetTransactionDetails", kwargs={"transaction_id": "TXN-0001"}),
             Action(name="ListTransactionsByCustomer", kwargs={"customer_id": "CUST-5001"})
         ],
-        outputs=[
-            "Customer details assessed for service needs", "Membership level updated to gold based on current status", "Loyalty points checked for customer value", "Email updated for better communication",
-            "Transactions analyzed for purchase history", "Phone number updated for improved contact", "Transaction details retrieved for verification", "Transactions listed again to verify successful updates"
-        ]
+        outputs=[]
     ),
 
     # Product Management
@@ -37,10 +34,7 @@ TASKS = [
             Action(name="ListProductsByCategory", kwargs={"category": "Apparel"}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-06"})
         ],
-        outputs=[
-            "Product details for jeans assessed for pricing strategy", "All products listed to analyze inventory status", "Inventory level checked for restocking needs",
-            "Stock updated to 80 based on low inventory condition", "Apparel products listed to verify category inventory", "Sales total retrieved for performance assessment"
-        ]
+        outputs=[]
     ),
 
     # Omnichannel Customer Journey
@@ -70,9 +64,7 @@ TASKS = [
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5001"})
         ],
-        outputs=[
-            "Omnichannel journey executed for CUST-5001, all updates verified"
-        ]
+        outputs=[]
     ),
 
     # Inventory Management
@@ -91,9 +83,7 @@ TASKS = [
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"}),
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5003", "points_to_add": 50})
         ],
-        outputs=[
-            "Low stock products identified and analyzed", "Kitchen knife inventory level assessed", "Kitchen knife stock updated to 40 based on low stock condition", "Home & Kitchen category inventory analyzed", "Coffee maker inventory level checked for restocking assessment", "All products listed to verify inventory status", "Sales total retrieved for performance assessment", "50 points added to customer CUST-5003 as performance reward"
-        ]
+        outputs=[]
     ),
 
     # Sales Operations
@@ -112,9 +102,7 @@ TASKS = [
             Action(name="GetTransactionDetails", kwargs={"transaction_id": "TXN-0004"}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-06"})
         ],
-        outputs=[
-            "Almond butter sale recorded", "Daily sales total retrieved", "Customer details retrieved", "Customer loyalty points retrieved", "Transactions listed", "Transaction details retrieved", "Sales total retrieved again"
-        ]
+        outputs=[]
     ),
 
     # Product Category Management
@@ -134,10 +122,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5006", "points_to_add": 100}),
             Action(name="ListAllProducts", kwargs={"limit": 30})
         ],
-        outputs=[
-            "Electronics products listed", "Gaming laptop details retrieved", "Gaming laptop price updated to $599.99", "Home & Kitchen products listed",
-            "Kitchen knife inventory retrieved", "Kitchen knife stock updated to 45", "Sales total retrieved", "Customer loyalty points updated by 100", "All products listed with limit 30"
-        ]
+        outputs=[]
     ),
 
     # Return Processing
@@ -156,10 +141,7 @@ TASKS = [
             Action(name="UpdateProductStock", kwargs={"sku": "ELEC-RCHAA04", "new_stock_quantity": 25}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Return processed for remote control", "25 points added to customer", "Customer transactions listed",
-            "Remote control inventory checked", "Remote control stock updated to 25", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Return Management
@@ -177,9 +159,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5002", "points_to_add": 30}),
             Action(name="ListTransactionsByCustomer", kwargs={"customer_id": "CUST-5002"})
         ],
-        outputs=[
-            "Return processed for kitchen knife", "Kitchen knife stock updated to 55", "30 points added to customer based on active transactions", "Customer transactions analyzed for purchase history and loyalty verification"
-        ]
+        outputs=[]
     ),
 
     # Product Inventory Management
@@ -197,10 +177,7 @@ TASKS = [
             Action(name="ListProductsByCategory", kwargs={"category": "Electronics"}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-07"})
         ],
-        outputs=[
-            "4K TV details assessed for pricing strategy", "Price updated to $299.99 based on competitive analysis", "All products listed to analyze inventory status", "Inventory level checked for restocking needs",
-            "Stock updated to 60 based on low inventory condition", "Electronics products listed to verify category inventory", "Sales total retrieved for performance assessment"
-        ]
+        outputs=[]
     ),
 
     # Product Category Management
@@ -217,10 +194,7 @@ TASKS = [
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-08"}),
             Action(name="ListAllProducts", kwargs={"limit": 25})
         ],
-        outputs=[
-            "Home & Kitchen products analyzed for category inventory", "Coffee maker details assessed for pricing strategy", "Grocery products verified for category inventory status",
-            "Almond butter inventory checked for restocking needs", "Almond butter stock updated to 100 based on low inventory condition", "Sales total retrieved for performance assessment", "All products listed to verify overall inventory status"
-        ]
+        outputs=[]
     ),
 
     # Return Processing Management
@@ -239,10 +213,7 @@ TASKS = [
             Action(name="GetTransactionDetails", kwargs={"transaction_id": "TXN-0003"}),
             Action(name="ListTransactionsByCustomer", kwargs={"customer_id": "CUST-5003"})
         ],
-        outputs=[
-            "Return processed for green lentils", "Green lentils inventory checked", "Green lentils stock updated to 15",
-            "Customer details retrieved", "15 points added to customer", "Transaction details retrieved", "Customer transactions listed"
-        ]
+        outputs=[]
     ),
 
     # Advanced Customer Analytics
@@ -287,9 +258,7 @@ TASKS = [
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5003"}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5004"})
         ],
-        outputs=[
-            "Comprehensive customer analytics completed for all four customers", "Customer loyalty points analyzed for strategic planning", "Membership levels optimized based on analytics", "Transaction histories analyzed for customer behavior patterns", "Transaction details verified for accuracy", "Strategic loyalty point allocations completed", "Targeted sales recorded for each customer segment", "Customer communication channels updated", "Sales performance comparison completed", "All customer updates verified successfully"
-        ]
+        outputs=[]
     ),
 
     # Strategic Inventory Management
@@ -336,9 +305,7 @@ TASKS = [
             Action(name="GetInventoryLevel", kwargs={"sku": "AUDIO-BTSPKR02"}),
             Action(name="GetInventoryLevel", kwargs={"sku": "HOM-COFMKR12"})
         ],
-        outputs=[
-            "Strategic inventory management completed across all product categories", "Low stock products identified and addressed", "Inventory levels optimized for all six products", "Product stock strategically updated based on demand analysis", "Product specifications verified for all items", "Product prices optimized based on market analysis", "Category inventory analysis completed", "Strategic inventory monitor added to product portfolio", "Sales performance comparison completed", "Strategic sales recorded for multiple customers", "Customer loyalty points updated", "All inventory updates verified successfully"
-        ]
+        outputs=[]
     ),
 
     # Inventory Restocking Management
@@ -358,10 +325,7 @@ TASKS = [
             Action(name="UpdateProductStock", kwargs={"sku": "KITCH-CHEFKNF8", "new_stock_quantity": 30}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-09"})
         ],
-        outputs=[
-            "Critical inventory items identified and analyzed", "Coffee maker inventory level assessed", "Coffee maker stock updated to 40", "Coffee maker product details verified",
-            "Coffee maker price updated to $79.99 based on market analysis", "Home & Kitchen category inventory analyzed", "Kitchen knife inventory level assessed", "Kitchen knife stock updated to 30", "Sales performance assessed to evaluate restocking effectiveness"
-        ]
+        outputs=[]
     ),
 
     # Sales
@@ -380,10 +344,7 @@ TASKS = [
             Action(name="GetInventoryLevel", kwargs={"sku": "HOM-COFMKR12"}),
             Action(name="UpdateProductStock", kwargs={"sku": "HOM-COFMKR12", "new_stock_quantity": 35})
         ],
-        outputs=[
-            "Daily sales total retrieved", "50 points added to customer", "Customer details retrieved",
-            "Transactions listed", "Transaction details retrieved", "Transaction status updated", "Inventory level retrieved", "Product stock updated"
-        ]
+        outputs=[]
     ),
 
     # Employee Performance Management
@@ -406,11 +367,7 @@ TASKS = [
             # always update EMP-1008 to active:
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1008", "new_status": "active"})
         ],
-        outputs=[
-            "Employee details for John Smith retrieved", "Employee status checked", "New employee Lisa Martinez added", "All employees listed to verify addition",
-            "Employee status checked (already active)", "Employee count verified", "Employee removed", "Employee count verified after removal",
-            "Final employee details retrieved", "Employee status updated to active"
-        ]
+        outputs=[]
     ),
 
     # Customer Segmentation Analysis
@@ -431,9 +388,7 @@ TASKS = [
             Action(name="UpdateCustomerMembershipLevel", kwargs={"customer_id": "CUST-5001", "new_membership_level": "platinum"}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "First customer details retrieved", "First customer loyalty points checked", "Second customer details retrieved", "Second customer loyalty points checked", "Customer loyalty points updated by 50", "Customer details retrieved", "Transactions listed", "Transaction details retrieved", "Customer membership updated to platinum", "Daily sales total retrieved for analysis"
-        ]
+        outputs=[]
     ),
 
     # Innovation Growth Strategy
@@ -454,11 +409,7 @@ TASKS = [
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1004", "new_status": "on_leave"}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1008"})
         ],
-        outputs=[
-            "Employee details for John Smith retrieved", "Employee status checked", "New employee Sarah Wilson added", "All employees listed to verify addition",
-            "Employee status rechecked", "Employee count verified", "Employee removed", "Employee count verified after removal",
-            "Employee status updated to on_leave", "Final employee details retrieved"
-        ]
+        outputs=[]
     ),
 
     # Inventory Audit and Reconciliation
@@ -475,10 +426,7 @@ TASKS = [
             Action(name="ListAllProducts", kwargs={"limit": 50}),
             Action(name="UpdateProductPrice", kwargs={"sku": "ELEC-0006", "new_price": 319.99})
         ],
-        outputs=[
-            "Electronics products listed", "Smart watch pro added with unique SKU", "Smart watch pro details retrieved", "Smart watch pro stock updated to 30",
-            "All products listed within limit", "Smart watch pro price updated to $319.99"
-        ]
+        outputs=[]
     ),
     # Customer Lifecycle Management
 
@@ -494,9 +442,7 @@ TASKS = [
             Action(name="ListAllProducts", kwargs={"limit": 50}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Sports & Outdoors products listed and counted", "Premium yoga mat added with SKU SPOR-0003", "Premium yoga mat details retrieved", "Sports & Outdoors products listed again", "All products listed within policy limit of 50", "Sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Employee Management
@@ -520,10 +466,7 @@ TASKS = [
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1008", "new_status": "on_leave"}),
             Action(name="ListAllEmployees", kwargs={})
         ],
-        outputs=[
-            "Employee details retrieved", "Employee status updated to active", "All employees listed and counted", "Michael Brown added as Sales Associate with current hire date",
-            "Employee EMP-1004 details checked", "Employee EMP-1004 removed", "All employees listed again", "Employee EMP-1008 details retrieved", "Employee status updated to on_leave", "Final employee list verified"
-        ]
+        outputs=[]
     ),
 
     # Multi Store Operations
@@ -545,9 +488,7 @@ TASKS = [
             Action(name="UpdateTransactionStatus", kwargs={"transaction_id": "TXN-0001", "new_status": "completed"}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-08"})
         ],
-        outputs=[
-            "Almond butter sale recorded", "Daily sales total retrieved", "Customer details retrieved", "Customer loyalty points retrieved", "Customer details retrieved for CUST-5001", "50 points added to customer", "Transactions listed", "Transaction details retrieved", "Transaction status updated to completed", "Sales total retrieved for comparison"
-        ]
+        outputs=[]
     ),
 
     # Sales Performance Analytics
@@ -569,9 +510,7 @@ TASKS = [
             Action(name="UpdateProductStock", kwargs={"sku": "ELEC-4KTV55", "new_stock_quantity": 48}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-09"})
         ],
-        outputs=[
-            "Daily sales performance assessed", "150 points added to customer as performance reward", "Customer details verified", "Customer loyalty points balance checked", "Second customer profile analyzed", "Customer purchase history reviewed", "Transaction details verified for status", "Transaction status updated to completed", "4K TV inventory level assessed", "4K TV stock updated to 48", "Sales comparison and trend analysis completed"
-        ]
+        outputs=[]
     ),
 
     # Multi Product Sales
@@ -595,11 +534,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5005", "points_to_add": 50}),
             Action(name="ListLowStockProducts", kwargs={"threshold": 10})
         ],
-        outputs=[
-            "TV inventory level retrieved", "TV stock updated to 15 (if below 20)", "Speaker product details retrieved",
-            "Speaker price updated to $139.99 (if below $140)", "Sales analytics retrieved", "75 points added to customer (if sales > $1000)",
-            "Customer details retrieved", "50 more points added (if loyalty < 400)", "Low stock products listed for analysis"
-        ]
+        outputs=[]
     ),
 
     # Cross-Segment Loyalty Optimization
@@ -619,9 +554,7 @@ TASKS = [
             Action(name="UpdateProductPrice", kwargs={"sku": "AUDIO-BTSPKR02", "new_price": 99.99}),
             Action(name="GetInventoryLevel", kwargs={"sku": "AUDIO-BTSPKR02"}),
         ],
-        outputs=[
-            "'total_quantity': 18"
-        ]
+        outputs=[]
     ),
 
     # Inventory Management Complex
@@ -640,10 +573,7 @@ TASKS = [
             Action(name="RecordSale", kwargs={"customer_id": "CUST-5003", "items": [{"sku": "ELEC-4KTV55", "quantity": 1}], "payment_method": "credit_card"}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "TV inventory level retrieved and stock updated to 25 if needed", "TV product details retrieved", "TV price updated to $899.99 if different",
-            "Speaker inventory level retrieved and stock updated to 40 if needed", "TV sale recorded", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Customer Account Management
@@ -663,10 +593,7 @@ TASKS = [
             Action(name="GetTransactionDetails", kwargs={"transaction_id": "TXN-0005"}),
             Action(name="UpdateCustomerEmail", kwargs={"customer_id": "CUST-5007", "new_email": "updated.customer@email.com"})
         ],
-        outputs=[
-            "Customer details retrieved", "Address updated to new street", "Phone number updated", "Loyalty points checked",
-            "200 points added to customer", "Membership level updated to gold", "Transactions listed", "Transaction details retrieved", "Email updated"
-        ]
+        outputs=[]
     ),
 
     # Multi Store Employee Coordination
@@ -685,10 +612,7 @@ TASKS = [
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1011"}),
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1011", "new_status": "active"})
         ],
-        outputs=[
-            "Employee details for Sarah Johnson retrieved", "Employee status updated to active", "New employee Carlos Rodriguez added", "All employees listed to verify addition",
-            "Employee details for Michael Brown retrieved", "Employee status updated to on_leave", "Employee details for Emily Davis retrieved", "Employee status updated to active"
-        ]
+        outputs=[]
     ),
 
     # Complex Sales Transaction
@@ -708,10 +632,7 @@ TASKS = [
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5012"}),
             Action(name="UpdateCustomerPhoneNumber", kwargs={"customer_id": "CUST-5012", "new_phone_number": "+1-555-999-8888"})
         ],
-        outputs=[
-            "Customer details retrieved", "Transactions listed", "Transaction details retrieved", "Transaction status updated to refunded",
-            "50 points added to customer", "Membership level updated to silver", "Email updated", "Updated customer details retrieved", "Phone number updated"
-        ]
+        outputs=[]
     ),
 
     # Advanced Customer Management
@@ -731,10 +652,7 @@ TASKS = [
             Action(name="GetTransactionDetails", kwargs={"transaction_id": "TXN-0001"}),
             Action(name="UpdateCustomerEmail", kwargs={"customer_id": "CUST-5001", "new_email": "advanced.customer@email.com"})
         ],
-        outputs=[
-            "Customer details retrieved", "Address updated to advanced street", "Phone number updated", "Loyalty points checked",
-            "400 points added to customer", "Membership level updated to platinum", "Transactions listed", "Transaction details retrieved", "Email updated to advanced customer"
-        ]
+        outputs=[]
     ),
 
     # Inventory Optimization
@@ -753,10 +671,7 @@ TASKS = [
             Action(name="ListProductsByCategory", kwargs={"category": "Sports & Outdoors"}),
             Action(name="RecordSale", kwargs={"customer_id": "CUST-5010", "items": [{"sku": "CLTH-SLFJEAN34", "quantity": 1}], "payment_method": "cash"})
         ],
-        outputs=[
-            "Low stock products listed", "Jeans inventory retrieved", "Jeans stock updated to 60", "Jeans details retrieved",
-            "Jeans price updated to $89.99", "Chef knife inventory retrieved", "Chef knife stock updated to 50", "Sports & Outdoors products listed", "Jeans sale recorded for CUST-5010"
-        ]
+        outputs=[]
     ),
 
     # Employee Training Program
@@ -776,10 +691,7 @@ TASKS = [
             Action(name="ListAllEmployees", kwargs={}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1020"})
         ],
-        outputs=[
-            "Employee details retrieved", "Employee status updated to training", "Lisa Martinez added as Trainer", "Second employee details retrieved",
-            "Second employee status updated to certified", "All employees listed", "Employee removed", "All employees listed again", "Henry Adams details retrieved"
-        ]
+        outputs=[]
     ),
 
     # Multi Category Sales Analysis
@@ -799,10 +711,7 @@ TASKS = [
             Action(name="UpdateTransactionStatus", kwargs={"transaction_id": "TXN-0001", "new_status": "completed"}),
             Action(name="RecordSale", kwargs={"customer_id": "CUST-5012", "items": [{"sku": "GROC-ALMBTR500", "quantity": 1}], "payment_method": "debit_card"})
         ],
-        outputs=[
-            "Customer details retrieved", "Loyalty points checked", "250 points added to customer", "Membership level updated to gold",
-            "Email updated to loyalty customer", "Transactions listed", "Transaction details retrieved", "Transaction status updated to completed", "Book sale recorded"
-        ]
+        outputs=[]
     ),
 
     # Comprehensive Store Audit
@@ -823,10 +732,7 @@ TASKS = [
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5001"}),
             Action(name="GetProductDetailsBySku", kwargs={"sku": "ELEC-4KTV55"})
         ],
-        outputs=[
-            "All employees listed", "Employee details retrieved", "Employee status updated to audited", "All products listed within policy limit",
-            "Coffee maker inventory retrieved", "Coffee maker stock updated to 80", "Coffee maker details retrieved", "Coffee maker price updated to $24.99", "Daily sales total retrieved", "Customer details retrieved", "TV details retrieved"
-        ]
+        outputs=[]
     ),
 
     # Customer Relationship Management
@@ -845,10 +751,7 @@ TASKS = [
             Action(name="ListTransactionsByCustomer", kwargs={"customer_id": "CUST-5002"}),
             Action(name="RecordSale", kwargs={"customer_id": "CUST-5002", "items": [{"sku": "ELEC-4KTV55", "quantity": 1}], "payment_method": "credit_card"})
         ],
-        outputs=[
-            "Customer details retrieved", "Address updated to relationship street", "Phone number updated", "Loyalty points checked",
-            "350 points added to customer", "Membership level updated to platinum", "Transactions listed", "TV sale recorded"
-        ]
+        outputs=[]
     ),
 
     # Inventory Rebalancing Strategy
@@ -867,10 +770,7 @@ TASKS = [
             Action(name="UpdateProductStock", kwargs={"sku": "KITCH-CHEFKNF8", "new_stock_quantity": 45}),
             Action(name="RecordSale", kwargs={"customer_id": "CUST-5010", "items": [{"sku": "AUDIO-BTSPKR02", "quantity": 1}], "payment_method": "debit_card"})
         ],
-        outputs=[
-            "Low stock products listed", "Speaker inventory retrieved", "Speaker stock updated to 60", "Speaker details retrieved",
-            "Speaker price updated to $189.99", "Chef knife inventory retrieved", "Chef knife stock updated to 45", "Speaker sale recorded"
-        ]
+        outputs=[]
     ),
 
     # Customer Data Migration
@@ -892,10 +792,7 @@ TASKS = [
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5003"}),
             Action(name="GetCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5003"})
         ],
-        outputs=[
-            "Customer details retrieved for migration", "Email updated to new domain", "Address updated to migration street", "Phone number updated for migration",
-            "Loyalty points checked for migration", "75 points added to customer for migration", "Membership level updated to silver for migration", "Transactions listed for migration", "Transaction details retrieved for migration", "Email updated to new domain", "Address updated to migration street", "Phone number updated for migration", "75 points added to customer for migration", "Membership level updated to silver for migration", "Transactions listed for migration", "Updated customer details retrieved for migration", "Updated loyalty points retrieved for migration"
-        ]
+        outputs=[]
     ),
 
     # Staff Reorganization Management
@@ -914,10 +811,7 @@ TASKS = [
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1015"}),
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1015", "new_status": "active"})
         ],
-        outputs=[
-            "Employee details for Lisa Martinez retrieved", "Employee status updated to active", "New employee Maria Garcia added", "All employees listed to verify addition",
-            "Employee details for Carlos Rodriguez retrieved", "Employee status updated to promoted", "Employee details for Patricia Davis retrieved", "Employee status updated to active"
-        ]
+        outputs=[]
     ),
 
     # Complex Return Processing
@@ -937,10 +831,7 @@ TASKS = [
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5011"}),
             Action(name="UpdateCustomerPhoneNumber", kwargs={"customer_id": "CUST-5011", "new_phone_number": "+1-555-777-6666"})
         ],
-        outputs=[
-            "Customer details retrieved", "Transactions listed", "Transaction details retrieved", "Transaction status updated to refunded",
-            "50 points added to customer", "Membership level updated to silver", "Email updated to return customer", "Final customer details retrieved", "Phone number updated"
-        ]
+        outputs=[]
     ),
 
        # Product Expansion Strategy
@@ -962,9 +853,7 @@ TASKS = [
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-06"})
         ],
-        outputs=[
-            "Home & Kitchen products analyzed for expansion opportunity", "Customer details retrieved for CUST-5001", "Customer details retrieved for CUST-5002", "Customer loyalty points updated by 50 for CUST-5001", "Customer loyalty points updated by 75 for CUST-5002", "Customer transactions listed for CUST-5001", "Customer transactions listed for CUST-5002", "Transaction details retrieved for TXN-0001", "Transaction details retrieved for TXN-0002", "Daily sales total retrieved for 2025-06-05", "Daily sales total retrieved for 2025-06-06"
-        ]
+        outputs=[]
     ),
 
      # Seasonal Inventory Management
@@ -983,10 +872,7 @@ TASKS = [
             Action(name="UpdateProductStock", kwargs={"sku": "CLTH-SLFJEAN34", "new_stock_quantity": 55}),
             Action(name="RecordSale", kwargs={"customer_id": "CUST-5011", "items": [{"sku": "SPORT-BIKHLM01", "quantity": 1}], "payment_method": "debit_card"})
         ],
-        outputs=[
-            "Low stock products listed", "Bike helmet inventory retrieved", "Bike helmet stock updated to 75", "Bike helmet details retrieved",
-            "Bike helmet price updated to $69.99", "Jeans inventory retrieved", "Jeans stock updated to 55", "Bike helmet sale recorded"
-        ]
+        outputs=[]
     ),
 
     # Employee Performance Review
@@ -1006,10 +892,7 @@ TASKS = [
             Action(name="ListAllEmployees", kwargs={}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1020"})
         ],
-        outputs=[
-            "First employee details retrieved", "First employee status updated to under review", "Second employee details retrieved", "Second employee status updated to excellent",
-            "Carlos Rodriguez added as Performance Analyst with specified contact info", "All employees listed to verify workforce", "Employee details retrieved", "Employee status updated to on_leave", "All employees listed again to verify changes", "Henry Adams details retrieved for final review"
-        ]
+        outputs=[]
     ),
 
     # Cross Category Sales Campaign
@@ -1029,10 +912,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5009", "points_to_add": 175}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5009"})
         ],
-        outputs=[
-            "Electronics products listed", "Grocery products listed", "Almond butter details retrieved", "Almond butter price updated to $9.99",
-            "Almond butter inventory retrieved", "Almond butter stock updated to 85", "Cross-category sale recorded", "175 points added to customer", "Customer details retrieved"
-        ]
+        outputs=[]
     ),
 
     # Employee Management
@@ -1051,10 +931,7 @@ TASKS = [
             Action(name="ListProductsByCategory", kwargs={"category": "Sports & Outdoors"}),
             Action(name="GetInventoryLevel", kwargs={"sku": "SPORT-BIKHLM01"})
         ],
-        outputs=[
-            "Sports & Outdoors products listed", "Jeans inventory retrieved", "Jeans stock updated to 45", "Jeans details retrieved",
-            "Jeans price updated to $94.99", "Sports water bottle added", "Sports & Outdoors products listed again to verify addition", "Bike helmet inventory retrieved to verify existing product stock"
-        ]
+        outputs=[]
     ),
 
     # Advanced Transaction Management
@@ -1076,10 +953,7 @@ TASKS = [
             Action(name="ListLowStockProducts", kwargs={"threshold": 30}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Customer details retrieved", "Transactions listed", "Transaction details retrieved", "Transaction status updated to pending",
-            "Updated transactions listed", "Transaction details retrieved for TXN-0012", "60 points added to customer", "Updated customer details retrieved", "Customer loyalty points verified", "Low stock products listed", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
     # Comprehensive Business Intelligence
 
@@ -1101,10 +975,7 @@ TASKS = [
             Action(name="GetProductDetailsBySku", kwargs={"sku": "ELEC-4KTV55"}),
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5002", "points_to_add": 200})
         ],
-        outputs=[
-            "All employees listed", "All products listed within policy limit of 50", "Low stock products listed", "Initial sales total retrieved",
-            "First customer details retrieved", "Second customer details retrieved", "150 points added to first customer", "100 points added to second customer", "Final sales total retrieved for comparison", "Customer loyalty points checked", "Product details retrieved", "200 points added to second customer"
-        ]
+        outputs=[]
     ),
 
     # Strategic Resource Reallocation
@@ -1125,11 +996,7 @@ TASKS = [
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1015", "new_status": "terminated"}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1020"})
         ],
-        outputs=[
-            "All employees listed", "Employee details for Lisa Martinez retrieved", "Employee status updated to promoted", "New employee David Wilson added",
-            "All employees listed to verify addition", "Employee details for Carlos Rodriguez retrieved", "Employee status updated to active (if not already active)", "Employee details for Patricia Davis retrieved", "Employee status updated to terminated (if currently active)",
-            "Final employee details retrieved"
-        ]
+        outputs=[]
     ),
 
     # Customer Journey Optimization
@@ -1149,10 +1016,7 @@ TASKS = [
             Action(name="ListTransactionsByCustomer", kwargs={"customer_id": "CUST-5004"}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5004"})
         ],
-        outputs=[
-            "Customer details retrieved", "Email updated to journey customer", "Address updated to journey lane", "Loyalty points checked",
-            "400 points added to customer", "Membership level updated to platinum", "Gaming laptop sale recorded", "Transactions listed", "Updated customer details retrieved"
-        ]
+        outputs=[]
     ),
 
     # Workforce Development Program
@@ -1171,10 +1035,7 @@ TASKS = [
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1032"}),
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1032", "new_status": "active"})
         ],
-        outputs=[
-            "Employee details for Maria Garcia retrieved", "Employee status updated to active", "New employee Jennifer Garcia added with specified contact info", "All employees listed to verify addition",
-            "Employee details for David Wilson retrieved", "Employee status updated to certified", "Employee details for Jennifer Garcia retrieved", "Employee status updated to active"
-        ]
+        outputs=[]
     ),
 
     # Advanced Return Processing
@@ -1200,9 +1061,7 @@ TASKS = [
             Action(name="UpdateCustomerMembershipLevel", kwargs={"customer_id": "CUST-5012", "new_membership_level": "silver"}),
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5012", "points_to_add": 25})
         ],
-        outputs=[
-            "Return processed for advanced customer", "Transaction status updated to refunded", "Membership level updated to silver", "Phone number updated for return", "50 points added to customer for return", "Final customer details retrieved for return", "Customer loyalty points checked for return", "Email updated for return customer", "Address updated for return customer", "Transactions listed again for return", "Transaction details retrieved again for return", "Membership level updated to silver for return", "25 additional points added to customer for return"
-        ]
+        outputs=[]
     ),
 
     # Product Innovation Strategy
@@ -1228,10 +1087,7 @@ TASKS = [
             Action(name="UpdateCustomerMembershipLevel", kwargs={"customer_id": "CUST-5008", "new_membership_level": "gold"}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5007"})
         ],
-        outputs=[
-            "First customer details retrieved for lifecycle", "First customer membership updated to platinum for lifecycle", "First customer loyalty points checked for lifecycle", "500 points added to first customer for lifecycle",
-            "First customer phone number updated for lifecycle", "Second customer details retrieved for lifecycle", "Second customer membership updated to gold for lifecycle", "TV sale recorded for first customer for lifecycle", "First customer transactions listed for lifecycle", "Transaction details retrieved for lifecycle", "Email updated for lifecycle customer", "Address updated for lifecycle customer", "100 additional points added to first customer for lifecycle", "Second customer membership updated to gold for lifecycle", "Updated first customer details retrieved for lifecycle"
-        ]
+        outputs=[]
     ),
 
     # Supply Chain Optimization
@@ -1249,10 +1105,7 @@ TASKS = [
             Action(name="AddNewProduct", kwargs={"name": "Smart Thermostat", "description": "WiFi-enabled smart thermostat with energy saving features", "category": "Electronics", "price": 199.99, "stock_quantity": 25}),
             Action(name="GetProductDetailsBySku", kwargs={"sku": "ELEC-0006"})
         ],
-        outputs=[
-            "All products listed", "TV details retrieved", "TV price updated to $799.99", "TV inventory retrieved",
-            "TV stock updated to 45", "Smart thermostat added with unique SKU", "Smart thermostat details retrieved"
-        ]
+        outputs=[]
     ),
 
     # Employee Excellence Program
@@ -1272,10 +1125,7 @@ TASKS = [
             Action(name="ListAllEmployees", kwargs={}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1020"})
         ],
-        outputs=[
-            "First employee details retrieved", "First employee status updated to excellence program", "Second employee details retrieved", "Second employee status updated to top performer",
-            "Patricia Davis added as Excellence Coach with specified contact info", "All employees listed", "Employee removed", "All employees listed again", "Henry Adams details retrieved"
-        ]
+        outputs=[]
     ),
 
     # Market Expansion Strategy
@@ -1296,10 +1146,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5009", "points_to_add": 100}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5009"})
         ],
-        outputs=[
-            "Customer details retrieved", "Membership level updated to platinum", "400 points added to customer", "Email updated to expansion customer",
-            "Address updated to expansion blvd", "Transactions listed", "Transaction details retrieved", "Customer loyalty points checked", "Additional 100 points added", "Updated customer details retrieved"
-        ]
+        outputs=[]
     ),
 
 
@@ -1321,10 +1168,7 @@ TASKS = [
             Action(name="ListTransactionsByCustomer", kwargs={"customer_id": "CUST-5008"}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5008"})
         ],
-        outputs=[
-            "Customer details retrieved", "Email updated to experience customer", "Address updated to experience street", "Loyalty points checked",
-            "350 points added to customer", "Membership level updated to gold", "Speaker sale recorded", "Transactions listed", "Updated customer details retrieved"
-        ]
+        outputs=[]
     ),
 
     # Operational Excellence Audit
@@ -1343,10 +1187,7 @@ TASKS = [
             Action(name="UpdateCustomerPhoneNumber", kwargs={"customer_id": "CUST-5011", "new_phone_number": "+1-555-333-2222"}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5011"})
         ],
-        outputs=[
-            "Customer details retrieved", "Loyalty points checked", "600 points added to customer", "Membership level updated to platinum",
-            "Address updated to excellence drive", "Email updated to excellence customer", "Phone number updated", "Updated customer details retrieved"
-        ]
+        outputs=[]
     ),
 
 
@@ -1371,10 +1212,7 @@ TASKS = [
             Action(name="GetProductDetailsBySku", kwargs={"sku": "ELEC-4KTV55"}),
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5005", "points_to_add": 150})
         ],
-        outputs=[
-            "Initial sales total retrieved", "All employees listed", "All products listed within policy limit of 50", "First customer details retrieved",
-            "Second customer details retrieved", "First customer membership updated to platinum", "Second customer membership updated to gold", "Final sales total retrieved", "Low stock products listed", "First customer loyalty points verified", "TV details retrieved", "150 points added to second customer"
-        ]
+        outputs=[]
     ),
 
     # Strategic Portfolio Management
@@ -1391,10 +1229,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5005", "points_to_add": 200}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Home & Kitchen products listed", "Smart coffee maker added with unique SKU", "Smart coffee maker details retrieved", "Smart coffee maker stock updated to 25",
-            "All products listed within policy limit", "200 points added to customer", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Premium Customer Onboarding
@@ -1412,10 +1247,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5006", "points_to_add": 300}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Electronics products listed", "Smart watch pro added with unique SKU", "Smart watch pro details retrieved", "Smart watch pro stock updated to 30",
-            "All products listed within limit", "300 points added to customer", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Supply Chain Optimization
@@ -1433,10 +1265,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5012", "points_to_add": 250}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Sports products listed", "Fitness tracker pro added with unique SKU", "Fitness tracker pro details retrieved", "Fitness tracker pro stock updated to 40",
-            "Fitness tracker pro stock updated to 55", "All products listed within limit", "250 points added to customer", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Strategic Customer Portfolio
@@ -1455,10 +1284,7 @@ TASKS = [
             Action(name="ListAllEmployees", kwargs={}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1008"})
         ],
-        outputs=[
-            "Employee details retrieved", "Employee status rechecked", "All employees listed to verify count", "Jennifer Davis added as Manager with ID EMP-1013",
-            "Employee status rechecked", "Employee status rechecked again", "Second employee details retrieved", "Second employee status updated to on_leave", "Employee removed", "All employees listed again to verify changes", "Final employee details retrieved"
-        ]
+        outputs=[]
     ),
 
     # Multi Store Employee Operations
@@ -1476,9 +1302,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5007", "points_to_add": 350}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Electronics products analyzed", "Smart home hub added with unique SKU", "Smart home hub details retrieved", "Smart home hub stock updated to 20", "All products listed within policy limit", "350 points added to customer", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Seasonal Inventory Adjustment
@@ -1496,9 +1320,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5008", "points_to_add": 150}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Sports & Outdoors products reviewed", "Premium yoga mat added with unique SKU", "Premium yoga mat details retrieved", "Premium yoga mat stock updated to 45", "All products listed within limit", "150 points added to customer", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Supply Chain Optimization
@@ -1517,9 +1339,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5010", "points_to_add": 500}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Home & Kitchen products evaluated", "Smart refrigerator added with unique SKU", "Smart refrigerator details retrieved", "Smart refrigerator stock updated to 10", "Smart refrigerator stock updated to 12", "All products listed within limit", "500 points added to customer", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Strategic Customer Portfolio
@@ -1543,9 +1363,7 @@ TASKS = [
             Action(name="GetInventoryLevel", kwargs={"sku": "KITCH-CHEFKNF8"}),
             Action(name="UpdateProductStock", kwargs={"sku": "KITCH-CHEFKNF8", "new_stock_quantity": 40})
         ],
-        outputs=[
-            "Low stock products listed", "Batteries product details retrieved", "Electronics products listed", "TV inventory level retrieved", "TV stock updated to 75", "Sales total retrieved", "Customer loyalty points updated by 25", "Customer details retrieved", "Transactions listed", "Transaction details retrieved", "Batteries price updated to $18.95", "Kitchen knife inventory retrieved", "Kitchen knife stock updated to 40"
-        ]
+        outputs=[]
     ),
 
     # Customer Loyalty Management
@@ -1568,9 +1386,7 @@ TASKS = [
             Action(name="GetTransactionDetails", kwargs={"transaction_id": "TXN-0001"}),
             Action(name="UpdateCustomerMembershipLevel", kwargs={"customer_id": "CUST-5001", "new_membership_level": "gold"})
         ],
-        outputs=[
-            "Customer details retrieved", "Loyalty points checked", "Membership level updated to silver", "Customer details retrieved for CUST-5001", "30 points added to customer", "Transaction details retrieved", "Email updated", "Phone number updated", "Customer loyalty points retrieved", "Transactions listed", "Transaction details retrieved", "Membership level updated to gold"
-        ]
+        outputs=[]
     ),
 
     # Employee Performance Management
@@ -1592,10 +1408,7 @@ TASKS = [
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1009"}),
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1009", "new_status": "active"})
         ],
-        outputs=[
-            "Employee details retrieved", "Employee status updated to active", "All employees listed", "Jennifer Davis added as Manager with specified contact info",
-            "Employee status updated", "Employee details retrieved for EMP-1004", "All employees listed again", "Employee details retrieved for EMP-1008", "Employee status updated to on_leave", "All employees listed", "Employee details retrieved for EMP-1009", "Employee status updated to active"
-        ]
+        outputs=[]
     ),
     # Customer Relationship Excellence
     Task(
@@ -1620,10 +1433,7 @@ TASKS = [
             Action(name="GetTransactionDetails", kwargs={"transaction_id": "TXN-0003"}),
             Action(name="UpdateCustomerMembershipLevel", kwargs={"customer_id": "CUST-5003", "new_membership_level": "platinum"})
         ],
-        outputs=[
-            "Customer details retrieved for strategic portfolio", "Membership level updated to platinum for strategic portfolio", "Loyalty points checked for strategic portfolio", "500 points added to customer for strategic portfolio",
-            "TV sale recorded for strategic portfolio", "Transactions listed for strategic portfolio", "Transaction details retrieved for strategic portfolio", "Email updated to portfolio customer for strategic portfolio", "Address updated to portfolio street for strategic portfolio", "Updated customer details retrieved for strategic portfolio", "Updated loyalty points retrieved for strategic portfolio", "Phone number updated for strategic portfolio", "200 additional points added to customer for strategic portfolio", "Transactions listed again for strategic portfolio", "Transaction details retrieved again for strategic portfolio", "Membership level updated to platinum for strategic portfolio"
-        ]
+        outputs=[]
     ),
 
     # Strategic Inventory Optimization
@@ -1644,10 +1454,7 @@ TASKS = [
             Action(name="ListAllEmployees", kwargs={}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1015"})
         ],
-        outputs=[
-            "All employees listed", "Employee details retrieved", "Employee status updated to promoted", "Sarah Johnson added as Supervisor",
-            "Second employee details retrieved", "Second employee status updated to active", "Mark Wilson added as Sales Associate", "Employee removed", "All employees listed again", "Third employee details retrieved"
-        ]
+        outputs=[]
     ),
 
 
@@ -1669,10 +1476,7 @@ TASKS = [
             Action(name="UpdateProductPrice", kwargs={"sku": "GROC-ALMBTR500", "new_price": 8.99}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "All employees listed", "David Brown added as Manager", "Employee details retrieved", "Employee status updated to manager",
-            "Low stock products listed", "Almond butter inventory retrieved", "Almond butter stock updated to 75", "Almond butter details retrieved", "Almond butter price updated to $8.99", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Advanced Customer Management
@@ -1691,10 +1495,7 @@ TASKS = [
             Action(name="GetTransactionDetails", kwargs={"transaction_id": "TXN-0013"}),
             Action(name="UpdateCustomerPhoneNumber", kwargs={"customer_id": "CUST-5013", "new_phone_number": "+1-555-999-7777"})
         ],
-        outputs=[
-            "Premium customer added as CUST-5013", "Customer details retrieved for CUST-5013", "Membership level updated to platinum for CUST-5013", "500 points added to CUST-5013",
-            "TV sale recorded for CUST-5013", "Transactions listed for CUST-5013", "Transaction details retrieved for TXN-0013", "Phone number updated for CUST-5013"
-        ]
+        outputs=[]
     ),
 
 
@@ -1715,10 +1516,7 @@ TASKS = [
             Action(name="GetTransactionDetails", kwargs={"transaction_id": "TXN-0013"}),
             Action(name="UpdateCustomerPhoneNumber", kwargs={"customer_id": "CUST-5013", "new_phone_number": "+1-555-888-6666"})
         ],
-        outputs=[
-            "VIP customer added as CUST-5013", "Customer details retrieved for CUST-5013", "Membership level updated to platinum for CUST-5013", "1000 points added to CUST-5013",
-            "Address updated to suite 100 for CUST-5013", "Granola bar sale recorded for CUST-5013", "Transactions listed for CUST-5013", "Transaction details retrieved for TXN-0013", "Phone number updated for CUST-5013"
-        ]
+        outputs=[]
     ),
 
     # Advanced Inventory Rebalancing
@@ -1740,8 +1538,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5001", "points_to_add": 150}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-        ]
+        outputs=[]
     ),
 
     # Multi Department Staff Reorganization
@@ -1760,10 +1557,7 @@ TASKS = [
             Action(name="RemoveEmployee", kwargs={"employee_id": "EMP-1003"}),
             Action(name="ListAllEmployees", kwargs={})
         ],
-        outputs=[
-            "Employee roster reviewed", "Employee details retrieved", "Employee status updated to relocated", "Lisa Chen added as Regional Manager",
-            "Second employee details retrieved", "Second employee status updated to senior manager", "Carlos Rodriguez added as Operations Director", "Employee removed", "All employees listed again"
-        ]
+        outputs=[]
     ),
 
     # Product Line Expansion
@@ -1784,10 +1578,7 @@ TASKS = [
             Action(name="UpdateCustomerAddress", kwargs={"customer_id": "CUST-5013", "new_address": "777 Enterprise Drive Floor 50, Business City, BC 77777"}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5013"})
         ],
-        outputs=[
-            "Enterprise customer added as CUST-5013", "Customer details retrieved for CUST-5013", "Membership level updated to platinum for CUST-5013", "2000 points added to CUST-5013",
-            "Email updated to premium enterprise for CUST-5013", "High-value sale recorded for CUST-5013", "Transactions listed for CUST-5013", "Transaction details retrieved for TXN-0013", "Address updated to floor 50 for CUST-5013", "Final customer details retrieved for CUST-5013"
-        ]
+        outputs=[]
     ),
 
 
@@ -1807,10 +1598,7 @@ TASKS = [
             Action(name="ListProductsByCategory", kwargs={"category": "Sports & Outdoors"}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Sports products listed", "Jeans inventory retrieved", "Jeans stock updated to 45", "Jeans details retrieved",
-            "Jeans price updated to $94.99", "Sports water bottle added with unique SKU", "Water bottle stock updated to 100", "Sports products listed again to verify distribution", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
 
@@ -1832,10 +1620,7 @@ TASKS = [
             Action(name="RecordSale", kwargs={"customer_id": "CUST-5003", "items": [{"sku": "KITCH-CHEFKNF8", "quantity": 1}], "payment_method": "credit_card"}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Low stock products listed", "Chef knife inventory retrieved", "Chef knife stock updated to 50", "Chef knife details retrieved",
-            "Chef knife price updated to $12.99", "Granola bar inventory retrieved", "Granola bar stock updated to 120", "Premium stapler added with unique SKU", "Chef knife sale recorded", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
 
@@ -1856,10 +1641,7 @@ TASKS = [
             Action(name="RemoveEmployee", kwargs={"employee_id": "EMP-1034"}),
             Action(name="ListAllEmployees", kwargs={})
         ],
-        outputs=[
-            "All employees listed", "Employee details retrieved", "Employee status updated to development program", "Angela Thompson added as Development Coordinator",
-            "Second employee details retrieved", "Second employee status updated to mentor", "James Wilson added as Training Specialist", "Employee removed", "All employees listed again"
-        ]
+        outputs=[]
     ),
 
     # Product Innovation Pipeline
@@ -1880,10 +1662,7 @@ TASKS = [
             Action(name="RecordSale", kwargs={"customer_id": "CUST-5009", "items": [{"sku": "HOM-COFMKR12", "quantity": 2}, {"sku": "KITCH-CHEFKNF8", "quantity": 1}], "payment_method": "debit_card"}),
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5009", "points_to_add": 120})
         ],
-        outputs=[
-            "Low stock products listed", "Coffee maker inventory retrieved", "Coffee maker stock updated to 110", "Coffee maker details retrieved",
-            "Coffee maker price updated to $29.99", "Chef knife inventory retrieved", "Chef knife stock updated to 75", "Home & Kitchen products listed", "Multi-item home sale recorded", "120 points added to customer"
-        ]
+        outputs=[]
     ),
 
     # Market Expansion Strategy
@@ -1904,10 +1683,7 @@ TASKS = [
             Action(name="ListProductsByCategory", kwargs={"category": "Books"}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5010"})
         ],
-        outputs=[
-            "Books products listed", "Office products listed", "Almond butter details retrieved", "Almond butter price updated to $16.99",
-            "Almond butter inventory retrieved", "Almond butter stock updated to 55", "Business strategy guide added with unique SKU", "Business strategy guide details retrieved", "Books products listed again to verify market expansion", "Customer details retrieved for CUST-5010"
-        ]
+        outputs=[]
     ),
 
     # Customer Experience Enhancement
@@ -1928,10 +1704,7 @@ TASKS = [
             Action(name="UpdateCustomerPhoneNumber", kwargs={"customer_id": "CUST-5013", "new_phone_number": "+1-555-666-4444"}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5013"})
         ],
-        outputs=[
-            "Experience enhancement customer added as CUST-5013", "Customer details retrieved for CUST-5013", "Membership level updated to gold for CUST-5013", "750 points added to CUST-5013",
-            "Email updated to premium experience for CUST-5013", "Multi-item home sale recorded for CUST-5013", "Transactions listed for CUST-5013", "Transaction details retrieved for TXN-0013", "Phone number updated for CUST-5013", "Final customer details retrieved for CUST-5013"
-        ]
+        outputs=[]
     ),
 
     # Innovation and Growth Strategy
@@ -1951,10 +1724,7 @@ TASKS = [
             Action(name="UpdateCustomerEmail", kwargs={"customer_id": "CUST-5013", "new_email": "premium.strategic@portfolio.com"}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5013"})
         ],
-        outputs=[
-            "Strategic portfolio customer added as CUST-5013", "Customer details retrieved for CUST-5013", "Membership level updated to platinum for CUST-5013", "1500 points added to CUST-5013",
-            "High-value electronics sale recorded for CUST-5013", "Transactions listed for CUST-5013", "Transaction details retrieved for TXN-0013", "Email updated to premium strategic for CUST-5013", "Final customer details retrieved for CUST-5013"
-        ]
+        outputs=[]
     ),
 
     # Employee Performance
@@ -1975,10 +1745,7 @@ TASKS = [
             Action(name="ListAllEmployees", kwargs={}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1015"})
         ],
-        outputs=[
-            "All employees listed", "Employee details retrieved", "Employee status updated to promoted", "Sarah Johnson added as Supervisor",
-            "Second employee details retrieved", "Second employee status updated to active", "Mark Wilson added as Sales Associate", "Employee removed", "All employees listed again", "Third employee details retrieved"
-        ]
+        outputs=[]
     ),
 
     # Store Operations Management
@@ -1999,10 +1766,7 @@ TASKS = [
             Action(name="UpdateProductPrice", kwargs={"sku": "HOM-COFMKR12", "new_price": 89.99}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Employee roster reviewed", "Sarah Wilson added as Assistant Manager", "Employee details retrieved", "Employee status updated to assistant manager",
-            "Low stock products listed", "Coffee maker inventory retrieved", "Coffee maker stock updated to 60", "Coffee maker details retrieved", "Coffee maker price updated to $89.99", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Advanced Customer Management
@@ -2021,10 +1785,7 @@ TASKS = [
             Action(name="GetTransactionDetails", kwargs={"transaction_id": "TXN-0013"}),
             Action(name="UpdateCustomerPhoneNumber", kwargs={"customer_id": "CUST-5013", "new_phone_number": "+1-555-999-7777"})
         ],
-        outputs=[
-            "Premium customer added as CUST-5013", "Customer details retrieved for CUST-5013", "Membership level updated to platinum for CUST-5013", "500 points added to CUST-5013",
-            "TV sale recorded for CUST-5013", "Transactions listed for CUST-5013", "Transaction details retrieved for TXN-0013", "Phone number updated for CUST-5013"
-        ]
+        outputs=[]
     ),
 
     # Advanced Customer Relationship Management
@@ -2054,9 +1815,7 @@ TASKS = [
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-12"}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5012"})
         ],
-        outputs=[
-            "Advanced customer relationship management executed for CUST-5012, all updates verified"
-        ]
+        outputs=[]
     ),
 
     # Advanced Inventory Rebalancing
@@ -2087,9 +1846,7 @@ TASKS = [
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-13"}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-14"}),
         ],
-        outputs=[
-            "Advanced inventory rebalancing executed, all updates verified"
-        ]
+        outputs=[]
     ),
 
     # Multi Department Staff Reorganization
@@ -2108,10 +1865,7 @@ TASKS = [
             Action(name="RemoveEmployee", kwargs={"employee_id": "EMP-1020"}),
             Action(name="ListAllEmployees", kwargs={})
         ],
-        outputs=[
-            "All employees listed", "Employee details retrieved", "Employee status updated to transferred", "Robert Johnson added as Department Head",
-            "Second employee details retrieved", "Second employee status updated to promoted", "Maria Garcia added as Assistant Manager", "Employee removed", "All employees listed again"
-        ]
+        outputs=[]
     ),
 
     # Product Line Expansion
@@ -2132,10 +1886,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5002", "points_to_add": 30}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Low stock products listed", "Granola bar inventory retrieved", "Granola bar stock updated to 85", "Granola bar details retrieved",
-            "Granola bar price updated to $3.99", "Desk lamp inventory retrieved", "Desk lamp stock updated to 65", "Granola bar sale recorded", "30 points added to customer", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Workforce Development Initiative
@@ -2155,10 +1906,7 @@ TASKS = [
             Action(name="RemoveEmployee", kwargs={"employee_id": "EMP-1015"}),
             Action(name="ListAllEmployees", kwargs={})
         ],
-        outputs=[
-            "All employees listed", "Employee details retrieved", "Employee status updated to training", "Jennifer Wilson added as Training Coordinator",
-            "Second employee details retrieved", "Second employee status updated to mentor", "Michael Brown added as Development Specialist", "Employee removed", "All employees listed again"
-        ]
+        outputs=[]
     ),
 
     # Product Innovation Pipeline
@@ -2182,10 +1930,7 @@ TASKS = [
             Action(name="RecordSale", kwargs={"customer_id": "CUST-5007", "items": [{"sku": "AUDIO-BTSPKR02", "quantity": 1}], "payment_method": "debit_card"}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Low stock products listed", "Speaker inventory retrieved", "Speaker stock rechecked", "Speaker stock updated to 35 only if needed", "Speaker details retrieved",
-            "Speaker price updated to $159.99", "Desk lamp inventory retrieved", "Desk lamp stock rechecked", "Desk lamp stock updated to 70 only if needed", "Supply chain monitor added with unique SKU", "Supply chain monitor details retrieved", "Speaker sale recorded", "Daily sales total retrieved"
-        ]
+        outputs=[]
     ),
 
     # Innovation and Growth Strategy
@@ -2205,10 +1950,7 @@ TASKS = [
             Action(name="UpdateCustomerAddress", kwargs={"customer_id": "CUST-5013", "new_address": "666 Strategic Way Suite 200, Portfolio City, PC 66666"}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5013"})
         ],
-        outputs=[
-            "Strategic customer added as CUST-5013", "Customer details retrieved for CUST-5013", "Membership level updated to platinum for CUST-5013", "1500 points added to CUST-5013",
-            "Email updated to premium strategic for CUST-5013", "High-value electronics sale recorded for CUST-5013", "Transactions listed for CUST-5013", "Transaction details retrieved for TXN-0013", "Address updated to suite 200 for CUST-5013", "Final customer details retrieved for CUST-5013"
-        ]
+        outputs=[]
     ),
 
     # Inventory Optimization
@@ -2234,9 +1976,7 @@ TASKS = [
             Action(name="AddNewProduct", kwargs={"name": "Inventory Optimization Suite", "description": "Advanced inventory management and optimization platform", "category": "Electronics", "price": 399.99, "stock_quantity": 20}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Low stock products identified for optimization", "TV inventory level assessed", "Speaker inventory level assessed", "Coffee maker inventory level assessed", "TV stock optimized to 25 units", "Speaker stock optimized to 40 units", "Coffee maker stock optimized to 35 units", "TV product specifications verified", "Speaker product specifications verified", "Coffee maker product specifications verified", "TV price optimized to $599.99", "Speaker price optimized to $159.99", "Coffee maker price optimized to $89.99", "Inventory optimization suite added with unique SKU", "Optimization impact on daily sales measured"
-        ]
+        outputs=[]
     ),
 
     # Advanced Employee Performance Management
@@ -2264,9 +2004,7 @@ TASKS = [
             Action(name="AddNewProduct", kwargs={"name": "Portfolio Analytics Platform", "description": "Comprehensive product portfolio analysis and management system", "category": "Electronics", "price": 299.99, "stock_quantity": 15}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Electronics portfolio analyzed for expansion assessment", "Home & Kitchen portfolio analyzed for comprehensive review", "Sports portfolio analyzed for complete portfolio coverage", "TV product specifications reviewed for premium positioning", "TV price optimized to $649.99 based on market analysis", "Coffee maker product specifications reviewed for competitive pricing", "Coffee maker price optimized to $94.99 based on market assessment", "Speaker product specifications reviewed for market alignment", "Speaker price optimized to $169.99 based on competitive analysis", "TV inventory level assessed for stock optimization", "TV stock optimized to 30 units based on demand analysis", "Coffee maker inventory level assessed for supply optimization", "Coffee maker stock optimized to 45 units based on demand assessment", "Speaker inventory level assessed for supply management", "Speaker stock optimized to 35 units based on demand analysis", "Portfolio analytics platform added with unique SKU", "Portfolio optimization impact on daily sales measured"
-        ]
+        outputs=[]
     ),
 
     # Advanced Customer Relationship Management
@@ -2289,9 +2027,7 @@ TASKS = [
             Action(name="ListAllEmployees", kwargs={}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1002"})
         ],
-        outputs=[
-            "All employees listed for performance assessment", "Employee performance profile for EMP-1002 retrieved", "Employee performance profile for EMP-1004 retrieved", "Employee performance profile for EMP-1008 retrieved", "EMP-1002 status updated to training", "EMP-1004 status updated to active", "EMP-1008 status updated to mentor", "Performance manager added as specialist", "Analytics coordinator added as specialist", "Underperforming employee removed", "Updated employee roster verified", "Final performance status for EMP-1002 confirmed"
-        ]
+        outputs=[]
     ),
 
     # Strategic Product Portfolio Management
@@ -2315,9 +2051,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5006", "points_to_add": 200}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5005"})
         ],
-        outputs=[
-            "Customer relationship profile for CUST-5005 retrieved", "Customer relationship profile for CUST-5006 retrieved", "Customer relationship profile for CUST-5007 retrieved", "Transaction history for CUST-5005 analyzed", "Transaction history for CUST-5006 analyzed", "CUST-5005 upgraded to gold membership", "CUST-5006 upgraded to silver membership", "CUST-5007 upgraded to bronze membership", "Premium electronics sale recorded for CUST-5005", "High-value audio equipment sale recorded for CUST-5006", "400 loyalty points added to CUST-5005", "200 loyalty points added to CUST-5006", "Updated customer relationship profile for CUST-5005 retrieved"
-        ]
+        outputs=[]
     ),
 
     # Strategic Product Development Innovation
@@ -2344,9 +2078,7 @@ TASKS = [
             Action(name="AddNewProduct", kwargs={"name": "Innovation Hub Platform", "description": "Advanced product development and innovation management system", "category": "Electronics", "price": 499.99, "stock_quantity": 25}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Electronics product development catalog analyzed", "Home & Kitchen product development catalog analyzed", "TV product specifications reviewed for innovation", "Coffee maker product specifications reviewed for innovation", "Speaker product specifications reviewed for innovation", "TV price optimized to $699.99 for premium positioning", "Coffee maker price optimized to $99.99 for market competitiveness", "Speaker price optimized to $179.99 for value proposition", "TV inventory level assessed for development planning", "Coffee maker inventory level assessed for development planning", "Speaker inventory level assessed for development planning", "TV stock optimized to 35 units for development", "Coffee maker stock optimized to 50 units for development", "Speaker stock optimized to 40 units for development", "Innovation hub platform added with unique SKU", "Product development impact on daily sales measured"
-        ]
+        outputs=[]
     ),
 
     # Strategic Market Analysis Intelligence
@@ -2374,9 +2106,7 @@ TASKS = [
             Action(name="AddNewProduct", kwargs={"name": "Market Intelligence Suite", "description": "Comprehensive market analysis and competitive intelligence platform", "category": "Electronics", "price": 399.99, "stock_quantity": 20}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Electronics market intelligence analyzed", "Sports market intelligence analyzed", "Books market intelligence analyzed", "TV market specifications reviewed", "Speaker market specifications reviewed", "Coffee maker market specifications reviewed", "TV price optimized to $749.99 for market positioning", "Speaker price optimized to $189.99 for market competitiveness", "Coffee maker price optimized to $109.99 for market value", "TV inventory level assessed for market analysis", "Speaker inventory level assessed for market analysis", "Coffee maker inventory level assessed for market analysis", "TV stock optimized to 40 units for market demand", "Speaker stock optimized to 45 units for market demand", "Coffee maker stock optimized to 55 units for market demand", "Market intelligence suite added with unique SKU", "Market intelligence impact on daily sales measured"
-        ]
+        outputs=[]
     ),
 
     # Advanced Customer Success Retention
@@ -2400,9 +2130,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5009", "points_to_add": 500}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5008"})
         ],
-        outputs=[
-            "Customer success profile for CUST-5008 retrieved", "Customer success profile for CUST-5009 retrieved", "Customer success profile for CUST-5010 retrieved", "Transaction history for CUST-5008 analyzed", "Transaction history for CUST-5009 analyzed", "CUST-5008 upgraded to platinum membership", "CUST-5009 upgraded to gold membership", "CUST-5010 upgraded to silver membership", "Premium electronics sale recorded for CUST-5008", "High-value audio equipment sale recorded for CUST-5009", "800 loyalty points added to CUST-5008", "500 loyalty points added to CUST-5009", "Updated customer success profile for CUST-5008 retrieved"
-        ]
+        outputs=[]
     ),
 
     # Strategic Business Intelligence Analytics
@@ -2428,9 +2156,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5001", "points_to_add": 700}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Business intelligence baseline sales for 2025-06-05 established", "Business intelligence comparative sales for 2025-06-06 retrieved", "Low stock products identified for business intelligence", "TV inventory level assessed for business intelligence", "Coffee maker inventory level assessed for business intelligence", "Speaker inventory level assessed for business intelligence", "TV stock optimized to 30 units for business intelligence", "Coffee maker stock optimized to 40 units for business intelligence", "Speaker stock optimized to 35 units for business intelligence", "CUST-5001 customer profile retrieved for business intelligence", "CUST-5002 customer profile retrieved for business intelligence", "Premium electronics sale recorded for CUST-5001", "High-value audio equipment sale recorded for CUST-5002", "700 loyalty points added to CUST-5001", "Updated business intelligence sales for 2025-06-05 measured"
-        ]
+        outputs=[]
     ),
 
     # Strategic Digital Transformation
@@ -2458,9 +2184,7 @@ TASKS = [
             Action(name="AddNewProduct", kwargs={"name": "Digital Transformation Suite", "description": "Complete digital transformation and modernization platform", "category": "Electronics", "price": 799.99, "stock_quantity": 35}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Electronics digital transformation catalog analyzed", "Home & Kitchen digital transformation catalog analyzed", "Sports digital transformation catalog analyzed", "TV digital transformation specifications reviewed", "Coffee maker digital transformation specifications reviewed", "Speaker digital transformation specifications reviewed", "TV price optimized to $849.99 for digital transformation", "Coffee maker price optimized to $129.99 for digital transformation", "Speaker price optimized to $229.99 for digital transformation", "TV inventory level assessed for digital transformation", "Coffee maker inventory level assessed for digital transformation", "Speaker inventory level assessed for digital transformation", "TV stock optimized to 50 units for digital transformation", "Coffee maker stock optimized to 60 units for digital transformation", "Speaker stock optimized to 55 units for digital transformation", "Digital transformation suite added with unique SKU", "Digital transformation impact on daily sales measured"
-        ]
+        outputs=[]
     ),
 
     # Advanced Operational Excellence
@@ -2484,9 +2208,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5007", "points_to_add": 450}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"})
         ],
-        outputs=[
-            "Operational excellence baseline sales for 2025-06-05 established", "All employees listed for operational excellence assessment", "CUST-5006 customer profile retrieved for operational excellence", "CUST-5007 customer profile retrieved for operational excellence", "CUST-5008 customer profile retrieved for operational excellence", "CUST-5006 upgraded to gold membership", "CUST-5007 upgraded to silver membership", "CUST-5008 upgraded to bronze membership", "Premium electronics sale recorded for CUST-5006", "High-value audio equipment sale recorded for CUST-5007", "750 loyalty points added to CUST-5006", "450 loyalty points added to CUST-5007", "Updated operational excellence sales for 2025-06-05 measured"
-        ]
+        outputs=[]
     ),
 
     # Sales Analytics
@@ -2507,10 +2229,7 @@ TASKS = [
             Action(name="UpdateProductStock", kwargs={"sku": "GROC-GRNLBR12", "new_stock_quantity": 85}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-07"})
         ],
-        outputs=[
-            "Sales total for 2025-06-05 assessed for daily performance", "Sales total for 2025-06-06 compared with previous day", "200 points added to customer based on combined sales performance", "Customer details verified for status",
-            "Transactions analyzed for purchase history", "Transaction details verified for status", "Transaction status updated to completed", "Granola bar inventory level assessed", "Granola bar stock updated to 85", "Sales performance assessed for business analysis"
-        ]
+        outputs=[]
     ),
 
 ]

@@ -17,7 +17,7 @@ TASKS = [
         Action(name="NotifyUser", kwargs={"recipient_user_id": "res_02", "message_content": "Your new project 'AI for Drug Discovery' has been created with project ID proj_ai_drug_discovery. It is funded by the 'Medical Research Council'."}),
         Action(name="FindProjects", kwargs={"project_id": "proj_ai_drug_discovery"})
     ],
-    outputs=['"project_name": "AI for Drug Discovery"', '"lead_researcher_id": "res_02"', '"funding_source_id": "fs_03"', '"linked_articles": [\n    "art_03",\n    "art_14"\n  ]']
+    outputs=[]
     ),
     Task(
         annotator="0",
@@ -37,10 +37,7 @@ TASKS = [
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_02", "article_id": "art_04", "notes": "Submission status updated to 'under_review' after assigning a new reviewer.", "relevance": "medium"}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_02"})
         ],
-        outputs=[
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n    "res_07"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -58,9 +55,7 @@ TASKS = [
             Action(name="FindUsers", kwargs={"user_id": "res_01"}),
             Action(name="FindUsers", kwargs={"user_id": "res_02"})
         ],
-        outputs=[
-            '"summary": "This paper explores the evolution of transformer architectures and their application in generating code across multiple programming languages. We analyze the efficiency and accuracy of the latest models."'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -77,10 +72,7 @@ TASKS = [
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_03", "article_id": "art_02", "notes": "Project funding source depleted and replaced. Status moved to on_hold pending confirmation.", "relevance": "high"}),
             Action(name="FindProjects", kwargs={"project_id": "proj_01"})
         ],
-        outputs=[
-            '"status": "on_hold"',
-            '"funding_source_id": "fs_09"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -98,10 +90,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_04", "message_content": "Based on your new interest in AI, you may find this article interesting: 'Advances in Language Models for Code Generation'..."}),
             Action(name="GetUserSubscriptions", kwargs={"user_id": "res_04"})
         ],
-        outputs=[
-            '"topic": "Biomedicine"', # assumindo que já está inscrita em biomedicina. subscriptions.json confirma.
-            '"topic": "AI"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -117,11 +106,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_02", "message_content": "Your project 'Next-Generation CRISPR Technologies' is complete. Your preferences and subscriptions have been updated."}),
             Action(name="FindProjects", kwargs={"project_id": "proj_03"}),
         ],
-        outputs=[
-            '"project_id": "proj_03"',
-            '"status": "completed"',
-            '"end_date": "2025-06-28"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -145,10 +130,7 @@ TASKS = [
             # Adicionando uma ação de modificação: create_research_log
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_01", "article_id": "art_01", "notes": "Activity report compiled for audit.", "relevance": "medium"}),
         ],
-        outputs=[
-            '"log_id": "log_001"',
-            '"log_id": "log_008"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -166,12 +148,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_12", "message_content": "You have been added to the team for a new project: 'Astro-AI Research Initiative'."}),
             Action(name="FindProjects", kwargs={"project_id": "proj_astro_ai_initiative"})
         ],
-        outputs=[
-            '"project_name": "Astro-AI Research Initiative"',
-            '"lead_researcher_id": "res_11"',
-            '"team_members": [\n    "res_12"\n  ]',
-            '"funding_source_id": "fs_09"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -192,10 +169,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_01", "message_content": "A reviewer has been assigned to your submission 'Multimodal AI for Medical Imaging Analysis'."}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_03"}),
         ],
-        outputs=[
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n    "res_05",\n    "res_04",\n    "res_12"\n  ]' # Sub_03 já tem res_05 e res_04. res_12 será adicionado.
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -212,10 +186,7 @@ TASKS = [
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_06", "article_id": "art_06", "notes": "Project fully funded and activated.", "relevance": "high"}),
             Action(name="FindProjects", kwargs={"project_id": "proj_04"}),
         ],
-        outputs=[
-            '"status": "active"',
-            '"funding_source_id": "fs_10"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -235,11 +206,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_06", "message_content": "You've been added to the 'Quantum Cryptography Networks' project. Here is a summary of a key article: An updated analysis of quantum computing..."}),
             Action(name="FindProjects", kwargs={"project_id": "proj_06"}),
         ],
-        outputs=[
-            '"status": "active"',
-            '"linked_articles": [\n    "art_10",\n    "art_02",\n    "art_07"\n  ]',
-            '"team_members": [\n    "res_06"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -261,10 +228,7 @@ TASKS = [
             Action(name="GetUserSubscriptions", kwargs={"user_id": "res_01"}),
             Action(name="GetUserSubscriptions", kwargs={"user_id": "res_02"})
         ],
-        outputs=[
-            '"log_id": "log_002"',
-            '"log_id": "log_003"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -279,10 +243,7 @@ TASKS = [
             Action(name="UpdateUserPreferences", kwargs={"user_id": "res_05", "ui_theme": "dark"}),
             Action(name="GetUserPreferences", kwargs={"user_id": "res_05"})
         ],
-        outputs=[
-            '"user_id": "res_05"',
-            '"ui_theme": "dark"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -304,11 +265,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_03", "message_content": "Congratulations, your submission 'Quantum Cryptography Protocols' has been accepted for publication!"}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_04"}),
         ],
-        outputs=[
-            '"submission_id": "sub_04"',
-            '"status": "accepted"',
-            '"assigned_reviewers": [\n    "res_02",\n    "res_06",\n    "res_01",\n    "res_12"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -326,10 +283,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_02", "message_content": "For future collaboration, consider Dr. Thomas Anderson. She recently published 'CRISPR-Cas12 Evolution...': A comparative analysis..."}),
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_02", "article_id": "art_14", "notes": "Suggested Dr. Thomas Anderson for collaboration on art_14.", "relevance": "medium"})
         ],
-        outputs=[
-            '"recipient_user_id": "res_02"',
-            '"message_content": "For future collaboration, consider Dr. Thomas Anderson. She recently published \'CRISPR-Cas12 Evolution...\': A comparative analysis..."'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -345,10 +299,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_17", "message_content": "You have been assigned to review 'Limits of Quantum Computing...'."}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_01"})
         ],
-        outputs=[
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n    "res_01",\n    "res_17"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -366,10 +317,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_01", "message_content": "A reviewer has been assigned to your submission 'Multimodal AI for Medical Imaging Analysis'."}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_03"}),
         ],
-        outputs=[
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n    "res_05",\n    "res_04",\n    "res_12"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -392,12 +340,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_04", "message_content": "You have been added to project 'CRISPR Gene Therapy Trials'."}),
             Action(name="FindProjects", kwargs={"project_id": "proj_crispr_trials"})
         ],
-        outputs=[
-            '"project_name": "CRISPR Gene Therapy Trials"',
-            '"lead_researcher_id": "res_10"',
-            '"funding_source_id": "fs_03"',
-            '"status": "active"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -416,11 +359,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_04", "message_content": "You have been assigned to review the submission 'New Biomarkers for Early Detection'."}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_02"})
         ],
-        outputs=[
-            '"submission_id": "sub_02"',
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n    "res_04"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -435,10 +374,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_01", "message_content": "A new review with 'major_revisions' has been submitted for your article 'Multimodal AI...'. Please revise your manuscript."}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_03"}),
         ],
-        outputs=[
-            '"submission_id": "sub_03"',
-            '"status": "under_review"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -455,10 +391,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_16", "message_content": "Your profile has been updated and you've been added to the 'Federated AI Systems' project."}),
             Action(name="FindProjects", kwargs={"project_id": "proj_04"}),
         ],
-        outputs=[
-            '"project_id": "proj_04"',
-            '"team_members": [\n    "res_01",\n    "res_16"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -477,11 +410,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_06", "message_content": "Your project proposal 'Next-Gen Federated Learning' has been created."}),
             Action(name="FindProjects", kwargs={"project_id": "proj_next_gen_fl"}),
         ],
-        outputs=[
-            '"project_name": "Next-Gen Federated Learning"',
-            '"status": "planning"',
-            '"funding_source_id": "fs_08"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -498,10 +427,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_01", "message_content": "FYI: A new major grant from the Medical Research Council is now funding projects in Biomedicine."}),
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_01", "article_id": "art_01", "notes": "Noted new funding in Biomedicine (Medical Research Council grant) for collaboration potential.", "relevance": "medium"})
         ],
-        outputs=[
-            '"recipient_user_id": "res_01"',
-            '"message_content": "FYI: A new major grant from the Medical Research Council is now funding projects in Biomedicine."'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -524,10 +450,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_13", "message_content": "You have been assigned to review 'Personalized Cancer Treatment...'."}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_05"})
         ],
-        outputs=[
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n    "res_07",\n    "res_10",\n    "res_13"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -543,10 +466,7 @@ TASKS = [
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_02", "article_id": "art_09", "notes": "Strategic Gap: As a highly cited researcher, should consider subscribing to the 'AI' topic due to its growing relevance in Biomedicine.", "relevance": "high"}),
             Action(name="FindProjects", kwargs={"lead_researcher_id": "res_02"}),
         ],
-        outputs=[
-            '"project_id": "proj_03"',
-            '"project_name": "Next-Generation CRISPR Technologies"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -569,11 +489,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_03", "message_content": "You've been added to the 'Quantum AI Synergy' project."}),
             Action(name="FindProjects", kwargs={"project_id": "proj_quantum_ai_synergy"}),
         ],
-        outputs=[
-            '"project_name": "Quantum AI Synergy"',
-            '"status": "active"',
-            '"team_members": [\n    "res_03"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -594,10 +510,7 @@ TASKS = [
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_02", "article_id": "art_04", "notes": "Congratulations on navigating the review process. Your article 'New Biomarkers for Early Detection' is now accepted.", "relevance": "high"}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_02"}),
         ],
-        outputs=[
-            '"submission_id": "sub_02"',
-            '"status": "accepted"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -614,10 +527,7 @@ TASKS = [
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_05", "article_id": "art_08", "notes": "Project has been automatically matched and assigned funding source fs_04.", "relevance": "high"}),
             Action(name="FindProjects", kwargs={"project_id": "proj_02"}),
         ],
-        outputs=[
-            '"project_id": "proj_02"',
-            '"funding_source_id": "fs_04"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="new_task_creator",
@@ -637,12 +547,7 @@ TASKS = [
             Action(name="GetUserPreferences", kwargs={"user_id": "res_01"}), # 1 edge (output find_users -> user_id)
             Action(name="LookupSubmissions", kwargs={"article_id": "art_12"}) # 1 edge (literal -> art_id)
         ],
-        outputs=[
-            '"user_id": "res_01"',
-            '"ui_theme": "light"',
-            '"submission_id": "sub_03"',
-            '"status": "under_review"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -660,10 +565,7 @@ TASKS = [
             Action(name="UpdateUserSubscriptions", kwargs={"user_id": "res_04", "topic": "General Science", "action": "add"}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_02"})
         ],
-        outputs=[
-            '"submission_id": "sub_02"',
-            '"status": "accepted"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -681,10 +583,7 @@ TASKS = [
             Action(name="FindUsers", kwargs={"user_id": "res_01"}),
             Action(name="FindPublications", kwargs={"article_id": "art_02"})
         ],
-        outputs=[
-            '"submission_id": "sub_01"',
-            '"status": "under_review"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -705,12 +604,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_02", "message_content": "New collaboration opportunity: 'Quantum Health Horizons' project initiated with Prof. James Wilson."}),
             Action(name="FindProjects", kwargs={"project_id": "proj_quantum_health"}) # Corrigido para 'proj_quantum_health'
         ],
-        outputs=[
-            '"project_name": "Quantum Health Horizons"',
-            '"lead_researcher_id": "res_02"',
-            '"team_members": [\n    "res_03"\n  ]',
-            '"funding_source_id": "fs_05"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -730,11 +624,7 @@ TASKS = [
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_06", "article_id": "art_06", "notes": "Project funding compliance verified and updated.", "relevance": "high"}),
             Action(name="FindProjects", kwargs={"project_id": "proj_04"})
         ],
-        outputs=[
-            '"project_id": "proj_04"',
-            '"funding_source_id": "fs_10"',
-            '"notification_channel": "in_app"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -753,10 +643,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_01", "message_content": "URGENT: A plagiarism concern has been raised regarding your article 'Advances in Language Models for Code Generation'."}),
             Action(name="GetUserSubscriptions", kwargs={"user_id": "res_01"})
         ],
-        outputs=[
-            '"user_id": "res_01"',
-            '"topic": "AI"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -779,12 +666,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_02", "message_content": "New collaboration opportunity: Project 'Quantum Health Horizons' initiated with Prof. James Wilson, funded by Innovation Technology Grant."}),
             Action(name="FindProjects", kwargs={"project_id": "proj_quantum_health"})
         ],
-        outputs=[
-            '"project_name": "Quantum Health Horizons"',
-            '"lead_researcher_id": "res_02"',
-            '"team_members": [\n    "res_03"\n  ]',
-            '"funding_source_id": "fs_05"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -800,11 +682,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_02", "message_content": "Your completed project status and profile have been updated."}),
             Action(name="FindProjects", kwargs={"project_id": "proj_03"})
         ],
-        outputs=[
-            '"project_id": "proj_03"',
-            '"status": "completed"',
-            '"end_date": "2025-06-28"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="new_task_creator",
@@ -821,10 +699,7 @@ TASKS = [
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_03", "message_content": "Project 'Quantum Computing Applications' data integrity review complete. Status and linked articles updated."}),
             Action(name="FindProjects", kwargs={"project_id": "proj_01"})
         ],
-        outputs=[
-            '"project_id": "proj_01"',
-            '"status": "active"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="new_task_creator",
@@ -839,12 +714,7 @@ TASKS = [
             Action(name="GetUserPreferences", kwargs={"user_id": "res_09"}),
             Action(name="GetUserSubscriptions", kwargs={"user_id": "res_09"})
         ],
-        outputs=[
-            '"user_id": "res_09"',
-            '"ui_theme": "dark"',
-            '"notification_channel": "email"',
-            '"topic": "Biomedicine"'
-        ]
+        outputs=[]
     ),
 Task(
         annotator="new_task_creator",
@@ -861,10 +731,7 @@ Task(
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_03", "message_content": "Project 'Quantum Computing Applications' data integrity review complete. Status and linked articles updated."}),
             Action(name="FindProjects", kwargs={"project_id": "proj_01"})
         ],
-        outputs=[
-            '"project_id": "proj_01"',
-            '"status": "active"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="new_task_creator",
@@ -879,11 +746,6 @@ Task(
             Action(name="GetUserPreferences", kwargs={"user_id": "res_09"}),
             Action(name="GetUserSubscriptions", kwargs={"user_id": "res_09"})
         ],
-        outputs=[
-            '"user_id": "res_09"',
-            '"ui_theme": "dark"',
-            '"notification_channel": "email"',
-            '"topic": "Biomedicine"'
-        ]
+        outputs=[]
     )
 ]

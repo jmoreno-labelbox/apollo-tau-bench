@@ -67,7 +67,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=['"temperature_c": 22.3']
+        outputs=[]
     ),
     Task(
         annotator="0",

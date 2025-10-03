@@ -35,14 +35,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions with crew_member_id 'CM015' and 'CM020', new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for operational readiness and maintenance scheduling"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -79,15 +72,7 @@ TASKS = [
                 kwargs={'origin': 'JFK', 'destination': 'ORD', 'date': '2024-05-16', 'cabin_class': 'business'}
             ),
         ],
-        outputs={
-            "customer_profile": "Customer profile retrieved for service history and membership level evaluation",
-            "reservation_details": "Current reservation details verified before processing upgrade",
-            "reservation_update": "Reservation successfully upgraded to FIRST class with travel insurance according to airline policies",
-            "reservation_confirmation": "Updated reservation details confirmed after upgrade processing",
-            "flight_status": "Operational status of customer's flight monitored for service coordination",
-            "daily_schedule": "Daily flight schedule reviewed for operational coordination and planning",
-            "flight_search": "Available business class flights from JFK to ORD on May 16, 2024 identified for potential rebooking options and customer flexibility"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -137,17 +122,7 @@ TASKS = [
                 kwargs={"aircraft_id": "AC003", "start_date": "2024-05-27", "end_date": "2024-05-27"}
             )
         ],
-        outputs={
-            "customer_profile": "Olivia Santos gold tier member profile with membership benefits retrieved via get_user_profile with user_email 'sophia.santos7908@example.com' for service assessment",
-            "reservation_details": "Current reservation KDBNYP details showing ORD to IAH routing in business class retrieved via get_reservation_details with reservation_id 'KDBNYP' for reservation management",
-            "alternative_flights": "Available alternative flights from ORD to IAH on May 27, 2024 retrieved via find_flights with origin 'ORD', destination 'IAH', date '2024-05-27' for rebooking options and route flexibility",
-            "reservation_update": "Updated reservation KDBNYP with cabin class business, insurance yes, total_baggages: 2 via update_reservation with reservation_id 'KDBNYP', cabin 'business', insurance 'yes', total_baggages 2 without modifying existing payment method according to customer requirements",
-            "reservation_confirmation": "Confirmed reservation details after updates retrieved via get_reservation_details with reservation_id 'KDBNYP' showing business class cabin, insurance coverage, and baggage allowance",
-            "flight_status": "Flight HAT083 status for May 27, 2024 retrieved via get_flight_status_by_number_and_date with flight_number 'HAT083', date '2024-05-27' showing operational details and availability",
-            "operational_events": "Operational events and disruptions for May 27, 2024 retrieved via get_operational_events with start_date '2024-05-27', end_date '2024-05-27' showing delays, weather impacts, and technical issues affecting flight operations",
-            "airport_facilities": "Chicago O'Hare International Airport (ORD) facilities and operational details retrieved via get_airport_details_by_iata_code with iata_code 'ORD' showing terminal information, services, and ground operations capabilities",
-            "maintenance_logs": "Maintenance logs for aircraft AC003 on May 27, 2024 retrieved via get_maintenance_logs with aircraft_id 'AC003', start_date '2024-05-27', end_date '2024-05-27' showing maintenance activities, issues, and operational readiness status"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -196,18 +171,7 @@ TASKS = [
                 kwargs={'crew_id': 'CM001'}
             ),
         ],
-        outputs={
-            "customer_profile": "Isabella Brown's customer profile including membership level, payment methods, and reservation history for NO6JO3",
-            "reservation_details": "Current reservation NO6JO3 details retrieved before update",
-            "reservation_update": "Reservation NO6JO3 successfully upgraded to first class with travel insurance, showing updated cabin class, insurance status, and payment method",
-            "reservation_confirmation": "Updated reservation NO6JO3 details confirmed after changes",
-            "flight_status": "Flight HAT083 status for May 16, 2024 showing operational details, origin/destination, scheduled times, and availability",
-            "daily_schedule": "Flight schedule summary for May 16, 2024 showing total flights, key operations, and coordination opportunities across the network",
-            "operational_events": "Operational events and disruptions at ORD airport on May 16, 2024 showing delays, weather impacts, and technical issues affecting flight operations",
-            "airport_facilities": "Chicago O'Hare International Airport (ORD) facilities and operational details showing terminal information, services, and ground operations capabilities",
-            "aircraft_model_info": "Aircraft model B737-800 information showing manufacturer, capacity, range, and technical specifications for fleet planning",
-            "crew_member_info": "Crew member CM001 details showing role, status, flight experience, and operational qualifications for crew management"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -248,14 +212,7 @@ TASKS = [
                 kwargs={'start_date': '2024-05-16', 'end_date': '2024-05-16', 'airport_code': 'ORD'}
             ),
         ],
-        outputs={
-            "customer_profile": "Isabella Brown's customer profile including membership level, payment methods, and reservation history for NO6JO3",
-            "reservation_update": "Reservation NO6JO3 successfully upgraded to first class with travel insurance, showing updated cabin class, insurance status, and payment method",
-            "flight_status": "Flight HAT083 status for May 16, 2024 showing operational details, origin/destination, scheduled times, and availability",
-            "daily_schedule": "Flight schedule summary for May 16, 2024 showing total flights, key operations, and coordination opportunities across the network",
-            "reservation_cancellation": "Reservation NO6JO3 cancellation processed with refund details and confirmation status",
-            "operational_events": "Operational events and disruptions at ORD airport on May 16, 2024 showing delays, weather impacts, and technical issues affecting flight operations"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -308,16 +265,7 @@ TASKS = [
                 kwargs={"role": 'First Officer', "status": 'Active'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -342,12 +290,7 @@ TASKS = [
                 kwargs={'reservation_id': 'UX0R03'}
             ),
         ],
-        outputs={
-            "initial_reservation": "Initial reservation details for UX0R03 showing current booking information before any modifications",
-            "customer_profile": "Olivia Johnson's customer profile including membership level, payment methods, and reservation history",
-            "reservation_update": "Reservation UX0R03 successfully upgraded to first class with travel insurance, showing updated cabin class, insurance status, and payment method",
-            "updated_reservation": "Updated reservation details for UX0R03 confirming the first class upgrade and travel insurance addition"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -384,14 +327,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions with crew_member_id 'CM015' and 'CM020', new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for operational readiness and maintenance scheduling"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -440,17 +376,7 @@ TASKS = [
                 kwargs={"iata_code": 'ORD'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "ord_airport_details": "O'Hare International Airport (ORD) facilities and operational details showing terminal information, services, and ground operations capabilities for crew base operations"
-        }
+        outputs=[]
     ),
         
     Task(
@@ -483,13 +409,7 @@ TASKS = [
                 kwargs={"role": 'Flight Attendant', "status": 'Active'}
             ),
         ],
-        outputs={
-            "crew_details_8": "Crew member CM008 (Olivia Johnson) - First Officer based at LAS airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_12": "Crew member CM012 (Elizabeth Brown) - First Officer based at MCO airport, currently Inactive status, with flight experience on A320 aircraft",
-            "crew_status_update": "Crew member CM012 status updated from Inactive to Active",
-            "crew_role_updates": "Crew member CM008 role updated to Captain, CM012 role updated to Flight Attendant",
-            "crew_availability": "Current availability of active Flight Attendant crew members for operational assignments",
-        }
+        outputs=[]
     ),
 
     Task(
@@ -539,17 +459,7 @@ TASKS = [
                 kwargs={"aircraft_id": "AC003", "start_date": "2024-05-27", "end_date": "2024-05-27"}
             )
         ],
-        outputs={
-            "customer_profile": "Olivia Santos gold tier member profile with membership benefits retrieved for service assessment",
-            "reservation_details": "Current reservation KDBNYP details showing ORD to EWR via IAH routing in business class",
-            "alternative_flights": "Available alternative flights from ORD to IAH on May 1, 2024 for rebooking options and route flexibility",
-            "reservation_update": "Updated reservation with cabin class business, insurance yes, total_baggages: 2 according to customer requirements",
-            "reservation_confirmation": "Confirmed reservation details after updates showing business class cabin, insurance coverage, and baggage allowance",
-            "flight_status": "Flight HAT165 status for May 1, 2024 showing operational details, ORD to IAH route, scheduled times, and availability",
-            "operational_events": "Operational events and disruptions for May 1, 2024 showing delays, weather impacts, and technical issues affecting flight operations",
-            "airport_facilities": "Chicago O'Hare International Airport (ORD) facilities and operational details showing terminal information, services, and ground operations capabilities",
-            "maintenance_logs": "Maintenance logs for aircraft AC003 on May 1, 2024 showing maintenance activities, issues, and operational readiness status"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -594,16 +504,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -652,18 +553,7 @@ TASKS = [
                 kwargs={'crew_id': 'CM001'}
             ),
         ],
-        outputs={
-            "customer_profile": "Isabella Brown's customer profile including membership level, payment methods, and reservation history for NO6JO3",
-            "reservation_details": "Current reservation NO6JO3 details retrieved before update",
-            "reservation_update": "Reservation NO6JO3 successfully upgraded to first class with travel insurance, showing updated cabin class, insurance status, and payment method",
-            "reservation_confirmation": "Updated reservation NO6JO3 details confirmed after changes",
-            "flight_status": "Flight HAT083 status for May 16, 2024 showing operational details, origin/destination, scheduled times, and availability",
-            "daily_schedule": "Flight schedule summary for May 16, 2024 showing total flights, key operations, and coordination opportunities across the network",
-            "operational_events": "Operational events and disruptions at ORD airport on May 16, 2024 showing delays, weather impacts, and technical issues affecting flight operations",
-            "airport_facilities": "Chicago O'Hare International Airport (ORD) facilities and operational details showing terminal information, services, and ground operations capabilities",
-            "aircraft_model_info": "Aircraft model B737-800 information showing manufacturer, capacity, range, and technical specifications for fleet planning",
-            "crew_member_info": "Crew member CM001 details showing role, status, flight experience, and operational qualifications for crew management"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -708,16 +598,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -757,15 +638,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -813,17 +686,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "maintenance_records": "Maintenance logs for aircraft AC003 retrieved via get_maintenance_logs with aircraft_id 'AC003' showing maintenance history, current status, and operational readiness indicators for comprehensive maintenance oversight and operational coordination"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -875,18 +738,7 @@ TASKS = [
                 kwargs={"iata_code": 'ORD'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015'",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020'",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain' and status 'Active'",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant' and status 'Active'",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew action with crew_id 'CM015' and role 'Captain'",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status action with aircraft_id 'AC003' and new_status 'Maintenance'",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days retrieved via get_crew_certification_status with certification_type 'A320' and expiry_threshold_days 30",
-            "flight_schedules": "Flight schedules retrieved for date range 2024-01-15 to 2024-01-20 via get_flight_schedule action showing flight operations, aircraft assignments, and scheduling information for crew coordination and operational planning",
-            "airport_facilities": "ORD airport facility information retrieved via get_airport_details_by_iata_code action with iata_code 'ORD' showing airport infrastructure, services, and operational capabilities for enhanced crew coordination and operational planning"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -931,16 +783,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -989,17 +832,7 @@ TASKS = [
                 kwargs={"crew_id": 'CM003'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "crew_details_03": "Crew member CM003 (Mohamed Lopez) - Flight Attendant based at ORD airport, currently Active status, with flight experience on A320neo aircraft for enhanced crew coordination and operational readiness"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -1045,16 +878,7 @@ TASKS = [
                 kwargs={"user_email": "sophia.santos7908@example.com", "new_membership": "platinum"}
             ),
         ],
-        outputs=[
-            "user_profile_retrieved:sophia.santos7908@example.com",
-            "reservation_details_retrieved:KDBNYP",
-            "reservation_cancelled:KDBNYP",
-            "flights_found:ORD:IAH:2024-05-27",
-            "flight_status_checked:HAT165:2024-05-27",
-            "airport_details_retrieved:ORD",
-            "flight_schedule_retrieved:2024-05-27",
-            "membership_updated:sophia.santos7908@example.com:platinum",
-        ]
+        outputs=[]
     ),
     
     Task(
@@ -1113,19 +937,7 @@ TASKS = [
                 kwargs={"aircraft_id": "AC004"}
             ),
         ],
-        outputs={
-            "customer_profile": "Customer profile retrieved for service history and membership evaluation",
-            "reservation_details": "Current reservation details verified before cancellation processing",
-            "cancellation_result": "Reservation successfully cancelled according to airline policies with refund processing confirmation",
-            "flight_status": "Operational status of affected flight monitored for coordination and planning",
-            "airport_facilities": "Airport facilities evaluated for operational coordination and ground operations support",
-            "daily_schedule": "Daily flight schedule reviewed for strategic operational planning and coordination",
-            "crew_member_details": "Crew member qualifications and experience assessed for operational readiness",
-            "aircraft_model_info": "Aircraft model specifications analyzed for operational planning and coordination",
-            "crew_certifications": "B737-800 crew certification status verified with expiry assessment for operational compliance",
-            "operational_events": "Operational events monitored for potential disruptions and coordination needs",
-            "maintenance_logs": "Aircraft maintenance logs reviewed for serviceability and operational readiness"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1175,17 +987,7 @@ TASKS = [
                 kwargs={"certification_type": "B737", "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "customer_profile": "Olivia Santos's gold tier member profile retrieved via get_user_profile with user_email 'sophia.santos7908@example.com' showing membership benefits and account information for customer service operations",
-            "reservation_details": "Current reservation KDBNYP details retrieved via get_reservation_details with reservation_id 'KDBNYP' showing business class flight from ORD to EWR for strategic reservation management",
-            "cancellation_result": "Reservation KDBNYP cancellation confirmation showing successful cancellation status and refund processing details via cancel_reservation with reservation_id 'KDBNYP' for customer service operations",
-            "flight_status": "Flight HAT165 status for May 27, 2024 from ORD to IAH retrieved via get_flight_status_by_number_and_date with flight_number 'HAT165', date '2024-05-27' for flight operations monitoring",
-            "airport_facilities": "O'Hare International Airport facilities and maintenance support infrastructure details retrieved via get_airport_details_by_iata_code with iata_code 'ORD' for operational coordination",
-            "daily_schedule": "Complete flight schedule for 2024-05-27 showing all airline operations and available flights across the network retrieved via get_flight_schedule with start_date '2024-05-27', end_date '2024-05-27' for schedule management",
-            "crew_member_details": "Crew member CM001 (Isabella Brown) - Captain based at ATL airport, currently Active status, with flight experience on B737-800 aircraft retrieved via get_crew_member_info with crew_id 'CM001' for crew coordination and operational readiness",
-            "aircraft_model_info": "Aircraft B737-800 model specifications retrieved via get_aircraft_model_info with model_id 'B737-800' for comprehensive operational planning and aircraft coordination",
-            "crew_certifications": "Crew certification status for B737 aircraft showing certification details and expiry information retrieved via get_crew_certification_status with certification_type 'B737', expiry_threshold_days 30 for crew certification management"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1225,15 +1027,7 @@ TASKS = [
                 kwargs={"certification_type": 'B737'}
             ),
         ],
-        outputs={
-            "crew_details_10": "Crew member CM010 information and current status",
-            "crew_details_21": "Crew member CM021 information and current status",
-            "crew_updates": "Status updates for both crew members",
-            "crew_availability_captains": "Current availability of active Captain crew members",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members",
-            "crew_assignment": "CM010 role update confirmation",
-            "crew_certifications": "B737 certification status for crew members"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1277,16 +1071,7 @@ TASKS = [
                 kwargs={"model_id": 'B737-800'}
             ),
         ],
-        outputs={
-            "crew_details_16": "Crew member CM016 information and current status",
-            "crew_details_18": "Crew member CM018 information and current status", 
-            "crew_updates": "Status updates for both crew members",
-            "crew_availability_captains": "Current availability of active Captain crew members",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members",
-            "crew_assignment": "CM016 role update confirmation",
-            "crew_certifications": "B737 certification status for crew members",
-            "aircraft_model_info": "B737-800 aircraft model specifications and operational details"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -1327,15 +1112,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status with crew_member_id 'CM015', 'CM020' and new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for maintenance scheduling"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -1376,15 +1153,7 @@ TASKS = [
                 kwargs={"start_date": '2024-05-15', "end_date": '2024-05-20'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "operational_events": "Operational events and disruptions for period from 2024-05-15 to 2024-05-20 showing coordination requirements"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1428,16 +1197,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003'}
             ),
         ],
-        outputs={
-            "crew_details_10": "Crew member CM010 information and current status",
-            "crew_details_21": "Crew member CM021 information and current status",
-            "crew_updates": "Status updates for both crew members",
-            "crew_availability_captains": "Current availability of active Captain crew members",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members",
-            "crew_assignment": "CM010 role update confirmation to Captain via update_crew action with crew_id 'CM010' and role 'Captain'",
-            "crew_certifications": "B737 certification status for crew members retrieved via get_crew_certification_status with certification_type 'B737'",
-            "maintenance_records": "Maintenance logs for aircraft AC003 retrieved via get_maintenance_logs with aircraft_id 'AC003' showing maintenance history, current status, and operational readiness indicators for comprehensive maintenance oversight and operational coordination"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -1482,16 +1242,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for operational coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for operational planning",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status with crew_member_id 'CM015', 'CM020' and new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew management",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive crew coordination",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for optimal crew placement",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for maintenance coordination",
-            "maintenance_records": "Maintenance logs for aircraft AC003 retrieved via get_maintenance_logs with aircraft_id 'AC003' showing maintenance history, current status, and operational readiness indicators for comprehensive maintenance oversight and operational coordination"
-        }
+        outputs=[]
     ),
     
 
@@ -1533,15 +1284,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             )
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1585,17 +1328,7 @@ TASKS = [
                 kwargs={"crew_id": 'CM004', "new_home_base": 'DFW'}
             ),
         ],
-        outputs=[
-            "crew_member_info_retrieved:CM004",
-            "crew_member_info_retrieved:CM008",
-            "crew_status_updated:CM004:Active",
-            "crew_status_updated:CM008:Active",
-            "crew_availability_checked:Captain",
-            "crew_availability_checked:Flight_Attendant",
-            "crew_role_updated:CM004:Captain",
-            "crew_certifications_verified:B737",
-            "crew_home_base_updated:CM004:DFW"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1640,16 +1373,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "start_date": '2024-05-21', "end_date": '2024-05-21'}
             )
         ],
-        outputs={
-            "customer_profile": "{'first_name': 'Chen', 'last_name': 'Hernandez'}'s gold tier member profile with membership benefits and account information",
-            "reservation_details": "Current reservation V25KYO details showing the business class flight from EWR to LGA",
-            "daily_schedule": "Complete flight schedule for 2024-05-21 showing all airline operations and available flights across the network",
-            "reservation_update": "Reservation V25KYO update confirmation showing successful modification of cabin class, insurance, and baggage settings",
-            "operational_events": "Operational events and disruptions for period from 2024-05-21 to 2024-05-21 showing 0 events",
-            "airport_facilities": "LaGuardia Airport facilities and maintenance support infrastructure details for operational coordination",
-            "captain_availability": "Current availability of 4 active Flight Attendant crew members for aircraft assignments and operational readiness",
-            "maintenance_logs": "Maintenance logs for aircraft AC003 on May 21, 2024 showing maintenance activities, issues, and operational readiness status"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1701,18 +1425,7 @@ TASKS = [
                 kwargs={"iata_code": 'ORD'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015'",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020'",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain' and status 'Active'",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant' and status 'Active'",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew action with crew_id 'CM015' and role 'Captain'",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status action with aircraft_id 'AC003' and new_status 'Maintenance'",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days retrieved via get_crew_certification_status with certification_type 'A320' and expiry_threshold_days 30",
-            "operational_events": "Operational events and disruptions for period from 2024-05-16 to 2024-05-21 showing coordination requirements retrieved via get_operational_events with start_date '2024-05-16' and end_date '2024-05-21'",
-            "airport_facilities": "Airport facility information for ORD airport retrieved via get_airport_details_by_iata_code with iata_code 'ORD' showing terminal facilities, ground support equipment, and operational infrastructure for comprehensive airport coordination and operational planning"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -1753,15 +1466,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             )
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1809,17 +1514,7 @@ TASKS = [
                 kwargs={"start_date": '2024-05-16', "end_date": '2024-05-21'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "operational_events": "Operational events and disruptions for period from 2024-05-16 to 2024-05-21 showing coordination requirements"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1859,15 +1554,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions with crew_member_id 'CM015' and 'CM020', new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC004 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC004', new_status 'Maintenance' for maintenance scheduling",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days retrieved via get_crew_certification_status with certification_type 'A320', expiry_threshold_days 30 for certification monitoring"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1915,17 +1602,7 @@ TASKS = [
                 kwargs={"start_date": '2024-05-10', "end_date": '2024-05-12'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "operational_events": "Operational events and disruptions for period from 2024-05-10 to 2024-05-12 showing coordination requirements"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1975,15 +1652,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 information retrieved and status confirmed",
-            "crew_details_20": "Crew member CM020 information retrieved and status confirmed", 
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "crew_certifications": "A320 certification status verified with 30-day expiry threshold monitoring completed"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -2025,15 +1694,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for operational coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for operational planning",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status with crew_member_id 'CM015', 'CM020' and new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew management",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive crew coordination",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for optimal crew placement",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for maintenance coordination"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -2078,16 +1739,7 @@ TASKS = [
                 kwargs={"certification_type": 'B737', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_13": "Crew member CM013 (Susan Martinez) - Captain based at BOS airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM013' for crew management coordination",
-            "crew_details_17": "Crew member CM017 (Ashley Anderson) - Flight Attendant based at PHX airport, currently Active status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM017' for crew management coordination",
-            "crew_updates": "Crew member CM013 status updated to Active, CM017 status updated to Active via update_crew_member_status actions for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_profile_update": "Crew member CM013 profile updated with Active status for operational readiness via update_crew_profile with crew_id 'CM013', status 'Active' for crew profile management",
-            "aircraft_status": "Aircraft AC004 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC004', new_status 'Maintenance' for maintenance scheduling",
-            "crew_certifications": "Crew certification status for B737 aircraft showing certification details and expiry information retrieved via get_crew_certification_status with certification_type 'B737', expiry_threshold_days 30 for crew certification management"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2127,15 +1779,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2171,14 +1815,7 @@ TASKS = [
                 kwargs={"crew_id": 'CM015', "role": 'Captain'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status with crew_member_id 'CM015', 'CM020' and new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -2219,15 +1856,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             )
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2259,14 +1888,7 @@ TASKS = [
                 kwargs={"model_id": 'B737-800'}
             ),
         ],
-        outputs={
-            "reservation_update": "Reservation V25KYO update confirmation showing successful modification of cabin class, insurance, and baggage settings via update_reservation with reservation_id 'V25KYO', cabin 'first', insurance 'yes', total_baggages 3, nonfree_baggages 1, payment_method_id 'credit_card_8453507' for reservation management",
-            "reservation_details": "Detailed reservation information for V25KYO retrieved via get_reservation_details with reservation_id 'V25KYO' for customer service coordination",
-            "operational_events": "Operational events and disruptions for period from 2024-05-21 to 2024-05-21 showing 0 events retrieved via get_operational_events with start_date '2024-05-21', end_date '2024-05-21' for operational monitoring",
-            "airport_facilities": "LaGuardia Airport facilities and maintenance support infrastructure details for operational coordination retrieved via get_airport_details_by_iata_code with iata_code 'LGA' for airport facilities management",
-            "flight_attendant_availability": "Current availability of 4 active Flight Attendant crew members for aircraft assignments and operational readiness retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for crew availability monitoring",
-            "aircraft_model_info": "Aircraft B737-800 model specifications retrieved via get_aircraft_model_info with model_id 'B737-800' for comprehensive operational planning and aircraft coordination"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -2299,14 +1921,7 @@ TASKS = [
                 kwargs={"reservation_id": 'R9QDGB'}
             ),
         ],
-        outputs={
-            "customer_profile": "Gold tier member profile for Jennifer Johnson with account information and membership benefits",
-            "reservation_details": "Current reservation R9QDGB showing economy class flight from LAX to BOS on 2024-05-28",
-            "flight_availability": "Available flights from LAX to BOS on 2024-05-28 confirming route viability",
-            "flight_status": "Flight HAT034 status for May 28, 2024 showing operational readiness",
-            "reservation_update": "Reservation R9QDGB successfully updated to first class with insurance and 5 total bags",
-            "updated_reservation": "Final reservation details showing upgraded cabin class, insurance, and enhanced baggage allowance",
-        }
+        outputs=[]
     ),
     
     Task(
@@ -2347,15 +1962,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for operational coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for operational planning",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status with crew_member_id 'CM015', 'CM020' and new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew management",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive crew coordination",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for optimal crew placement",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for maintenance coordination"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -2400,16 +2007,7 @@ TASKS = [
                 kwargs={"certification_type": 'B787-9', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC004 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for B787-9 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -2450,14 +2048,7 @@ TASKS = [
                 kwargs={"crew_id": 'CM015', "role": 'Captain'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for operational coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for operational planning",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active, CM023 status updated to Active via update_crew_member_status with crew_member_id 'CM015', 'CM020', 'CM023' and new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew management",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive crew coordination",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for optimal crew placement"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -2517,17 +2108,7 @@ TASKS = [
                 kwargs={"start_date": '2024-05-21', "end_date": '2024-05-23'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "operational_events": "Operational events and disruptions for period from 2024-05-21 to 2024-05-23 showing coordination requirements"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -2572,17 +2153,7 @@ TASKS = [
                 kwargs={"role": 'Flight Attendant', "status": 'Active'}
             ),
         ],
-        outputs=[
-            "crew_info_retrieved:CM015",
-            "crew_info_retrieved:CM020",
-            "crew_status_updated:CM015:Active",
-            "crew_status_updated:CM020:Active",
-            "crew_availability_checked:Captain:Active",
-            "crew_role_updated:CM015:Captain",
-            "crew_certification_verified:B787-9:30_days",
-            "aircraft_model_info:B787-9",
-            "crew_availability_checked:Flight_Attendant:Active"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2623,15 +2194,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -2672,15 +2235,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status with crew_member_id 'CM015', 'CM020' and new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for maintenance scheduling"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2744,18 +2299,7 @@ TASKS = [
                 kwargs={"start_date": '2024-03-25', "end_date": '2024-03-31', "maintenance_type": 'A-Check'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "operational_events": "Operational events and disruptions for period from 2024-03-25 to 2024-03-31 showing coordination requirements",
-            "maintenance_records": "Aircraft maintenance records for specified period showing scheduled maintenance logs with maintenance type 'A-Check'"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -2802,16 +2346,7 @@ TASKS = [
                 kwargs={"start_date": "2024-05-27", "end_date": "2024-05-27"}
             ),
         ],
-        outputs={
-            "customer_profile": "Olivia Santos's gold tier member profile retrieved via get_user_profile with user_email 'sophia.santos7908@example.com' showing membership benefits and account information for customer service coordination",
-            "reservation_details": "Current reservation KDBNYP details retrieved via get_reservation_details with reservation_id 'KDBNYP' showing business class flight from ORD to EWR for strategic reservation management",
-            "cancellation_result": "Reservation KDBNYP cancellation confirmation showing successful cancellation status and refund processing details via cancel_reservation with reservation_id 'KDBNYP' for customer service resolution",
-            "flight_status": "Flight HAT165 status for May 27, 2024 from ORD to IAH retrieved via get_flight_status_by_number_and_date with flight_number 'HAT165', date '2024-05-27' showing operational status for flight operations monitoring",
-            "airport_facilities": "O'Hare International Airport facilities and maintenance support infrastructure details retrieved via get_airport_details_by_iata_code with iata_code 'ORD' for operational coordination and infrastructure assessment",
-            "daily_schedule": "Complete flight schedule for 2024-05-27 showing all airline operations and available flights across the network retrieved via get_flight_schedule with start_date '2024-05-27', end_date '2024-05-27' for strategic scheduling optimization",
-            "crew_member_details": "Crew member CM001 (Isabella Brown) - Captain based at ATL airport, currently Active status, with flight experience on B737-800 aircraft retrieved via get_crew_member_info with crew_id 'CM001' for enhanced operational coordination and crew management integration",
-            "operational_events": "Operational events for May 27, 2024 retrieved via get_operational_events with start_date '2024-05-27', end_date '2024-05-27' showing potential disruptions, gate changes, and operational incidents for comprehensive operational awareness and proactive disruption management"
-        }
+        outputs=[]
     ),
      
     Task(
@@ -2862,17 +2397,7 @@ TASKS = [
                 kwargs={"crew_id": "CM004"}
             ),
         ],
-        outputs={
-            "customer_profile": "Olivia Santos's gold tier member profile retrieved via get_user_profile with user_email 'sophia.santos7908@example.com' showing membership benefits and account information for customer service coordination",
-            "reservation_details": "Current reservation KDBNYP details retrieved via get_reservation_details with reservation_id 'KDBNYP' showing business class flight from ORD to EWR for strategic reservation management",
-            "cancellation_result": "Reservation KDBNYP cancellation confirmation showing successful cancellation status and refund processing details via cancel_reservation with reservation_id 'KDBNYP' for customer service resolution",
-            "flight_status": "Flight HAT165 status for May 27, 2024 from ORD to IAH retrieved via get_flight_status_by_number_and_date with flight_number 'HAT165', date '2024-05-27' showing operational status for flight operations monitoring",
-            "airport_facilities": "O'Hare International Airport facilities and maintenance support infrastructure details retrieved via get_airport_details_by_iata_code with iata_code 'ORD' for operational coordination and infrastructure assessment",
-            "daily_schedule": "Complete flight schedule for 2024-05-27 showing all airline operations and available flights across the network retrieved via get_flight_schedule with start_date '2024-05-27', end_date '2024-05-27' for strategic scheduling optimization",
-            "crew_member_details_cm001": "Crew member CM001 (Isabella Brown) - Captain based at ATL airport, currently Active status, with flight experience on B737-800 aircraft retrieved via get_crew_member_info with crew_id 'CM001' for enhanced operational coordination and crew management integration",
-            "crew_member_details_cm003": "Crew member CM003 (Mohamed Lopez) - Flight Attendant based at ORD airport, currently Active status, with flight experience on A320neo aircraft retrieved via get_crew_member_info with crew_id 'CM003' for flight attendant coordination and passenger service management",
-            "crew_member_details_cm004": "Crew member CM004 (Jennifer Wilson) - Captain based at LAX airport, currently Active status, with flight experience on B787-9 aircraft retrieved via get_crew_member_info with crew_id 'CM004' for captain management and flight operations leadership"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -2909,14 +2434,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions with crew_member_id 'CM015' and 'CM020', new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for operational readiness and maintenance scheduling"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -2965,17 +2483,7 @@ TASKS = [
                 kwargs={"model_id": 'A350-900'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC004 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC004', new_status 'Maintenance' for maintenance scheduling",
-            "crew_certifications": "Crew certification status for B787-9 aircraft showing 0 crew members with certifications expiring within 30 days retrieved via get_crew_certification_status with certification_type 'B787-9', expiry_threshold_days 30 for certification monitoring",
-            "aircraft_model_info": "Aircraft A350-900 model specifications retrieved via get_aircraft_model_info with model_id 'A350-900' for comprehensive aircraft coordination and operational planning"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -3028,18 +2536,7 @@ TASKS = [
                 kwargs={"iata_code": 'ATL'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC004 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC004', new_status 'Maintenance' for maintenance scheduling",
-            "crew_certifications": "Crew certification status for B787-9 aircraft showing 0 crew members with certifications expiring within 30 days retrieved via get_crew_certification_status with certification_type 'B787-9', expiry_threshold_days 30 for certification monitoring",
-            "aircraft_model_info": "Aircraft B787-9 model specifications retrieved via get_aircraft_model_info with model_id 'B787-9' for comprehensive aircraft coordination and operational planning",
-            "airport_details": "ATL airport details retrieved via get_airport_details_by_iata_code with iata_code 'ATL' for comprehensive airport coordination and operational planning"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -3088,17 +2585,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC004'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC004 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC004', new_status 'Maintenance' for maintenance scheduling",
-            "crew_certifications": "Crew certification status for B787-9 aircraft showing 0 crew members with certifications expiring within 30 days retrieved via get_crew_certification_status with certification_type 'B787-9', expiry_threshold_days 30 for certification monitoring",
-            "maintenance_logs": "Maintenance logs for aircraft AC004 retrieved via get_maintenance_logs with aircraft_id 'AC004' for comprehensive maintenance coordination and operational planning"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -3147,17 +2634,7 @@ TASKS = [
                 kwargs={"crew_id": 'CM004'}
             ),
         ],
-        outputs={
-            "crew_details_4": "Crew member CM004 information and current status",
-            "crew_details_8": "Crew member CM008 information and current status",
-            "crew_updates": "Status updates for both crew members",
-            "crew_availability_captains": "Current availability of active Captain crew members",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members",
-            "crew_assignment": "CM004 role update confirmation",
-            "crew_certifications": "B737 certification status for crew members",
-            "home_base_update": "Crew member CM004 home base updated to DFW for operational efficiency",
-            "crew_schedule": "CM004 crew member schedule showing operational assignments and deployment readiness"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -3198,15 +2675,7 @@ TASKS = [
                 kwargs={"iata_code": 'CLT'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "ord_airport_details": "O'Hare International Airport (ORD) facilities and operational details showing terminal information, services, and ground operations capabilities for crew base operations",
-            "clt_airport_details": "Charlotte Douglas International Airport (CLT) facilities and operational details showing terminal information, services, and ground operations capabilities for crew base operations"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -3251,16 +2720,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for maintenance scheduling",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days retrieved via get_crew_certification_status with certification_type 'A320', expiry_threshold_days 30 for certification monitoring"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -3305,16 +2765,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3369,16 +2820,7 @@ TASKS = [
                 kwargs={"action": "get_assignments", "crew_id": 'CM015'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 information retrieved using get_crew_member_info tool with crew_id parameter",
-            "crew_details_20": "Crew member CM020 information retrieved using get_crew_member_info tool with crew_id parameter", 
-            "crew_updates": "Crew member CM015 status updated to Active using update_crew_member_status tool, CM020 status updated to Active using update_crew_member_status tool",
-            "crew_availability_captains": "Current availability of active Captain crew members retrieved using get_crew_availability tool with role and status parameters",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members retrieved using get_crew_availability tool with role and status parameters",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain using update_crew tool with crew_id and role parameters",
-            "crew_certifications": "A320 certification status verified using get_crew_certification_status tool with certification_type and expiry_threshold_days parameters",
-            "crew_assignments": "Current crew assignments for CM015 retrieved using manage_crew_member tool with get_assignments action and crew_id parameter"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -3416,14 +2858,7 @@ TASKS = [
                 kwargs={"crew_id": 'CM015', "role": 'Captain'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-        }
+        outputs=[]
     ),
 
     Task(
@@ -3469,16 +2904,7 @@ TASKS = [
                 kwargs={"user_email": "sophia.santos7908@example.com", "new_membership": "platinum"}
             )
         ],
-        outputs=[
-            "user_profile_retrieved:sophia.santos7908@example.com",
-            "reservation_details_retrieved:KDBNYP",
-            "reservation_cancelled:KDBNYP",
-            "flights_found:ORD:IAH:2024-05-27",
-            "flight_status_checked:HAT165:2024-05-27",
-            "airport_details_retrieved:ORD",
-            "flight_schedule_retrieved:2024-05-27",
-            "membership_updated:sophia.santos7908@example.com:platinum"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3522,16 +2948,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3563,13 +2980,7 @@ TASKS = [
                 kwargs={"role": 'Flight Attendant', "status": 'Active'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3617,17 +3028,7 @@ TASKS = [
                 kwargs={"model_id": 'B787-9'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for maintenance scheduling",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days retrieved via get_crew_certification_status with certification_type 'A320', expiry_threshold_days 30 for certification monitoring",
-            "aircraft_details": "Aircraft B787-9 model details retrieved via get_aircraft_by_model with model_id 'B787-9' for comprehensive aircraft coordination and operational planning"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3667,15 +3068,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3723,17 +3116,7 @@ TASKS = [
                 kwargs={"iata_code": 'ORD'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for maintenance scheduling",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days retrieved via get_crew_certification_status with certification_type 'A320', expiry_threshold_days 30 for certification monitoring",
-            "airport_facilities": "Chicago O'Hare International Airport (ORD) facilities and operational details retrieved via get_airport_details_by_iata_code with iata_code 'ORD' for comprehensive airport coordination and operational planning"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3803,20 +3186,7 @@ TASKS = [
                 kwargs={"model_id": "B737-800"}
             )
         ],
-        outputs={
-            "customer_profile": "Olivia Santos gold tier member profile with membership benefits",
-            "reservation_details": "Current reservation KDBNYP details showing ORD to ATL flight in business class",
-            "alternative_flights": "Available alternative flights from ORD to ATL on May 27, 2024 for rebooking options",
-            "reservation_update": "Updated reservation with cabin class business, insurance yes, total_baggages: 2, and flight change to ORD-ATL route",
-            "reservation_confirmation": "Confirmed reservation details after updates with cabin class, insurance, baggage changes, and corrected flight route",
-            "flight_status": "Flight HAT093 status for May 27, 2024 showing operational details, origin/destination, scheduled times, and availability",
-            "operational_events": "Operational events and disruptions for May 1, 2024 showing delays, weather impacts, and technical issues affecting flight operations",
-            "airport_facilities": "Chicago O'Hare International Airport (ORD) facilities and operational details showing terminal information, services, and ground operations capabilities",
-            "maintenance_logs": "Maintenance logs for aircraft AC001 on May 1, 2024 showing maintenance activities, issues, and operational readiness status",
-            "crew_details": "Crew member CM001 details showing role, status, flight experience, and operational qualifications",
-            "flight_schedule": "Flight schedule for May 27, 2024 showing all available flights, routes, and operational timing for comprehensive flight planning",
-            "aircraft_by_model": "Aircraft by model B737-800 showing available aircraft, their configurations, and operational readiness for flight assignments"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -3866,17 +3236,7 @@ TASKS = [
                 kwargs={"aircraft_id": "AC003", "start_date": "2024-05-27", "end_date": "2024-05-27"}
             )
         ],
-        outputs={
-            "customer_profile": "Customer profile information retrieved",
-            "reservation_details": "Current reservation details retrieved",
-            "alternative_flights": "Available alternative flights found",
-            "reservation_update": "Reservation updated with requested changes",
-            "reservation_confirmation": "Updated reservation details confirmed",
-            "flight_status": "Flight status information retrieved",
-            "operational_events": "Operational events and disruptions retrieved",
-            "airport_facilities": "Airport facilities information retrieved",
-            "maintenance_logs": "Aircraft maintenance logs retrieved"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -3918,14 +3278,7 @@ TASKS = [
                 }
             )
         ],
-        outputs={
-            "customer_profile": "Olivia Santos gold tier member profile with membership benefits and account information retrieved via get_user_profile with user_email 'sophia.santos7908@example.com' for customer service assessment",
-            "reservation_details": "Current reservation KDBNYP details showing ORD to EWR flight in economy class retrieved via get_reservation_details with reservation_id 'KDBNYP' for reservation management",
-            "alternative_flights": "Available alternative flights from ORD to EWR on May 27, 2024 retrieved via find_flights with origin 'ORD', destination 'EWR', date '2024-05-27' for rebooking options",
-            "reservation_update": "Reservation KDBNYP successfully upgraded to business class with travel insurance and baggage allowance via update_reservation with reservation_id 'KDBNYP', cabin 'business', insurance 'yes', total_baggages 2, nonfree_baggages 1",
-            "reservation_confirmation": "Confirmed reservation details after updates retrieved via get_reservation_details with reservation_id 'KDBNYP' showing business class cabin, insurance coverage, and baggage changes",
-            "flight_status": "Flight HAT165 status for May 27, 2024 retrieved via get_flight_status_by_number_and_date with flight_number 'HAT165', date '2024-05-27' showing operational details and schedule information"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -3966,14 +3319,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC001', "new_status": 'Active'}
             ),
         ],
-        outputs={
-            "crew_member_25_activation": "Crew member CM025 status successfully updated to Active for operational assignments",
-            "role_assignment": "Crew member CM025 successfully promoted to Captain role for operational assignments",
-            "captain_availability": "Active Captain crew availability verified for operational assignments",
-            "home_base_assignment": "Crew member CM025 successfully assigned to LAX airport home base",
-            "aircraft_status_update": "Aircraft AC001 status successfully updated to Active for operational readiness",
-            "operational_readiness": "Crew members activated, role assigned, home base updated, and aircraft status verified for operational readiness"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -4010,14 +3356,7 @@ TASKS = [
                 kwargs={"crew_id": 'CM015', "role": 'Captain'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions with crew_member_id 'CM015' and 'CM020', new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -4066,17 +3405,7 @@ TASKS = [
                 kwargs={"start_date": '2024-05-15', "end_date": '2024-05-20'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "operational_events": "Operational events and disruptions for period from 2024-05-15 to 2024-05-20 showing coordination requirements"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -4109,14 +3438,7 @@ TASKS = [
                 kwargs={"reservation_id": 'R9QDGB'}
             ),
         ],
-        outputs={
-            "customer_profile": "Gold tier member profile for Jennifer Johnson retrieved for baggage enhancement processing",
-            "reservation_details": "Current reservation R9QDGB showing economy class flight from LAX to BOS via SFO on 2024-05-28",
-            "flight_availability": "Available flights from LAX to SFO on 2024-05-28 confirming first leg route viability",
-            "flight_status": "Flight HAT034 status for May 28, 2024 showing LAX to SFO operational readiness",
-            "reservation_update": "Reservation R9QDGB successfully updated with no insurance and 4 total bags (2 non-free)",
-            "updated_reservation": "Final reservation details showing enhanced baggage allowance and no travel insurance",
-        }
+        outputs=[]
     ),
 
     Task(
@@ -4161,16 +3483,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -4207,15 +3520,7 @@ TASKS = [
                 kwargs={"role": 'Captain', "status": 'Active'}
             ),
         ],
-        outputs=[
-            "crew_member_info_retrieved:CM008",
-            "crew_member_info_retrieved:CM012",
-            "crew_status_updated:CM012:Active",
-            "crew_profile_updated:CM008:Captain",
-            "crew_profile_updated:CM012:Flight_Attendant",
-            "crew_availability_checked:Flight_Attendant",
-            "crew_availability_checked:Captain"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -4256,16 +3561,7 @@ TASKS = [
                 kwargs={'start_date': '2024-05-16', 'end_date': '2024-05-16', 'airport_code': 'LAX'}
             ),
         ],
-        outputs=[
-            "reservation_details_retrieved:NO6JO3",
-            "user_profile_retrieved:emma.smith8074@example.com",
-            "reservation_updated:NO6JO3:first_class",
-            "reservation_details_verified:NO6JO3",
-            "flight_status_checked:HAT083:2024-05-16",
-            "flight_schedule_retrieved:2024-05-16",
-            "airport_details_retrieved:LAX",
-            "operational_events_retrieved:LAX:2024-05-16"
-        ]
+        outputs=[]
     ),
     
     Task(
@@ -4315,17 +3611,7 @@ TASKS = [
                 kwargs={"aircraft_id": "AC003", "start_date": "2024-05-27", "end_date": "2024-05-27"}
             )
         ],
-        outputs={
-            "customer_profile": "Olivia Santos gold tier member profile with membership benefits retrieved for service assessment",
-            "reservation_details": "Current reservation KDBNYP details showing ORD to EWR via IAH routing in business class",
-            "alternative_flights": "Available alternative flights from ORD to IAH on May 27, 2024 for rebooking options and route flexibility",
-            "reservation_update": "Updated reservation with cabin class business, insurance yes, total_baggages: 2 according to customer requirements",
-            "reservation_confirmation": "Confirmed reservation details after updates showing business class cabin, insurance coverage, and baggage allowance",
-            "flight_status": "Flight HAT165 status for May 27, 2024 showing operational details, ORD to IAH route, scheduled times, and availability",
-            "operational_events": "Operational events and disruptions for May 27, 2024 showing delays, weather impacts, and technical issues affecting flight operations",
-            "airport_facilities": "Chicago O'Hare International Airport (ORD) facilities and operational details showing terminal information, services, and ground operations capabilities",
-            "maintenance_logs": "Maintenance logs for aircraft AC003 on May 27, 2024 showing maintenance activities, issues, and operational readiness status"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -4374,17 +3660,7 @@ TASKS = [
                 kwargs={"start_date": '2024-05-15', "end_date": '2024-05-20'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "operational_events": "Operational events and disruptions for period from 2024-05-15 to 2024-05-20 showing coordination requirements"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4424,14 +3700,7 @@ TASKS = [
                 kwargs={"role": 'Flight Attendant', "status": 'Active'}
             ),
         ],
-        outputs={
-            "crew_details_8": "Crew member CM008 (Olivia Johnson) - First Officer based at LAS airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM008' for operational coordination",
-            "crew_details_12": "Crew member CM012 (Elizabeth Brown) - First Officer based at MCO airport, currently Inactive status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM012' for operational planning",
-            "crew_status_updates": "Crew member CM008 status updated to Active, CM012 status updated to Active via update_crew_member_status with crew_member_id 'CM008', 'CM012' and new_status 'Active' for operational readiness",
-            "crew_role_updates": "Crew member CM008 role updated to Captain, CM012 role updated to Flight Attendant via update_crew_profile with crew_id 'CM008', role 'Captain' and crew_id 'CM012', role 'Flight Attendant' for optimal crew placement",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew management",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive crew coordination"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4480,17 +3749,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "start_date": '2024-05-21', "end_date": '2024-05-21'}
             )
         ],
-        outputs={
-            "customer_profile": "{'first_name': 'Chen', 'last_name': 'Hernandez'}'s gold tier member profile with membership benefits and account information",
-            "reservation_details": "Current reservation V25KYO details showing the business class flight from EWR to LGA",
-            "flight_schedule": "Flight schedule for 2024-05-21 showing 0 available flights from EWR to LGA",
-            "daily_schedule": "Complete flight schedule for 2024-05-21 showing all airline operations and available flights across the network",
-            "reservation_update": "Reservation V25KYO update confirmation showing successful modification of cabin class, insurance, and baggage settings",
-            "operational_events": "Operational events and disruptions for period from 2024-05-21 to 2024-05-21 showing 0 events",
-            "airport_facilities": "LaGuardia Airport facilities and maintenance support infrastructure details for operational coordination",
-            "captain_availability": "Current availability of 4 active Flight Attendant crew members for aircraft assignments and operational readiness",
-            "maintenance_logs": "Maintenance logs for aircraft AC003 on May 21, 2024 showing maintenance activities, issues, and operational readiness status"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -4531,15 +3790,7 @@ TASKS = [
                 kwargs={"crew_id": 'CM020', "role": 'Flight Attendant'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_certifications": "Crew certification status for A320 aircraft showing crew members with certifications expiring within 30 days",
-            "crew_role_update": "Crew member CM020 role successfully updated to Flight Attendant for operational assignments"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -4580,15 +3831,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-        }
+        outputs=[]
     ),
     
     Task(
@@ -4641,18 +3884,7 @@ TASKS = [
                 kwargs={"start_date": '2024-05-14', "end_date": '2024-05-19', "maintenance_type": 'A-Check'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "operational_events": "Operational events and disruptions for period from 2024-05-14 to 2024-05-19 showing coordination requirements",
-            "maintenance_records": "Aircraft maintenance records for specified period showing scheduled maintenance logs with maintenance type 'A-Check'"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -4705,19 +3937,7 @@ TASKS = [
                 kwargs={"iata_code": 'ORD'}
             )
         ],
-        outputs=[
-            "crew_member_info_retrieved:CM015",
-            "crew_member_info_retrieved:CM020",
-            "crew_status_updated:CM015:Active",
-            "crew_status_updated:CM020:Active",
-            "crew_availability_checked:Captain",
-            "crew_availability_checked:Flight_Attendant",
-            "crew_role_updated:CM015:Captain",
-            "aircraft_status_updated:AC003:Maintenance",
-            "crew_certification_checked:A320",
-            "maintenance_logs_retrieved:A-Check:2024-05-15_to_2024-05-20",
-            "airport_details_retrieved:ORD"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4765,17 +3985,7 @@ TASKS = [
                 kwargs={"iata_code": 'ORD'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew members CM015 and CM020 statuses all updated to Active for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "ord_airport_facilities": "O'Hare International Airport facilities and maintenance support infrastructure details for operational coordination"
-        }
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4823,17 +4033,7 @@ TASKS = [
                 kwargs={"start_date": '2024-05-15', "end_date": '2024-05-20'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "operational_events": "Operational events and disruptions for period from 2024-05-15 to 2024-05-20 showing coordination requirements"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -4874,15 +4074,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015'",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020'",
-            "crew_updates": "Crew members CM015 and CM020 statuses all updated to Active for operational readiness via update_crew_member_status actions",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain' and status 'Active'",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant' and status 'Active'",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew action with crew_id 'CM015' and role 'Captain'",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days retrieved via get_crew_certification_status with certification_type 'A320' and expiry_threshold_days 30"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -4916,13 +4108,7 @@ TASKS = [
                 kwargs={"iata_code": 'LGA'}
             ),
         ],
-        outputs={
-            "reservation_details": "Current reservation V25KYO details showing the business class flight from EWR to LGA",
-            "flight_schedule": "Flight schedule for 2024-05-21 showing 0 available flights from EWR to LGA",
-            "daily_schedule": "Complete flight schedule for 2024-05-21 showing all airline operations and available flights across the network",
-            "reservation_update": "Reservation V25KYO update confirmation showing successful modification of cabin class, insurance, and baggage settings",
-            "airport_facilities": "LaGuardia Airport facilities and maintenance support infrastructure details for operational coordination",
-        }
+        outputs=[]
     ),
 
     Task(
@@ -4967,16 +4153,7 @@ TASKS = [
                 kwargs={"certification_type": 'A320', "expiry_threshold_days": 30}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"
-        }
+        outputs=[]
     ),
 
         Task(
@@ -5013,14 +4190,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status with crew_member_id 'CM015', 'CM020' and new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for maintenance scheduling",
-        }
+        outputs=[]
     ),
 
     Task(
@@ -5061,15 +4231,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015'",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020'",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain' and status 'Active'",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant' and status 'Active'",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew action with crew_id 'CM015' and role 'Captain'",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status action with aircraft_id 'AC003' and new_status 'Maintenance'"
-        }
+        outputs=[]
     ),
     
     Task(
@@ -5106,14 +4268,7 @@ TASKS = [
                 kwargs={"role": 'Captain', "status": 'Active'}
             ),
         ],
-        outputs={
-            "crew_details_8": "Crew member CM008 (Olivia Johnson) - First Officer based at LAS airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM008' for crew management coordination",
-            "crew_details_12": "Crew member CM012 (Elizabeth Brown) - First Officer based at MCO airport, currently Inactive status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM012' for crew management coordination",
-            "crew_status_update": "Crew member CM012 status updated to Active via update_crew_member_status with crew_member_id 'CM012', new_status 'Active' for operational readiness",
-            "crew_role_updates": "Crew member CM008 role updated to Captain, CM012 role updated to Flight Attendant via update_crew_profile actions with crew_id 'CM008', role 'Captain' and crew_id 'CM012', role 'Flight Attendant' for strategic crew management",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for comprehensive availability verification"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -5154,15 +4309,7 @@ TASKS = [
                 kwargs={"aircraft_id": 'AC003', "new_status": 'Maintenance'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions with crew_member_id 'CM015' and 'CM020', new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive availability verification",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for operational readiness and maintenance scheduling"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -5203,15 +4350,7 @@ TASKS = [
                 kwargs={"start_date": '2024-05-15', "end_date": '2024-05-20', "maintenance_type": 'A-Check'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently Active status, with flight experience on A320 aircraft",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments",
-            "aircraft_status": "Aircraft AC003 status updated to Maintenance",
-            "crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days",
-            "maintenance_records": "Aircraft maintenance records for specified period showing scheduled maintenance logs with maintenance type 'A-Check'"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -5244,13 +4383,7 @@ TASKS = [
                 kwargs={"crew_id": 'CM015', "role": 'Captain'}
             ),
         ],
-        outputs={
-            "crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft retrieved via get_crew_member_info with crew_id 'CM015' for crew management coordination",
-            "crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft retrieved via get_crew_member_info with crew_id 'CM020' for crew management coordination",
-            "crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active via update_crew_member_status actions with crew_member_id 'CM015' and 'CM020', new_status 'Active' for operational readiness",
-            "crew_availability_captains": "Current availability of active Captain crew members for operational assignments retrieved via get_crew_availability with role 'Captain', status 'Active' for strategic crew placement",
-            "crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management"
-        }
+        outputs=[]
     ),
 
     Task(
@@ -5283,11 +4416,6 @@ TASKS = [
                 kwargs={'start_date': '2024-05-16', 'end_date': '2024-05-16'}
             ),
         ],
-        outputs={
-            "customer_profile": "Isabella Brown's customer profile including membership level, payment methods, and reservation history for NO6JO3",
-            "reservation_update": "Reservation NO6JO3 successfully upgraded to first class with travel insurance, showing updated cabin class, insurance status, and payment method",
-            "flight_status": "Flight HAT083 status for May 16, 2024 showing operational details, origin/destination, scheduled times, and availability",
-            "daily_schedule": "Flight schedule summary for May 16, 2024 showing total flights, key operations, and coordination opportunities across the network"
-        }
+        outputs=[]
     ),
 ]

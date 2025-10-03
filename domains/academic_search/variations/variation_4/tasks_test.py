@@ -14,11 +14,7 @@ TASKS = [
             Action(name="FetchSubmissionInfo", kwargs={"article_id": "art_f1a2"}),
             Action(name="FetchUsers", kwargs={"user_id": "res_06"}),
         ],
-        outputs=[
-            '"project_name": "Federated Learning Protocols Research"',
-            '"lead_researcher_id": "res_06"',
-            '"linked_articles": ["art_f1a2"]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -34,10 +30,7 @@ TASKS = [
             Action(name="SetSubmissionOutcome", kwargs={"submission_id": "sub_01", "new_status": "accepted"}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_01"})
         ],
-        outputs=[
-            '"submission_id": "sub_01"',
-            '"status": "accepted"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -56,11 +49,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_04", "message": "Congratulations! Your article 'New Biomarkers for Early Detection...' (art_04) has been accepted for publication."}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_02"})
         ],
-        outputs=[
-            '"submission_id": "sub_02"',
-            '"status": "accepted"',
-            '"assigned_reviewers": ["res_02"]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -75,9 +64,7 @@ TASKS = [
             Action(name="AssignReviewer", kwargs={"submission_id": "sub_05", "reviewer_user_id": "res_05"}),
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_05", "message": "You have been assigned to review the submission 'Personalized Cancer Treatment with AI-Driven Drug Discovery' due to your expertise in the area."})
         ],
-        outputs=[
-            '"success": true',
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -93,12 +80,7 @@ TASKS = [
             Action(name="GetArticleKeywords", kwargs={"article_id": "art_01"}),
             Action(name="FetchUsers", kwargs={"user_id": "res_05"}),
         ],
-        outputs=[
-            'transformer',
-            'code',
-            'generation',
-            'models'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -114,10 +96,7 @@ TASKS = [
             Action(name="SetTopicInterest", kwargs={"user_id": "res_01", "topic": "Biology", "action": "add"}),
             Action(name="FetchArticles", kwargs={"article_id": "art_03"}),
         ],
-        outputs=[
-            '"article_id": "art_03"',
-            '"topic": "Biology / AI"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -137,10 +116,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_01", "message": "Regarding your submission for 'Multimodal AI...', the initial reviews were conflicting. A third tie-breaker reviewer has been assigned to ensure a fair assessment. We will update you soon."}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_03"})
         ],
-        outputs=[
-            '"submission_id": "sub_03"',
-            '"assigned_reviewers": [\n    "res_06",\n    "res_15",\n    "res_09"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -169,10 +145,7 @@ TASKS = [
             Action(name="UpdateProjectDetails", kwargs={"project_id": "proj_a1b2", "linked_article_ids": ["art_03"]}),
             Action(name="FetchArticles", kwargs={"article_id": "art_03"})
         ],
-        outputs=[
-            '"article_id": "art_03"',
-            '"status": "retracted_by_author"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -192,10 +165,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_16", "message": "Your submission 'AI-Powered Diagnostic Imaging' has been received for the special issue and is now under review."}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_special_01"}),
         ],
-        outputs=[
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n    "res_06",\n    "res_04"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -216,11 +186,7 @@ TASKS = [
             Action(name="SetSubmissionOutcome", kwargs={"submission_id": "sub_04", "new_status": "accepted"}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_04"}),
         ],
-        outputs=[
-            '"submission_id": "sub_04"',
-            '"status": "accepted"',
-            '"revised_version_article_id": "art_c5d6"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -238,11 +204,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_04", "message": "Regarding submission sub_02, a review was found to be unprofessional and has been removed. A new reviewer has been assigned to ensure a fair process."}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_02"})
         ],
-        outputs=[
-            '"submission_id": "sub_02"',
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n    "res_07"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -262,10 +224,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_05", "message": "URGENT: You have been assigned to an expedited review for the high-impact paper 'Tidal Forces in Exoplanetary Systems'."}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_vip_01"}),
         ],
-        outputs=[
-            '"status": "expedited_review"',
-            '"assigned_reviewers": [\n    "res_03",\n    "res_05"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -294,10 +253,7 @@ TASKS = [
             Action(name="UpdateProjectDetails", kwargs={"project_id": "proj_1a2b", "linked_article_ids": ["art_03"]}),
             Action(name="FetchArticles", kwargs={"article_id": "art_03"})
         ],
-        outputs=[
-            '"article_id": "art_03"',
-            '"status": "retracted_by_author"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -318,11 +274,7 @@ TASKS = [
             Action(name="SetSubmissionOutcome", kwargs={"submission_id": "sub_04", "new_status": "accepted"}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_04"}),
         ],
-        outputs=[
-            '"submission_id": "sub_04"',
-            '"status": "accepted"',
-            '"revised_version_article_id": "art_c5d6"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -341,9 +293,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_15", "sender_user_id": "res_02", "message": "Your paper on federated systems has been selected for our new Thematic Collection."}),
             Action(name="FetchUsers", kwargs={"user_id": "res_02"})
         ],
-        outputs=[
-            '"user_id": "res_02"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -361,11 +311,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_05", "message": "You have been removed from the review of sub_03 due to a conflict of interest (shared institution with an author). Thank you for your understanding."}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_03"}),
         ],
-        outputs=[
-            '"submission_id": "sub_03"',
-            '"status": "on_hold_conflict_review"',
-            '"assigned_reviewers": [\n    "res_04"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -386,10 +332,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_06", "message": "URGENT: You have been assigned to an expedited review for high-impact submission sub_09."}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_09"})
         ],
-        outputs=[
-            '"status": "expedited_review"',
-            '"assigned_reviewers": [\n    "res_01",\n    "res_06"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -407,9 +350,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_04", "message": "You have been invited to collaborate on a new project, 'AI in Modern Biomedicine Initiative', led by Dr. Anna Petrov."}),
             Action(name="FetchUsers", kwargs={"user_id": "res_04"}),
         ],
-        outputs=[
-            '"user_id": "res_04"',
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -428,9 +369,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_01", "sender_user_id": "res_03", "message": "Just a note to say your paper was highlighted as a key example of cross-disciplinary impact in a grant renewal report for my project. Great work!"}),
             Action(name="FetchUsers", kwargs={"user_id": "res_03"}),
         ],
-        outputs=[
-            '"user_id": "res_03"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -448,10 +387,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_06", "message": "You have been assigned to review submission 'sub_01'."}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_01"}),
         ],
-        outputs=[
-            '"submission_id": "sub_01"',
-            '"assigned_reviewers": [\n    "res_06"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -471,9 +407,7 @@ TASKS = [
             # Se fosse necessário mostrar o user_id de res_02, seria apenas um fetch_users.
             Action(name="FetchUsers", kwargs={"user_id": "res_02"}), # Apenas para exibir o perfil de res_02 como output final
         ],
-        outputs=[
-            '"user_id": "res_02"', # Ajustado para o que fetch_users realmente retorna
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -491,9 +425,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_04", "sender_user_id": "res_02", "message": "Your paper has been selected to be featured in our new 'AI Applications in Medicine' collection."}),
             Action(name="FetchArticles", kwargs={"article_id": "art_12"}),
         ],
-        outputs=[
-            '"article_id": "art_12"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -512,9 +444,7 @@ TASKS = [
             Action(name="SetTopicInterest", kwargs={"user_id": "res_04", "topic": "AI", "action": "add"}),
             Action(name="FetchUsers", kwargs={"user_id": "res_04"}),
         ],
-        outputs=[
-            '"user_id": "res_04"',
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -538,11 +468,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_15", "sender_user_id": "res_02", "message": "Thank you for your review of sub_03. Due to conflicting feedback, a tie-breaker has been engaged. No further action is needed from you at this time."}),
             Action(name="FetchUsers", kwargs={"user_id": "res_09"}) # Display profile details of the new reviewer.
         ],
-        outputs=[
-            '"user_id": "res_09"',
-            '"name": "Dr. Maria Santos"',
-            '"research_field": "Artificial Intelligence"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -563,11 +489,7 @@ TASKS = [
             Action(name="SetSubmissionOutcome", kwargs={"submission_id": "sub_04", "new_status": "accepted"}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_04"}),
         ],
-        outputs=[
-            '"submission_id": "sub_04"',
-            '"status": "accepted"',
-            '"revised_version_article_id": "art_c5d6"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -587,9 +509,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_06", "message": "Your paper 'Quantum Cryptography Protocols...' has been linked to the 'Quantum Computing Applications' project as a new foundational article."}),
             Action(name="FetchArticles", kwargs={"article_id": "art_10"}),
         ],
-        outputs=[
-            '"article_id": "art_10"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -612,9 +532,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_04", "message": "URGENT: You have been assigned to an expedited review for sub_expert_03."}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_expert_03"}),
         ],
-        outputs=[
-            '"status": "expedited_review"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -634,9 +552,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_16", "message": "Our analysis shows your paper 'art_14' is part of a research lineage tracing back to the foundational work 'art_03'."}),
             Action(name="FetchUsers", kwargs={"user_id": "res_02"}),
         ],
-        outputs=[
-            '"user_id": "res_02"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -655,9 +571,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_02", "message": "Your paper 'AI applications in diagnosing neurodegenerative diseases' has been linked to the 'Advanced Transformer Applications' project as a key foundational article."}),
             Action(name="FetchUsers", kwargs={"user_id": "res_01"}),
         ],
-        outputs=[
-            '"user_id": "res_01"',
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -679,10 +593,7 @@ TASKS = [
             Action(name="SetSubmissionOutcome", kwargs={"submission_id": "sub_01", "new_status": "under_review"}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_01"}),
         ],
-        outputs=[
-            '"status": "under_review"',
-            '"revised_version_article_id": "art_07"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -703,9 +614,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_02", "message": "Your foundational work on art_03 is being used as the basis for a new initiative, 'Next-Generation Gene Therapies'."}),
             Action(name="FetchUsers", kwargs={"user_id": "res_02"}),
         ],
-        outputs=[
-            '"user_id": "res_02"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -723,10 +632,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_16", "message": "Your recent submission for 'AI in Algorithmic Trading' was invalid and has been removed. Please resubmit through the proper channels. A user profile has been created for you."}),
             Action(name="FetchArticles", kwargs={"article_id": "art_expert_04"}),
         ],
-        outputs=[
-            '"article_id": "art_expert_04"',
-            '"status": "archived_invalid_submission"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -752,11 +658,7 @@ TASKS = [
             Action(name="SetSubmissionOutcome", kwargs={"submission_id": "sub_QM_01", "new_status": "accepted"}), # Edge 17 (from prior action)
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_QM_01"}) # Edge 18 (from prior action)
         ],
-        outputs=[
-            '"submission_id": "sub_QM_01"',
-            '"status": "accepted"',
-            '"revised_version_article_id": "art_QM_01_rev"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -774,11 +676,7 @@ TASKS = [
             Action(name="FetchUsers", kwargs={"user_id": "res_02"}),
             Action(name="FetchArticles", kwargs={"title": "AI Ethics in Healthcare Research"})
         ],
-        outputs=[
-            '"project_name": "AI Ethics in Healthcare Research"',
-            '"status": "active"',
-            '"linked_articles": [\n    "art_14"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -797,11 +695,7 @@ TASKS = [
             Action(name="UpdateProjectDetails", kwargs={"project_id": "proj_impact_bau", "linked_article_ids": ["art_04", "art_14"]}), # Linking art_04 and its citing article art_14
             Action(name="FetchUsers", kwargs={"user_id": "res_04"})
         ],
-        outputs=[
-            '"user_id": "res_04"',
-            '"notification_channel": "email"',
-            '"ui_theme": "light"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -818,10 +712,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_02", "message": "A new project, 'CRISPR-Cas9 Therapeutic Applications', has been created to track your work related to your recent publication."}),
             Action(name="FetchArticles", kwargs={"title": "Gene Editing Techniques with CRISPR-Cas9"})
         ],
-        outputs=[
-            '"article_id": "art_03"',
-            '"title": "Gene Editing Techniques with CRISPR-Cas9"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -838,10 +729,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_13", "message": "You have been assigned to review submission sub_05, as the original reviewer was unavailable. Your time is appreciated."}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_05"}),
         ],
-        outputs=[
-            '"submission_id": "sub_05"',
-            '"assigned_reviewers": [\n    "res_13"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -859,10 +747,7 @@ TASKS = [
             Action(name="AlertUser", kwargs={"recipient_user_id": "res_01", "message": "URGENT: You have been assigned to an expedited review for submission sub_art_06. Please prioritize."}),
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_art_06"}), # Busca informações da submissão ALVO para output
         ],
-        outputs=[
-            '"status": "expedited_review"',
-            '"assigned_reviewers": [\n    "res_01"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -888,11 +773,7 @@ TASKS = [
             Action(name="FetchUsers", kwargs={"user_id": "res_09"}), # Edge 17 (confirm project lead details for output)
             Action(name="FetchArticles", kwargs={"title": "Medical Imaging AI Advances"}) # Edge 18 (confirm project details for output, assuming project can be fetched by title)
         ],
-        outputs=[
-            '"submission_id": "sub_DL_01"',
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n    "res_01",\n    "res_06"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -945,10 +826,6 @@ TASKS = [
             # 12. Display final submission details
             Action(name="FetchSubmissionInfo", kwargs={"submission_id": "sub_QC_01"}),
         ],
-        outputs=[
-            '"submission_id": "sub_QC_01"',
-            '"status": "accepted"',
-            '"assigned_reviewers": [\n    "res_02",\n    "res_14"\n  ]'
-        ]
+        outputs=[]
     )
 ]

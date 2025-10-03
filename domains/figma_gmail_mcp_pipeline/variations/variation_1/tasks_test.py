@@ -43,15 +43,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_001", "art_007"],
-                "exported_asset_ids": ["asset_art_001_png_2x", "asset_art_007_png_2x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013", "cycle_014"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -95,15 +87,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_009", "art_011"],
-                "exported_asset_ids": ["asset_art_009_svg_1x", "asset_art_011_svg_1x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013", "cycle_014"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -147,15 +131,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_004", "art_012"],
-                "exported_asset_ids": ["asset_art_004_pdf_4x", "asset_art_012_pdf_4x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013", "cycle_014"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -199,15 +175,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_002", "art_008"],
-                "exported_asset_ids": ["asset_art_002_jpg_2x", "asset_art_008_jpg_2x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013", "cycle_014"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -251,15 +219,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_004", "art_008"],
-                "exported_asset_ids": ["asset_art_004_png_1x", "asset_art_008_png_1x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013", "cycle_014"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -299,15 +259,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_007"],
-                "exported_asset_ids": ["asset_art_007_svg_4x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -347,15 +299,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_002"],
-                "exported_asset_ids": ["asset_art_002_pdf_2x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -395,15 +339,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_010"],
-                "exported_asset_ids": ["asset_art_010_jpg_1x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -443,15 +379,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_001"],
-                "exported_asset_ids": ["asset_art_001_pdf_4x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -491,15 +419,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_005"],
-                "exported_asset_ids": ["asset_art_005_svg_2x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -525,16 +445,7 @@ TASKS = [
                 kwargs={"cycle_id": "cycle_001", "approver_email": "jake.design@company.com"}
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_001"],
-                "figma_comment_id": "comment_019",
-                "updated_cycle_id": "cycle_001",
-                "previous_status": "NEEDS_REVIEW",
-                "new_status": "APPROVED",
-                "approval_id": "approval_012"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -560,16 +471,7 @@ TASKS = [
                 kwargs={"cycle_id": "cycle_003", "approver_email": "anna.brand@company.com"}
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_007"],
-                "figma_comment_id": "comment_019",
-                "updated_cycle_id": "cycle_003",
-                "previous_status": "CHANGES_REQUESTED",
-                "new_status": "CHANGES_REQUESTED",
-                "approval_id": "approval_012"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -595,16 +497,7 @@ TASKS = [
                 kwargs={"cycle_id": "cycle_008", "approver_email": "chris.engineer@company.com"}
             )
         ],
-        outputs=[
-            {
-                "exported_asset_ids": ["asset_art_002_png_2x"],
-                "figma_comment_id": "comment_019",
-                "updated_cycle_id": "cycle_008",
-                "previous_status": "NEEDS_REVIEW",
-                "new_status": "APPROVED",
-                "approval_id": "approval_012"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -630,16 +523,7 @@ TASKS = [
                 kwargs={"cycle_id": "cycle_010", "approver_email": "sophie.marketing@company.com"}
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_010"],
-                "figma_comment_id": "comment_019",
-                "updated_cycle_id": "cycle_010",
-                "previous_status": "APPROVED",
-                "new_status": "ESCALATED",
-                "approval_id": "approval_012"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -669,17 +553,7 @@ TASKS = [
                 kwargs={"cycle_id": "cycle_009", "approver_email": "jake.design@company.com"}
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_003"],
-                "exported_asset_ids": ["asset_art_003_svg_1x"],
-                "figma_comment_id": "comment_019",
-                "updated_cycle_id": "cycle_009",
-                "previous_status": "IN_FLIGHT",
-                "new_status": "APPROVED",
-                "approval_id": "approval_012"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -719,15 +593,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_008"],
-                "exported_asset_ids": ["asset_art_008_pdf_1x"],
-                "thread_id": "thread_015",
-                "cycle_id": "cycle_013",
-                "message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -767,15 +633,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_006"],
-                "exported_asset_ids": ["asset_art_006_svg_1x"],
-                "thread_id": "thread_015",
-                "cycle_id": "cycle_013",
-                "message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -819,16 +677,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_009", "art_011"],
-                "exported_asset_ids": ["asset_art_009_png_4x", "asset_art_011_png_4x"],
-                "thread_id": "thread_015",
-                "cycle_id_1": "cycle_013",
-                "cycle_id_2": "cycle_014",
-                "message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -868,15 +717,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_011"],
-                "exported_asset_ids": ["asset_art_011_pdf_1x"],
-                "thread_id": "thread_015",
-                "cycle_id": "cycle_013",
-                "message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -920,16 +761,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_005", "art_012"],
-                "exported_asset_ids": ["asset_art_005_svg_2x", "asset_art_012_svg_2x"],
-                "thread_id": "thread_015",
-                "cycle_id_1": "cycle_013",
-                "cycle_id_2": "cycle_014",
-                "message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -969,15 +801,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_003"],
-                "exported_asset_ids": ["asset_art_003_pdf_1x"],
-                "thread_id": "thread_015",
-                "cycle_id": "cycle_013",
-                "message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1017,15 +841,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_008"],
-                "exported_asset_ids": ["asset_art_008_svg_2x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1065,15 +881,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_009"],
-                "exported_asset_ids": ["asset_art_009_jpg_4x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1113,15 +921,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_001"],
-                "exported_asset_ids": ["asset_art_001_png_1x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1161,15 +961,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_001"],
-                "exported_asset_ids": ["asset_art_001_jpg_2x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_ids": ["cycle_013"],
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1235,23 +1027,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "is_release_version": True,
-                "computed_diffs": {
-                    "prior_release_id_nullable": "release_006",
-                    "frames_added": ["1:3", "1:4"],
-                    "frames_updated": ["1:5"],
-                    "component_version_bumps": ["HomepageHeroSection-v1.19", "NavigationBar-v1.13", "DesignSystem-v1.12", "ContactFormComponent-v1.20"]
-                },
-                "saved_diff_id": "diff_001",
-                "hero_artifacts": ["art_001"],
-                "exported_assets": ["asset_art_001_svg_2x"],
-                "visual_name": "before_after_visual_release_001_5894",
-                "gmail_thread_id": "thread_015",
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1317,25 +1093,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "is_release_version": True,
-                "computed_diffs": {
-                    "prior_release_id_nullable": "release_007",
-                    "frames_added": ["2:2"],
-                    "frames_updated": ["2:3", "2:4"],
-                    "component_version_bumps": ["MobileAppDashboard-v1.18", "UserProfileScreen-v1.17", "SettingsScreen-v1.14"]
-                },
-                "saved_diff_id": "diff_002",
-                "hero_artifacts": ["art_001"],
-                "exported_assets": ["asset_art_001_png_4x"],
-                # "visual_name": "before_after_visual_release_002_0139",
-                # "visual_name": "before_after_visual_release_002_3016",
-                "visual_name": "before_after_visual_release_002_5894",
-                "gmail_thread_id": "thread_015",
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1401,23 +1159,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "is_release_version": True,
-                "computed_diffs": {
-                    "prior_release_id_nullable": "release_008",
-                    "frames_added": [],
-                    "frames_updated": ["3:3"],
-                    "component_version_bumps": ["MarketingWebsite-v1.16", "PricingPage-v1.11"]
-                },
-                "saved_diff_id": "diff_003",
-                "hero_artifacts": ["art_001"],
-                "exported_assets": ["asset_art_001_pdf_1x"],
-                "visual_name": "before_after_visual_release_003_5894",
-                "gmail_thread_id": "thread_015",
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1486,32 +1228,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[{
-            "release_detected": {
-                "release_id": "release_004",
-                "version_id": "v3.0.0",
-                "release_name": "Admin Panel v3.0.0 - Accessibility Improvements",
-                "is_release_version": False
-            },
-            "diffs_computed": {
-                "frames_added": ["4:2", "4:3"],
-                "frames_updated": [],
-                "component_version_bumps": ["AdminPanelHeader-v1.16", "DataTableComponent-v1.18"],
-                "prior_release_id": None
-            },
-            "accessibility_focus": {
-                "compliance_standards": ["WCAG 2.1 AA", "Enhanced accessibility"],
-                "improvements": ["Screen reader support", "Keyboard navigation"]
-            },
-            "hero_artifacts_filtered": ["art_001"],
-            "assets_exported": ["asset_art_001_jpg_4x"],
-            "visual_generated": "before_after_visual_release_004_5894",
-            "communication_established": {
-                "thread_id": "thread_015",
-                "message_id": "msg_017",
-                "compliance_stakeholders_notified": 3
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1580,34 +1297,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[{
-            "release_detected": {
-                "release_id": "release_005",
-                "version_id": "v2.0.0",
-                "release_name": "Brand Guidelines v2.0.0 - Updated Palette",
-                "is_release_version": False
-            },
-            "diffs_computed": {
-                "frames_added": [],
-                "frames_updated": [],
-                "frames_removed": [],
-                "component_version_bumps": ["BrandGuidelines-v1.15"],
-                "prior_release_id": None
-            },
-            "brand_transformation": {
-                "palette_refresh": "Brand color palette refresh",
-                "typography_overhaul": "Typography system overhaul",
-                "guidelines_established": ["Logo usage guidelines", "Visual identity standards"]
-            },
-            "hero_artifacts_filtered": ["art_001"],
-            "assets_exported": ["asset_art_001_svg_1x"],
-            "visual_generated": "before_after_visual_release_005_5894",
-            "communication_established": {
-                "thread_id": "thread_015",
-                "message_id": "msg_017",
-                "brand_stakeholders_notified": 3
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1676,35 +1366,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[{
-            "release_detected": {
-                "release_id": "release_006",
-                "version_id": "v1.1.0",
-                "release_name": "Design System v1.1.0 - Navigation Components",
-                "is_release_version": False
-            },
-            "diffs_computed": {
-                "frames_added": ["1:3"],
-                "frames_updated": ["1:4", "1:5"],
-                "frames_removed": [],
-                "component_version_bumps": ["HomepageHeroSection-v1.19", "NavigationBar-v1.13", "DesignSystem-v1.12", "ContactFormComponent-v1.20"],
-                "prior_release_id": "release_010"
-            },
-            # "navigation_system_evolution": {
-            #     "menu_redesign": "Navigation menu redesign",
-            #     "breadcrumb_improvements": "Breadcrumb improvements",
-            #     "sidebar_updates": "Sidebar component updates",
-            #     "mobile_patterns": "Mobile navigation patterns"
-            # },
-            "hero_artifacts_filtered": ["art_001"],
-            "assets_exported": ["asset_art_001_pdf_1x"],
-            "visual_generated": "before_after_visual_release_006_5894",
-            "communication_established": {
-                "thread_id": "thread_015",
-                "message_id": "msg_017",
-                # "design_system_stakeholders_notified": 3
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1773,35 +1435,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[{
-            "release_detected": {
-                "release_id": "release_007",
-                "version_id": "v2.0.0",
-                "release_name": "Mobile App v2.0.0 - Dashboard Redesign",
-                "is_release_version": False
-            },
-            "diffs_computed": {
-                "frames_added": ["2:2", "2:3", "2:4"],
-                "frames_updated": [],
-                "frames_removed": [],
-                "component_version_bumps": ["MobileAppDashboard-v1.18", "UserProfileScreen-v1.17", "SettingsScreen-v1.14"],
-                "prior_release_id": None
-            },
-            "mobile_experience_revolution": {
-                "dashboard_optimization": "Dashboard layout optimization",
-                "navigation_improvements": "Mobile navigation improvements",
-                "personalization_features": "Widget personalization features",
-                "performance_optimizations": "Performance optimizations"
-            },
-            "hero_artifacts_filtered": ["art_001"],
-            "assets_exported": ["asset_art_001_jpg_2x"],
-            "visual_generated": "before_after_visual_release_007_5894",
-            "communication_established": {
-                "thread_id": "thread_015",
-                "message_id": "msg_017",
-                "mobile_stakeholders_notified": 3
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1870,37 +1504,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[{
-            "release_detected": {
-                "release_id": "release_008",
-                "version_id": "v0.9.0",
-                "release_name": "Marketing Website v0.9.0 - Beta Release",
-                "is_release_version": False
-            },
-            "diffs_computed": {
-                "diff_id": "diff_008",
-                "frames_added": ["3:3"],
-                "frames_updated": [],
-                "frames_removed": [],
-                "component_version_bumps": ["MarketingWebsite-v1.16", "PricingPage-v1.11"],
-                "prior_release_id": None
-            },
-            # "market_expansion_initiative": {
-            #     "page_optimization": "Marketing page optimization",
-            #     "beta_previews": "Beta feature previews",
-            #     "lead_capture": "Lead capture enhancements",
-            #     "content_personalization": "Content personalization"
-            # },
-            "hero_artifacts_filtered": ["art_001"],
-            "assets_exported": ["asset_art_001_png_4x"],
-            "visual_generated": "before_after_visual_release_008_5894",
-            "communication_established": {
-                "thread_id": "thread_015",
-                "message_id": "msg_017",
-                # "marketing_stakeholders_notified": 3
-            },
-
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1969,35 +1573,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[{
-            "release_detected": {
-                "release_id": "release_009",
-                "version_id": "v2.5.0",
-                "release_name": "Admin Panel v2.5.0 - Data Table Components",
-                "is_release_version": False
-            },
-            "diffs_computed": {
-                "frames_added": ["4:2", "4:3"],
-                "frames_updated": [],
-                "frames_removed": [],
-                "component_version_bumps": ["AdminPanelHeader-v1.16", "DataTableComponent-v1.18"],
-                "prior_release_id": None
-            },
-            # "enterprise_data_transformation": {
-            #     "table_improvements": "Data table improvements",
-            #     "filtering_features": "Advanced filtering features",
-            #     "pagination_enhancements": "Pagination enhancements",
-            #     "customization_options": "Column customization options"
-            # },
-            "hero_artifacts_filtered": ["art_001"],
-            "assets_exported": ["asset_art_001_svg_1x"],
-            "visual_generated": "before_after_visual_release_009_5894",
-            "communication_established": {
-                "thread_id": "thread_015",
-                "message_id": "msg_017",
-                "admin_stakeholders_notified": 3
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2066,37 +1642,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[{
-            "release_detected": {
-                "release_id": "release_010",
-                "version_id": "v1.0.0",
-                "release_name": "Design System v1.0.0 - Initial Release",
-                "is_release_version": True
-            },
-            "diffs_computed": {
-                "frames_added": ["1:3", "1:4", "1:5"],
-                "frames_updated": [],
-                "frames_removed": [],
-                "component_version_bumps": ["HomepageHeroSection-v1.19", "NavigationBar-v1.13", "DesignSystem-v1.12", "ContactFormComponent-v1.20"],
-                "prior_release_id": None
-            },
-            "design_system_launch": {
-                "release_name": "Design System v1.0.0 - Initial Release",
-                "visual_asset": "before_after_visual_release_010_5894",
-                "thread_id": "thread_015",
-                "message_id": "msg_017",
-                # "documentation_format": "PDF 1x",
-                # "stakeholder_groups": 2
-            },
-            "hero_artifacts_filtered": ["art_001"],
-            "assets_exported": ["asset_art_001_pdf_1x"],
-            "visual_generated": "before_after_visual_release_010_5894",
-            "communication_established": {
-                "thread_id": "thread_015",
-                "message_id": "msg_017",
-                "design_system_stakeholders_notified": 2
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2162,28 +1708,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "is_release_version": True,
-                "release_info": {
-                    "release_id": "release_002",
-                    "version_tag": "release/mobile-app-v2.1.0",
-                    "release_name": "Mobile App v2.1.0 - User Profile & Dashboard"
-                },
-                "computed_diffs": {
-                    "prior_release_id_nullable": "release_007",
-                    "frames_added": ["2:2"],
-                    "frames_updated": ["2:3", "2:4"],
-                    "component_version_bumps": ["MobileAppDashboard-v1.18", "UserProfileScreen-v1.17", "SettingsScreen-v1.14"]
-                },
-                "saved_diff_id": "diff_002",
-                "hero_artifacts": ["art_001"],
-                "exported_assets": ["asset_art_001_png_4x"],
-                "visual_name": "before_after_visual_release_002_5894",
-                "gmail_thread_id": "thread_015",
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2249,30 +1774,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "is_release_version": True,
-                "release_info": {
-                    "release_id": "release_011",
-                    "version_tag": "release/design-system-v1.3.0",
-                    "release_name": "Design System v1.3.0 - Form Components & Accessibility"
-                },
-                "computed_diffs": {
-                    "prior_release_id_nullable": "release_001",
-                    "frames_added": ["1:3", "1:4"],
-                    "frames_updated": ["1:5"],
-                    "frames_removed": [],
-                    "component_version_bumps": ["HomepageHeroSection-v1.19", "NavigationBar-v1.13", "DesignSystem-v1.12", "ContactFormComponent-v1.20"],
-                    "changelog_highlights": ["Advanced form components", "Enhanced accessibility features", "Improved user interactions"]
-                },
-                "saved_diff_id": "diff_011",
-                "hero_artifacts": ["art_001"],
-                "exported_assets": ["asset_art_001_jpg_2x"],
-                "visual_name": "before_after_visual_release_011_5894",
-                "gmail_thread_id": "thread_015",
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2314,28 +1816,7 @@ TASKS = [
                 kwargs={"sender_email": "jake.design@company.com", "workflow_type": "release", "thread_id": "thread_015", "attachments_asset_ids": ["asset_art_001_svg_4x"]}
             )
         ],
-        outputs=[
-            {
-                "release_detected": True,
-                "release_info": {
-                    "release_id": "release_012",
-                    "version": "v2.2.0",
-                    "release_name": "Mobile App v2.2.0 - Settings & Profile Enhancements"
-                },
-                "diff_processing": {
-                    "prior_release": "release_002",
-                    "frames_added": 2,
-                    "frames_updated": 1,
-                    "component_bumps": 3
-                },
-                "hero_artifacts_exported": ["art_001"],
-                "export_format": "SVG",
-                "export_scale": "4x",
-                "visual_generation": "before_after_visual_release_012_5894",
-                "gmail_thread_id": "thread_015",
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2377,33 +1858,7 @@ TASKS = [
                 kwargs={"sender_email": "emma.creative@company.com", "workflow_type": "release", "thread_id": "thread_015", "attachments_asset_ids": ["asset_art_001_jpg_2x"]}
             )
         ],
-        outputs=[
-            {
-                "release_validated": True,
-                "release_info": {
-                    "release_id": "release_001",
-                    "version": "v1.2.0",
-                    "release_name": "Design System v1.2.0 - Enhanced Components"
-                },
-                "diff_computation": {
-                    "prior_release": "release_006",
-                    "frames_added": 2,
-                    "frames_updated": 1,
-                    "component_bumps": 4
-                },
-                "hero_artifacts_exported": ["art_001"],
-                "export_format": "JPG",
-                "export_scale": "2x",
-                "visual_generation": "before_after_visual_release_001_5894",
-                "technical_stakeholder_outreach": {
-                    "engineering_team": True,
-                    "design_system_team": True,
-                    "accessibility_team": True
-                },
-                "gmail_thread_id": "thread_015",
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2443,15 +1898,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_009"],
-                "exported_asset_ids": ["asset_art_009_png_1x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_id": "cycle_013",
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2491,15 +1938,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "filtered_artifacts": ["art_005"],
-                "exported_asset_ids": ["asset_art_005_svg_2x"],
-                "gmail_thread_id": "thread_015",
-                "review_cycle_id": "cycle_013",
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2565,23 +2004,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            {
-                "is_release_version": False,
-                "computed_diffs": {
-                    "prior_release_id_nullable": None,
-                    "frames_added": ["4:2", "4:3"],
-                    "frames_updated": [],
-                    "component_version_bumps": ["AdminPanelHeader-v1.16", "DataTableComponent-v1.18"]
-                },
-                "saved_diff_id": "diff_004",
-                "hero_artifacts": ["art_001"],
-                "exported_assets": ["asset_art_001_pdf_1x"],
-                "visual_name": "before_after_visual_release_004_5894",
-                "gmail_thread_id": "thread_015",
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2623,29 +2046,7 @@ TASKS = [
                 kwargs={"sender_email": "anna.brand@company.com", "workflow_type": "release", "thread_id": "thread_015", "attachments_asset_ids": ["asset_art_001_png_4x"] }
             )
         ],
-        outputs=[
-            {
-                "release_info": {
-                    "release_id": "release_008",
-                    "version_tag": "marketing-website-v0.9.0",
-                    "release_name": "Marketing Website v0.9.0 - Beta Release",
-                    "is_release_version": False
-                },
-                "computed_diffs": {
-                    "frames_added": ["3:3"],
-                    "frames_updated": [],
-                    "component_version_bumps": ["MarketingWebsite-v1.16", "PricingPage-v1.11"]
-                },
-                "saved_diff_id": "diff_008",
-                "marketing_artifacts": ["art_001"],
-                "exported_assets": ["asset_art_001_png_4x"],
-                "export_format": "PNG",
-                "export_scale": "4x",
-                "visual_generated": "before_after_visual_release_008_5894",
-                "gmail_thread_id": "thread_015",
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2687,29 +2088,7 @@ TASKS = [
                 kwargs={"sender_email": "chris.engineer@company.com", "workflow_type": "release", "thread_id": "thread_015", "attachments_asset_ids": ["asset_art_001_svg_1x"]}
             )
         ],
-        outputs=[
-            {
-                "release_info": {
-                    "release_id": "release_009",
-                    "version_tag": "admin-panel-v2.5.0",
-                    "release_name": "Admin Panel v2.5.0 - Data Table Components",
-                    "is_release_version": False
-                },
-                "computed_diffs": {
-                    "frames_added": ["4:2", "4:3"],
-                    "frames_updated": [],
-                    "component_version_bumps": ["AdminPanelHeader-v1.16", "DataTableComponent-v1.18"]
-                },
-                "saved_diff_id": "diff_009",
-                "hero_artifacts": ["art_001"],
-                "exported_assets": ["asset_art_001_svg_1x"],
-                "export_format": "SVG",
-                "export_scale": "1x",
-                "visual_generated": "before_after_visual_release_009_5894",
-                "gmail_thread_id": "thread_015",
-                "gmail_message_id": "msg_017"
-            }
-        ]
+        outputs=[]
     ),
 
         Task(
@@ -2779,22 +2158,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[{
-            "release_info": {
-                "release_id": "release_009",
-                "version_tag": "admin-panel-v2.5.0",
-                "release_name": "Admin Panel v2.5.0 - Data Table Components",
-                "owner_email": "chris.engineer@company.com"
-            },
-            "prior_release_id": "release_006",
-            "frames_added": ["4:2", "4:3"],
-            "component_version_bumps": ["AdminPanelHeader-v1.16", "DataTableComponent-v1.18"],
-            "hero_artifacts": ["art_001"],
-            "exported_assets": ["asset_art_001_svg_1x"],
-            "visual_generated": "before_after_visual_release_009_5894",
-            "thread_id": "thread_015",
-            "message_id": "msg_017"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2836,12 +2200,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_ds_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2883,12 +2242,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_ds_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2930,12 +2284,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_ds_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2977,11 +2326,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_ds_016",
-            "report_asset_id": "asset_019",
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3023,12 +2368,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_ds_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3070,12 +2410,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_ds_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3117,12 +2452,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_ds_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3164,12 +2494,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_ds_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3211,12 +2536,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_ds_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3258,12 +2578,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_ds_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3305,12 +2620,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_ds_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3352,12 +2662,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_ds_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3403,12 +2708,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_a11y_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3454,12 +2754,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_a11y_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3505,12 +2800,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_a11y_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3556,12 +2846,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_a11y_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3607,12 +2892,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_a11y_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3658,12 +2938,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_a11y_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3713,12 +2988,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_a11y_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3771,12 +3041,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_a11y_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3826,12 +3091,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_a11y_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3881,12 +3141,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "finding_id": "finding_a11y_016",
-            "report_asset_id": "asset_019",
-            # "audit_status": "COMPLETED"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3932,7 +3187,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{"audit_id": "audit_013", "finding_id": "finding_a11y_016", "report_asset_id": "asset_019"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3978,7 +3233,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "status": "COMPLETED"}
             )
         ],
-        outputs=[{"audit_id": "audit_013", "finding_id": "finding_a11y_016", "report_asset_id": "asset_019"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4039,7 +3294,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "report_asset_id": "asset_019"}
             )
         ],
-        outputs=[{"audit_id": "audit_013", "finding_ds_id": "finding_ds_016", "finding_a11y_id": "finding_a11y_016", "report_asset_id": "asset_019"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4085,7 +3340,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "report_asset_id": "asset_019"}
             )
         ],
-        outputs=[{"audit_id": "audit_013", "finding_ds_id": "finding_ds_016", "finding_a11y_id": "finding_a11y_016", "report_asset_id": "asset_019"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4131,7 +3386,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "report_asset_id": "asset_019"}
             )
         ],
-        outputs=[{"audit_id": "audit_013", "finding_ds_id": "finding_ds_016", "finding_a11y_id": "finding_a11y_016", "report_asset_id": "asset_019"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4177,7 +3432,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "report_asset_id": "asset_019"}
             )
         ],
-        outputs=[{"audit_id": "audit_013", "finding_ds_id": "finding_ds_016", "finding_a11y_id": "finding_a11y_016", "report_asset_id": "asset_019"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4243,12 +3498,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "report_asset_id": "asset_019"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "ds_finding_id": "finding_ds_016",
-            "a11y_finding_id": "finding_a11y_016",
-            "report_asset_id": "asset_019"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4313,12 +3563,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "report_asset_id": "asset_019"}
             )
         ],
-        outputs=[{
-            "audit_id": "audit_013",
-            "ds_finding_id": "finding_ds_016",
-            "a11y_finding_id": "finding_a11y_016",
-            "report_asset_id": "asset_019"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4364,7 +3609,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "report_asset_id": "asset_019"}
             )
         ],
-        outputs=[{"audit_id": "audit_013", "finding_ds_id": "finding_ds_016", "finding_a11y_id": "finding_a11y_016", "report_asset_id": "asset_019"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4410,7 +3655,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "report_asset_id": "asset_019"}
             )
         ],
-        outputs=[{"audit_id": "audit_013", "finding_ds_id": "finding_ds_016", "finding_a11y_id": "finding_a11y_016", "report_asset_id": "asset_019"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4456,7 +3701,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "report_asset_id": "asset_019"}
             )
         ],
-        outputs=[{"audit_id": "audit_013", "finding_ds_id": "finding_ds_016", "finding_a11y_id": "finding_a11y_016", "report_asset_id": "asset_019"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4502,7 +3747,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "report_asset_id": "asset_019"}
             )
         ],
-        outputs=[{"audit_id": "audit_013", "finding_ds_id": "finding_ds_016", "finding_a11y_id": "finding_a11y_016", "report_asset_id": "asset_019"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4548,7 +3793,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "report_asset_id": "asset_019"}
             )
         ],
-        outputs=[{"audit_id": "audit_013", "finding_ds_id": "finding_ds_016", "finding_a11y_id": "finding_a11y_016", "report_asset_id": "asset_019"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4594,7 +3839,7 @@ TASKS = [
                 kwargs={"audit_id": "audit_013", "report_asset_id": "asset_019"}
             )
         ],
-        outputs=[{"audit_id": "audit_013", "finding_ds_id": "finding_ds_016", "finding_a11y_id": "finding_a11y_016", "report_asset_id": "asset_019"}]
+        outputs=[]
     ),
 
     Task(
@@ -4633,7 +3878,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["manager@company.com", "ux-lead@company.com"], "audit_id": "audit_001", "status": "DRAFTED", "owner_email": "designer@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_id_1": "item_021", "item_id_2": "item_022", "asset_id": "asset_019", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
 
     Task(
@@ -4672,7 +3917,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["product-manager@company.com", "design-lead@company.com"], "audit_id": "audit_005", "status": "DRAFTED", "owner_email": "lead-designer@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_id_1": "item_021", "item_id_2": "item_022", "comment_id": "comment_019", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4710,7 +3955,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["qa-lead@company.com", "dev-team@company.com"], "audit_id": "audit_003", "status": "DRAFTED", "owner_email": "senior-designer@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_id_1": "item_021", "item_id_2": "item_022", "asset_id": "asset_019", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4748,7 +3993,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["ux-team@company.com", "compliance-officer@company.com"], "audit_id": "audit_004", "status": "DRAFTED", "owner_email": "accessibility-lead@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_id_1": "item_021", "item_id_2": "item_022", "ticket_id": "JIRA-9215", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4786,7 +4031,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["design-system@company.com", "product-owner@company.com"], "audit_id": "audit_001", "status": "DRAFTED", "owner_email": "ux-designer@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_id_1": "item_021", "item_id_2": "item_022", "ticket_id": "JIRA-9215", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4824,7 +4069,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["ui-team@company.com", "accessibility-expert@company.com"], "audit_id": "audit_002", "status": "DRAFTED", "owner_email": "frontend-dev@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_id_1": "item_021", "item_id_2": "item_022", "comment_id": "comment_019", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4862,7 +4107,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["design-system@company.com", "component-library@company.com"], "audit_id": "audit_006", "status": "DRAFTED", "owner_email": "component-dev@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_id_1": "item_021", "item_id_2": "item_022", "asset_id": "asset_019", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4900,7 +4145,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["i18n-team@company.com", "accessibility-qa@company.com"], "audit_id": "audit_007", "status": "DRAFTED", "owner_email": "internationalization-dev@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_id_1": "item_021", "item_id_2": "item_022", "asset_id": "asset_019", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4938,7 +4183,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["ds-governance@company.com", "product-design@company.com"], "audit_id": "audit_008", "status": "DRAFTED", "owner_email": "platform-team@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_id_1": "item_021", "item_id_2": "item_022", "comment_id": "comment_019", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4976,7 +4221,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["brand-guidelines@company.com", "marketing-design@company.com"], "audit_id": "audit_010", "status": "DRAFTED", "owner_email": "brand-team@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_id_1": "item_021", "item_id_2": "item_022", "ticket_id": "JIRA-9215", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5014,7 +4259,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["contact-form-dev@company.com", "ui-accessibility@company.com"], "audit_id": "audit_011", "status": "DRAFTED", "owner_email": "form-team@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_id_1": "item_021", "item_id_2": "item_022", "ticket_id": "JIRA-9215", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5052,7 +4297,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["reviewer@company.com"], "audit_id": "audit_011", "status": "DELIVERED", "owner_email": "designer@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_ids": ["item_021", "item_022"], "asset_id": "asset_019", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5090,7 +4335,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["product-manager@company.com"], "audit_id": "audit_012", "status": "DELIVERED", "owner_email": "ux-lead@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_ids": ["item_021", "item_022"], "asset_id": "asset_019", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5132,7 +4377,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["design-team@company.com"], "audit_id": "audit_010", "status": "DELIVERED", "owner_email": "brand-manager@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_ids": ["item_021", "item_022"], "ticket_id": "JIRA-9215", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5174,7 +4419,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["accessibility.lead@othercompany.com"], "audit_id": "audit_007", "status": "DELIVERED", "owner_email": "accessibility.lead@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_ids": ["item_021", "item_022"], "ticket_id": "JIRA-9215", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5216,7 +4461,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["ux.engineer@othercompany.com"], "audit_id": "audit_004", "status": "DELIVERED", "owner_email": "ux.engineer@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_ids": ["item_021", "item_022"], "comment_id": "comment_019", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5258,7 +4503,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["design.lead@company.com"], "audit_id": "audit_010", "status": "DELIVERED", "owner_email": "design.lead@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_ids": ["item_021", "item_022"], "comment_id": "comment_019", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5304,7 +4549,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["senior.dev@othercompany.com"], "audit_id": "audit_003", "status": "DELIVERED", "owner_email": "senior.dev@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_ids": ["item_021", "item_022", "item_023", "item_024"], "ticket_id": "JIRA-9215", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5350,7 +4595,7 @@ TASKS = [
                 kwargs={"plan_id": "plan_013", "stakeholder_emails": ["ui.accessibility@company.com"], "audit_id": "audit_002", "status": "DELIVERED", "owner_email": "ui.accessibility@company.com"}
             )
         ],
-        outputs=[{"plan_id": "plan_013", "item_ids": ["item_021", "item_022", "item_023", "item_024"], "comment_id": "comment_019", "thread_id": "thread_015", "message_id": "msg_017"}]
+        outputs=[]
     ),
 
 

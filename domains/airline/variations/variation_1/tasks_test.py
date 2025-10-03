@@ -309,8 +309,7 @@ TASKS = [
     Task(
         annotator="0",
         user_id="task_006",
-        instruction=("Conduct Operations Management at LGA. Apply the \"Route Suspension Protocol\" with an override to suspend flight HAT002 (LGA–PHX) only on 2024-05-17, and issue a $100 compensation travel voucher per reservation."
-                     ),
+        instruction="Conduct Operations Management at LGA. Apply the \"Route Suspension Protocol\" with an override to suspend flight HAT002 (LGA–PHX) only on 2024-05-17, and issue a $100 compensation travel voucher per reservation.",
         actions=[
             Action(
                 name="CreateOperationalEvent",
@@ -1129,9 +1128,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            "ML026"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1198,9 +1195,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "3"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1265,9 +1260,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "ML026"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1386,11 +1379,7 @@ TASKS = [
                     }
                     )
         ],
-        outputs=[
-            "4MB0L3",
-            "RNL6HR",
-            "W8DUJ8"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1445,9 +1434,7 @@ TASKS = [
                     }
                     )
         ],
-        outputs=[
-            "2"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1535,11 +1522,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "AC023",
-            "AC013",
-            "AC020"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1667,9 +1650,7 @@ TASKS = [
                     }
                     )
         ],
-        outputs=[
-            "ML026"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1743,12 +1724,7 @@ TASKS = [
                     }
                     )
         ],
-        outputs=[
-            "BU71UY",
-            "CC80AJ",
-            "HDUF3Q",
-            "J3SAZF"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1788,9 +1764,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "4"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1877,9 +1851,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "OE026"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1960,10 +1932,7 @@ TASKS = [
                     }
                 )
         ],
-        outputs=[
-            "PR-XBE",
-            "PR-YSH"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2055,10 +2024,7 @@ TASKS = [
                     }
                 )
         ],
-        outputs=[
-            "OE026",
-            "OE027"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2118,7 +2084,7 @@ TASKS = [
                     }
                     )
         ],
-        outputs=["ML026"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2176,7 +2142,7 @@ TASKS = [
                     }
                     )
         ],
-        outputs=["PR-GOL"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2234,9 +2200,7 @@ TASKS = [
                     }
                 )
         ],
-        outputs=[
-            "RES0001"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2284,9 +2248,7 @@ TASKS = [
                     }
                 )
         ],
-        outputs=[
-            "RNL6HR"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2333,9 +2295,7 @@ TASKS = [
                     }
                 )
         ],
-        outputs=[
-            "574"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2404,10 +2364,7 @@ TASKS = [
                     }
                 )
         ],
-        outputs=[
-            "AC002",
-            "AC010"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2472,9 +2429,7 @@ TASKS = [
                     }
                 )
         ],
-        outputs=[
-            "OE026"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2554,9 +2509,7 @@ TASKS = [
                     }
                 )
         ],
-        outputs=[
-            "HAT9001"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2626,9 +2579,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=[
-            "QS2N5D"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2697,10 +2648,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=[
-            "PP-EJA",
-            "G-E-RKI"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2795,9 +2743,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=[
-            "3"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2859,9 +2805,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=[
-            "ML026"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2924,9 +2868,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "True"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3020,9 +2962,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=[
-            "OE026"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3081,9 +3021,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "RES0001"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3153,7 +3091,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["Active - MEL Deferred"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3234,9 +3172,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=[
-            "OE026"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3298,7 +3234,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=["ML026"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3345,7 +3281,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=["Missing required B787-9 type-rating certification."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3392,7 +3328,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=[""]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3430,7 +3366,7 @@ TASKS = [
             Action(name="SendCertificate", kwargs={
                 "user_email": "chen.nguyen2563@example.com", "amount": 100})
         ],
-        outputs=["BCLAIM_BMZ6Y9_HAT004"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3454,7 +3390,7 @@ TASKS = [
             Action(name="SendPassengerNotification", kwargs={
                 "reservation_id": "KKKYCG", "message": "FLIGHT CANCELLATION NOTICE: Due to severe weather, your flight HAT004 on 2024-05-17 has been cancelled."})
         ],
-        outputs=["OE026"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3779,7 +3715,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=["PR-GOL"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3828,7 +3764,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["OE026"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4334,7 +4270,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=["True"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4425,7 +4361,7 @@ TASKS = [
             Action(name="SendCertificate", kwargs={
                 "user_email": "mohamed.taylor9286@example.com", "amount": 200})
         ],
-        outputs=["ML026"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4656,7 +4592,7 @@ TASKS = [
             Action(name="SendPassengerNotification", kwargs={
                 "reservation_id": "BWHHHG", "message": "AIRCRAFT CHANGE: Due to an aircraft change on flight HAT010, your Business Class seat could not be accommodated. You have been moved to an Economy seat. A refund for the fare difference has been processed. We apologize for the inconvenience."})
         ],
-        outputs=["2394"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4712,7 +4648,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=["HAT9004"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4761,7 +4697,7 @@ TASKS = [
                     }
             )
         ],
-        outputs=["QS2N5D"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5477,7 +5413,7 @@ TASKS = [
                 Action(name="SendPassengerNotification", kwargs={
                        "reservation_id": "KKKYCG", "message": "FLIGHT UPDATE for reservation KKKYCG: Your flight HAT004 on 2024-05-17 has been rescheduled. New departure is 13:00:00 and new arrival is 14:00:00. We apologize for any inconvenience."})
         ],
-        outputs=["D975WV", "BMZ6Y9", "KKKYCG"]
+        outputs=[]
     ),
     Task(
         annotator="0",

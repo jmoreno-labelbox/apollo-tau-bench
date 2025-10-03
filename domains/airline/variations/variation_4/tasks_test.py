@@ -38,7 +38,7 @@ TASKS = [
             ),
             Action(name="GetReservationDetails", kwargs={"reservation_id": "NO6JO3"})
         ],
-        outputs=['"new_flight_number": "HAT014"', '"total_cost": 270'],
+        outputs=[]
     ),
 
 
@@ -75,9 +75,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -136,7 +134,7 @@ TASKS = [
             Action(name="GetCrewMemberDetails", kwargs={"crew_member_id": "CM006"}),
             Action(name="GetCrewMemberDetails", kwargs={"crew_member_id": "CM021"}),
         ],
-        outputs=['"flight_number": "HAT022"', '"duty_time_logged": "confirmed"']
+        outputs=[]
     ),
 
 
@@ -179,10 +177,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026"',
-            '"aircraft_status": "Maintenance"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -204,12 +199,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"alternative_flights": "Same-day DCA→ORD search completed (may be none)"',
-            '"operational_events": "Flight HAT010 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
 
@@ -233,12 +223,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"alternative_flights": "Available flights from ORD to LAX on 2024-05-17 identified"',
-            '"operational_events": "Flight HAT029 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -266,14 +251,7 @@ TASKS = [
                 "flight_id": "FL044"
             }),
         ],
-        outputs=[
-            '"user_profile": "Member Jennifer Johnson profile retrieved"',
-            '"reservation_details": "Reservation R9QDGB details retrieved successfully"',
-            '"alternative_flights": "Same-day SFO→PDX search completed (may be none)"',
-            '"operational_events": "Flight HAT044 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
 
@@ -297,12 +275,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"alternative_flights": "Available flights from LAX to DFW on 2024-05-22 identified"',
-            '"operational_events": "Flight HAT022 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -328,14 +301,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"user_profile": "Member Mohamed Lopez profile retrieved"',
-            '"reservation_details": "Reservation 6NSXQU details retrieved successfully"',
-            '"alternative_flights": "Available flights from ATL to BWI on 2024-05-19 identified"',
-            '"operational_events": "Flight HAT021 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -359,7 +325,7 @@ TASKS = [
             ),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "B737-800", "status_filter": ["Active", "Maintenance"]})
         ],
-        outputs=['"maintenance_log_id": "created"']
+        outputs=[]
     ),
 
     Task(
@@ -394,7 +360,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=['"maintenance_log_id": "created"', '"aircraft_status": "Maintenance"']
+        outputs=[]
     ),
 
     Task(
@@ -446,13 +412,7 @@ TASKS = [
                 "landings": 1, "takeoffs": 1
             })
         ],
-        outputs=[
-            '"flight_number": "HAT015"',
-            '"assignment": {"crew_member_id":"CM021","role":"Flight Attendant","status":"assigned"}',
-            '"assignment": {"crew_member_id":"CM025","role":"Flight Attendant","status":"assigned","lead_cabin_designation":true}',
-            '"log": {"crew_member_id":"CM021","status":"logged"}',
-            '"log": {"crew_member_id":"CM025","status":"logged"}'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -488,9 +448,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026"'
-        ]
+        outputs=[]
     ),
 
 
@@ -517,14 +475,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"user_profile": "Member Jennifer Johnson profile retrieved"',
-            '"reservation_details": "Reservation R9QDGB details retrieved successfully"',
-            '"alternative_flights": "No available flights from BOS to LGA on 2024-05-28 identified"',
-            '"operational_events": "Flight HAT007 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -583,12 +534,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026"',
-            '"aircraft_pre_maintenance_status": "Aircraft AC007 details retrieved"',
-            '"maintenance_history": "Aircraft AC007 maintenance history retrieved"',
-            '"operational_event_id": "OE026"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -664,13 +610,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"flight_number": "HAT016"',
-            '"flight_id": "FL016"',
-            '"crew_assignments": "Captain Isabella Brown (CM001) and First Officer Isabella Brown (CM002) assigned"',
-            '"duty_time_logged": "Both crew members logged 3.0 total hours (PIC for Captain, SIC for First Officer) with 1 landing and 1 takeoff"',
-            '"aircraft_model": "B737-800"'
-        ]
+        outputs=[]
     ),
 
 
@@ -697,7 +637,7 @@ TASKS = [
                  }
              )
          ],
-         outputs=['"aircraft_status": "Maintenance"', '"maintenance_log_id": "ML026"'],
+         outputs=[]
      ),
     Task(
         annotator="0",
@@ -719,12 +659,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"alternative_flights": "Available flights from HOU to DEN on 2024-06-07 identified"',
-            '"operational_events": "Flight HAT028 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -746,12 +681,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"alternative_flights": "No available flights from MSP to PHX on 2024-06-14"',
-            '"operational_events": "Flight HAT033 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
 
@@ -789,10 +719,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026"',
-            '"aircraft_final_status": "Active"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -817,14 +744,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"user_profile": "Member Mohamed Lopez profile retrieved"',
-            '"reservation_details": "Reservation 6NSXQU details retrieved successfully"',
-            '"alternative_flights": "Same-day SEA→SFO search completed (may be none)"',
-            '"operational_events": "Flight HAT042 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
 
@@ -892,13 +812,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"flight_number": "HAT015"',
-            '"flight_id": "FL010"',
-            '"crew_assignments": "Jennifer Wilson (CM021) and Mohamed Lopez (CM025) assigned as Flight Attendants"',
-            '"duty_time_logged": "Both crew members logged 2.0 total hours (2.0 night hours) with 1 landing and 1 takeoff"',
-            '"aircraft_model": "CRJ900"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -951,7 +865,7 @@ TASKS = [
             Action(name="GetCrewCertifications", kwargs={"crew_member_id": "CM001"}),
             Action(name="GetCrewCertifications", kwargs={"crew_member_id": "CM005"})
         ],
-        outputs=['"flight_log_entries_saved": "confirmed"', '"crew_certification_status": "valid"'],
+        outputs=[]
     ),
 
 
@@ -989,7 +903,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"reservation_id": "NO6JO3"', '"cabin": "first"', '"flight_status": "Flight HAT083 status retrieved"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1060,7 +974,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=['"event_id": "OE026"', '"updated_status": "delayed"', '"aircraft_status": "Aircraft AC010 details retrieved"', '"maintenance_status": "Aircraft AC010 maintenance history retrieved"', '"delay_impact_event_id": "OE027"'],
+        outputs=[]
     ),
 
     Task(
@@ -1119,13 +1033,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026"',
-            '"aircraft_status": "In Maintenance"',
-            '"operational_event_id": "OE026"',
-            '"aircraft_location": "Aircraft AC002 location details retrieved"',
-            '"fleet_utilization": "A320neo fleet utilization status retrieved"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1183,12 +1091,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026"',
-            '"aircraft_pre_maintenance_location": "Aircraft AC003 location details retrieved"',
-            '"maintenance_history": "Aircraft AC003 maintenance history retrieved"',
-            '"operational_event_id": "OE026"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1239,11 +1142,7 @@ TASKS = [
                 kwargs={"reservation_id": "NEW567"}
             )
         ],
-        outputs=[
-            '"flight_search_results": "Found available flight HAT020 from ORD to DTW on May 25, 2024 with economy price $125"',
-            '"reservation_confirmation": "Reservation NEW567 created successfully for Mohamed Lopez on one-way flight HAT020 from ORD to DTW on May 25, 2024"',
-            '"reservation_details": "Reservation NEW567 confirmed: Mohamed Lopez, Economy class, one-way flight HAT020, ORD-DTW, May 25, 2024"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1302,10 +1201,7 @@ TASKS = [
                 kwargs={"aircraft_id": "AC009"}
             )
         ],
-        outputs=[
-            '"AC008_final_status": "Active", "AC008_final_location": "LAS"',
-            '"AC009_final_status": "Active", "AC009_final_location": "PHX"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1364,14 +1260,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"user_profile": "Regular member Ivan Wilson with 3 reservations and 4 payment methods"',
-            '"reservation_details": "Reservation 4WQ150 details retrieved successfully"',
-            '"alternative_flights": "Available flights from LAX to DFW on 2024-05-22 identified"',
-            '"operational_events": "Flight HAT022 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1429,11 +1318,7 @@ TASKS = [
             ),
             Action(name="GetReservationDetails", kwargs={"reservation_id": "NEW789"})
         ],
-        outputs=[
-            '"flight_search_results": "Found available flight HAT129 from MIA to ORD on May 28, 2024 with business price $460"',
-            '"reservation_confirmation": "Reservation NEW789 created successfully for Isabella Brown on one-way flight HAT129 from MIA to ORD on May 28, 2024"',
-            '"reservation_details": "Reservation NEW789 confirmed: Isabella and Ivan Wilson, Business class, one-way flight HAT129, MIA-ORD, May 28, 2024"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1498,12 +1383,7 @@ TASKS = [
             Action(name="GetAircraftDetails", kwargs={"aircraft_id": "AC002"}),
             Action(name="GetAircraftDetails", kwargs={"aircraft_id": "AC005"})
         ],
-        outputs=[
-            '"AC002_final_status": "Active"',
-            '"AC002_final_location": "LAX"',
-            '"AC005_final_status": "Active"',
-            '"AC005_final_location": "DFW"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1550,10 +1430,7 @@ TASKS = [
 
             Action(name="GetReservationDetails", kwargs={"reservation_id": "NEW456"})
         ],
-        outputs=[
-            '"reservation_confirmation": "Reservation NEW456 created successfully for Susan Wilson on flight HAT022 from LAX to DFW on May 19, 2024"',
-            '"reservation_details": "Reservation NEW456 confirmed: Susan Wilson, Economy class, flight HAT022, LAX-DFW, May 19-26, 2024"'
-        ]
+        outputs=[]
     ),
 
 
@@ -1610,12 +1487,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"AC009_final_status": "Active"',
-            '"AC009_final_location": "LAX"',
-            '"AC003_final_status": "Active"',
-            '"AC003_final_location": "PHX"'
-        ]
+        outputs=[]
     ),
 
 
@@ -1649,13 +1521,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"user_profile": "Regular member Olivia Martin with 2 reservations and 2 payment methods"',
-            '"alternative_flights": "Available flights from JFK to MIA on 2024-05-16 identified"',
-            '"operational_events": "Flight HAT014 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1718,13 +1584,7 @@ TASKS = [
             ),
             Action(name="GetAircraftDetails", kwargs={"aircraft_id": "AC003"})
         ],
-        outputs=[
-            '"fleet_rebalancing_event_id": "OE026"',
-            '"ac003_maintenance_status": "In Maintenance"',
-            '"ac003_pre_rebalancing_status": "Aircraft AC003 pre-rebalancing details retrieved"',
-            '"maintenance_history": "Aircraft AC003 maintenance history retrieved"',
-            '"rebalancing_completion_event_id": "OE027"'
-        ],
+        outputs=[]
     ),
 
 
@@ -1756,7 +1616,7 @@ TASKS = [
                 kwargs={"model_filter": "E175", "status_filter": ["Active", "Maintenance"]}
             )
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
 
@@ -1784,14 +1644,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"user_profile": "Member Richard Martinez profile retrieved"',
-            '"reservation_details": "Reservation MEMLVX details retrieved successfully"',
-            '"alternative_flights": "No available flights from MIA to ATL on 2024-05-22 identified"',
-            '"operational_events": "Flight HAT023 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1819,14 +1672,7 @@ TASKS = [
                 "flight_id": "FL031"
             }),
         ],
-        outputs=[
-            '"user_profile": "Member Jennifer Wilson profile retrieved"',
-            '"reservation_details": "Reservation ZZSA4W details retrieved successfully"',
-            '"alternative_flights": "Available flights from DEN to SEA on 2024-05-30 identified"',
-            '"operational_events": "Flight HAT031 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
 
@@ -1855,10 +1701,7 @@ TASKS = [
                 kwargs={"aircraft_id": "AC004", "new_status": "In Maintenance", "new_location_iata": "MCO"}
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026"',
-            '"aircraft_status": "In Maintenance"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1876,7 +1719,7 @@ TASKS = [
                 kwargs={"flight_number": "HAT004", "date": "2024-05-01", "new_status": "delayed", "delay_hours": 1, "reason_event_id": "OE026"}
             )
         ],
-        outputs=['"event_id": "OE026"', '"updated_status": "delayed"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1942,10 +1785,7 @@ TASKS = [
                 kwargs={"crew_member_id": "CM002", "certification_id": "CERT_A32N", "check_date": "2024-05-23"}
             )
         ],
-        outputs=[
-            '"cm001_cert_status": "valid"',
-            '"cm002_cert_status": "valid"'
-        ]
+        outputs=[]
     ),
 
 
@@ -1974,7 +1814,7 @@ TASKS = [
                 kwargs={"aircraft_id": "AC005", "new_status": "Maintenance"}
             ),
         ],
-        outputs=['"log_id": "ML026"', '"aircraft_status": "Maintenance"']
+        outputs=[]
     ),
 
     Task(
@@ -2026,7 +1866,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=['"maintenance_log_id": "ML026"', '"aircraft_status": "Active"']
+        outputs=[]
     ),
 
 
@@ -2088,7 +1928,7 @@ TASKS = [
             ),
             Action(name="GetFlightCrewAssignments", kwargs={"flight_id": "FL038", "flight_number": "HAT038"})
         ],
-        outputs=['"crew_member_id": "CM002"', '"certification_status": "valid"']
+        outputs=[]
     ),
 
 
@@ -2122,7 +1962,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=['"event_id": "OE026"', '"updated_status": "delayed"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2153,10 +1993,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026"',
-            '"aircraft_status": "In Maintenance"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2208,12 +2045,7 @@ TASKS = [
             Action(name="GetFleetUtilization", kwargs={"model_filter": "A320neo", "status_filter": ["Active"]}),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "B737-800", "status_filter": ["Active"]})
         ],
-        outputs=[
-            '"AC002_final_status": "Active"',
-            '"AC002_final_location": "ATL"',
-            '"AC001_final_status": "Active"',
-            '"AC001_final_location": "DFW"'
-        ]
+        outputs=[]
     ),
 
 
@@ -2237,14 +2069,7 @@ TASKS = [
                 "flight_id": "FL020"
             }),
         ],
-        outputs=[
-            '"user_profile": "Member Richard Martinez profile retrieved"',
-            '"reservation_details": "Reservation MEMLVX details retrieved successfully"',
-            '"alternative_flights": "Available flights from JFK to MIA on 2024-05-24 identified"',
-            '"operational_events": "Flight HAT020 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2280,7 +2105,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=['"event_id": "OE026"', '"updated_status": "delayed"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2314,10 +2139,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026"',
-            '"aircraft_status": "In Maintenance"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2349,10 +2171,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"event_id": "OE026"',
-            '"updated_status": "delayed"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2382,7 +2201,7 @@ TASKS = [
                 kwargs={"model_filter": "E175", "status_filter": ["Active", "Maintenance"]}
             )
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
 
@@ -2414,7 +2233,7 @@ TASKS = [
                 kwargs={"model_filter": "B737-800", "status_filter": ["Active", "Maintenance"]}
             )
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
     Task(
@@ -2473,14 +2292,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"user_profile": "Regular member Ivan Wilson with 6 reservations and 2 payment methods"',
-            '"reservation_details": "Reservation 4WQ150 details retrieved successfully"',
-            '"alternative_flights": "Available flights from LAX to DFW on 2024-05-22 identified"',
-            '"operational_events": "Flight HAT022 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2515,9 +2327,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2550,14 +2360,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"user_profile": "Member Ivan Anderson profile retrieved"',
-            '"reservation_details": "Reservation ZVWQ08 details retrieved successfully"',
-            '"alternative_flights": "No available flights from ORD to DEN on 2024-06-01"',
-            '"operational_events": "Flight HAT027 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
 
@@ -2618,12 +2421,7 @@ TASKS = [
             Action(name="GetFleetUtilization", kwargs={"model_filter": "ATR72-600", "status_filter": ["Active"]}),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "B737-800", "status_filter": ["Active"]})
         ],
-        outputs=[
-            '"AC008_final_status": "Active"',
-            '"AC008_final_location": "LAS"',
-            '"AC009_final_status": "Active"',
-            '"AC009_final_location": "PHX"'
-        ]
+        outputs=[]
     ),
 
 
@@ -2640,14 +2438,7 @@ TASKS = [
             Action(name="GetFleetUtilization", kwargs={"status_filter": ["Active"]}),
             Action(name="CreateOperationalEvent", kwargs={"event_type": "Technical Issue", "event_timestamp_utc": "2024-05-18T11:00:00Z", "details": "Delay concerns on flight HAT008", "status": "Active", "flight_number": "HAT008", "flight_id": "FL003"}),
         ],
-        outputs=[
-            '"user_profile": "Member Jennifer Johnson profile retrieved"',
-            '"reservation_details": "Reservation R9QDGB details retrieved successfully"',
-            '"alternative_flights": "No available flights from DFW to ORD on 2024-05-18 identified"',
-            '"operational_events": "Flight HAT008 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
 
@@ -2671,14 +2462,7 @@ TASKS = [
                 "flight_id": "FL036"
             }),
         ],
-        outputs=[
-            '"user_profile": "Member Isabella Brown profile retrieved"',
-            '"reservation_details": "Reservation OP3VYE details retrieved successfully"',
-            '"alternative_flights": "No available flights from DFW to LAS on 2024-05-26 identified"',
-            '"operational_events": "Flight HAT036 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2703,7 +2487,7 @@ TASKS = [
             Action(name="UpdateAircraftStatus", kwargs={"aircraft_id": "AC009", "new_status": "Maintenance"}),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "B737-800", "status_filter": ["Active", "Maintenance"]})
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
 
@@ -2747,7 +2531,7 @@ TASKS = [
                 kwargs={"flight_number": "HAT019", "date": "2024-05-11", "new_status": "delayed", "delay_hours": 2}
             )
         ],
-        outputs=['"diversion_event_id": "OE027"', '"aircraft_location": "ORD"']
+        outputs=[]
     ),
 
 
@@ -2803,14 +2587,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"AC002_final_status": "Active"',
-            '"AC002_final_location": "LAX"',
-            '"AC002_reposition_skipped_reason": None',
-            '"AC005_final_status": "Active"',
-            '"AC005_final_location": "DFW"',
-            '"AC005_reposition_skipped_reason": None'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2835,7 +2612,7 @@ TASKS = [
             ),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "E195-E2", "status_filter": ["Active", "Maintenance"]})
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
 
@@ -2895,14 +2672,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"user_profile": "Platinum member Jennifer Johnson with 4 reservations and 5 payment methods"',
-            '"reservation_details": "Reservation R9QDGB details retrieved successfully"',
-            '"alternative_flights": "Available flights from DFW to ORD on 2024-05-18 identified"',
-            '"operational_events": "Flight HAT008 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2931,7 +2701,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
     Task(
@@ -2954,14 +2724,7 @@ TASKS = [
                 "flight_id": "FL013"
             }),
         ],
-        outputs=[
-            '"user_profile": "Member Mohamed Lopez profile retrieved"',
-            '"reservation_details": "Reservation 6NSXQU details retrieved successfully"',
-            '"alternative_flights": "Available flights from BOS to IAD on 2024-06-05 identified"',
-            '"operational_events": "Flight HAT013 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2984,14 +2747,7 @@ TASKS = [
                 "flight_id": "FL025"
             }),
         ],
-        outputs=[
-            '"user_profile": "Member Isabella Brown profile retrieved"',
-            '"reservation_details": "Reservation OP3VYE details retrieved successfully"',
-            '"alternative_flights": "Available flights from PHX to SAN on 2024-05-29 identified"',
-            '"operational_events": "Flight HAT025 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3007,14 +2763,7 @@ TASKS = [
             Action(name="GetFleetUtilization", kwargs={"status_filter": ["Active"]}),
             Action(name="CreateOperationalEvent", kwargs={"event_type": "Technical Issue", "event_timestamp_utc": "2024-05-22T14:00:00Z", "details": "Delay concerns on flight HAT022", "status": "Active", "flight_number": "HAT022", "flight_id": "FL022"}),
         ],
-        outputs=[
-            '"user_profile": "Member Ivan Wilson profile retrieved"',
-            '"reservation_details": "Reservation 4WQ150 details retrieved successfully"',
-            '"alternative_flights": "Available flights from LAX to DFW on 2024-05-22 identified"',
-            '"operational_events": "Flight HAT022 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3073,14 +2822,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"user_profile": "Regular member Olivia Martin with 2 reservations and 2 payment methods"',
-            '"reservation_details": "Reservation AQSRNQ details retrieved successfully"',
-            '"alternative_flights": "Available flights from JFK to MIA on 2024-05-20 identified"',
-            '"operational_events": "Flight HAT014 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3104,7 +2846,7 @@ TASKS = [
             ),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "A220-300", "status_filter": ["Active", "Maintenance"]})
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
 
@@ -3130,14 +2872,7 @@ TASKS = [
                 "flight_id": "FL003"
             }),
         ],
-        outputs=[
-            '"user_profile": "Member Richard Martinez profile retrieved"',
-            '"reservation_details": "Reservation MEMLVX details retrieved successfully"',
-            '"alternative_flights": "Available flights from DFW to ORD on 2024-05-28 identified"',
-            '"operational_events": "Flight HAT008 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3162,14 +2897,7 @@ TASKS = [
                 "flight_id": "FL005"
             }),
         ],
-        outputs=[
-            '"user_profile": "Member Mohamed Lopez profile retrieved"',
-            '"reservation_details": "Reservation 6NSXQU details retrieved successfully"',
-            '"alternative_flights": "No available flights from DFW to ORD on 2024-05-27 identified"',
-            '"operational_events": "Flight HAT011 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3219,12 +2947,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"AC002_final_status": "Active"',
-            '"AC002_final_location": "ATL"',
-            '"AC001_final_status": "Active"',
-            '"AC001_final_location": "DFW"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3253,14 +2976,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"user_profile": "Member Ivan Anderson profile retrieved"',
-            '"reservation_details": "Reservation ZVWQ08 details retrieved successfully"',
-            '"alternative_flights": "Available flights from MCO to ORD on 2024-06-02 identified"',
-            '"operational_events": "Flight HAT019 operational events analyzed"',
-            '"fleet_status": "Active fleet utilization status retrieved"',
-            '"customer_service_event": "Operational event created to track customer service interaction"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3293,10 +3009,7 @@ TASKS = [
             ),
             Action(name="GetAircraftDetails", kwargs={"aircraft_id": "AC004"})
         ],
-        outputs=[
-            '"log_id_updated": "ML001"',
-            '"aircraft_final_status": "Active"'
-        ]
+        outputs=[]
     ),
 
 
@@ -3375,11 +3088,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"cm007_cert_status": "valid"',
-            '"cm006_cert_status": "valid"',
-            '"flight_log_entries_saved": "confirmed"'
-        ]
+        outputs=[]
     ),
 
 
@@ -3433,7 +3142,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"fleet_utilization_status": "Current fleet utilization assessed"', '"fleet_rebalancing_event_id": "OE026"', '"ac003_maintenance_status": "In Maintenance"'],
+        outputs=[]
     ),
 
     Task(
@@ -3481,7 +3190,7 @@ TASKS = [
                 kwargs={"flight_number": "HAT029", "date": "2024-05-12", "new_status": "delayed", "delay_hours": 3}
             )
         ],
-        outputs=['"diversion_event_id": "OE027"', '"aircraft_location": "DFW"']
+        outputs=[]
     ),
 
 
@@ -3508,7 +3217,7 @@ TASKS = [
             ),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "B737-800", "status_filter": ["Active", "Maintenance"]})
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
 
@@ -3540,7 +3249,7 @@ TASKS = [
                 kwargs={"model_filter": "E195-E2", "status_filter": ["Active", "Maintenance"]}
             )
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
 
@@ -3605,7 +3314,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=['"event_id": "OE027"', '"updated_status": "delayed"']
+        outputs=[]
     ),
 
 
@@ -3671,7 +3380,7 @@ TASKS = [
                 kwargs={"flight_id": "FL005", "flight_number": "HAT011"}
             )
         ],
-        outputs=['"assigned_crew_members": 3', '"flight_number": "HAT011"']
+        outputs=[]
     ),
 
 
@@ -3762,7 +3471,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=['"cm004_cert_status": "valid"', '"cm009_cert_status": "valid"'],
+        outputs=[]
     ),
 
     Task(
@@ -3787,7 +3496,7 @@ TASKS = [
             ),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "A320neo", "status_filter": ["Active", "Maintenance"]})
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
     Task(
@@ -3845,10 +3554,7 @@ TASKS = [
                 kwargs={"aircraft_id": "AC001"}
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026"',
-            '"updated_flight_status": "delayed"'
-        ]
+        outputs=[]
     ),
 
 
@@ -3869,7 +3575,7 @@ TASKS = [
             }),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "A320neo", "status_filter": ["Active", "Maintenance"]})
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
     Task(
@@ -3913,10 +3619,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"diversion_event_id": "OE027"',
-            '"aircraft_location": "ORD"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3959,10 +3662,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"maintenance_log_id": "ML026"',
-            '"aircraft_status": "Active"'
-        ]
+        outputs=[]
     ),
 
 
@@ -3988,7 +3688,7 @@ TASKS = [
             Action(name="UpdateAircraftStatus", kwargs={"aircraft_id": "AC003", "new_status": "Maintenance"}),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "B787-9", "status_filter": ["Active", "Maintenance"]})
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
 
@@ -4014,7 +3714,7 @@ TASKS = [
             ),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "E175", "status_filter": ["Active", "Maintenance"]})
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
     Task(
@@ -4039,7 +3739,7 @@ TASKS = [
             ),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "A350-900", "status_filter": ["Active", "Maintenance"]})
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
 
@@ -4073,10 +3773,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"event_id": "OE026"',
-            '"updated_status": "delayed"'
-        ]
+        outputs=[]
     ),
 
 
@@ -4099,7 +3796,7 @@ TASKS = [
             }),
             Action(name="GetFleetUtilization", kwargs={"model_filter": "E195-E2", "status_filter": ["Active", "Maintenance"]})
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
     Task(
@@ -4136,7 +3833,7 @@ TASKS = [
                 kwargs={"model_filter": "B737-800", "status_filter": ["Active", "Maintenance"]}
             )
         ],
-        outputs=['"maintenance_log_id": "ML026"']
+        outputs=[]
     ),
 
 
@@ -4201,10 +3898,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"crew_certification_status": "valid"',
-            '"flight_log_entries_saved": "confirmed"'
-        ]
+        outputs=[]
     ),
 
 
@@ -4240,10 +3934,7 @@ TASKS = [
                 kwargs={"aircraft_id": "AC005"}
             )
         ],
-        outputs=[
-            '"log_id": "ML026"',
-            '"aircraft_status": "Maintenance"'
-        ]
+        outputs=[]
     ),
 
 
@@ -4274,7 +3965,7 @@ TASKS = [
             }),
             Action(name="GetReservationDetails", kwargs={"reservation_id": "NO6JO3"})
         ],
-        outputs=['"new_flight_number": "HAT014"', '"total_cost": 270']
+        outputs=[]
     ),
 
     Task(
@@ -4332,7 +4023,7 @@ TASKS = [
                 kwargs={"flight_id": "FL038", "flight_number": "HAT038"}
             )
         ],
-        outputs=['"crew_member_id": "CM002"', '"certification_status": "valid"'],
+        outputs=[]
     ),
 
     Task(
@@ -4372,10 +4063,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"aircraft_status": "Maintenance"',
-            '"maintenance_log_id": "ML026"'
-        ]
+        outputs=[]
     ),
 
 

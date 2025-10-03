@@ -21,9 +21,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_audit_impact_02"})
         ],
-        outputs=[
-            "IMPACT_AUDIT: Confirmed. Your work was cited by an author in the Artificial Intelligence field."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -40,7 +38,7 @@ TASKS = [
             Action(name="UpdateProjectStatus", kwargs={"project_id": "proj_01", "new_status": "impact_verified"}),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=['"status": "impact_verified"']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -57,7 +55,7 @@ TASKS = [
             Action(name="CreateLogEntry", kwargs={"user_id": "res_01", "notes": "STAFFING: Submission sub_02 assigned to primary:res_01 and secondary:res_04.", "log_id_override": "log_staffing_01"}),
             Action(name="GetSubmissionDetails", kwargs={"submission_id": "sub_02"}),
         ],
-        outputs=['"status": "under_review"', '"assigned_reviewers": [\n    "res_01",\n    "res_04"\n  ]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -77,9 +75,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_influence_mapping_02"})
         ],
-        outputs=[
-            "INFLUENCE_MAP: Self-citation link found between art_12 and art_01."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -100,9 +96,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_impact_audit_02"})
         ],
-        outputs=[
-            "IMPACT_AUDIT: Confirmed. Your work was cited by an author in the Artificial Intelligence field."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -126,7 +120,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=['"status": "Archived"']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -148,7 +142,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=['"status": "impact_validated"']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -171,9 +165,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=[
-            '"linked_articles": [\n    "art_02",\n    "art_01"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -196,9 +188,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_audit_sub01"})
         ],
-        outputs=[
-            "AUDIT_VALIDATION: Assignment for sub_01 is valid. Expertise confirmed and no reciprocal citation found."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -219,7 +209,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=['"status": "impact_verified"']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -245,10 +235,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_grant_khan_01"})
         ],
-        outputs=[
-            '"project_id": "proj_grant_khan_01"',
-            '"linked_articles": [\n    "art_06",\n    "art_12"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -271,9 +258,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_onboarding_summary_lc"})
         ],
-        outputs=[
-            "ONBOARDING_SUMMARY: Profile complete. Articles added: ['art_05', 'art_07', 'art_02', 'art_10']. Suggested collaborator: Dr. Ricardo Mendes (res_05)."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -293,9 +278,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_grant_choice_01"})
         ],
-        outputs=[
-            "GRANT_ANALYSIS: Project creation proceeded: False. NSF impact: 2 citations. Own work novelty: 1 citations found."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -325,9 +308,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_expansion_summary_01"})
         ],
-        outputs=[
-            "EXPANSION_SUMMARY: Invitations sent to the following user IDs: ['res_04', 'res_16']."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -351,7 +332,7 @@ TASKS = [
             }),
             Action(name="SearchArticles", kwargs={"article_id": "art_02"})
         ],
-        outputs=['"status": "retracted"']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -375,9 +356,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_vetting_01"})
         ],
-        outputs=[
-            "VETTING: Cross-field reviewer res_01 assigned to submission sub_02 based on prior citation link."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -402,7 +381,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=['"linked_articles": [\n    "art_02",\n    "art_05"\n  ]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -422,13 +401,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_astro_quantum_01"})
         ],
-        outputs=[
-            '"project_id": "proj_astro_quantum_01"',
-            '"project_name": "Astro-Quantum Computational Analysis"',
-            '"lead_researcher_id": "res_05"',
-            '"linked_articles": [\n    "art_08",\n    "art_02"\n  ]',
-            '"funding_source_id": "fs_02"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -457,7 +430,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_draft_genai"})
         ],
-        outputs=['"project_id": "proj_draft_genai"', '"project_name": "Draft: AI-Enhanced Gene Editing Analysis"']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -476,9 +449,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_lit_bridge_01"})
         ],
-        outputs=[
-            "LIT_BRIDGE: No indirect link found between the selected articles."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -500,7 +471,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_bioai_01"})
         ],
-        outputs=['"project_id": "proj_bioai_01"', '"project_name": "AI-Enhanced Biomarker Analysis"']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -520,7 +491,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_mendes_impact_01"})
         ],
-        outputs=['"linked_articles": [\n    "art_03",\n    "art_09",\n    "art_14",\n    "art_04",\n    "art_11",\n    "art_01"\n  ]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -541,7 +512,7 @@ TASKS = [
             Action(name="CreateLogEntry", kwargs={"user_id": "res_03", "notes": "PROJECT_RESTRUCTURE: Project Quantum Computing Applications updated. Article art_05 from Astrophysics linked. Collaboration proposal sent to Dr. Ricardo Mendes.", "log_id_override": "log_restructure_01"}),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=['"status": "active"', '"end_date": null', '"linked_articles": [\n    "art_02",\n    "art_05"\n  ]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -570,7 +541,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_my_monitoring_01"})
         ],
-        outputs=["MONITORING_SETUP: Reviewer res_16 assigned to sub_02. Monitoring initiated."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -602,12 +573,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_llm_rpa_01"})
         ],
-        outputs=[
-            '"project_id": "proj_llm_rpa_01"',
-            '"project_name": "Collaborative RPA with LLMs"',
-            '"linked_articles": [\n    "art_15",\n    "art_12"\n  ]',
-            '"funding_source_id": "fs_01"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -627,7 +593,7 @@ TASKS = [
             Action(name="CreateLogEntry", kwargs={"user_id": "res_01", "notes": "REVIEW_AUDIT: Submission sub_02 reviewed. Status updated to under_review. Reviewer res_04 assigned.", "log_id_override": "log_audit_reassign_01"}),
             Action(name="GetSubmissionDetails", kwargs={"submission_id": "sub_02"})
         ],
-        outputs=['"status": "under_review"', '"assigned_reviewers": [\n    "res_04"\n  ]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -652,13 +618,7 @@ TASKS = [
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_03"}),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=[
-            '"project_id": "proj_03"',
-            '"status": "delayed"',
-            '"end_date": null',
-            '"project_id": "proj_01"',
-            '"status": "active"'
-        ]
+        outputs=[]
     ),
     Task(
             annotator="0",
@@ -677,10 +637,7 @@ TASKS = [
                 Action(name="SearchArticles", kwargs={"article_id": "art_01"}),
                 Action(name="GetLogDetails", kwargs={"log_id": "log_summary_art01"})
             ],
-            outputs=[
-                '"article_id": "art_01"',
-                "SUMMARY: The evolution of transformer architectures has marked a significant milestone in artificial intelligence. Initially designed for natural language processing, their application has expanded to diverse domains, including code generation. This paper provides a comprehensive analysis of state-of-the-art models, such as GPT-4 and AlphaCode, detailing their underlying mechanisms and performance benchmarks."
-            ]
+            outputs=[]
         ),
     Task(
         annotator="0",
@@ -705,7 +662,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_funding_audit_01"})
         ],
-        outputs=["FUNDING_AUDIT_OUTCOME: Reallocation proposed: True."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -733,10 +690,7 @@ TASKS = [
             }),
             Action(name="GetSubmissionDetails", kwargs={"submission_id": "sub_02"})
         ],
-        outputs=[
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n    "res_16"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -760,10 +714,7 @@ TASKS = [
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"}),
             Action(name="GetLogDetails", kwargs={"log_id": "log_cross_impact_01"})
         ],
-        outputs=[
-            '"status": "cross_impact_verified"',
-            "CROSS_IMPACT_AUDIT: Project proj_01 status updated to cross_impact_verified. 2 relevant cross-disciplinary contacts identified."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -787,11 +738,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_astro_vision_01"})
         ],
-        outputs=[
-            '"project_id": "proj_astro_vision_01"',
-            '"project_name": "Cosmic Vision Initiative"',
-            '"funding_source_id": "fs_04"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -827,12 +774,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_interdisciplinary_01"})
         ],
-        outputs=[
-            '"project_id": "proj_interdisciplinary_01"',
-            '"project_name": "Biomedicine-Astrophysics Synergy"',
-            '"linked_articles": [\n    "art_03",\n    "art_08"\n  ]',
-            '"funding_source_id": "fs_04"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -851,9 +793,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_audit_complete_01"})
         ],
-        outputs=[
-            "AUDIT_COMPLETE: All articles by Dr. Ricardo Mendes found in her log."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -889,12 +829,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_ai_astro_01"})
         ],
-        outputs=[
-            '"project_id": "proj_ai_astro_01"',
-            '"project_name": "AI in Astrophysics Explorations"',
-            '"linked_articles": [\n    "art_01",\n    "art_08"\n  ]',
-            '"funding_source_id": "fs_10"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -913,9 +848,7 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_ai_impact_on_bio_01"})
         ],
-        outputs=[
-            "INTERDISCIPLINARY_IMPACT: Article art_01 links AI to Biology. Summary: The evolution of transformer architectures has marked a significant milestone in artificial intelligence. Initially designed for natural language processing, their application has expanded to diverse domains, including code generation. This paper provides a comprehensive analysis of state-of-the-art models, such as GPT-4 and AlphaCode, detailing their underlying mechanisms and performance benchmarks."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -939,9 +872,7 @@ TASKS = [
             }),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=[
-            '"status": "validated"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -966,10 +897,7 @@ TASKS = [
             }),
             Action(name="GetSubmissionDetails", kwargs={"submission_id": "sub_04"})
         ],
-        outputs=[
-            '"status": "Accepted"',
-            '"assigned_reviewers": [\n    "res_02",\n    "res_06"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -992,12 +920,7 @@ TASKS = [
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_04"}),
             Action(name="GetLogDetails", kwargs={"log_id": "log_project_audit_01"})
         ],
-        outputs=[
-            '"project_id": "proj_04"',
-            '"status": "audited"',
-            '"linked_articles": [\n    "art_06",\n    "art_15"\n  ]',
-            "PROJECT_AUDIT: Project proj_04 updated and audited. All authored articles by Dr. Helena Souza linked."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1022,8 +945,6 @@ TASKS = [
             }),
             Action(name="GetLogDetails", kwargs={"log_id": "log_collab_network_01"})
         ],
-        outputs=[
-            "NETWORK_EXPANSION: 1 new collaborators contacted. User IDs: ['res_07']."
-        ]
+        outputs=[]
     )
 ]

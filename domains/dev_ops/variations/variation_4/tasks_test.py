@@ -76,12 +76,7 @@ TASKS = [
                 kwargs={"run_id": "run_006"}
             )
         ],
-        outputs=[
-            "QA recorded for assets/textures/environment/castle_tower_diffuse.png (failed, autofix_applied=true)",
-            "QA qa_004 promoted to pass",
-            "Asset catalog performance_rating=high for assets/textures/environment/castle_tower_diffuse.png",
-            "Build run run_006 details retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -168,14 +163,7 @@ TASKS = [
                 kwargs={"run_id": "run_007"}
             )
         ],
-        outputs=[
-            "Performance test summary recorded for AUTO::test_run::pipeline_perf_windows::175 with 3 total (1 failed, 2 passed, 0 skipped, coverage 0.0)",
-            "Three results appended to AUTO::test_run::pipeline_perf_windows::175",
-            "Artifact build_001 metadata annotated (perf_baseline=2025-01, regression_flag=true)",
-            "Windows symbols for GameEngine.dll from build_001 linked to run_007",
-            "Automation AUTO::automation::build_triage::run_007::canonical completed",
-            "Build run run_007 details retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -255,13 +243,7 @@ TASKS = [
             Action(name="SetBuildTriageStatus", kwargs={"run_id": "run_007", "triage_status": "manual_review"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_007"})
         ],
-        outputs=[
-            "Symbols attached to run_007 from build_001 (GameEngine.dll, windows)",
-            "build_001 metadata updated (regression_root_commit, validated)",
-            "Test run AUTO::test_run::pipeline_perf_windows::175 summary + 3 results recorded",
-            "Automation AUTO::automation::build_triage::run_007::canonical completed with triage_status=manual_review",
-            "Run run_007 returned with triage_status=manual_review"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -281,12 +263,7 @@ TASKS = [
             Action(name="RecordReproCommandForRun", kwargs={"run_id": "run_006", "command": "scripts/validate_assets.sh --run run_006 --branch feature/new-assets"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_006"})
         ],
-        outputs=[
-            "Run run_006 categorized as asset_validation_issue with first_bad_commit=jkl012ghi789def",
-            "Artifacts linked to run_006 at https://artifacts.techcorp.com/run_006/",
-            "Automation AUTO::automation::build_triage::run_006::canonical completed (outputs.triage_status=pending)",
-            "Run run_006 triage_status set to pending; triage_note recorded; repro command recorded; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -305,11 +282,7 @@ TASKS = [
             Action(name="AddRunStep", kwargs={"run_id": "run_005", "step_id": "ownership_resolution", "name": "ownership_resolution", "status": "completed"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_005"})
         ],
-        outputs=[
-            "Owner user_008 (team_003) persisted to run_005 (ownership_type=file_owner, confidence_score=0.92)",
-            "Automation AUTO::automation::build_triage::run_005::canonical completed (outputs.triage_status=manual_review, owner_id=user_008, owner_path=src/game/network/multiplayer.cpp)",
-            "Run run_005 categorized as integration_failure; triage_status=manual_review; similar incident linked (run_001, similarity_score=0.92); provenance step ownership_resolution=completed; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -328,14 +301,7 @@ TASKS = [
             Action(name="RecordReproCommandForRun", kwargs={"run_id": "run_001", "command": "scripts/run_smoke_tests.sh --pipeline pipeline_perf_windows --run run_001"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Test run summary recorded for pipeline_perf_windows (total=2, failed=0, skipped=0, passed=2, coverage_pct=0.0)",
-            "Result appended: ShaderCompile::PassA (passed, 600ms) to AUTO::test_run::pipeline_perf_windows::175",
-            "Result appended: ShaderCompile::PassB (passed, 550ms) to AUTO::test_run::pipeline_perf_windows::175",
-            "Coverage updated to 72.5 for AUTO::test_run::pipeline_perf_windows::175",
-            "Bisect recorded on run_001 (first_bad_commit_sha=commit_abc123, last_good_commit_sha=commit_prev000, confidence=1.0)",
-            "Fix proposal fix_001 linked to run_001; repro command recorded; build run details retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -352,9 +318,7 @@ TASKS = [
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_001::canonical", "status": "completed", "outputs_json": {"triage_status": "in_progress"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "run_001 categorized as compilation_issue; first_bad_commit=abc123def456789; Windows symbolication attached; triage_status=in_progress captured via canonical automation; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -376,13 +340,7 @@ TASKS = [
             Action(name="AddRunStep", kwargs={"run_id": "run_006", "step_id": "triage_repro", "name": "triage_repro", "status": "completed"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_006"})
         ],
-        outputs=[
-            "Catalog reflects assets/models/environment/castle_tower.fbx (type=model, validation_status=unverified, performance_rating=medium)",
-            "QA recorded for assets/models/environment/castle_tower.fbx (validation_status=passed, severity_max=warning)",
-            "Run run_006 linked to artifacts https://artifacts.techcorp.com/run_006/ and categorized as asset_validation_issue with first_bad_commit=jkl012ghi789def",
-            "Repro command recorded; automation AUTO::automation::build_triage::run_006::canonical completed (outputs.triage_status=pending); run triage_status=pending",
-            "Provenance steps recorded: triage_fetch_artifacts=completed, triage_repro=completed; details for run_006 retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -400,7 +358,7 @@ TASKS = [
             Action(name="CompleteAutomationRun", kwargs={ "automation_run_id": "AUTO::automation::build_triage::run_001::canonical", "status": "completed", "outputs_json": {"triage_status": "manual_review", "owner_id": "user_001", "owner_path": "src/game/engine/renderer.cpp"} }),
             Action(name="GetBuildRunDetails", kwargs={ "run_id": "run_001" }),
         ],
-        outputs=["Run run_001 updated: symbolication attached, repro recorded, triage_status=manual_review, owner persisted"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -468,11 +426,7 @@ TASKS = [
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_007"})
         ],
-        outputs=[
-            "Performance test run AUTO::test_run::pipeline_perf_windows::175 recorded with 4 results (2 failed); artifact build_001 metadata patched (perf_baseline=2025-02, regression_flag=true).",
-            "Run run_007 linked to artifacts, symbolication attached, bisect recorded (first_bad=commit_def234, last_good=commit_prev111, confidence=0.97), repro command recorded, triage_status=manual_review.",
-            "Automation AUTO::automation::build_triage::run_007::canonical completed (outputs.triage_status=manual_review, outputs.bisect_first_bad=commit_def234); provenance step perf_evidence_consolidated=completed; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -489,10 +443,7 @@ TASKS = [
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_001::canonical", "status": "completed", "outputs_json": {"triage_status": "in_progress"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Symbolication attached and categorization set for run_001; repro command recorded.",
-            "Automation AUTO::automation::build_triage::run_001::canonical completed (outputs.triage_status=in_progress); run triage_status=in_progress; details retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -510,7 +461,7 @@ TASKS = [
             Action(name="CompleteAutomationRun", kwargs={ "automation_run_id": "AUTO::automation::build_triage::run_005::canonical", "status": "completed", "outputs_json": {"triage_status": "in_progress", "owner_id": "user_008", "owner_path": "src/game/network/multiplayer.cpp", "evidence_test_run": "test_run_002"} }),
             Action(name="GetBuildRunDetails", kwargs={ "run_id": "run_005" }),
         ],
-        outputs=["Run run_005 updated with symbols, repro, triage_status=in_progress; owner persisted from multiplayer.cpp"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -543,10 +494,7 @@ TASKS = [
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Fix proposal fix_010 recorded on run_001; automation completed with triage_status=in_progress; "
-            "provenance step fix_proposal_formalized=completed; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -615,11 +563,7 @@ TASKS = [
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Branch failures reviewed; run_001 triage_status=in_progress; artifacts linked; symbolication attached; repro recorded.",
-            "Metadata recorded (failure_category.category=render_pipeline_regression; first_bad_commit=abc123def456789); "
-            "similar incident linked (run_007, 0.90); provenance steps completed; automation outputs captured; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -638,10 +582,7 @@ TASKS = [
             Action(name="AppendSimilarIncidentToRun", kwargs={"run_id": "run_005", "incident_run_id": "run_001", "similarity_score": 0.92}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_005"})
         ],
-        outputs=[
-            "Owner persisted to run_005 (owner_id=user_008, team_003, ownership_type=file_owner, confidence_score=0.92); symbolication and repro recorded.",
-            "Automation AUTO::automation::build_triage::run_005::canonical completed (outputs.triage_status=manual_review); run triage_status=manual_review; similar incident linked; details retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -665,11 +606,7 @@ TASKS = [
             Action(name="AppendSimilarIncidentToRun", kwargs={"run_id": "run_001", "incident_run_id": "run_007", "similarity_score": 0.88}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Performance test run AUTO::test_run::pipeline_perf_windows::175 recorded (2 results) and linked; artifacts and symbolication present.",
-            "Run run_001 metadata.failure_category.category=performance_regression; first_bad_commit=abc123def456789; repro recorded.",
-            "Automation AUTO::automation::build_triage::run_001::canonical completed (triage_status=in_progress, test_run_id linked); run triage_status=in_progress; metadata updated; similar incident run_007 noted; details retrieved"
-        ]
+        outputs=[]
     ),
 
 
@@ -688,10 +625,7 @@ TASKS = [
             Action(name="SetBuildTriageStatus", kwargs={"run_id": "run_001", "triage_status": "manual_review"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Symbolication and artifacts linked for run_001; metadata updated to stability=review.",
-            "Automation AUTO::automation::build_triage::run_001::canonical completed (outputs.triage_status=manual_review); run triage_status=manual_review; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -795,10 +729,7 @@ TASKS = [
                 kwargs={"run_id": "run_007"}
             )
         ],
-        outputs=[
-            "Run run_007 prepared for performance triage (triage_status=in_progress) with artifacts and symbolication; repro recorded.",
-            "Metadata: failure_category.category=performance_regression; first_bad_commit=abc123def456789; metadata.similar_incidents=[run_001 (0.90)]; provenance steps recorded; automation completed; details retrieved"
-        ]
+        outputs=[]
     ),
 Task(
         annotator="0",
@@ -818,10 +749,7 @@ Task(
             Action(name="AddRunStep", kwargs={"run_id": "run_007", "step_id": "perf_baseline_updated", "name": "perf_baseline_updated", "status": "completed"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_007"})
         ],
-        outputs=[
-            "Performance summary and 2 results recorded for AUTO::test_run::pipeline_perf_windows::175; build_001 patched (perf_baseline=2025-03, regression_flag=false).",
-            "run_007 triage_status=in_progress; metadata performance_test_run_id set; provenance step perf_baseline_updated=completed; automation outputs captured; details retrieved."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -840,10 +768,7 @@ Task(
             Action(name="AddRunStep", kwargs={"run_id": "run_005", "step_id": "owner_asserted", "name": "owner_asserted", "status": "completed"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_005"})
         ],
-        outputs=[
-            "Ownership persisted for src/game/network/multiplayer.cpp to user_008 (team_003, file_owner, confidence_score=0.92).",
-            "run_005 triage_status=manual_review recorded via automation with evidence test_run_002; provenance step owner_asserted=completed; details retrieved."
-        ]
+        outputs=[]
     ),
 
 
@@ -867,11 +792,7 @@ Task(
         Action(name="AddRunStep", kwargs={"run_id": "run_006", "step_id": "vfx_texture_gated", "name": "vfx_texture_gated", "status": "completed"}),
         Action(name="GetBuildRunDetails", kwargs={"run_id": "run_006"})
         ],
-        outputs=[
-        "VFX texture cataloged ('Explosion Sparks'); QA passed (severity_max=warning, autofix_applied=true); performance_rating=medium.",
-        "Run run_006 triage enriched: artifacts linked, symbolication attached, category=asset_validation_issue, repro command recorded, triage_status=in_progress.",
-        "Automation AUTO::automation::build_triage::run_006::canonical completed (outputs.triage_status=in_progress); provenance step vfx_texture_gated=completed; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -888,9 +809,7 @@ Task(
             Action(name="AddRunStep", kwargs={"run_id": "run_001", "step_id": "symbols_attached", "name": "symbols_attached", "status": "completed"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Symbolication linked (GameEngine.dll, windows); repro command recorded; run_001 triage_status=in_progress; automation outputs captured; provenance step symbols_attached=completed; details retrieved."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -936,9 +855,7 @@ Task(
             ),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Triage recorded: in_progress for run_001 with evidence test_run_002; ownership mapped for src/game/engine/renderer.cpp; symbolication attached; repro recorded; details retrieved."
-        ]
+        outputs=[]
     ),
 
 
@@ -963,11 +880,7 @@ Task(
         Action(name="AddRunStep", kwargs={"run_id": "run_006", "step_id": "asset_intake_validated", "name": "asset_intake_validated", "status": "completed"}),
         Action(name="GetBuildRunDetails", kwargs={"run_id": "run_006"})
         ],
-        outputs=[
-        "QA recorded for assets/characters/hero/hero_body.fbx (passed, severity_max=info, autofix_applied=true); catalog 'Hero Body' with performance_rating=high.",
-        "Run run_006 linked to artifacts, symbolication attached, category=asset_validation_issue, repro command recorded, triage_status=manual_review.",
-        "Automation AUTO::automation::build_triage::run_006::canonical completed (outputs include triage_status=manual_review, asset_path set); provenance steps recorded; details retrieved."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -985,9 +898,7 @@ Task(
             Action(name="AddRunStep", kwargs={"run_id": "run_001", "step_id": "fix_proposal_documented", "name": "fix_proposal_documented", "status": "completed"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Fix proposal fix_shader_001 recorded; run_001 triage_status=in_progress; automation outputs captured; similar incident run_007 (0.85) noted; provenance step fix_proposal_documented=completed; details retrieved."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1012,11 +923,7 @@ Task(
             Action(name="AddRunStep", kwargs={"run_id": "run_001", "step_id": "perf_snapshot_curated", "name": "perf_snapshot_curated", "status": "completed"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Performance test run AUTO::test_run::pipeline_perf_windows::175 recorded (2 passing) and linked in run_001 metadata.",
-            "Run run_001 enriched: artifacts linked, symbolication attached, first_bad_commit=abc123def456789, repro recorded, triage_status=in_progress.",
-            "Automation AUTO::automation::build_triage::run_001::canonical completed (outputs include triage_status=in_progress and test_run_id); similar incident run_007 (0.88) noted; provenance step perf_snapshot_curated=completed; details retrieved."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1032,9 +939,7 @@ Task(
             Action(name="StartAutomationRun", kwargs={"automation_type": "build_triage", "input_ref": "run_006", "automation_run_id": "AUTO::automation::build_triage::run_006::canonical"}),
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_006::canonical", "status": "completed", "outputs_json": {"asset_path": "assets/textures/environment/castle_tower_diffuse.png", "validation_status": "failed", "performance_rating": "high"}})
         ],
-        outputs=[
-            "Asset castle_tower_diffuse.png QA recorded (failed, issue, autofix_applied=true), promoted qa_004 to pass; catalog performance_rating=high; automation recorded asset decision."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1055,9 +960,7 @@ Task(
             Action(name="SetBuildTriageStatus", kwargs={"run_id": "run_007", "triage_status": "in_progress"}),
             Action(name="AddRunStep", kwargs={"run_id": "run_007", "step_id": "symbols_verified", "name": "symbols_verified", "status": "completed"})
         ],
-        outputs=[
-            "Symbolication attached and triage_status=in_progress for run_005 and run_007; automation outputs captured; provenance steps symbols_verified=completed for both."
-        ]
+        outputs=[]
     ),
         Task(
         annotator="0",
@@ -1076,10 +979,7 @@ Task(
             Action(name="UpdateRunMetadata", kwargs={"run_id":"run_007","metadata_patch":{"ai_perf_test_run_id":"AUTO::test_run::pipeline_perf_windows::175"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_007"})
         ],
-        outputs=[
-            "AI perf run AUTO::test_run::pipeline_perf_windows::175 recorded (1 failed) and linked to run_007; build_001 ai_profile=aggressive.",
-            "Automation AUTO::automation::build_triage::run_007::canonical completed (outputs.ai_test_run_id set); run_007 triage_status=in_progress; metadata linked; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1100,10 +1000,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_006::canonical","status":"completed","outputs_json":{"triage_status":"manual_review"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_006"})
         ],
-        outputs=[
-            "run_006 priority=high; repro recorded; symbolication attached; similar incident run_007 (0.87); steps triage_fetch_artifacts & triage_repro=completed.",
-            "Automation AUTO::automation::build_triage::run_006::canonical completed with triage_status=manual_review; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1143,10 +1040,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_006"})
         ],
-        outputs=[
-            "Audio asset cataloged and QA recorded; performance_rating=high; symbolication attached; "
-            "triage_status=in_progress with evidence step completed; audio_asset_path stored; details retrieved."
-        ]
+        outputs=[]
     ),
 
 
@@ -1166,10 +1060,7 @@ Task(
             Action(name="AddRunStep", kwargs={"run_id":"run_007","step_id":"triage_repro","name":"triage_repro","status":"completed"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_007"})
         ],
-        outputs=[
-            "Repro recorded and symbolication attached; similar incident run_006 (0.83) noted; provenance step triage_repro=completed.",
-            "Automation completed with triage_status=manual_review; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1191,10 +1082,7 @@ Task(
             Action(name="AddRunStep", kwargs={"run_id":"run_007","step_id":"perf_snapshot_curated","name":"perf_snapshot_curated","status":"completed"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_007"})
         ],
-        outputs=[
-            "Memory snapshot AUTO::test_run::pipeline_perf_windows::175 recorded (2 passing); build_001 memory_sampling=heap_only; symbolication attached.",
-            "Automation completed (outputs.performance_test_run_id and triage_status=in_progress); run_007 triage_status=in_progress; metadata linked; provenance step perf_snapshot_curated=completed; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1215,10 +1103,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_008::canonical","status":"completed","outputs_json":{"triage_status":"manual_review"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_008"})
         ],
-        outputs=[
-            "Repro recorded; symbolication attached; metadata.repro_env=windows_x64_ci; steps triage_repro & evidence_bundle=completed; similar incident run_006 (0.82).",
-            "Automation AUTO::automation::build_triage::run_008::canonical completed with triage_status=manual_review; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1237,10 +1122,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_006::canonical","status":"completed","outputs_json":{"triage_status":"manual_review"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_006"})
         ],
-        outputs=[
-            "Texture registered; QA recorded (failed, severity_max=warning, autofix_applied=true); performance_rating=medium; symbolication attached.",
-            "Run run_006 triage_status=manual_review; automation completed; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1262,10 +1144,7 @@ Task(
             Action(name="AddRunStep", kwargs={"run_id":"run_007","step_id":"triage_fetch_artifacts","name":"triage_fetch_artifacts","status":"completed"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_007"})
         ],
-        outputs=[
-            "Performance test run AUTO::test_run::pipeline_perf_windows::175 recorded with 3 results; build_002 metadata patched.",
-            "Automation completed (outputs.test_run_id set); run_007 triage_status=in_progress; metadata linked; provenance triage_fetch_artifacts=completed; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1286,10 +1165,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_005::canonical","status":"completed","outputs_json":{"triage_status":"manual_review","owner_id":"user_008","owner_path":"src/game/network/multiplayer.cpp"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_005"})
         ],
-        outputs=[
-            "Ownership persisted to user_008 (team_003, file_owner, confidence=0.92); repro recorded; symbolication attached; steps triage_fetch_artifacts & owner_resolution=completed; similar incident run_004 (0.83).",
-            "Automation AUTO::automation::build_triage::run_005::canonical completed with triage_status=manual_review; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1308,10 +1184,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_001::canonical","status":"completed","outputs_json":{"triage_status":"in_progress"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_001"})
         ],
-        outputs=[
-            "Symbols registered and attached; run_001 categorized as compilation_issue with first_bad_commit=abc123def456789.",
-            "Automation completed with triage_status=in_progress; run triage_status=in_progress; details retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1329,9 +1202,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_007::canonical","status":"completed","outputs_json":{"triage_status":"in_progress","failure_categorization":"test_failure"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_007"})
         ],
-        outputs=[
-            "run_007: failure_categorization remained 'performance_regression'; metadata.failure_category stored as {category:'test_failure'}; first_bad_commit=abc123def456789; repro preserved; triage_status=in_progress via automation; step triage_classified=completed; details retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1348,9 +1219,7 @@ Task(
         Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_005::canonical", "status": "completed", "outputs_json": {"triage_status": "manual_review", "owner_id": "user_001", "owner_path": "src/game/engine/renderer.cpp"}}),
         Action(name="GetBuildRunDetails", kwargs={"run_id": "run_005"})
         ],
-        outputs=[
-        "Ownership persisted (user_001 for src/game/engine/renderer.cpp); symbolication attached; triage_status=manual_review captured via automation; run_005 details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1368,9 +1237,7 @@ Task(
         Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_005::canonical", "status": "completed", "outputs_json": {"triage_status": "manual_review", "bisect_first_bad": "commit_def456"}}),
         Action(name="GetBuildRunDetails", kwargs={"run_id": "run_005"})
         ],
-        outputs=[
-        "Similar incident run_003 (0.84) recorded; bisect first_bad=commit_def456 last_good=commit_prev111 (0.95); metadata updated; triage_status=manual_review recorded; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1387,9 +1254,7 @@ Task(
         Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_001::canonical", "status": "completed", "outputs_json": {"triage_status": "in_progress"}}),
         Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-        "Symbols registered and attached (AudioEngine.dll build_003/windows); triage_status=in_progress recorded; run_001 details retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1445,12 +1310,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_001"})
         ],
-        outputs=[
-            "Repro preserved; symbolication attached; build_002 linked (hotfix_candidate=true, perf_baseline=2025-03); "
-            "evidence test run AUTO::test_run::pipeline_perf_windows::175 recorded with 2 results (coverage_pct=78.0); "
-            "ownership persisted (user_001 for src/game/engine/renderer.cpp, confidence=0.9); similar incident run_006 (0.88) noted; "
-            "provenance steps completed; triage_status=in_progress; run metadata updated; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1469,9 +1329,7 @@ Task(
             Action(name="UpdateRunMetadata", kwargs={"run_id":"run_002","metadata_patch":{"unit_test_run_id":"AUTO::test_run::pipeline_unit_tests::001"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_002"})
         ],
-        outputs=[
-            "Unit test run AUTO::test_run::pipeline_unit_tests::001 recorded with 2 results (85.5%); run_002 triage_status=in_progress; evidence ingested; metadata linked; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1490,9 +1348,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_007::canonical","status":"completed","outputs_json":{"triage_status":"in_progress","artifact_id":"build_002"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_007"})
         ],
-        outputs=[
-            "Similar incident run_008 (0.92) recorded; build_002 linked and hotfix_candidate=true; run_007 triage_status=in_progress; artifact_id persisted; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1513,9 +1369,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_007::canonical","status":"completed","outputs_json":{"triage_status":"manual_review","owner_id":"user_001","owner_path":"src/game/engine/renderer.cpp","evidence_test_run":"test_run_002"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_007"})
         ],
-        outputs=[
-            "Evidence test_run_002 persisted; symbolication attached; repro preserved; ownership persisted (user_001 for src/game/engine/renderer.cpp); triage_status=manual_review captured; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1532,9 +1386,7 @@ Task(
         Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_005::canonical", "status": "completed", "outputs_json": {"triage_status": "manual_review", "owner_id": "user_008", "owner_path": "src/game/network/multiplayer.cpp"}}),
         Action(name="GetBuildRunDetails", kwargs={"run_id": "run_005"})
         ],
-        outputs=[
-        "Ownership persisted (user_008 for src/game/network/multiplayer.cpp); triage_status=manual_review recorded; run_005 details retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1551,9 +1403,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_003::canonical","status":"completed","outputs_json":{"triage_status":"in_progress"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_003"})
         ],
-        outputs=[
-            "run_003: metadata.failure_category stored as {category:'compilation_issue'}; symbolication attached; metadata.component=render_core; triage_status=in_progress captured via automation; details retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1569,9 +1419,7 @@ Task(
         Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_005::canonical", "status": "completed", "outputs_json": {"triage_status": "manual_review", "failure_categorization": "integration_failure"}}),
         Action(name="GetBuildRunDetails", kwargs={"run_id": "run_005"})
         ],
-        outputs=[
-        "run_005 symbolicated for GameEngine.dll; repro recorded; triage_status=manual_review; automation outputs include failure_categorization=integration_failure; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1587,9 +1435,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_001::canonical", "status": "completed", "outputs_json": {"triage_status": "in_progress", "first_bad_commit": "abc999888777666", "bisect_result": "commit_abc999"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Regression evidence captured for run_001 (symbolication + repro). Automation outputs: first_bad_commit=abc999888777666, bisect_result=commit_abc999, triage_status=in_progress. Final run_001 details still show first_bad_commit=abc123def456789 and bisect_result=commit_abc123; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1606,7 +1452,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_007::canonical","status":"completed","outputs_json":{"triage_status":"manual_review"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_007"})
         ],
-        outputs=["Signals present; similar incident run_006 (0.90); provenance step signals_ingested=completed; triage_status=manual_review; details retrieved."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1624,9 +1470,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_007::canonical", "status": "completed", "outputs_json": {"triage_status": "in_progress", "test_run_id": "AUTO::test_run::pipeline_perf_windows::175"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_007"})
         ],
-        outputs=[
-            "Perf snapshot recorded for AUTO::test_run::pipeline_perf_windows::175; build_001 patched. Automation outputs include triage_status=in_progress and test_run_id=AUTO::test_run::pipeline_perf_windows::175; final run_007 details show triage_status=manual_review; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1667,10 +1511,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_006"})
         ],
-        outputs=[
-            "UI texture validated and cataloged; rating=medium; repro recorded; symbolication attached; "
-            "provenance steps completed; triage_status=manual_review; metadata updated; run_006 details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1695,10 +1536,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_001::canonical","status":"completed","outputs_json":{"triage_status":"in_progress","owner_id":"user_008","owner_path":"src/game/network/multiplayer.cpp","artifact_id":"build_002"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_001"})
         ],
-        outputs=[
-            "run_001 triage_status=in_progress; repro preserved; symbolication attached; ownership persisted (user_008, team_003, file_owner, 0.91) with owner_path src/game/network/multiplayer.cpp; build_002 linked (hotfix_candidate=true); similar incident run_006 (0.88); steps triage_fetch_artifacts and owner_resolution completed.",
-            "Automation AUTO::automation::build_triage::run_001::canonical completed with outputs (triage_status=in_progress, owner_id=user_008, owner_path=src/game/network/multiplayer.cpp, artifact_id=build_002); details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1739,9 +1577,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_007"})
         ],
-        outputs=[
-            "Perf results recorded and coverage=0.72; provenance step completed; triage_status=in_progress; automation outputs captured; run_007 details retrieved."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1772,9 +1608,7 @@ Task(
             Action(name="SetBuildTriageStatus", kwargs={"run_id":"run_007","triage_status":"in_progress"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_007"})
         ],
-        outputs=[
-            "Categorized performance_regression; first_bad & bisect recorded; repro & symbolication present; provenance logged; triage_status=in_progress; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1791,7 +1625,7 @@ Task(
         Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_006::canonical", "status": "completed", "outputs_json": {"triage_status": "in_progress"}}),
         Action(name="GetBuildRunDetails", kwargs={"run_id": "run_006"})
         ],
-        outputs=["Symbolication linked; fix proposal fix_021 recorded; metadata patched; triage_status=in_progress; run_006 details retrieved."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1826,9 +1660,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_006"})
         ],
-        outputs=[
-            "Linux perf run recorded; build_001 baseline set; run_006 metadata linked (performance_test_run_id) and evidence_ingested=completed; details retrieved."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1846,7 +1678,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_001::canonical", "status": "completed", "outputs_json": {"triage_status": "in_progress"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=["Run 'run_001' shows priority=medium, first_bad_commit=abc123def456789, bisect_result=commit_abc123, triage_status=in_progress (automation recorded)."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1864,7 +1696,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_001::canonical", "status": "completed", "outputs_json": {"triage_status": "in_progress", "owner_id": "user_001", "owner_path": "src/game/engine/renderer.cpp", "evidence_test_run": "test_run_002"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=["CI context stabilized for run_001: evidence linked, symbolication and repro present, owner persisted (user_001), triage_status=in_progress."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1880,9 +1712,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_006::canonical","status":"completed","outputs_json":{"asset_path":"assets/animations/character/walk_cycle.fbx","validation_status":"passed","performance_rating":"medium"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_006"})
         ],
-        outputs=[
-            "Asset registered; qa_004 promoted; performance_rating=medium; automation outputs recorded; run_006 details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1897,7 +1727,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_001::canonical", "status": "completed", "outputs_json": {"triage_status": "in_progress"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=["Symbolication attached; triage_status=in_progress recorded and automation completed for run_001."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1937,10 +1767,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_007"})
         ],
-        outputs=[
-            "Unit-test run AUTO::test_run::pipeline_unit_tests::001 recorded; build_002 metadata patched; triage_status=in_progress; "
-            "unit_test_run_id linked; provenance step completed; run_007 details retrieved."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1961,7 +1788,7 @@ Task(
             Action(name="UpdateRunMetadata", kwargs={"run_id": "run_001", "metadata_patch": {"performance_test_run_id": "AUTO::test_run::pipeline_perf_windows::175"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=["Perf snapshot bound to run_001 (test_run ::175 with 3 results, coverage=80.0); metadata linked; triage_status=in_progress; automation outputs captured; details retrieved."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1979,7 +1806,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_001::canonical", "status": "completed", "outputs_json": {"triage_status": "in_progress"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=["run_001 updated with first_bad_commit, categorization, steps recorded; triage_status=in_progress under canonical automation; details retrieved."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1999,9 +1826,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_005::canonical","status":"completed","outputs_json":{"triage_status":"manual_review","owner_id":"user_008","owner_path":"src/game/network/multiplayer.cpp","evidence_test_run":"test_run_002"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_005"})
         ],
-        outputs=[
-            "Ownership persisted to user_008 (team_003, file_owner, confidence=0.92); evidence test_run_002 noted; symbolication and repro recorded; triage_status=manual_review; owner_resolution=completed; automation outputs captured; run_005 details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2018,7 +1843,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_006::canonical", "status": "completed", "outputs_json": {"triage_status": "in_progress"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_006"})
         ],
-        outputs=["Symbol registered and prior symbol deprecated; build_004 linked; triage_status=in_progress recorded for run_006; details retrieved."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2036,7 +1861,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id": "AUTO::automation::build_triage::run_001::canonical", "status": "completed", "outputs_json": {"triage_status": "manual_review", "owner_id": "user_007"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=["Owner persisted (user_007), symbolication and repro recorded; triage_status=manual_review under canonical automation; run_001 details retrieved."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2076,9 +1901,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_002"})
         ],
-        outputs=[
-            "run_002: symbolication attached; metadata.failure_category=compilation_issue; metadata.first_bad_commit=abc123def456789; triage_status=in_progress; step triage_capture=completed; automation recorded; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2102,9 +1925,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_003"})
         ],
-        outputs=[
-            "Ownership persisted to user_008 for src/game/network/multiplayer.cpp; triage_status=manual_review; automation completed; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2131,9 +1952,7 @@ Task(
             Action(name="SetBuildTriageStatus", kwargs={"run_id":"run_006","triage_status":"manual_review"}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_006"})
         ],
-        outputs=[
-            "Repro, symbolication, artifacts, metadata, provenance, and incident context captured; triage_status=manual_review; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2153,7 +1972,7 @@ Task(
             Action(name="UpdateRunMetadata", kwargs={"run_id":"run_003","metadata_patch":{"performance_test_run_id":"AUTO::test_run::pipeline_perf_windows::175"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_003"})
         ],
-        outputs=["Perf run anchored to run_003 (coverage 82.5); triage_status=in_progress; automation completed; details retrieved."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2188,9 +2007,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "run_001: metadata.coverage_gate=waived; metadata.similar_incidents includes run_006; metadata.first_bad_commit=abc123def456789; triage_status=manual_review; step triage_context=completed; automation recorded; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2214,9 +2031,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Run metadata updated (priority=high, impact=build_blocker); step triage_ownership recorded; triage_status=in_progress; automation completed; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2255,10 +2070,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_006"})
         ],
-        outputs=[
-            "Texture cataloged; QA recorded (failed/issue, autofix_applied=true); rating=low; symbolication attached; "
-            "triage_status=manual_review; provenance step completed; run_006 details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2286,9 +2098,7 @@ Task(
             Action(name="UpdateRunMetadata", kwargs={"run_id": "run_001", "metadata_patch": {"performance_test_run_id": "AUTO::test_run::pipeline_perf_windows::175"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Perf evidence recorded (coverage 0.66) and anchored to run_001; triage_status=in_progress; automation completed; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2314,9 +2124,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Ownership mapped, symbolication attached, repro recorded; triage_status=in_progress; automation completed; details retrieved for run_001."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2342,9 +2150,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_007"})
         ],
-        outputs=[
-            "Evidence and symbolication attached; repro recorded; triage_status=manual_review; automation completed; details retrieved for run_007."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2359,7 +2165,7 @@ Task(
             Action(name="SetBuildTriageStatus", kwargs={"run_id":"run_006","triage_status":"manual_review"}),
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_006::canonical","status":"completed","outputs_json":{"asset_path":"assets/models/environment/castle_tower.fbx","validation_status":"failed","performance_rating":"high"}})
         ],
-        outputs=["Asset QA persisted; rating=high; run_006 triage_status=manual_review."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2407,10 +2213,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_005"})
         ],
-        outputs=[
-            "Evidence test_run_002 noted; symbolication attached (windows, GameEngine.dll); repro preserved; owner persisted "
-            "(user_008 for src/game/network/multiplayer.cpp, confidence=0.9); triage_status=manual_review captured; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2447,7 +2250,7 @@ Task(
                 "outputs_json": {"triage_status": "manual_review"}
             })
         ],
-        outputs=["Texture registered; QA recorded; performance_rating=medium; run_006 triage_status=manual_review."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2491,10 +2294,7 @@ Task(
             Action(name="UpdateRunMetadata", kwargs={"run_id": "run_007", "metadata_patch": {"performance_test_run_id": "AUTO::test_run::pipeline_perf_windows::175"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_007"})
         ],
-        outputs=[
-            "Test run AUTO::test_run::pipeline_perf_windows::175 summary+results recorded; coverage=0.8; run_007 triage_status=in_progress; "
-            "metadata linked; automation completed; details retrieved."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2534,10 +2334,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Triage recorded: in_progress for run_001; evidence_test_run pinned; symbolication attached; repro preserved; "
-            "owner persisted (user_001 for src/game/engine/renderer.cpp, confidence=0.9); details refreshed."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2575,10 +2372,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_007"})
         ],
-        outputs=[
-            "3 results appended; categorized performance_regression; repro & symbolication present; provenance logged; "
-            "triage_status=in_progress; automation outputs captured; run_007 details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2626,9 +2420,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_005"})
         ],
-        outputs=[
-            "Triage recorded: manual_review; Windows symbolication attached; repro preserved; owner persisted; evidence pinned; details refreshed."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2665,7 +2457,7 @@ Task(
                 "outputs_json": {"documented_steps": ["symbolication_setup", "owner_mapping"]}
             })
         ],
-        outputs=["Provenance steps recorded; run_004 triage_status=in_progress; automation captured documented_steps."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2702,7 +2494,7 @@ Task(
                 "outputs_json": {"triage_status": "manual_review"}
             })
         ],
-        outputs=["Texture registered; QA recorded; performance_rating=medium; run_006 triage_status=manual_review."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2756,10 +2548,7 @@ Task(
                 "metadata_patch": {"performance_test_run_id": "AUTO::test_run::pipeline_perf_windows::175"}
             })
         ],
-        outputs=[
-            "Coverage updated to 0.7 for AUTO::test_run::pipeline_perf_windows::175; results recorded.",
-            "run_001 triage_status=in_progress; metadata linked; automation completed."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2776,10 +2565,7 @@ Task(
             Action(name="SetBuildTriageStatus", kwargs={"run_id":"run_006","triage_status":"manual_review"}),
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_006::canonical","status":"completed","outputs_json":{"triage_status":"manual_review"}}),
         ],
-        outputs=[
-            "Animation and texture registered; QA recorded; performance_rating=medium.",
-            "Run run_006 triage_status=manual_review; automation completed"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2806,9 +2592,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_001"})
         ],
-        outputs=[
-            "Renderer symbols registered; artifacts linked; triage_status=in_progress; automation recorded; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2837,9 +2621,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_006"})
         ],
-        outputs=[
-            "Ownership for src/game/network/multiplayer.cpp persisted to user_008; triage_status=manual_review; automation completed; details retrieved"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2879,9 +2661,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_007"})
         ],
-        outputs=[
-            "Repro recorded; symbolication attached; ownership persisted (user_001 for renderer.cpp); triage_status=manual_review; automation completed; details retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2898,7 +2678,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_006::canonical","status":"completed","outputs_json":{"triage_status":"manual_review","asset_path":"assets/textures/environment/castle_gate_diffuse.png","validation_status":"failed","performance_rating":"low"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_006"})
         ],
-        outputs=["Texture registered with QA; catalog rating=low; run_006 triage_status=manual_review captured; details retrieved."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2936,10 +2716,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_006"})
         ],
-        outputs=[
-            "Rock Albedo registered; QA recorded; performance_rating=high; repro & symbolication recorded; "
-            "provenance steps completed; triage_status=in_progress; run_006 details retrieved."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2979,9 +2756,7 @@ Task(
             }),
             Action(name="GetBuildRunDetails", kwargs={"run_id": "run_001"})
         ],
-        outputs=[
-            "Repro recorded; symbolication attached; evidence pinned; triage_status=in_progress with ownership context; automation completed; details retrieved"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3022,9 +2797,7 @@ Task(
                 "outputs_json":{"test_run_id":"AUTO::test_run::pipeline_perf_windows::175","final_coverage_pct":0.66}
             }),
         ],
-        outputs=[
-            "3 deterministic results and coverage recorded for AUTO::test_run::pipeline_perf_windows::175; run_001 triage_status=in_progress."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3040,9 +2813,7 @@ Task(
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_001::canonical","status":"completed","outputs_json":{"triage_status":"manual_review","owner_id":"user_001"}}),
             Action(name="GetBuildRunDetails", kwargs={"run_id":"run_001"}),
         ],
-        outputs=[
-            "Ownership persisted (owner_id=user_001, owner_path=src/game/engine/renderer.cpp); symbolication attached; triage complete; details retrieved."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3060,6 +2831,6 @@ Task(
             Action(name="SetBuildTriageStatus", kwargs={"run_id":"run_007","triage_status":"in_progress"}),
             Action(name="CompleteAutomationRun", kwargs={"automation_run_id":"AUTO::automation::build_triage::run_007::canonical","status":"completed","outputs_json":{"test_run_id":"AUTO::test_run::pipeline_perf_windows::175","final_coverage_pct":0.78}})
         ],
-        outputs=["Test run totals/results recorded and coverage=0.78; run_007 triage_status=in_progress; automation completed."]
+        outputs=[]
     ),
 ]

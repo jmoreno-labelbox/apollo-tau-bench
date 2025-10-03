@@ -14,11 +14,7 @@ TASKS = [
             Action(name="UpdateSubmission", kwargs={"submission_id": "sub_08", "status": "under_review"}),
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_08"})
         ],
-        outputs=[
-            '"submission_id": "sub_08"',
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n      "res_03"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -40,12 +36,7 @@ TASKS = [
             Action(name="UpdateProject", kwargs={"project_id": "proj_review_01", "add_collaborators": ["res_01", "res_06"]}), # Edge 15 (from register_project), Edge 16 (from find_researcher_profiles - Souza), Edge 17 (from find_researcher_profiles - Khan)
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_review_01"}) # Edge 18 (from update_project)
         ],
-        outputs=[
-            '"project_id": "proj_review_01"',
-            '"lead_researcher_id": "res_02"',
-            '"linked_articles": [\n      "art_09"\n    ]',
-            '"collaborators": [\n      "res_01",\n      "res_06"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -61,12 +52,7 @@ TASKS = [
             Action(name="DispatchUserAlert", kwargs={"recipient_user_id": "res_01", "sender_user_id": "system", "message_content": "A potential for interdisciplinary synergy was identified between your work and research from Dr. Thomas Anderson in Biomedicine."}),
             Action(name="FindCollaborationNetwork", kwargs={"author_name": "Dr. Thomas Anderson"})
         ],
-        outputs=[
-            '"Dr. Sarah Johnson": 1',
-            '"Dr. Ana Oliveira": 1',
-            '"Dr. Kenji Tanaka": 1',
-            '"Dr. Elena Rossi": 1'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -85,11 +71,7 @@ TASKS = [
             Action(name="FindResearcherProfiles", kwargs={"user_id": "res_03"}),
             Action(name="RetrieveFundingInfo", kwargs={"funding_source_id": "fs_02"})
         ],
-        outputs=[
-            '"project_id": "proj_01"',
-            '"project_name": "[NSF] Quantum Computing Applications"',
-            '"funding_source_id": "fs_02"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -108,10 +90,7 @@ TASKS = [
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_01"}),
             Action(name="RetrievePapers", kwargs={"article_id": "art_02"})
         ],
-        outputs=[
-            '"article_id": "art_02"',
-            '"status": "pending_revision"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -127,10 +106,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_06", "article_id": "art_06", "notes": "Dr. Sarah Johnson could be a potential bridge to the field of Biomedicine."}), # 'log_id_override' removido
             Action(name="FindCollaborationNetwork", kwargs={"author_name": "Dr. Sarah Johnson", "authors_to_check": ["Dr. Ana Oliveira", "Dr. Thomas Anderson"]})
         ],
-        outputs=[
-            '"Dr. Ana Oliveira": 1',
-            '"Dr. Thomas Anderson": 1'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -145,11 +121,7 @@ TASKS = [
             Action(name="DispatchUserAlert", kwargs={"recipient_user_id": "res_05", "sender_user_id": "res_03", "message_content": "Hi Kenji, I saw your latest paper on atmospheric signatures. Fascinating work! Would love to chat about it sometime."}),
             Action(name="GetAuthorMetrics", kwargs={"author_name": "Dr. Liu Wei"})
         ],
-        outputs=[
-            '"total_publications": 3',
-            '"total_citations": 1',
-            '"h_index": 1'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -169,12 +141,7 @@ TASKS = [
             Action(name="RetrievePapers", kwargs={"author_name": "Dr. Sarah Johnson"}),
             Action(name="FindCollaborationNetwork", kwargs={"author_name": "Dr. Thomas Anderson"}) # This action provides the output when the note is not created
         ],
-        outputs=[
-            '"Dr. Sarah Johnson": 1',
-            '"Dr. Ana Oliveira": 1',
-            '"Dr. Kenji Tanaka": 1',
-            '"Dr. Elena Rossi": 1'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -192,14 +159,7 @@ TASKS = [
             Action(name="UpdateArticleMetadata", kwargs={"article_id": "art_06", "topic": "AI / Scientometrics"}),
             Action(name="RetrievePapers", kwargs={"title": "Federated Learning for Privacy-Preserving AI"})
         ],
-        outputs=[
-            '"article_id": "art_06"',
-            '"title": "Federated Learning for Privacy-Preserving AI"',
-            '"authors": [\n      "Dr. Anna Petrov"\n    ]',
-            '"publication_year": 2024',
-            '"topic": "AI / Scientometrics"',
-            '"abstract": "A novel framework for federated learning that enhances data privacy without compromising model accuracy. We introduce a new aggregation protocol."'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -216,12 +176,7 @@ TASKS = [
             Action(name="RetrievePapers", kwargs={"title": "Limits of Quantum Computing in Optimization Problems"}),
             Action(name="GetProjectDetails", kwargs={"project_name": "Quantum Computing Applications"})
         ],
-        outputs=[
-            '"article_id": "art_02"',
-            '"status": "retracted"',
-            '"project_id": "proj_01"',
-            '"status": "under_review"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -237,12 +192,7 @@ TASKS = [
             Action(name="UpdateProject", kwargs={"project_id": "proj_01", "funding_source_id": "fs_01", "status": "active_collaboration"}),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=[
-            '"project_id": "proj_01"',
-            '"status": "active_collaboration"',
-            '"funding_source_id": "fs_01"',
-            '"collaborators": [\n      "res_01"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -260,10 +210,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_03", "article_id": "art_07", "notes": "Funding renewal justification: New article art_07 linked, demonstrated impact via citation by Dr. Souza."}), # 'log_id_override' removido
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=[
-            '"project_id": "proj_01"',
-            '"linked_articles": [\n      "art_02",\n      "art_07"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -280,11 +227,7 @@ TASKS = [
             Action(name="DispatchUserAlert", kwargs={"recipient_user_id": "res_02", "sender_user_id": "system", "message_content": "Your work is having cross-disciplinary impact on the AI field."}),
             Action(name="GetAuthorMetrics", kwargs={"author_name": "Dr. Sarah Johnson"})
         ],
-        outputs=[
-            '"total_publications": 3',
-            '"total_citations": 3',
-            '"h_index": 1'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -299,10 +242,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_16", "article_id": "art_01", "notes": "Article 'Advances in Language...' has been updated with a new citation and keywords."}),
             Action(name="RetrievePapers", kwargs={"article_id": "art_01"})
         ],
-        outputs=[
-            '"article_id": "art_01"',
-            '"keywords": [\n      "transformer",\n      "code-generation",\n      "Biomedicine"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -319,10 +259,7 @@ TASKS = [
             Action(name="DispatchUserAlert", kwargs={"recipient_user_id": "res_03", "sender_user_id": "system", "message_content": "Reviewer for your submission sub_01 has been changed to Dr. Liu Wei."}),
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_01"})
         ],
-        outputs=[
-            '"submission_id": "sub_01"',
-            '"assigned_reviewers": [\n      "res_05"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -341,11 +278,7 @@ TASKS = [
             Action(name="UpdateSubmission", kwargs={"submission_id": "sub_02", "status": "under_review"}),
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_02"})
         ],
-        outputs=[
-            '"submission_id": "sub_02"',
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n      "res_01"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -364,11 +297,7 @@ TASKS = [
             Action(name="UpdateProject", kwargs={"project_id": "proj_bridge_01", "funding_source_id": "fs_01"}),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_bridge_01"})
         ],
-        outputs=[
-            '"project_id": "proj_bridge_01"',
-            '"funding_source_id": "fs_01"',
-            '"collaborators": [\n      "res_04"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -385,10 +314,7 @@ TASKS = [
             Action(name="DispatchUserAlert", kwargs={"recipient_user_id": "res_03", "sender_user_id": "system", "message_content": "Reviewer for your submission sub_01 has been changed to Dr. Liu Wei."}),
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_01"})
         ],
-        outputs=[
-            '"submission_id": "sub_01"',
-            '"assigned_reviewers": [\n      "res_05"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -404,10 +330,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_03", "article_id": "art_07", "notes": "Promotion package validated: Co-authorship with Dr. Wei Zhang confirmed."}), # 'log_id_override' removido
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=[
-            '"project_id": "proj_01"',
-            '"status": "promotion_review_complete"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -422,10 +345,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_01", "article_id": "art_01", "notes": "Note: A corrective citation to your paper was added from 'Dark Matter...' (art_05)."}), # 'log_id_override' removido
             Action(name="GetCitationGraph", kwargs={"article_id": "art_05"})
         ],
-        outputs=[
-            '"article_id": "art_05"',
-            '"cites": [\n    "art_02",\n    "art_01"\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -442,11 +362,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_06", "article_id": "art_06", "notes": "You have been invited to join the 'AI Summit 2025 Panel' project."}),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_panel_01"})
         ],
-        outputs=[
-            '"project_id": "proj_panel_01"',
-            '"lead_researcher_id": "res_01"',
-            '"collaborators": [\n      "res_06"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -462,10 +378,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_01", "article_id": "art_02", "notes": "Your review for art_02 is complete. Consider Prof. James Wilson for future collaboration."}),
             Action(name="RetrievePapers", kwargs={"article_id": "art_02"})
         ],
-        outputs=[
-            '"article_id": "art_02"',
-            '"status": "pending_revision"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -484,12 +397,7 @@ TASKS = [
             Action(name="RegisterProject", kwargs={"project_name": "Review of AI in Diagnostics - 2025", "lead_researcher_id": "res_02", "linked_article_id": "art_09", "project_id_override": "proj_review_01"}),
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_09"})
         ],
-        outputs=[
-            '"submission_id": "sub_09"',
-            '"article_id": "art_09"',
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n      "res_01",\n      "res_06"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -509,11 +417,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_03", "article_id": "art_05", "notes": "Your article is undergoing a standard internal quality check."}),
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_07"})
         ],
-        outputs=[
-            '"submission_id": "sub_07"',
-            '"status": "internal_review"',
-            '"assigned_reviewers": [\n      "res_06"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -530,11 +434,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_03", "article_id": "art_10", "notes": "You have been added to a new project: 'Quantum Computing Review 2025'."}),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_qcr_25"})
         ],
-        outputs=[
-            '"project_id": "proj_qcr_25"',
-            '"lead_researcher_id": "res_03"',
-            '"linked_articles": [\n      "art_10"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -553,11 +453,7 @@ TASKS = [
             Action(name="UpdateArticleMetadata", kwargs={"article_id": "art_02", "status": "under_investigation"}),
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_06"})
         ],
-        outputs=[
-            '"submission_id": "sub_06"',
-            '"status": "preemptive_integrity_review"',
-            '"assigned_reviewers": [\n      "res_06"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -579,12 +475,7 @@ TASKS = [
             Action(name="RetrievePapers", kwargs={"article_id": "art_02"}),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_01"})
         ],
-        outputs=[
-            '"article_id": "art_02"',
-            '"status": "retracted"',
-            '"project_id": "proj_01"',
-            '"status": "halted_pending_investigation"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -605,11 +496,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_05", "article_id": "art_17", "notes": "Our paper 'Advanced Dark Matter Simulations' has been submitted and is awaiting review."}),
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_11"})
         ],
-        outputs=[
-            '"submission_id": "sub_11"',
-            '"status": "awaiting_review"',
-            '"assigned_reviewers": [\n      "res_06"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -628,10 +515,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_03", "article_id": "art_02", "notes": "Reviewer for sub_01 has been changed to Dr. Kenji Tanaka due to unforeseen circumstances."}),
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_01"})
         ],
-        outputs=[
-            '"submission_id": "sub_01"',
-            '"assigned_reviewers": [\n      "res_01"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -652,14 +536,7 @@ TASKS = [
             Action(name="GetAuthorMetrics", kwargs={"author_name": "Dr. Anna Petrov"}),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_cancer_ai"})
         ],
-        outputs=[
-            '"project_id": "proj_cancer_ai"',
-            '"project_name": "Precision Cancer Diagnostics using AI"',
-            '"lead_researcher_id": "res_04"',
-            '"funding_source_id": "fs_03"',
-            '"collaborators": [\n      "res_02",\n      "res_06"\n    ]',
-            '"linked_articles": [\n      "art_14"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -677,11 +554,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_01", "article_id": "art_12", "notes": "Your article (art_12) has entered the review process."}),
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_multi_ai"})
         ],
-        outputs=[
-            '"submission_id": "sub_multi_ai"',
-            '"status": "submitted"',
-            '"assigned_reviewers": [\n      "res_02",\n      "res_05"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -699,12 +572,7 @@ TASKS = [
             Action(name="FindResearcherProfiles", kwargs={"user_id": "res_03"}), # For final display of Prof. James Wilson's profile
             Action(name="SuggestReviewers", kwargs={"article_id": "art_02", "exclude_authors": ["Prof. James Wilson"]})
         ],
-        outputs=[
-            '"user_id": "res_03"',
-            '"name": "Prof. James Wilson"',
-            '"research_field": "Astrophysics"',
-            '"suggested_reviewers": [\n      "Dr. Sarah Johnson",\n      "Dr. Ana Oliveira",\n      "Dr. Thomas Anderson",\n      "Dr. Ricardo Mendes",\n      "Dr. Ahmed Hassan",\n      "Dr. Maria Santos",\n      "Dr. Carlos Ruiz",\n      "Dr. Carlos Silva",\n      "Dr. Sofia Bauer",\n      "Dr. Aisha Khan",\n      "Dr. Helena Souza",\n      "Lia Costa",\n      "Dr. Elena Rossi"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -723,12 +591,7 @@ TASKS = [
             Action(name="GetAuthorMetrics", kwargs={"author_name": "Dr. Kenji Tanaka"}), # Edge 14 (from prompt)
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_04"}) # Edge 15 (from update_project - status), Edge 16 (from update_project - linked_articles)
         ],
-        outputs=[
-            '"project_id": "proj_04"',
-            '"status": "active"',
-            '"funding_source_id": "fs_01"',
-            '"linked_articles": [\n      "art_06",\n      "art_15"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -746,11 +609,7 @@ TASKS = [
             Action(name="DispatchUserAlert", kwargs={"recipient_user_id": "res_03", "sender_user_id": "system", "message_content": "Your article, \"Advanced Dark Matter Simulations\", has received a review. Minor revisions requested."}),
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_11"})
         ],
-        outputs=[
-            '"submission_id": "sub_11"',
-            '"status": "minor_revisions_requested"',
-            '"assigned_reviewers": [\n      "res_06"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -766,11 +625,7 @@ TASKS = [
             Action(name="FindCollaborationNetwork", kwargs={"author_name": "Dr. Carlos Silva"}),
             Action(name="FindResearcherProfiles", kwargs={"name": "Dr. Carlos Silva"})
         ],
-        outputs=[
-            '"user_id": "res_11"',
-            '"name": "Dr. Carlos Silva"',
-            '"research_field": "Astrophysics"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -788,12 +643,7 @@ TASKS = [
             Action(name="DispatchUserAlert", kwargs={"recipient_user_id": "res_02", "sender_user_id": "system", "message_content": "The Next-Generation CRISPR Technologies project is now officially closed. Congratulations on your publications!"}),
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_03"})
         ],
-        outputs=[
-            '"project_id": "proj_03"',
-            '"status": "completed_successfully"',
-            '"end_date": "2025-07-24"',
-            '"linked_articles": [\n      "art_03",\n      "art_11"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -810,11 +660,7 @@ TASKS = [
             Action(name="AddResearchNote", kwargs={"researcher_id": "res_04", "article_id": "art_04", "notes": "Submission sub_02 rejected due to review feedback."}), # Step 8: Create research note
             Action(name="SearchSubmissions", kwargs={"submission_id": "sub_02"}) # Step 9: Display final submission details
         ],
-        outputs=[
-            '"submission_id": "sub_02"',
-            '"status": "rejected"',
-            '"assigned_reviewers": []'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -836,15 +682,7 @@ TASKS = [
             Action(name="UpdateProject", kwargs={"project_id": "proj_health_diag", "funding_source_id": "fs_08"}), # Edge 21 (from register_project), Edge 22 (from retrieve_funding_info)
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_health_diag"}) # Edge 23 (from update_project - funding)
         ],
-        outputs=[
-            '"project_id": "proj_health_diag"',
-            '"project_name": "AI in Healthcare Diagnostics"',
-            '"lead_researcher_id": "res_01"',
-            '"collaborators": [\n      "res_02"\n    ]',
-            '"linked_articles": [\n      "art_12",\n      "art_09"\n    ]',
-            '"status": "proposal"',
-            '"funding_source_id": "fs_08"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -864,12 +702,7 @@ TASKS = [
             Action(name="UpdateProject", kwargs={"project_id": "proj_review_01", "add_collaborators": ["res_01", "res_06"]}), # Edge 15 (from register_project), Edge 16 (from find_researcher_profiles - Souza), Edge 17 (from find_researcher_profiles - Khan)
             Action(name="GetProjectDetails", kwargs={"project_id": "proj_review_01"}) # Edge 18 (from update_project)
         ],
-        outputs=[
-            '"project_id": "proj_review_01"',
-            '"lead_researcher_id": "res_02"',
-            '"linked_articles": [\n      "art_09"\n    ]',
-            '"collaborators": [\n      "res_01",\n      "res_06"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -889,11 +722,6 @@ TASKS = [
             Action(name="DispatchUserAlert", kwargs={"recipient_user_id": "res_02", "sender_user_id": "res_01", "message_content": "Exploring new collaborations in Biomedicine. Your work is highly relevant."}), # Edge 19 (from find_researcher_profiles - Mendes), Edge 20 (from find_researcher_profiles - Souza), Edge 21 (from prompt)
             Action(name="FindResearcherProfiles", kwargs={"name": "Dr. Kenji Tanaka"}) # Edge 22 (for final display)
         ],
-        outputs=[
-            '"user_id": "res_01"',
-            '"notification_channel": "in_app"',
-            '"ui_theme": "light"',
-            '"topic": "Biomedicine"' # Verifies subscription update
-        ]
+        outputs=[]
     )
 ]

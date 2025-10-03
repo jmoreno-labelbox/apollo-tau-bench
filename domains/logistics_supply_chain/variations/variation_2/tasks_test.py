@@ -29,7 +29,7 @@ TASKS = [
             }),
             Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0004"}),
         ],
-        outputs=['GPLS']
+        outputs=[]
     ),
 
     Task(
@@ -90,7 +90,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "PSLN"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["MTRL", "PSLN"]})
         ],
-        outputs=['[\n  "MTRL",\n  "PSLN"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -116,7 +116,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "GPLS"}),
             Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0014"}),
         ],
-        outputs=['"status": "Delayed"']
+        outputs=[]
     ),
 
     Task(
@@ -168,7 +168,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "MTRL"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["MTRL"]})
         ],
-        outputs=['[\n  "MTRL"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -229,7 +229,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "GPLS"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["DFC", "GPLS"]})
         ],
-        outputs=['[\n  "DFC",\n  "GPLS"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -282,7 +282,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "GPLS"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["GPLS"]})
         ],
-        outputs=['[\n  "GPLS"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -316,7 +316,7 @@ TASKS = [
             Action(name="UpdateInventory", kwargs={"inventory_id": "INV-0025", "updates": {"status": "Under Review"}}),
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0025"})
         ],
-        outputs=['"status": "Under Review"']
+        outputs=[]
     ),
 
     Task(
@@ -345,7 +345,7 @@ TASKS = [
             }),
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-11"}),
         ],
-        outputs=['"underused_flag": true']
+        outputs=[]
     ),
 
     Task(
@@ -371,7 +371,7 @@ TASKS = [
             }),
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-12"}),
         ],
-        outputs=['"underused_flag": true']
+        outputs=[]
     ),
 
     Task(
@@ -424,7 +424,7 @@ TASKS = [
             Action(name="ReturnIds", kwargs={"list_of_ids": ["ORD-0005", "ORD-0006", "ORD-0007", "ORD-0009",
                                                               "ORD-0010", "ORD-0013", "ORD-0015", "ORD-0016"]})
         ],
-        outputs=['[\n  "ORD-0005",\n  "ORD-0006",\n  "ORD-0007",\n  "ORD-0009",\n  "ORD-0010",\n  "ORD-0013",\n  "ORD-0015",\n  "ORD-0016"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -506,7 +506,7 @@ TASKS = [
                                                               "SHIP-0028"
             ]})
         ],
-        outputs=['[\n  "SHIP-0001",\n  "SHIP-0003",\n  "SHIP-0005",\n  "SHIP-0009",\n  "SHIP-0011",\n  "SHIP-0015",\n  "SHIP-0018",\n  "SHIP-0023",\n  "SHIP-0025",\n  "SHIP-0028"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -565,7 +565,7 @@ TASKS = [
             Action(name="ReturnIds", kwargs={"list_of_ids": ["GPLS", "DFC"]})
 
         ],
-        outputs=['[\n  "GPLS",\n  "DFC"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -593,7 +593,7 @@ TASKS = [
             }),
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0024"})
         ],
-        outputs=['"status": "Expired"']
+        outputs=[]
     ),
 
     Task(
@@ -651,7 +651,7 @@ TASKS = [
             Action(name="ReturnIds", kwargs={"list_of_ids": ["SKEX", "ALFS"]})
 
         ],
-        outputs=['[\n  "SKEX",\n  "ALFS"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -705,7 +705,7 @@ TASKS = [
             Action(name="ReturnIds", kwargs={"list_of_ids": ["GPLS"]})
 
         ],
-        outputs=['[\n  "GPLS"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -733,7 +733,7 @@ TASKS = [
             }),
             Action(name="GetProductBySku", kwargs={"sku": "PHRM-DRUG-S19", })
         ],
-        outputs=['"cold_chain_flag": true']
+        outputs=[]
     ),
 
     Task(
@@ -764,7 +764,7 @@ TASKS = [
                 "list_of_ids": ["INV-0002", "INV-0017", "INV-0021", "INV-0025"]
             })
         ],
-        outputs=["22"]
+        outputs=[]
     ),
 
     Task(
@@ -817,7 +817,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "ALFS"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["SKEX", "ALFS"]})
         ],
-        outputs=['[\n  "SKEX",\n  "ALFS"\n]']
+        outputs=[]
     ),
 
 
@@ -865,7 +865,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "GPLS"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["GPLS"]})
         ],
-        outputs=['[\n  "GPLS"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -899,7 +899,7 @@ TASKS = [
             }),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["SUP-1002", "SUP-1010", "SUP-1016", "SUP-1029"]})
         ],
-        outputs=['["SUP-1002", "SUP-1010", "SUP-1016", "SUP-1029"]']
+        outputs=[]
     ),
 
     Task(
@@ -936,10 +936,7 @@ TASKS = [
             }),
             Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0021"}),
         ],
-        outputs=[
-            '"carrier_name": "Global Parcel Service"',
-            '"carrier_scac": "GPLS"',
-        ]
+        outputs=[]
     ),
 
         Task(
@@ -978,7 +975,7 @@ TASKS = [
                 }),
                 Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0004"})
             ],
-            outputs=['"status": "Planned"']
+            outputs=[]
         ),
 
     Task(
@@ -1020,10 +1017,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderById", kwargs={"order_id": "ORD-0012"}),
         ],
-        outputs=[
-            '"carrier_name": "Global Parcel Service"',
-            '"carrier_scac": "GPLS"'
-        ]
+        outputs=[]
     ),
 
         Task(
@@ -1070,7 +1064,7 @@ TASKS = [
                 Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-10"}),
                 Action(name="ReturnIds", kwargs={"list_of_ids": ["INV-0003", "INV-0024"]})
             ],
-            outputs=['[\n  "INV-0003",\n  "INV-0024"\n]']
+            outputs=[]
         ),
 
     Task(
@@ -1102,7 +1096,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderById", kwargs={"order_id": "ORD-0011"}),
         ],
-        outputs=['"extra_note": "BEWARE FRAGILE"']
+        outputs=[]
     ),
 
     Task(
@@ -1138,7 +1132,7 @@ TASKS = [
             }),
             Action(name="GetSupplierById", kwargs={"supplier_id": "SUP-1029"}),
         ],
-        outputs=['"certification_status": "ISO Certification Pending"']
+        outputs=[]
     ),
 
     Task(
@@ -1184,7 +1178,7 @@ TASKS = [
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0003"}),
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0024"}),
         ],
-        outputs=['"stock_status": "On Hold"']
+        outputs=[]
     ),
 
         Task(
@@ -1239,7 +1233,7 @@ TASKS = [
                 Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0014"}),
                 Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0023"}),
             ],
-            outputs=['4.9']
+            outputs=[]
         ),
 
         Task(
@@ -1270,7 +1264,7 @@ TASKS = [
                 }}),
                 Action(name="GetProductBySku", kwargs={"sku": "PHRM-VACC-D4"}),
             ],
-            outputs=['"sku": "PHRM-VACC-D4"']
+            outputs=[]
         ),
 
         Task(
@@ -1417,7 +1411,7 @@ TASKS = [
                     "INV-0020", "INV-0021", "INV-0022", "INV-0023", "INV-0024", "INV-0025"
                 ]})
             ],
-            outputs=['[\n  "INV-0001",\n  "INV-0002",\n  "INV-0003",\n  "INV-0005",\n  "INV-0006",\n  "INV-0007",\n  "INV-0010",\n  "INV-0013",\n  "INV-0015",\n  "INV-0016",\n  "INV-0017",\n  "INV-0018",\n  "INV-0020",\n  "INV-0021",\n  "INV-0022",\n  "INV-0023",\n  "INV-0024",\n  "INV-0025"\n]']
+            outputs=[]
         ),
 
         Task(
@@ -1470,7 +1464,7 @@ TASKS = [
                 }}),
                 Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0004"}),
             ],
-            outputs=['"carrier_scac": "ALFS"']
+            outputs=[]
         ),
 
         Task(
@@ -1515,7 +1509,7 @@ TASKS = [
                 }}),
                 Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-07"})
             ],
-            outputs=['"note": "Lowest Utilization Percent"']
+            outputs=[]
         ),
 
         Task(
@@ -1552,7 +1546,7 @@ TASKS = [
                 Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0023"}),
                 Action(name="ReturnIds", kwargs={"list_of_ids": ["PHRM-VACC-D4", "ELEC-SMART-W23"]})
             ],
-            outputs=['[\n  "PHRM-VACC-D4",\n  "ELEC-SMART-W23"\n]']
+            outputs=[]
         ),
 
     Task(
@@ -1575,7 +1569,7 @@ TASKS = [
                                                                        "carrier_name": "Global Ocean Carriers"}}),
             Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0004"})
         ],
-        outputs=['"carrier_scac": "GOCN"']
+        outputs=[]
     ),
 
         Task(
@@ -1624,7 +1618,7 @@ TASKS = [
                        kwargs={'supplier_id': "SUP-1019", "updates": {"note": "Least Standard Lead Time Days"}}),
                 Action(name="GetSupplierById", kwargs={'supplier_id': "SUP-1019"})
             ],
-            outputs=['"supplier_id": "SUP-1019"']
+            outputs=[]
         ),
 
     Task(
@@ -1650,7 +1644,7 @@ TASKS = [
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0014"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["INV-0009", "INV-0014"]})
         ],
-        outputs=['[\n  "INV-0009",\n  "INV-0014"\n]']
+        outputs=[]
     ),
 
         Task(
@@ -1686,7 +1680,7 @@ TASKS = [
                 Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0014"}),
                 Action(name="ReturnIds", kwargs={"list_of_ids": ["INV-0009", "INV-0014"]})
             ],
-            outputs=['[\n  "INV-0009",\n  "INV-0014"\n]']
+            outputs=[]
         ),
 
         Task(
@@ -1760,7 +1754,7 @@ TASKS = [
                     "WH-12", "WH-14", "WH-15"
                 ]})
             ],
-            outputs=['[\n  "WH-01",\n  "WH-02",\n  "WH-03",\n  "WH-04",\n  "WH-05",\n  "WH-07",\n  "WH-08",\n  "WH-09",\n  "WH-10",\n  "WH-12",\n  "WH-14",\n  "WH-15"\n]']
+            outputs=[]
         ),
 
         Task(
@@ -1792,7 +1786,7 @@ TASKS = [
                     "list_of_ids": ["PHRM-VACC-D4", "PHRM-DRUG-S19", "FOOD-FLWR-X24"]
                 }),
             ],
-            outputs=['"sku": "PHRM-DRUG-S19"', '"unit_price": 1800.0']
+            outputs=[]
         ),
 
         Task(
@@ -1829,7 +1823,7 @@ TASKS = [
                 Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0025"}),
                 Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0001"}),
             ],
-            outputs=['12800']
+            outputs=[]
         ),
 
         Task(
@@ -1869,7 +1863,7 @@ TASKS = [
                 Action(name="GetOutboundOrderById", kwargs={"order_id": "ORD-0011"}),
                 Action(name="ReturnIds", kwargs={"list_of_ids": ["ORD-0008", "ORD-0011"]})
             ],
-            outputs=['[\n  "ORD-0008",\n  "ORD-0011"\n]']
+            outputs=[]
         ),
 
         Task(
@@ -1908,7 +1902,7 @@ TASKS = [
                 Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0024"}),
                 Action(name="ReturnIds", kwargs={"list_of_ids": ["INV-0003", "INV-0004", "INV-0008", "INV-0011", "INV-0019", "INV-0022", "INV-0024"]})
             ],
-            outputs=['[\n  "INV-0003",\n  "INV-0004",\n  "INV-0008",\n  "INV-0011",\n  "INV-0019",\n  "INV-0022",\n  "INV-0024"\n]']
+            outputs=[]
         ),
 
     Task(
@@ -1940,7 +1934,7 @@ TASKS = [
                    kwargs={"supplier_id": "SUP-1029", "updates": {"certification_status": "Compliance Review"}}),
             Action(name="GetSupplierById", kwargs={"supplier_id": "SUP-1029"})
         ],
-        outputs=['"certification_status": "Compliance Review"']
+        outputs=[]
     ),
 
     Task(
@@ -1968,7 +1962,7 @@ TASKS = [
                    kwargs={"warehouse_id": "WH-10", "updates": {"notes": "High Damaged Goods."}}),
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-10"})
         ],
-        outputs=['"notes": "High Damaged Goods."']
+        outputs=[]
     ),
 
         Task(
@@ -1994,7 +1988,7 @@ TASKS = [
                 Action(name="GetProductBySku", kwargs={"sku": "ELEC-SMART-W23"}),
                 Action(name="ReturnIds", kwargs={"list_of_ids": ["PHRM-VACC-D4", "ELEC-SMART-W23"]})
             ],
-            outputs=['[\n  "PHRM-VACC-D4",\n  "ELEC-SMART-W23"\n]']
+            outputs=[]
         ),
 
         Task(
@@ -2042,7 +2036,7 @@ TASKS = [
                 Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0029"}),
                 Action(name="ReturnIds", kwargs={"list_of_ids": ["SHIP-0010", "SHIP-0016", "SHIP-0019", "SHIP-0027", "SHIP-0029"]})
             ],
-            outputs=['[\n  "SHIP-0010",\n  "SHIP-0016",\n  "SHIP-0019",\n  "SHIP-0027",\n  "SHIP-0029"\n]']
+            outputs=[]
         ),
 
         Task(
@@ -2094,7 +2088,7 @@ TASKS = [
                 Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0030"}),
                 Action(name="ReturnIds", kwargs={"list_of_ids": ["SHIP-0006", "SHIP-0010", "SHIP-0019", "SHIP-0027", "SHIP-0029", "SHIP-0030"]})
             ],
-            outputs=['[\n  "SHIP-0006",\n  "SHIP-0010",\n  "SHIP-0019",\n  "SHIP-0027",\n  "SHIP-0029",\n  "SHIP-0030"\n]']
+            outputs=[]
         ),
 
         Task(
@@ -2142,7 +2136,7 @@ TASKS = [
                 Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0029"}),
                 Action(name="ReturnIds", kwargs={"list_of_ids": ["SHIP-0010", "SHIP-0016", "SHIP-0019", "SHIP-0027", "SHIP-0029"]})
             ],
-            outputs=['[\n  "SHIP-0010",\n  "SHIP-0016",\n  "SHIP-0019",\n  "SHIP-0027",\n  "SHIP-0029"\n]']
+            outputs=[]
         ),
 
         Task(
@@ -2178,7 +2172,7 @@ TASKS = [
                     "list_of_ids": ["INV-0010", "INV-0015", "INV-0020", "INV-0024"]
                 })
             ],
-            outputs=['"quantity_damaged": 120']
+            outputs=[]
         ),
 
         Task(
@@ -2221,7 +2215,7 @@ TASKS = [
                 Action(name="GetOutboundOrderById", kwargs={"order_id": "ORD-0011"}),
                 Action(name="ReturnIds", kwargs={"list_of_ids": ["ORD-0004", "ORD-0008", "ORD-0011"]})
             ],
-            outputs=['[\n  "ORD-0004",\n  "ORD-0008",\n  "ORD-0011"\n]']
+            outputs=[]
         ),
 
     Task(
@@ -2255,9 +2249,7 @@ TASKS = [
             Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0029"}),
 
         ],
-        outputs=[
-            '"note": "Shipment of highest priority"',
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2278,7 +2270,7 @@ TASKS = [
             Action(name="UpdateWarehouse", kwargs={"warehouse_id": "WH-15", "updates": {"status": "Restocking Planned"}}),
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-15"}),
         ],
-        outputs=['"status": "Restocking Planned"']
+        outputs=[]
     ),
 
     Task(
@@ -2307,7 +2299,7 @@ TASKS = [
             Action(name="GetProductBySku", kwargs={"sku": "PHRM-VACC-D4"}),
             Action(name="GetProductBySku", kwargs={"sku": "ELEC-SMART-W23"}),
         ],
-        outputs=['"storage_requirements": "Hazmat Class mentioned"']
+        outputs=[]
     ),
 
     Task(
@@ -2337,7 +2329,7 @@ TASKS = [
                                                            "updates": {"carrier_scac": "SKEX", "carrier_name": "Sakura Express"}}),
             Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0004"}),
         ],
-        outputs=['"carrier_scac": "SKEX"', '"carrier_name": "Sakura Express"']
+        outputs=[]
     ),
 
     Task(
@@ -2362,7 +2354,7 @@ TASKS = [
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-15"}),
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-10"})
         ],
-        outputs=['"status": "IMMEDIATE ATTENTION NEEDED"']
+        outputs=[]
     ),
 
     Task(
@@ -2396,7 +2388,7 @@ TASKS = [
             Action(name="UpdateCarrier", kwargs={"carrier_scac": "GPLS", "updates": {"notes": "Highest Insurance Coverage"}}),
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "GPLS"})
         ],
-        outputs=["GPLS"]
+        outputs=[]
     ),
 
     Task(
@@ -2433,7 +2425,7 @@ TASKS = [
             Action(name="UpdateProduct", kwargs={"sku": "MATR-CORK-T20", "updates": {"notes": "Cheapest Product"}}),
             Action(name="GetProductBySku", kwargs={"sku": "MATR-CORK-T20"})
         ],
-        outputs=['MATR-CORK-T20']
+        outputs=[]
     ),
 
     Task(
@@ -2463,7 +2455,7 @@ TASKS = [
                         }),
             Action(name="UpdateSupplier", kwargs={"supplier_id": "SUP-1016", "updates": {"notes": "Best on time delivery percentage"}}),
             Action(name="GetSupplierById", kwargs={"supplier_id": "SUP-1016"}),],
-        outputs=['"SUP-1016"']
+        outputs=[]
     ),
 
     Task(
@@ -2507,7 +2499,7 @@ TASKS = [
             Action(name="UpdateWarehouse", kwargs={"warehouse_id": "WH-10", "updates": {"notes": "Best Current Utilization Percentage, Damaged Inventory"}}),
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-10"}),
         ],
-        outputs=['WH-10']
+        outputs=[]
     ),
 
     Task(
@@ -2537,7 +2529,7 @@ TASKS = [
             Action(name="UpdateProduct", kwargs={"sku": "FOOD-COFF-C3", "updates": {"notes": "Cheapest Grocery"}}),
             Action(name="GetProductBySku", kwargs={"sku": "FOOD-COFF-C3"}),
         ],
-        outputs=['FOOD-COFF-C3']
+        outputs=[]
     ),
 
     Task(
@@ -2592,10 +2584,7 @@ TASKS = [
             }}),
             Action(name="GetOutboundOrderById", kwargs={"order_id": "ORD-0010"}),
         ],
-        outputs=[
-            '"carrier_name": "Global Parcel Service"',
-            '"carrier_scac": "GPLS"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2637,7 +2626,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "GPLS"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["DLOG", "GPLS"]})
         ],
-        outputs=['[\n  "DLOG",\n  "GPLS"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -2680,7 +2669,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "ALFS"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["OCBR", "ALFS"]})
         ],
-        outputs=['[\n  "OCBR",\n  "ALFS"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -2720,7 +2709,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "MEDL"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["MEDL"]})
         ],
-        outputs=['[\n  "MEDL"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -2762,7 +2751,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "ALFS"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["GOCN", "ALFS"]})
         ],
-        outputs=['[\n  "GOCN",\n  "ALFS"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -2806,7 +2795,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "GPLS"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["SWDL", "GPLS"]})
         ],
-        outputs=['[\n  "SWDL",\n  "GPLS"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -2850,7 +2839,7 @@ TASKS = [
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-16"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["WH-03", "WH-07", "WH-08", "WH-11", "WH-13"]})
         ],
-        outputs=['[\n  "WH-03",\n  "WH-07",\n  "WH-08",\n  "WH-11",\n  "WH-13"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -2886,7 +2875,7 @@ TASKS = [
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-15"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["WH-06", "WH-12", "WH-15"]})
         ],
-    outputs=['[\n  "WH-06",\n  "WH-12",\n  "WH-15"\n]']
+    outputs=[]
     ),
 
     Task(
@@ -2930,7 +2919,7 @@ TASKS = [
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-16"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["WH-01", "WH-05", "WH-10", "WH-14", "WH-16"]})
         ],
-        outputs=['[\n  "WH-01",\n  "WH-05",\n  "WH-10",\n  "WH-14",\n  "WH-16"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -2966,7 +2955,7 @@ TASKS = [
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-15"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["WH-02", "WH-04", "WH-09"]})
         ],
-        outputs=['[\n  "WH-02",\n  "WH-04",\n  "WH-09"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3020,7 +3009,7 @@ TASKS = [
                                 "SHIP-0021", "SHIP-0023", "SHIP-0024", "SHIP-0025", "SHIP-0026", "SHIP-0028"]
             })
         ],
-        outputs=['6820000']
+        outputs=[]
     ),
 
     Task(
@@ -3059,7 +3048,7 @@ TASKS = [
                 "list_of_ids": ["SHIP-0006", "SHIP-0010", "SHIP-0016", "SHIP-0019", "SHIP-0027", "SHIP-0029", "SHIP-0030"]
             })
         ],
-        outputs=['1905000']
+        outputs=[]
     ),
 
     Task(
@@ -3093,7 +3082,7 @@ TASKS = [
                 "list_of_ids": ["SHIP-0004", "SHIP-0022"]
             })
         ],
-        outputs=['575000']
+        outputs=[]
     ),
 
     Task(
@@ -3128,7 +3117,7 @@ TASKS = [
                 "list_of_ids": ["SHIP-0002", "SHIP-0007", "SHIP-0017"]
             })
         ],
-        outputs=['325000']
+        outputs=[]
     ),
 
     Task(
@@ -3194,7 +3183,7 @@ TASKS = [
                                 "SHIP-0021", "SHIP-0023", "SHIP-0024", "SHIP-0025", "SHIP-0026", "SHIP-0028"]
             })
         ],
-        outputs=['"min_value": 50000', '"max_value": 1200000']
+        outputs=[]
     ),
 
     Task(
@@ -3232,7 +3221,7 @@ TASKS = [
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-12"}),
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0010"}),
         ],
-        outputs=['"inventory_id": "INV-0010"', '"sku": "BLDG-TILE-J10"', '"quantity_on_hand": 15000', '"quantity_allocated": 0', '"total_value": 52500', '"stock_status": "In Stock"']
+        outputs=[]
     ),
 
     Task(
@@ -3268,7 +3257,7 @@ TASKS = [
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-07"}),
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0005"}),
         ],
-        outputs=['"inventory_id": "INV-0005"', '"quantity_on_hand": 120', '"quantity_allocated": 0', '"total_value": 102000', '"stock_status": "In Stock"']
+        outputs=[]
     ),
 
     Task(
@@ -3304,7 +3293,7 @@ TASKS = [
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-15"}),
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0016"}),
         ],
-        outputs=['"inventory_id": "INV-0016"', '"sku": "BEVG-WINE-P16"', '"quantity_on_hand": 4500', '"quantity_allocated": 0', '"stock_status": "In Stock"', '"storage_requirements": "Temp Control 12-14\u00b0C, Dark"', '"total_value": 81000']
+        outputs=[]
     ),
 
     Task(
@@ -3340,7 +3329,7 @@ TASKS = [
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-06"}),
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0004"}),
         ],
-        outputs=['"inventory_id": "INV-0004"', '"quantity_on_hand": 18000', '"quantity_allocated": 0', '"total_value": 279000', '"stock_status": "In Stock"']
+        outputs=[]
     ),
 
     Task(
@@ -3376,7 +3365,7 @@ TASKS = [
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-04"}),
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0015"}),
         ],
-        outputs=['"inventory_id": "INV-0015"', '"sku": "APRL-TSHT-O15"', '"quantity_on_hand": 22000', '"quantity_allocated": 0', '"total_value": 176000', '"stock_status": "In Stock"']
+        outputs=[]
     ),
 
     Task(
@@ -3409,7 +3398,7 @@ TASKS = [
             Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0004"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["SHIP-0004"]})
         ],
-        outputs=['[\n  "SHIP-0004"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3453,7 +3442,7 @@ TASKS = [
             Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0017"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["SHIP-0002", "SHIP-0017"]})
         ],
-        outputs=['[\n  "SHIP-0002",\n  "SHIP-0017"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3503,7 +3492,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "PSLN"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["NSTS", "MEDL", "OCBR", "GOCN", "NRMC", "PSLN"]})
             ],
-        outputs=['[\n  "NSTS",\n  "MEDL",\n  "OCBR",\n  "GOCN",\n  "NRMC",\n  "PSLN"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3555,7 +3544,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "PSLN"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["NSTS", "MEDL", "OCBR", "GOCN", "NRMC", "PSLN"]})
         ],
-        outputs=['[\n  "NSTS",\n  "MEDL",\n  "OCBR",\n  "GOCN",\n  "NRMC",\n  "PSLN"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3587,7 +3576,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "MTRL"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["MTRL"]})
         ],
-        outputs=['[\n  "MTRL"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3644,7 +3633,7 @@ TASKS = [
             Action(name="GetCarrierByScac", kwargs={"carrier_scac": "NSC"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["MTRL", "SCF", "EAC", "NAC", "NSC"]})
         ],
-        outputs=['["MTRL", "SCF", "EAC", "NAC", "NSC"]']
+        outputs=[]
     ),
 
     Task(
@@ -3672,7 +3661,7 @@ TASKS = [
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0024"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["INV-0010", "INV-0020", "INV-0024"]})
         ],
-        outputs=['[\n  "INV-0010",\n  "INV-0020",\n  "INV-0024"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3697,7 +3686,7 @@ TASKS = [
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0020"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["INV-0010", "INV-0020"]})
         ],
-        outputs=['[\n  "INV-0010",\n  "INV-0020"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3728,7 +3717,7 @@ TASKS = [
             Action(name="GetInventoryById", kwargs={"inventory_id": "INV-0024"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["INV-0010", "INV-0015", "INV-0020", "INV-0024"]})
         ],
-        outputs=['[\n  "INV-0010",\n  "INV-0015",\n  "INV-0020",\n  "INV-0024"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3773,7 +3762,7 @@ TASKS = [
             Action(name="GetProductBySku", kwargs={"sku": "ELEC-SMART-W23"}),
             Action(name="ReturnIds", kwargs={'list_of_ids': ["CHEM-SOLV-K11"]})
         ],
-        outputs=['[\n  "CHEM-SOLV-K11"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3813,7 +3802,7 @@ TASKS = [
             Action(name="GetProductBySku", kwargs={"sku": "CHEM-SOLV-K11"}),
             Action(name="ReturnIds", kwargs={'list_of_ids': ["PHRM-VACC-D4", "TECH-BATT-Q17", "ELEC-SMART-W23"]})
         ],
-        outputs=['[\n  "PHRM-VACC-D4",\n  "TECH-BATT-Q17",\n  "ELEC-SMART-W23"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3861,7 +3850,7 @@ TASKS = [
             Action(name="GetWarehouseById", kwargs={"warehouse_id": "WH-15"}),
             Action(name="ReturnIds", kwargs={'list_of_ids': ["WH-02", "WH-04", "WH-06", "WH-09", "WH-12", "WH-15"]})
         ],
-        outputs=['[\n  "WH-02",\n  "WH-04",\n  "WH-06",\n  "WH-09",\n  "WH-12",\n  "WH-15"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3899,7 +3888,7 @@ TASKS = [
             Action(name="GetProductBySku", kwargs={"sku": "CHEM-SOLV-K11"}),
             Action(name="ReturnIds", kwargs={'list_of_ids': ["CHEM-SOLV-K11"]})
         ],
-        outputs=['[\n  "CHEM-SOLV-K11"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3938,7 +3927,7 @@ TASKS = [
             Action(name="GetProductBySku", kwargs={"sku": "BEVG-WINE-P16"}),
             Action(name="ReturnIds", kwargs={'list_of_ids': ["BEVG-WINE-P16"]})
         ],
-        outputs=['[\n  "BEVG-WINE-P16"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -3973,7 +3962,7 @@ TASKS = [
             Action(name="GetProductBySku", kwargs={"sku": "BEVG-WINE-P16"}),
             Action(name="ReturnIds", kwargs={'list_of_ids': ["BEVG-WINE-P16"]})
         ],
-        outputs=['[\n  "BEVG-WINE-P16"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -4007,7 +3996,7 @@ TASKS = [
             Action(name="GetProductBySku", kwargs={"sku": "CHEM-SOLV-K11"}),
             Action(name="ReturnIds", kwargs={'list_of_ids': ["CHEM-SOLV-K11"]})
         ],
-        outputs=['[\n  "CHEM-SOLV-K11"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -4079,7 +4068,7 @@ TASKS = [
                 "list_of_ids": ["SHIP-0008", "SHIP-0021"]
             })
         ],
-        outputs=["610000"]
+        outputs=[]
     ),
 
     Task(
@@ -4119,7 +4108,7 @@ TASKS = [
             Action(name="GetShipmentById", kwargs={"shipment_id": "SHIP-0017"}),
             Action(name="ReturnIds", kwargs={"list_of_ids": ["SHIP-0007"]})
         ],
-        outputs=['[\n  "SHIP-0007"\n]']
+        outputs=[]
     ),
 
     Task(
@@ -4171,7 +4160,7 @@ TASKS = [
                 "list_of_ids": ["SHIP-0021"]
             })
         ],
-        outputs=["550000"]
+        outputs=[]
     ),
 
     Task(
@@ -4239,6 +4228,6 @@ TASKS = [
                 "list_of_ids": ["SHIP-0021"]
             })
         ],
-        outputs=["550000"]
+        outputs=[]
     ),
 ]

@@ -18,8 +18,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_1001"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_1002"}),
                 ],
-                outputs=['"account_id": "acc_chk_1001", "balance": 5230.5, "currency": "USD"', '"account_id": "acc_sav_1002", "balance": 15780.0, "currency": "USD"',
-                         '"total": 21010.5', '"rewards_points": 5200', '"account_id": "acc_chk_1001", "balance": 5130.5', '"account_id": "acc_sav_1002", "balance": 15880.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -34,8 +33,7 @@ TASKS = [
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"}),
                         Action(name="GetAccountTransactions", kwargs={"account_id": "acc_chk_2001", "days_history": 30, "current_date": "2023-11-15"}),
                 ],
-                outputs=['"street_address": "987 Birch St", "city": "New City", "postal_code": "L1V 2T7"', '"number": "555-999-8888"',
-                         '"transaction_id": "txn_5d4e7g1i-5e7c-8d3g-3e6i-9g1e3f7h8d4d"', '"transaction_id": "txn_4e5f8h2j-6f8d-9e4h-4f7j-1h2f4g8i9e5e"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -53,7 +51,7 @@ TASKS = [
                         Action(name="GetAccountDetails", kwargs={"account_id": "acc_crd_1003"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_1001"}),
                 ],
-                outputs=['"account_id": "acc_crd_1003", "status": "Closed"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -74,7 +72,7 @@ TASKS = [
                         Action(name="GetLoanApplicationDetails", kwargs={"application_id": "app_generated_21"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_generated_40"}),
                 ],
-                outputs=['"application_id": "app_generated_21", "application_status": "Submitted"', '"account_id": "acc_generated_40"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -93,7 +91,7 @@ TASKS = [
                                        "beneficiary_id": "bene_generated_11", "amount": 100.00, "frequency": "Monthly", "start_date": "2025-08-01"}),
                         Action(name="GetScheduledPaymentDetails", kwargs={"payment_id": "sp_generated_41"}),
                 ],
-                outputs=['"payment_id": "sp_generated_41", "status": "Active", "amount": 100.00, "beneficiary_id": "bene_generated_11"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -114,7 +112,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_2002"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_2001"}),
                 ],
-                outputs=['"transaction_id": "txn_generated_41", "amount": -300, "status": "Completed"', '"transaction_id": "txn_generated_42", "amount": -250.0, "status": "Completed"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -132,7 +130,7 @@ TASKS = [
                         Action(name="UpdateAccountStatus", kwargs={"account_id": "acc_inv_3002", "new_status": "Frozen"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_inv_3002"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open"', '"account_id": "acc_inv_3002", "status": "Frozen"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -155,8 +153,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_1001"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_1002"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open", "category": "Account Management", "priority": "Medium"',
-                         '"account_id": "acc_chk_1001", "balance": 5080.5', '"account_id": "acc_sav_1002", "balance": 15930.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -174,7 +171,7 @@ TASKS = [
                         Action(name="UpdateLoanBalance", kwargs={"loan_id": "loan_auto_002", "amount": -100.0}),
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_auto_002"}),
                 ],
-                outputs=['"new_monthly_payment": 894.92', '"loan_id": "loan_auto_002", "current_balance": 15570.8']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -190,8 +187,7 @@ TASKS = [
                         Action(name="CreateAccount", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1", "account_type": "Checking", "currency": "GBP"}),
                         Action(name="GetAccountDetails", kwargs={"account_id": "acc_generated_40"}),
                 ],
-                outputs=['"country": "United Kingdom"', '"number": "+44 7890 123456"', '"currency": "GBP", "available_account_types": ["Checking", "Savings", "ISA"]',
-                         '"account_id": "acc_generated_40", "status": "Active"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -212,7 +208,7 @@ TASKS = [
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_mort_001"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_3001"}),
                 ],
-                outputs=['"application_status": "Approved"', '"loan_id": "loan_mort_001", "current_balance": 714240.5', '"account_id": "acc_chk_3001", "balance": 11540.25']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -230,8 +226,7 @@ TASKS = [
                                kwargs={"customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9", "field": "occupation", "value": "Graduate Student"}),
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9"}),
                 ],
-                outputs=['"account_id": "acc_generated_40", "account_type": "Credit Card", "status": "Active"',
-                         '"loan_id": "loan_stud_004", "status": "In Grace Period", "current_balance": 25000.0', '"occupation": "Graduate Student"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -254,7 +249,7 @@ TASKS = [
                         Action(name="GetCustomerAccounts", kwargs={"customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_10001"}),
                 ],
-                outputs=['"marital_status": "Divorced"', '"action": "removed"', '"account_id": "acc_chk_10001", "balance": 17500000.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -272,12 +267,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_7001"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_7002"}),
                 ],
-                outputs=[
-                        '"beneficiary_id": "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f", "beneficiary_name": "Dubai International School", "beneficiary_type": "Business", "relationship": "School"',
-                        '"beneficiary_id": "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f", "action": "removed"',
-                        '"account_id": "acc_chk_7001", "balance": 149000.0',
-                        '"account_id": "acc_sav_7002", "balance": 751000.0'
-                ],
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -298,7 +288,7 @@ TASKS = [
                         Action(name="UpdateLoanBalance", kwargs={"loan_id": "loan_biz_005", "amount": -50.00}),
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_biz_005"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open"', '"current_balance": 45100.9']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -317,7 +307,7 @@ TASKS = [
                         Action(name="UpdateAccountStatus", kwargs={"account_id": "acc_chk_6001", "new_status": "Frozen"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_6001"}),
                 ],
-                outputs=['"paperless_billing": true, "communication_channel": "App"', '"status": "Frozen"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -339,7 +329,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_generated_40"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_generated_41"}),
                 ],
-                outputs=['"account_id": "acc_generated_40", "balance": 10000.0', '"account_id": "acc_generated_41", "balance": 25000.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -356,10 +346,7 @@ TASKS = [
                                        "target_entity": "Transaction", "target_id": "txn_d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19"}),
                         Action(name="GetSupportTicketDetails", kwargs={"ticket_id": "tkt_generated_10"}),
                 ],
-                outputs=[
-                        '"transaction_id": "txn_d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19", "transaction_date": "2023-10-27T10:10:10Z", "amount": -15000.0, "description": "New Phone"',
-                        '"ticket_id": "tkt_generated_10", "status": "Open", "category": "Security"'
-                ]
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -383,7 +370,7 @@ TASKS = [
                         Action(name="GetScheduledPaymentDetails", kwargs={"payment_id": "sp_generated_41"}),
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_biz_009"}),
                 ],
-                outputs=['"status": "Cancelled"', '"payment_id": "sp_generated_41", "status": "Active"', '"current_balance": 7500000.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -405,8 +392,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_1001"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_1002"}),
                 ],
-                outputs=['"interest_rate": 1.25', '"application_status": "Submitted"', '"account_id": "acc_chk_1001", "balance": 4730.5',
-                         '"account_id": "acc_sav_1002", "balance": 16280.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -427,7 +413,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_3001"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_inv_3002"}),
                 ],
-                outputs=['"occupation": "Lead Surgeon", "employer": "Metropolis General Hospital"', '"account_id": "acc_inv_3002", "balance": 150000.0', '"account_id": "acc_chk_3001", "balance": 12540.25', '"credit_score": 810']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -446,7 +432,7 @@ TASKS = [
                                        "amount": 50.00, "frequency": "One-Time", "start_date": "2025-07-28"}),
                         Action(name="GetScheduledPaymentDetails", kwargs={"payment_id": "sp_generated_41"}),
                 ],
-                outputs=['"overdraft_limit": 250.0', '"beneficiary_id": "bene_generated_11"', '"payment_id": "sp_generated_41", "status": "Active"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -463,7 +449,7 @@ TASKS = [
                                        "term": 60, "purpose": "Business Expansion", "annual_income": 95000}),
                         Action(name="GetLoanApplicationDetails", kwargs={"application_id": "app_generated_21"}),
                 ],
-                outputs=['"application_id": "app_generated_21", "application_status": "Submitted"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -482,7 +468,7 @@ TASKS = [
                                        "description": "Payment to Global ISP"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_5002"}),
                 ],
-                outputs=['"communication_channel": "SMS", "paperless_billing": False', '"transaction_id": "txn_generated_41", "status": "Completed"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -499,7 +485,7 @@ TASKS = [
                         Action(name="RemoveBeneficiary", kwargs={"beneficiary_id": "bene_4f3a2b1c-9d8e-7f6a-5b4c-3d2e1f0a9b8c"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_9001"}),
                 ],
-                outputs=['"rewards_points": 1250', '"street_address": "101 Rue de la Paix"', '"action": "removed"', '"account_id": "acc_chk_9001", "balance": 3200.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -515,7 +501,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_11001"}),
                         Action(name="GetAccountDetails", kwargs={"account_id": "acc_chk_11001"}),
                 ],
-                outputs=['"account_id": "acc_chk_11001", "status": "Frozen"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -535,7 +521,7 @@ TASKS = [
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_pers_013"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_19001"}),
                 ],
-                outputs=['"loan_id": "loan_pers_013", "current_balance": 500"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -551,7 +537,7 @@ TASKS = [
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_19001"}),
                 ],
-                outputs=['"last_name": "Horvat", "marital_status": "Married"', '"number": "+386 51 987 654"', '"balance": 3500.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -570,7 +556,7 @@ TASKS = [
                                kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17", "field": "occupation", "value": "Professional Athlete"}),
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17"}),
                 ],
-                outputs=['"account_id": "acc_generated_40", "balance": 50000.0', '"account_id": "acc_chk_18001", "balance": 500000.0', '"occupation": "Professional Athlete"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -591,7 +577,7 @@ TASKS = [
                                        "description": "Immediate payment to Elena Popescu"}),
                         Action(name="GetTransactionDetails", kwargs={"transaction_id": "txn_generated_41"}),
                 ],
-                outputs=['"status": "Completed", "amount": -50.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -609,7 +595,7 @@ TASKS = [
                         Action(name="GetAccountDetails", kwargs={"account_id": "acc_sav_2002"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_2001"}),
                 ],
-                outputs=['"interest_rate": 1.5', '"account_id": "acc_sav_2002", "status": "Closed"', '"account_id": "acc_chk_2001", "balance": 25100.75']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -627,7 +613,7 @@ TASKS = [
                         Action(name="UpdateAccountStatus", kwargs={"account_id": "acc_crd_9002", "new_status": "Frozen"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_crd_9002"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open"', '"account_id": "acc_crd_9002", "status": "Frozen"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -643,7 +629,7 @@ TASKS = [
                                        "beneficiary_id": "bene_9d8e7f6a-5b4c-3d2e-1f0a-9b8c7d6e5f4a", "amount": 1500.00, "frequency": "Monthly", "start_date": "2025-08-01"}),
                         Action(name="GetScheduledPaymentDetails", kwargs={"payment_id": "sp_generated_41"}),
                 ],
-                outputs=['"payment_id": "sp_generated_41", "status": "Active", "amount": 1500.00']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -663,8 +649,7 @@ TASKS = [
                                                                      "target_id": "acc_crd_1003"}),
                         Action(name="UpdateAccountStatus", kwargs={"account_id": "acc_crd_1003", "new_status": "Frozen"}),
                 ],
-                outputs=['"account_id": "acc_crd_1003", "balance": -2500.0', '"account_id": "acc_chk_1001", "balance": 5030.5', '"account_id": "acc_sav_1002", "balance": 15980.0',
-                         '"status": "Frozen"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -683,7 +668,7 @@ TASKS = [
                                        "purpose": "New Car Purchase", "annual_income": 95000}),
                         Action(name="GetLoanApplicationDetails", kwargs={"application_id": "app_generated_21"}),
                 ],
-                outputs=['"application_id": "app_generated_21", "customer_id": "customer_generated_27", "application_status": "Submitted"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -705,8 +690,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_14001"}),
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13"}),
                 ],
-                outputs=['"payment_id": "sp_b5d7c6a8-b2c1-d0e9-f8g7-h6i5j4k3l2m1", "status": "Paused"', '"transaction_id": "txn_generated_41", "status": "Completed"',
-                         '"credit_score": 780']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -721,7 +705,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_3001"}),
                         Action(name="UpdateCustomerPreferences", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a", "paperless_billing": True}),
                 ],
-                outputs=['"current_balance": 715240.5', '"marital_status": "Single"', '"balance": 12540.25', '"paperless_billing": true']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -743,7 +727,7 @@ TASKS = [
                         Action(name="UpdateAccountStatus", kwargs={"account_id": "acc_chk_17001", "new_status": "Closed"}),
                         Action(name="GetAccountDetails", kwargs={"account_id": "acc_chk_17001"}),
                 ],
-                outputs=['"account_id": "acc_sav_17002", "status": "Closed"', '"account_id": "acc_chk_17001", "status": "Closed"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -760,7 +744,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_10001"}),
                         Action(name="CalculateSum", kwargs={"values": ["15000000.0", "2500000.0"]}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open"', '"balance": 15000000.0', '"account_id": "acc_chk_10001", "balance": 2500000.0', '"total": 17500000.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -779,7 +763,7 @@ TASKS = [
                                        "beneficiary_id": "bene_generated_11", "amount": 5000.00, "frequency": "One-Time", "start_date": "2025-12-25"}),
                         Action(name="GetScheduledPaymentDetails", kwargs={"payment_id": "sp_generated_41"}),
                 ],
-                outputs=['"payment_id": "sp_generated_41", "status": "Active", "beneficiary_id": "bene_generated_11"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -798,8 +782,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_1001"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_1002"}),
                 ],
-                outputs=['"credit_limit": 10000.0', '"transaction_id": "txn_6c3d6f9h-4d6b-7c2f-2d5h-8f9d2e6g7c3c"', '"transaction_id": "txn_1b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e"',
-                         '"transaction_id": "txn_4c5d6e7f-8g9h-0i1j-2k3l-4m5n6o7p8q9r"', '"account_id": "acc_chk_1001", "balance": 2730.50', '"account_id": "acc_sav_1002", "balance": 18280.00']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -817,7 +800,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_1001"}),
                         Action(name="GetAccountDetails", kwargs={"account_id": "acc_chk_1001"}),
                 ],
-                outputs=['"account_id": "acc_sav_1002", "status": "Closed"', '"account_id": "acc_chk_1001", "balance": 21010.5', '"overdraft_limit": 500.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -834,7 +817,7 @@ TASKS = [
                         Action(name="GetBeneficiaryByName", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "beneficiary_name": "Kenji Tanaka"}),
                         Action(name="RemoveBeneficiary", kwargs={"beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open", "category": "Security"', '"balance": 22000.0', '"action": "removed"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -853,8 +836,7 @@ TASKS = [
                                kwargs={"customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2", "field": "occupation", "value": "Head Pastry Chef"}),
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2"}),
                 ],
-                outputs=['"transaction_id": "txn_f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15", "amount": -85.0', '"account_id": "acc_chk_9001", "balance": 3200.0',
-                         '"ticket_id": "tkt_generated_10", "status": "Open"', '"status": "Frozen"', '"occupation": "Head Pastry Chef"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -873,7 +855,7 @@ TASKS = [
                         Action(name="UpdateLoanStatus", kwargs={"loan_id": "loan_auto_002", "new_status": "Paid Off"}),
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_auto_002"}),
                 ],
-                outputs=['"loan_id": "loan_auto_002", "status": "Paid Off", "current_balance": 0.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -886,8 +868,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_1001"}),
                         Action(name="UpdateCustomerPreferences", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "paperless_billing": True}),
                 ],
-                outputs=['"transaction_id": "txn_7a2b5e8g-3c5a-6b1e-1c4g-7e8c1d5f6b2b", "amount": 1500.0, "description": "Monthly Salary"',
-                         '"account_id": "acc_chk_1001", "balance": 5230.5', '"paperless_billing": true']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -903,8 +884,7 @@ TASKS = [
                         Action(name="UpdateAccountStatus", kwargs={"account_id": "acc_chk_3001", "new_status": "Frozen"}),
                         Action(name="GetAccountDetails", kwargs={"account_id": "acc_chk_3001"}),
                 ],
-                outputs=['"loan_id": "loan_mort_001", "loan_type": "Mortgage", "current_balance": 715240.5',
-                         '"account_id": "acc_chk_3001", "status": "Frozen", "balance": 12540.25']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -921,7 +901,7 @@ TASKS = [
                                kwargs={"source_account_id": "acc_chk_2001", "destination_account_id": "acc_sav_2002", "amount": 50.0, "description": "Wedding Gift Money"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_2002"}),
                 ],
-                outputs=['"last_name": "Doe", "marital_status": "Married"', '"interest_rate": 1.5', '"balance": 22050.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -940,7 +920,7 @@ TASKS = [
                         Action(name="UpdateLoanBalance", kwargs={"loan_id": "loan_mort_014", "amount": -200.0}),
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_mort_014"}),
                 ],
-                outputs=['"ticket_id": "tkt_c1d0e9f8-a9b8-c7d6-e5f4-a3b2c1d0e9f8", "status": "Resolved"', '"account_id": "acc_chk_8001", "balance": 7800.5', '"account_id": "acc_sav_8002", "balance": 125000.0', '"current_balance": 179800.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -958,7 +938,7 @@ TASKS = [
                                        "destination_account_id": "acc_generated_40", "amount": 250.00, "frequency": "Monthly", "start_date": "2025-08-01"}),
                         Action(name="GetScheduledPaymentDetails", kwargs={"payment_id": "sp_generated_41"}),
                 ],
-                outputs=['"account_id": "acc_generated_40", "status": "Active"', '"payment_id": "sp_generated_41", "status": "Active"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -978,7 +958,7 @@ TASKS = [
                         Action(name="CalculateSum", kwargs={"values": ["5130.5", "15780.0", "-2500.0"]}),
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
                 ],
-                outputs=['"account_id": "acc_chk_1001", "balance": 5130.5', '"account_id": "acc_sav_1002", "balance": 15780.0', '"account_id": "acc_crd_1003", "balance": -2500', '"total": 18410.5', '"credit_score": 780']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -997,8 +977,7 @@ TASKS = [
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9"}),
                         Action(name="ListBeneficiaries", kwargs={"customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9"}),
                 ],
-                outputs=['"application_id": "app_d3e4f5a6-b7c8-d9e0-f1a2-b3c4d5e6f7g8", "application_status": "Withdrawn"', '"account_id": "acc_chk_4001", "balance": 1200.5',
-                         '"employer": "University Library"', '"credit_score": 690', '[]']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1014,7 +993,7 @@ TASKS = [
                         Action(name="GetCustomerLoans", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_mort_001"}),
                 ],
-                outputs=['"occupation": "Self-Employed", "employer": "Private Practice"', '"current_balance": 715240.5']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1034,7 +1013,7 @@ TASKS = [
                         Action(name="GetLoanApplicationDetails", kwargs={"application_id": "app_generated_21"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_generated_40"}),
                 ],
-                outputs=['"account_id": "acc_generated_40", "balance": 5000000.0', '"application_status": "Submitted"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1049,8 +1028,7 @@ TASKS = [
                                kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "field": "employer", "value": "NextGen Solutions"}),
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
                 ],
-                outputs=['"account_id": "acc_chk_1001"', '"account_id": "acc_sav_1002"', '"account_id": "acc_crd_1003"', '"current_balance": 15670.8',
-                         '"employer": "NextGen Solutions"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1065,7 +1043,7 @@ TASKS = [
                         Action(name="GetSupportTicketDetails", kwargs={"ticket_id": "tkt_generated_10"}),
                         Action(name="GetAccountDetails", kwargs={"account_id": "acc_chk_2001"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open"', '"overdraft_limit": 250.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1083,7 +1061,7 @@ TASKS = [
                                        "description": "Birthday gift for Sarah"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_3001"}),
                 ],
-                outputs=['"beneficiary_id": "bene_generated_11"', '"account_id": "acc_chk_3001", "balance": 12340.25']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1099,8 +1077,7 @@ TASKS = [
                                kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "phone_type": "Work", "phone_number": "310-555-1234", "is_primary": False}),
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
                 ],
-                outputs=['"balance": "5230.50"', '"overdraft_limit": "500.00"', '"account_id": "acc_sav_1002", "balance": 15780.0', '"credit_score": 780',
-                         '"type": "Work", "number": "310-555-1234"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1119,7 +1096,7 @@ TASKS = [
                         Action(name="GetCustomerAccounts", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_2001"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open"', '"balance": 3100.75']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1138,7 +1115,7 @@ TASKS = [
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_pers_008"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_9001"}),
                 ],
-                outputs=['"loan_id": "loan_pers_008", "status": "Active", "current_balance": 2750.75', '"account_id": "acc_chk_9001", "balance",: 700']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1156,8 +1133,7 @@ TASKS = [
                                kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "source_account_id": "acc_chk_2001", "destination_account_id": "acc_sav_2002",
                                        "amount": 25.0, "frequency": "Weekly", "start_date": "2025-07-28"}),
                 ],
-                outputs=['"type": "Work", "number": "098-765-4741"', '"account_id": "acc_chk_2001", "balance": 3100.75', '"credit_score": 820',
-                         '"payment_id": "sp_generated_41", "status": "Active"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1175,8 +1151,7 @@ TASKS = [
                         Action(name="UpdateScheduledPaymentStatus", kwargs={"payment_id": "sp_e2g4b3f5-e9f8-g7h6-i5j4-k3l2m1n0o9p5", "new_status": "Cancelled"}),
                         Action(name="GetScheduledPaymentDetails", kwargs={"payment_id": "sp_e2g4b3f5-e9f8-g7h6-i5j4-k3l2m1n0o9p5"}),
                 ],
-                outputs=['"loan_id": "loan_stud_004", "status": "In Grace Period"', '"available_account_types": ["Checking", "Savings", "Credit Card", "Investment"]',
-                         '"balance": 1200.5', '"payment_id": "sp_e2g4b3f5-e9f8-g7h6-i5j4-k3l2m1n0o9p5", "status": "Cancelled"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1197,7 +1172,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_1002"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_crd_1003"}),
                 ],
-                outputs=['"status": "Frozen"', '"ticket_id": "tkt_generated_10", "status": "Open"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1218,7 +1193,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_inv_3002"}),
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
                 ],
-                outputs=['"current_balance": 710240.5', '"account_id": "acc_inv_3002", "balance": 150000.0', '"credit_score": 810']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1232,9 +1207,7 @@ TASKS = [
                         Action(name="GetCustomerAccounts", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"}),
                         Action(name="GetAccountTransactions", kwargs={"account_id": "acc_chk_2001", "days_history": 90, "current_date": "2023-11-15"}),
                 ],
-                outputs=['"beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f", "action": "removed"', '"transaction_id": "txn_5d4e7g1i-5e7c-8d3g-3e6i-9g1e3f7h8d4d"',
-                         '"transaction_id": "txn_4e5f8h2j-6f8d-9e4h-4f7j-1h2f4g8i9e5e"', '"transaction_id": "txn_0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d"',
-                         '"transaction_id": "txn_8c9d0e1f-2a3b-4c5d-6e7f-8g9h0i1j2k3l"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1252,7 +1225,7 @@ TASKS = [
                         Action(name="GetAccountDetails", kwargs={"account_id": "acc_crd_1003"}),
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
                 ],
-                outputs=['"payment_id": "sp_generated_41", "status": "Active", "amount": 75.00', '"credit_limit": 10000.0', '"credit_score": 780']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1277,7 +1250,7 @@ TASKS = [
                         Action(name="UpdateLoanBalance", kwargs={"loan_id": "loan_pers_008", "amount": -100.0}),
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_pers_008"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open"', '"current_balance": 5150.75']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1294,7 +1267,7 @@ TASKS = [
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
                 ],
-                outputs=['"total": 162540.25', '"occupation": "Head of Surgery"', '"credit_score": 810']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1313,7 +1286,7 @@ TASKS = [
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"}),
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open"', '"balance": 3100.75', '"account_id": "acc_sav_2002", "balance": 22000.0', '"credit_score": 820']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1335,7 +1308,7 @@ TASKS = [
                         Action(name="GetScheduledPaymentDetails", kwargs={"payment_id": "sp_generated_41"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_generated_40"}),
                 ],
-                outputs=['"account_id": "acc_generated_40", "balance": 2000.0', '"payment_id": "sp_generated_41", "status": "Active"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1355,7 +1328,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_1002"}),
                         Action(name="CalculateSum", kwargs={"values": ["-2500.0", "5230.5", "15780.0"]}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open", "priority": "Low"', '"rewards_points": 5200', '"balance": -2500.0', '"total": 18510.5', '"credit_score": 780']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1371,8 +1344,7 @@ TASKS = [
                                kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "field": "marital_status", "value": "Divorced"}),
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"}),
                 ],
-                outputs=['"ticket_id": "tkt_e9f8c7d6-c7d6-e5f4-a3b2-c1d0e9f8g7h6", "status": "Open"',
-                         '"beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f", "beneficiary_name": "Kenji Tanaka"', '"balance": 3100.75', '"marital_status": "Divorced"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1390,7 +1362,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_generated_40"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_inv_3002"}),
                 ],
-                outputs=['"account_id": "acc_generated_40", "balance": 2500.0', '"account_id": "acc_inv_3002", "balance": 147500.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1408,8 +1380,7 @@ TASKS = [
                         Action(name="UpdateCustomerPreferences", kwargs={"customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2", "paperless_billing": True}),
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2"}),
                 ],
-                outputs=['"application_id": "app_e4f5a6b7-c8d9-e0f1-a2b3-c4d5e6f7g8h9", "application_status": "Withdrawn"', '"balance": -500.0', '"marital_status": "Engaged"',
-                         '"paperless_billing": true']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1422,7 +1393,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_1002"}),
                         Action(name="UpdateCustomerPreferences", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "communication_channel": "SMS"}),
                 ],
-                outputs=['"beneficiary_name": "Elena Popescu"', '"beneficiary_name": "Anytown Utility Services"', '"balance": 15780.0', '"communication_channel": "SMS"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1442,7 +1413,7 @@ TASKS = [
                                        "destination_account_id": "acc_sav_2002", "amount": 50.00, "frequency": "Monthly", "start_date": "2025-08-01"}),
                         Action(name="GetScheduledPaymentDetails", kwargs={"payment_id": "sp_generated_41"}),
                 ],
-                outputs=['"application_status": "Submitted"', '"payment_id": "sp_generated_41", "status": "Active"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1460,7 +1431,7 @@ TASKS = [
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_auto_007"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_14002"}),
                 ],
-                outputs=['"loan_id": "loan_auto_007", "current_balance": 1198000.0', '"account_id": "acc_sav_14002", "balance": 2998000.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1477,9 +1448,7 @@ TASKS = [
                         Action(name="RemoveBeneficiary", kwargs={"beneficiary_id": "bene_9a8b7c6d-5e4f-3a2b-1c9d-8e7f6a5b4c3d"}),
                         Action(name="ListBeneficiaries", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
                 ],
-                outputs=['"loan_id": "loan_auto_002", "status": "Active"', '"transaction_id": "txn_9c2a3b7e-1a3e-4b8c-8a2e-5c6a8b3d4e9f"',
-                         '"transaction_id": "txn_8b1c4d6f-2b4f-5a9d-9b3f-6d7b9c4e5a1a"', '"transaction_id": "txn_f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21"',
-                         '"transaction_id": "txn_7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k"', '"credit_score": 780', '"beneficiary_id": "bene_8b7c6d5e-4f3a-2b1c-9d8e-7f6a5b4c3d2e"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1497,7 +1466,7 @@ TASKS = [
                                        "target_id": "sp_d9b3a2c1-6a5b-4c3d-2e1f-0a9b8c7d6e5f"}),
                         Action(name="GetSupportTicketDetails", kwargs={"ticket_id": "tkt_generated_10"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1521,8 +1490,7 @@ TASKS = [
                                        "beneficiary_id": "bene_generated_11", "amount": 500.00, "frequency": "One-Time", "start_date": "2025-08-05"}),
                         Action(name="GetScheduledPaymentDetails", kwargs={"payment_id": "sp_generated_41"}),
                 ],
-                outputs=['"customer_id": "customer_generated_27"', '"account_id": "acc_generated_40"', '"beneficiary_id": "bene_generated_11"',
-                         '"payment_id": "sp_generated_41", "status": "Active"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1536,7 +1504,7 @@ TASKS = [
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_1001"}),
                 ],
-                outputs=['"last_name": "Smith"', '"marital_status": "Married"', '"credit_score": 780', '"balance": 5230.5']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1555,7 +1523,7 @@ TASKS = [
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_mort_001"}),
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
                 ],
-                outputs=['"interest_rate": 3.25', '"current_balance": 714740.5', '"credit_score": 810']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1575,7 +1543,7 @@ TASKS = [
                                        "purpose": "Equipment Purchase", "annual_income": 150000}),
                         Action(name="GetLoanApplicationDetails", kwargs={"application_id": "app_generated_21"}),
                 ],
-                outputs=['"customer_id": "customer_generated_27"', '"account_id": "acc_generated_40"', '"application_id": "app_generated_21", "application_status": "Submitted"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1592,7 +1560,7 @@ TASKS = [
                         Action(name="UpdateCustomerSecurityQuestion", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "security_question": "What is your favorite childhood book?"}),
                         Action(name="UpdateCustomerPreferences", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "paperless_billing": True}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open"', '"balance": 22000.0', '"security_question":"What is your favorite childhood book?"', '"paperless_billing": true']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1611,7 +1579,7 @@ TASKS = [
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
                         Action(name="ListBeneficiaries", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open", "category": "Loan"', '"balance": 12540.25', '"credit_score": 810', '"account_id": "acc_inv_3002", "balance": 150000.0', '"beneficiary_name": "Metropolis Power & Light"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1624,9 +1592,7 @@ TASKS = [
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
                         Action(name="GetScheduledPayments", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
                 ],
-                outputs=['"type": "Home", "number": "111-555-9999"', '"payment_id": "sp_b3a2c1d9-8e7f-6a5b-4c3d-2e1f0a9b8c7d"',
-                         '"payment_id": "sp_c1d9b3a2-7f6a-5b4c-3d2e-1f0a9b8c7d6e"', '"payment_id": "sp_d9b3a2c1-f0a9-b8c7-d6e5-f4a3b2c1d0e9"',
-                         '"payment_id": "sp_f4n6a5m7-l2m1-n0o9-p8q7-r6s5t4u3v2w2"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1644,7 +1610,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_1002"}),
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open"', '"account_id": "acc_chk_1001", "balance": 5230.5', '"account_id": "acc_sav_1002", "balance": 15780.0', '"credit_score": 780']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1666,7 +1632,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_2001"}),
                         Action(name="CalculateSum", kwargs={"values": ["22000.0", "3100.75"]}),
                 ],
-                outputs=['"loan_id": "loan_pers_003", "status": "Paid Off"', '"application_id": "app_generated_21", "application_status": "Submitted"', '"balance": 22000.0','"paperless_billing": true', '"total": 25100.75']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1684,7 +1650,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_3001"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_inv_3002"}),
                 ],
-                outputs=['"ticket_id": "tkt_generated_10", "status": "Open"', '"balance": 12540.25', '"account_id": "acc_inv_3002", "balance": 150000.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1704,7 +1670,7 @@ TASKS = [
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"}),
                         Action(name="ListBeneficiaries", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"}),
                 ],
-                outputs=['"total": 25100.75', '"occupation": "Lead Designer"', '"credit_score": 820', '"beneficiary_name": "Kenji Tanaka"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1720,8 +1686,7 @@ TASKS = [
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_auto_002"}),
                         Action(name="UpdateCustomerPreferences", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "paperless_billing": True}),
                 ],
-                outputs=['"mailing_address": {"street_address": "123 Main St", "city": "Anytown", "state": "CA", "postal_code": "90210", "country": "USA"}',
-                         '"current_balance": 15670.8', '"paperless_billing": true']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1736,8 +1701,7 @@ TASKS = [
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_pers_003"}),
                         Action(name="UpdateCustomerPreferences", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "communication_channel": "Email"}),
                 ],
-                outputs=['"account_id": "acc_chk_2001", "balance": 3100.75', '"account_id": "acc_sav_2002", "balance": 22000.0', '"status": "Paid Off"',
-                         '"communication_channel": "Email"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1758,7 +1722,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_3001"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_inv_3002"}),
                 ],
-                outputs=['"application_status": "Submitted"', '"account_id": "acc_chk_3001", "balance": 12040.25', '"account_id": "acc_inv_3002", "balance": 150500.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1772,7 +1736,7 @@ TASKS = [
                         Action(name="GetAccountTransactions", kwargs={"account_id": "acc_chk_9001", "days_history": 30, "current_date": "2023-11-15"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_crd_9002"}),
                 ],
-                outputs=['"number": "+33 7 88 99 00 11"', '"transaction_id": "txn_6e7f8g9h-0i1j-2k3l-4m5n-6o7p8q9r0s1t"', '"balance": -500.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1790,9 +1754,7 @@ TASKS = [
                                kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "field": "occupation", "value": "Senior Software Engineer"}),
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
                 ],
-                outputs=['"transaction_id": "txn_9c2a3b7e-1a3e-4b8c-8a2e-5c6a8b3d4e9f"', '"transaction_id": "txn_8b1c4d6f-2b4f-5a9d-9b3f-6d7b9c4e5a1a"',
-                         '"transaction_id": "txn_f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21"', '"transaction_id": "txn_7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k"', '"interest_rate": 1.25',
-                         '"ticket_id": "tkt_generated_10", "status": "Open"', '"occupation": "Senior Software Engineer"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1809,7 +1771,7 @@ TASKS = [
                         Action(name="UpdateLoanBalance", kwargs={"loan_id": "loan_mort_001", "amount": -1000.0}),
                         Action(name="GetLoanDetails", kwargs={"loan_id": "loan_mort_001"}),
                 ],
-                outputs=['"beneficiary_id": "bene_6d5e4f3a-2b1c-9d8e-7f6a-5b4c3d2e1f0a", "action": "removed"', '"current_balance": 714240.5']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1824,7 +1786,7 @@ TASKS = [
                         Action(name="GetCustomerDetails", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"}),
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_sav_2002"}),
                 ],
-                outputs=['"loan_id": "loan_pers_003", "status": "Paid Off"', '"occupation": "Senior Graphic Designer"', '"balance": 22000.0']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1848,8 +1810,7 @@ TASKS = [
                                        "beneficiary_id": "bene_generated_11", "amount": 1000.00, "frequency": "Monthly", "start_date": "2025-08-01"}),
                         Action(name="GetScheduledPaymentDetails", kwargs={"payment_id": "sp_generated_41"}),
                 ],
-                outputs=['"customer_id": "customer_generated_27"', '"account_id": "acc_generated_40"', '"beneficiary_id": "bene_generated_11"',
-                         '"payment_id": "sp_generated_41", "status": "Active"']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1864,7 +1825,7 @@ TASKS = [
                         Action(name="GetAccountBalance", kwargs={"account_id": "acc_chk_1001"}),
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
                 ],
-                outputs=['"paperless_billing": true, "communication_channel": "App"', '"balance": 5230.5', '"credit_score": 780']
+                outputs=[]
         ),
         Task(
                 annotator="0",
@@ -1882,7 +1843,6 @@ TASKS = [
                         Action(name="GetCustomerAccounts", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"}),
                         Action(name="GetCustomerFinancialProfile", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"}),
                 ],
-                outputs=['"account_id": "acc_chk_2001", "status": "Closed"', '"account_id": "acc_sav_2002", "balance": 25100.75', '"account_id": "acc_sav_2002"',
-                         '"credit_score": 820']
+                outputs=[]
         ),
 ]

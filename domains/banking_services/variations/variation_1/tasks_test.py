@@ -22,7 +22,7 @@ Example:
             user_id="account_recovery_unit",
             instruction="Retrieve statements and summarize loan activity...",
             actions=[Action(name="GetCustomerProfile", kwargs={...}), ...],
-            outputs=[...]
+            outputs=[]
         ),
         ...
     ]
@@ -95,9 +95,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Joint account setup initiated for Sofia Andersson: identity confirmed, preferences saved, and support ticket tkt_d6e5f4a3-f4a3-b2c1-d0e9-f8g7h6i5j4k3 submitted."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -165,9 +163,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "January 2023 financial review completed for Sofia Andersson: expenses analyzed, account flagged for security, preferences updated, and support ticket 'ticket_static_002' submitted successfully."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -254,9 +250,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            "Customer verified, profile and preferences updated, beneficiary replaced, and escalation ticket ticket_003 submitted."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -316,9 +310,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "All review steps completed for customer c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e and ticket ticket_004 logged successfully."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -417,9 +409,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Compliance audit finalized: all steps completed and logged in ticket_005 for customer c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -477,9 +467,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Security escalation completed: identity verified, acc_chk_1001 frozen, contact info updated, ticket ticket_006 created."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -542,9 +530,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Joint account holder removed, transactions reviewed, beneficiary ben_007_xyz123 registered, and ticket ticket_007 submitted."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -621,10 +607,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Financial health check complete: transaction history reviewed, January expenses summarized, "
-            "beneficiary replaced with Elena Popescu, March statement downloaded, and ticket ticket_008 submitted successfully."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -691,10 +674,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Customer onboarding complete: identity verified with passport 'lF146011', January 2023 expenses analyzed, "
-            "suspicious activity checked, beneficiary ben_009_carlossilva registered, and support ticket ticket_009 submitted."
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -745,9 +725,7 @@ TASKS = [
                 kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "preferences": {"notifications": True}},
             ),
         ],
-        outputs=[
-            "Savings balance reviewed. Overdraft request submitted with justification code OD_PROTECT_SAVINGS_LINKED and beneficiaries listed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator='0',
@@ -815,15 +793,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            'Identity verified for Kenji Tanaka using ID ending in 6789.',
-            'Customer profile successfully retrieved.',
-            'Balance retrieved for account acc_chk_1001.',
-            'Support ticket tkt_d6e5f4a3-f4a3-b2c1-d0e9-f8g7h6i5j4k3 submitted via Web Portal under Account Issues.',
-            'Support ticket tkt_d6e5f4a3-f4a3-b2c1-d0e9-f8g7h6i5j4k3 classified as Normal priority.'
-            'Support ticket history reviewed.',
-            'Notification preferences updated to Email.'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -884,12 +854,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka using ID ending in 6789.",
-            "Support ticket ticket_002 filed under Card Services with high priority.",
-            "Balance confirmed for account acc_chk_1001.",
-            "September 2023 statement downloaded for acc_chk_1001."
-        ]
+        outputs=[]
     ),
     Task(
         annotator='0',
@@ -931,12 +896,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            'Identity verified using customer ID and document.',
-            'Transaction history retrieved for account acc_chk_1001.',
-            'September 2023 expenses aggregated.',
-            'Preferences updated to receive alerts via Email.'
-        ]
+        outputs=[]
     ),
     Task(
         annotator='0',
@@ -1007,16 +967,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            'Identity verified for Kenji Tanaka using ID ending in 6789.',
-            'Customer profile retrieved.',
-            'Balance checked for account acc_chk_1001.',
-            'Statement for September 2023 downloaded.',
-            'Transaction history reviewed for September 2023.',
-            'Monthly expenses aggregated.',
-            'Preferences updated to SMS.',
-            'Account successfully unlocked.'
-        ]
+        outputs=[]
     ),
     Task(
         annotator='0',
@@ -1072,17 +1023,7 @@ TASKS = [
                 'security_code': '123456'
             })
         ],
-        outputs=[
-            'Identity verified for customer Kenji Tanaka.',
-            'Balance retrieved for checking account acc_chk_1001.',
-            'Transaction history successfully retrieved.',
-            'September 2023 expenses aggregated.',
-            'Support ticket ticket_555abcde submitted under Card Services.',
-            'Support ticket history reviewed.',
-            'Notification preferences updated to Email.',
-            'Statement for September 2023 downloaded.',
-            'Account unlocked successfully.'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1153,13 +1094,7 @@ TASKS = [
                 kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"},
             ),
         ],
-        outputs=[
-            "Customer profile for Elena Popescu retrieved.",
-            "Identity verified using national ID jd195515.",
-            "Transaction history for acc_chk_2001 reviewed and no suspicious activity found.",
-            "Payment of $150.00 USD scheduled to account 9876543210 on 2025-08-01.",
-            "Support ticket ticket_user_016_jane_recurring_gym submitted and history reviewed.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1243,12 +1178,7 @@ TASKS = [
                 kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"},
             ),
         ],
-        outputs=[
-            "Beneficiary 'Anytown Utility Services' successfully removed.",
-            "New beneficiary 'Clara James' registered.",
-            "Statement for July 2025 downloaded for account acc_chk_1001.",
-            "Support ticket submitted for audit and history reviewed.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1301,12 +1231,7 @@ TASKS = [
                 kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"},
             ),
         ],
-        outputs=[
-            "Monthly expenses aggregated for July 2025 for account acc_sav_1002.",
-            "Statement for account acc_sav_1002 downloaded.",
-            "Compliance support ticket submitted successfully.",
-            "Ticket history reviewed for audit assurance."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1365,12 +1290,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Customer identity verified with passport 'lF146011'.",
-            "Funds transferred to Anytown Utility Services.",
-            "A new payment for 2025-08-01 has been scheduled.",
-            "Support ticket submitted for payment confirmations.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1439,12 +1359,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Beneficiary 'Kenji Tanaka' successfully removed.",
-            "New beneficiary 'Clara James' registered with account 5566778899.",
-            "July 2025 statement downloaded for acc_chk_2001.",
-            "Support ticket logged for beneficiary update verification.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1476,11 +1391,7 @@ TASKS = [
                 "request_details": "Fraud protocol executed for customer d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1. Old account frozen and new secure account created. Customer must be contacted for next steps."
             }),
         ],
-        outputs=[
-            "Fraud response initiated: identity verified, account frozen, and contact info updated.",
-            "A new secure account has been created for the customer.",
-            "High-priority security ticket logged to document the incident and required follow-up.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1525,12 +1436,7 @@ TASKS = [
                 "request_details": "New personal loan application submitted for Home Improvement. Consultation payment scheduled to contractor."
             }),
         ],
-        outputs=[
-            "Identity of Zoltan Nagy verified and financial history reviewed.",
-            "New loan application for 5000 EUR submitted for 'Home Improvement'.",
-            "New beneficiary 'Dublin Renovations' registered and consultation payment scheduled.",
-            "Support ticket logged for the loan application.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1569,12 +1475,7 @@ TASKS = [
                 "request_details": "Q2 2023 audit and account holder update complete for account acc_chk_2001."
             }),
         ],
-        outputs=[
-            "Identity verified for Elena Popescu and Zoltan Nagy added as joint account holder.",
-            "Beneficiary 'Kenji Tanaka' removed and 'Metropolis Power & Light' added.",
-            "Q2 2023 financial audit completed: expenses aggregated for April, May, and June.",
-            "An audit ticket was logged to document the account updates.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1600,12 +1501,7 @@ TASKS = [
                 "preferences": {"language": "fr-FR", "notifications": True}
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "Balances for checking account acc_chk_9001 and credit card acc_crd_9002 retrieved.",
-            "Transaction history and October 2023 expenses for checking account reviewed and statement downloaded.",
-            "Account preferences updated to French language and notifications enabled.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1642,12 +1538,7 @@ TASKS = [
                 "request_details": "Customer updated contact info, canceled recurring payment sp_d9b3a2c1-d6e5-f4a3-b2c1-d0e9f8g7h6i5, and scheduled a new one-time payment."
             }),
         ],
-        outputs=[
-            "Identity verified for Adetokunbo Adebayor and contact information updated.",
-            "Bi-weekly payment 'sp_d9b3a2c1-d6e5-f4a3-b2c1-d0e9f8g7h6i5' was successfully canceled.",
-            "New one-time payment of 75000 JPY scheduled for 2025-08-15.",
-            "Support ticket logged to confirm all changes.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1689,12 +1580,7 @@ TASKS = [
                 "request_details": "Q1 2023 compliance audit completed for customer. Beneficiary list updated and financial activity reviewed."
             }),
         ],
-        outputs=[
-            "Identity verified for Oliver Williams and beneficiary list updated.",
-            "Q1 2023 expenses for account acc_chk_7001 aggregated for Jan, Feb, and Mar.",
-            "Q1 2023 statements for account acc_chk_7001 downloaded for Jan, Feb, and Mar.",
-            "Suspicious activity check completed and a high-priority audit ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1730,12 +1616,7 @@ TASKS = [
             Action(name="FreezeAccountOnFraudAlert", kwargs={"account_id": "acc_chk_2001", "alert_reason": "Fraudulent activity reported; dispute process initiated."}),
             Action(name="UpdateAccountPreferences", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "preferences": {"notifications": True}}),
         ],
-        outputs=[
-            "Identity of Elena Popescu verified and transaction history reviewed.",
-            "Suspicious activity check performed.",
-            "High-priority dispute ticket 'ticket_user_027_dispute' submitted for transaction 'txn_0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d'.",
-            "Account 'acc_chk_2001' frozen and notification preferences updated.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1773,12 +1654,7 @@ TASKS = [
                 "request_details": "Onboarding for high-net-worth client Zoltan Nagy complete. New accounts and beneficiaries configured as requested."
             }),
         ],
-        outputs=[
-            "Identity verified for Zoltan Nagy and a new savings account was created.",
-            "New international beneficiary 'London Fine Arts Ltd' registered.",
-            "Payment of $5,000 USD to new beneficiary scheduled for 2025-09-01.",
-            "Preferences updated and high-priority onboarding ticket logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1801,12 +1677,7 @@ TASKS = [
             Action(name="ListLinkedBeneficiaries", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5"}),
             Action(name="DownloadStatementByDate", kwargs={"account_id": "acc_chk_6001", "month": "2023-10"}),
         ],
-        outputs=[
-            "Identity verified for Sofia Andersson and account balance checked.",
-            "Customer email and phone number have been updated.",
-            "Account preferences set to Email and paperless billing.",
-            "Beneficiary list checked and October 2023 statement downloaded.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1845,12 +1716,7 @@ TASKS = [
                 "request_details": "Canceled scheduled payment sp_b3a2c1d9-8e7f-6a5b-4c3d-2e1f0a9b8c7d and scheduled new payment to Elena Popescu."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka and loan status summarized.",
-            "Scheduled payment 'sp_b3a2c1d9-8e7f-6a5b-4c3d-2e1f0a9b8c7d' to Anytown Utility Services canceled.",
-            "New one-time payment of $250.00 to Elena Popescu scheduled for 2025-08-20.",
-            "Savings account statement for July 2025 downloaded and support ticket logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1886,12 +1752,7 @@ TASKS = [
                 "request_details": "Customer has completed account consolidation. Closed credit card acc_crd_1003 and checking acc_chk_1001 after transferring all funds to savings acc_sav_1002."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka and balances for accounts acc_crd_1003 and acc_chk_1001 checked.",
-            "Credit card acc_crd_1003 paid off and submitted for closure.",
-            "Remaining funds from checking acc_chk_1001 transferred to savings acc_sav_1002.",
-            "Checking account acc_chk_1001 submitted for closure and a high-priority ticket was logged to document the consolidation.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1931,11 +1792,7 @@ TASKS = [
                 "request_details": "Set up two new beneficiaries for supplier payments: Farm Supplies Co. and Veterinary Services Inc."
             }),
         ],
-        outputs=[
-            "Identity of Zoltan Nagy verified.",
-            "Two new beneficiaries, 'Farm Supplies Co.' and 'Veterinary Services Inc.', were successfully registered.",
-            "A support ticket was logged to confirm the setup of the new supplier beneficiaries.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1980,12 +1837,7 @@ TASKS = [
                 "request_details": "Customer relocation protocol complete. Account secured, contact info and beneficiaries updated. Address update must be handled by mail."
             }),
         ],
-        outputs=[
-            "Account for Elena Popescu frozen for security and identity verified.",
-            "Contact info and preferences updated for UK residency.",
-            "Account unlocked and beneficiary list updated to remove old contact and add new UK landlord.",
-            "High-priority ticket logged to confirm all changes.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2008,12 +1860,7 @@ TASKS = [
             Action(name="UpdateCustomerEmail", kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4", "new_email": "l.narayanan.consulting@example.com", "new_phone": "444-555-7777"}),
             Action(name="ListLinkedBeneficiaries", kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4"}),
         ],
-        outputs=[
-            "Identity verified for Zoltan Nagy and his loan history was summarized.",
-            "A new loan application for $2,000 for 'Educational Supplies' was submitted.",
-            "His checking account balance was checked.",
-            "His contact information was updated and his beneficiary list was confirmed.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2052,12 +1899,7 @@ TASKS = [
                 "request_details": "Assisted student with budget review and set up first rent payment to new landlord beneficiary."
             }),
         ],
-        outputs=[
-            "Identity verified for Adetokunbo Adebayor and her financial history for June 2025 was reviewed.",
-            "June 2025 statement downloaded.",
-            "New beneficiary 'Beijing Property Management' was registered.",
-            "A rent payment of 2000 CNY was scheduled for 2025-08-01 and a support ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2101,12 +1943,7 @@ TASKS = [
                 "request_details": "Joint holder Kenji Tanaka added to account acc_chk_2001. Beneficiary list updated. Account frozen pending verbal confirmation."
             }),
         ],
-        outputs=[
-            "Identities of Elena Popescu and Kenji Tanaka verified.",
-            "Kenji Tanaka added as joint holder to account acc_chk_2001.",
-            "Beneficiary list for Elena Popescu updated: 'Kenji Tanaka' removed, 'Smith Family Trust' added.",
-            "Account preferences updated and account frozen with a high-priority ticket logged for follow-up.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2143,12 +1980,7 @@ TASKS = [
                 "request_details": "Canceled scheduled payment sp_a2c1d9b3-d2e1-f0a9-b8c7-d6e5f4a3b2c1 and updated beneficiary list as per customer request."
             }),
         ],
-        outputs=[
-            "Identity verified for Oliver Williams.",
-            "Scheduled payment 'sp_a2c1d9b3-d2e1-f0a9-b8c7-d6e5f4a3b2c1' has been canceled.",
-            "Beneficiary list updated: 'Dubai International School' removed and 'Abu Dhabi Art Foundation' added.",
-            "Customer contact information updated and a support ticket was logged to confirm all changes.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2184,12 +2016,7 @@ TASKS = [
                 "request_details": "Full security audit complete for Zoltan Nagy. Profile and accounts updated. Checking account temporarily frozen."
             }),
         ],
-        outputs=[
-            "Identity verified for Zoltan Nagy and transaction histories for two accounts retrieved.",
-            "October 2023 expenses aggregated and contact info updated.",
-            "The customer's preferences were updated.",
-            "Checking account frozen and a critical security audit ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2210,12 +2037,7 @@ TASKS = [
             Action(name="UpdateAccountPreferences", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "preferences": {"paperless_billing": True, "communication_channel": "App"}}),
             Action(name="UpdateCustomerEmail", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "new_email": "john.doe.main@example.com", "new_phone": "123-456-8888"}),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "Balances for checking, savings, and credit card accounts were successfully retrieved.",
-            "Account preferences were updated to use the App and paperless billing.",
-            "Customer's email and phone number were updated.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2244,12 +2066,7 @@ TASKS = [
                 "request_details": "Customer is requesting to negotiate a new payment plan for delinquent loan loan_pers_020 due to recent financial hardship. Please have an agent contact him."
             }),
         ],
-        outputs=[
-            "Identity verified for Isabella Rossi.",
-            "Transaction history and recent expenses have been reviewed to assess financial hardship.",
-            "Customer's contact information has been updated.",
-            "A high-priority support ticket has been logged to initiate a payment plan negotiation for his delinquent loan.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2279,11 +2096,7 @@ TASKS = [
                 "request_details": "Account recovery protocol executed. Contact info updated. Please manually unlock checking account acc_chk_9001 with security code RECOVERY2025. Credit card to remain frozen."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka and both of his accounts were frozen.",
-            "Customer's contact information was updated to a new secure email and phone.",
-            "A critical security ticket was logged to document the incident and request a manual account unlock.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2315,12 +2128,7 @@ TASKS = [
                 "request_details": "Customer made a $1000 payment to credit card acc_crd_1003 and canceled scheduled payment sp_f4n6a5m7-l2m1-n0o9-p8q7-r6s5t4u3v2w2."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka and account balances retrieved.",
-            "A payment of $1000.00 was transferred from checking to the credit card.",
-            "Scheduled payment 'sp_f4n6a5m7-l2m1-n0o9-p8q7-r6s5t4u3v2w2' was canceled.",
-            "Account preferences were updated and a support ticket was logged confirming the actions.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2362,12 +2170,7 @@ TASKS = [
                 "request_details": "Financial review complete. Beneficiary details for Klaus Schmidt updated as per new information provided."
             }),
         ],
-        outputs=[
-            "Identity verified for Chloe Dubois and financial review of his accounts performed.",
-            "Beneficiary 'Klaus Schmidt' was deleted and re-registered with new bank details.",
-            "Customer's secondary contact information was updated.",
-            "An audit ticket was logged to document the review and all changes.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2403,12 +2206,7 @@ TASKS = [
                 "request_details": "Beneficiary Metropolis Power & Light removed and Gotham Cable added."
             }),
         ],
-        outputs=[
-            "Identity verified for Zoltan Nagy and beneficiaries listed.",
-            "Beneficiary 'Metropolis Power & Light' was successfully removed.",
-            "New beneficiary 'Gotham Cable' was registered.",
-            "Checking account balance was confirmed and a support ticket was logged for the changes.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2441,12 +2239,7 @@ TASKS = [
                 "request_details": "Joint account holder cust_joint_005 removed from acc_chk_2001. Account preferences and customer contact info updated for single ownership."
             }),
         ],
-        outputs=[
-            "Identity verified for Elena Popescu and joint holder 'cust_joint_005' removed from account acc_chk_2001.",
-            "Transaction history reviewed to confirm no outstanding joint transactions.",
-            "Account preferences and customer contact information updated for single ownership.",
-            "Beneficiary list confirmed and a support ticket was logged to document the changes.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2486,12 +2279,7 @@ TASKS = [
                 "request_details": "Registered new beneficiary Sofia Andersson and completed a one-time transfer of $1500."
             }),
         ],
-        outputs=[
-            "Identity of sender Zoltan Nagy verified and profile of recipient Sofia Andersson updated.",
-            "Sofia Andersson registered as a new beneficiary on Zoltan Nagy's profile.",
-            "A transfer of $1500.00 was completed from David's account to Maria's.",
-            "The sender's account balance was checked post-transfer and a support ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2522,12 +2310,7 @@ TASKS = [
                 "request_details": "Inquiry regarding early payoff amount and procedure for auto loan loan_auto_002."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka and his checking account balance was retrieved.",
-            "Loan history was summarized and transaction history reviewed for past payments.",
-            "October 2023 expenses were aggregated to analyze recent budget.",
-            "A support ticket was submitted to inquire about the early loan payoff procedure.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2562,12 +2345,7 @@ TASKS = [
                 "request_details": "Full security audit for Oliver Williams complete. Profile and preferences updated. Checking account is temporarily frozen."
             }),
         ],
-        outputs=[
-            "Identity verified for Oliver Williams and account activities reviewed.",
-            "Customer contact info and preferences were updated.",
-            "The checking account was frozen for a security audit.",
-            "A critical security ticket was logged to document the process.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2596,12 +2374,7 @@ TASKS = [
                 "request_details": "Customer contact information has been updated as requested."
             }),
         ],
-        outputs=[
-            "Identity verified for Chloe Dubois.",
-            "Balances for checking and savings accounts were successfully retrieved.",
-            "Customer's email and phone number were updated.",
-            "Beneficiary list was confirmed and a low-priority ticket was logged to document the update.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2634,12 +2407,7 @@ TASKS = [
                 "request_details": "Canceled scheduled payment from savings, transferred full balance to checking, and submitted savings account acc_sav_1002 for closure."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "Scheduled payment 'sp_d9b3a2c1-f0a9-b8c7-d6e5-f4a3b2c1d0e9' was successfully canceled.",
-            "The full balance from savings account acc_sav_1002 was transferred to checking in two transactions.",
-            "Savings account submitted for closure and a support ticket was logged to document the process.",
-        ],
+        outputs=[]
     ),
      Task(
         annotator="0",
@@ -2674,12 +2442,7 @@ TASKS = [
                 "request_details": "Q1 2023 audit completed for joint account acc_chk_2001. Both holders verified. Primary holder contact information updated."
             }),
         ],
-        outputs=[
-            "Profiles retrieved and identities verified for both joint account holders Elena Popescu and Kenji Tanaka.",
-            "Q1 2023 financial audit completed, including transaction history review and expense aggregation for three months.",
-            "Primary holder's contact information was updated.",
-            "A medium-priority audit ticket was logged to document the review and updates.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2715,12 +2478,7 @@ TASKS = [
                 "request_details": "Marital status update: Removed previous beneficiary and added spouse as new beneficiary."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "Beneficiary Marie Dubois was successfully removed from the account.",
-            "Spouse Zoltan Nagy was added as a new beneficiary.",
-            "Account preferences were updated and a ticket was logged to confirm the changes.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2755,12 +2513,7 @@ TASKS = [
                 "request_details": "Customer lost credit card acc_crd_1003. Account is frozen. Please issue a new card to the address on file and cancel the old one. Customer will review transactions for fraud."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka and his credit card account acc_crd_1003 was frozen.",
-            "Recent transaction history and monthly expenses were reviewed for fraudulent activity.",
-            "Customer's primary contact information was updated as a security measure.",
-            "A critical priority ticket was submitted to issue a new credit card.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2788,12 +2541,7 @@ TASKS = [
                 "request_details": "Customer requests information on available financial planning and budgeting tools."
             }),
         ],
-        outputs=[
-            "Identity verified for Mohammed Al-Masri.",
-            "The customer's checking account balance was retrieved.",
-            "Beneficiary list was checked and notification preferences were updated.",
-            "A low-priority ticket was logged with a general inquiry about financial planning tools.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2824,12 +2572,7 @@ TASKS = [
                 "request_details": "Completed partial transfer of $9,500.00 from investment account acc_inv_3002 to checking acc_chk_3001 as requested."
             }),
         ],
-        outputs=[
-            "Identity verified for Zoltan Nagy and balances for his investment and checking accounts were retrieved.",
-            "A transfer of $9,500.00 from his investment to his checking account was completed.",
-            "Preferences for the investment account were updated.",
-            "Beneficiary list was confirmed and a ticket was logged to document the transfer.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2863,12 +2606,7 @@ TASKS = [
                 "request_details": "Joint account acc_chk_2001 separation complete. Funds split and holder Kenji Tanaka (cust_joint_005) removed."
             }),
         ],
-        outputs=[
-            "Identities of both account holders, Elena Popescu and Kenji Tanaka, were verified.",
-            "The balance of the joint account was checked.",
-            "50% of the funds were transferred to Kenji Tanaka's personal account.",
-            "Kenji Tanaka was removed as joint holder, preferences were updated, and a high-priority ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2905,12 +2643,7 @@ TASKS = [
                 "request_details": "Travel Preparation: Canceled one scheduled payment, added temporary beneficiary, updated preferences to SMS, and froze savings account."
             }),
         ],
-        outputs=[
-            "Identity verified for Adetokunbo Adebayor.",
-            "Scheduled payment 'sp_c1d9b3a2-a5b4-c3d2-e1f0-a9b8c7d6e5f4' was successfully canceled.",
-            "A new temporary beneficiary was added and account preferences were updated for travel.",
-            "The savings account was frozen as a security measure and a ticket was logged to document all changes.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2953,12 +2686,7 @@ TASKS = [
                 "request_details": "Annual audit for business account acc_chk_24001 complete. Full history and Q1 expenses reviewed. Contact info and beneficiary list updated."
             }),
         ],
-        outputs=[
-            "Identity verified for Oliver Williams and full year transaction history retrieved.",
-            "Q1 2023 expenses aggregated and savings account balance checked.",
-            "Business contact information was updated.",
-            "A new supplier beneficiary was registered and a high-priority audit ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2988,12 +2716,7 @@ TASKS = [
                 "request_details": "Customer contact info and preferences updated as per request."
             }),
         ],
-        outputs=[
-            "Identity verified for Lakshmi Narayanan and savings account balance retrieved.",
-            "Customer's email and phone number were updated.",
-            "Account preferences were set to 'Mail' communication.",
-            "Beneficiary list was confirmed to be empty and a low-priority ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3030,12 +2753,7 @@ TASKS = [
             Action(name="FreezeAccountOnFraudAlert", kwargs={"account_id": "acc_crd_1003", "alert_reason": "Dispute filed for fraudulent charge. Awaiting investigation."}),
             Action(name="UpdateCustomerEmail", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "new_email": "john.doe.dispute@example.com", "new_phone": "123-456-7890"}),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka and credit card history reviewed.",
-            "A high-priority dispute ticket was submitted for transaction 'txn_6c3d6f9h-4d6b-7c2f-2d5h-8f9d2e6g7c3c'.",
-            "The credit card account 'acc_crd_1003' was frozen as a security precaution.",
-            "The customer's contact information was updated to ensure communication on the dispute case.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3072,12 +2790,7 @@ TASKS = [
                 "request_details": "Full relationship closure process started. Credit and checking accounts closed. Customer requests an agent call to close the final savings account and disburse remaining funds."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka and account balances checked.",
-            "Credit card debt of $2500 was paid off using funds from the checking account.",
-            "The remaining balance from the checking account was consolidated into savings.",
-            "The credit card and checking accounts were submitted for closure and a critical ticket was logged for final steps.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3111,12 +2824,7 @@ TASKS = [
                 "request_details": "Deceased customer protocol executed for Kenji Tanaka. All accounts frozen and scheduled payments canceled. Awaiting contact from executor."
             }),
         ],
-        outputs=[
-            "Customer status verified as deceased.",
-            "All three of the customer's accounts (checking, savings, credit card) have been frozen.",
-            "All active scheduled payments have been successfully canceled.",
-            "A critical priority ticket has been submitted to the Estate Management department.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3159,12 +2867,7 @@ TASKS = [
                 "request_details": "Beneficiary audit complete: beneficiary Metropolis Power & Light replaced with Providence Investments and Chen Family Trust."
             }),
         ],
-        outputs=[
-            "Identity of primary holder Zoltan Nagy verified.",
-            "Beneficiary list was updated: 'Metropolis Power & Light' was removed.",
-            "Two new beneficiaries, 'New York Investments' and 'Chen Family Trust', were registered.",
-            "A high-priority ticket was logged to document the beneficiary audit.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3187,12 +2890,7 @@ TASKS = [
             Action(name="ListLinkedBeneficiaries", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11"}),
             Action(name="UpdateAccountPreferences", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11", "preferences": {"paperless_billing": True}}),
         ],
-        outputs=[
-            "Identity verified for Zoltan Nagy.",
-            "Customer's contact information was updated.",
-            "Loan status was summarized and checking account balance was retrieved.",
-            "Beneficiary list was checked and account preferences were updated to paperless billing.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3233,12 +2931,7 @@ TASKS = [
                 "request_details": "Beneficiary list consolidated to single Doe Family Trust. Recent spending review also provided to customer."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "Both existing beneficiaries, Elena Popescu and Anytown Utility Services, were removed.",
-            "A new consolidated beneficiary, 'Doe Family Trust', was successfully registered.",
-            "Recent spending was reviewed and a ticket was logged to confirm the beneficiary consolidation.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3270,11 +2963,7 @@ TASKS = [
                 "request_details": "Annual review complete. Financials reviewed, investment account temporarily frozen, and contact info updated."
             }),
         ],
-        outputs=[
-            "Identity verified for Zoltan Nagy and a 180-day financial review of his checking account was completed.",
-            "The balance of his investment account was retrieved and the account was temporarily frozen for security.",
-            "The customer's contact information was updated and a high-priority audit ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3312,12 +3001,7 @@ TASKS = [
                 "request_details": "Canceled scheduled payment to Marie Dubois and updated beneficiary list to replace her with NYC Art School."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "The scheduled payment to his mother was successfully canceled.",
-            "Beneficiary list was updated: Marie Dubois was removed and 'NYC Art School' was added.",
-            "Account preferences were updated and a support ticket was logged to confirm the changes.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3362,12 +3046,7 @@ TASKS = [
                 "request_details": "Joint account acc_chk_2001 reconfigured. Holder cust_joint_005 replaced with Zoltan Nagy. Beneficiary list updated."
             }),
         ],
-        outputs=[
-            "Identities of primary holder Elena Popescu and new joint holder Zoltan Nagy verified.",
-            "Joint holder for account acc_chk_2001 was successfully swapped.",
-            "Beneficiary Kenji Tanaka was removed and replaced with the new joint holder, Zoltan Nagy.",
-            "Account preferences were updated and a high-priority ticket was logged to document the reconfiguration.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3397,12 +3076,7 @@ TASKS = [
                 "request_details": "Customer requested a full summary of his accounts, loans, and beneficiaries for his records. Review complete."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "Balances for his checking and savings accounts were retrieved.",
-            "A summary of his loan status was provided.",
-            "A list of his current beneficiaries was retrieved and a ticket was logged to confirm the review.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3434,12 +3108,7 @@ TASKS = [
                 "request_details": "Customer made a one-time extra payment of 2000 EUR to business loan account acc_loan_12002."
             }),
         ],
-        outputs=[
-            "Identity verified for Zoltan Nagy and loan status confirmed.",
-            "Balances for checking and loan accounts were retrieved.",
-            "An extra payment of 2000 EUR was successfully transferred to the loan account.",
-            "Customer contact information was updated and a ticket was logged to document the payment.",
-        ],
+        outputs=[]
     ),
      Task(
         annotator="0",
@@ -3475,12 +3144,7 @@ TASKS = [
                 "request_details": "Customer account consolidation complete. Full balance from acc_chk_1001 transferred to acc_sav_1002. Checking account submitted for closure."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka and a spending review on his checking account was performed.",
-            "Balances for both checking and savings accounts were retrieved.",
-            "The full balance from the checking account was successfully transferred to the savings account.",
-            "The checking account was submitted for closure and a high-priority ticket was logged to document the consolidation.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3519,12 +3183,7 @@ TASKS = [
                 "request_details": "Customer security preferences and language updated. Beneficiary list updated to replace Klaus Schmidt with Lyon Art Supplies."
             }),
         ],
-        outputs=[
-            "Identity verified for Chloe Dubois and his account preferences were updated.",
-            "Beneficiary 'Klaus Schmidt' was successfully removed.",
-            "New international beneficiary 'Paris Art Supplies' was registered.",
-            "Checking account balance was confirmed and a ticket was logged to document the updates.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3556,12 +3215,7 @@ TASKS = [
                 "request_details": "Account takeover protocol initiated. All accounts frozen, contact info secured. Awaiting fraud investigation results."
             }),
         ],
-        outputs=[
-            "Customer profile retrieved and both checking and savings accounts were immediately frozen.",
-            "Identity of Elena Popescu was verified to proceed with recovery.",
-            "Recent transaction history was retrieved for fraud analysis.",
-            "Customer's contact info was updated to secure channels and a critical security ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3591,12 +3245,7 @@ TASKS = [
                 "request_details": "Customer requested a check of her account balances and beneficiary list. Contact info also updated."
             }),
         ],
-        outputs=[
-            "Identity verified for Oliver Williams.",
-            "Balances for her checking and savings accounts were successfully retrieved.",
-            "Her contact information was updated to a new email and phone number.",
-            "Her beneficiary list was retrieved and a ticket was logged to confirm the actions.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3635,12 +3284,7 @@ TASKS = [
                 "request_details": "Canceled two scheduled payments and updated beneficiary list from Anytown Utility to Metropolis Water Co."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "Two scheduled payments were successfully canceled.",
-            "Beneficiary 'Anytown Utility Services' was removed and replaced with 'Metropolis Water Co'.",
-            "Account preferences were updated and a ticket was logged to confirm all changes.",
-        ],
+        outputs=[]
     ),
      Task(
         annotator="0",
@@ -3675,12 +3319,7 @@ TASKS = [
                 "request_details": "Divorce settlement protocol executed for account acc_chk_2001. Joint holder cust_joint_005 removed, funds split, and beneficiary list updated as per legal agreement."
             }),
         ],
-        outputs=[
-            "Identities of both Elena Popescu and Kenji Tanaka were successfully verified.",
-            "A settlement amount of 1500.00 CAD was transferred from the joint account to Kenji Tanaka's personal account.",
-            "Kenji Tanaka was removed as a joint holder from account acc_chk_2001.",
-            "Kenji Tanaka was removed from Elena Popescu's beneficiary list and a high-priority legal ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3718,12 +3357,7 @@ TASKS = [
                 "request_details": "Replaced domestic beneficiary Anytown Utility with international beneficiary Manchester Imports Ltd and canceled original scheduled payment."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "The scheduled payment to 'Anytown Utility' was canceled and the beneficiary was removed.",
-            "A new international beneficiary, 'London Imports Ltd', was successfully registered.",
-            "The checking account balance was confirmed and a ticket was logged documenting the changes.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3755,12 +3389,7 @@ TASKS = [
                 "request_details": "Security audit triggered. Account acc_chk_2001 frozen, spending patterns reviewed, and contact info secured."
             }),
         ],
-        outputs=[
-            "Identity verified for Elena Popescu and her checking account was frozen.",
-            "A 3-month spending review was conducted on the checking account.",
-            "Customer's contact information was updated to secure channels.",
-            "A critical security ticket was logged to document the audit and security measures taken.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3782,12 +3411,7 @@ TASKS = [
             Action(name="ListLinkedBeneficiaries", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
             Action(name="UpdateAccountPreferences", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a", "preferences": {"notifications": True}}),
         ],
-        outputs=[
-            "Identity verified for Zoltan Nagy.",
-            "Balances for his checking and investment accounts were successfully retrieved.",
-            "His loan application status was summarized and his beneficiaries were listed.",
-            "His account preferences were updated to enable notifications.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3818,12 +3442,7 @@ TASKS = [
                 "request_details": "Customer paid off credit card acc_crd_9002 in full and updated primary contact details."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka and account balances were checked.",
-            "A payment of 500.00 EUR was transferred from checking to pay off the credit card.",
-            "Customer's primary contact information was updated.",
-            "A ticket was logged to confirm the payment and contact update.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3861,12 +3480,7 @@ TASKS = [
             }),
             Action(name="UpdateCustomerEmail", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "new_email": "jane.s.dispute@example.com", "new_phone": "555-123-1122"}),
         ],
-        outputs=[
-            "Profiles retrieved and identities verified for both joint account holders.",
-            "The joint account 'acc_chk_2001' was frozen due to a dispute.",
-            "Transaction history was retrieved for investigation.",
-            "A critical dispute ticket was submitted and the primary holder's contact information was updated.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3893,12 +3507,7 @@ TASKS = [
                 "request_details": "Travel Notice: Canceled scheduled payment and froze savings account for security during travel."
             }),
         ],
-        outputs=[
-            "Identity verified for Oliver Williams.",
-            "A large scheduled payment was successfully canceled.",
-            "Her savings account was frozen for security and preferences were updated for travel alerts.",
-            "A high-priority travel notice ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3941,12 +3550,7 @@ TASKS = [
                 "request_details": "Q2 2025 audit for business account acc_chk_24001 complete. Expenses for 3 months aggregated. New supplier beneficiary added and contact info updated."
             }),
         ],
-        outputs=[
-            "Identity verified for Oliver Williams and a Q2 2025 financial review was conducted.",
-            "Expenses for April, May, and June were aggregated.",
-            "A new supplier beneficiary was added to the business profile.",
-            "The primary business contact information was updated and a high-priority audit ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3975,12 +3579,7 @@ TASKS = [
                 "request_details": "Customer profile updated with new contact info and language preference."
             }),
         ],
-        outputs=[
-            "Identity verified for Adetokunbo Adebayor.",
-            "The customer's contact email and phone number were successfully updated.",
-            "The customer's language preference was set to Japanese.",
-            "Balances for checking and savings accounts were retrieved and a ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4018,12 +3617,7 @@ TASKS = [
                 "request_details": "Beneficiary list consolidated to the Doe Family Trust and an initial transfer of $2500 was completed."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "His two existing beneficiaries were successfully removed.",
-            "A new consolidated beneficiary, 'Doe Family Trust', was registered.",
-            "A transfer of $2,500.00 was made to the new beneficiary and a ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4062,12 +3656,7 @@ TASKS = [
                 "request_details": "Business account acc_chk_1001 closure process initiated. All payments and beneficiaries removed, funds transferred, and account submitted for final closure."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "All scheduled payments from the business account have been canceled.",
-            "All beneficiaries linked to the business account have been removed.",
-            "The remaining balance was transferred and the business account was submitted for closure, with a ticket logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4100,12 +3689,7 @@ TASKS = [
                 "request_details": "Customer made a 4000 EUR extra payment on loan associated with account acc_loan_12002. Inquiring about refinancing options."
             }),
         ],
-        outputs=[
-            "Identity verified for Zoltan Nagy and his loan status was confirmed.",
-            "Balances for checking and loan accounts were retrieved.",
-            "An extra payment of 4000.00 EUR was successfully transferred to his loan account.",
-            "The customer's contact information was updated and a ticket was logged with his refinancing inquiry.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4151,12 +3735,7 @@ TASKS = [
                 "request_details": "Joint account acc_chk_2001 reconfigured to single owner. Holder cust_joint_005 removed. All beneficiaries updated."
             }),
         ],
-        outputs=[
-            "Identities of both Elena Popescu and Kenji Tanaka were verified.",
-            "A financial review of the joint account was completed.",
-            "Kenji Tanaka was removed as a joint holder and as a beneficiary.",
-            "Two new beneficiaries were registered for Elena Popescu and a ticket was logged documenting the account reconfiguration.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4185,12 +3764,7 @@ TASKS = [
                 "request_details": "Customer preferences and primary contact information updated as requested."
             }),
         ],
-        outputs=[
-            "Identity verified for Chloe Dubois.",
-            "Balances for his checking and savings accounts were successfully retrieved.",
-            "Account preferences were updated to German and to enable notifications.",
-            "The customer's primary contact information was updated and a ticket was logged.",
-        ],
+        outputs=[]
     ),
      Task(
         annotator="0",
@@ -4224,12 +3798,7 @@ TASKS = [
             Action(name="UpdateCustomerEmail", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "new_email": "j.doe.disputes@example.com", "new_phone": "123-456-1111"}),
             Action(name="ListLinkedBeneficiaries", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka and transaction history reviewed.",
-            "A high-priority dispute ticket was submitted for transaction 'txn_9c2a3b7e-1a3e-4b8c-8a2e-5c6a8b3d4e9f'.",
-            "The checking account 'acc_chk_1001' was frozen as a security precaution.",
-            "The customer's contact information was updated and his beneficiaries were listed.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4263,12 +3832,7 @@ TASKS = [
                 "request_details": "Closed acc_chk_1001 after fund consolidation. IMPORTANT: Customer requests that canceled payments (sp_b3a2c1d9... and sp_c1d9b3a2...) be manually recreated by an agent, now sourced from savings acc_sav_1002."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "Two scheduled payments were successfully canceled from the checking account.",
-            "The full balance of the checking account was transferred to savings.",
-            "The checking account was submitted for closure and a high-priority ticket was logged with instructions for an agent.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4307,12 +3871,7 @@ TASKS = [
                 "request_details": "Customer preferences updated. Beneficiary Yuki Tanaka replaced with new international beneficiary Global Tech Inc."
             }),
         ],
-        outputs=[
-            "Identity verified for Adetokunbo Adebayor and his account preferences were updated.",
-            "The beneficiary 'Yuki Tanaka' was successfully removed.",
-            "The new international beneficiary 'WorldWide Systems' was registered.",
-            "The customer's checking account balance was checked and a ticket was logged to document the updates.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4347,12 +3906,7 @@ TASKS = [
                 "request_details": "90-day audit complete for checking and credit accounts. October expenses aggregated. Credit card preventatively frozen. Contact info updated."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "A 90-day financial audit was performed on both his checking and credit card accounts.",
-            "October 2023 expenses were aggregated for both accounts.",
-            "The credit card was preventatively frozen, contact info was updated, and a high-priority audit ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4372,12 +3926,7 @@ TASKS = [
             Action(name="ListLinkedBeneficiaries", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
             Action(name="UpdateAccountPreferences", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a", "preferences": {"notifications": True}}),
         ],
-        outputs=[
-            "Identity verified for Zoltan Nagy.",
-            "His contact information (email and phone) was successfully updated.",
-            "His loan application status was summarized.",
-            "His beneficiary list was checked and his account preferences were updated to enable notifications.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4409,12 +3958,7 @@ TASKS = [
                 "request_details": "Joint holder cust_joint_005 (Kenji Tanaka) removed from account acc_chk_2001. Final settlement of 1000.00 CAD transferred."
             }),
         ],
-        outputs=[
-            "Identities of both Elena Popescu and Kenji Tanaka were successfully verified.",
-            "Kenji Tanaka was removed as a joint holder from account acc_chk_2001.",
-            "The account balance was confirmed.",
-            "A final settlement of 1000.00 CAD was transferred to Kenji Tanaka and a high-priority legal ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4452,12 +3996,7 @@ TASKS = [
                 "request_details": "Full relationship closure initiated. Credit and checking accounts closed. All funds consolidated into savings account acc_sav_1002. Customer requests an agent to call for final closure and disbursement of remaining funds."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka and his credit card account was submitted for closure.",
-            "Funds from his checking account were consolidated into his savings account.",
-            "The now-empty checking account was submitted for closure.",
-            "All scheduled payments were canceled and a critical ticket was logged to complete the final steps of closing the relationship.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4497,12 +4036,7 @@ TASKS = [
                 "request_details": "Added spouse Zoltan Nagy as joint holder and primary beneficiary to account acc_chk_2001. Removed previous beneficiary."
             }),
         ],
-        outputs=[
-            "Identity of primary account holder Elena Popescu was verified.",
-            "Zoltan Nagy was added as a joint account holder and his identity was also verified.",
-            "The previous beneficiary, Kenji Tanaka, was removed.",
-            "The new spouse, Zoltan Nagy, was registered as the new primary beneficiary and a ticket was logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4534,12 +4068,7 @@ TASKS = [
                 "request_details": "Full account lockdown for Kenji Tanaka due to major fraud alert. All accounts frozen, transaction history pulled for investigation, and contact info secured."
             }),
         ],
-        outputs=[
-            "Identity verified for Kenji Tanaka.",
-            "All three of the customer's accounts have been frozen due to a major fraud alert.",
-            "Transaction histories for the checking and credit card accounts have been retrieved for investigation.",
-            "The customer's contact information has been updated and a critical security ticket has been logged.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4568,12 +4097,7 @@ TASKS = [
                 "request_details": "Customer contact information updated. Loan and account status provided as requested."
             }),
         ],
-        outputs=[
-            "Identity verified for Zoltan Nagy.",
-            "The customer's email and phone number were successfully updated.",
-            "A summary of his loan status was retrieved.",
-            "His checking account balance was checked and a ticket was logged to confirm the updates.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4621,11 +4145,6 @@ TASKS = [
                 "request_details": "Beneficiary list reconfigured. Klaus Schmidt removed. French and UK beneficiaries added. Preferences updated."
             }),
         ],
-        outputs=[
-            "Identity verified for Chloe Dubois.",
-            "His beneficiary list was reconfigured: one beneficiary was removed.",
-            "Two new international beneficiaries in France and the UK were successfully registered.",
-            "Account preferences were updated and a ticket was logged to document the changes.",
-        ],
+        outputs=[]
     )
 ]

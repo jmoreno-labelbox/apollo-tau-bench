@@ -42,11 +42,7 @@ TASKS = [
             Action(name="GetModelMetrics", kwargs={
                    "model_name": "flood_risk_sf_v1"})
         ],
-        outputs=[
-            "run_id=etl_sf_20240315_20240322_merge_v1",
-            "AUC=0.87",
-            "Accuracy=0.82"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -80,11 +76,7 @@ TASKS = [
                 "split_ts": "2024-03-17T10:45:00Z"
             }),
         ],
-        outputs=[
-            "train=134",
-            "test=34",
-            "path=/data/splits/sf_time_based_split_20240317.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -113,11 +105,7 @@ TASKS = [
                 "split_ts": "2024-02-03T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/miami_time_based_split_20240203.json",
-            "train=76",
-            "test=20"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -146,11 +134,7 @@ TASKS = [
                 "split_ts": "2024-03-04T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240304.json",
-            "train=96",
-            "test=24"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -181,10 +165,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_seattle_20240201_20240208_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_seattle_20240201_20240208.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -213,11 +194,7 @@ TASKS = [
                 "split_ts": "2024-03-14T16:45:00Z"
             }),
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240314.json",
-            "train=126",
-            "test=42"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -246,11 +223,7 @@ TASKS = [
                 "split_ts": "2024-03-20T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240320.json",
-            "train=134",
-            "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -281,10 +254,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_sf_20240315_20240322_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_sf_20240315_20240322.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -311,11 +281,7 @@ TASKS = [
                 "split_ts": "2024-02-04T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240204.json",
-            "train=192",
-            "test=48"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -346,10 +312,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_boston_20240301_20240306_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_boston_20240301_20240306.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -376,11 +339,7 @@ TASKS = [
                 "split_ts": "2024-02-04T12:00:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/miami_time_based_split_20240204.json",
-            "train=76",
-            "test=20"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -407,11 +366,7 @@ TASKS = [
                 "split_ts": "2024-03-21T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240321.json",
-            "train=134",
-            "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -438,11 +393,7 @@ TASKS = [
                 "split_ts": "2024-02-01T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/miami_time_based_split_20240201.json",
-            "train=76",
-            "test=20"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -473,10 +424,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_sf_20240315_20240322_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_sf_20240315_20240322.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -507,10 +455,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_seattle_20240201_20240208_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_seattle_20240201_20240208.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -537,11 +482,7 @@ TASKS = [
                 "split_ts": "2024-02-01T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/miami_time_based_split_20240201.json",
-            "train=76",
-            "test=20"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -568,11 +509,7 @@ TASKS = [
                 "split_ts": "2024-03-20T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240320.json",
-            "train=134",
-            "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -603,10 +540,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_boston_20240301_20240306_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_boston_20240301_20240306.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -635,11 +569,7 @@ TASKS = [
                 "split_ts": "2024-03-14T16:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240314.json",
-            "train=180",
-            "test=60"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -666,11 +596,7 @@ TASKS = [
                 "split_ts": "2024-02-03T12:00:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240203.json",
-            "train=192",
-            "test=48"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -697,11 +623,7 @@ TASKS = [
                 "split_ts": "2024-03-01T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240301.json",
-            "train=96",
-            "test=24"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -732,10 +654,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_sf_20240315_20240322_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_sf_20240315_20240322.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -772,12 +691,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "present=3",
-            "required=3",
-            "missing_count=0",
-            "validation_path=/processed_data/feature_validation_miami_simple_model_20240317.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -806,11 +720,7 @@ TASKS = [
                 "split_ts": "2024-03-01T13:18:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240301.json",
-            "train=90",
-            "test=30"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -847,12 +757,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "present=3",
-            "required=3",
-            "missing_count=0",
-            "validation_path=/processed_data/feature_validation_boston_simple_model_20240317.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -879,11 +784,7 @@ TASKS = [
                 "split_ts": "2024-03-21T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240321.json",
-            "train=134",
-            "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -914,10 +815,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_sf_20240312_20240316_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_sf_20240312_20240316.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -948,10 +846,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_seattle_20240204_20240208_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_seattle_20240204_20240208.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -978,11 +873,7 @@ TASKS = [
                 "split_ts": "2024-03-19T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240319.json",
-            "train=134",
-            "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1007,11 +898,7 @@ TASKS = [
                 "split_ts": "2024-02-03T12:00:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240203.json",
-            "train=192",
-            "test=48"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1046,10 +933,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_seattle_20240201_20240208_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_seattle_20240201_20240208.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1070,11 +954,7 @@ TASKS = [
                 "split_summary_json_path": "/data/splits/miami_time_based_split_20240201.json", "split_ts": "2024-02-01T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/miami_time_based_split_20240201.json",
-            "train=76",
-            "test=20"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1109,10 +989,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_miami_20240202_20240206_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_miami_20240202_20240206.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1135,11 +1012,7 @@ TASKS = [
                 "split_ts": "2024-03-19T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240319.json",
-            "train=134",
-            "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1175,15 +1048,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240206.json",
-            "train=192",
-            "test=48",
-            "present=3",
-            "required=3",
-            "missing_count=0",
-            "validation_path=/processed_data/feature_validation_seattle_simple_model_20240317.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1218,10 +1083,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_miami_20240206_20240210_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_miami_20240206_20240210.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1261,15 +1123,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240305.json",
-            "train=96",
-            "test=24",
-            "present=3",
-            "required=3",
-            "missing_count=0",
-            "validation_path=/processed_data/feature_validation_boston_simple_model_20240317.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1292,11 +1146,7 @@ TASKS = [
                 "split_ts": "2024-03-06T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240306.json",
-            "train=96",
-            "test=24"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1331,10 +1181,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_miami_20240208_20240212_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_miami_20240208_20240212.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1357,11 +1204,7 @@ TASKS = [
                 "split_ts": "2024-03-03T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240303.json",
-            "train=96",
-            "test=24"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1390,11 +1233,7 @@ TASKS = [
                 "split_ts": "2024-03-14T16:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240314.json",
-            "train=180",
-            "test=60"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1431,15 +1270,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240303.json",
-            "train=96",
-            "test=24",
-            "present=3",
-            "required=3",
-            "missing_count=0",
-            "validation_path=/processed_data/feature_validation_boston_simple_model_20240317.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1474,10 +1305,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_sf_20240311_20240315_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_sf_20240311_20240315.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1506,12 +1334,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs={
-            "split_summary_json_path": "/data/splits/sf_time_based_split_20240322.json",
-            "train_index_count": 134,
-            "test_index_count": 34,
-            "test_fraction": 0.2
-        },
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1534,11 +1357,7 @@ TASKS = [
                 "split_ts": "2024-02-05T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/miami_time_based_split_20240205.json",
-            "train=76",
-            "test=20"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1567,11 +1386,7 @@ TASKS = [
                 "split_ts": "2024-02-10T11:00:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/miami_time_based_split_20240210.json",
-            "train=76",
-            "test=20"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1606,10 +1421,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_miami_20240206_20240210_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_miami_20240206_20240210.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1630,11 +1442,7 @@ TASKS = [
                 "split_ts": "2024-02-05T12:00:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240205.json",
-            "train=192",
-            "test=48"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1663,11 +1471,7 @@ TASKS = [
                 "split_ts": "2024-02-10T11:00:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/miami_time_based_split_20240210.json",
-            "train=76",
-            "test=20"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1695,10 +1499,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "present=3", "required=3", "missing_count=0",
-            "validation_path=/processed_data/feature_validation_sf_simple_model_20240317.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1729,11 +1530,7 @@ TASKS = [
             Action(name="GetModelMetrics", kwargs={
                 "model_name": "flood_risk_sf_v2"})
         ],
-        outputs=[
-            "mt_run_id=mt_sf_flood_risk_sf_v2_20240315_20240322_v1",
-            "model_path=/models/flood_risk_sf_v2.pkl",
-            "AUC=0.89", "Accuracy=0.85"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1768,10 +1565,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_boston_20240302_20240306_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_boston_20240302_20240306.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1799,10 +1593,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "present=3", "required=3", "missing_count=0",
-            "validation_path=/processed_data/feature_validation_seattle_simple_model_20240317.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1831,11 +1622,7 @@ TASKS = [
                 "split_ts": "2024-03-14T16:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240314.json",
-            "train=180",
-            "test=60"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1866,11 +1653,7 @@ TASKS = [
             Action(name="GetModelMetrics", kwargs={
                 "model_name": "flood_risk_sf_v1"})
         ],
-        outputs=[
-            "mt_run_id=mt_sf_flood_risk_sf_v1_20240312_20240316_v1",
-            "model_path=/models/flood_risk_sf_v1.pkl",
-            "AUC=0.87", "Accuracy=0.82"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1905,10 +1688,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_seattle_20240206_20240210_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_seattle_20240206_20240210.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1929,10 +1709,7 @@ TASKS = [
                 "split_ts": "2024-03-18T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240318.json",
-            "train=134", "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1967,10 +1744,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_miami_20240210_20240214_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_miami_20240210_20240214.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1991,10 +1765,7 @@ TASKS = [
                 "split_ts": "2024-03-06T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240306.json",
-            "train=96", "test=24"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2029,10 +1800,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_seattle_20240204_20240208_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_seattle_20240204_20240208.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2067,10 +1835,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_boston_20240302_20240305_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_boston_20240302_20240305.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2091,10 +1856,7 @@ TASKS = [
                 "split_ts": "2024-03-22T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240322.json",
-            "train=134", "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2129,10 +1891,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_miami_20240212_20240216_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_miami_20240212_20240216.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2153,10 +1912,7 @@ TASKS = [
                 "split_ts": "2024-02-07T12:00:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240207.json",
-            "train=192", "test=48"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2177,10 +1933,7 @@ TASKS = [
                 "split_ts": "2024-03-07T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240307.json",
-            "train=96", "test=24"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2201,10 +1954,7 @@ TASKS = [
                 "split_ts": "2024-02-08T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/miami_time_based_split_20240208.json",
-            "train=76", "test=20"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2225,10 +1975,7 @@ TASKS = [
                 "split_ts": "2024-03-05T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240305.json",
-            "train=96", "test=24"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2259,11 +2006,7 @@ TASKS = [
             Action(name="GetModelMetrics", kwargs={
                 "model_name": "flood_risk_sf_v1"})
         ],
-        outputs=[
-            "mt_run_id=mt_sf_flood_risk_sf_v1_20240316_20240322_v1",
-            "model_path=/models/flood_risk_sf_v1.pkl",
-            "AUC=0.87", "Accuracy=0.82"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2298,10 +2041,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_miami_20240208_20240212_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_miami_20240208_20240212.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2324,10 +2064,7 @@ TASKS = [
                 "split_ts": "2024-03-18T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240318.json",
-            "train=134", "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2350,10 +2087,7 @@ TASKS = [
                 "split_ts": "2024-02-05T12:00:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240205.json",
-            "train=192", "test=48"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2376,10 +2110,7 @@ TASKS = [
                 "split_ts": "2024-03-03T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240303.json",
-            "train=96", "test=24"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2402,10 +2133,7 @@ TASKS = [
                 "split_ts": "2024-02-03T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/miami_time_based_split_20240203.json",
-            "train=76", "test=20"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2428,10 +2156,7 @@ TASKS = [
                 "split_ts": "2024-03-22T10:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240322.json",
-            "train=134", "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2454,10 +2179,7 @@ TASKS = [
                 "split_ts": "2024-02-06T12:00:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240206.json",
-            "train=192", "test=48"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2480,10 +2202,7 @@ TASKS = [
                 "split_ts": "2024-03-02T10:00:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240302.json",
-            "train=96", "test=24"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2506,10 +2225,7 @@ TASKS = [
                 "split_ts": "2024-02-04T12:00:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/miami_time_based_split_20240204.json",
-            "train=76", "test=20"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2544,10 +2260,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "mw_run_id=etl_sf_20240311_20240315_merge_v1",
-            "merged_path=/processed_data/merged_timeseries_sf_20240311_20240315.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2593,11 +2306,7 @@ TASKS = [
             Action(name="GetModelMetrics", kwargs={
                 "model_name": "boston_harbor_model"})
         ],
-        outputs=[
-            "run_id=etl_boston_20240301_20240306_merge_v1",
-            "AUC=0.73",
-            "Accuracy=0.81"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2633,11 +2342,7 @@ TASKS = [
                 "split_ts": "2024-03-14T16:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240314.json",
-            "train=180",
-            "test=60"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2684,12 +2389,7 @@ TASKS = [
             Action(name="GetModelMetrics", kwargs={
                 "model_name": "flood_risk_miami_v1"})
         ],
-        outputs=[
-            "mt_run_id=mt_miami_flood_risk_miami_v1_20240201_20240205_v1",
-            "model_path=/models/flood_risk_miami_v1.pkl",
-            "AUC=0.73",
-            "Accuracy=0.75"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2712,8 +2412,7 @@ TASKS = [
             Action(name="CreateSplitSummaryRecord", kwargs={"method": "time_based", "test_fraction": 0.2, "train_index_count": 134,
                    "test_index_count": 34, "split_summary_json_path": "/data/splits/sf_time_based_split_20240317.json", "split_ts": "2024-03-17T10:45:00Z"})
         ],
-        outputs=["train=134", "test=34",
-                 "path=/data/splits/sf_time_based_split_20240317.json"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2750,10 +2449,7 @@ TASKS = [
             Action(name="GetModelMetrics", kwargs={
                    "model_name": "flood_risk_sf_v1"})
         ],
-        outputs=[
-            "auc: 0.87",
-            "accuracy: 0.82",
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2776,11 +2472,7 @@ TASKS = [
             Action(name="CreateSplitSummaryRecord", kwargs={"method": "time_based", "test_fraction": 0.2, "train_index_count": 192,
                    "test_index_count": 48, "split_summary_json_path": "/data/splits/seattle_time_based_split_20240317.json", "split_ts": "2024-03-17T10:45:00Z"})
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240317.json",
-            "train=192",
-            "test=48"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2803,11 +2495,7 @@ TASKS = [
             Action(name="CreateSplitSummaryRecord", kwargs={"method": "time_based", "test_fraction": 0.2, "train_index_count": 134,
                    "test_index_count": 34, "split_summary_json_path": "/data/splits/sf_time_based_split_20240317.json", "split_ts": "2024-03-17T10:45:00Z"})
         ],
-        outputs=[
-            "train=134",
-            "test=34",
-            "path=/data/splits/sf_time_based_split_20240317.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2836,11 +2524,7 @@ TASKS = [
                 "split_ts": "2024-03-17T10:45:00Z"
             }),
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240317.json",
-            "train=134",
-            "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2869,11 +2553,7 @@ TASKS = [
                 "split_ts": "2024-03-01T09:20:00Z"
             }),
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240301.json",
-            "train=168",
-            "test=72"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2903,11 +2583,7 @@ TASKS = [
                 "split_ts": "2024-03-17T10:30:00Z"
             }),
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240317.json",
-            "train=134",
-            "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2943,11 +2619,7 @@ TASKS = [
                 "split_ts": "2024-02-01T15:25:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240201.json",
-            "train=192",
-            "test=48"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3001,11 +2673,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "run_id=mt_sf_flood_risk_sf_v1_20240315_20240322_v1",
-            "model_artifact=/models/flood_risk_sf_v1.pkl",
-            "metrics_summary=/processed_data/metrics_summary_flood_risk_sf_v1_20240322.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3034,11 +2702,7 @@ TASKS = [
                 "split_ts": "2024-03-17T10:45:00Z"
             }),
         ],
-        outputs=[
-            "train=134",
-            "test=34",
-            "path=/data/splits/sf_time_based_split_20240317.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3067,11 +2731,7 @@ TASKS = [
                 "split_ts": "2024-02-02T15:45:00Z"
             }),
         ],
-        outputs=[
-            "train=72",
-            "test=24",
-            "path=/data/splits/miami_time_based_split_20240202.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3100,11 +2760,7 @@ TASKS = [
                 "split_ts": "2024-03-01T13:18:00Z"
             }),
         ],
-        outputs=[
-            "train=90",
-            "test=30",
-            "path=/data/splits/boston_time_based_split_20240301.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3133,11 +2789,7 @@ TASKS = [
                 "split_ts": "2024-02-01T15:25:00Z"
             }),
         ],
-        outputs=[
-            "train=168",
-            "test=72",
-            "path=/data/splits/seattle_time_based_split_20240201.json"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3166,11 +2818,7 @@ TASKS = [
                 "split_ts": "2024-03-14T16:45:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/seattle_time_based_split_20240314.json",
-            "train=180",
-            "test=60"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3221,12 +2869,7 @@ TASKS = [
                 ]
             })
         ],
-        outputs=[
-            "split_path=/data/splits/miami_time_based_split_20240210.json",
-            "train=76",
-            "test=20",
-            "metrics_summary=/processed_data/metrics_summary_flood_risk_miami_v1_20240202.csv"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3255,11 +2898,7 @@ TASKS = [
                 "split_ts": "2024-03-01T13:18:00Z"
             }),
         ],
-        outputs=[
-            "split_path=/data/splits/boston_time_based_split_20240301.json",
-            "train=90",
-            "test=30"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3288,11 +2927,7 @@ TASKS = [
                 "split_ts": "2024-03-17T10:30:00Z"
             })
         ],
-        outputs=[
-            "split_path=/data/splits/sf_time_based_split_20240317.json",
-            "train=134",
-            "test=34"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3336,11 +2971,7 @@ TASKS = [
             Action(name="GetModelMetrics", kwargs={
                    "model_name": "simple_model"})
         ],
-        outputs=[
-            "run_id=etl_charleston_20240122_20240123_merge_v1",
-            "AUC=0.79",
-            "Accuracy=0.76"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3384,10 +3015,6 @@ TASKS = [
             Action(name="GetModelMetrics", kwargs={
                    "model_name": "simple_model"})
         ],
-        outputs=[
-            "run_id=etl_seattle_20240201_20240208_merge_v1",
-            "AUC=0.79",
-            "Accuracy=0.76"
-        ]
+        outputs=[]
     )
 ]

@@ -51,7 +51,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["4730.50"]
+        outputs=[]
     ),
 
     Task(
@@ -102,7 +102,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -154,7 +154,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["180000"]
+        outputs=[]
     ),
 
     Task(
@@ -230,7 +230,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -281,7 +281,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -332,7 +332,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -380,7 +380,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -437,7 +437,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -499,7 +499,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -551,7 +551,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["48000"]
+        outputs=[]
     ),
 
     Task(
@@ -601,18 +601,12 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
-        annotator=0,
         user_id="BANK_012",
-        instruction=(
-            "You are Sofia Andersson and want a summary of all incoming payments to your checking account last month."
-            "First, find your customer profile. Retrieve your checking account."
-            "Search for all incoming transactions in June 2025. Create a support ticket about your account review."
-            "Then, generate a statement for your checking account for June 2025 and report the total number of incoming transactions.",
-        ),
+        instruction="You are Sofia Andersson and want a summary of all incoming payments to your checking account last month. First, find your customer profile. Retrieve your checking account. Search for all incoming transactions in June 2025. Create a support ticket about your account review. Then, generate a statement for your checking account for June 2025 and report the total number of incoming transactions.",
         actions=[
             Action(
                 name="FindCustomerByName",
@@ -648,7 +642,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -689,7 +683,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -731,7 +725,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -773,7 +767,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -815,7 +809,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -856,7 +850,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -921,9 +915,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Summary for Santiago Muñoz: total purchase amount and scheduled payments for acc_chk_19001 in June 2025."
-        ]
+        outputs=[]
     ),
     Task(
         annotator=0,
@@ -987,9 +979,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Summary for Elena Popescu: total purchase amount and scheduled payments for acc_chk_20001 in June 2025."
-        ]
+        outputs=[]
     ),
     Task(
         annotator=0,
@@ -1053,9 +1043,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Summary for Isabella Rossi: total purchase amount and scheduled payments for acc_chk_21001 in June 2025."
-        ]
+        outputs=[]
     ),
 
 
@@ -1119,7 +1107,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -1199,9 +1187,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Summary for Sofia Andersson: total purchase amount, scheduled payments, and support tickets for acc_chk_6001 in June 2025."
-        ]
+        outputs=[]
     ),
 
 
@@ -1255,7 +1241,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["3730.50"]
+        outputs=[]
     ),
 
 
@@ -1335,9 +1321,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Summary for Kenji Tanaka: total purchase amount, scheduled payments, and support tickets for acc_chk_9001 in June 2025."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1445,9 +1429,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Reviewed total deposits, purchases, scheduled payments, and made a support tickets"
-        ]
+        outputs=[]
     ),
 
 
@@ -1542,9 +1524,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Updated contact phone number for Zoltan Nagy."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1629,9 +1609,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "0"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1683,7 +1661,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -1757,11 +1735,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Total purchases from checking: [amount]",
-            "Scheduled payments from checking: [count/details]",
-            "Support tickets for checking account in June: [count/details]"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1880,9 +1854,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "0"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1989,9 +1961,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "0"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2102,9 +2072,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Comprehensive summary for Adetokunbo Adebayor: total purchases, total deposits, scheduled payments (with recurring details), and support tickets for acc_chk_23001 in June 2025."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2206,9 +2174,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "0"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2318,9 +2284,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Comprehensive summary for Lakshmi Narayanan: total withdrawals, total deposits, scheduled payments (with recurring details), and support tickets for acc_sav_25001 in June 2025."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2431,9 +2395,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Comprehensive summary for Isabella Rossi: total purchases, total deposits, scheduled payments (with recurring details), and support tickets for acc_chk_26001 in June 2025."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2544,9 +2506,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Comprehensive summary for Kenji Tanaka: total purchases, total deposits, scheduled payments (with recurring details), and support tickets for acc_chk_1001 in June 2025."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2650,9 +2610,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Comprehensive summary for Elena Popescu: total purchases, total deposits, scheduled payments (with recurring details), and support tickets for acc_chk_2001 in June 2025."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2756,9 +2714,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Comprehensive summary for Zoltan Nagy: total purchases, total deposits, scheduled payments (with recurring details), and support tickets for acc_chk_3001 in June 2025."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2862,9 +2818,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Comprehensive summary for Sofia Andersson: total purchases, total deposits, scheduled payments (with recurring details), and support tickets for acc_chk_4001 in June 2025."
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2959,9 +2913,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "0"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3013,7 +2965,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["3230.50"]
+        outputs=[]
     ),
 
 
@@ -3073,7 +3025,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["2730.50"]
+        outputs=[]
     ),
 
 
@@ -3117,7 +3069,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["Contact information updated successfully"]
+        outputs=[]
     ),
 
 
@@ -3159,7 +3111,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -3208,7 +3160,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["Transfer completed successfully"]
+        outputs=[]
     ),
 
     Task(
@@ -3250,7 +3202,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["Support ticket created"]
+        outputs=[]
     ),
 
     Task(
@@ -3292,7 +3244,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -3335,7 +3287,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["Beneficiary added successfully"]
+        outputs=[]
     ),
 
 
@@ -3388,7 +3340,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -3447,7 +3399,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -3496,7 +3448,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -3575,9 +3527,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            "Summary for Kenji Tanaka: total purchase amount, scheduled payments, and support tickets for acc_chk_1001 in June 2025."
-        ]
+        outputs=[]
     ),
 
 
@@ -3628,7 +3578,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -3683,7 +3633,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -3740,7 +3690,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -3795,7 +3745,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -3842,7 +3792,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -3883,7 +3833,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -3949,7 +3899,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4013,7 +3963,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4069,7 +4019,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -4115,7 +4065,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -4170,7 +4120,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4231,7 +4181,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4268,7 +4218,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -4325,7 +4275,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4367,7 +4317,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4406,19 +4356,13 @@ TASKS = [
                 kwargs={"account_id": "acc_chk_7001"}
             )
         ],
-        outputs=["150200"]
+        outputs=[]
     ),
 
 
     Task(
-        annotator=0,
         user_id="BANK_069",
-        instruction=(
-            "Your name is Chloe Dubois and you're interested in verifying any scheduled payments from your checking account for August 2025. "
-            "Next, you should move $1000 from your savings acc_sav_8002 to your checking acc_chk_8001. "
-            "Then include Lisa Davis as a new beneficiary with account number 9876543210, routing number 111000025, and associated with Bank of America. "
-            "Apply for a $10,000 personal loan to assist in financing your car mechanic hobbies; your annual income stands at $95,000.Before concluding, determine your checking balance."
-        ),
+        instruction="Your name is Chloe Dubois and you're interested in verifying any scheduled payments from your checking account for August 2025. Next, you should move $1000 from your savings acc_sav_8002 to your checking acc_chk_8001. Then include Lisa Davis as a new beneficiary with account number 9876543210, routing number 111000025, and associated with Bank of America. Apply for a $10,000 personal loan to assist in financing your car mechanic hobbies; your annual income stands at $95,000.Before concluding, determine your checking balance.",
         actions=[
             Action(
                 name="FindCustomerByName",
@@ -4465,7 +4409,7 @@ TASKS = [
                 kwargs={"account_id": "acc_chk_8001"}
             )
         ],
-        outputs=[8800.5]
+        outputs=[]
     ),
 
     Task(
@@ -4504,7 +4448,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4550,7 +4494,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4605,7 +4549,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4659,7 +4603,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4701,7 +4645,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4733,7 +4677,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4781,7 +4725,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4843,7 +4787,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4902,7 +4846,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -4956,7 +4900,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["Scheduled payments reviewed, contact updated"]
+        outputs=[]
     ),
 
 
@@ -5013,7 +4957,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -5052,7 +4996,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -5093,7 +5037,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -5148,7 +5092,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -5190,7 +5134,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["Loans reviewed, transfer completed, spending calculated"]
+        outputs=[]
     ),
 
 
@@ -5236,7 +5180,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -5287,7 +5231,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -5327,7 +5271,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -5390,7 +5334,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -5431,7 +5375,7 @@ TASKS = [
                 kwargs={"account_id": "acc_chk_1001"}
             )
         ],
-        outputs=["5180.50"]
+        outputs=[]
     ),
 
     Task(
@@ -5483,7 +5427,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -5532,7 +5476,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -5568,7 +5512,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["Loan applications reviewed, scheduled payments checked, contact updated"]
+        outputs=[]
     ),
 
 
@@ -5614,7 +5558,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -5671,7 +5615,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -5729,7 +5673,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -5767,7 +5711,7 @@ TASKS = [
                 kwargs={"account_id": "acc_chk_1001"}
             )
         ],
-        outputs=["2230.50"]
+        outputs=[]
     ),
 
     Task(
@@ -5825,7 +5769,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -5878,7 +5822,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
     Task(
@@ -5912,7 +5856,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     ),
 
 
@@ -5973,7 +5917,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0"]
+        outputs=[]
     )
 
 ]

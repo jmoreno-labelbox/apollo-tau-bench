@@ -16,7 +16,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9432780", "timestamps": ["2025-05-03T02:00:00Z"], "tide_pred_m": [1.09], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_coosbay.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -33,7 +33,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9443090", "timestamps": ["2025-05-05T00:00:00Z"], "tide_pred_m": [1.04], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_neahbay.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -50,7 +50,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9448000", "timestamps": ["2025-05-06T03:00:00Z"], "tide_pred_m": [1.05], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_tacoma.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -67,7 +67,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9449211", "timestamps": ["2025-05-07T00:00:00Z"], "tide_pred_m": [1.09], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_bellingham.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -84,7 +84,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "astoria_lr_v1", "metrics_csv_path": "processed_data/metrics_astoria_lr_v1.csv", "auc_nullable": 0.70}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_astoria_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_astoria_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -117,7 +117,7 @@ TASKS = [
                 "csv_path": "processed_data/merged_timeseries_pacifica.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -151,7 +151,7 @@ TASKS = [
                 "csv_path": "processed_data/merged_timeseries_moss.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -185,7 +185,7 @@ TASKS = [
                 "csv_path": "processed_data/merged_timeseries_capitola.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -218,7 +218,7 @@ TASKS = [
                 "csv_path": "processed_data/merged_timeseries_pescadero.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -252,7 +252,7 @@ TASKS = [
                 "csv_path": "processed_data/merged_timeseries_aptos.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -286,7 +286,7 @@ TASKS = [
                 "csv_path": "processed_data/merged_timeseries_sb.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -320,7 +320,7 @@ TASKS = [
                 "csv_path": "processed_data/merged_timeseries_ventura.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -362,7 +362,7 @@ TASKS = [
                 "metrics_summary_csv_path": "processed_data/metrics_mry_lr_v1.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -404,7 +404,7 @@ TASKS = [
                 "metrics_summary_csv_path": "processed_data/metrics_sc_lr_v2.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -447,7 +447,7 @@ TASKS = [
                 "metrics_summary_csv_path": "processed_data/metrics_pac_rf_v1.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -489,7 +489,7 @@ TASKS = [
                 "metrics_summary_csv_path": "processed_data/metrics_hmb_lr_v1.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -531,7 +531,7 @@ TASKS = [
                 "metrics_summary_csv_path": "processed_data/metrics_dvp_lr_v1.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -573,7 +573,7 @@ TASKS = [
                 "metrics_summary_csv_path": "processed_data/metrics_sb_lr_v1.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -615,7 +615,7 @@ TASKS = [
                 "metrics_summary_csv_path": "processed_data/metrics_ven_lr_v1.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -657,7 +657,7 @@ TASKS = [
                 "metrics_summary_csv_path": "processed_data/metrics_morro_lr_v1.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -699,7 +699,7 @@ TASKS = [
                 "metrics_summary_csv_path": "processed_data/metrics_avila_lr_v1.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -741,7 +741,7 @@ TASKS = [
                 "metrics_summary_csv_path": "processed_data/metrics_coast_meta_v1.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -771,7 +771,7 @@ TASKS = [
                 "content": "storm surge ML references"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -801,7 +801,7 @@ TASKS = [
                 "content": "sensor fusion buoy references"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -819,7 +819,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9419750", "timestamps": ["2025-03-01T00:00:00Z"], "tide_pred_m": [1.08], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_cc.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -836,7 +836,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9415020", "timestamps": ["2025-03-03T06:00:00Z"], "tide_pred_m": [1.16], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_pointreyes.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -853,7 +853,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9414521", "timestamps": ["2025-03-04T07:00:00Z"], "tide_pred_m": [1.05], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_sanmateo.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -870,7 +870,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9410840", "timestamps": ["2025-03-05T12:00:00Z"], "tide_pred_m": [1.15], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_sm.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),    
     Task(
         annotator="0",
@@ -887,7 +887,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "sd_lr_v1", "metrics_csv_path": "processed_data/metrics_sd_lr_v1.csv", "auc_nullable": 0.72}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_sd_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_sd_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -904,7 +904,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "la_rf_v1", "metrics_csv_path": "processed_data/metrics_la_rf_v1.csv", "accuracy_nullable": 0.71}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_la_rf_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_la_rf_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -921,7 +921,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9410170", "timestamps": ["2025-03-15T00:00:00Z"], "tide_pred_m": [1.05], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_sd.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -938,7 +938,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9410230", "timestamps": ["2025-03-16T01:00:00Z"], "tide_pred_m": [1.09], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_lajolla.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),    
     Task(
         annotator="0",
@@ -957,7 +957,7 @@ TASKS = [
             Action(name="RegisterQcFigure", kwargs={"figure_path": "figures/qc/anomaly_9413830.png", "description": "Max abs anomaly for 9413830"}),
             Action(name="AppendTerminalLog", kwargs={"command": "qc_anomaly:9413830", "printed_message": "QC: anomaly complete"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -981,7 +981,7 @@ TASKS = [
             }),
             Action(name="GmailSendEmail", kwargs={"draft_id": "DRAFT-20250319-REL", "message_id": "MSG-20250319-REL", "sent_ts": "2025-03-19T09:25:00Z"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -999,7 +999,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "cc_lr_v1", "metrics_csv_path": "processed_data/metrics_cc_lr_v1.csv", "accuracy_nullable": 0.66}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_cc_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_cc_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1016,7 +1016,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "eureka_lr_v1", "metrics_csv_path": "processed_data/metrics_eureka_lr_v1.csv", "auc_nullable": 0.69}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_eureka_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_eureka_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1033,7 +1033,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "cap_lr_v1", "metrics_csv_path": "processed_data/metrics_cap_lr_v1.csv", "accuracy_nullable": 0.68}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_cap_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_cap_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1046,7 +1046,7 @@ TASKS = [
             Action(name="WriteModelConfig", kwargs={"saved_json_path": "processed_data/model_config_experimental.json", "test_split_fraction_nullable": 0.25, "created_ts": "2025-03-25T09:06:00Z"}),
             Action(name="CreateTimeBasedSplit", kwargs={"split_summary_json_path": "processed_data/split_experimental.json", "test_fraction": 0.25, "train_index_count": 750, "test_index_count": 250, "split_ts": "2025-03-25T09:07:00Z"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1065,7 +1065,7 @@ TASKS = [
             Action(name="GmailDraftEmail", kwargs={"draft_id": "DRAFT-20250325-HT1", "subject": "Pacifica High Tide Briefing - 2025-03-25", "recipients": ["ops@pacifica.ca.us"], "created_ts": "2025-03-25T09:20:00Z"}),
             Action(name="GmailSendEmail", kwargs={"draft_id": "DRAFT-20250325-HT1", "message_id": "MSG-20250325-HT1", "sent_ts": "2025-03-25T09:25:00Z"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1082,7 +1082,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9414523", "timestamps": ["2025-03-28T06:00:00Z"], "tide_pred_m": [1.06], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_rwc.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1099,7 +1099,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9410669", "timestamps": ["2025-03-01T03:00:00Z"], "tide_pred_m": [1.02], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_longbeach.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1116,7 +1116,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9416841", "timestamps": ["2025-03-02T01:00:00Z"], "tide_pred_m": [1.18], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_bodega.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     
     Task(
@@ -1134,7 +1134,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9416845", "timestamps": ["2025-03-03T01:00:00Z"], "tide_pred_m": [1.13], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_pointarena.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1151,7 +1151,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9416849", "timestamps": ["2025-03-03T02:00:00Z"], "tide_pred_m": [1.16], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_fortbragg.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1168,7 +1168,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9410660", "timestamps": ["2025-03-04T00:00:00Z"], "tide_pred_m": [1.01], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_sanpedro.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1185,7 +1185,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9410647", "timestamps": ["2025-03-04T01:00:00Z"], "tide_pred_m": [1.08], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_hb.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1202,7 +1202,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "oce_lr_v1", "metrics_csv_path": "processed_data/metrics_oce_lr_v1.csv", "auc_nullable": 0.70}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_oce_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_oce_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1219,7 +1219,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "lb_lr_v1", "metrics_csv_path": "processed_data/metrics_lb_lr_v1.csv", "accuracy_nullable": 0.69}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_lb_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_lb_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1236,7 +1236,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "newport_rf_v1", "metrics_csv_path": "processed_data/metrics_newport_rf_v1.csv", "auc_nullable": 0.71}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_newport_rf_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_newport_rf_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1253,7 +1253,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "bodega_lr_v1", "metrics_csv_path": "processed_data/metrics_bodega_lr_v1.csv", "accuracy_nullable": 0.67}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_bodega_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_bodega_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1270,7 +1270,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "pa_lr_v1", "metrics_csv_path": "processed_data/metrics_pa_lr_v1.csv", "auc_nullable": 0.69}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_pa_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_pa_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1289,7 +1289,7 @@ TASKS = [
             Action(name="GmailDraftEmail", kwargs={"draft_id": "DRAFT-20250307-SM", "subject": "Santa Monica Flood Risk - 2025-03-07", "recipients": ["ops@santamonica.gov"], "attachments_paths": ["figures/qc/sm_overview.png"], "created_ts": "2025-03-07T09:20:00Z"}),
             Action(name="GmailSendEmail", kwargs={"draft_id": "DRAFT-20250307-SM", "message_id": "MSG-20250307-SM", "sent_ts": "2025-03-07T09:25:00Z"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1308,7 +1308,7 @@ TASKS = [
             Action(name="GmailDraftEmail", kwargs={"draft_id": "DRAFT-20250308-LAOH", "subject": "LA Outer Harbor Flood Risk - 2025-03-08", "recipients": ["harbor@lacity.org"], "attachments_paths": ["artifacts/laoh_20250308.zip"], "created_ts": "2025-03-08T09:20:00Z"}),
             Action(name="GmailSendEmail", kwargs={"draft_id": "DRAFT-20250308-LAOH", "message_id": "MSG-20250308-LAOH", "sent_ts": "2025-03-08T09:25:00Z"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1325,7 +1325,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "newportor_lr_v1", "metrics_csv_path": "processed_data/metrics_newportor_lr_v1.csv", "accuracy_nullable": 0.69}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_newportor_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_newportor_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1342,7 +1342,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9414291", "timestamps": ["2025-03-13T00:00:00Z"], "tide_pred_m": [1.10], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_sausalito.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1359,7 +1359,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9414524", "timestamps": ["2025-03-13T01:00:00Z"], "tide_pred_m": [1.04], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_fostercity.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1378,7 +1378,7 @@ TASKS = [
             Action(name="GmailDraftEmail", kwargs={"draft_id": "DRAFT-20250314-RICH", "subject": "Richmond Flood Risk - 2025-03-14", "recipients": ["harbor@ci.richmond.ca.us"], "created_ts": "2025-03-14T09:20:00Z"}),
             Action(name="GmailSendEmail", kwargs={"draft_id": "DRAFT-20250314-RICH", "message_id": "MSG-20250314-RICH", "sent_ts": "2025-03-14T09:25:00Z"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1395,7 +1395,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9415144", "timestamps": ["2025-03-15T00:00:00Z"], "tide_pred_m": [0.99], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_benicia.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1412,7 +1412,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "alameda_lr_v1", "metrics_csv_path": "processed_data/metrics_alameda_lr_v1.csv", "auc_nullable": 0.72}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_alameda_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_alameda_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1431,7 +1431,7 @@ TASKS = [
             Action(name="GmailDraftEmail", kwargs={"draft_id": "DRAFT-20250317-SC-REL", "subject": "South Coast Model Release - 2025-03-17", "recipients": ["team@southcoastlab.org"], "created_ts": "2025-03-17T09:20:00Z"}),
             Action(name="GmailSendEmail", kwargs={"draft_id": "DRAFT-20250317-SC-REL", "message_id": "MSG-20250317-SC-REL", "sent_ts": "2025-03-17T09:25:00Z"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1463,7 +1463,7 @@ TASKS = [
             }),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_sf.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1489,7 +1489,7 @@ TASKS = [
             }),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_lb.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1514,7 +1514,7 @@ TASKS = [
             }),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_bodega.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1539,7 +1539,7 @@ TASKS = [
             }),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_fortbragg.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1564,7 +1564,7 @@ TASKS = [
             }),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_carpinteria.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1590,7 +1590,7 @@ TASKS = [
             }),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_malibu.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1616,7 +1616,7 @@ TASKS = [
             }),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_manhattan.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1642,7 +1642,7 @@ TASKS = [
             }),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_oceanside.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1668,7 +1668,7 @@ TASKS = [
             }),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_carlsbad.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1701,7 +1701,7 @@ TASKS = [
                 "metrics_summary_csv_path": "processed_data/metrics_bodega_lr_v1.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1737,7 +1737,7 @@ TASKS = [
                 "metrics_summary_csv_path": "processed_data/metrics_sanpedro_rf_v1.csv"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1764,7 +1764,7 @@ TASKS = [
                 "split_ts": "2025-04-26T09:07:00Z"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1781,7 +1781,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9414762", "timestamps": ["2025-04-01T00:00:00Z"], "tide_pred_m": [1.03], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_berkeley.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1799,7 +1799,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9414764", "timestamps": ["2025-04-02T02:00:00Z"], "tide_pred_m": [1.08], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_oakland.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1817,7 +1817,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9414570", "timestamps": ["2025-04-02T03:00:00Z"], "tide_pred_m": [1.07], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_dalycity.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1835,7 +1835,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9414444", "timestamps": ["2025-04-02T04:00:00Z"], "tide_pred_m": [1.05], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_tiburon.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1853,7 +1853,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9415071", "timestamps": ["2025-04-03T01:00:00Z"], "tide_pred_m": [1.02], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_sanrafael.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1871,7 +1871,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9415142", "timestamps": ["2025-04-03T02:00:00Z"], "tide_pred_m": [1.00], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_vallejo.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1889,7 +1889,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9411230", "timestamps": ["2025-04-03T03:00:00Z"], "tide_pred_m": [0.99], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_porthueneme.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1907,7 +1907,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9411231", "timestamps": ["2025-04-03T04:00:00Z"], "tide_pred_m": [1.01], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_oxnard.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1925,7 +1925,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9411370", "timestamps": ["2025-04-04T00:00:00Z"], "tide_pred_m": [0.96], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_carpinteria.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1943,7 +1943,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9410844", "timestamps": ["2025-04-04T01:00:00Z"], "tide_pred_m": [1.10], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_malibu.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1961,7 +1961,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9410667", "timestamps": ["2025-04-05T00:00:00Z"], "tide_pred_m": [1.06], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_danapoint.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1979,7 +1979,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9410240", "timestamps": ["2025-04-05T01:00:00Z"], "tide_pred_m": [1.09], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_delmar.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1997,7 +1997,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9410055", "timestamps": ["2025-04-05T02:00:00Z"], "tide_pred_m": [1.04], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_imperialbeach.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2014,7 +2014,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "berk_lr_v1", "metrics_csv_path": "processed_data/metrics_berk_lr_v1.csv", "auc_nullable": 0.71}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_berk_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_berk_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2031,7 +2031,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "val_lr_v1", "metrics_csv_path": "processed_data/metrics_val_lr_v1.csv", "auc_nullable": 0.70}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_val_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_val_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -2049,7 +2049,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "ph_lr_v1", "metrics_csv_path": "processed_data/metrics_ph_lr_v1.csv", "accuracy_nullable": 0.67}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_ph_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_ph_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -2067,7 +2067,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "mal_rf_v1", "metrics_csv_path": "processed_data/metrics_mal_rf_v1.csv", "auc_nullable": 0.72}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_mal_rf_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_mal_rf_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -2085,7 +2085,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "sfbay_meta_v1", "metrics_csv_path": "processed_data/metrics_sfbay_meta_v1.csv", "accuracy_nullable": 0.72}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_sfbay_meta_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_sfbay_meta_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -2103,7 +2103,7 @@ TASKS = [
             Action(name="StoreMetrics", kwargs={"model_name": "rich_lr_v1", "metrics_csv_path": "processed_data/metrics_rich_lr_v1.csv", "auc_nullable": 0.71}),
             Action(name="RecordStakeholderOutputs", kwargs={"predictions_final_csv_path": "processed_data/preds_rich_lr_v1.csv", "metrics_summary_csv_path": "processed_data/metrics_rich_lr_v1.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2122,7 +2122,7 @@ TASKS = [
             Action(name="GmailDraftEmail", kwargs={"draft_id": "DRAFT-20250410-BERK", "subject": "Berkeley Flood Risk - 2025-04-10", "recipients": ["publicworks@cityofberkeley.info"], "attachments_paths": ["figures/qc/berkeley_overview.png"], "created_ts": "2025-04-10T09:20:00Z"}),
             Action(name="GmailSendEmail", kwargs={"draft_id": "DRAFT-20250410-BERK", "message_id": "MSG-20250410-BERK", "sent_ts": "2025-04-10T09:25:00Z"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -2142,7 +2142,7 @@ TASKS = [
             Action(name="GmailDraftEmail", kwargs={"draft_id": "DRAFT-20250411-OAK", "subject": "Oakland Flood Risk - 2025-04-11", "recipients": ["resilience@oaklandca.gov"], "attachments_paths": ["figures/qc/oak_overview.png"], "created_ts": "2025-04-11T09:20:00Z"}),
             Action(name="GmailSendEmail", kwargs={"draft_id": "DRAFT-20250411-OAK", "message_id": "MSG-20250411-OAK", "sent_ts": "2025-04-11T09:25:00Z"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -2162,7 +2162,7 @@ TASKS = [
             Action(name="GmailDraftEmail", kwargs={"draft_id": "DRAFT-20250412-SFBAY-REL", "subject": "SF Bay Model Release - 2025-04-12", "recipients": ["team@sfbaylab.org"], "created_ts": "2025-04-12T09:20:00Z"}),
             Action(name="GmailSendEmail", kwargs={"draft_id": "DRAFT-20250412-SFBAY-REL", "message_id": "MSG-20250412-SFBAY-REL", "sent_ts": "2025-04-12T09:25:00Z"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -2177,7 +2177,7 @@ TASKS = [
             Action(name="ZoteroItemFulltext", kwargs={"item_ids": ["ZOT-6001", "ZOT-6005"], "file_paths": ["docs/lit/6001.pdf", "docs/lit/6005.pdf"], "fetched_ts": "2025-04-12T12:12:00Z"}),
             Action(name="WriteFileText", kwargs={"path": "docs/lit/manifest_lidar.txt", "content": "LiDAR inundation mapping references"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -2192,7 +2192,7 @@ TASKS = [
             Action(name="ZoteroItemFulltext", kwargs={"item_ids": ["ZOT-6101", "ZOT-6108"], "file_paths": ["docs/lit/6101.pdf", "docs/lit/6108.pdf"], "fetched_ts": "2025-04-12T12:32:00Z"}),
             Action(name="WriteFileText", kwargs={"path": "docs/lit/manifest_downscaling.txt", "content": "ensemble downscaling references"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2209,7 +2209,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9414255", "timestamps": ["2025-04-14T00:00:00Z"], "tide_pred_m": [1.01], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_marincity.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -2227,7 +2227,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9414763", "timestamps": ["2025-04-14T01:00:00Z"], "tide_pred_m": [1.03], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_richmond.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -2245,7 +2245,7 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9414292", "timestamps": ["2025-04-15T00:00:00Z"], "tide_pred_m": [1.12], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_sf.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2262,6 +2262,6 @@ TASKS = [
             Action(name="StoreTidePredictions", kwargs={"station_id": "9439040", "timestamps": ["2025-05-01T00:00:00Z"], "tide_pred_m": [1.10], "units": "m"}),
             Action(name="ComputeAndStoreMergedTimeseries", kwargs={"csv_path": "processed_data/merged_timeseries_astoria.csv"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 ]

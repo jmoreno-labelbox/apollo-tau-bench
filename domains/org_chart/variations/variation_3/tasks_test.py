@@ -17,7 +17,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=["Dental Plan BEN4002 removed for Michael Park."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -42,7 +42,7 @@ TASKS = [
             ),
             Action(name="ListBonusPayments", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=["$8,000 spot bonus BON_SophiaNguyen_8000 recorded for Isabella Chen."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -80,51 +80,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "first_name": "Amelia",
-                    "last_name": "Garcia",
-                    "preferred_name": "Amy",
-                    "date_of_birth": "1990-11-22",
-                    "gender": "Female",
-                    "ethnicity_code": "H",
-                    "nationality": "USA",
-                    "marital_status": "Partnered",
-                    "hire_date": "2019-06-10",
-                    "termination_date": null,
-                    "status": "Active",
-                    "position_id": "POS3006",
-                    "department_id": "DEPT1005",
-                    "level_id": "L.3",
-                    "manager_id": "E10001",
-                    "work_location": "Remote - Denver",
-                    "work_email": "emma.rodriguez@example.com",
-                    "work_phone": "+1-737-555-0188",
-                    "compensation_id": "COMP2003",
-                    "benefit_plan_ids": [
-                        "BEN4001",
-                        "BEN4003",
-                        "BEN4004"
-                    ],
-                    "performance_review_ids": [
-                        "PR5003",
-                        "PR5010",
-                        "PR5011"
-                    ],
-                    "skills": [
-                        "TypeScript",
-                        "React",
-                        "Accessibility"
-                    ],
-                    "role_description": "Senior Front-end Engineer on the web platform team.",
-                    "notes": "On parental leave 2024-11-01 → 2025-02-01."
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -151,24 +107,7 @@ TASKS = [
             ),
             Action(name="ListLeaveRecords", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            """
-            {
-              "count": 1,
-              "results": [
-                {
-                  "leave_id": "LV5001",
-                  "employee_id": "E10002",
-                  "leave_type": "Jury Duty",
-                  "start_date": "2026-06-05",
-                  "end_date": "2026-06-14",
-                  "status": "Approved",
-                  "notes": "10-day jury duty leave."
-                }
-              ]
-            }
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -197,9 +136,7 @@ TASKS = [
             # Verify promotion and compensation update deterministically
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            "Emma Rodriguez promoted to L.4 with 10% salary increase."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -234,9 +171,7 @@ TASKS = [
             ),
             Action(name="ListPerformanceReviews", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            "Isabella Chen equity refresh recorded IND compensation COMP2008 and review PR5015."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -296,9 +231,7 @@ TASKS = [
             ),
             Action(name="ListPerformanceReviews", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            "Michael Park rehired with compensation COMP2009; review PR5016 recorded."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -331,9 +264,7 @@ TASKS = [
             ),
             Action(name="ListPerformanceReviews", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            "Emma Rodriguez transferred to DEPT1001; review PR5017 logged."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -374,9 +305,7 @@ TASKS = [
             ),
             Action(name="ListPerformanceReviews", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            "Vision Plan BEN4006 added for Isabella Chen; review PR5018 logged."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -408,9 +337,7 @@ TASKS = [
             ),
             Action(name="ListLeaveRecords", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            "Unpaid sabbatical LV6102 approved for Emma Rodriguez; status set to 'On Leave.'"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -436,7 +363,7 @@ TASKS = [
             ),
             Action(name="ListPerformanceReviews", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=["Performance Improvement Plan PR5019 recorded for Michael Park."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -457,7 +384,7 @@ TASKS = [
             ),
 
         ],
-        outputs=["Isabella Chen work location set to Remote - Seattle."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -471,23 +398,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
             Action(name="ListLeaveRecords", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            """
-            {
-              "count": 1,
-              "results": [
-                {
-                  "leave_id": "LV6001",
-                  "employee_id": "E10003",
-                  "leave_type": "Parental",
-                  "start_date": "2024-11-01",
-                  "end_date": "2025-02-01",
-                  "status": "Taken"
-                }
-              ]
-            }
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -512,7 +423,7 @@ TASKS = [
             ),
             Action(name="ListBonusPayments", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=["Holiday bonus BON3004 of $4,000 recorded for Emma Rodriguez."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -538,7 +449,7 @@ TASKS = [
             ),
             Action(name="ListEmployeeDocuments", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=["Document ED7005 stored for Isabella Chen."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -566,7 +477,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=["Michael Park promoted to L.3 with 10% salary increase (compensation COMP2015)."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -587,7 +498,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=["Vision Plan BEN4006 added for Emma Rodriguez."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -611,7 +522,7 @@ TASKS = [
             ),
             Action(name="GetCompensation", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=["Isabella Chen equity grant increased by $15,000 (compensation COMP2016)."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -632,7 +543,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=["Michael Park work location updated to San Diego Office."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -657,7 +568,7 @@ TASKS = [
             ),
             Action(name="ListBonusPayments", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=["$6,000 spot bonus BON3005 recorded for Isabella Chen."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -688,7 +599,7 @@ TASKS = [
             ),
             Action(name="ListLeaveRecords", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=["Volunteer leave LV6106 recorded; Michael Park status set to 'On Leave'."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -713,7 +624,7 @@ TASKS = [
             ),
             Action(name="GetCompensation", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=["Compensation history includes new record COMP5003 with +$10,000 equity."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -739,7 +650,7 @@ TASKS = [
             ),
             Action(name="ListEmployeeDocuments", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=["Document ED7006 stored for Emma Rodriguez."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -768,7 +679,7 @@ TASKS = [
             ),
             Action(name="GetCompensation", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=["Michael Park bonus target set to 17 % (compensation COMP2017)."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -795,7 +706,7 @@ TASKS = [
             ),
             Action(name="ListPerformanceReviews", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=["Q2 2026 review PR5050 recorded for Emma Rodriguez."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -823,7 +734,7 @@ TASKS = [
             Action(name="ListPerformanceReviews", kwargs={"employee_id": "E10005"}),
             Action(name="GetCompensation", kwargs={"employee_id": "E10005"}),
         ],
-        outputs=["Compensation updated for Olivia Martinez if thresholds met (see COMP2018)."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -876,7 +787,7 @@ TASKS = [
             Action(name="ListEmployeeDocuments", kwargs={"employee_id": "E10006"}),
             Action(name="ListLeaveRecords", kwargs={"employee_id": "E10006"}),
         ],
-        outputs=["William Liu sabbatical LV6107 recorded; status On Leave; doc ED7007 stored."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -915,7 +826,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
             Action(name="ListPerformanceReviews", kwargs={"employee_id": "E10004"}),
         ],
-        outputs=["Arjun Patel transferred to Finance; level updated if eligible; benefit BEN4005 added."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -969,7 +880,7 @@ TASKS = [
             Action(name="ListBonusPayments", kwargs={"employee_id": "E10003"}),
             Action(name="GetCompensation", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=["PR5053 recorded; bonus target conditionally set to 20 %; bonus BON3006 awarded."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1010,7 +921,7 @@ TASKS = [
             Action(name="ListEmployeeDocuments", kwargs={"employee_id": "E10002"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=["Michael Park onboarding complete: status Active, benefits restored, medical doc ED7008 stored."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1039,7 +950,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10005"}),
             Action(name="GetCompensation", kwargs={"employee_id": "E10005"}),
         ],
-        outputs=["Olivia Martinez promoted, compensation COMP20250801 added, 401(k) benefit ensured."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1109,7 +1020,7 @@ TASKS = [
             Action(name="ListEmployeeDocuments", kwargs={"employee_id": "E10001"}),
             Action(name="ListLeaveRecords", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=["Personal leave LV6108 recorded for Isabella Chen; benefits adjusted per equity threshold; doc ED7009 stored."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1160,7 +1071,7 @@ TASKS = [
             Action(name="ListEmployeeDocuments", kwargs={"employee_id": "E10006"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10006"}),
         ],
-        outputs=["William Liu termination processed; leave cancelled; bonus BON3010 paid; benefits set to Legal Insurance; doc ED7010 stored."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1225,7 +1136,7 @@ TASKS = [
             Action(name="ListPerformanceReviews", kwargs={"employee_id": "E10004"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
         ],
-        outputs=["Arjun Patel assigned to Marketing project; bonus target adjusted via COMP2021; doc ED7011 stored."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1298,7 +1209,7 @@ TASKS = [
             Action(name="ListEmployeeDocuments", kwargs={"employee_id": "E10003"}),
             Action(name="ListLeaveRecords", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=["Emma Rodriguez research sabbatical LV6109 recorded; compensation maintained; doc ED7012 stored."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1373,7 +1284,7 @@ TASKS = [
             Action(name="ListPerformanceReviews", kwargs={"employee_id": "E10002"}),
             Action(name="ListEmployeeDocuments", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=["Michael Park PIP initiated; bonus target set to 20 %; doc ED7013 stored."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1405,7 +1316,7 @@ TASKS = [
             Action(name="ListBonusPayments", kwargs={"employee_id": "E10005"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10005"}),
         ],
-        outputs=["Olivia Martinez relocated to Manchester Office; bonus BON3007 paid; doc ED7014 stored."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1439,7 +1350,7 @@ TASKS = [
             Action(name="ListBonusPayments", kwargs={"employee_id": "E10001"}),
             Action(name="GetCompensation", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=["Isabella Chen equity increased; leadership bonus BON3008 awarded; review PR5064 recorded."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1481,7 +1392,7 @@ TASKS = [
             Action(name="ListLeaveRecords", kwargs={"employee_id": "E10004"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
         ],
-        outputs=["Arjun Patel emergency leave LV6110 recorded; status set; doc ED7015 stored."],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1516,6 +1427,6 @@ TASKS = [
             Action(name="ListBonusPayments", kwargs={"employee_id": "E10006"}),
             Action(name="GetCompensation", kwargs={"employee_id": "E10006"}),
         ],
-        outputs=["William Liu annual review PR5066 recorded; bonus target normalized if needed; year-end bonus BON3009 awarded."],
+        outputs=[]
     ),
 ]

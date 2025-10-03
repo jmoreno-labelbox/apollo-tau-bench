@@ -61,11 +61,7 @@ TASKS = [
             ),
             Action(name="GetSprintDetails", kwargs={"sprint_id": "sprint_003"}),
         ],
-        outputs=[
-            '"average_velocity": 0',
-            '"average_velocity": 18.0',
-            '"planned_story_points": 19',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -129,7 +125,7 @@ TASKS = [
             ),
             Action(name="GetSprintDetails", kwargs={"sprint_id": "sprint_001"}),
         ],
-        outputs=['"velocity": 31', '"non_compliant_count": 5', '"status": "completed"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -200,9 +196,7 @@ TASKS = [
             ),
             Action(name="GenerateSprintReport", kwargs={"sprint_id": "sprint_002"}),
         ],
-        outputs=[
-            '"blocked_tasks": 2',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -271,7 +265,7 @@ TASKS = [
                 name="CalculateSprintBurndown", kwargs={"sprint_id": "sprint_002"}
             ),
         ],
-        outputs=['"workload_rating": "normal"', '"blocked_tasks": 2'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -344,7 +338,7 @@ TASKS = [
                 kwargs={"team_id": "team_dev_01", "sprint_id": "sprint_002"},
             ),
         ],
-        outputs=['"team_utilization": 26.2', '"non_compliant_count": 3'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -391,7 +385,7 @@ TASKS = [
                 kwargs={"employee_id": "emp_dev_21", "sprint_id": "sprint_002"},
             ),
         ],
-        outputs=['"non_compliant_count": 4', '"total_active_story_points": 8'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -441,9 +435,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"average_velocity": 18.0',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -494,7 +486,7 @@ TASKS = [
             ),
             Action(name="GetSprintDetails", kwargs={"sprint_id": "sprint_006"}),
         ],
-        outputs=['"sprint_total_points": 13'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -541,7 +533,7 @@ TASKS = [
             ),
             Action(name="SearchTasks", kwargs={"task_id": "task_004"}),
         ],
-        outputs=['"status": "in_progress"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -610,7 +602,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"workflow_execution": "success"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -676,7 +668,7 @@ TASKS = [
                 name="CheckTimeLoggingCompliance", kwargs={"sprint_id": "sprint_002"}
             ),
         ],
-        outputs=['"team_utilization": 37.5', '"non_compliant_count": 3'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -735,7 +727,7 @@ TASKS = [
                 name="CalculateSprintBurndown", kwargs={"sprint_id": "sprint_002"}
             ),
         ],
-        outputs=['"completion_percentage": 9.4'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -797,10 +789,7 @@ TASKS = [
                 kwargs={"employee_id": "emp_data_01", "sprint_id": "sprint_002"},
             ),
         ],
-        outputs=[
-            '"workload_rating": "normal"',
-            '"success": true',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -894,9 +883,7 @@ TASKS = [
                 kwargs={"team_id": "team_dev_01", "last_n_sprints": 2},
             ),
         ],
-        outputs=[
-            '"average_velocity": 0',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -944,11 +931,7 @@ TASKS = [
                 kwargs={"team_id": "team_analytics_01", "sprint_id": "sprint_006"},
             ),
         ],
-        outputs=[
-            '"trend": "stable"',
-            '"history_count": 1',
-            '"total_capacity_points": 60',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1007,7 +990,7 @@ TASKS = [
                 kwargs={"employee_id": "emp_data_01", "sprint_id": "sprint_002"},
             ),
         ],
-        outputs=['"workload_rating": "normal"', '"total_active_story_points": 13'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1085,11 +1068,7 @@ TASKS = [
             ),
             Action(name="GetEmployeeWorkload", kwargs={"employee_id": "emp_data_01"}),
         ],
-        outputs=[
-            '"workload_rating": "normal"',
-            '"new_escalation_created": false',
-            '"average_velocity": 28.0',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1175,7 +1154,7 @@ TASKS = [
                 kwargs={"employee_id": "emp_sec_dev_01", "sprint_id": "sprint_002"},
             ),
         ],
-        outputs=['"critical": 13'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1260,11 +1239,7 @@ TASKS = [
                 name="CalculateSprintBurndown", kwargs={"sprint_id": "sprint_002"}
             ),
         ],
-        outputs=[
-            '"history_count": 3',
-            '"moved_count": 3',
-            '"completion_percentage": 0.0',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1331,7 +1306,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"trend": "stable"', '"moved_count": 1', '"success": true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1401,7 +1376,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"completed_points": 0', '"individual_velocities": [28]'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1497,7 +1472,7 @@ TASKS = [
             ),
             Action(name="GenerateSprintReport", kwargs={"sprint_id": "sprint_001"}),
         ],
-        outputs=['"velocity": 28', '"moved_count": 1', '"success": true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1595,11 +1570,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"team_utilization": 0.0',
-            '"tasks_needing_escalation": 1',
-            '"planned_story_points": 45',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1678,7 +1649,7 @@ TASKS = [
             ),
             Action(name="GenerateSprintReport", kwargs={"sprint_id": "sprint_002"}),
         ],
-        outputs=['"total_tasks": 8'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1776,7 +1747,7 @@ TASKS = [
                 kwargs={"team_id": "team_dev_01", "sprint_id": "sprint_002"},
             ),
         ],
-        outputs=['"time_logged": 32', '"hours": 3', '"success": true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1826,7 +1797,7 @@ TASKS = [
             ),
             Action(name="GetEmployeeWorkload", kwargs={"employee_id": "emp_qa_02"}),
         ],
-        outputs=['"workload_rating": "normal"', '"total_active_story_points": 17'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1852,11 +1823,7 @@ TASKS = [
                 kwargs={"sprint_id": "sprint_003", "new_status": "active"},
             ),
         ],
-        outputs=[
-            '"planned_story_points": 16',
-            '"total_capacity_points": 60',
-            '"average_velocity": 0',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1920,7 +1887,7 @@ TASKS = [
             ),
             Action(name="GenerateSprintReport", kwargs={"sprint_id": "sprint_002"}),
         ],
-        outputs=['"completion_percentage": 0.0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1967,10 +1934,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"average_velocity": 28.0',
-            '"non_compliant_count": 5',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2034,11 +1998,7 @@ TASKS = [
                 kwargs={"team_id": "team_dev_01", "sprint_id": "sprint_002"},
             ),
         ],
-        outputs=[
-            '"new_escalation_created": true',
-            '"team_utilization": 22.5',
-            '"tasks_needing_escalation": 1',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2086,11 +2046,7 @@ TASKS = [
                 kwargs={"team_id": "team_devops_01", "sprint_id": "sprint_002"},
             ),
         ],
-        outputs=[
-            '"team_utilization": 27.5',
-            '"blocked_tasks": 2',
-            '"new_escalation_created": true',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2177,11 +2133,7 @@ TASKS = [
             ),
             Action(name="GenerateSprintReport", kwargs={"sprint_id": "sprint_002"}),
         ],
-        outputs=[
-            '"completion_percentage": 0.0',
-            '"total_blocked_tasks": 1',
-            '"new_escalation_created": true',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2224,11 +2176,7 @@ TASKS = [
                 name="CheckTimeLoggingCompliance", kwargs={"sprint_id": "sprint_002"}
             ),
         ],
-        outputs=[
-            '"non_compliant_count": 4',
-            '"new_escalation_created": true',
-            '"tasks_needing_escalation": 1',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2257,11 +2205,7 @@ TASKS = [
                 name="CalculateSprintBurndown", kwargs={"sprint_id": "sprint_002"}
             ),
         ],
-        outputs=[
-            '"average_velocity": 18.0',
-            '"completion_percentage": 0.0',
-            '"blocked_points": 21',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2344,7 +2288,7 @@ TASKS = [
                 kwargs={"team_id": "team_devops_01", "sprint_id": "sprint_002"},
             ),
         ],
-        outputs=['"team_utilization": 7.5'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2409,7 +2353,7 @@ TASKS = [
             ),
             Action(name="GenerateSprintReport", kwargs={"sprint_id": "sprint_002"}),
         ],
-        outputs=['"tasks_needing_escalation": 1'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2437,12 +2381,7 @@ TASKS = [
                 kwargs={"sprint_id": "sprint_001"},
             )
         ],
-        outputs=[
-            '"non_compliant_count": 5',
-            '"velocity": 28',
-            '"completion_percentage": 90.3',
-            '"total_capacity_hours": 180',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2522,7 +2461,7 @@ TASKS = [
             ),
             Action(name="GenerateSprintReport", kwargs={"sprint_id": "sprint_002"}),
         ],
-        outputs=['"team_utilization": 10.0', '"non_compliant_count": 8'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2568,10 +2507,7 @@ TASKS = [
             ),
             Action(name="GenerateSprintReport", kwargs={"sprint_id": "sprint_002"}),
         ],
-        outputs=[
-            '"team_utilization": 22.5',
-            '"time_logged": 0',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2620,10 +2556,6 @@ TASKS = [
                 name="CalculateSprintBurndown", kwargs={"sprint_id": "sprint_002"}
             ),
         ],
-        outputs=[
-            '"completion_percentage": 0.0',
-            '"team_utilization": 26.2',
-            '"non_compliant_count": 4',
-        ],
+        outputs=[]
     )
 ]

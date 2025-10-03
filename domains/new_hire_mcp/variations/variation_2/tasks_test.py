@@ -24,7 +24,7 @@ Task(
             Action(name="InsertTerminalLog",
                    kwargs={"message_text": "sent asset provisioning notice for cand_7 with asset_req_5"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -58,7 +58,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_welcome_confirm_maria", "fields": {
                 "thread_id_nullable": "thread_welcome_confirm_maria"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -84,7 +84,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "send_policy_pack_resend",
                                                         "params_json": {"message_id": "msg_policy_pack_resend_john"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -119,7 +119,7 @@ Task(
                 "params_json": {"message_id": "msg_desk_setup_alex"}
             }),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -147,7 +147,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "send_manager_intro_john",
                                                         "params_json": {"message_id": "msg_manager_intro_john_2"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -187,7 +187,7 @@ Task(
                 "file_path": "/onboarding/maria_rodriguez/access_clearance.md"
             }),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -215,7 +215,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "send_orientation_alex",
                                                         "params_json": {"message_id": "msg_orientation_alex_2"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -244,7 +244,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "notify_vpn_gap_robert",
                                                         "params_json": {"message_id": "msg_vpn_gap_robert"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -279,7 +279,7 @@ Task(
                                                         "fields": {
                                                             "orientation_invite_ts_nullable": "2024-08-23T09:30:00Z"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -302,7 +302,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "notify_monitor_alloc",
                                                         "params_json": {"message_id": "msg_monitor_alloc_robert"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -325,7 +325,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_welcome_emily",
                                                          "fields": {"thread_id_nullable": "thread_welcome_emily"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -353,7 +353,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_vpn_gap_jane", "fields": {"thread_id_nullable": "thread_vpn_gap_jane"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -376,7 +376,7 @@ Task(
             Action(name="UpdateChecklistItem", kwargs={"item_id": "item_6", "fields": {"status": "Reminder Sent",
                                                                                          "reminder_email_message_id_nullable": "msg_reminder_jane_101"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -399,7 +399,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "asset_swap_notice_jane",
                                                         "params_json": {"message_id": "msg_asset_swap_jane"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 
     Task(
@@ -428,7 +428,7 @@ Task(
                    kwargs={"server_name": "gmail", "tool_name": "send_welcome_confirm_john",
                            "params_json": {"message_id": "msg_welcome_confirm_john"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -454,7 +454,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "asset_provision_handoff",
                                                         "params_json": {"message_id": "msg_assets_handoff_robert"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -483,7 +483,7 @@ Task(
                            "filename": "access_gaps_2.md", "mime_type": "text/markdown",
                            "file_path": "/onboarding/maria_rodriguez/access_gaps_2.md"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -509,7 +509,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "send_welcome_confirm",
                                                         "params_json": {"message_id": "msg_welcome_confirm_emily"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -529,7 +529,7 @@ Task(
             Action(name="UpdateChecklistItem", kwargs={"item_id": "item_2", "fields": {"status": "Reminder Sent",
                                                                                          "reminder_email_message_id_nullable": "msg_policy_nudge_john_104"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -549,7 +549,7 @@ Task(
             Action(name="AddLabelsToEmail",
                    kwargs={"message_id": "msg_orientation_robert_105", "label_ids": ["label_4"]}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -576,7 +576,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_welcome_john", "fields": {"thread_id_nullable": "thread_welcome_john"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -603,7 +603,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "asset_provision",
                                                         "params_json": {"message_id": "msg_assets_robert"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -633,7 +633,7 @@ Task(
                            "body": "see details", "to_emails": ["it-support@company.com", "daniel.lee@company.com"],
                            "candidate_id": "cand_4", "draft_flag": False, "sent_flag": True}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -660,7 +660,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "send_reminder",
                                                         "params_json": {"message_id": "msg_reminder_jane"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -681,7 +681,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "asset_swap_notice",
                                                         "params_json": {"message_id": "msg_asset_swap_peter"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -706,7 +706,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "finalize_phone_request",
                                                         "params_json": {"message_id": "msg_12"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -729,7 +729,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "notify_peripherals",
                                                         "params_json": {"message_id": "msg_peripherals_alex"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -750,7 +750,7 @@ Task(
                                                                "fields": {"status": "Reminder Sent",
                                                                           "reminder_email_message_id_nullable": "msg_reminder_john2"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -776,7 +776,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "asset_provision_close",
                                                         "params_json": {"message_id": "msg_assets_robert_close"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -797,7 +797,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "notify_phone_allocation",
                                                         "params_json": {"message_id": "msg_phone_peter"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -825,7 +825,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "send_policy_ack_emily",
                                                         "params_json": {"message_id": "msg_policy_ack_emily"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -851,7 +851,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "send_reminder_alex",
                                                         "params_json": {"message_id": "msg_reminder_alex"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -873,7 +873,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_asset_replace_maria", "fields": {
                 "thread_id_nullable": "thread_asset_replace_maria"}})
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -901,7 +901,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "send_welcome_resend",
                                                         "params_json": {"message_id": "msg_welcome_peter_v2"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -922,7 +922,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "notify_phone_alloc",
                                                         "params_json": {"message_id": "msg_phone_alloc_john"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -950,7 +950,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_orientation_alex",
                                                          "fields": {"thread_id_nullable": "thread_orientation_alex"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -974,7 +974,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "send_closeout",
                                                         "params_json": {"message_id": "msg_checklist_close_alex"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -997,7 +997,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "notify_phone_close",
                                                         "params_json": {"message_id": "msg_phone_close_maria"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1019,7 +1019,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "notify_clearance",
                                                         "params_json": {"message_id": "msg_clearance_emily"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1042,7 +1042,7 @@ Task(
             Action(name="InsertTerminalLog",
                    kwargs={"message_text": "linked provisioning notes to msg_11 for cand_5"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1067,7 +1067,7 @@ Task(
                            "filename": "slack_gap.md", "mime_type": "text/markdown",
                            "file_path": "/onboarding/peter_jones/slack_gap.md"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1095,7 +1095,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_orientation_john_v2", "fields": {
                 "thread_id_nullable": "thread_orientation_john_v2"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1117,7 +1117,7 @@ Task(
                                                                           "reminder_sent_flag": True,
                                                                           "reminder_email_message_id_nullable": "msg_reminder_robert"}})
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1139,7 +1139,7 @@ Task(
             Action(name="InsertTerminalLog",
                    kwargs={"message_text": "assigned MON-DELL-001 and KB-LOGI-001 to cand_3"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1158,7 +1158,7 @@ Task(
                                                          "fields": {"thread_id_nullable": "thread_phone_john_v2"}}),
             Action(name="InsertTerminalLog", kwargs={"message_text": "assigned PH-IPHONE-001 to cand_1"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1181,7 +1181,7 @@ Task(
                                                                           "reminder_sent_flag": True,
                                                                           "reminder_email_message_id_nullable": "msg_benefits_reminder_jane"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1202,7 +1202,7 @@ Task(
             Action(name="AddLabelsToEmail",
                    kwargs={"message_id": "msg_access_status_emily", "label_ids": ["label_7"]}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1224,7 +1224,7 @@ Task(
             Action(name="SetCandidateFields", kwargs={"candidate_id": "cand_1", "fields": {
                 "manager_intro_invite_ts_nullable": "2024-07-31T10:30:00Z"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 
     Task(
@@ -1249,7 +1249,7 @@ Task(
                                                                                          "reminder_sent_flag": True,
                                                                                          "reminder_email_message_id_nullable": "msg_reminder_jane_2"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1271,7 +1271,7 @@ Task(
             Action(name="InsertTerminalLog",
                    kwargs={"message_text": "swapped William Davis from LT-DELL-002 to LT-MBP-001"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1291,7 +1291,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_peripherals_emily_2", "fields": {
                 "thread_id_nullable": "thread_peripherals_emily_2"}})
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1314,7 +1314,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "notify_phone_closeout",
                                                         "params_json": {"message_id": "msg_phone_close_maria"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1338,7 +1338,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "link_policy_ack",
                                                         "params_json": {"message_id": "msg_policy_ack_jane"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1363,7 +1363,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "send_welcome_addendum",
                                                         "params_json": {"message_id": "msg_welcome_addendum_peter"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1388,7 +1388,7 @@ Task(
                                                             "mime_type": "text/markdown",
                                                             "file_path": "/onboarding/emily_chen/orientation_agenda_resend.md"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1410,7 +1410,7 @@ Task(
             Action(name="InsertTerminalLog",
                    kwargs={"message_text": "reassigned Emma Thompson from LT-DELL-003 to LT-MBP-002"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1430,7 +1430,7 @@ Task(
             Action(name="AddLabelsToEmail",
                    kwargs={"message_id": "msg_access_pass_peter", "label_ids": ["label_7"]}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1456,7 +1456,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "send_benefits_reminder",
                                                         "params_json": {"message_id": "msg_benefits_reminder_emily"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1479,7 +1479,7 @@ Task(
                                                                                                 "email_message_id_nullable": "msg_laptop_ready_robert"}}),
             Action(name="InsertTerminalLog", kwargs={"message_text": "laptop ready notice sent for cand_7"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 
     Task(
@@ -1505,7 +1505,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "notify_access_summary",
                                                         "params_json": {"message_id": "msg_access_summary_jane"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1525,7 +1525,7 @@ Task(
             Action(name="RecordMcpToolCall", kwargs={"server_name": "gmail", "tool_name": "notify_supplies_request",
                                                         "params_json": {"message_id": "msg_supplies_maria"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1560,7 +1560,7 @@ Task(
             Action(name="SetCandidateFields", kwargs={"candidate_id": "cand_2", "fields": {
                 "welcome_email_message_id_nullable": "msg_welcome_confirm_jane"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1586,7 +1586,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_swap_peter", "fields": {"thread_id_nullable": "thread_swap_peter"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1617,7 +1617,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_access_alert_maria", "fields": {
                 "thread_id_nullable": "thread_access_alert_maria"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1639,7 +1639,7 @@ Task(
                                                                           "reminder_sent_flag": True,
                                                                           "reminder_email_message_id_nullable": "msg_reminder_alex2"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1665,7 +1665,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_phone_alloc_john2",
                                                          "fields": {"thread_id_nullable": "thread_phone_alloc_john2"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1690,7 +1690,7 @@ Task(
             Action(name="LinkAssetRequestToCandidate",
                    kwargs={"candidate_id": "cand_7", "request_id": "asset_req_5"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1713,7 +1713,7 @@ Task(
             Action(name="SetCandidateFields", kwargs={"candidate_id": "cand_6", "fields": {
                 "orientation_invite_ts_nullable": "2024-08-23T09:30:00Z"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1732,7 +1732,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_closeout_jane",
                                                          "fields": {"thread_id_nullable": "thread_closeout_jane"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1752,7 +1752,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_peripherals_peter2", "fields": {
                 "thread_id_nullable": "thread_peripherals_peter2"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1772,7 +1772,7 @@ Task(
             Action(name="AddLabelsToEmail", kwargs={"message_id": "msg_10", "label_ids": ["label_1"]}),
             Action(name="InsertTerminalLog", kwargs={"message_text": "linked provisioning notes to msg_10"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1799,7 +1799,7 @@ Task(
                 "fields": {"thread_id_nullable": "thread_nudge_jane"}
             }),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     # FIXED Task 073 (remove non-executable thread update, make parameters deterministic)
     Task(
@@ -1822,7 +1822,7 @@ Task(
             Action(name="UpdateChecklistItem", kwargs={"item_id": "item_16", "fields": {"status": "Reminder Sent",
                                                                                           "reminder_email_message_id_nullable": "msg_reminder_robert2"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1846,7 +1846,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_design_reminder_maria", "fields": {
                 "thread_id_nullable": "thread_design_reminder_maria"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1876,7 +1876,7 @@ Task(
                 "message_text": "swapped monitor for cand_3 from MON-LG-001 to MON-DELL-001"
             }),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1899,7 +1899,7 @@ Task(
                            "filename": "welcome_update.md", "mime_type": "text/markdown",
                            "file_path": "/onboarding/john_doe/welcome_update.md"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1917,7 +1917,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_orientation_ready_emily", "fields": {
                 "thread_id_nullable": "thread_orientation_ready_emily"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1935,7 +1935,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_dock_alex", "fields": {"thread_id_nullable": "thread_dock_alex"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1954,7 +1954,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_12", "fields": {"thread_id_nullable": "thread_phone_setup_maria"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1972,7 +1972,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_headset_jane", "fields": {"thread_id_nullable": "thread_headset_jane"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1995,7 +1995,7 @@ Task(
                            "filename": "welcome_confirm.md", "mime_type": "text/markdown",
                            "file_path": "/onboarding/john_doe/welcome_confirm.md"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2017,7 +2017,7 @@ Task(
                            "filename": "orientation_agenda.md", "mime_type": "text/markdown",
                            "file_path": "/onboarding/jane_smith/orientation_agenda.md"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2037,7 +2037,7 @@ Task(
             Action(name="SetCandidateFields", kwargs={"candidate_id": "cand_3", "fields": {
                 "manager_intro_invite_ts_nullable": "2025-01-01T10:30:00Z"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2059,7 +2059,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_reminder_84", "fields": {"thread_id_nullable": "thread_reminder_84"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2091,7 +2091,7 @@ Task(
                 "fields": {"status": "Sent", "email_message_id_nullable": "msg_assets_handoff_85"}
             }),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2110,7 +2110,7 @@ Task(
                                                          "fields": {"thread_id_nullable": "thread_phone_alloc_86"}}),
             Action(name="InsertTerminalLog", kwargs={"message_text": "phone PH-IPHONE-002 assigned to cand_4"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2131,7 +2131,7 @@ Task(
             Action(name="AddLabelsToEmail",
                    kwargs={"message_id": "msg_access_summary_87", "label_ids": ["label_7"]}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2154,7 +2154,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_week1_88", "fields": {"thread_id_nullable": "thread_week1_88"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2173,7 +2173,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_swap_89", "fields": {"thread_id_nullable": "thread_swap_89"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     # FIXED Task 090 (use deterministic sequential attachment_id)
     Task(
@@ -2197,7 +2197,7 @@ Task(
                            "filename": "company_policies_note.md", "mime_type": "text/markdown",
                            "file_path": "/onboarding/jane_smith/company_policies_note.md"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2214,7 +2214,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_benefits_91", "fields": {"thread_id_nullable": "thread_benefits_91"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2232,7 +2232,7 @@ Task(
                                                          "fields": {"thread_id_nullable": "thread_peripherals_92"}}),
             Action(name="InsertTerminalLog", kwargs={"message_text": "peripherals confirmed for cand_5"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2258,7 +2258,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_checkin_93", "fields": {"thread_id_nullable": "thread_checkin_93"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2277,7 +2277,7 @@ Task(
                            "draft_flag": False, "sent_flag": True}),
             Action(name="AddLabelsToEmail", kwargs={"message_id": "msg_access_final_94", "label_ids": ["label_7"]}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2294,7 +2294,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_benefits_95", "fields": {"thread_id_nullable": "thread_benefits_95"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2312,7 +2312,7 @@ Task(
             Action(name="UpdateEmailMetadata", kwargs={"message_id": "msg_asset_return_96",
                                                          "fields": {"thread_id_nullable": "thread_asset_return_96"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2332,7 +2332,7 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_reminder_97", "fields": {"thread_id_nullable": "thread_reminder_97"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2354,7 +2354,7 @@ Task(
                            "filename": "welcome_resources.md", "mime_type": "text/markdown",
                            "file_path": "/onboarding/alex_thompson/welcome_resources.md"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2373,7 +2373,7 @@ Task(
                            "draft_flag": False, "sent_flag": True}),
             Action(name="AddLabelsToEmail", kwargs={"message_id": "msg_systems_check_99", "label_ids": ["label_7"]}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2389,6 +2389,6 @@ Task(
             Action(name="UpdateEmailMetadata",
                    kwargs={"message_id": "msg_pickup_100", "fields": {"thread_id_nullable": "thread_pickup_100"}}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 ]

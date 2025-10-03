@@ -126,13 +126,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_001"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T00:00:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -258,13 +252,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_002"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T00:03:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -391,13 +379,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_003"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T00:06:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -519,13 +501,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_010"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T00:30:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -571,13 +547,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "102"',
-            '"ads_created_count": "1"',
-            '"new_ad_name": "auto_102_20250814_001"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -704,13 +674,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_006a"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T00:30:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -841,14 +805,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_005"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T01:17:30Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-            '"total_budget": "8860.0"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -926,13 +883,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_006"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T01:20:30Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -1002,13 +953,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_007"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T01:24:30Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -1045,13 +990,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-003"',
-            '"rotated_adsets_count": "0"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-            '"ended_at": "2025-08-14T01:29:00Z"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1147,14 +1086,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "env_soc_008"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T01:34:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-            '"total_budget": "1680.0"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -1298,13 +1230,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_009"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T01:38:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -1386,13 +1312,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_054"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T05:03:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -1429,12 +1349,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-018"',
-            '"rotated_adsets_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -1501,13 +1416,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_011"',
-            '"applied_adsets_count": "3"',
-            '"applied_at": "2025-08-14T01:50:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -1567,15 +1476,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "141"',
-            '"ads_created": "1"',
-            '"new_ad_id": "14101"',
-            '"final_type": "video"',
-            '"single_active_enforced": "True"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -1673,13 +1574,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_012"',
-            '"applied_adsets_count": "3"',
-            '"applied_at": "2025-08-14T01:57:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -1722,13 +1617,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-004"',
-            '"rotated_adsets_count": "2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-            '"ended_at": "2025-08-14T02:00:00Z"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -1834,13 +1723,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_013"',
-            '"applied_adsets_count": 0',
-            '"applied_at": "2025-08-14T02:04:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -1912,13 +1795,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-001"',
-            '"rotated_adsets_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-            '"ended_at": "2025-08-14T02:07:00Z"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -1987,13 +1864,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_014"',
-            '"applied_adsets_count": "1"',
-            '"applied_at": "2025-08-14T02:10:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2044,13 +1915,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-008-triad"',
-            '"rotated_adsets_count": "2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-            '"ended_at": "2025-08-14T02:12:30Z"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2129,13 +1994,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_015"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T02:16:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2228,13 +2087,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_016"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T02:21:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -2291,13 +2144,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "120"',
-            '"ads_created": "1"',
-            '"final_type": "image"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2384,13 +2231,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_010"',
-            '"applied_adsets_count": "3"',
-            '"applied_at": "2025-08-14T01:44:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2456,13 +2297,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_017"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T02:26:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -2526,13 +2361,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "128"',
-            '"ads_created": "1"',
-            '"final_type": "video"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2614,13 +2443,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_018"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T02:31:30Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2664,12 +2487,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-006"',
-            '"rotated_adsets_count": "2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -2761,13 +2579,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_019"',
-            '"changes": "0"',
-            '"applied_at": "2025-08-14T02:36:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2830,13 +2642,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "127"',
-            '"ads_created": "1"',
-            '"final_type": "image"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2931,13 +2737,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_020"',
-            '"applied_adsets_count": "4"',
-            '"applied_at": "2025-08-14T02:41:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -2976,13 +2776,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-007"',
-            '"rotated_adsets_count": "1"',
-            '"confirmed_video_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3084,13 +2878,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_021"',
-            '"changes": "0"',
-            '"applied_at": "2025-08-14T02:45:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -3147,13 +2935,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "129"',
-            '"ads_created": "1"',
-            '"final_type": "video"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3256,13 +3038,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_022"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T02:49:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -3306,12 +3082,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-008"',
-            '"rotated_adsets_count": "2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3398,13 +3169,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_023"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T02:53:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -3480,13 +3245,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_024"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T02:58:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -3537,12 +3296,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-004"',
-            '"rotated_adsets_count": "2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3631,13 +3385,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_025"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T03:03:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -3754,12 +3502,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-004"',
-            '"rotated_adsets_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3848,13 +3591,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_026"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T03:07:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -3888,12 +3625,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-010"',
-            '"rotated_adsets_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -3984,13 +3716,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_027"',
-            '"applied_adsets_count": "3"',
-            '"applied_at": "2025-08-14T03:11:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4050,13 +3776,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "130"',
-            '"ads_created": "1"',
-            '"final_type": "video"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4144,13 +3864,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_028"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T03:15:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -4193,12 +3907,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-010"',
-            '"rotated_adsets_count": "2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -4290,13 +3999,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_029"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T03:19:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -4353,13 +4056,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "131"',
-            '"ads_created": "1"',
-            '"final_type": "video"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4422,13 +4119,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "141"',
-            '"ads_created": "1"',
-            '"final_type": "image"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4522,13 +4213,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_031"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T03:25:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -4601,13 +4286,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "134"',
-            '"ads_created": "2"',
-            '"final_type": "video"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -4697,13 +4376,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_032"',
-            '"applied_adsets_count": "1"',
-            '"applied_at": "2025-08-14T03:30:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -4753,12 +4426,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-004"',
-            '"rotated_adsets_count": "2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -4849,13 +4517,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_033"',
-            '"applied_adsets_count": "4"',
-            '"applied_at": "2025-08-14T03:34:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4897,13 +4559,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-010"',
-            '"rotated_adsets_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-            '"ended_at": "2025-08-14T03:42:00Z"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -4986,13 +4642,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_034"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T03:39:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -5025,13 +4675,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-011"',
-            '"rotated_adsets_count": "0"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-            '"ended_at": "2025-08-14T03:40:30Z"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -5121,13 +4765,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_035"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T03:43:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -5194,12 +4832,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"scope": "account"',
-            '"enforced_single_active": "True"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -5304,13 +4937,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_036"',
-            '"applied_adsets_count": "6"',
-            '"applied_at": "2025-08-14T03:47:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -5356,12 +4983,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-011"',
-            '"rotated_adsets_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -5441,13 +5063,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_037"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T03:51:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -5509,13 +5125,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "132"',
-            '"ads_created": "1"',
-            '"final_type": "image"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -5550,13 +5160,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-012"',
-            '"rotated_adsets_count": "0"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-            '"ended_at": "2025-08-14T03:55:00Z"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -5597,12 +5201,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-112-v1"',
-            '"rotated_adsets_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -5688,13 +5287,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_039"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T03:59:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -5728,12 +5321,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "120"',
-            '"new_active": "Electronics Promo V2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -5826,13 +5414,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_040"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T04:03:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -5889,13 +5471,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "135"',
-            '"ads_created": "1"',
-            '"final_type": "video"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -5946,12 +5522,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-010"',
-            '"rotated_adsets_count": "2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -6061,13 +5632,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_041"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T04:07:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -6126,13 +5691,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "136"',
-            '"ads_created": "1"',
-            '"final_type": "video"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -6211,13 +5770,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_042"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T04:11:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -6262,12 +5815,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-013"',
-            '"rotated_adsets_count": "2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -6352,13 +5900,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_043"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T04:15:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -6416,12 +5958,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-010"',
-            '"rotated_adsets_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -6511,13 +6048,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_044"',
-            '"applied_adsets_count": "3"',
-            '"applied_at": "2025-08-14T04:18:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -6557,12 +6088,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-110-stb"',
-            '"rotated_adsets_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -6661,13 +6187,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_045"',
-            '"changes": "0"',
-            '"applied_at": "2025-08-14T04:22:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -6731,13 +6251,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "137"',
-            '"ads_created": "1"',
-            '"final_type": "video"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -6834,13 +6348,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_046"',
-            '"applied_adsets_count": "0"',
-            '"applied_at": "2025-08-14T04:26:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -6885,12 +6393,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-014"',
-            '"rotated_adsets_count": "2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -6982,13 +6485,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_047"',
-            '"changes": "0"',
-            '"applied_at": "2025-08-14T04:30:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -7038,12 +6535,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-015"',
-            '"rotated_adsets_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -7157,13 +6649,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_048"',
-            '"changes": "0"',
-            '"applied_at": "2025-08-14T04:34:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -7203,12 +6689,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-015"',
-            '"rotated_adsets_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -7303,13 +6784,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_049"',
-            '"applied_adsets_count": "4"',
-            '"applied_at": "2025-08-14T04:38:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -7370,13 +6845,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "138"',
-            '"ads_created": "1"',
-            '"final_type": "video"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -7467,13 +6936,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_050"',
-            '"applied_adsets_count": "1"',
-            '"applied_at": "2025-08-14T04:42:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -7515,12 +6978,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-016"',
-            '"rotated_adsets_count": "2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -7602,13 +7060,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_051"',
-            '"applied_adsets_count": "2"',
-            '"applied_at": "2025-08-14T04:46:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -7692,12 +7144,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "123"',
-            '"new_active": "Seasonal V2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -7735,12 +7182,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-020"',
-            '"rotated_adsets_count": "1"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -7792,12 +7234,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"rotation_request_id": "rot-017"',
-            '"rotated_adsets_count": "2"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -7889,13 +7326,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"plan_id": "plan_soc_053"',
-            '"applied_adsets_count": "5"',
-            '"applied_at": "2025-08-14T04:54:00Z"',
-            '"run_type": "plan_apply"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -7968,13 +7399,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "139"',
-            '"ads_created": "2"',
-            '"final_type": "video"',
-            '"run_type": "provisioning"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -8054,12 +7479,7 @@ TASKS = [
                 "errors_json": None
             }),
         ],
-        outputs=[
-            '"adset_id": "122"',
-            '"new_active": "rot-100-122-video"',
-            '"run_type": "creative_rotation"',
-            '"run_status": "completed"',
-        ],
+        outputs=[]
     )
 
 ]

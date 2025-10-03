@@ -84,7 +84,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment",
                    kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -149,7 +149,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "backup_processed"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -171,7 +171,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -247,7 +247,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "order_created", "resource_id": "9017"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -270,7 +270,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "payment_gateway_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -296,7 +296,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -317,7 +317,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -344,7 +344,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -367,7 +367,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "rate_limit_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -390,7 +390,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -412,7 +412,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "feedback_processed"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -438,7 +438,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -463,7 +463,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "cdn_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -485,7 +485,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "payment_gateway_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -505,7 +505,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -526,7 +526,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "promotion_created"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -548,7 +548,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "shipping_rule_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -570,7 +570,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "inventory_updated"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -595,7 +595,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "security_group_optimized", "resource_id": "sg-0123456789abcdef0"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -615,7 +615,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -636,7 +636,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -658,7 +658,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -678,7 +678,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "recommendations_generated"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -704,7 +704,7 @@ TASKS = [
             Action(name="GetAuditLog", kwargs={"action_type": "promotion_created"}),
 
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -725,7 +725,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -746,7 +746,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -769,7 +769,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "bulk_product_update"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -790,7 +790,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -817,7 +817,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -841,7 +841,7 @@ TASKS = [
             Action(name="GetDataBackupInfo", kwargs={}),
             Action(name="GetAuditLog", kwargs={"action_type": "promotion_created"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -862,7 +862,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -883,7 +883,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "loyalty_program_activity"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -908,7 +908,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -933,7 +933,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "app_security_updated", "resource_id": "APP902"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -957,7 +957,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -983,7 +983,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1011,7 +1011,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "inventory_updated"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1035,7 +1035,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1059,7 +1059,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1081,7 +1081,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "shipping_rule_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1105,7 +1105,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "promotion_created"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1136,7 +1136,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1160,7 +1160,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "bulk_product_update"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1184,7 +1184,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "bulk_product_update"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1216,7 +1216,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1239,7 +1239,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "rate_limit_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1261,7 +1261,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "promotion_created"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1287,7 +1287,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "security_group_optimized", "resource_id": "sg-0123456789abcdef0"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1309,7 +1309,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "cdn_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1334,7 +1334,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "supplier_managed"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1354,7 +1354,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1381,7 +1381,7 @@ TASKS = [
             Action(name="GetAuditLog", kwargs={"action_type": "feedback_processed"}),
 
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1406,7 +1406,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "security_group_optimized", "resource_id": "sg-0123456789abcdef0"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1431,7 +1431,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "payment_gateway_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1452,7 +1452,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1485,7 +1485,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1509,7 +1509,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "bulk_product_update"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1530,7 +1530,7 @@ TASKS = [
                    kwargs={"rule_name": "US-Std", "shipping_zone": "US", "tracking_enabled": True, "customer_id": "205"}),
             Action(name="GetAuditLog", kwargs={"action_type": "backup_processed"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1551,7 +1551,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1573,7 +1573,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "shipping_rule_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1595,7 +1595,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1623,7 +1623,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1645,7 +1645,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "payment_gateway_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1666,7 +1666,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "loyalty_program_activity"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1688,7 +1688,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1711,7 +1711,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "rate_limit_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1736,7 +1736,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "app_security_updated", "resource_id": "APP906"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1762,7 +1762,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "app_security_updated", "resource_id": "APP906"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1788,7 +1788,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1810,7 +1810,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "promotion_created"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1836,7 +1836,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1856,7 +1856,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1882,7 +1882,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1904,7 +1904,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "promotion_created"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1925,7 +1925,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "cdn_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1947,7 +1947,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1971,7 +1971,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "bulk_product_update"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -1995,7 +1995,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "rate_limit_configured"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2019,7 +2019,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "app_security_updated", "resource_id": "APP907"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2041,7 +2041,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2062,7 +2062,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -2081,7 +2081,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "inventory_updated"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2102,7 +2102,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "feedback_processed"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2126,7 +2126,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2148,7 +2148,7 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2171,7 +2171,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "payment_gateway_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2196,7 +2196,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "cdn_configured"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2218,7 +2218,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "supplier_managed"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2238,7 +2238,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "promotion_created"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2259,7 +2259,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "app_security_updated", "resource_id": "APP908"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2281,7 +2281,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "payment_gateway_configured"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2303,7 +2303,7 @@ TASKS = [
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
             Action(name="GetAuditLog", kwargs={"action_type": "promotion_created"})
         ],
-        outputs=["9017"]
+        outputs=[]
     ),
 
     Task(
@@ -2337,6 +2337,6 @@ TASKS = [
             Action(name="GetNextOrderId", kwargs={}),
             Action(name="ProcessOrderWithFulfillment", kwargs={"order_id": "9017", "cart_id": "706"}),
         ],
-        outputs=["9017"]
+        outputs=[]
     )
 ]

@@ -27,11 +27,7 @@ TASKS = [
                 kwargs={"promotion_id": "PROMO-001", "times_used": 10},
             ),
         ],
-        outputs=[
-            {"promotion_id": "PROMO-001", "status": "active", "applicable_skus": ["ELEC-4KTV55", "AUDIO-BTSPKR02", "ELEC-GAMLP15", "ELEC-RCHAA04"]},
-            {"sku": "ELEC-4KTV55", "quantity": 8},
-            {"promotion_id": "PROMO-001", "times_used": 10},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -59,12 +55,7 @@ TASKS = [
                 kwargs={"sku": "CLTH-SLFJEAN34", "status": "clearance"},
             ),
         ],
-        outputs=[
-            {"promotion_id": "PROMO-005", "status": "inactive"},
-            {"sku": "CLTH-SLFJEAN34", "status": "in_stock", "quantity": 30},
-            {"sku": "CLTH-WINJKT01", "status": "low_stock", "quantity": 6},
-            {"sku": "CLTH-SLFJEAN34", "status": "clearance"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -96,13 +87,7 @@ TASKS = [
                 kwargs={"sku": "ELEC-RCHAA04"},
             ),
         ],
-        outputs=[
-            {"promotion_id": "PROMO-001", "end_date": "2025-09-30"},
-            {"sku": "ELEC-4KTV55"},
-            {"sku": "AUDIO-BTSPKR02"},
-            {"sku": "ELEC-GAMLP15"},
-            {"sku": "ELEC-RCHAA04"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -140,11 +125,7 @@ TASKS = [
                 kwargs={"promotion_id": "PROMO-004"},
             ),
         ],
-        outputs=[
-            {"promotion_id": "PROMO-004", "status": "inactive"},
-            {"promotion_id": "PROMO-004", "name": "Summer Reading Discount", "type": "percentage", "discount_value": 15.0, "status": "scheduled"},
-            {"sku": "BOOK-KDSSTY01", "is_discountable": True},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -168,10 +149,7 @@ TASKS = [
                 kwargs={"promotion_id": "PROMO-006"},
             ),
         ],
-        outputs=[
-            {"promotion_id": "PROMO-006", "applicable_skus": ["SMRT-THERM02", "AUDIO-BTSPKR02"], "status": "active", "end_date": "2025-09-15", "usage_limit": 100},
-            {"sku": "AUDIO-BTSPKR02", "name": "WaveSound All-Weather Bluetooth Speaker"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -228,7 +206,7 @@ TASKS = [
                 kwargs={"promotion_id": "PROMO-003", "times_used": 1},
             ),
         ],
-        outputs=["Total amount: 48.70", "Discount applied: 14.995", "Transaction ID: TXN-0013"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -271,14 +249,7 @@ TASKS = [
                 kwargs={"status": "active"},
             ),
         ],
-        outputs=[
-            {"sku": "HOM-COFMKR12", "category": "Home & Kitchen"},
-            {"sku": "KITCH-CHEFKNF8", "category": "Home & Kitchen"},
-            {"sku": "HOME-BTHTWL01", "category": "Home & Kitchen"},
-            {"sku": "HOME-DESKLMP01", "category": "Home & Kitchen"},
-            {"sku": "KITCH-FRYPAN10", "category": "Home & Kitchen"},
-            {"promotion_id": "PROMO-007", "status": "active", "start_date": "2025-07-28", "end_date": "2025-07-29", "usage_limit": 50, "description": "Weekend Special: 18% off Home & Kitchen!"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -334,11 +305,7 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5002", "points_to_add": 150},
             ),
         ],
-        outputs=[
-            {"total_amount": 757.74},
-            {"discount_applied": 0.00},
-            {"transaction_id": "TXN-0013"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -370,11 +337,7 @@ TASKS = [
                 kwargs={"sku": "SMRT-THERM02"},
             ),
         ],
-        outputs=[
-            {"promotion_id": "PROMO-006", "description": "Exclusive discount on smart thermostats.", "applicable_skus": ["SMRT-THERM02"]},
-            {"sku": "AUDIO-BTSPKR02", "status": "limited_availability"},
-            {"sku": "SMRT-THERM02", "name": "EcoSmart Wi-Fi Thermostat"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -425,12 +388,7 @@ TASKS = [
                 kwargs={"promotion_id": "PROMO-008"},
             ),
         ],
-        outputs=[
-            {"sku": "HOME-BTHTWL01", "is_discountable": True},
-            {"sku": "KITCH-FRYPAN10", "is_discountable": True},
-            {"promotion_id": "PROMO-008", "status": "scheduled", "name": "Spring Cleaning Sale"},
-            {"promotion_id": "PROMO-008", "times_used": 0, "usage_limit": 500},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -462,12 +420,7 @@ TASKS = [
                 kwargs={"promotion_id": "PROMO-001"}, # Para confirmar
             )
         ],
-        outputs=[
-            {"promotion_id": "PROMO-001", "times_used": 0, "end_date": "2025-08-31"}, # Estado inicial do DB
-            {"promotion_id": "PROMO-001", "status": "expired", "description": "Promotion expired due to end date."},
-            {"sku": "ELEC-4KTV55", "price": 699.99},
-            {"sku": "ELEC-4KTV55", "quantity": 8},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -499,11 +452,7 @@ TASKS = [
                 kwargs={"promotion_id": "PROMO-003", "times_used": 1},
             ),
         ],
-        outputs=[
-            {"sku": "SPORT-YOGMAT01", "category": "Sports & Outdoors"},
-            {"promotion_id": "PROMO-003", "status": "active", "applicable_skus": ["SPORT-YOGMAT01"]},
-            {"promotion_id": "PROMO-003", "times_used": 1},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -579,10 +528,7 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5001"},
             ),
         ],
-        outputs=[
-            {"transaction_id": "TXN-0013"},
-            {"customer_id": "CUST-5001", "loyalty_points": 1290}, # 1240 (original) + 50
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -626,10 +572,7 @@ TASKS = [
                 kwargs={"sku": "ELEC-4KTV55"},
             ),
         ],
-        outputs=[
-            {"promotion_id": "PROMO-001", "status": "inactive", "description": "Deactivated due to inventory concerns."},
-            {"sku": "ELEC-4KTV55", "status": "out_of_stock"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -684,11 +627,7 @@ TASKS = [
                 kwargs={"promotion_name": "Healthy Snack Bundle", "query_date": "2025-09-01"},
             ),
         ],
-        outputs=[
-            {"sku": "GROC-ALMBTR500", "price": 13.99},
-            {"sku": "GROC-SPRWAT6P", "price": 8.50},
-            {"promotion_id": "PROMO-008", "name": "Healthy Snack Bundle", "status": "active"}, # Assuming PROMO-008 is correct due to DB reset
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -772,10 +711,7 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5004"},
             ),
         ],
-        outputs=[
-            {"transaction_id": "TXN-0013"}, # Expected next sequential ID
-            {"customer_id": "CUST-5004", "loyalty_points": 1720, "membership_level": "diamond"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -834,7 +770,7 @@ TASKS = [
                 kwargs={"promotion_id": "PROMO-008"},
             ),
         ],
-        outputs=["PROMO-008"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -887,7 +823,7 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5010"},
             ),
         ],
-        outputs=["PROMO-008", "CUST-5001", "CUST-5010"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -938,10 +874,7 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5006"},
             ),
         ],
-        outputs=[
-            {"customer_id": "CUST-5002", "membership_level": "gold"},
-            {"customer_id": "CUST-5006", "membership_level": "gold"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -988,7 +921,7 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5004"},
             ),
         ],
-        outputs=["PROMO-008", "CUST-5004"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1031,10 +964,7 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5010"},
             ),
         ],
-        outputs=[
-            {"customer_id": "CUST-5001", "membership_level": "platinum"},
-            {"customer_id": "CUST-5010", "membership_level": "platinum"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1106,7 +1036,7 @@ TASKS = [
                 kwargs={"inventory_id": "INV-0005", "quantity_sold": 1, "last_stock_count_date": "2025-07-28"},
             ),
         ],
-        outputs=["TXN-0013"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1173,7 +1103,7 @@ TASKS = [
                 kwargs={"inventory_id": "INV-0025", "quantity_sold": 1, "last_stock_count_date": "2025-07-28"},
             ),
         ],
-        outputs=["TXN-0013"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1228,7 +1158,7 @@ TASKS = [
                 kwargs={"inventory_id": "INV-0009", "status": "out_of_stock"},
             ),
         ],
-        outputs=[{"inventory_id": "INV-0009", "status": "out_of_stock"}],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1273,7 +1203,7 @@ TASKS = [
                 kwargs={"promotion_id": "PROMO-008"},
             ),
         ],
-        outputs=["PROMO-008"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1301,10 +1231,7 @@ TASKS = [
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "CLTH-SLFJEAN34", "store_id": "STORE-001"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "CLTH-WINJKT01", "store_id": "STORE-001"}),
         ],
-        outputs=[
-            {"inventory_id": "INV-0025", "sku": "CLTH-SLFJEAN34", "quantity": 30},
-            {"inventory_id": "INV-0026", "sku": "CLTH-WINJKT01", "quantity": 6},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1329,7 +1256,7 @@ TASKS = [
             Action(name="GetPromotionById", kwargs={"promotion_id": "PROMO-008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5004"}),
         ],
-        outputs=["PROMO-008", ["CUST-5004"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1350,10 +1277,7 @@ TASKS = [
             Action(name="DeactivatePromotion", kwargs={"promotion_id": "PROMO-002"}),
             Action(name="UpdatePromotionDetails", kwargs={"promotion_id": "PROMO-002", "description": "Promotion has expired."})
         ],
-        outputs=[
-            {"customer_id": "CUST-5003", "membership_level": "silver"},
-            {"promotion_id": "PROMO-002", "status": "inactive"},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1370,10 +1294,7 @@ TASKS = [
                 "start_date": "2025-06-21", "end_date": "2025-07-21", "status": "active", "times_used": 0
             })
         ],
-        outputs=[
-            {"inventory_id": "INV-0003", "quantity": 20},
-            {"promotion_id": "PROMO-008", "status": "active"}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1406,7 +1327,7 @@ TASKS = [
             }),
             Action(name="UpdateInventorySale", kwargs={"inventory_id": "INV-0022", "quantity_sold": 1, "last_stock_count_date": "2025-07-29"})
         ],
-        outputs=[{"transaction_id": "TXN-0013"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1427,10 +1348,7 @@ TASKS = [
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "CLTH-SLFJEAN34", "store_id": "STORE-003"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "CLTH-WINJKT01", "store_id": "STORE-003"})
         ],
-        outputs=[
-            {"sku": "CLTH-SLFJEAN34", "store_id": "STORE-003", "quantity": 20},
-            {"sku": "CLTH-WINJKT01", "store_id": "STORE-003", "quantity": 5}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1460,7 +1378,7 @@ TASKS = [
             Action(name="UpdateInventorySale", kwargs={"inventory_id": "INV-0013", "quantity_sold": 1, "last_stock_count_date": "2025-07-29"}),
             Action(name="UpdateInventorySale", kwargs={"inventory_id": "INV-0016", "quantity_sold": 1, "last_stock_count_date": "2025-07-29"})
         ],
-        outputs=["Customer ID: CUST-5013", "Transaction ID: TXN-0013"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1483,10 +1401,7 @@ TASKS = [
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5001"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5010"})
         ],
-        outputs=[
-            {"name": "Emma Wilson", "membership_level": "gold"},
-            {"name": "Benjamin Cohen", "membership_level": "gold"}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1513,7 +1428,7 @@ TASKS = [
             Action(name="UpdateCustomerDetails", kwargs={"customer_id": "CUST-5006", "membership_level": "gold"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5006"})
         ],
-        outputs=[{"customer_id": "CUST-5006", "membership_level": "gold"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1532,7 +1447,7 @@ TASKS = [
             }),
             Action(name="GetPromotionById", kwargs={"promotion_id": "PROMO-008"})
         ],
-        outputs=[{"promotion_id": "PROMO-008", "name": "Kitchen Starter Duo"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1584,7 +1499,7 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5001"}
             )
         ],
-        outputs=[{"customer_id": "CUST-5001", "loyalty_points": 1390}],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1609,7 +1524,7 @@ TASKS = [
             Action(name="UpdateInventorySale", kwargs={"inventory_id": "INV-0001", "quantity_sold": 1, "last_stock_count_date": "2025-07-29"}),
             Action(name="UpdatePromotionDetails", kwargs={"promotion_id": "PROMO-003", "times_used": 1})
         ],
-        outputs=[{"transaction_id": "TXN-0013"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1632,7 +1547,7 @@ TASKS = [
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5003"], "promotion_id": "PROMO-008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5003"}),
         ],
-        outputs=[{"customer_id": "CUST-5003", "membership_level": "silver"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1652,7 +1567,7 @@ TASKS = [
             }),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "ELEC-GAMLP15", "store_id": "STORE-005"})
         ],
-        outputs=[{"id": "INV-0025", "sku": "ELEC-GAMLP15", "quantity": 1, "status": "low_stock", "store_id": "STORE-005"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1672,7 +1587,7 @@ TASKS = [
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5004"], "promotion_id": "PROMO-008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5004"})
         ],
-        outputs=[{"customer_id": "CUST-5004", "membership_level": "diamond"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1692,7 +1607,7 @@ TASKS = [
             }),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "HOM-COFMKR12", "store_id": "STORE-001"})
         ],
-        outputs=[{"id": "INV-0003", "quantity": 20, "status": "low_stock"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1722,7 +1637,7 @@ TASKS = [
             }),
             Action(name="UpdateInventorySale", kwargs={"inventory_id": "INV-0025", "quantity_sold": 1, "last_stock_count_date": "2025-07-29"})
         ],
-        outputs=[{"transaction_id": "TXN-0013"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1750,10 +1665,7 @@ TASKS = [
             Action(name="UpdateStockLevel", kwargs={"inventory_id": "INV-0026", "quantity_to_add": 50}),
             Action(name="UpdateStockLevel", kwargs={"inventory_id": "INV-0027", "quantity_to_add": 50})
         ],
-        outputs=[
-            {"promotion_id": "PROMO-008", "name": "UrbanEdge Final Sale"},
-            {"sku": "BOOK-KDSSTY01", "name": "UrbanExplorer Tech Jacket"}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1779,9 +1691,7 @@ TASKS = [
             }),
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5001", "CUST-5010"], "promotion_id": "PROMO-008"})
         ],
-        outputs=[
-            {"codes_generated_for": ["CUST-5001", "CUST-5010"]}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1802,7 +1712,7 @@ TASKS = [
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5002"], "promotion_id": "PROMO-008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5002"})
         ],
-        outputs=[{"customer_id": "CUST-5002", "membership_level": "gold", "loyalty_points": 1125}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1822,10 +1732,7 @@ TASKS = [
             Action(name="GetProductDetailsBySku", kwargs={"sku": "GROC-ALMBTR500"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "GROC-ALMBTR500", "store_id": "STORE-001"})
         ],
-        outputs=[
-            {"sku": "GROC-ALMBTR500", "status": "clearance"},
-            {"id": "INV-0007", "status": "critical"}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1849,7 +1756,7 @@ TASKS = [
             }),
             Action(name="GetPromotionById", kwargs={"promotion_id": "PROMO-005"})
         ],
-        outputs=[{"promotion_id": "PROMO-005", "name": "Back to Office Essentials", "status": "scheduled"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1861,7 +1768,7 @@ TASKS = [
             Action(name="UpdateInventoryStatus", kwargs={"inventory_id": "INV-0009", "status": "in_stock"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "SPORT-BIKHLM01", "store_id": "STORE-004"})
         ],
-        outputs=[{"id": "INV-0009", "reserved_quantity": 0, "status": "in_stock"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1877,7 +1784,7 @@ TASKS = [
             Action(name="UpdateStockLevel", kwargs={"inventory_id": "INV-0011", "quantity_to_add": 1}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5011"})
         ],
-        outputs=[{"customer_id": "CUST-5011", "loyalty_points": 600}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1906,13 +1813,7 @@ TASKS = [
                 kwargs={"status": "active"}
             )
         ],
-        outputs=[[
-            {"promotion_id": "PROMO-001", "name": "Summer Electronics Sale", "status": "active"},
-            {"promotion_id": "PROMO-002", "name": "Kitchen Essentials Bundle", "status": "active"},
-            {"promotion_id": "PROMO-005", "name": "Clearance Apparel Markdown", "status": "active"},
-            {"promotion_id": "PROMO-006", "name": "Smart Home Starter Discount", "status": "active"},
-            {"promotion_id": "PROMO-008", "name": "Thermostat Flash Sale", "status": "active"}
-        ]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1935,7 +1836,7 @@ TASKS = [
             }),
             Action(name="UpdateInventorySale", kwargs={"inventory_id": "INV-0025", "quantity_sold": 1, "last_stock_count_date": "2025-08-12"})
         ],
-        outputs=[{"transaction_id": "TXN-0013"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1956,7 +1857,7 @@ TASKS = [
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5010"], "promotion_id": "PROMO-008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5010"})
         ],
-        outputs=[{"customer_id": "CUST-5010", "loyalty_points": 1125}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1976,7 +1877,7 @@ TASKS = [
             }),
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5004"], "promotion_id": "PROMO-008"})
         ],
-        outputs=[{"codes_generated_for": ["CUST-5004"]}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2003,7 +1904,7 @@ TASKS = [
             Action(name="UpdateInventorySale", kwargs={"inventory_id": "INV-0005", "quantity_sold": 1, "last_stock_count_date": "2025-06-20"}),
             Action(name="UpdateInventorySale", kwargs={"inventory_id": "INV-0022", "quantity_sold": 1, "last_stock_count_date": "2025-06-20"})
         ],
-        outputs=[{"transaction_id": "TXN-0013"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2021,7 +1922,7 @@ TASKS = [
             }),
             Action(name="GetPromotionById", kwargs={"promotion_id": "PROMO-008"})
         ],
-        outputs=[{"promotion_id": "PROMO-002", "status": "inactive"}, {"promotion_id": "PROMO-008", "name": "Kitchen Upgrade Bundle"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2041,7 +1942,7 @@ TASKS = [
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5010"], "promotion_id": "PROMO-008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5010"})
         ],
-        outputs=[{"customer_id": "CUST-5010", "opt_in_marketing": True}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2056,7 +1957,7 @@ TASKS = [
             Action(name="UpdateInventoryStatus", kwargs={"inventory_id": "INV-0025", "status": "discontinued"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "HOME-DESKLMP01", "store_id": "STORE-001"})
         ],
-        outputs=[{"id": "INV-0015", "quantity": 60}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2069,7 +1970,7 @@ TASKS = [
             Action(name="UpdateProductDetails", kwargs={"sku": "OFFC-ERGCHR01", "is_discountable": True}),
             Action(name="GetProductsByCategory", kwargs={"category": "Furniture"})
         ],
-        outputs=[{"sku": "OFFC-ERGCHR01", "category": "Furniture", "is_discountable": True}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2083,7 +1984,7 @@ TASKS = [
             Action(name="UpdateInventoryStatus", kwargs={"inventory_id": "INV-0025", "status": "in_stock"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "HOM-COFMKR12", "store_id": "STORE-003"})
         ],
-        outputs=[{"id": "INV-0025", "quantity": 15, "status": "in_stock"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2109,7 +2010,7 @@ TASKS = [
             Action(name="UpdateInventoryStatus", kwargs={"inventory_id": "INV-0022", "status": "out_of_stock"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5006"})
         ],
-        outputs=[{"customer_id": "CUST-5006", "membership_level": "gold"}]
+        outputs=[]
     ),
         Task(
         annotator="0",
@@ -2163,13 +2064,7 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5003"}
             )
         ],
-        outputs=[
-            {
-                "customer_id": "CUST-5003",
-                "name": "Olivia Williams",
-                "address": "456 Oak Avenue, Riverside, IL, 62704"
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2193,7 +2088,7 @@ TASKS = [
             Action(name="UpdateInventorySale", kwargs={"inventory_id": "INV-0021", "quantity_sold": 2, "last_stock_count_date": "2025-06-10"}),
             Action(name="UpdatePromotionDetails", kwargs={"promotion_id": "PROMO-003", "times_used": 1})
         ],
-        outputs=[{"transaction_id": "TXN-0013"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2212,10 +2107,7 @@ TASKS = [
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5002"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5006"})
         ],
-        outputs=[
-            {"customer_id": "CUST-5002", "loyalty_points": 1075},
-            {"customer_id": "CUST-5006", "loyalty_points": 1180}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2237,10 +2129,7 @@ TASKS = [
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "HOM-COFMKR12", "store_id": "STORE-001"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "HOM-COFMKR12", "store_id": "STORE-003"})
         ],
-        outputs=[
-            {"id": "INV-0003", "quantity": 22},
-            {"id": "INV-0025", "quantity": 15}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2261,7 +2150,7 @@ TASKS = [
             Action(name="UpdateCustomerDetails", kwargs={"customer_id": "CUST-5004", "status": "active"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5004"})
         ],
-        outputs=[{"customer_id": "CUST-5004", "status": "active"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2285,7 +2174,7 @@ TASKS = [
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "CLTH-SLFJEAN34", "store_id": "STORE-002"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "CLTH-WINJKT01", "store_id": "STORE-002"})
         ],
-        outputs=[{"id": "INV-0005", "status": "clearance"}, {"id": "INV-0022", "status": "clearance"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2305,7 +2194,7 @@ TASKS = [
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5002"], "promotion_id": "PROMO-008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5002"})
         ],
-        outputs=[{"customer_id": "CUST-5002", "loyalty_points": 890}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2327,11 +2216,7 @@ TASKS = [
             }),
             Action(name="GetPromotionsByStatus", kwargs={"status": "scheduled"})
         ],
-        outputs=[[
-            {"promotion_id": "PROMO-003", "name": "Buy One Yoga Mat Get 50% Off Second"},
-            {"promotion_id": "PROMO-008", "name": "Apparel Deal - 15% Off"},
-            {"promotion_id": "PROMO-009", "name": "Apparel Deal - 25% Off"}
-        ]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2352,9 +2237,7 @@ TASKS = [
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5002"], "promotion_id": "PROMO-008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5002"})
         ],
-        outputs=[
-            {"customer_id": "CUST-5002", "membership_level": "gold", "loyalty_points": 1025}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2379,7 +2262,7 @@ TASKS = [
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5010"], "promotion_id": "PROMO-008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5010"})
         ],
-        outputs=[{"customer_id": "CUST-5010", "address": "22 Mountain View Rd, Portland, OR, 97205"}]
+        outputs=[]
     ),
     Task(
         annotator="task_071",
@@ -2393,7 +2276,7 @@ TASKS = [
             Action(name="UpdateInventoryStatus", kwargs={"inventory_id": "INV-0001", "status": "in_stock"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "ELEC-4KTV55", "store_id": "STORE-001"})
         ],
-        outputs=[{"id": "INV-0001", "quantity": 9, "reserved_quantity": 0, "status": "in_stock"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2413,7 +2296,7 @@ TASKS = [
             }),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "SPORT-YOGMAT01", "store_id": "STORE-001"})
         ],
-        outputs=[{"id": "INV-0021", "quantity": 70}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2437,9 +2320,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5010", "points_to_add": 500}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5001"})
         ],
-        outputs=[
-            {"customer_id": "CUST-5001", "loyalty_points": 1740}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2454,7 +2335,7 @@ TASKS = [
             Action(name="UpdateInventoryStatus", kwargs={"inventory_id": "INV-0025", "status": "in_stock"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "HOM-COFMKR12", "store_id": "STORE-002"})
         ],
-        outputs=[{"id": "INV-0025", "quantity": 20, "reserved_quantity": 5, "status": "in_stock"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2471,11 +2352,7 @@ TASKS = [
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "HOM-COFMKR12", "store_id": "STORE-001"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "SPORT-YOGMAT01", "store_id": "STORE-001"}),
         ],
-        outputs=[
-            {"id": "INV-0001", "quantity": 9},
-            {"id": "INV-0003", "quantity": 22},
-            {"id": "INV-0021", "quantity": 58}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2496,7 +2373,7 @@ TASKS = [
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5001"], "promotion_id": "PROMO-008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5001"})
         ],
-        outputs=[{"customer_id": "CUST-5001", "loyalty_points": 1440}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2513,11 +2390,7 @@ TASKS = [
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "HOM-COFMKR12", "store_id": "STORE-006"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "HOME-BTHTWL01", "store_id": "STORE-006"}),
         ],
-        outputs=[
-            {"id": "INV-0025", "quantity": 5},
-            {"id": "INV-0026", "quantity": 20},
-            {"id": "INV-0027", "quantity": 50}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2533,10 +2406,7 @@ TASKS = [
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5005"})
         ],
-        outputs=[
-            {"customer_id": "CUST-5008", "status": "inactive"},
-            {"customer_id": "CUST-5005", "membership_level": "silver"}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2575,7 +2445,7 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5011"}
             )
         ],
-        outputs=[{"customer_id": "CUST-5011", "opt_in_marketing": True}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2589,10 +2459,7 @@ TASKS = [
             Action(name="GetProductDetailsBySku", kwargs={"sku": "CLTH-SLFJEAN34"}),
             Action(name="GetProductDetailsBySku", kwargs={"sku": "CLTH-WINJKT01"}),
         ],
-        outputs=[
-            {"sku": "CLTH-SLFJEAN34", "is_discountable": True},
-            {"sku": "CLTH-WINJKT01", "is_discountable": True}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2614,7 +2481,7 @@ TASKS = [
             }),
             Action(name="GetPromotionsByStatus", kwargs={"status": "scheduled"})
         ],
-        outputs=[{"created_promotions": ["PROMO-008", "PROMO-009"]}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2632,7 +2499,7 @@ TASKS = [
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5011"], "promotion_id": "PROMO-008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5011"})
         ],
-        outputs=[{"customer_id": "CUST-5011"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2648,7 +2515,7 @@ TASKS = [
             Action(name="UpdatePromotionDetails", kwargs={"promotion_id": "PROMO-006", "applicable_skus": ["SMRT-THERM02", "AUDIO-BTSPKR02"]}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5010"})
         ],
-        outputs=[{"customer_id": "CUST-5010", "loyalty_points": 1155}, {"promotion_id": "PROMO-006", "applicable_skus": ["SMRT-THERM02", "AUDIO-BTSPKR02"]}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2673,7 +2540,7 @@ TASKS = [
             Action(name="GetCustomerIdByName", kwargs={"customer_name": "Emma Wilson"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5001"})
         ],
-        outputs=[{"customer_id": "CUST-5001", "loyalty_points": 1340}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2692,7 +2559,7 @@ TASKS = [
                 "promotion_ids": ["PROMO-001"]
             })
         ],
-        outputs=[{"recalculated_total_amount": 724.96}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2732,7 +2599,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[{"found_customers": [{"customer_id": "CUST-5003"}]}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2799,7 +2666,7 @@ TASKS = [
                 kwargs={"promotion_id": "PROMO-008", "times_used": 1}
             )
         ],
-        outputs=[{"transaction_id": "TXN-0013"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2867,9 +2734,7 @@ TASKS = [
                 kwargs={"inventory_id": "INV-0025", "quantity_sold": 1, "last_stock_count_date": "2025-07-29"}
             )
         ],
-        outputs=[
-            {"transaction_id": "TXN-0013"}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2884,7 +2749,7 @@ TASKS = [
             Action(name="UpdateInventoryStatus", kwargs={"inventory_id": "INV-0025", "status": "in_stock"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "HOM-COFMKR12", "store_id": "STORE-002"})
         ],
-        outputs=[{"id": "INV-0025", "quantity": 10, "reserved_quantity": 10, "status": "in_stock"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2902,7 +2767,7 @@ TASKS = [
             }),
             Action(name="GetPromotionById", kwargs={"promotion_id": "PROMO-008"})
         ],
-        outputs=[{"promotion_id": "PROMO-002", "status": "inactive"}, {"promotion_id": "PROMO-008", "name": "Kitchen Upgrade Bundle"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2924,7 +2789,7 @@ TASKS = [
             Action(name="UpdateInventoryStatus", kwargs={"inventory_id": "INV-0022", "status": "out_of_stock"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5006"})
         ],
-        outputs=[{"customer_id": "CUST-5006", "membership_level": "gold"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2946,7 +2811,7 @@ TASKS = [
             }),
             Action(name="UpdateInventorySale", kwargs={"inventory_id": "INV-0005", "quantity_sold": 2, "last_stock_count_date": "2025-08-15"})
         ],
-        outputs=[{"transaction_id": "TXN-0013"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2966,7 +2831,7 @@ TASKS = [
             Action(name="GenerateAndAssignPromoCodes", kwargs={"customer_ids": ["CUST-5010"], "promotion_id": "PROMO-008"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5010"})
         ],
-        outputs=[{"customer_id": "CUST-5010", "opt_in_marketing": True}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2985,7 +2850,7 @@ TASKS = [
             }),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "HOME-DESKLMP01", "store_id": "STORE-001"})
         ],
-        outputs=[{"id": "INV-0015", "quantity": 25}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3009,7 +2874,7 @@ TASKS = [
             Action(name="UpdateInventorySale", kwargs={"inventory_id": "INV-0021", "quantity_sold": 2, "last_stock_count_date": "2025-06-10"}),
             Action(name="UpdatePromotionDetails", kwargs={"promotion_id": "PROMO-003", "times_used": 1})
         ],
-        outputs=[{"transaction_id": "TXN-0013"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3022,7 +2887,7 @@ TASKS = [
             Action(name="UpdateProductDetails", kwargs={"sku": "OFFC-ERGCHR01", "is_discountable": False}),
             Action(name="GetProductsByCategory", kwargs={"category": "Furniture"})
         ],
-        outputs=[{"sku": "OFFC-ERGCHR01", "category": "Furniture", "is_discountable": False}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3041,10 +2906,7 @@ TASKS = [
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5002"}),
             Action(name="GetCustomerDetailsById", kwargs={"customer_id": "CUST-5006"})
         ],
-        outputs=[
-            {"customer_id": "CUST-5002", "loyalty_points": 1075},
-            {"customer_id": "CUST-5006", "loyalty_points": 1180}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3061,7 +2923,7 @@ TASKS = [
             Action(name="UpdatePromotionDetails", kwargs={"promotion_id": "PROMO-005", "times_used": 86}),
             Action(name="GetPromotionById", kwargs={"promotion_id": "PROMO-005"})
         ],
-        outputs=[{"promotion_id": "PROMO-005", "times_used": 86}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3095,7 +2957,7 @@ TASKS = [
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5005", "points_to_add": 100}),
             Action(name="UpdateCustomerDetails", kwargs={"customer_id": "CUST-5005", "membership_level": "silver"})
         ],
-        outputs=[{"customer_id": "CUST-5005", "membership_level": "silver", "loyalty_points": 395}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3163,9 +3025,6 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5011"}
             )
         ],
-        outputs=[
-            {"customer_id": "CUST-5002", "membership_level": "gold"},
-            {"customer_id": "CUST-5011", "membership_level": "gold"}
-        ]
+        outputs=[]
     )
 ]

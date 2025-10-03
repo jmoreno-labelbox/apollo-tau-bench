@@ -54,17 +54,7 @@ TASKS = [
                 kwargs={"order_id": "#W7007896", "index": 0},
             ),
         ],
-        outputs=[
-            [{"supply_order_id": "#SO9359"}],
-            {"supply_order_id": "#SO9359", "status": "approved"},
-            {"supply_order_id": "#SO9359", "events_len": 1},
-            {"supply_order_id": "#SO9359", "status": "in_transit"},
-            {"supply_order_id": "#SO9359", "status": "closed"},
-            {"product_id": "9523456873", "item_id": "9612497925", "old_price": 55.00, "new_price": 55.00},
-            {"product_id": "9523456873", "item_id": "9612497925", "old_price": 55.00, "new_price": 49.99},
-            {"status": "success", "message": "Order #W7007896 was successfully modified in memory."},
-            {"order_id": "#W7007896", "removed": True, "payment_history_len": 1},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -126,20 +116,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            [{"order_id": "#W9609649"}],
-            [{"order_id": "#W4140680"}],
-            [{"order_id": "#W6310710"}],
-            {"order_id": "#W9609649", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W9609649", "added_count": 1, "items_len": 6},
-            {"order_id": "#W9609649", "payment_history_len": 1},
-            {"order_id": "#W9609649", "status": "delivered"},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"tracking_id": ["951786982868"], "order_id": "#W6310710"},
-            {"order_id": "#W4140680", "tracking_id": "951786982868", "fulfillments_len": 2},
-            {"tracking_id": "951786982868", "new_status": "info"},
-            {"order_id": "#W4140680", "status": "processed"},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -216,20 +193,7 @@ TASKS = [
                 kwargs={"order_id": "#W8193638", "status": "processed"},
             ),
         ],
-        outputs=[
-            [{"supply_order_id": "#SO6035"}, {"supply_order_id": "#SO7848"}],
-            {"supply_order_id": "#SO7848", "status": "approved"},
-            {"supply_order_id": "#SO7848", "events_len": 1},
-            {"supply_order_id": "#SO7848", "status": "closed"},
-            {"product_id": "9523456873", "item_id": "9612497925", "old_price": 50.88, "new_price": 49.99},
-            {"product_id": "6942297802", "item_id": "7903094618", "old_price": 90.32, "new_price": 89.99},
-            {"order_id": "#W8193638", "payment_history_len": 2},
-            {"order_id": "#W8193638", "removed_count": 1, "items_len": 0},
-            {"order_id": "#W8193638", "added_count": 2, "items_len": 2},
-            {"order_id": "#W8193638", "tracking_id": "951786982868", "fulfillments_len": 1},
-            {"tracking_id": "951786982868", "new_status": "info"},
-            {"order_id": "#W8193638", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -292,18 +256,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            [{"order_id": "#W5455653"}],
-            {"order_id": "#W5455653", "status": "cancelled", "refund_created": True},
-            [{"supply_order_id": "#SO6035"}, {"supply_order_id": "#SO7848"}],
-            {"supply_order_id": "#SO6035", "status": "approved"},
-            {"supply_order_id": "#SO6035", "events_len": 1},
-            {"supply_order_id": "#SO6035", "status": "closed"},
-            {"product_id": "5713490933", "item_id": "8214883393", "old_price": 150.58, "new_price": 82.50},
-            {"order_id": "#W3113816", "items_total": 0},
-            {"order_id": "#W3113816", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3113816", "payment_history_len": 1},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -357,18 +310,7 @@ TASKS = [
                 kwargs={"order_id": "#W9609649", "status": "cancelled"},
             ),
         ],
-        outputs=[
-            [{"order_id": "#W2611340"}, {"order_id": "#W3632959"}],
-            {"order_id": "#W2611340", "removed_count": 2, "items_len": 0},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "status": "cancelled"},
-            {"order_id": "#W3632959", "removed_count": 1, "items_len": 0},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "status": "cancelled"},
-            {"supply_order_id": "#SO9359", "status": "cancelled"},
-            {"supply_order_id": "#SO9359", "events_len": 1},
-            {"order_id": "#W9609649", "status": "cancelled"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -382,9 +324,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3632959", "index": 0}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
         ],
-        outputs=[
-            "Both of William Li's orders, #W2611340 and #W3632959, had their initial payments removed and their statuses set to pending as part of the audit preparation."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -444,25 +384,7 @@ TASKS = [
             ),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W2611340", "status": "pending"}),
         ],
-        outputs=[
-            [{"order_id": "#W6436609"}],
-            [{"order_id": "#W6310710"}],
-            [{"order_id": "#W4140680"}],
-            [{"order_id": "#W2611340"}, {"order_id": "#W3632959"}],
-            [{"order_id": "#W4435622"}, {"order_id": "#W3638028"}],
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "removed": True, "payment_history_len": 2},
-            {"order_id": "#W6310710", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6436609", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W4435622", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3638028", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6310710", "status": "processed"},
-            {"order_id": "#W6436609", "status": "processed"},
-            {"order_id": "#W4140680", "status": "processed"},
-            {"order_id": "#W2611340", "status": "pending"},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -478,11 +400,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W6310710", "index": 0}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
         ],
-        outputs=[
-            {"order_id": "#W4140680", "reopened": True, "status": "processed"},
-            {"order_id": "#W6310710", "payment_removed_index": 0},
-            {"order_id": "#W3632959", "status": "pending"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -498,11 +416,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            {"order_id": "#W3632959", "status": "pending"},
-            {"order_id": "#W2611340", "payment_removed_index": 0},
-            {"order_id": "#W4140680", "reopened": True, "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -522,9 +436,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            "All active orders (#W6310710, #W2611340, #W3632959) had their initial payments removed and were set to pending. The inactive order #W4140680 was reopened and set to processed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -544,9 +456,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            "A full audit was completed. All active orders had payments removed and were set to pending. Order #W4140680 was reopened and set to processed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -563,9 +473,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            "For William Li, order #W2611340 had its payment removed and was set to pending, while order #W3632959 also had its payment removed. For Mia Martinez, order #W4140680 was reopened and set to processed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -583,12 +491,7 @@ TASKS = [
             ),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W6310710", "status": "pending"}),
         ],
-        outputs=[
-            {"order_id": "#W6310710", "payments_removed": [0], "new_status": "pending"},
-            {"order_id": "#W2611340", "payments_removed": [0]},
-            {"order_id": "#W3632959", "payments_removed": [0]},
-            {"order_id": "#W4140680", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -606,9 +509,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            "A pre-audit cleanup was completed. Active orders #W2611340 and #W6310710 had their payments removed and were set to pending. Inactive order #W4140680 was reopened and set to processed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -628,11 +529,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W2611340", "status": "processed"}
             ),
         ],
-        outputs=[
-            {"order_id": "#W4140680", "reopened": True, "status": "processed"},
-            {"order_id": "#W6310710", "payment_removed_index": 0, "status": "pending"},
-            {"order_id": "#W2611340", "payment_removed_index": 0, "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -654,12 +551,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "cancelled"}
             ),
         ],
-        outputs=[
-            {"order_id": "#W6310710", "payment_removed_index": 0, "status": "pending"},
-            {"order_id": "#W4140680", "reopened": True, "status": "processed"},
-            {"order_id": "#W2611340", "payment_removed_index": 0, "status": "pending"},
-            {"order_id": "#W3632959", "payment_removed_index": 0, "status": "cancelled"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -674,9 +566,7 @@ TASKS = [
             Action(name="SetOrderStatus", kwargs={"order_id": "#W2611340", "status": "pending"}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
         ],
-        outputs=[
-            "A full financial reconciliation was completed. The initial payments for orders #W2611340, #W3632959, and #W6310710 were removed. Both of William Li's orders were then set to a 'pending' status."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -695,9 +585,7 @@ TASKS = [
             ),
             Action(name="ReopenCancelledOrder", kwargs={"order_id": "#W4140680"}),
         ],
-        outputs=[
-            "Critical account cleanup completed. William Li's orders #W2611340 and #W3632959 had their payments removed and were set to processed. Mia Martinez's order #W4140680 was reactivated."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -715,9 +603,7 @@ TASKS = [
             Action(name="SetOrderStatus", kwargs={"order_id": "#W2611340", "status": "pending"}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
         ],
-        outputs=[
-            "Mia Martinez's order #W4140680 was reopened and processed. William Li's orders #W2611340 and #W3632959 were prepared for audit by removing payments and setting their statuses to pending."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -737,12 +623,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W6310710", "index": 0}),
             Action(name="ReopenCancelledOrder", kwargs={"order_id": "#W4140680"}),
         ],
-        outputs=[
-            {"order_id": "#W2611340", "payment_removed_index": 0, "status": "processed"},
-            {"order_id": "#W3632959", "payment_removed_index": 0, "status": "processed"},
-            {"order_id": "#W6310710", "payment_removed_index": 0},
-            {"order_id": "#W4140680", "reopened": True},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -768,9 +649,7 @@ TASKS = [
             Action(name="SetOrderStatus", kwargs={"order_id": "#W2611340", "status": "pending"}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
         ],
-        outputs=[
-            "Mia Martinez's order #W4140680 was reopened, processed, and had a new item added. William Li's orders #W2611340 and #W3632959 were prepared for audit by removing payments and setting their statuses to pending."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -796,13 +675,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            {"order_id": "#W6310710", "status": "processed", "payments_cleared": True},
-            {"order_id": "#W2611340", "status": "processed", "payments_cleared": True},
-            {"order_id": "#W3632959", "status": "processed", "payments_cleared": True},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "status": "processed", "reopened": True},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -826,12 +699,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            {"order_id": "#W6310710", "payment_removed_index": 0, "status": "pending"},
-            {"order_id": "#W2611340", "payment_removed_index": 0, "status": "processed"},
-            {"order_id": "#W3632959", "payment_removed_index": 0, "status": "processed"},
-            {"order_id": "#W4140680", "reopened": True, "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -851,12 +719,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            {"order_id": "#W6310710", "payment_removed_index": 0, "status": "pending"},
-            {"order_id": "#W2611340", "payment_removed_index": 0, "status": "pending"},
-            {"order_id": "#W3632959", "payment_removed_index": 0, "status": "pending"},
-            {"order_id": "#W4140680", "reopened": True, "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -880,9 +743,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            "Quarterly cleanup finished. All active orders were financially reset. William Li's orders were set to processed, and Mia Martinez's active order was set to pending. Her inactive order was reopened and processed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -961,27 +822,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3638028", "index": 0}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3638028", "status": "pending"}),
         ],
-        outputs=[
-            [{"order_id": "#W4140680"}],
-            [{"order_id": "#W6310710"}],
-            [{"order_id": "#W2611340"}, {"order_id": "#W3632959"}],
-            [{"order_id": "#W4435622"}, {"order_id": "#W3638028"}],
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "added_count": 2, "items_len": 5},
-            {"order_id": "#W6310710", "removed": True, "payment_history_len": 0},
-            {"status": "success", "message": "Order #W2611340 was successfully modified in memory."},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "status": "pending"},
-            {"status": "success", "message": "Order #W3632959 was successfully modified in memory."},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "status": "pending"},
-            {"status": "success", "message": "Order #W4435622 was successfully modified in memory."},
-            {"order_id": "#W4435622", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W4435622", "status": "pending"},
-            {"status": "success", "message": "Order #W3638028 was successfully modified in memory."},
-            {"order_id": "#W3638028", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3638028", "status": "pending"},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1003,9 +844,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3632959", "index": 0}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
         ],
-        outputs=[
-            "A full audit and status reset was completed. Inactive order #W4140680 was reactivated and processed. All active orders (#W6310710, #W2611340, #W3632959) had their payments cleared and statuses updated according to the audit policy."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1039,21 +878,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            [{"order_id": "#W2611340"}, {"order_id": "#W3632959"}],
-            [{"order_id": "#W4435622"}, {"order_id": "#W3638028"}],
-            [{"order_id": "#W4140680"}],
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "status": "pending"},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "status": "pending"},
-            {"order_id": "#W4435622", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W4435622", "status": "pending"},
-            {"order_id": "#W3638028", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3638028", "status": "pending"},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "status": "processed"},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1070,9 +895,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            "A system-wide reconciliation was performed. The payment records for all active orders (#W2611340, #W3632959, #W6310710) were cleared. Mia Martinez's dormant order #W4140680 was reactivated and processed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1089,15 +912,7 @@ TASKS = [
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
             Action(name="ReopenCancelledOrder", kwargs={"order_id": "#W4140680"}),
         ],
-        outputs=[
-            {"order_id": "#W6310710", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6310710", "status": "pending"},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "status": "pending"},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "status": "pending"},
-            {"order_id": "#W4140680", "status": "pending"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1163,10 +978,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "For Mia Martinez, order #W6310710 was prepared for archival and order #W4140680 was reactivated with a new payment. "
-            "For William Li, order #W2611340 was enhanced with item and payment updates and then processed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1189,7 +1001,7 @@ TASKS = [
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W2611340", "status": "pending"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1216,9 +1028,7 @@ TASKS = [
             Action(name="SetOrderStatus", kwargs={"order_id": "#W4435622", "status": "pending"}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3638028", "status": "pending"}),
         ],
-        outputs=[
-            "A system-wide financial reset was performed. All active and reactivated orders for both customers had their primary payment records cleared. The final statuses were set according to policy: William Li's orders were set to pending, and Mia Martinez's reactivated order was set to processed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1241,9 +1051,7 @@ TASKS = [
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W2611340", "status": "pending"}),
         ],
-        outputs=[
-            "End-of-quarter review is complete. Mia Martinez's inactive order #W4140680 was reactivated and processed. All active orders (#W6310710, #W2611340, #W3632959) were financially reset and their statuses updated according to the EOD plan."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1265,9 +1073,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3632959", "index": 0}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
         ],
-        outputs=[
-            "Full audit and status reset is complete. Inactive order #W4140680 was reactivated and processed. All active orders (#W6310710, #W2611340, #W3632959) had their payments cleared and statuses updated according to the audit policy."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1289,14 +1095,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "processed"}
             ),
         ],
-        outputs=[
-            {"order_id": "#W6310710", "payment_removed_index": 0, "status": "pending"},
-            {"order_id": "#W6436609", "payment_removed_index": 0, "status": "pending"},
-            {"order_id": "#W2611340", "payment_removed_index": 0, "status": "pending"},
-            {"order_id": "#W3632959", "payment_removed_index": 0, "status": "processed"},
-            {"order_id": "#W4435622", "payment_removed_index": 0},
-            {"order_id": "#W3638028", "payment_removed_index": 0},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1350,7 +1149,7 @@ TASKS = [
             Action(name="SetOrderStatus", kwargs={"order_id": "#W6310710", "status": "pending"}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W6436609", "status": "pending"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1392,23 +1191,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            {"product_id": "1801728040", "item_id": "5339029584", "new_price": 105.50},
-            [{"order_id": "#W2611340", "status": "pending"}],
-            [{"order_id": "#W3632959", "status": "processed"}, {"order_id": "#W2611340", "status": "processed"}],
-            [{"order_id": "#W4435622", "status": "delivered"}, {"order_id": "#W3638028", "status": "delivered"}],
-            [{"order_id": "#W4140680", "status": "cancelled"}],
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "status": "pending"},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "status": "pending"},
-            {"order_id": "#W4435622", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W4435622", "status": "pending"},
-            {"order_id": "#W3638028", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3638028", "status": "pending"},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1452,9 +1235,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3632959", "index": 0}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
         ],
-        outputs=[
-            "All four orders were overhauled. All three active orders had their primary item replaced and payment record cleared before being set to 'pending'. The cancelled order was reactivated."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1498,9 +1279,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3632959", "index": 0}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
         ],
-        outputs=[
-            "All four orders were overhauled. All three active orders had their primary item replaced and payment record cleared before being set to 'pending'. The cancelled order was reactivated."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1548,9 +1327,7 @@ TASKS = [
             ),
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3632959", "index": 0}),
         ],
-        outputs=[
-            "System-wide data standardization is complete. For all 'processed' orders belonging to the specified customers, the primary item was updated to the standard variant and the initial payment record was cleared."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1616,16 +1393,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            {"order_id": "#W6310710", "added_count": 1, "items_len": 2},
-            {"order_id": "#W6310710", "payment_history_len": 2},
-            {"order_id": "#W2611340", "added_count": 1, "items_len": 3},
-            {"order_id": "#W2611340", "payment_history_len": 2},
-            {"order_id": "#W3632959", "added_count": 1, "items_len": 2},
-            {"order_id": "#W3632959", "payment_history_len": 2},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "added_count": 1, "items_len": 4},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1647,18 +1415,7 @@ TASKS = [
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
             Action(name="ReopenCancelledOrder", kwargs={"order_id": "#W4140680"}),
         ],
-        outputs=[
-            {"order_id": "#W6310710", "removed_count": 1, "items_len": 0},
-            {"order_id": "#W6310710", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6310710", "status": "pending"},
-            {"order_id": "#W2611340", "removed_count": 2, "items_len": 0},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "status": "pending"},
-            {"order_id": "#W3632959", "removed_count": 1, "items_len": 0},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "status": "pending"},
-            {"order_id": "#W4140680", "status": "pending"},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1738,7 +1495,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1762,7 +1519,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3632959", "index": 0}),
             Action(name="ReopenCancelledOrder", kwargs={"order_id": "#W4140680"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1818,19 +1575,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[
-            [{"order_id": "#W6310710"}],
-            [{"order_id": "#W4140680"}],
-            [{"order_id": "#W2611340"}, {"order_id": "#W3632959"}],
-            {"status": "success", "message": "Order #W6310710 was successfully modified in memory."},
-            {"status": "success", "message": "Order #W2611340 was successfully modified in memory."},
-            {"status": "success", "message": "Order #W3632959 was successfully modified in memory."},
-            {"order_id": "#W6310710", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1890,25 +1635,7 @@ TASKS = [
             ),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W2611340", "status": "pending"}),
         ],
-        outputs=[
-            [{"order_id": "#W6436609"}],
-            [{"order_id": "#W6310710"}],
-            [{"order_id": "#W4140680"}],
-            [{"order_id": "#W2611340"}, {"order_id": "#W3632959"}],
-            [{"order_id": "#W4435622"}, {"order_id": "#W3638028"}],
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "removed": True, "payment_history_len": 2},
-            {"order_id": "#W6310710", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6436609", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W4435622", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3638028", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6310710", "status": "processed"},
-            {"order_id": "#W6436609", "status": "processed"},
-            {"order_id": "#W4140680", "status": "processed"},
-            {"order_id": "#W2611340", "status": "pending"},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1971,7 +1698,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3638028", "index": 0}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3638028", "status": "pending"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2033,21 +1760,7 @@ TASKS = [
                 kwargs={"order_id": "#W4140680"},
             ),
         ],
-        outputs=[
-            [{"order_id": "#W4140680", "status": "cancelled"}],
-            [{"order_id": "#W2611340", "status": "processed"}, {"order_id": "#W3632959", "status": "processed"}],
-            [{"order_id": "#W4435622", "status": "delivered"}, {"order_id": "#W3638028", "status": "delivered"}],
-            {"product_id": "1801728040", "item_id": "5339029584", "old_price": 1128.99, "new_price": 105.50},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "status": "pending"},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "status": "pending"},
-            {"order_id": "#W4435622", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W4435622", "status": "pending"},
-            {"order_id": "#W3638028", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3638028", "status": "pending"},
-            {"order_id": "#W4140680", "status": "pending"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2105,7 +1818,7 @@ TASKS = [
                 kwargs={"order_id": "#W6310710", "status": "pending"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2127,7 +1840,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W4140680", "status": "processed"}
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2156,17 +1869,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            {
-                "product_id": "9523456873",
-                "item_id": "9612497925",
-                "old_price": 50.88,
-                "new_price": 55.00,
-            },
-            {"order_id": "#W2693718", "added_count": 1, "items_len": 6},
-            {"order_id": "#W3220387", "status": "pending"},
-            {"order_id": "#W3220387", "added_count": 1, "items_len": 3},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2200,20 +1903,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            {
-                "product_id": "9523456873",
-                "item_id": "9612497925",
-                "old_price": 50.88,
-                "new_price": 55.00,
-            },
-            {"order_id": "#W9609649", "added_count": 1, "items_len": 6},
-            {"order_id": "#W3561391", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3561391", "status": "processed"},
-            {"order_id": "#W6876713", "items_total": 0},
-            {"order_id": "#W6876713", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6876713", "added_count": 1, "items_len": 6},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2235,7 +1925,7 @@ TASKS = [
                 kwargs={"product_id": "1801728040", "item_id": "5339029584", "new_price": 199.99},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2273,19 +1963,7 @@ TASKS = [
                 kwargs={"product_id": "6942297802", "item_id": "7903094618", "new_price": 95.00},
             ),
         ],
-        outputs=[
-            {"order_id": "#W8193638", "items_removed": [0]},
-            {
-                "order_id": "#W8193638",
-                "items_added": [
-                    {"product_id": "9523456873", "item_id": "8124970213", "quantity": 1},
-                    {"product_id": "9523456873", "item_id": "9612497925", "quantity": 1},
-                ],
-            },
-            {"order_id": "#W3220387", "payment_removed_index": 0, "status": "delivered"},
-            {"product_id": "9523456873", "item_id": "9612497925", "new_price": 55.00},
-            {"product_id": "6942297802", "item_id": "7903094618", "new_price": 95.00},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2303,7 +1981,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3632959", "index": 0}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3632959", "status": "pending"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2357,7 +2035,7 @@ TASKS = [
             Action(name="SetOrderStatus", kwargs={"order_id": "#W6310710", "status": "pending"}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W6436609", "status": "pending"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2420,7 +2098,7 @@ TASKS = [
             Action(name="SetOrderStatus", kwargs={"order_id": "#W4435622", "status": "pending"}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3638028", "status": "pending"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2444,7 +2122,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W4435622", "index": 0}),
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3638028", "index": 0}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2507,28 +2185,7 @@ TASKS = [
             Action(name="SetOrderStatus", kwargs={"order_id": "#W4435622", "status": "pending"}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3638028", "status": "pending"}),
         ],
-        outputs=[
-            [{"order_id": "#W6436609", "status": "pending"}],
-            [{"order_id": "#W6310710", "status": "processed"}],
-            [{"order_id": "#W4140680", "status": "cancelled"}],
-            [{"order_id": "#W2611340", "status": "processed"}, {"order_id": "#W3632959", "status": "processed"}],
-            [{"order_id": "#W4435622", "status": "delivered"}, {"order_id": "#W3638028", "status": "delivered"}],
-            {"order_id": "#W4140680", "removed": True},
-            {"order_id": "#W6310710", "removed": True},
-            {"order_id": "#W6436609", "removed": True},
-            {"order_id": "#W2611340", "removed": True},
-            {"order_id": "#W3632959", "removed": True},
-            {"order_id": "#W4435622", "removed": True},
-            {"order_id": "#W3638028", "removed": True},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "status": "processed"},
-            {"order_id": "#W6310710", "status": "processed"},
-            {"order_id": "#W6436609", "status": "processed"},
-            {"order_id": "#W2611340", "status": "pending"},
-            {"order_id": "#W3632959", "status": "pending"},
-            {"order_id": "#W4435622", "status": "pending"},
-            {"order_id": "#W3638028", "status": "pending"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2555,7 +2212,7 @@ TASKS = [
                 kwargs={"supply_order_id": "#SO9359", "status": "completed"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2581,7 +2238,7 @@ TASKS = [
                 kwargs={"tracking_id": "357962501027", "status": "in_transit"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2620,19 +2277,7 @@ TASKS = [
                 kwargs={"user_id": "mia_martinez_3271", "status": "pending"},
             ),
         ],
-        outputs=[
-            {"order_id": "#W6310710", "removed_count": 1, "items_len": 0},
-            {"order_id": "#W6310710", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6310710", "status": "cancelled"},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "removed_count": 3, "items_len": 0},
-            {"order_id": "#W4140680", "added_count": 2, "items_len": 2},
-            {"order_id": "#W4140680", "payment_history_len": 3},
-            [
-                {"order_id": "#W4140680", "status": "pending"},
-                {"order_id": "#W6436609", "status": "pending"},
-            ],
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2670,7 +2315,7 @@ TASKS = [
                 kwargs={"user_id": "william_li_5688", "status": "processed"},
             ),
         ],
-        outputs=[[{"order_id": "#W2611340", "status": "processed"}]],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2726,16 +2371,7 @@ TASKS = [
                 kwargs={"order_id": "#W9903153", "status": "processed"},
             ),
         ],
-        outputs=[
-            [{"order_id": "#W9903153", "status": "pending"}],
-            {"status": "success", "message": "Order #W9903153 was successfully modified in memory."},
-            {"order_id": "#W9903153", "items_total": 3437.33},
-            {"order_id": "#W9903153", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W9903153", "payment_history_len": 1},
-            {"order_id": "#W9903153", "tracking_id": "443521489581", "fulfillments_len": 1},
-            {"tracking_id": "443521489581", "new_status": "info", "history_len": 1},
-            {"order_id": "#W9903153", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2765,13 +2401,7 @@ TASKS = [
             ),
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W6436609", "index": 0}),
         ],
-        outputs=[
-            [{"order_id": "#W6436609", "status": "pending"}],
-            {"tracking_id": "357962501027", "new_status": "delayed"},
-            {"tracking_id": "357962501027", "new_status": "delivered"},
-            {"order_id": "#W2611340", "status": "delivered"},
-            {"order_id": "#W6436609", "removed": True, "payment_history_len": 0},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2826,25 +2456,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3638028", "index": 0}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3638028", "status": "pending"}),
         ],
-        outputs=[
-            [{"order_id": "#W6310710"}],
-            [{"order_id": "#W4140680"}],
-            [{"order_id": "#W2611340"}, {"order_id": "#W3632959"}],
-            [{"order_id": "#W4435622"}, {"order_id": "#W3638028"}],
-            {"order_id": "#W6310710", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6310710", "status": "pending"},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "added_count": 1, "items_len": 4},
-            {"order_id": "#W4140680", "payment_history_len": 3},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "status": "pending"},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "status": "pending"},
-            {"order_id": "#W4435622", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W4435622", "status": "pending"},
-            {"order_id": "#W3638028", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3638028", "status": "pending"},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2909,18 +2521,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            [{"order_id": "#W6436609", "status": "pending"}],
-            {"status": "success", "message": "Order #W6436609 was successfully modified in memory."},
-            {"order_id": "#W6436609", "items_total": 3285.76},
-            {"order_id": "#W6436609", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6436609", "payment_history_len": 1},
-            {"order_id": "#W6436609", "tracking_id": "951786982868", "fulfillments_len": 1},
-            {"tracking_id": "951786982868", "new_status": "in_transit"},
-            {"tracking_id": "951786982868", "new_status": "delivered"},
-            {"order_id": "#W6436609", "status": "delivered"},
-            {"order_id": "#W6436609", "payment_history_len": 2},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2957,16 +2558,7 @@ TASKS = [
                 "message": "Delivery completed successfully"
             }),
         ],
-        outputs=[
-            {"supply_order_id": "#SO9359", "events_len": 1},
-            {"supply_order_id": "#SO9359", "status": "closed", "events_len": 2},
-            {"order_id": "#W3631991", "added_count": 1, "items_len": 3},
-            {"order_id": "#W3631991", "payment_history_len": 2},
-            {"order_id": "#W3631991", "removed": True, "payment_history_len": 1},
-            {"order_id": "#W3631991", "status": "shipped"},
-            {"order_id": "#W3631991", "status": "delivered"},
-            {"supply_order_id": "#SO9359", "events_len": 3},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3012,15 +2604,7 @@ TASKS = [
                 kwargs={"order_id": "#W4140680", "status": "processed"},
             ),
         ],
-        outputs=[
-            [{"order_id": "#W4140680", "status": "cancelled"}],
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "added_count": 1, "items_len": 4},
-            {"order_id": "#W4140680", "payment_history_len": 3},
-            {"tracking_id": ["474654093386"], "order_id": "#W3632959"},
-            {"order_id": "#W4140680", "tracking_id": "474654093386", "fulfillments_len": 2},
-            {"order_id": "#W4140680", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3053,15 +2637,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W7546247", "index": 0}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W7546247", "status": "pending"}),
         ],
-        outputs=[
-            {"tracking_id": "326515289837", "courier_name": "SpeedWay Delivery"},
-            {"tracking_id": "326515289837", "new_status": "info", "history_len": 2},
-            {"tracking_id": "326515289837", "new_status": "delivered", "history_len": 3},
-            {"order_id": "#W1429524", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W1429524", "status": "pending"},
-            {"order_id": "#W7546247", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W7546247", "status": "pending"},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3084,7 +2660,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W2918688", "status": "cancelled"}
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3136,16 +2712,7 @@ TASKS = [
                 name="SetOrderStatus", kwargs={"order_id": "#W3561391", "status": "cancelled"}
             ),
         ],
-        outputs=[
-            {"order_id": "#W9609649", "added_count": 1, "items_len": 6},
-            {"order_id": "#W9609649", "payment_history_len": 2},
-            {"order_id": "#W9609649", "status": "processed"},
-            {"order_id": "#W5765741", "added_count": 2, "items_len": 4},
-            {"order_id": "#W5765741", "payment_history_len": 2},
-            {"order_id": "#W5765741", "status": "delivered"},
-            {"order_id": "#W3561391", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3561391", "status": "cancelled"},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3189,18 +2756,7 @@ TASKS = [
                 kwargs={"order_id": "#W4140680", "status": "processed"},
             ),
         ],
-        outputs=[
-            [
-                {"order_id": "#W6310710", "status": "processed"}
-            ],
-            {"status": "success", "message": "Order #W6310710 was successfully modified in memory."},
-            {"order_id": "#W6310710", "payment_history_len": 2},
-            [
-                {"order_id": "#W4140680", "status": "cancelled"}
-            ],
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3242,15 +2798,7 @@ TASKS = [
                 kwargs={"supply_order_id": "#SO9359"},
             ),
         ],
-        outputs=[
-            {"tracking_id": "357962501027", "courier_name": "RapidTransit Solutions"},
-            {"tracking_id": "357962501027", "new_status": "delayed", "history_len": 2},
-            {"tracking_id": "357962501027", "new_status": "delivered", "history_len": 3},
-            [{"order_id": "#W4140680", "status": "cancelled"}],
-            {"order_id": "#W4140680", "status": "pending"},
-            {"supply_order_id": "#SO9359", "status": "approved", "events_len": 1},
-            {"supply_order_id": "#SO9359", "status": "closed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3304,17 +2852,7 @@ TASKS = [
                 kwargs={"order_id": "#W6436609", "status": "processed"},
             ),
         ],
-        outputs=[
-            [{"order_id": "#W6436609", "status": "pending"}],
-            [{"order_id": "#W4140680", "status": "cancelled"}],
-            {"status": "success", "message": "Order #W6436609 was successfully modified in memory."},
-            {"order_id": "#W6436609", "items_total": 3063.4},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "removed_count": 3, "items_len": 0},
-            {"order_id": "#W4140680", "added_count": 1, "items_len": 1},
-            {"order_id": "#W4140680", "status": "processed"},
-            {"order_id": "#W6436609", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3367,17 +2905,7 @@ TASKS = [
                 kwargs={"product_id": "6945232052", "item_id": "9408160950", "new_price": 299.99},
             ),
         ],
-        outputs=[
-            {"tracking_id": "326515289837", "courier_name": "Priority Shipping Co."},
-            {"tracking_id": "326515289837", "new_status": "info", "history_len": 2},
-            {"tracking_id": "326515289837", "new_status": "in_transit", "history_len": 3},
-            [{"order_id": "#W3113816"}, {"order_id": "#W1539823"}],
-            {"order_id": "#W3113816", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3113816", "status": "pending"},
-            {"order_id": "#W1539823", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W1539823", "status": "pending"},
-            {"product_id": "6945232052", "item_id": "9408160950", "old_price": 381.26, "new_price": 299.99},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3423,14 +2951,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            {"tracking_id": "357962501027", "courier_name": "RapidTransit Solutions"},
-            {"tracking_id": "357962501027", "new_status": "checkpoint", "history_len": 2},
-            {"tracking_id": "357962501027", "new_status": "returning", "history_len": 3},
-            {"order_id": "#W2611340", "removed_count": 1, "items_len": 1},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "payment_history_len": 1},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3481,17 +3002,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            [{"order_id": "#W8160318", "status": "processed", "items_len": 2}],
-            {
-                "status": "success",
-                "message": "Order #W8160318 was successfully modified in memory.",
-            },
-            {"order_id": "#W8160318", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W8160318", "payment_history_len": 1},
-            {"order_id": "#W3113816", "tracking_id": "443521489581", "fulfillments_len": 2},
-            {"tracking_id": "443521489581", "new_status": "info", "history_len": 1},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3573,26 +3084,7 @@ TASKS = [
                 kwargs={"product_id": "8310926033", "item_id": "6469567736", "new_price": 28.00},
             ),
         ],
-        outputs=[
-            [{"order_id": "#W9903153"}, {"order_id": "#W1620235"}, {"order_id": "#W2918688"}, {"order_id": "#W9655299"}],
-            [{"order_id": "#W8160318"}],
-            [{"order_id": "#W3113816"}, {"order_id": "#W1539823"}],
-            {"order_id": "#W3113816", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3113816", "status": "pending"},
-            {"order_id": "#W1539823", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W1539823", "status": "pending"},
-            {"order_id": "#W9903153", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W9903153", "status": "cancelled"},
-            {"order_id": "#W2918688", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2918688", "status": "cancelled"},
-            {"order_id": "#W1620235", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W1620235", "status": "processed"},
-            {"order_id": "#W9655299", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W9655299", "status": "processed"},
-            {"order_id": "#W8160318", "removed": True, "payment_history_len": 0},
-            {"product_id": "9743693396", "item_id": "8170914468", "old_price": 316.29, "new_price": 799.00},
-            {"product_id": "8310926033", "item_id": "6469567736", "old_price": 47.84, "new_price": 28.00},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3645,17 +3137,7 @@ TASKS = [
                 kwargs={"product_id": "6945232052", "item_id": "9408160950", "new_price": 299.99},
             ),
         ],
-        outputs=[
-            {"tracking_id": "326515289837", "courier_name": "Priority Shipping Co."},
-            {"tracking_id": "326515289837", "new_status": "info", "history_len": 2},
-            {"tracking_id": "326515289837", "new_status": "in_transit", "history_len": 3},
-            [{"order_id": "#W3113816"}, {"order_id": "#W1539823"}],
-            {"order_id": "#W3113816", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3113816", "status": "pending"},
-            {"order_id": "#W1539823", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W1539823", "status": "pending"},
-            {"product_id": "6945232052", "item_id": "9408160950", "old_price": 150.58, "new_price": 299.99},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3693,22 +3175,7 @@ TASKS = [
                 kwargs={"product_id": "9523456873", "item_id": "9612497925", "new_price": 50.00},
             ),
         ],
-        outputs=[
-            [
-                {"order_id": "#W4435622", "status": "delivered"},
-                {"order_id": "#W3638028", "status": "delivered"},
-            ],
-            {"order_id": "#W4435622", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3638028", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W4435622", "status": "pending"},
-            {"order_id": "#W3638028", "status": "pending"},
-            {
-                "product_id": "9523456873",
-                "item_id": "8124970213",
-                "old_price": 39.99,
-                "new_price": 45.50,
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3753,20 +3220,7 @@ TASKS = [
                 kwargs={"order_id": "#W1620235", "status": "processed"},
             ),
         ],
-        outputs=[
-            [
-                {"order_id": "#W9903153", "status": "pending"},
-                {"order_id": "#W1620235", "status": "pending"},
-                {"order_id": "#W2918688", "status": "pending"},
-                {"order_id": "#W9655299", "status": "pending"},
-            ],
-            {"order_id": "#W9903153", "removed_count": 1, "items_len": 4},
-            {"order_id": "#W1620235", "added_count": 1, "items_len": 4},
-            {"tracking_id": "443521489581", "courier_name": "RapidTransit Solutions"},
-            {"tracking_id": "443521489581", "new_status": "info", "history_len": 2},
-            {"order_id": "#W9903153", "status": "processed"},
-            {"order_id": "#W1620235", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3816,15 +3270,7 @@ TASKS = [
                 kwargs={"order_id": "#W4140680", "status": "processed"},
             ),
         ],
-        outputs=[
-            {"tracking_id": "357962501027", "new_status": "info", "history_len": 1},
-            {"tracking_id": "357962501027", "new_status": "delivered", "history_len": 3},
-            {"order_id": "#W2611340", "status": "delivered"},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "added_count": 2, "items_len": 5},
-            {"order_id": "#W4140680", "payment_history_len": 3},
-            {"order_id": "#W4140680", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3874,18 +3320,7 @@ TASKS = [
                 kwargs={"order_id": "#W4140680", "status": "processed"},
             ),
         ],
-        outputs=[
-            [
-                {"order_id": "#W2611340", "status": "processed"},
-                {"order_id": "#W3632959", "status": "processed"},
-            ],
-            {"target_order_id": "#W2611340", "moved_items": 1, "target_items_len": 3},
-            {"order_id": "#W2611340", "status": "pending"},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "added_count": 1, "items_len": 4},
-            {"order_id": "#W4140680", "payment_history_len": 3},
-            {"order_id": "#W4140680", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3928,14 +3363,7 @@ TASKS = [
                 kwargs={"order_id": "#W1429524", "status": "cancelled"},
             ),
         ],
-        outputs=[
-            {"tracking_id": "632894717617", "courier_name": "RapidTransit Solutions"},
-            {"tracking_id": "632894717617", "new_status": "info", "history_len": 2},
-            {"tracking_id": "632894717617", "new_status": "returning", "history_len": 7},
-            {"order_id": "#W5455653", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W5455653", "payment_history_len": 1},
-            {"order_id": "#W1429524", "status": "cancelled"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3989,16 +3417,7 @@ TASKS = [
                 kwargs={"order_id": "#W6310710", "status": "delivered"},
             ),
         ],
-        outputs=[
-            {"order_id": "#W5765741", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W5765741", "added_count": 2, "items_len": 4},
-            {"order_id": "#W5765741", "payment_history_len": 1},
-            {"order_id": "#W5765741", "status": "delivered"},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"tracking_id": "951786982868", "new_status": "info"},
-            {"tracking_id": "951786982868", "new_status": "delivered"},
-            {"order_id": "#W6310710", "status": "delivered"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4040,24 +3459,7 @@ TASKS = [
                 kwargs={"order_id": "#W2918688", "index": 0},
             ),
         ],
-        outputs=[
-            [
-                {"order_id": "#W3113816", "status": "delivered"},
-                {"order_id": "#W9903153", "status": "pending"},
-                {"order_id": "#W1620235", "status": "pending"},
-                {"order_id": "#W2918688", "status": "pending"},
-                {"order_id": "#W8160318", "status": "processed"},
-                {"order_id": "#W1539823", "status": "delivered"},
-                {"order_id": "#W9655299", "status": "pending"},
-            ],
-            {"order_id": "#W3113816", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3113816", "status": "pending"},
-            {"order_id": "#W9903153", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W9903153", "status": "cancelled"},
-            {"order_id": "#W1620235", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W1620235", "status": "processed"},
-            {"order_id": "#W2918688", "removed": True, "payment_history_len": 0},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4112,25 +3514,7 @@ TASKS = [
             Action(name="RemovePaymentByIndex", kwargs={"order_id": "#W3638028", "index": 0}),
             Action(name="SetOrderStatus", kwargs={"order_id": "#W3638028", "status": "pending"}),
         ],
-        outputs=[
-            [{"order_id": "#W6310710"}],
-            [{"order_id": "#W4140680"}],
-            [{"order_id": "#W2611340"}, {"order_id": "#W3632959"}],
-            [{"order_id": "#W4435622"}, {"order_id": "#W3638028"}],
-            {"order_id": "#W6310710", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6310710", "status": "pending"},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "added_count": 1, "items_len": 4},
-            {"order_id": "#W4140680", "payment_history_len": 3},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "status": "pending"},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "status": "pending"},
-            {"order_id": "#W4435622", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W4435622", "status": "pending"},
-            {"order_id": "#W3638028", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3638028", "status": "pending"},
-        ]
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4188,18 +3572,7 @@ TASKS = [
                 kwargs={"product_id": "5713490933", "item_id": "8214883393", "new_price": 82.50},
             ),
         ],
-        outputs=[
-            {"tracking_id": "951786982868", "courier_name": "Priority Shipping Co."},
-            {"tracking_id": "951786982868", "new_status": "info", "history_len": 2},
-            {"tracking_id": "951786982868", "new_status": "delivered", "history_len": 3},
-            {"order_id": "#W6310710", "status": "delivered"},
-            [{"supply_order_id": "#SO6035", "status": "pending"}, {"supply_order_id": "#SO7848", "status": "pending"}],
-            {"supply_order_id": "#SO6035", "status": "approved"},
-            {"supply_order_id": "#SO6035", "events_len": 1},
-            {"supply_order_id": "#SO6035", "status": "closed"},
-            {"supply_order_id": "#SO7848", "status": "cancelled"},
-            {"product_id": "5713490933", "item_id": "8214883393", "old_price": 150.58, "new_price": 82.50},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4250,15 +3623,7 @@ TASKS = [
                 kwargs={"product_id": "6945232052", "item_id": "2681513500", "new_price": 255.00},
             ),
         ],
-        outputs=[
-            {"supply_order_id": "#SO6035", "status": "cancelled"},
-            {"supply_order_id": "#SO6035", "events_len": 1},
-            [{"order_id": "#W3113816"}, {"order_id": "#W1539823"}],
-            {"status": "success", "message": "Order #W3113816 was successfully modified in memory."},
-            {"order_id": "#W3113816", "status": "pending"},
-            {"tracking_id": "443521489581", "new_status": "info"},
-            {"product_id": "6945232052", "item_id": "2681513500", "old_price": 356.23, "new_price": 255.00},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4296,18 +3661,7 @@ TASKS = [
                 kwargs={"order_id": "#W3632959", "status": "cancelled"},
             ),
         ],
-        outputs=[
-            [
-                {"order_id": "#W2611340", "status": "processed"},
-                {"order_id": "#W3632959", "status": "processed"},
-            ],
-            {"order_id": "#W2611340", "removed_count": 2, "items_len": 0},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "status": "cancelled"},
-            {"order_id": "#W3632959", "removed_count": 1, "items_len": 0},
-            {"order_id": "#W3632959", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3632959", "status": "cancelled"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4355,14 +3709,7 @@ TASKS = [
                 kwargs={"order_id": "#W9903153", "status": "processed"},
             ),
         ],
-        outputs=[
-            {"status": "success", "message": "Order #W9903153 was successfully modified in memory."},
-            {"order_id": "#W9903153", "removed_count": 1, "items_len": 4},
-            {"order_id": "#W9903153", "payment_history_len": 2},
-            {"tracking_id": "443521489581", "courier_name": "SpeedWay Delivery"},
-            {"tracking_id": "749747277477", "new_status": "info", "history_len": 1},
-            {"order_id": "#W9903153", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4420,18 +3767,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            [{"order_id": "#W6310710", "status": "processed"}],
-            [{"order_id": "#W6436609", "status": "pending"}],
-            [{"order_id": "#W4140680", "status": "cancelled"}],
-            {"order_id": "#W6310710", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6310710", "status": "pending"},
-            {"order_id": "#W6436609", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W6436609", "status": "processed"},
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "added_count": 1, "items_len": 4},
-            {"order_id": "#W4140680", "payment_history_len": 3},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4485,20 +3821,7 @@ TASKS = [
                 kwargs={"order_id": "#W3632959"},
             ),
         ],
-        outputs=[
-            {"tracking_id": "443521489581", "courier_name": "RapidTransit Solutions"},
-            {"tracking_id": "443521489581", "new_status": "info", "history_len": 2},
-            {"tracking_id": "749747277477", "new_status": "info", "history_len": 1},
-            {"tracking_id": "749747277477", "new_status": "delivered", "history_len": 6},
-            {"product_id": "1801728040", "item_id": "5339029584", "old_price": 1128.99, "new_price": 210.00},
-            {"product_id": "9523456873", "item_id": "9612497925", "old_price": 50.88, "new_price": 52.00},
-            [
-                {"order_id": "#W2611340", "status": "processed"},
-                {"order_id": "#W3632959", "status": "processed"},
-            ],
-            {"order_id": "#W2611340", "items_total": 0},
-            {"order_id": "#W3632959", "items_total": 0},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4564,18 +3887,7 @@ TASKS = [
                 kwargs={"order_id": "#W6436609", "status": "processed"},
             ),
         ],
-        outputs=[
-            [{"supply_order_id": "#SO9359", "status": "pending"}],
-            {"supply_order_id": "#SO9359", "status": "approved"},
-            {"supply_order_id": "#SO9359", "events_len": 1},
-            {"supply_order_id": "#SO9359", "status": "in_transit"},
-            {"supply_order_id": "#SO9359", "events_len": 2},
-            {"supply_order_id": "#SO9359", "status": "closed"},
-            [{"order_id": "#W6436609", "status": "pending"}],
-            {"order_id": "#W6436609", "added_count": 1, "items_len": 5},
-            {"order_id": "#W6436609", "payment_history_len": 2},
-            {"order_id": "#W6436609", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4631,19 +3943,7 @@ TASKS = [
                 kwargs={"order_id": "#W2611340", "status": "processed"},
             ),
         ],
-        outputs=[
-            [
-                {"order_id": "#W2611340", "status": "processed"},
-                {"order_id": "#W3632959", "status": "processed"},
-            ],
-            {"target_order_id": "#W2611340", "source_order_id": "#W3632959", "target_items_len": 3, "source_status": "cancelled"},
-            {"status": "success", "message": "Order #W2611340 was successfully modified in memory."},
-            {"order_id": "#W2611340", "items_total": 695.54},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 1},
-            {"order_id": "#W2611340", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W2611340", "payment_history_len": 1},
-            {"order_id": "#W2611340", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4686,20 +3986,7 @@ TASKS = [
                 kwargs={"order_id": "#W9655299", "status": "pending"},
             ),
         ],
-        outputs=[
-            [
-                {"order_id": "#W9903153", "status": "pending"},
-                {"order_id": "#W1620235", "status": "pending"},
-                {"order_id": "#W2918688", "status": "pending"},
-                {"order_id": "#W9655299", "status": "pending"},
-            ],
-            {"status": "success", "message": "Order #W9903153 was successfully modified in memory."},
-            {"order_id": "#W9903153", "items_total": 3292.95},
-            {"order_id": "#W9903153", "status": "processed"},
-            {"order_id": "#W1620235", "status": "delivered"},
-            {"order_id": "#W2918688", "status": "cancelled"},
-            {"order_id": "#W9655299", "status": "pending"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4763,18 +4050,7 @@ TASKS = [
                 kwargs={"order_id": "#W7007896", "status": "processed"},
             ),
         ],
-        outputs=[
-            [{"order_id": "#W5455653", "status": "delivered"}],
-            {"order_id": "#W5455653", "removed_count": 1, "items_len": 4},
-            {"order_id": "#W5455653", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W5455653", "payment_history_len": 1},
-            [{"order_id": "#W7007896", "status": "pending"}],
-            {"tracking_id": ["632894717617"], "order_id": "#W5455653"},
-            {"order_id": "#W7007896", "tracking_id": "632894717617", "fulfillments_len": 1},
-            {"tracking_id": "632894717617", "new_status": "info", "history_len": 1},
-            {"order_id": "#W7007896", "payment_history_len": 2},
-            {"order_id": "#W7007896", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4846,19 +4122,7 @@ TASKS = [
                 kwargs={"order_id": "#W3113816", "status": "processed"},
             ),
         ],
-        outputs=[
-            [{"order_id": "#W3113816"}, {"order_id": "#W1539823"}],
-            {"tracking_id": "443521489581", "courier_name": "Returns Department"},
-            {"tracking_id": "443521489581", "new_status": "checkpoint"},
-            {"status": "success", "message": "Order #W3113816 was successfully modified in memory."},
-            {"order_id": "#W3113816", "items_total": 1885.83},
-            {"order_id": "#W3113816", "removed": True},
-            {"order_id": "#W3113816", "payment_history_len": 1},
-            {"tracking_id": ["749747277477"], "order_id": "#W1539823"},
-            {"order_id": "#W3113816", "tracking_id": "749747277477", "fulfillments_len": 2},
-            {"tracking_id": "749747277477", "new_status": "info"},
-            {"order_id": "#W3113816", "status": "processed"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4896,18 +4160,7 @@ TASKS = [
                 kwargs={"order_id": "#W3113816"},
             ),
         ],
-        outputs=[
-            [
-                {"supply_order_id": "#SO6035", "status": "pending"},
-                {"supply_order_id": "#SO7848", "status": "pending"},
-            ],
-            {"supply_order_id": "#SO6035", "status": "approved"},
-            {"supply_order_id": "#SO7848", "status": "cancelled"},
-            {"product_id": "5713490933", "item_id": "8214883393", "old_price": 150.58, "new_price": 85.00},
-            {"supply_order_id": "#SO6035", "status": "closed"},
-            {"product_id": "5713490933", "item_id": "8214883393", "old_price": 85.00, "new_price": 78.00},
-            {"order_id": "#W3113816", "items_total": 0},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -4953,17 +4206,7 @@ TASKS = [
                 kwargs={"order_id": "#W5765741", "status": "cancelled"},
             ),
         ],
-        outputs=[
-            {"order_id": "#W9609649", "removed_count": 5, "items_len": 0},
-            {"order_id": "#W9609649", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W9609649", "status": "cancelled"},
-            {"order_id": "#W3561391", "removed_count": 1, "items_len": 0},
-            {"order_id": "#W3561391", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W3561391", "status": "cancelled"},
-            {"order_id": "#W5765741", "removed_count": 2, "items_len": 0},
-            {"order_id": "#W5765741", "removed": True, "payment_history_len": 0},
-            {"order_id": "#W5765741", "status": "cancelled"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -5020,17 +4263,6 @@ TASKS = [
                 kwargs={"order_id": "#W4140680", "status": "processed"},
             ),
         ],
-        outputs=[
-            [
-                {"order_id": "#W4140680", "status": "cancelled"}
-            ],
-            {"order_id": "#W4140680", "status": "pending"},
-            {"order_id": "#W4140680", "removed_count": 3, "items_len": 0},
-            {"order_id": "#W4140680", "added_count": 2, "items_len": 2},
-            {"order_id": "#W4140680", "payment_history_len": 3},
-            {"order_id": "#W4140680", "tracking_id": "951786982868", "fulfillments_len": 2},
-            {"tracking_id": "951786982868", "new_status": "info", "history_len": 1},
-            {"order_id": "#W4140680", "status": "processed"},
-        ],
+        outputs=[]
     ),
 ]

@@ -28,12 +28,12 @@ Task(
             Action(name="GetUserAsset", kwargs={"employee_id": "emp_0004"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00040", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_38d007"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_38d007"],
+        outputs=[]
     ),
         Task(
 annotator="v2",
 user_id="It_Help_Desk_V2_002",
-instruction=("You must offboard terminated employee Alex Park (employee_id 'emp_0006') for lifecycle_id 'lcq_00019'. Follow standard termination policy to securely deprovision access, revoke licenses, and schedule asset return."),
+instruction="You must offboard terminated employee Alex Park (employee_id 'emp_0006') for lifecycle_id 'lcq_00019'. Follow standard termination policy to securely deprovision access, revoke licenses, and schedule asset return.",
 actions=[
 Action(name="GetUserByUpnOrHrId", kwargs={"user_lookup": "emp_0006"}),
 Action(name="SetDirectoryAccountStatus", kwargs={"account_id": "acc_e7e9ee", "status": "inactive"}),
@@ -55,12 +55,12 @@ Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00019", "event": "
 Action(name="GetUserAsset", kwargs={"employee_id": "emp_0006"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00019", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_e7e9ee"}}),
 ],
-outputs=["acc_e7e9ee"],
+outputs=[]
 ),
 Task(
 annotator="v2",
 user_id="It_Help_Desk_V2_003",
-instruction=("You must offboard Riley Wang (employee_id 'emp_0011') for lifecycle_id 'lcq_00023'. Employee has no assigned hardware. You should follow standard termination policy for software-only user."),
+instruction="You must offboard Riley Wang (employee_id 'emp_0011') for lifecycle_id 'lcq_00023'. Employee has no assigned hardware. You should follow standard termination policy for software-only user.",
 actions=[
 Action(name="GetUserByUpnOrHrId", kwargs={"user_lookup": "emp_0011"}),
 Action(name="SetDirectoryAccountStatus", kwargs={"account_id": "acc_51e138", "status": "inactive"}),
@@ -79,13 +79,13 @@ Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00023", "event": "
 Action(name="GetUserAsset", kwargs={"employee_id": "emp_0011"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00023", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_51e138"}}),
 ],
-outputs=["acc_51e138"],
+outputs=[]
 ),
         
 Task(
 annotator="v2",
 user_id="It_Help_Desk_V2_004",
-instruction=("You must process the onboarding for the new IT Manager, Drew Kumar (hr-217), for lifecycle_id 'lcq_00016'. Follow standard onboarding procedures to provision software access, but report any hardware shortages encountered during the process."),
+instruction="You must process the onboarding for the new IT Manager, Drew Kumar (hr-217), for lifecycle_id 'lcq_00016'. Follow standard onboarding procedures to provision software access, but report any hardware shortages encountered during the process.",
 actions=[
 Action(name="CreateDirectoryAccount", kwargs={"legal_name": "Drew Kumar", "hr_id": "hr-217", "department": "IT", "job_title": "IT Manager"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00016", "event": "ACCOUNT_CREATED", "details": {"account_id": "acc_taylorp217"}}),
@@ -110,7 +110,7 @@ Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00016", "event": "
 Action(name="CreateDeviceWorkflow", kwargs={"employee_id": "emp_217", "asset_id": "ast_0013", "process": "onboarding"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00016", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "dwf_00022", "pickup_code": "PU0022"}}),
 ],
-outputs=["acc_taylorp217"],
+outputs=[]
 ),
         Task(
         annotator="v2",
@@ -128,12 +128,12 @@ outputs=["acc_taylorp217"],
             Action(name="NotifyTeamOfReport", kwargs={"pdf_path": "\\\\IT\\Reports\\DailyReports\\2025-08-15\\ServiceDesk_Health_Report.pdf", "csv_path": "\\\\IT\\Reports\\DailyReports\\2025-08-15\\Tickets_Export.csv"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00090", "event": "MONTHLY_REPORT_GENERATED", "details": {"run_id": "run_20250815", "report_type": "monthly"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["run_20250815"],
+        outputs=[]
     ),
 Task(
 annotator="v2",
 user_id="It_Help_Desk_V2_006",
-instruction=("You are to perform a full, compliant onboarding for the new DevOps Engineer, Robin Jones (hr-219), in Engineering for lifecycle_id 'lcq_00018'. Follow standard policy to fully provision the user with appropriate access, groups, licenses, and hardware."),
+instruction="You are to perform a full, compliant onboarding for the new DevOps Engineer, Robin Jones (hr-219), in Engineering for lifecycle_id 'lcq_00018'. Follow standard policy to fully provision the user with appropriate access, groups, licenses, and hardware.",
 actions=[
 Action(name="CreateDirectoryAccount", kwargs={"legal_name": "Robin Jones", "hr_id": "hr-219", "department": "Engineering", "job_title": "DevOps Engineer"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00018", "event": "ACCOUNT_CREATED", "details": {"account_id": "acc_caseys219"}}),
@@ -158,7 +158,7 @@ Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00018", "event": "
 Action(name="CreateDeviceWorkflow", kwargs={"employee_id": "emp_219", "asset_id": "ast_0013", "process": "onboarding"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00018", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "dwf_00022", "pickup_code": "PU0022"}}),
 ],
-outputs=["acc_caseys219"],
+outputs=[]
 ),
 Task(
         annotator="v2",
@@ -191,13 +191,13 @@ Task(
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_onboard_emp_216_ast_0013", "employee_id": "emp_216", "asset_id": "ast_0013", "process": "onboarding"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00014", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_onboard_emp_216_ast_0013"}}),
         ],
-        outputs=["acc_jordang216"],
+        outputs=[]
     ),
 
 Task(
 annotator="v2",
 user_id="It_Help_Desk_V2_008",
-instruction=("You must onboard new Financial Analyst Jordan Kim (hr-220) in Finance for lifecycle_id 'lcq_00020'. Role requires M365 E5 license in addition to standard bundle. Create ticket for license shortage if needed."),
+instruction="You must onboard new Financial Analyst Jordan Kim (hr-220) in Finance for lifecycle_id 'lcq_00020'. Role requires M365 E5 license in addition to standard bundle. Create ticket for license shortage if needed.",
 actions=[
 Action(name="CreateDirectoryAccount", kwargs={"legal_name": "Jordan Kim", "hr_id": "hr-220", "department": "Finance", "job_title": "Financial Analyst"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00020", "event": "ACCOUNT_CREATED", "details": {"account_id": "acc_parkerd220"}}),
@@ -222,7 +222,7 @@ Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00020", "event": "
 Action(name="CreateDeviceWorkflow", kwargs={"employee_id": "emp_220", "asset_id": "ast_0013", "process": "onboarding"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00020", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "dwf_00022", "pickup_code": "PU0022"}}),
 ],
-outputs=["acc_parkerd220"],
+outputs=[]
 ),
         Task(
         annotator="v2",
@@ -252,12 +252,12 @@ outputs=["acc_parkerd220"],
             Action(name="GetUserAsset", kwargs={"employee_id": "emp_0009"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00021", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_9e0388"}}),
         ],
-        outputs=["acc_9e0388"],
+        outputs=[]
     ),
 Task(
 annotator="v2",
 user_id="It_Help_Desk_V2_010",
-instruction=("You must onboard new Sales Ops Analyst Avery Zhang (hr-221) in Sales for lifecycle_id 'lcq_00022'. You should follow standard policy for sales role provisioning including optional CreativeWorks Creative Cloud license."),
+instruction="You must onboard new Sales Ops Analyst Avery Zhang (hr-221) in Sales for lifecycle_id 'lcq_00022'. You should follow standard policy for sales role provisioning including optional CreativeWorks Creative Cloud license.",
 actions=[
 Action(name="CreateDirectoryAccount", kwargs={"legal_name": "Avery Zhang", "hr_id": "hr-221", "department": "Sales", "job_title": "Sales Ops Analyst"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00022", "event": "ACCOUNT_CREATED", "details": {"account_id": "acc_rowanl221"}}),
@@ -286,7 +286,7 @@ Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00022", "event": "
 Action(name="CreateDeviceWorkflow", kwargs={"employee_id": "emp_221", "asset_id": "ast_0013", "process": "onboarding"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00022", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "dwf_00022", "pickup_code": "PU0022"}}),
 ],
-outputs=["acc_rowanl221"],
+outputs=[]
 ),
 Task(
         annotator="v2",
@@ -311,7 +311,7 @@ Task(
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_return_emp_0007_none", "employee_id": "emp_0007", "asset_id": "none", "process": "device_return"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00015", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_return_emp_0007_none", "devices_scheduled": 0}}),
         ],
-        outputs=["acc_e2a5e9"],
+        outputs=[]
     ),
 
     Task(
@@ -349,12 +349,12 @@ Task(
                 kwargs={"lifecycle_id": "lcq_00024", "event": "JIRA_TICKET_CREATED", "details": {"jira_id": "ITSD-1013"}},
             ),
         ],
-        outputs=["ITSD-1013"],
+        outputs=[]
     ),
 Task(
 annotator="v2",
 user_id="It_Help_Desk_V2_013",
-instruction=("You must handle the offboarding exception for Cameron Patel (employee_id 'emp_0013') for lifecycle_id 'lcq_00025'. Initial employee ID lookup may fail. You should use UPN fallback to complete standard termination process."),
+instruction="You must handle the offboarding exception for Cameron Patel (employee_id 'emp_0013') for lifecycle_id 'lcq_00025'. Initial employee ID lookup may fail. You should use UPN fallback to complete standard termination process.",
 actions=[
 Action(name="GetUserByUpnOrHrId", kwargs={"user_lookup": "emp_0013"}),
 Action(name="SetDirectoryAccountStatus", kwargs={"account_id": "acc_78fb5c", "status": "inactive"}),
@@ -377,12 +377,12 @@ Action(name="GetUserAsset", kwargs={"employee_id": "emp_0013"}),
 Action(name="CreateDeviceWorkflow", kwargs={"employee_id": "emp_0013", "asset_id": "ast_0033", "process": "offboarding_return"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00025", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "dwf_00022", "return_code": "RT0022"}}),
 ],
-outputs=["acc_78fb5c"],
+outputs=[]
 ),
 Task(
 annotator="v2",
 user_id="It_Help_Desk_V2_014",
-instruction=("You must onboard new Content Strategist Emerson Davis (hr-223) in Marketing for lifecycle_id 'lcq_00026'. Role requires CreativeWorks Creative Cloud license. You should create ticket for license shortage if needed."),
+instruction="You must onboard new Content Strategist Emerson Davis (hr-223) in Marketing for lifecycle_id 'lcq_00026'. Role requires CreativeWorks Creative Cloud license. You should create ticket for license shortage if needed.",
 actions=[
 Action(name="CreateDirectoryAccount", kwargs={"legal_name": "Emerson Davis", "hr_id": "hr-223", "department": "Marketing", "job_title": "Content Strategist"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00026", "event": "ACCOUNT_CREATED", "details": {"account_id": "acc_peytont223"}}),
@@ -411,7 +411,7 @@ Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00026", "event": "
 Action(name="CreateDeviceWorkflow", kwargs={"employee_id": "emp_223", "asset_id": "ast_0013", "process": "onboarding"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00026", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "dwf_00022", "pickup_code": "PU0022"}}),
 ],
-outputs=["acc_peytont223"],
+outputs=[]
 ),
     Task(
         annotator="v2",
@@ -438,12 +438,12 @@ outputs=["acc_peytont223"],
             Action(name="GetUserAsset", kwargs={"employee_id": "emp_0015"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00027", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_3818d8"}}),
         ],
-        outputs=["acc_3818d8"],
+        outputs=[]
     ),
 Task(
 annotator="v2",
 user_id="It_Help_Desk_V2_016",
-instruction=("You must onboard new Senior Software Engineer Hayden Brown (hr-224) in Engineering for lifecycle_id 'lcq_00028'. You should follow standard policy to fully provision the user with appropriate access, groups, licenses, and hardware."),
+instruction="You must onboard new Senior Software Engineer Hayden Brown (hr-224) in Engineering for lifecycle_id 'lcq_00028'. You should follow standard policy to fully provision the user with appropriate access, groups, licenses, and hardware.",
 actions=[
 Action(name="CreateDirectoryAccount", kwargs={"legal_name": "Hayden Brown", "hr_id": "hr-224", "department": "Engineering", "job_title": "Senior Software Engineer"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00028", "event": "ACCOUNT_CREATED", "details": {"account_id": "acc_dakotaj224"}}),
@@ -468,7 +468,7 @@ Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00028", "event": "
 Action(name="CreateDeviceWorkflow", kwargs={"employee_id": "emp_224", "asset_id": "ast_0013", "process": "onboarding"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00028", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "dwf_00022", "pickup_code": "PU0022"}}),
 ],
-outputs=["acc_dakotaj224"],
+outputs=[]
 ),
         Task(
         annotator="v2",
@@ -516,12 +516,12 @@ outputs=["acc_dakotaj224"],
                 },
             ),
         ],
-        outputs=["ITSD-1013"],
+        outputs=[]
     ),
 Task(
 annotator="v2",
 user_id="It_Help_Desk_V2_018",
-instruction=("You are onboarding a new 'QA Engineer', Blake Anderson (hr-225), in 'Engineering' for lifecycle_id 'lcq_00030'. The goal is to fully provision the user. You must create the account ('acc_sawyert225'), assign all role-based groups and licenses, and provision a laptop ('ast_0013'). You must ensure every action is audited."),
+instruction="You are onboarding a new 'QA Engineer', Blake Anderson (hr-225), in 'Engineering' for lifecycle_id 'lcq_00030'. The goal is to fully provision the user. You must create the account ('acc_sawyert225'), assign all role-based groups and licenses, and provision a laptop ('ast_0013'). You must ensure every action is audited.",
 actions=[
 Action(name="CreateDirectoryAccount", kwargs={"legal_name": "Blake Anderson", "hr_id": "hr-225", "department": "Engineering", "job_title": "QA Engineer"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00030", "event": "ACCOUNT_CREATED", "details": {"account_id": "acc_sawyert225"}}),
@@ -546,7 +546,7 @@ Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00030", "event": "
 Action(name="CreateDeviceWorkflow", kwargs={"employee_id": "emp_225", "asset_id": "ast_0013", "process": "onboarding"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00030", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "dwf_00022", "pickup_code": "PU0022"}}),
 ],
-outputs=["acc_sawyert225"],
+outputs=[]
 ),
 Task(
     annotator="v2",
@@ -576,7 +576,7 @@ Task(
             "timestamp": "2025-08-15T13:00:00Z"
         }),
     ],
-    outputs=["ITSD-1013"],
+    outputs=[]
     ),
     Task(
     annotator="v2",
@@ -605,7 +605,7 @@ Task(
         Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_onboard_emp_226_ast_0013", "employee_id": "emp_226", "asset_id": "ast_0013", "process": "onboarding"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00032", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_onboard_emp_226_ast_0013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["acc_loganh226"],
+    outputs=[]
 ),
 Task(
         annotator="v2",
@@ -626,12 +626,12 @@ Task(
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00105", "event": "MANAGEMENT_NOTIFICATION_SENT", "details": {"report_type": "monthly"}, "timestamp": "2025-08-15T13:00:00Z"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00105", "event": "KPI_CALCULATION_COMPLETED", "details": {"run_id": "run_20250815", "report_type": "monthly"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["run_20250815"],
+        outputs=[]
     ),
 Task(
     annotator="v2",
     user_id="It_Help_Desk_V2_022",
-    instruction=("You are onboarding a new 'Support Manager', Skyler Lopez (hr-227), in 'Support' for lifecycle_id 'lcq_00034'. Complete the standard onboarding process to provision their account, role-based access, and hardware."),
+    instruction="You are onboarding a new 'Support Manager', Skyler Lopez (hr-227), in 'Support' for lifecycle_id 'lcq_00034'. Complete the standard onboarding process to provision their account, role-based access, and hardware.",
     actions=[
         Action(name="CreateDirectoryAccount", kwargs={"legal_name": "Skyler Lopez", "hr_id": "hr-227", "department": "Support", "job_title": "Support Manager"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00034", "event": "ACCOUNT_CREATED", "details": {"account_id": "acc_kendallc227"}, "timestamp": "2025-08-15T13:00:00Z"}),
@@ -652,12 +652,12 @@ Task(
         Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_onboard_emp_227_ast_0013", "employee_id": "emp_227", "asset_id": "ast_0013", "process": "onboarding"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00034", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_onboard_emp_227_ast_0013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["acc_kendallc227"],
+    outputs=[]
 ),
 Task(
     annotator="v2",
     user_id="It_Help_Desk_V2_023",
-    instruction=("You must offboard the terminated employee Kendall Garcia (employee_id 'emp_0023') for lifecycle_id 'lcq_00035'. Your goal is to securely deprovision all access and assets, including their account ('acc_696506'), licenses, and assigned hardware ('ast_0041'), ensuring every step is audited."),
+    instruction="You must offboard the terminated employee Kendall Garcia (employee_id 'emp_0023') for lifecycle_id 'lcq_00035'. Your goal is to securely deprovision all access and assets, including their account ('acc_696506'), licenses, and assigned hardware ('ast_0041'), ensuring every step is audited.",
     actions=[
         Action(name="GetUserByUpnOrHrId", kwargs={"user_lookup": "emp_0023"}),
         Action(name="SetDirectoryAccountStatus", kwargs={"account_id": "acc_696506", "status": "inactive"}),
@@ -679,12 +679,12 @@ Task(
         Action(name="RequestAssetReturn", kwargs={"asset_id": "ast_0041", "employee_id": "emp_0023", "due_ts": "2025-08-15T13:00:00Z", "workflow_id": "wf_return_emp_0023_ast_0041"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00035", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_return_emp_0023_ast_0041"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["acc_696506"],
+    outputs=[]
 ),
 Task(
     annotator="v2",
     user_id="It_Help_Desk_V2_024",
-    instruction=("You are onboarding a new 'Operations Manager', Devin Martinez (hr-228), in 'Operations' for lifecycle_id 'lcq_00036'. The goal is to fully provision the user. You must create the account ('acc_elliotl228'), assign all role-based groups and licenses, and provision a laptop ('ast_0013'). You must ensure every action is audited."),
+    instruction="You are onboarding a new 'Operations Manager', Devin Martinez (hr-228), in 'Operations' for lifecycle_id 'lcq_00036'. The goal is to fully provision the user. You must create the account ('acc_elliotl228'), assign all role-based groups and licenses, and provision a laptop ('ast_0013'). You must ensure every action is audited.",
     actions=[
         Action(name="CreateDirectoryAccount", kwargs={"legal_name": "Devin Martinez", "hr_id": "hr-228", "department": "Operations", "job_title": "Operations Manager"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00036", "event": "ACCOUNT_CREATED", "details": {"account_id": "acc_elliotl228"}}),
@@ -705,7 +705,7 @@ Task(
         Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_onboard_emp_228_ast_0013", "employee_id": "emp_228", "asset_id": "ast_0013", "process": "onboarding"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00036", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_onboard_emp_228_ast_0013"}}),
     ],
-    outputs=["acc_elliotl228"],
+    outputs=[]
 ),
 Task(
     annotator="v2",
@@ -734,7 +734,7 @@ Task(
         Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_return_emp_0011_none", "employee_id": "emp_0011", "asset_id": "none", "process": "device_return"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00080", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_return_emp_0011_none", "devices_scheduled": 0}}),
     ],
-    outputs=["acc_51e138"],
+    outputs=[]
 ),
         Task(
         annotator="v2",
@@ -773,7 +773,7 @@ Task(
                 },
             ),
         ],
-        outputs=["run_20250815"],
+        outputs=[]
     ),
                     Task(
         annotator="v2",
@@ -803,12 +803,12 @@ Task(
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00039", "event": "ASSET_ASSIGNED", "details": {"asset_id": "ast_0013"}, "timestamp": "2025-08-15T13:00:00Z"}),
             Action(name="CreateDeviceWorkflow", kwargs={"employee_id": "emp_0007", "asset_id": "ast_0013", "process": "onboarding"}),
         ],
-        outputs=["acc_e2a5e9"],
+        outputs=[]
     ),
     Task(
 annotator="v2",
 user_id="It_Help_Desk_V2_028",
-instruction=("You are onboarding a new Software Engineer, Jamie Chen (hr-215), in the Engineering department for lifecycle_id 'lcq_00013'. Follow the standard onboarding process: create their directory account, assign appropriate role-based groups and licenses, provision a laptop, and ensure all major events are properly audited throughout the process."),
+instruction="You are onboarding a new Software Engineer, Jamie Chen (hr-215), in the Engineering department for lifecycle_id 'lcq_00013'. Follow the standard onboarding process: create their directory account, assign appropriate role-based groups and licenses, provision a laptop, and ensure all major events are properly audited throughout the process.",
 actions=[
 Action(name="CreateDirectoryAccount", kwargs={"legal_name": "Jamie Chen", "hr_id": "hr-215", "department": "Engineering", "job_title": "Software Engineer"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00013", "event": "ACCOUNT_CREATED", "details": {"account_id": "acc_averyl215", "upn": "avery.lee@company.com"}}),
@@ -833,7 +833,7 @@ Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00013", "event": "
 Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_onboard_emp_215_ast_0013", "employee_id": "emp_215", "asset_id": "ast_0013", "process": "onboarding"}),
 Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00013", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_onboard_emp_215_ast_0013", "pickup_code": "PU0013"}}),
 ],
-outputs=["acc_averyl215"],
+outputs=[]
 ),
 Task(
         annotator="v2",
@@ -872,7 +872,7 @@ Task(
             Action(name="UpdateLicenseInventory", kwargs={"license_id": "lic_slack_ent", "operation": "increment"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00041", "event": "LICENSE_ASSIGNED", "details": {"license_id": "lic_slack_ent"}}),
         ],
-        outputs=["acc_38d007"],
+        outputs=[]
     ),
 
             Task(
@@ -903,7 +903,7 @@ Task(
             },
         ),
     ],
-    outputs=["run_20250815"],
+    outputs=[]
 ),
     Task(
     annotator="v2",
@@ -920,7 +920,7 @@ Task(
         Action(name="AddUserToGroups", kwargs={"account_id": "acc_alexk901", "group_ids": ["grp_it_6b89", "grp_it_all"]}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00043", "event": "GROUPS_ASSIGNED", "details": {"account_id": "acc_alexk901"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["acc_alexk901"],
+    outputs=[]
 ),
             Task(
         annotator="v2",
@@ -966,7 +966,7 @@ Task(
             ),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00044", "event": "DEVICE_RETURN_SCHEDULED", "details": {"asset_id": "ast_0022"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_0099f1"],
+        outputs=[]
     ),
         Task(
         annotator="v2",
@@ -982,7 +982,7 @@ Task(
             Action(name="CreateJiraTicket", kwargs={"issue_type": "missing_role_profile", "summary": "ONBOARDING_BLOCKED: lcq_00045 - MISSING_ROLE_PROFILE 'Executive VP'", "priority": "P3"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00045", "event": "ONBOARDING_BLOCKED", "details": {"reason": "Missing role profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["ITSD-1013"],
+        outputs=[]
     ),
         Task(
         annotator="v2",
@@ -1006,7 +1006,7 @@ Task(
             Action(name="UpdateLicenseInventory", kwargs={"license_id": "lic_slack_ent", "operation": "increment"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00046", "event": "LICENSE_ASSIGNED", "details": {"license_id": "lic_slack_ent"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_samj230"],
+        outputs=[]
     ),
         Task(
     annotator="v2",
@@ -1061,7 +1061,7 @@ Task(
             },
         ),
     ],
-    outputs=["ITSD-1013"],
+    outputs=[]
 ),
 Task(
     annotator="v2",
@@ -1081,7 +1081,7 @@ Task(
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00106", "event": "MANAGEMENT_NOTIFICATION_SENT", "details": {"report_type": "quarterly"}, "timestamp": "2025-08-15T13:00:00Z"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00106", "event": "KPI_CALCULATION_COMPLETED", "details": {"run_id": "run_20250815", "report_type": "quarterly"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["run_20250815"],
+    outputs=[]
 ),
     
     Task(
@@ -1109,7 +1109,7 @@ Task(
             Action(name="GetUserAsset", kwargs={"employee_id": "emp_0017"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00049", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_82aecf"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_82aecf"],
+        outputs=[]
     ),
     Task(
     annotator="v2",
@@ -1155,7 +1155,7 @@ Task(
             },
         ),
     ],
-    outputs=["ITSD-1013"],
+    outputs=[]
 ),
     Task(
         annotator="v2",
@@ -1182,7 +1182,7 @@ Task(
             Action(name="FindAvailableAsset", kwargs={"asset_type": "Vertex Vertex Pro 7440"}),
             Action(name="CreateJiraTicket", kwargs={"issue_type": "Hardware Shortage", "summary": "HARDWARE_SHORTAGE: lcq_00051 - Vertex Vertex Pro 7440"}),
         ],
-        outputs=["ITSD-1013"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1219,7 +1219,7 @@ Task(
             ),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00031", "event": "DEVICE_WORKFLOW_CREATED", "details": {"asset_id": "ast_0031"}}),
         ],
-        outputs=["acc_1d0980"],
+        outputs=[]
     ),
     Task(
     annotator="v2",
@@ -1251,7 +1251,7 @@ Task(
         Action(name="AssignAsset", kwargs={"asset_id": "ast_0013", "employee_id": "emp_229", "timestamp": "2025-08-15T13:00:00Z"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00107", "event": "ASSET_ASSIGNED", "details": {"employee_id": "emp_229", "asset_id": "ast_0013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["acc_taylorr229"],
+    outputs=[]
 ),
     Task(
     annotator="v2",
@@ -1281,7 +1281,7 @@ Task(
         Action(name="GetUserAsset", kwargs={"employee_id": "emp_0027"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00054", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_5494f2"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["acc_5494f2"],
+    outputs=[]
 ),
     Task(
     annotator="v2",
@@ -1297,7 +1297,7 @@ Task(
         Action(name="CreateJiraTicket", kwargs={"issue_type": "missing_role_profile", "summary": "MISSING_ROLE_PROFILE: lcq_00055 | department: Product | job_title: VP of Product", "priority": "P2"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00055", "event": "ONBOARDING_BLOCKED", "details": {"reason": "Missing role profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["ITSD-1013"],
+    outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1324,7 +1324,7 @@ Task(
             Action(name="GetUserAsset", kwargs={"employee_id": "emp_0011"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00056", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_51e138"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_51e138"],
+        outputs=[]
     ),
 
     Task(
@@ -1352,7 +1352,7 @@ Task(
         Action(name="AssignAsset", kwargs={"asset_id": "ast_0013", "employee_id": "emp_233"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00057", "event": "ASSET_ASSIGNED", "details": {"asset_id": "ast_0013", "employee_id": "emp_233"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["acc_morgank233"],
+    outputs=[]
     ),
     Task(
     annotator="v2",
@@ -1371,7 +1371,7 @@ Task(
         Action(name="CreateJiraTicket", kwargs={"issue_type": "License Shortage", "summary": "LICENSE_SHORTAGE: lcq_00058 - M365 E5 license unavailable for temporary assignment"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00058", "event": "TEMP_LICENSE_PROVISIONING_BLOCKED", "details": {"license_id": "lic_m365_e5", "jira_id": "ITSD-1014"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["ITSD-1013", "ITSD-1014"],
+    outputs=[]
 ),
     Task(
         annotator="v2",
@@ -1386,7 +1386,7 @@ Task(
             Action(name="CreateDeviceWorkflow", kwargs={"employee_id": "emp_0018", "asset_id": "ast_0013", "process": "onboarding"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00059", "event": "ASSET_SWAP_COMPLETED", "details": {"employee_id": "emp_0018", "old_asset": "ast_0004", "new_asset": "ast_0013"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["dwf_00022"],
+        outputs=[]
     ),
     Task(
     annotator="v2",
@@ -1414,7 +1414,7 @@ Task(
         Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_return_emp_0029_ast_0039", "employee_id": "emp_0029", "asset_id": "ast_0039", "process": "offboarding_return"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00060", "event": "DEVICE_RETURN_SCHEDULED", "details": {"asset_id": "ast_0039"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["acc_48efe8"],
+    outputs=[]
 ),
             Task(
         annotator="v2",
@@ -1435,7 +1435,7 @@ Task(
             Action(name="CreateJiraTicket", kwargs={"issue_type": "Task", "summary": "TASK: lcq_00061 - Forensic analysis for acc_db017d", "priority": "P1"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00061", "event": "INCIDENT_RESPONSE_INITIATED", "details": {"account_id": "acc_db017d", "jira_ids": ["ITSD-1013", "ITSD-1014"]}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["ITSD-1013", "ITSD-1014"],
+        outputs=[]
     ),
     Task(
     annotator="v2",
@@ -1466,7 +1466,7 @@ Task(
         Action(name="AssignAsset", kwargs={"asset_id": "ast_0013", "employee_id": "emp_234"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00062", "event": "ASSET_ASSIGNED", "details": {"employee_id": "emp_234", "asset_id": "ast_0013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["acc_finleyb234"],
+    outputs=[]
     ),
     Task(
     annotator="v2",
@@ -1482,7 +1482,7 @@ Task(
         Action(name="CreateJiraTicket", kwargs={"issue_type": "missing_role_profile", "summary": "ONBOARDING_BLOCKED: lcq_00013 - MISSING_ROLE_PROFILE", "priority": "P2"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00013", "event": "JIRA_TICKET_CREATED", "details": {"issue_type": "missing_role_profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["ITSD-1013"],
+    outputs=[]
 ),
         Task(
     annotator="v2",
@@ -1515,7 +1515,7 @@ Task(
         Action(name="RequestAssetReturn", kwargs={"asset_id": "ast_0044", "employee_id": "emp_0025", "due_ts": "2025-08-15T13:00:00Z", "workflow_id": "wf_return_emp_0025_ast_0044"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00064", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_return_emp_0025_ast_0044"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["wf_return_emp_0025_ast_0044"],
+    outputs=[]
 ),
 
 Task(
@@ -1541,7 +1541,7 @@ Task(
             }
         ),
     ],
-    outputs=["run_20250815"],
+    outputs=[]
 ),
 
 Task(
@@ -1570,7 +1570,7 @@ Task(
         Action(name="RequestAssetReturn", kwargs={"asset_id": "ast_0011", "employee_id": "emp_0020", "due_ts": "2025-08-15T13:00:00Z", "workflow_id": "wf_return_emp_0020_ast_0011"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00066", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_return_emp_0020_ast_0011"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["wf_return_emp_0020_ast_0011"],
+    outputs=[]
 ),
 
     Task(
@@ -1588,7 +1588,7 @@ Task(
         Action(name="CreateJiraTicket", kwargs={"issue_type": "missing_role_profile", "summary": "ONBOARDING_BLOCKED: lcq_00067 - MISSING_ROLE_PROFILE"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00067", "event": "JIRA_TICKET_CREATED", "details": {"issue_type": "missing_role_profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["ITSD-1013"],
+    outputs=[]
     ),
     Task(
     annotator="v2",
@@ -1605,7 +1605,7 @@ Task(
         Action(name="CreateJiraTicket", kwargs={"issue_type": "missing_role_profile", "summary": "ONBOARDING_BLOCKED: lcq_00068 - MISSING_ROLE_PROFILE"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00068", "event": "JIRA_TICKET_CREATED", "details": {"issue_type": "missing_role_profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["ITSD-1013"],
+    outputs=[]
     ),
     Task(
     annotator="v2",
@@ -1622,7 +1622,7 @@ Task(
         Action(name="CreateJiraTicket", kwargs={"issue_type": "missing_role_profile", "summary": "ONBOARDING_BLOCKED: lcq_00105 - MISSING_ROLE_PROFILE"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00105", "event": "JIRA_TICKET_CREATED", "details": {"issue_type": "missing_role_profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["ITSD-1013"],
+    outputs=[]
     ),
 Task(
     annotator="v2",
@@ -1652,7 +1652,7 @@ Task(
         Action(name="RequestAssetReturn", kwargs={"asset_id": "ast_0041", "employee_id": "emp_0023", "due_ts": "2025-08-15T13:00:00Z", "workflow_id": "wf_return_emp_0023_ast_0041"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00070", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_return_emp_0023_ast_0041"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["wf_return_emp_0023_ast_0041"],
+    outputs=[]
 ),
 
 Task(
@@ -1685,7 +1685,7 @@ Task(
             "timestamp": "2025-08-15T13:00:00Z"
         }),
     ],
-    outputs=["ITSD-1013"],
+    outputs=[]
 ),
 Task(
     annotator="v2",
@@ -1712,7 +1712,7 @@ Task(
         Action(name="CreateJiraTicket", kwargs={"issue_type": "missing_role_profile", "summary": "ROLE_TRANSFER_BLOCKED: lcq_role_emp_0042 - MISSING_ROLE_PROFILE", "priority": "P2"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_role_emp_0042", "event": "JIRA_TICKET_CREATED", "details": {"issue_type": "missing_role_profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["ITSD-1013"],
+    outputs=[]
 ),
 
 
@@ -1774,7 +1774,7 @@ Task(
             "actor": "system"
         }),
     ],
-    outputs=["lcq_compliance_emp_0016"],
+    outputs=[]
 ),
     Task(
         annotator="v2",
@@ -1794,7 +1794,7 @@ Task(
             Action(name="EnqueueLifecycleEvent", kwargs={"lifecycle_id": "lcq_hw_emp_0022", "memo_id": "memo_hw_emp_0022", "employee_ref": "emp_0022", "event": "hardware_provision", "status": "completed", "created_at": "2025-08-15T13:00:00Z"}),
             Action(name="FindAssets", kwargs={"asset_type": "laptop", "assigned_to": "emp_0022", "mdm_enrolled": True}),
         ],
-        outputs=["ast_0013"],
+        outputs=[]
     ),
     Task(
     annotator="v2",
@@ -1810,7 +1810,7 @@ Task(
         Action(name="EnqueueLifecycleEvent", kwargs={"lifecycle_id": "lcq_return_emp_0030", "memo_id": "memo_return_emp_0030", "employee_ref": "emp_0030", "event": "return", "status": "queued", "created_at": "2025-08-15T13:00:00Z"}),
         Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_return_emp_0030", "event": "DEVICE_WORKFLOW_CREATED", "timestamp": "2025-08-15T13:00:00Z", "actor": "service_desk"}),
     ],
-    outputs=["wf_return_emp_0030_ast_0014"],
+    outputs=[]
 ),
     Task(
     annotator="v2",
@@ -1831,7 +1831,7 @@ Task(
         Action(name="ScheduleMdmAction", kwargs={"asset_id": "ast_0049", "when": "2025-07-26T17:30:00+00:00", "action": "wipe", "workflow_id": "wf_return_emp_0029_ast_0049"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_return_emp_0029", "event": "DEVICE_SECURITY_WIPE_SCHEDULED", "details": {"workflow_id": "wf_return_emp_0029_ast_0049"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["wf_return_emp_0029_ast_0039", "wf_return_emp_0029_ast_0049"],
+    outputs=[]
 ),
     Task(
     annotator="v2",
@@ -1848,7 +1848,7 @@ Task(
         Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_mdm_emp_0038_ast_0013", "employee_id": "emp_0038", "asset_id": "ast_0013", "process": "mdm", "status": "completed", "created_at": "2025-08-15T13:00:00Z", "completed_at": "2025-08-15T13:00:00Z"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_hardware_provision_emp_0038", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_mdm_emp_0038_ast_0013", "asset_id": "ast_0013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["ast_0013"],
+    outputs=[]
 ),
     Task(
         annotator="v2",
@@ -1868,7 +1868,7 @@ Task(
             Action(name="FindAssets", kwargs={"assigned_to": "emp_0014"}),
             Action(name="FindAssets", kwargs={"asset_type": "laptop", "assigned_to": "emp_0014", "mdm_enrolled": True}),
         ],
-        outputs=["ast_0013"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1884,7 +1884,7 @@ Task(
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_ob_emp_0040", "event": "JIRA_TICKET_CREATED", "details": {"issue_type": "missing_role_profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_ob_emp_0040", "event": "AUDIT_BLOCKED", "details": {"reason": "missing_role_profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["ITSD-1013"],
+        outputs=[]
     ),
             Task(
         annotator="v2",
@@ -1916,7 +1916,7 @@ Task(
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_return_emp_0041_none", "employee_id": "emp_0041", "asset_id": "none", "process": "device_return"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_off_emp_0041", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_return_emp_0041_none", "devices_scheduled": 0}, "actor": "SYSTEM", "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_6f9008"],
+        outputs=[]
     ),
     Task(
     annotator="v2",
@@ -1947,7 +1947,7 @@ Task(
         Action(name="AssignAsset", kwargs={"asset_id": "ast_0013", "employee_id": "emp_238"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00072", "event": "ASSET_ASSIGNED", "details": {"employee_id": "emp_238", "asset_id": "ast_0013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["acc_averym238"],
+    outputs=[]
 ),
     Task(
         annotator="v2",
@@ -1980,7 +1980,7 @@ Task(
             Action(name="UpdateAssetStatus", kwargs={"asset_id": "ast_0013", "status": "READY FOR PICKUP", "mdm_enrolled": True}),
             Action(name="EnqueueLifecycleEvent", kwargs={"lifecycle_id": "lcq_spec_emp_emp_0036", "memo_id": "memo_spec_emp_emp_0036", "employee_ref": "emp_0036", "event": "hardware_provision", "status": "completed", "created_at": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["ast_0013"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2006,7 +2006,7 @@ Task(
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_replace_emp_0038", "event": "REPLACEMENT_DEVICE_READY", "details": {"asset_id": "ast_0013", "mdm_status": "enrolled"}, "timestamp": "2025-08-15T13:00:00Z"}),
             Action(name="EnqueueLifecycleEvent", kwargs={"lifecycle_id": "lcq_replace_emp_0038", "memo_id": "memo_replace_emp_0038", "employee_ref": "emp_0038", "event": "hardware_provision", "status": "completed", "created_at": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["ast_0013"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2024,7 +2024,7 @@ Task(
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_audit_emp_0045", "event": "AUDIT_BLOCKED", "details": {"employee_id": "emp_0045", "reason": "employee_not_found", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_audit_emp_0045", "event": "COMPLIANCE_AUDIT_FAILED", "timestamp": "2025-08-15T13:00:00Z", "actor": "service_desk"}),
         ],
-        outputs=["lcq_audit_emp_0045"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2040,7 +2040,7 @@ Task(
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_convert_emp_0046", "event": "CONTRACTOR_CONVERSION_FAILED", "details": {"reason": "employee_not_found", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_convert_emp_0046", "event": "CONTRACTOR_CONVERSION_FAILED", "timestamp": "2025-08-15T13:00:00Z", "actor": "service_desk"}),
         ],
-        outputs=["ITSD-1013"],
+        outputs=[]
     ),
             Task(
         annotator="v2",
@@ -2056,7 +2056,7 @@ Task(
             Action(name="CreateJiraTicket", kwargs={"issue_type": "missing_role_profile", "summary": "ONBOARDING_BLOCKED: lcq_00079 - MISSING_ROLE_PROFILE"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00079", "event": "JIRA_TICKET_CREATED", "details": {"issue_type": "missing_role_profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["ITSD-1013"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2085,7 +2085,7 @@ Task(
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_return_emp_0011_none", "employee_id": "emp_0011", "asset_id": "none", "process": "device_return"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00080", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_return_emp_0011_none", "devices_scheduled": 0}}),
         ],
-        outputs=["acc_51e138"],
+        outputs=[]
     ),
         Task(
         annotator="v2",
@@ -2101,7 +2101,7 @@ Task(
             Action(name="CreateJiraTicket", kwargs={"issue_type": "missing_role_profile", "summary": "ONBOARDING_BLOCKED: lcq_00081 - MISSING_ROLE_PROFILE"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00081", "event": "JIRA_TICKET_CREATED", "details": {"issue_type": "missing_role_profile", "jira_id": "ITSD-1013"}}),
         ],
-        outputs=["ITSD-1013"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2122,7 +2122,7 @@ Task(
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00104", "event": "MANAGEMENT_NOTIFICATION_SENT", "details": {"report_type": "monthly"}, "timestamp": "2025-08-15T13:00:00Z"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00104", "event": "KPI_CALCULATION_COMPLETED", "details": {"run_id": "run_20250815", "report_type": "monthly"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["run_20250815"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2152,7 +2152,7 @@ Task(
             Action(name="GetUserAsset", kwargs={"employee_id": "emp_0006"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00083", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_e7e9ee"}}),
         ],
-        outputs=["acc_e7e9ee"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2182,7 +2182,7 @@ Task(
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_return_emp_0011_none", "employee_id": "emp_0011", "asset_id": "none", "process": "device_return"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00084", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_return_emp_0011_none", "devices_scheduled": 0}}),
         ],
-        outputs=["acc_51e138"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2211,7 +2211,7 @@ Task(
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_return_emp_0015_none", "employee_id": "emp_0015", "asset_id": "none", "process": "device_return"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00085", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_return_emp_0015_none", "devices_scheduled": 0}}),
         ],
-        outputs=["acc_3818d8"],
+        outputs=[]
     ),
         Task(
         annotator="v2",
@@ -2244,7 +2244,7 @@ Task(
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_onboard_emp_220_ast_0013", "employee_id": "emp_220", "asset_id": "ast_0013", "process": "onboarding", "status": "pending"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00086", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_onboard_emp_220_ast_0013", "pickup_code": "PU0013"}}),
         ],
-        outputs=["acc_parkerd220"],
+        outputs=[]
     ),
         Task(
         annotator="v2",
@@ -2277,7 +2277,7 @@ Task(
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_onboard_emp_216_ast_0013", "employee_id": "emp_216", "asset_id": "ast_0013", "process": "onboarding", "status": "pending_pickup"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00087", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_onboard_emp_216_ast_0013"}}),
         ],
-        outputs=["acc_jordang216"],
+        outputs=[]
     ),
     Task(
     annotator="v2",
@@ -2293,7 +2293,7 @@ Task(
         Action(name="CreateJiraTicket", kwargs={"issue_type": "missing_role_profile", "summary": "ONBOARDING_BLOCKED: lcq_00088 - MISSING_ROLE_PROFILE"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00088", "event": "JIRA_TICKET_CREATED", "details": {"issue_type": "missing_role_profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["ITSD-1013"],
+    outputs=[]
 ),
     Task(
         annotator="v2",
@@ -2326,7 +2326,7 @@ Task(
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_onboard_emp_301_ast_0013", "employee_id": "emp_301", "asset_id": "ast_0013", "process": "onboarding", "status": "pending"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00089", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_onboard_emp_301_ast_0013", "pickup_code": "PU0013"}}),
         ],
-        outputs=["acc_mayap301"],
+        outputs=[]
     ),
     Task(
     annotator="v2",
@@ -2343,7 +2343,7 @@ Task(
         Action(name="CreateJiraTicket", kwargs={"issue_type": "missing_role_profile", "summary": "ONBOARDING_BLOCKED: lcq_00090 - MISSING_ROLE_PROFILE"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00090", "event": "JIRA_TICKET_CREATED", "details": {"issue_type": "missing_role_profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["ITSD-1013"],
+    outputs=[]
 ),
     Task(
         annotator="v2",
@@ -2372,7 +2372,7 @@ Task(
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_onboard_emp_303_ast_0013", "employee_id": "emp_303", "asset_id": "ast_0013", "process": "onboarding", "status": "pending"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00091", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_onboard_emp_303_ast_0013", "pickup_code": "PU0013"}}),
         ],
-        outputs=["acc_alexr303"],
+        outputs=[]
     ),
         Task(
         annotator="v2",
@@ -2392,7 +2392,7 @@ Task(
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00092", "event": "MANAGEMENT_NOTIFICATION_SENT", "details": {"report_type": "weekly"}, "timestamp": "2025-08-15T13:00:00Z"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00092", "event": "KPI_CALCULATION_COMPLETED", "details": {"run_id": "run_20250815", "report_type": "weekly"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["run_20250815"],
+        outputs=[]
     ),
         Task(
         annotator="v2",
@@ -2410,7 +2410,7 @@ Task(
             Action(name="NotifyTeamOfReport", kwargs={"pdf_path": "\\\\IT\\Reports\\DailyReports\\2025-08-15\\ServiceDesk_Health_Report.pdf", "csv_path": "\\\\IT\\Reports\\DailyReports\\2025-08-15\\Tickets_Export.csv"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00093", "event": "MONTHLY_REPORT_GENERATED", "details": {"run_id": "run_20250815", "report_type": "monthly"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["run_20250815"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2428,7 +2428,7 @@ Task(
             Action(name="NotifyTeamOfReport", kwargs={"pdf_path": "\\\\IT\\Reports\\DailyReports\\2025-08-15\\ServiceDesk_Health_Report.pdf", "csv_path": "\\\\IT\\Reports\\DailyReports\\2025-08-15\\Tickets_Export.csv"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00094", "event": "KPI_CALCULATION_COMPLETED", "details": {"run_id": "run_20250815", "report_type": "biweekly"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["run_20250815"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2460,7 +2460,7 @@ Task(
             Action(name="AssignAsset", kwargs={"asset_id": "ast_0013", "employee_id": "emp_225"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00095", "event": "ASSET_ASSIGNED", "details": {"employee_id": "emp_225", "asset_id": "ast_0013"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_alexk225"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2490,7 +2490,7 @@ Task(
             Action(name="GetUserAsset", kwargs={"employee_id": "emp_0009"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00096", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_9e0388"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_9e0388"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2506,7 +2506,7 @@ Task(
             Action(name="CreateJiraTicket", kwargs={"issue_type": "missing_role_profile", "summary": "ONBOARDING_BLOCKED: lcq_00097 - MISSING_ROLE_PROFILE"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00097", "event": "JIRA_TICKET_CREATED", "details": {"issue_type": "missing_role_profile", "jira_id": "ITSD-1013"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["ITSD-1013"],
+        outputs=[]
     ),
         Task(
         annotator="v2",
@@ -2536,7 +2536,7 @@ Task(
             Action(name="GetUserAsset", kwargs={"employee_id": "emp_0006"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00098", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_e7e9ee"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_e7e9ee"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2556,7 +2556,7 @@ Task(
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00099", "event": "MANAGEMENT_NOTIFICATION_SENT", "details": {"report_type": "quarterly"}, "timestamp": "2025-08-15T13:00:00Z"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00099", "event": "KPI_CALCULATION_COMPLETED", "details": {"run_id": "run_20250815", "report_type": "quarterly"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["run_20250815"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2588,7 +2588,7 @@ Task(
             Action(name="AssignAsset", kwargs={"asset_id": "ast_0013", "employee_id": "emp_227", "timestamp": "2025-08-15T13:00:00Z"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00100", "event": "ASSET_ASSIGNED", "details": {"employee_id": "emp_227", "asset_id": "ast_0013"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_morgant227"],
+        outputs=[]
     ),
 
     Task(
@@ -2620,7 +2620,7 @@ Task(
             Action(name="RequestAssetReturn", kwargs={"asset_id": "ast_0033", "employee_id": "emp_0013", "due_ts": "2025-08-15T13:00:00Z", "workflow_id": "wf_return_emp_0013_ast_0033"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00101", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_return_emp_0013_ast_0033"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["wf_return_emp_0013_ast_0033"],
+        outputs=[]
     ),
 
     Task(
@@ -2648,7 +2648,7 @@ Task(
             Action(name="AssignAsset", kwargs={"asset_id": "ast_0013", "employee_id": "emp_228"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00102", "event": "ASSET_ASSIGNED", "details": {"employee_id": "emp_228", "asset_id": "ast_0013"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_jordanl228"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2675,7 +2675,7 @@ Task(
             Action(name="GetUserAsset", kwargs={"employee_id": "emp_0011"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00103", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_51e138"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_51e138"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2704,7 +2704,7 @@ Task(
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_return_emp_0015_none", "employee_id": "emp_0015", "asset_id": "none", "process": "device_return"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00082", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_return_emp_0015_none", "devices_scheduled": 0}}),
         ],
-        outputs=["acc_3818d8"],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2735,7 +2735,7 @@ Task(
             Action(name="GetUserAsset", kwargs={"employee_id": "emp_0027"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00072", "event": "OFFBOARDING_NO_ASSETS", "details": {"account_id": "acc_5494f2"}}),
         ],
-        outputs=["acc_5494f2"],
+        outputs=[]
     ),
     Task(
     annotator="v2",
@@ -2760,7 +2760,7 @@ Task(
         Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_onboard_emp_902_ast_0013", "employee_id": "emp_902", "asset_id": "ast_0013", "process": "onboarding"}),
         Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00048", "event": "DEVICE_WORKFLOW_CREATED", "details": {"workflow_id": "wf_onboard_emp_902_ast_0013"}, "timestamp": "2025-08-15T13:00:00Z"}),
     ],
-    outputs=["acc_chrisg902"],
+    outputs=[]
 ),
 Task(
         annotator="v2",
@@ -2781,7 +2781,7 @@ Task(
             Action(name="UpdateLicenseInventory", kwargs={"license_id": "lic_m365_e5", "operation": "increment"}),
             Action(name="CreateAuditRecord", kwargs={"lifecycle_id": "lcq_00053", "event": "PROMOTION_NEW_LICENSE_ASSIGNED", "details": {"license_id": "lic_m365_e5"}, "timestamp": "2025-08-15T13:00:00Z"}),
         ],
-        outputs=["acc_51ba73"],
+        outputs=[]
     ),
 
 ]

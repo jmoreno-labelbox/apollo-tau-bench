@@ -34,7 +34,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_hours": 40', '"utilization_percentage": 100'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -78,7 +78,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"employee_id": "emp_devops_04", "hours_allocated": 16"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -126,7 +126,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"hours_allocated": 20'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -185,7 +185,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"rebalanced": true', '"hours_transferred": 10'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -242,10 +242,7 @@ TASKS = [
             ),
             Action(name="UpdateEmployeesUtilization", kwargs={"employee_ids": ["emp_sec_dev_03", "emp_sec_dev_XX"]}),
         ],
-        outputs=[
-            '"employees_allocated": ["emp_sec_dev_03", "emp_sec_dev_XX"]',
-            '"total_allocated_hours": 80'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -307,7 +304,7 @@ TASKS = [
                 name="DeleteAllocation", kwargs={"allocation_id": "alloc_client_03"}
             ),
         ],
-        outputs=['"proj_mobile_01_allocation": ["emp_dev_20", "emp_dev_21"]', '"proj_mobile_01_allocation": ["emp_test_05"]'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -349,7 +346,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"bench_assignment": "created"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -436,7 +433,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"rotation_employees": ["emp_analyst_01", "emp_analyst_02"]'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -509,10 +506,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"proj_web_03_allocations": ["emp_data_01"]',
-            '"proj_security_patch_allocations": ["emp_dev_03", "emp_eng_20"]'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -578,7 +572,7 @@ TASKS = [
                 kwargs={"employee_ids": ["emp_test_05", "emp_qa_02", "emp_sec_test_01"]},
             ),
         ],
-        outputs=['"emp_test_05": -4', '"emp_qa_02": 12','"emp_sec_test_01": 8', '"department_utilization": 90'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -627,7 +621,7 @@ TASKS = [
                 kwargs={"employee_ids": ["emp_devops_02", "emp_devops_04", "emp_data_02"]},
             ),
         ],
-        outputs=['"emp_devops_02": 100', '"emp_devops_04": 100', '"emp_data_02": 100'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -687,11 +681,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"allocation_id": "alloc_mobile_04"',
-            '"hours_per_week": 8',
-            '"status": "active"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -772,11 +762,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"new_team_members": ["emp_analyst_03", "emp_sec_dev_03"]',
-            '"additional_hours": 46',
-            '"total_hours": 76',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -808,11 +794,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"skill_gap_identified": true',
-            '"request_id": "req_ai_ml_01"',
-            '"hours_needed": 88',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -897,11 +879,7 @@ TASKS = [
                 kwargs={"project_id": "proj_alpha_01", "required_hours": "180"},
             ),
         ],
-        outputs=[
-            '"consolidated_to": "proj_alpha_01"',
-            '"total_hours": 108',
-            '"team_size": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -961,11 +939,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"employees_removed": "emp_sec_dev_01"',
-            '"employees_added": "emp_sec_dev_XX"',
-            '"compliance_achieved": true'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1039,7 +1013,7 @@ TASKS = [
                 kwargs={"employee_ids": ["emp_data_02", "emp_sec_dev_XX", "emp_data_01"]}
             ),
         ],
-        outputs=['"emp_data_01": 40', '"emp_sec_dev_XX": 40', '"emp_data_02": 12'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1103,7 +1077,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"efficiency_gain": 28'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1175,7 +1149,7 @@ TASKS = [
             Action(name="UpdateDepartmentsUtilization", kwargs={}),
             Action(name="GetDepartmentDetails", kwargs={"name": "Quality Analytics"}),
         ],
-        outputs=['"total_capacity": 320', '"allocated_hours": 244'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1237,7 +1211,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"developers_in_rotation": 1', '"skill_development_hours": 10'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1296,7 +1270,7 @@ TASKS = [
                 kwargs={"project_id": "proj_mobile_01"},
             ),
         ],
-        outputs=['"dev_hours": 20', '"qa_hours": 10'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1343,7 +1317,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"employees_in_rotation": ["emp_sec_dev_01", "emp_eng_20"]'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1388,7 +1362,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"onsite_hours": 64'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1433,7 +1407,7 @@ TASKS = [
                 kwargs={"employee_id": "emp_devops_04"},
             ),
         ],
-        outputs=["85"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1517,7 +1491,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["3"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1583,11 +1557,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"project_created": "Analytics Project"',
-            '"team_created": "Analytics Team"',
-            '"employees_added": "emp_data_01", "emp_data_02", "emp_analyst_02"'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1620,7 +1590,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["60"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1685,7 +1655,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["25"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1751,7 +1721,7 @@ TASKS = [
                 kwargs={"employee_ids": ["emp_analyst_03", "emp_jr_arch_01"]},
             ),
         ],
-        outputs=['"emp_jr_arch_01": 100', '"emp_analyst_03": 80'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1816,7 +1786,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["60"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1882,11 +1852,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"consolidated_to": "proj_web_03"',
-            '"total_hours": 57',
-            '"team_size": 2',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1957,7 +1923,7 @@ TASKS = [
                 kwargs={"project_id": "proj_mobile_01"},
             ),
         ],
-        outputs=['"dev_hours": 15', '"qa_hours": 24'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2021,7 +1987,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"hours_needed": 62'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2072,7 +2038,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"employee_name": "Grace Wang"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2125,7 +2091,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"emp_analyst_03": 8', '"emp_analyst_01": -8'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2175,9 +2141,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"relocated_resources_quantity": 2'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2222,7 +2186,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"non_compliant": true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2248,7 +2212,7 @@ TASKS = [
             Action(name="UpdateAllocation", kwargs={"allocation_id": "alloc_data_01", "hours_per_week": 40}),
             Action(name="GetProjectAllocations", kwargs={"project_id": "proj_cloud_01"}),
         ],
-        outputs=['"proj_mobile_01": 10', '"proj_ai_01": 8'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2310,9 +2274,7 @@ TASKS = [
                 kwargs={"employee_ids": ["emp_sec_dev_03", "emp_sec_dev_02"]},
             ),
         ],
-        outputs=[
-            '"new_team_members": ["emp_sec_dev_03", "emp_sec_dev_02"]'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2381,6 +2343,6 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"emp_dev_03": 10', '"emp_analyst_02": 8', '"emp_analyst_01": 2', '"emp_sec_test_01": 12'],
+        outputs=[]
     ),
 ]

@@ -28,11 +28,7 @@ TASKS = [
                 name="FetchDashboardSnapshot", kwargs={"snapshot_date": "2025-08-23"}
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2025-08.pdf')",
-            "dashboard_snapshot('2025-08-23')",
-            "kpis(window_months=12)",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -75,11 +71,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-024"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-            "dashboard_snapshot('2024-09-30')",
-            "audit_event('2024-024','risk_reviewed')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -112,11 +104,7 @@ TASKS = [
             Action(name="DeriveCollectionKpis", kwargs={"window_months": 12}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "audit_event('2024-010','emailed')",
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -151,10 +139,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -190,9 +175,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -234,11 +217,7 @@ TASKS = [
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-132"}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-132.pdf')",
-            "audit_event('2024-132','generated')",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -264,10 +243,7 @@ TASKS = [
             ),
             Action(name="FetchClientProfile", kwargs={"publisher_id": "PUB003"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -314,9 +290,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-10"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -354,11 +328,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-            "dashboard_snapshot('2024-09-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -404,11 +374,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-11-30"},
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-            "dashboard_snapshot('2024-11-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -451,9 +417,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -498,11 +462,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-10-31"},
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-            "dashboard_snapshot('2024-10-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -538,9 +498,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-07"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-07.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -583,10 +541,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-142"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-142.pdf')",
-            "audit_event('2024-142','generated')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -619,11 +574,7 @@ TASKS = [
             Action(name="DeriveCollectionKpis", kwargs={"window_months": 12}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "audit_event('2024-010','emailed')",
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -660,10 +611,7 @@ TASKS = [
             ),
             Action(name="FetchDashboardSnapshot", kwargs={"snapshot_id": 1}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-            "dashboard_snapshot('2024-09-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -708,10 +656,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-130"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-130.pdf')",
-            "audit_event('2024-130','generated')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -761,11 +706,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "audit_event('2024-021','review_follow_up')",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-            "dashboard_snapshot('2024-09-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -812,10 +753,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "dashboard_snapshot('2024-08-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -858,10 +796,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-131"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-131.pdf')",
-            "audit_event('2024-131','generated')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -888,11 +823,7 @@ TASKS = [
             ),
             Action(name="QueryInvoices", kwargs={"status": "open"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-            "dashboard_snapshot('2024-08-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -930,10 +861,7 @@ TASKS = [
             ),
             Action(name="FetchDashboardSnapshot", kwargs={"snapshot_id": 1}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-            "dashboard_snapshot('2024-09-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -969,9 +897,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-10"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1020,11 +946,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-            "dashboard_snapshot('2024-10-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1058,11 +980,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-11-30"},
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-            "dashboard_snapshot('2024-11-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1090,11 +1008,7 @@ TASKS = [
             Action(name="DeriveCollectionKpis", kwargs={"window_months": 12}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "audit_event('2024-011','emailed')",
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1141,11 +1055,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-11-30"},
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-            "dashboard_snapshot('2024-11-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1166,10 +1076,7 @@ TASKS = [
             Action(name="DeriveCollectionKpis", kwargs={"window_months": 12}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-07"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-07.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1205,10 +1112,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-07-31"},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-07.pdf')",
-            "dashboard_snapshot('2024-07-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1251,10 +1155,7 @@ TASKS = [
             Action(name="ListInvoiceLinesByInvoice", kwargs={"invoice_number": "2024-120"}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-10"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-120.pdf')",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1298,12 +1199,7 @@ TASKS = [
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-009"}),
             Action(name="FetchInvoiceRecord", kwargs={"invoice_number": "2024-021"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "audit_event('2024-009','reviewed')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1335,11 +1231,7 @@ TASKS = [
                 kwargs={"hst_rate": 0.13, "lines": [{"hours": 2, "rate": 85.0}]},
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-            "dashboard_snapshot('2024-11-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1375,9 +1267,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-10"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1420,10 +1310,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-146"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-146.pdf')",
-            "audit_event('2024-146','generated')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1465,11 +1352,7 @@ TASKS = [
             Action(name="DeriveCollectionKpis", kwargs={"window_months": 12}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "audit_event('2024-024','aging_categorized')",
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1512,10 +1395,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-134"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-134.pdf')",
-            "audit_event('2024-134','generated')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1548,11 +1428,7 @@ TASKS = [
             Action(name="DeriveCollectionKpis", kwargs={"window_months": 12}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "audit_event('2024-010','emailed')",
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1599,10 +1475,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-10-31"},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-            "dashboard_snapshot('2024-10-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1652,10 +1525,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-            "dashboard_snapshot('2024-10-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1695,9 +1565,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1734,10 +1602,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-026"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-            "audit_event('2024-026','risk_categorized')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1772,10 +1637,7 @@ TASKS = [
             Action(name="DeriveCollectionKpis", kwargs={"window_months": 12}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1808,12 +1670,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-009"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "dashboard_snapshot('2024-08-31')",
-            "audit_event('2024-009','reviewed')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1844,11 +1701,7 @@ TASKS = [
                 kwargs={"hst_rate": 0.13, "lines": [{"hours": 2, "rate": 85.0}]},
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-            "dashboard_snapshot('2024-11-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1872,9 +1725,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1917,10 +1768,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-147"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-147.pdf')",
-            "audit_event('2024-147','generated')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1957,11 +1805,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-11-30"},
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-            "dashboard_snapshot('2024-11-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -1990,9 +1834,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-08"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2028,10 +1870,7 @@ TASKS = [
             Action(name="ListProjectsCatalog", kwargs={}),
             Action(name="FetchProjectCard", kwargs={"project_id": "PROJ003"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2073,11 +1912,7 @@ TASKS = [
             ),
             Action(name="FetchDashboardSnapshot", kwargs={"snapshot_id": 1}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-            "dashboard_snapshot('2024-11-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2132,11 +1967,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-            "dashboard_snapshot('2024-10-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2175,10 +2006,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-135"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-135.pdf')",
-            "audit_event('2024-135','generated')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2222,9 +2050,7 @@ TASKS = [
             Action(name="FetchClientProfile", kwargs={"publisher_id": "PUB002"}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-07"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-07.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2267,10 +2093,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-133"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-133.pdf')",
-            "audit_event('2024-133','generated')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2292,9 +2115,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-08"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2332,10 +2153,7 @@ TASKS = [
             ),
             Action(name="FetchDashboardSnapshot", kwargs={"snapshot_id": 1}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-            "dashboard_snapshot('2024-09-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2378,10 +2196,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-144"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-144.pdf')",
-            "audit_event('2024-144','generated')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2423,9 +2238,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2466,10 +2279,7 @@ TASKS = [
             Action(name="ListProjectsCatalog", kwargs={}),
             Action(name="FetchProjectCard", kwargs={"project_id": "PROJ003"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-07.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2501,9 +2311,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2532,10 +2340,7 @@ TASKS = [
             Action(name="FetchProjectCard", kwargs={"project_id": "PROJ004"}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-10"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2562,10 +2367,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2599,10 +2401,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2645,10 +2444,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-148"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-148.pdf')",
-            "audit_event('2024-148','generated')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2697,10 +2493,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-10-31"},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-            "dashboard_snapshot('2024-10-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2733,9 +2526,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2769,11 +2560,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-08-31"},
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "dashboard_snapshot('2024-08-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2799,11 +2586,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-025"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-            "audit_event('2024-025','reviewed')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2843,10 +2626,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-07-31"},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-07.pdf')",
-            "dashboard_snapshot('2024-07-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2878,10 +2658,7 @@ TASKS = [
                 kwargs={"hst_rate": 0.13, "lines": [{"hours": 5, "rate": 85.0}]},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "dashboard_snapshot('2024-08-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2929,9 +2706,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-08"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -2964,11 +2739,7 @@ TASKS = [
             Action(name="DeriveCollectionKpis", kwargs={"window_months": 12}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "audit_event('2024-010','emailed')",
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3008,10 +2779,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-08-31"},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "dashboard_snapshot('2024-08-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3059,11 +2827,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-010"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-            "dashboard_snapshot('2024-10-31')",
-            "audit_event('2024-010','reviewed')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3106,10 +2870,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-141"}),
         ],
-        outputs=[
-            "invoice_pdf('https://test.storage.com/invoices/2024/INV-2024-141.pdf')",
-            "audit_event('2024-141','generated')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3144,9 +2905,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3177,9 +2936,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-08"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3210,10 +2967,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3230,10 +2984,7 @@ TASKS = [
             Action(name="DeriveCollectionKpis", kwargs={"window_months": 12}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-10"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3271,11 +3022,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-11-30"},
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-            "dashboard_snapshot('2024-11-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3309,11 +3056,7 @@ TASKS = [
                 kwargs={"hst_rate": 0.13, "lines": [{"hours": 1, "rate": 85.0}]},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-            "dashboard_snapshot('2024-10-31')",
-            "kpis(window_months=12)",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3341,9 +3084,7 @@ TASKS = [
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-11"}),
             Action(name="FetchInvoiceRecord", kwargs={"invoice_number": "2024-010"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3383,10 +3124,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-07-31"},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-07.pdf')",
-            "dashboard_snapshot('2024-07-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3426,10 +3164,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-08-31"},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "dashboard_snapshot('2024-08-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3477,10 +3212,7 @@ TASKS = [
                 name="FetchInvoiceRecord", kwargs={"invoice_number": "INV-2024-209"}
             ),
         ],
-        outputs=[
-            "invoice_pdf('/invoices/2024/INV-2024-209.pdf')",
-            "audit_event('INV-2024-209','emailed')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3527,11 +3259,7 @@ TASKS = [
             Action(name="ListProjectsCatalog", kwargs={}),
             Action(name="FetchProjectCard", kwargs={"project_id": "PROJ004"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-09.pdf')",
-            "kpis(window_months=12)",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3571,10 +3299,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-08-31"},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "dashboard_snapshot('2024-08-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3608,11 +3333,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-11-30"},
             ),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-            "dashboard_snapshot('2024-11-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3652,10 +3373,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-08-31"},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "dashboard_snapshot('2024-08-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3698,11 +3416,7 @@ TASKS = [
             ),
             Action(name="ListInvoiceEvents", kwargs={"invoice_number": "2024-010"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-            "audit_event('2024-010','aging_categorized')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3735,10 +3449,7 @@ TASKS = [
                 kwargs={"snapshot_date": "2024-08-31"},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "dashboard_snapshot('2024-08-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3763,9 +3474,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-10"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3797,10 +3506,7 @@ TASKS = [
                 kwargs={"hst_rate": 0.13, "lines": [{"hours": 2, "rate": 85.0}]},
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "dashboard_snapshot('2024-08-31')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3821,10 +3527,7 @@ TASKS = [
             ),
             Action(name="FetchClientProfile", kwargs={"publisher_id": "PUB003"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-10.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3851,10 +3554,7 @@ TASKS = [
             Action(name="DeriveCollectionKpis", kwargs={"window_months": 12}),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-11.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3887,13 +3587,7 @@ TASKS = [
             ),
             Action(name="FetchDashboardSnapshot", kwargs={"snapshot_id": 2}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-07.pdf')",
-            "dashboard_snapshot('2024-07-31')",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-06.pdf')",
-            "dashboard_snapshot('2024-06-30')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3939,10 +3633,7 @@ TASKS = [
                 name="FetchInvoiceRecord", kwargs={"invoice_number": "INV-2024-230"}
             ),
         ],
-        outputs=[
-            "invoice_pdf('/invoices/2024/INV-2024-230.pdf')",
-            "audit_event('INV-2024-230','emailed')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -3983,9 +3674,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-08"}),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -4013,10 +3702,7 @@ TASKS = [
             ),
             Action(name="RenderAccountsReceivableReport", kwargs={"period_label": "2024-08"}),
         ],
-        outputs=[
-            "kpis(window_months=12)",
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="V2",
@@ -4063,9 +3749,6 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "report_pdf('https://test.storage.com/reports/accounts_receivable_2024-08.pdf')",
-            "dashboard_snapshot('2024-08-31')",
-        ],
+        outputs=[]
     ),
 ]

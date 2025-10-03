@@ -42,13 +42,7 @@ TASKS = [
                 kwargs={"application_id": "APP005"},
             ),
         ],
-        outputs=[
-            "U307 needs Design Operations training",
-            "EXT003 needs Accessibility training",
-            "APP005 Interview Scheduled",
-            "APP006 Waitlist",
-            "Technical interview scheduled for application APP005",
-        ],
+        outputs=[]
     ),
     # 2
     Task(
@@ -95,12 +89,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP007"}
             ),
         ],
-        outputs=[
-            "U306 needs Infrastructure as Code training",
-            "EXT004 needs Monitoring & Logging training",
-            "APP007 Training-Plan",
-            "Interview scheduled for APP007",
-        ],
+        outputs=[]
     ),
     # 3
     Task(
@@ -158,15 +147,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP001"}
             ),
         ],
-        outputs=[
-            "U302 needs Machine Learning training",
-            "U310 needs Machine Learning training",
-            "U310 needs Programming Languages training",
-            "U310 needs Data Visualization training",
-            "APP001 Final-Interview",
-            "APP002 Rejected-Skill-Fit",
-            "Interview scheduled for APP001",
-        ],
+        outputs=[]
     ),
     # 4
     Task(
@@ -205,13 +186,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP010"}
             ),
         ],
-        outputs=[
-            "EXT006 shortlisted",
-            "EXT006 needs Cloud Security training",
-            "EXT006 needs Compliance training",
-            "APP010 Interview-Pending",
-            "Interview scheduled for APP010",
-        ],
+        outputs=[]
     ),
     # 5
     Task(
@@ -263,14 +238,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP004"}
             ),
         ],
-        outputs=[
-            "EXT001 shortlisted",
-            "EXT002 shortlisted",
-            "EXT001 needs Data Visualization training",
-            "EXT002 needs Data Visualization training",
-            "Interview scheduled for APP003",
-            "Interview scheduled for APP004",
-        ],
+        outputs=[]
     ),
     # 6 REPLACED
     Task(
@@ -321,11 +289,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "User U303 enrolled in course C1007",
-            "Mentorship relationship MR011 created",
-            "goal G303-2 added for U303",
-        ],
+        outputs=[]
     ),
     # 7 REPLACED
     Task(
@@ -381,12 +345,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "User U302 enrolled in course C1005",
-            "APP001 Interview with Development Plan",
-            "Technical interview scheduled for application APP001.",
-            "goal G302-2 added for U302",
-        ],
+        outputs=[]
     ),
     # 8
     Task(
@@ -454,13 +413,7 @@ TASKS = [
                 kwargs={"relationship_id": "MR011", "session_date": "2025-12-12"},
             ),
         ],
-        outputs=[
-            "User U312 enrolled in course C1003",
-            "User U306 enrolled in course C1003",
-            "Mentorship relationship MR011 created",
-            "Goal G312-1 updated for user U312",
-            "scheduled_for: 2025-12-12",
-        ],
+        outputs=[]
     ),
     # 9
     Task(
@@ -503,14 +456,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP009"}
             ),
         ],
-        outputs=[
-            "EXT005 shortlisted",
-            "EXT005 needs Product Marketing training",
-            "EXT005 needs Brand Strategy training",
-            "APP009 Skill-Enhanced",
-            "APP009 Interview-Ready",
-            "Interview scheduled for APP009",
-        ],
+        outputs=[]
     ),
     # 10 REPLACED
     Task(
@@ -575,12 +521,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "User U306 enrolled in course C1003",
-            "User U312 enrolled in course C1003",
-            "Mentorship relationship MR011 created",
-            "Goal G312-1 updated for user U312",
-        ],
+        outputs=[]
     ),
     # 11
     Task(
@@ -616,12 +557,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP004"}
             ),
         ],
-        outputs=[
-            "EXT001 shortlisted",
-            "EXT002 shortlisted",
-            "Interview scheduled for APP003",
-            "Interview scheduled for APP004",
-        ],
+        outputs=[]
     ),
     # 12
     Task(
@@ -667,15 +603,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP006"}
             ),
         ],
-        outputs=[
-            "EXT003 shortlisted",
-            "U307 needs Design Operations training",
-            "EXT003 needs Accessibility training",
-            "APP005 Development-Plan",
-            "APP006 Development-Plan",
-            "Interview scheduled for APP005",
-            "Interview scheduled for APP006",
-        ],
+        outputs=[]
     ),
     # 13
     Task(
@@ -741,16 +669,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP007"}
             ),
         ],
-        outputs=[
-            "U302 needs Machine Learning training",
-            "U302 needs Data Visualization training",
-            "U306 needs Infrastructure as Code training",
-            "U306 needs Monitoring & Logging training",
-            "APP001 Training-Program",
-            "APP007 Training-Program",
-            "Interview scheduled for APP001",
-            "Interview scheduled for APP007",
-        ],
+        outputs=[]
     ),
     # 14 REPLACED
     Task(
@@ -793,11 +712,7 @@ TASKS = [
                 kwargs={"relationship_id": "MR011", "session_date": "2025-10-24"},
             ),
         ],
-        outputs=[
-            "Mentorship relationship MR011 created",
-            "Goal G303-1 updated for user U303",
-            "scheduled_for: 2025-10-24",
-        ],
+        outputs=[]
     ),
     # 15 REPLACED
     Task(
@@ -845,11 +760,7 @@ TASKS = [
                 kwargs={"relationship_id": "MR011", "session_date": "2025-11-14"},
             ),
         ],
-        outputs=[
-            "Mentorship relationship MR011 created",
-            "goal G307-3 added for U307",
-            "scheduled_for: 2025-11-14",
-        ],
+        outputs=[]
     ),
     # 16
     Task(
@@ -888,13 +799,7 @@ TASKS = [
                 kwargs={"applicant_id": "U302", "role": "Senior Data Scientist"},
             ),
         ],
-        outputs=[
-            "U302 needs Machine Learning training",
-            "U302 needs Data Visualization training",
-            "APP001 Skills-Enhanced",
-            "APP001 Final-Interview",
-            "Interview scheduled for APP001",
-        ],
+        outputs=[]
     ),
     # 17
     Task(
@@ -957,17 +862,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP007"}
             ),
         ],
-        outputs=[
-            "U302 needs Machine Learning training",
-            "U307 needs Design Thinking training",
-            "U306 needs Infrastructure as Code training",
-            "APP001 Interview-Ready",
-            "APP005 Interview-Ready",
-            "APP007 Interview-Ready",
-            "Interview scheduled for APP001",
-            "Interview scheduled for APP005",
-            "Interview scheduled for APP007",
-        ],
+        outputs=[]
     ),
     # 18 REPLACED
     Task(
@@ -1029,12 +924,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "User U302 enrolled in course C1001",
-            "User U302 enrolled in course C1003",
-            "goal G302-3 added for U302",
-            "Mentorship relationship MR011 created",
-        ],
+        outputs=[]
     ),
     # 19 REPLACED
     Task(
@@ -1103,13 +993,7 @@ TASKS = [
                 kwargs={"relationship_id": "MR011", "session_date": "2025-11-07"},
             ),
         ],
-        outputs=[
-            "User U312 enrolled in course C1003",
-            "User U306 enrolled in course C1003",
-            "Mentorship relationship MR011 created",
-            "Goal G312-1 updated for user U312",
-            "scheduled_for: 2025-11-07",
-        ],
+        outputs=[]
     ),
     # 20
     Task(
@@ -1156,15 +1040,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP010"}
             ),
         ],
-        outputs=[
-            "EXT006 shortlisted",
-            "EXT006 needs Cloud Security training",
-            "EXT006 needs Compliance training",
-            "APP010 Skills-Enhanced",
-            "APP010 Interview-Pending",
-            "APP010 Background-Check",
-            "Interview scheduled for APP010",
-        ],
+        outputs=[]
     ),
     # 21
     Task(
@@ -1209,12 +1085,7 @@ TASKS = [
                 kwargs={"user_id": "EXT002", "skill": "Data Visualization"},
             ),
         ],
-        outputs=[
-            "EXT001 shortlisted",
-            "EXT002 shortlisted",
-            "EXT001 needs Data Visualization training",
-            "EXT002 needs Data Visualization training",
-        ],
+        outputs=[]
     ),
     # 22 REPLACED
     Task(
@@ -1267,12 +1138,7 @@ TASKS = [
                 kwargs={"relationship_id": "MR003", "session_date": "2025-12-05"},
             ),
         ],
-        outputs=[
-            "Goal G307-1 updated for user U307",
-            "relationship MR003 updated",
-            "User U307 enrolled in course C1007",
-            "scheduled_for: 2025-12-05",
-        ],
+        outputs=[]
     ),
     # 23 REPLACED
     Task(
@@ -1336,12 +1202,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "APP002 Rejected - Future Consideration with Dev Plan",
-            "User U310 enrolled in course C1001",
-            "User U310 enrolled in course C1005",
-            "goal G310-2 added for U310",
-        ],
+        outputs=[]
     ),
     # 24 REPLACED
     Task(
@@ -1405,12 +1266,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "User U301 enrolled in course C1005",
-            "User U301 enrolled in course C1004",
-            "Goal G301-1 updated for user U301",
-            "relationship MR001 updated",
-        ],
+        outputs=[]
     ),
     # 25
     Task(
@@ -1448,13 +1304,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP002"}
             ),
         ],
-        outputs=[
-            "U310 needs Machine Learning training",
-            "U310 needs Programming Languages training",
-            "U310 needs Data Visualization training",
-            "APP002 Advancement-Assessment",
-            "Interview scheduled for APP002",
-        ],
+        outputs=[]
     ),
     # 26 REPLACED
     Task(
@@ -1511,12 +1361,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "User U307 enrolled in course C1004",
-            "APP005 Interview with Dev Plan",
-            "Technical interview scheduled for application APP005.",
-            "goal G307-4 added for U307",
-        ],
+        outputs=[]
     ),
     # 27
     Task(
@@ -1558,14 +1403,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP006"}
             ),
         ],
-        outputs=[
-            "U307 needs Design Operations training",
-            "EXT003 needs Design Thinking training",
-            "APP005 Screen-Scheduled",
-            "Interview scheduled for APP005",
-            "APP006 Screen-Scheduled",
-            "Interview scheduled for APP006",
-        ],
+        outputs=[]
     ),
     # 28 REPLACED
     Task(
@@ -1625,12 +1463,7 @@ TASKS = [
                 kwargs={"relationship_id": "MR011", "session_date": "2025-11-21"},
             ),
         ],
-        outputs=[
-            "User U306 enrolled in course C1001",
-            "Mentorship relationship MR011 created",
-            "Goal G306-1 updated for user U306",
-            "scheduled_for: 2025-11-21",
-        ],
+        outputs=[]
     ),
     # 29 REPLACED
     Task(
@@ -1680,11 +1513,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "User U310 enrolled in course C1005",
-            "User U310 enrolled in course C1001",
-            "Goal G310-1 updated for user U310",
-        ],
+        outputs=[]
     ),
     # 30
     Task(
@@ -1758,19 +1587,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP008"}
             ),
         ],
-        outputs=[
-            "EXT004 shortlisted",
-            "EXT004 needs CI/CD training",
-            "EXT004 needs Monitoring & Logging training",
-            "U306 needs Infrastructure as Code training",
-            "U306 needs Monitoring & Logging training",
-            "APP007 Training-Enhanced",
-            "APP007 Tech-Screen",
-            "APP008 Pipeline-Optimized",
-            "APP008 Tech-Screen",
-            "Interview scheduled for APP007",
-            "Interview scheduled for APP008",
-        ],
+        outputs=[]
     ),
     # 31
     Task(
@@ -1809,13 +1626,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP005"}
             ),
         ],
-        outputs=[
-            "EXT003 shortlisted",
-            "EXT003 needs Leadership training",
-            "U307 needs Leadership training",
-            "APP005 Pipeline-Expanded",
-            "Interview scheduled for APP005",
-        ],
+        outputs=[]
     ),
     # 32 REPLACED
     Task(
@@ -1871,12 +1682,7 @@ TASKS = [
                 kwargs={"relationship_id": "MR008", "session_date": "2025-10-31"},
             ),
         ],
-        outputs=[
-            "Goal G302-1 updated for user U302",
-            "relationship MR008 updated",
-            "User U302 enrolled in course C1003",
-            "scheduled_for: 2025-10-31",
-        ],
+        outputs=[]
     ),
     # 33
     Task(
@@ -1928,14 +1734,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP003"}
             ),
         ],
-        outputs=[
-            "EXT001 shortlisted",
-            "U302 needs Machine Learning training",
-            "EXT001 needs Data Visualization training",
-            "APP001 Skill-Plan-Active",
-            "Interview scheduled for APP001",
-            "Interview scheduled for APP003",
-        ],
+        outputs=[]
     ),
     # 34
     Task(
@@ -1974,13 +1773,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP010"}
             ),
         ],
-        outputs=[
-            "EXT006 shortlisted",
-            "EXT006 needs Cloud Security training",
-            "EXT006 needs Compliance training",
-            "APP010 Primary-Candidate",
-            "Interview scheduled for APP010",
-        ],
+        outputs=[]
     ),
     # 35
     Task(
@@ -2022,14 +1815,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP006"}
             ),
         ],
-        outputs=[
-            "EXT003 shortlisted",
-            "EXT003 needs Design Thinking training",
-            "EXT003 needs Accessibility training",
-            "APP006 Portfolio-Review",
-            "APP006 Technical-Assessment",
-            "Interview scheduled for APP006",
-        ],
+        outputs=[]
     ),
     # 36
     Task(
@@ -2064,12 +1850,7 @@ TASKS = [
                 kwargs={"candidate_id": "EXT004", "job_id": "J003"},
             ),
         ],
-        outputs=[
-            "APP007 Offer-Finalization",
-            "Interview scheduled for APP007",
-            "U306 needs Monitoring & Logging training",
-            "EXT004 shortlisted",
-        ],
+        outputs=[]
     ),
     # 37
     Task(
@@ -2112,14 +1893,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP009"}
             ),
         ],
-        outputs=[
-            "EXT005 shortlisted",
-            "EXT005 needs Product Marketing training",
-            "EXT005 needs Brand Strategy training",
-            "APP009 Skills-Enhanced",
-            "APP009 Pipeline-Expanded",
-            "Interview scheduled for APP009",
-        ],
+        outputs=[]
     ),
     # 38
     Task(
@@ -2153,12 +1927,7 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP005"}
             ),
         ],
-        outputs=[
-            "U307 needs Leadership training",
-            "APP005 Leadership-Enhanced",
-            "APP005 Portfolio-Review",
-            "Interview scheduled for APP005",
-        ],
+        outputs=[]
     ),
     # 39
     Task(
@@ -2194,12 +1963,7 @@ TASKS = [
                 kwargs={"user_id": "EXT002", "skill": "SQL"},
             ),
         ],
-        outputs=[
-            "EXT001 shortlisted",
-            "EXT002 shortlisted",
-            "EXT002 needs Machine Learning training",
-            "EXT002 needs SQL training",
-        ],
+        outputs=[]
     ),
     # 40
     Task(
@@ -2242,13 +2006,6 @@ TASKS = [
                 name="ScheduleTechnicalInterview", kwargs={"application_id": "APP007"}
             ),
         ],
-        outputs=[
-            "EXT004 shortlisted",
-            "U306 needs Infrastructure as Code training",
-            "EXT004 needs CI/CD training",
-            "EXT004 needs Monitoring & Logging training",
-            "APP007 Training-Complete",
-            "Interview scheduled for APP007",
-        ],
+        outputs=[]
     ),
 ]

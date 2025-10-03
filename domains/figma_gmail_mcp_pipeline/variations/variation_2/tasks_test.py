@@ -43,28 +43,7 @@ TASKS = [
             "resolved_flag": False
         }),
     ],
-    outputs=[
-        {
-            "comment_id": "comment_019",
-            "artifact_id": "art_001",
-            "author_email": "emma.creative@company.com",
-            "content": "Submitted for review",
-            "source_message_id_nullable": "msg_017",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "resolved_flag": False
-        },
-        # {
-        #     "messages": [
-        #         "2025-08-26T12:00:00Z : Asset 'asset_019' (PNG 2x) exported for artifact 'art_001' → gs://company-assets/figma-exports/hero-section-2x-r2.png.",
-        #         "2025-08-26T12:00:00Z : Review cycle 'cycle_013' created for 'art_001' with SLA deadline '2024-08-28T12:30:00Z'.",
-        #         "2025-08-26T12:00:00Z : Email thread 'thread_015' started by emma.creative@company.com with subject 'Design Review: Homepage Hero Section (Round 2)'.",
-        #         "2025-08-26T12:00:00Z : Message 'msg_017' posted with attachment 'asset_019'.",
-        #         "2025-08-26T15:00:00Z : Cycle 'cycle_013' status set to NEEDS_REVIEW and linked to thread 'thread_015'.",
-        #         "2025-08-26T12:00:00Z : Comment 'comment_019' added on 'art_001' referencing message 'msg_017'.",
-        #         "2025-08-27T12:30:00Z : Approval 'approval_012' recorded by jake.design@company.com; cycle 'cycle_013' set to APPROVED."
-        #     ]
-        # }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -105,28 +84,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -199,28 +157,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -257,18 +194,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -312,18 +238,7 @@ Task(
             "resolved_flag": False
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_013",
-            "artifact_id": "art_007",
-            "thread_id_nullable": "thread_015",
-            "status": "NEEDS_REVIEW",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "sla_deadline_ts": "2024-08-28T12:30:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -364,28 +279,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -424,18 +318,7 @@ Task(
             "escalated_ts": "2024-08-23T12:00:00Z"
         })
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-23T12:00:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -526,38 +409,7 @@ Task(
             "attachments_asset_ids": ["asset_019", "asset_020", "asset_021"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_013",
-            "subject": "Design System v1.3.0 - Form Components & Accessibility - Release Notes",
-            "sender_identity": "design-automation@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T11:15:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_017",
-            "thread_id": "thread_013",
-            "sender_email": "design-automation@company.com",
-            "body_html": "<h2>Design System v1.3.0 - Form Components & Accessibility</h2><p>Highlights:</p><ul><li>Added frame 1:5</li><li>Added frame 1:6</li><li>Added frame 1:7</li><li>Updated frame 1:3</li><li>Updated frame 1:4</li></ul>",        
-            "body_text_stripped": "Design System v1.3.0 - Form Components & Accessibility Highlights: Added frame 1:5, Added frame 1:6, Added frame 1:7, Updated frame 1:3, Updated frame 1:4,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019",
-                "asset_020",
-                "asset_021"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -632,36 +484,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_015",
-            "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-            "sender_identity": "jake.design@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T12:00:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_018",
-            "thread_id": "thread_015",
-            "sender_email": "jake.design@company.com",
-            "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Updated frame 2:4</li><li>Updated frame 2:2</li></ul>",
-            "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Updated frame 2:4, Updated frame 2:2,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -735,36 +558,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_015",
-            "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-            "sender_identity": "jake.design@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T12:00:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_018",
-            "thread_id": "thread_015",
-            "sender_email": "jake.design@company.com",
-            "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Removed frame 2:4</li></ul>",
-            "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Removed frame 2:4,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -840,36 +634,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-    {
-        "thread": {
-        "thread_id": "thread_015",
-        "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-        "sender_identity": "jake.design@company.com",
-        "recipients": [
-            "stakeholders@company.com",
-            "product-managers@company.com",
-            "engineering-leads@company.com"
-        ],
-        "current_labels": [
-            "Design/Release"
-        ],
-        "created_ts": "2024-08-23T12:00:00Z",
-        "updated_ts": "2024-08-23T12:00:00Z"
-        },
-        "message": {
-        "message_id": "msg_018",
-        "thread_id": "thread_015",
-        "sender_email": "jake.design@company.com",
-        "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Updated frame 2:4</li><li>Removed frame 2:2</li></ul>",
-        "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Updated frame 2:4, Removed frame 2:2,",
-        "sent_ts": "2024-08-23T12:00:00Z",
-        "attachments_asset_ids": [
-            "asset_019"
-        ]
-        }
-    }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -942,28 +707,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1000,18 +744,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1052,28 +785,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
 annotator="0",
@@ -1117,27 +829,7 @@ actions=[
         "resolved_flag": False
     }),
 ],
-outputs=[
-    {
-                                                                    "comment_id": "comment_019",
-                                                                    "artifact_id": "art_007",
-                                                                    "author_email": "anna.brand@company.com",
-                                                                    "content": "Submitted for review",
-                                                                    "source_message_id_nullable": "msg_017",
-                                                                    "created_ts": "2024-08-23T12:00:00Z",
-                                                                    "resolved_flag": False
-                                                                },
-    {
-                                                                    "cycle_id": "cycle_013",
-                                                                    "artifact_id": "art_007",
-                                                                    "thread_id_nullable": "thread_015",
-                                                                    "status": "NEEDS_REVIEW",
-                                                                    "created_ts": "2024-08-23T12:00:00Z",
-                                                                    "sla_deadline_ts": "2024-08-28T12:30:00Z",
-                                                                    "sla_breached_flag": False,
-                                                                    "escalated_ts_nullable": None
-                                                                }
-]
+outputs=[]
 ),
 Task(
     annotator="0",
@@ -1178,28 +870,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1243,18 +914,7 @@ Task(
             "resolved_flag": False
         }),
     ],
-    outputs=[
-        {
-            "comment_id": "comment_019",
-            "artifact_id": "art_001",
-            "author_email": "emma.creative@company.com",
-            "content": "Submitted for review",
-            "source_message_id_nullable": "msg_017",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "resolved_flag": False
-        },
-
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1295,28 +955,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1389,28 +1028,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1447,18 +1065,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1502,18 +1109,7 @@ Task(
             "resolved_flag": False
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_013",
-            "artifact_id": "art_007",
-            "thread_id_nullable": "thread_015",
-            "status": "NEEDS_REVIEW",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "sla_deadline_ts": "2024-08-28T12:30:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1554,28 +1150,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1614,18 +1189,7 @@ Task(
             "escalated_ts": "2024-08-23T12:00:00Z"
         })
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-23T12:00:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1716,38 +1280,7 @@ Task(
             "attachments_asset_ids": ["asset_019", "asset_020", "asset_021"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_013",
-            "subject": "Design System v1.3.0 - Form Components & Accessibility - Release Notes",
-            "sender_identity": "design-automation@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T11:15:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_017",
-            "thread_id": "thread_013",
-            "sender_email": "design-automation@company.com",
-            "body_html": "<h2>Design System v1.3.0 - Form Components & Accessibility</h2><p>Highlights:</p><ul><li>Added frame 1:5</li><li>Added frame 1:6</li><li>Added frame 1:7</li><li>Updated frame 1:3</li><li>Updated frame 1:4</li></ul>",        
-            "body_text_stripped": "Design System v1.3.0 - Form Components & Accessibility Highlights: Added frame 1:5, Added frame 1:6, Added frame 1:7, Updated frame 1:3, Updated frame 1:4,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019",
-                "asset_020",
-                "asset_021"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1822,36 +1355,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_015",
-            "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-            "sender_identity": "jake.design@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T12:00:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_018",
-            "thread_id": "thread_015",
-            "sender_email": "jake.design@company.com",
-            "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Updated frame 2:4</li><li>Updated frame 2:2</li></ul>",
-            "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Updated frame 2:4, Updated frame 2:2,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1925,36 +1429,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_015",
-            "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-            "sender_identity": "jake.design@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T12:00:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_018",
-            "thread_id": "thread_015",
-            "sender_email": "jake.design@company.com",
-            "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Removed frame 2:4</li></ul>",
-            "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Removed frame 2:4,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2030,36 +1505,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-    {
-        "thread": {
-        "thread_id": "thread_015",
-        "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-        "sender_identity": "jake.design@company.com",
-        "recipients": [
-            "stakeholders@company.com",
-            "product-managers@company.com",
-            "engineering-leads@company.com"
-        ],
-        "current_labels": [
-            "Design/Release"
-        ],
-        "created_ts": "2024-08-23T12:00:00Z",
-        "updated_ts": "2024-08-23T12:00:00Z"
-        },
-        "message": {
-        "message_id": "msg_018",
-        "thread_id": "thread_015",
-        "sender_email": "jake.design@company.com",
-        "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Updated frame 2:4</li><li>Removed frame 2:2</li></ul>",
-        "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Updated frame 2:4, Removed frame 2:2,",
-        "sent_ts": "2024-08-23T12:00:00Z",
-        "attachments_asset_ids": [
-            "asset_019"
-        ]
-        }
-    }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2132,28 +1578,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2190,18 +1615,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2242,28 +1656,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
 annotator="0",
@@ -2307,27 +1700,7 @@ actions=[
         "resolved_flag": False
     }),
 ],
-outputs=[
-    {
-            "comment_id": "comment_019",
-            "artifact_id": "art_007",
-            "author_email": "anna.brand@company.com",
-            "content": "Submitted for review",
-            "source_message_id_nullable": "msg_017",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "resolved_flag": False
-        },
-    {
-            "cycle_id": "cycle_013",
-            "artifact_id": "art_007",
-            "thread_id_nullable": "thread_015",
-            "status": "NEEDS_REVIEW",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "sla_deadline_ts": "2024-08-28T12:30:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-]
+outputs=[]
 ),
 Task(
     annotator="0",
@@ -2368,28 +1741,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2433,18 +1785,7 @@ Task(
             "resolved_flag": False
         }),
     ],
-    outputs=[
-        {
-            "comment_id": "comment_019",
-            "artifact_id": "art_001",
-            "author_email": "emma.creative@company.com",
-            "content": "Submitted for review",
-            "source_message_id_nullable": "msg_017",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "resolved_flag": False
-        },
-
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2482,28 +1823,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2576,28 +1896,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2634,18 +1933,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2689,18 +1977,7 @@ Task(
             "resolved_flag": False
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_013",
-            "artifact_id": "art_007",
-            "thread_id_nullable": "thread_015",
-            "status": "NEEDS_REVIEW",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "sla_deadline_ts": "2024-08-28T12:30:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2741,28 +2018,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2801,18 +2057,7 @@ Task(
             "escalated_ts": "2024-08-23T12:00:00Z"
         })
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-23T12:00:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2903,38 +2148,7 @@ Task(
             "attachments_asset_ids": ["asset_019", "asset_020", "asset_021"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_013",
-            "subject": "Design System v1.3.0 - Form Components & Accessibility - Release Notes",
-            "sender_identity": "design-automation@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T11:15:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_017",
-            "thread_id": "thread_013",
-            "sender_email": "design-automation@company.com",
-            "body_html": "<h2>Design System v1.3.0 - Form Components & Accessibility</h2><p>Highlights:</p><ul><li>Added frame 1:5</li><li>Added frame 1:6</li><li>Added frame 1:7</li><li>Updated frame 1:3</li><li>Updated frame 1:4</li></ul>",        
-            "body_text_stripped": "Design System v1.3.0 - Form Components & Accessibility Highlights: Added frame 1:5, Added frame 1:6, Added frame 1:7, Updated frame 1:3, Updated frame 1:4,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019",
-                "asset_020",
-                "asset_021"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3009,36 +2223,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_015",
-            "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-            "sender_identity": "jake.design@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T12:00:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_018",
-            "thread_id": "thread_015",
-            "sender_email": "jake.design@company.com",
-            "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Updated frame 2:4</li><li>Updated frame 2:2</li></ul>",
-            "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Updated frame 2:4, Updated frame 2:2,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3112,36 +2297,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_015",
-            "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-            "sender_identity": "jake.design@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T12:00:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_018",
-            "thread_id": "thread_015",
-            "sender_email": "jake.design@company.com",
-            "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Removed frame 2:4</li></ul>",
-            "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Removed frame 2:4,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3217,36 +2373,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-    {
-        "thread": {
-        "thread_id": "thread_015",
-        "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-        "sender_identity": "jake.design@company.com",
-        "recipients": [
-            "stakeholders@company.com",
-            "product-managers@company.com",
-            "engineering-leads@company.com"
-        ],
-        "current_labels": [
-            "Design/Release"
-        ],
-        "created_ts": "2024-08-23T12:00:00Z",
-        "updated_ts": "2024-08-23T12:00:00Z"
-        },
-        "message": {
-        "message_id": "msg_018",
-        "thread_id": "thread_015",
-        "sender_email": "jake.design@company.com",
-        "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Updated frame 2:4</li><li>Removed frame 2:2</li></ul>",
-        "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Updated frame 2:4, Removed frame 2:2,",
-        "sent_ts": "2024-08-23T12:00:00Z",
-        "attachments_asset_ids": [
-            "asset_019"
-        ]
-        }
-    }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3319,28 +2446,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3377,18 +2483,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3429,28 +2524,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
 annotator="0",
@@ -3494,27 +2568,7 @@ actions=[
         "resolved_flag": False
     }),
 ],
-outputs=[
-    {
-                "comment_id": "comment_019",
-                "artifact_id": "art_007",
-                "author_email": "anna.brand@company.com",
-                "content": "Submitted for review",
-                "source_message_id_nullable": "msg_017",
-                "created_ts": "2024-08-23T12:00:00Z",
-                "resolved_flag": False
-            },
-    {
-                "cycle_id": "cycle_013",
-                "artifact_id": "art_007",
-                "thread_id_nullable": "thread_015",
-                "status": "NEEDS_REVIEW",
-                "created_ts": "2024-08-23T12:00:00Z",
-                "sla_deadline_ts": "2024-08-28T12:30:00Z",
-                "sla_breached_flag": False,
-                "escalated_ts_nullable": None
-            }
-]
+outputs=[]
 ),
 Task(
     annotator="0",
@@ -3555,28 +2609,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3620,17 +2653,7 @@ Task(
             "resolved_flag": False
         }),
     ],
-    outputs=[
-        {
-            "comment_id": "comment_019",
-            "artifact_id": "art_001",
-            "author_email": "emma.creative@company.com",
-            "content": "Submitted for review",
-            "source_message_id_nullable": "msg_017",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "resolved_flag": False
-        },
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3671,28 +2694,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3765,28 +2767,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3823,18 +2804,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3878,18 +2848,7 @@ Task(
             "resolved_flag": False
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_013",
-            "artifact_id": "art_007",
-            "thread_id_nullable": "thread_015",
-            "status": "NEEDS_REVIEW",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "sla_deadline_ts": "2024-08-28T12:30:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3930,28 +2889,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3990,18 +2928,7 @@ Task(
             "escalated_ts": "2024-08-23T12:00:00Z"
         })
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-23T12:00:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4092,38 +3019,7 @@ Task(
             "attachments_asset_ids": ["asset_019", "asset_020", "asset_021"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_013",
-            "subject": "Design System v1.3.0 - Form Components & Accessibility - Release Notes",
-            "sender_identity": "design-automation@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T11:15:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_017",
-            "thread_id": "thread_013",
-            "sender_email": "design-automation@company.com",
-            "body_html": "<h2>Design System v1.3.0 - Form Components & Accessibility</h2><p>Highlights:</p><ul><li>Added frame 1:5</li><li>Added frame 1:6</li><li>Added frame 1:7</li><li>Updated frame 1:3</li><li>Updated frame 1:4</li></ul>",        
-            "body_text_stripped": "Design System v1.3.0 - Form Components & Accessibility Highlights: Added frame 1:5, Added frame 1:6, Added frame 1:7, Updated frame 1:3, Updated frame 1:4,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019",
-                "asset_020",
-                "asset_021"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4198,36 +3094,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_015",
-            "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-            "sender_identity": "jake.design@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T12:00:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_018",
-            "thread_id": "thread_015",
-            "sender_email": "jake.design@company.com",
-            "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Updated frame 2:4</li><li>Updated frame 2:2</li></ul>",
-            "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Updated frame 2:4, Updated frame 2:2,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4301,36 +3168,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_015",
-            "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-            "sender_identity": "jake.design@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T12:00:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_018",
-            "thread_id": "thread_015",
-            "sender_email": "jake.design@company.com",
-            "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Removed frame 2:4</li></ul>",
-            "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Removed frame 2:4,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4406,36 +3244,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-    {
-        "thread": {
-        "thread_id": "thread_015",
-        "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-        "sender_identity": "jake.design@company.com",
-        "recipients": [
-            "stakeholders@company.com",
-            "product-managers@company.com",
-            "engineering-leads@company.com"
-        ],
-        "current_labels": [
-            "Design/Release"
-        ],
-        "created_ts": "2024-08-23T12:00:00Z",
-        "updated_ts": "2024-08-23T12:00:00Z"
-        },
-        "message": {
-        "message_id": "msg_018",
-        "thread_id": "thread_015",
-        "sender_email": "jake.design@company.com",
-        "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Updated frame 2:4</li><li>Removed frame 2:2</li></ul>",
-        "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Updated frame 2:4, Removed frame 2:2,",
-        "sent_ts": "2024-08-23T12:00:00Z",
-        "attachments_asset_ids": [
-            "asset_019"
-        ]
-        }
-    }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4508,28 +3317,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4566,18 +3354,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4618,28 +3395,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
 annotator="0",
@@ -4683,27 +3439,7 @@ actions=[
         "resolved_flag": False
     }),
 ],
-outputs=[
-    {
-                    "comment_id": "comment_019",
-                    "artifact_id": "art_007",
-                    "author_email": "anna.brand@company.com",
-                    "content": "Submitted for review",
-                    "source_message_id_nullable": "msg_017",
-                    "created_ts": "2024-08-23T12:00:00Z",
-                    "resolved_flag": False
-                },
-    {
-                    "cycle_id": "cycle_013",
-                    "artifact_id": "art_007",
-                    "thread_id_nullable": "thread_015",
-                    "status": "NEEDS_REVIEW",
-                    "created_ts": "2024-08-23T12:00:00Z",
-                    "sla_deadline_ts": "2024-08-28T12:30:00Z",
-                    "sla_breached_flag": False,
-                    "escalated_ts_nullable": None
-                }
-]
+outputs=[]
 ),
 Task(
     annotator="0",
@@ -4744,28 +3480,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4809,18 +3524,7 @@ Task(
             "resolved_flag": False
         }),
     ],
-    outputs=[
-        {
-            "comment_id": "comment_019",
-            "artifact_id": "art_001",
-            "author_email": "emma.creative@company.com",
-            "content": "Submitted for review",
-            "source_message_id_nullable": "msg_017",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "resolved_flag": False
-        },
-
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4861,28 +3565,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4955,28 +3638,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5013,18 +3675,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5068,18 +3719,7 @@ Task(
             "resolved_flag": False
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_013",
-            "artifact_id": "art_007",
-            "thread_id_nullable": "thread_015",
-            "status": "NEEDS_REVIEW",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "sla_deadline_ts": "2024-08-28T12:30:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5120,28 +3760,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5180,18 +3799,7 @@ Task(
             "escalated_ts": "2024-08-23T12:00:00Z"
         })
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-23T12:00:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5282,38 +3890,7 @@ Task(
             "attachments_asset_ids": ["asset_019", "asset_020", "asset_021"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_013",
-            "subject": "Design System v1.3.0 - Form Components & Accessibility - Release Notes",
-            "sender_identity": "design-automation@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T11:15:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_017",
-            "thread_id": "thread_013",
-            "sender_email": "design-automation@company.com",
-            "body_html": "<h2>Design System v1.3.0 - Form Components & Accessibility</h2><p>Highlights:</p><ul><li>Added frame 1:5</li><li>Added frame 1:6</li><li>Added frame 1:7</li><li>Updated frame 1:3</li><li>Updated frame 1:4</li></ul>",        
-            "body_text_stripped": "Design System v1.3.0 - Form Components & Accessibility Highlights: Added frame 1:5, Added frame 1:6, Added frame 1:7, Updated frame 1:3, Updated frame 1:4,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019",
-                "asset_020",
-                "asset_021"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5388,36 +3965,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_015",
-            "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-            "sender_identity": "jake.design@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T12:00:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_018",
-            "thread_id": "thread_015",
-            "sender_email": "jake.design@company.com",
-            "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Updated frame 2:4</li><li>Updated frame 2:2</li></ul>",
-            "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Updated frame 2:4, Updated frame 2:2,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5491,36 +4039,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_015",
-            "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-            "sender_identity": "jake.design@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T12:00:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_018",
-            "thread_id": "thread_015",
-            "sender_email": "jake.design@company.com",
-            "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Removed frame 2:4</li></ul>",
-            "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Removed frame 2:4,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5596,36 +4115,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-    {
-        "thread": {
-        "thread_id": "thread_015",
-        "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-        "sender_identity": "jake.design@company.com",
-        "recipients": [
-            "stakeholders@company.com",
-            "product-managers@company.com",
-            "engineering-leads@company.com"
-        ],
-        "current_labels": [
-            "Design/Release"
-        ],
-        "created_ts": "2024-08-23T12:00:00Z",
-        "updated_ts": "2024-08-23T12:00:00Z"
-        },
-        "message": {
-        "message_id": "msg_018",
-        "thread_id": "thread_015",
-        "sender_email": "jake.design@company.com",
-        "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Updated frame 2:4</li><li>Removed frame 2:2</li></ul>",
-        "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Updated frame 2:4, Removed frame 2:2,",
-        "sent_ts": "2024-08-23T12:00:00Z",
-        "attachments_asset_ids": [
-            "asset_019"
-        ]
-        }
-    }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5698,28 +4188,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5756,18 +4225,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5808,28 +4266,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
 annotator="0",
@@ -5873,27 +4310,7 @@ actions=[
         "resolved_flag": False
     }),
 ],
-outputs=[
-    {
-                "comment_id": "comment_019",
-                "artifact_id": "art_007",
-                "author_email": "anna.brand@company.com",
-                "content": "Submitted for review",
-                "source_message_id_nullable": "msg_017",
-                "created_ts": "2024-08-23T12:00:00Z",
-                "resolved_flag": False
-            },
-{
-                "cycle_id": "cycle_013",
-                "artifact_id": "art_007",
-                "thread_id_nullable": "thread_015",
-                "status": "NEEDS_REVIEW",
-                "created_ts": "2024-08-23T12:00:00Z",
-                "sla_deadline_ts": "2024-08-28T12:30:00Z",
-                "sla_breached_flag": False,
-                "escalated_ts_nullable": None
-            }
-]
+outputs=[]
 ),
 Task(
     annotator="0",
@@ -5934,28 +4351,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5999,18 +4395,7 @@ Task(
             "resolved_flag": False
         }),
     ],
-    outputs=[
-        {
-            "comment_id": "comment_019",
-            "artifact_id": "art_001",
-            "author_email": "emma.creative@company.com",
-            "content": "Submitted for review",
-            "source_message_id_nullable": "msg_017",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "resolved_flag": False
-        },
-
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6051,28 +4436,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6145,28 +4509,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6203,18 +4546,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6258,18 +4590,7 @@ Task(
             "resolved_flag": False
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_013",
-            "artifact_id": "art_007",
-            "thread_id_nullable": "thread_015",
-            "status": "NEEDS_REVIEW",
-            "created_ts": "2024-08-23T12:00:00Z",
-            "sla_deadline_ts": "2024-08-28T12:30:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6310,28 +4631,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6370,18 +4670,7 @@ Task(
             "escalated_ts": "2024-08-23T12:00:00Z"
         })
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-23T12:00:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6472,38 +4761,7 @@ Task(
             "attachments_asset_ids": ["asset_019", "asset_020", "asset_021"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_013",
-            "subject": "Design System v1.3.0 - Form Components & Accessibility - Release Notes",
-            "sender_identity": "design-automation@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T11:15:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_017",
-            "thread_id": "thread_013",
-            "sender_email": "design-automation@company.com",
-            "body_html": "<h2>Design System v1.3.0 - Form Components & Accessibility</h2><p>Highlights:</p><ul><li>Added frame 1:5</li><li>Added frame 1:6</li><li>Added frame 1:7</li><li>Updated frame 1:3</li><li>Updated frame 1:4</li></ul>",        
-            "body_text_stripped": "Design System v1.3.0 - Form Components & Accessibility Highlights: Added frame 1:5, Added frame 1:6, Added frame 1:7, Updated frame 1:3, Updated frame 1:4,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019",
-                "asset_020",
-                "asset_021"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6578,36 +4836,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_015",
-            "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-            "sender_identity": "jake.design@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T12:00:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_018",
-            "thread_id": "thread_015",
-            "sender_email": "jake.design@company.com",
-            "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Updated frame 2:4</li><li>Updated frame 2:2</li></ul>",
-            "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Updated frame 2:4, Updated frame 2:2,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6681,36 +4910,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-        {
-            "thread": {
-            "thread_id": "thread_015",
-            "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-            "sender_identity": "jake.design@company.com",
-            "recipients": [
-                "stakeholders@company.com",
-                "product-managers@company.com",
-                "engineering-leads@company.com"
-            ],
-            "current_labels": [
-                "Design/Release"
-            ],
-            "created_ts": "2024-08-23T12:00:00Z",
-            "updated_ts": "2024-08-23T12:00:00Z"
-            },
-            "message": {
-            "message_id": "msg_018",
-            "thread_id": "thread_015",
-            "sender_email": "jake.design@company.com",
-            "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Removed frame 2:4</li></ul>",
-            "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Removed frame 2:4,",
-            "sent_ts": "2024-08-23T12:00:00Z",
-            "attachments_asset_ids": [
-                "asset_019"
-            ]
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6786,36 +4986,7 @@ Task(
             "attachments_asset_ids": ["asset_019"]
         })
     ],
-    outputs=[
-    {
-        "thread": {
-        "thread_id": "thread_015",
-        "subject": "Mobile App v2.3.0 - Notifications & Settings Polish - Release Notes",
-        "sender_identity": "jake.design@company.com",
-        "recipients": [
-            "stakeholders@company.com",
-            "product-managers@company.com",
-            "engineering-leads@company.com"
-        ],
-        "current_labels": [
-            "Design/Release"
-        ],
-        "created_ts": "2024-08-23T12:00:00Z",
-        "updated_ts": "2024-08-23T12:00:00Z"
-        },
-        "message": {
-        "message_id": "msg_018",
-        "thread_id": "thread_015",
-        "sender_email": "jake.design@company.com",
-        "body_html": "<h2>Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes</h2><p>Highlights:</p><ul><li>Added frame 2:6</li><li>Updated frame 2:4</li><li>Removed frame 2:2</li></ul>",
-        "body_text_stripped": "Mobile App v2.3.0 - Notifications & Settings Polish \u2014 Release Notes Highlights: Added frame 2:6, Updated frame 2:4, Removed frame 2:2,",
-        "sent_ts": "2024-08-23T12:00:00Z",
-        "attachments_asset_ids": [
-            "asset_019"
-        ]
-        }
-    }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6888,28 +5059,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6946,18 +5096,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6998,28 +5137,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
 annotator="0",
@@ -7063,27 +5181,7 @@ actions=[
         "resolved_flag": False
     }),
 ],
-outputs=[
-{
-"comment_id": "comment_019",
-"artifact_id": "art_007",
-"author_email": "anna.brand@company.com",
-"content": "Submitted for review",
-"source_message_id_nullable": "msg_017",
-"created_ts": "2024-08-23T12:00:00Z",
-"resolved_flag": False
-},
-{
-"cycle_id": "cycle_013",
-"artifact_id": "art_007",
-"thread_id_nullable": "thread_015",
-"status": "NEEDS_REVIEW",
-"created_ts": "2024-08-23T12:00:00Z",
-"sla_deadline_ts": "2024-08-28T12:30:00Z",
-"sla_breached_flag": False,
-"escalated_ts_nullable": None
-}
-]
+outputs=[]
 ),
 Task(
     annotator="0",
@@ -7124,28 +5222,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -7218,28 +5295,7 @@ Task(
             "approval_comment_ref": "comment_021"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_001",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": False,
-            "approval_comment_ref_nullable": "comment_021"
-            },
-            "cycle": {
-            "cycle_id": "cycle_001",
-            "artifact_id": "art_001",
-            "thread_id_nullable": "thread_001",
-            "status": "APPROVED",
-            "created_ts": "2024-08-20T15:00:00Z",
-            "sla_deadline_ts": "2024-08-23T15:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -7276,18 +5332,7 @@ Task(
             "thread_id": "thread_010"
         }),
     ],
-    outputs=[
-        {
-            "cycle_id": "cycle_008",
-            "artifact_id": "art_002",
-            "thread_id_nullable": "thread_010",
-            "status": "CHANGES_REQUESTED",
-            "created_ts": "2024-08-21T10:00:00Z",
-            "sla_deadline_ts": "2024-08-24T10:00:00Z",
-            "sla_breached_flag": False,
-            "escalated_ts_nullable": None
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -7328,28 +5373,7 @@ Task(
             "approval_comment_ref": "comment_019"
         })
     ],
-    outputs=[
-        {
-            "approval": {
-            "approval_id": "approval_012",
-            "cycle_id": "cycle_004",
-            "approver_email": "jake.design@company.com",
-            "approved_ts": "2024-08-23T12:00:00Z",
-            "sla_breached_flag": True,
-            "approval_comment_ref_nullable": "comment_019"
-            },
-            "cycle": {
-            "cycle_id": "cycle_004",
-            "artifact_id": "art_008",
-            "thread_id_nullable": "thread_004",
-            "status": "APPROVED",
-            "created_ts": "2024-08-18T15:30:00Z",
-            "sla_deadline_ts": "2024-08-21T15:30:00Z",
-            "sla_breached_flag": True,
-            "escalated_ts_nullable": "2024-08-21T16:00:00Z"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
 annotator="0",
@@ -7393,27 +5417,7 @@ actions=[
         "resolved_flag": False
     }),
 ],
-outputs=[
-    {
-        "comment_id": "comment_019",
-        "artifact_id": "art_007",
-        "author_email": "anna.brand@company.com",
-        "content": "Submitted for review",
-        "source_message_id_nullable": "msg_017",
-        "created_ts": "2024-08-23T12:00:00Z",
-        "resolved_flag": False
-    },
-{
-        "cycle_id": "cycle_013",
-        "artifact_id": "art_007",
-        "thread_id_nullable": "thread_015",
-        "status": "NEEDS_REVIEW",
-        "created_ts": "2024-08-23T12:00:00Z",
-        "sla_deadline_ts": "2024-08-28T12:30:00Z",
-        "sla_breached_flag": False,
-        "escalated_ts_nullable": None
-    }
-]
+outputs=[]
 ),
 
 

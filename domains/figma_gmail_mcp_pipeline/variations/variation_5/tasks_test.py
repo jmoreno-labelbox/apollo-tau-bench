@@ -10,12 +10,7 @@ TASKS = [
             Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_001", "add_labels": ["triaged", "figma-sync"], "remove_labels": ["urgent"], "changed_ts": "2024-08-22T12:00:00Z"}),
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_001"})
         ],
-        outputs=[
-            """{
-            "thread_id": "thread_001",
-            "blocked_terms_found": []
-            }"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -29,12 +24,7 @@ TASKS = [
             Action(name="GetReleaseDiffSummary", kwargs={"release_id": "release_001"}),
             Action(name="ComposeReleaseEmailDraft", kwargs={"release_id": "release_001", "thread_id": "thread_006", "from_email": "emma.creative@company.com", "created_ts": "2024-08-22T17:00:00Z", "subject": "Release 1.2.0 Announcement", "body": "Highlights and changes included."})
         ],
-        outputs=[
-            """{
-            "success": true,
-            "message_id": "relmsg_9cc87e81"
-            }"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -50,12 +40,7 @@ TASKS = [
             Action(name="ReadSystemConfig", kwargs={"config_key": "dlp_config"}),
             Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-23T09:05:00Z", "message": "Prepared audit session for art_001"})
         ],
-        outputs=[
-            """{
-            "success": true,
-            "log_id": "log_7c69622f"
-            }"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -82,12 +67,7 @@ TASKS = [
             }),
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_008"})
         ],
-        outputs=[
-            """{
-              "thread_id": "thread_008",
-              "blocked_terms_found": []
-            }"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -107,13 +87,7 @@ TASKS = [
                 "changed_ts": "2024-08-23T19:22:00Z"
             })
         ],
-        outputs=[
-            """{
-              "thread_id": "thread_013",
-              "blocked_terms_found": [],
-              "label_applied": false
-            }"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -134,12 +108,7 @@ TASKS = [
             }),
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_010"})
         ],
-        outputs=[
-            """{
-              "thread_id": "thread_010",
-              "blocked_terms_found": []
-            }"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -165,13 +134,7 @@ TASKS = [
                 "changed_ts": "2024-08-23T18:30:00Z"
             })
         ],
-        outputs=[
-            """{
-              "audit_id": "audit_004",
-              "ds_findings": 0,
-              "a11y_findings": 2
-            }"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -198,14 +161,7 @@ TASKS = [
                 "changed_ts": "2024-08-23T20:15:00Z"
             })
         ],
-        outputs=[
-            """{
-              "success": true,
-              "cycle_id": "cycle_008",
-              "from": "NEEDS_REVIEW",
-              "to": "APPROVED"
-            }"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -227,12 +183,7 @@ TASKS = [
             }),
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_009"})
         ],
-        outputs=[
-            """{
-              "thread_id": "thread_009",
-              "blocked_terms_found": []
-            }"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -244,9 +195,7 @@ TASKS = [
             Action(name="AddArtifactTag", kwargs={ 'artifact_id': 'art_007', 'tag': 'handoff-ready', 'changed_ts': '2024-08-23T08:45:00Z' }),
             Action(name="ListAssetsForArtifact", kwargs={ 'artifact_id': 'art_007' })
         ],
-        outputs=[
-            "[\n  {\n    \"asset_id\": \"asset_006\",\n    \"profile\": null,\n    \"file_name\": null,\n    \"mime_type\": null\n  }\n]"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -260,9 +209,7 @@ TASKS = [
             Action(name="AdvanceReviewStatus", kwargs={ 'cycle_id': 'cycle_2c0e9232', 'new_status': 'APPROVED', 'changed_ts': '2024-08-23T10:07:00Z' }),
             Action(name="GetArtifactSummary", kwargs={ 'artifact_id': 'art_002' })
         ],
-        outputs=[
-            "{\n  \"artifact_id\": \"art_002\",\n  \"artifact_name\": \"Navigation Bar\",\n  \"artifact_type\": \"FRAME\",\n  \"deep_link\": \"https://www.figma.com/file/abc123def456/Design-System?node-id=1%3A4\",\n  \"owner_email\": \"emma.creative@company.com\",\n  \"current_tags\": [\n    \"navigation\",\n    \"header\",\n    \"global\"\n  ],\n  \"modified_ts\": \"2024-08-21T09:15:00Z\"\n}"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -273,9 +220,7 @@ TASKS = [
             Action(name="ComposeReleaseEmailDraft", kwargs={ 'release_id': 'release_002', 'thread_id': 'thread_007', 'from_email': 'jake.design@company.com', 'created_ts': '2024-08-23T12:30:00Z', 'subject': 'Mobile App v2.1.0 Release', 'body': 'Shipping profile & dashboard improvements.' }),
             Action(name="GuardAttachmentPolicyOnDraft", kwargs={ 'message_id': 'relmsg_5b8194ea' })
         ],
-        outputs=[
-            "{\n  \"message_id\": \"relmsg_5b8194ea\",\n  \"approx_body_bytes\": 42,\n  \"max_total_bytes\": 10000000,\n  \"ok\": true\n}"
-        ],
+        outputs=[]
     ),
 
 
@@ -291,22 +236,7 @@ TASKS = [
             Action(name="GuardAttachmentPolicyOnDraft", kwargs={"message_id": "relmsg_9cc87e81"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"})
         ],
-        outputs=[
-            """[
-                {
-                    "asset_id": "asset_001",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                },
-                {
-                    "asset_id": "asset_002",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                }
-            ]"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -320,21 +250,7 @@ TASKS = [
             Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-23T13:30:00Z", "message": "Checked marketing file assets"}),
             Action(name="GetArtifactSummary", kwargs={"artifact_id": "art_006"})
         ],
-        outputs=[
-            """{
-            "artifact_id": "art_006",
-            "artifact_name": "Marketing Website",
-            "artifact_type": "FILE",
-            "owner_email": "anna.brand@company.com",
-            "deep_link": "https://www.figma.com/file/def456ghi789/Marketing-Website",
-            "current_tags": [
-                "marketing",
-                "website",
-                "landing-pages"
-            ],
-            "modified_ts": "2024-08-21T15:30:00Z"
-            }"""
-        ]
+        outputs=[]
     ),
 
     # complexity_edges: 9
@@ -347,22 +263,7 @@ TASKS = [
             Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_003", "add_labels": ["needs-review"], "remove_labels": [], "changed_ts": "2024-08-23T13:08:00Z"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"})
         ],
-        outputs=[
-            """[
-                {
-                    "asset_id": "asset_001",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                },
-                {
-                    "asset_id": "asset_002",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                }
-            ]"""
-        ]
+        outputs=[]
     ),
 
 
@@ -378,22 +279,7 @@ TASKS = [
             Action(name="RecordReviewApproval", kwargs={"cycle_id": "cycle_1dc59e3f", "approver_email": "chris.engineer@company.com", "decision": "APPROVED", "decided_ts": "2024-08-23T13:25:00Z", "comment": "LGTM"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"})
         ],
-        outputs=[
-            """[
-                {
-                    "asset_id": "asset_001",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                },
-                {
-                    "asset_id": "asset_002",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                }
-            ]"""
-        ]
+        outputs=[]
     ),
 
 
@@ -409,22 +295,7 @@ TASKS = [
             Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_005", "add_labels": ["housekeeping"], "remove_labels": [], "changed_ts": "2024-08-23T10:55:00Z"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"})
         ],
-        outputs=[
-            """[
-                {
-                    "asset_id": "asset_001",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                },
-                {
-                    "asset_id": "asset_002",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                }
-            ]"""
-        ]
+        outputs=[]
     ),
 
     # complexity_edges: 8
@@ -439,20 +310,7 @@ TASKS = [
             Action(name="ComposeReleaseEmailDraft", kwargs={"release_id": "release_001", "thread_id": "thread_006", "from_email": "emma.creative@company.com", "created_ts": "2024-08-22T17:00:00Z", "subject": "Release 1.2.0 Summary", "body": "Highlights and changes included."}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """{
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }"""
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -466,20 +324,7 @@ TASKS = [
             Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_001", "from_email": "emma.creative@company.com", "body": "Requesting review for art_002.", "created_ts": "2024-08-24T10:16:00Z"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """{
-        "asset_id": "asset_001",
-        "profile": null,
-        "file_name": null,
-        "mime_type": null
-        },
-        {
-        "asset_id": "asset_002",
-        "profile": null,
-        "file_name": null,
-        "mime_type": null
-        }"""
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -496,13 +341,7 @@ TASKS = [
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_007"}),
             Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-25T12:02:00Z", "message": "Initiated combined audit session for art_007"})
         ],
-        outputs=[
-            """{
-    "audit_id": "audit_005",
-    "ds_findings": 0,
-    "a11y_findings": 0
-    }"""
-    ]
+        outputs=[]
     ),
 
     # Auto Task 11
@@ -519,17 +358,7 @@ TASKS = [
             Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_003", "from_email": "chris.engineer@company.com", "body": "Please REVISE the grid spacing to 8px multiples.", "created_ts": "2024-08-23T13:15:00Z"}),
             Action(name="SyncGmailIntentsToReview", kwargs={"cycle_id": "cycle_1dc59e3f", "thread_id": "thread_003"})
         ],
-        outputs=[
-            """{
-            "cycle_id": "cycle_1dc59e3f",
-            "thread_id": "thread_003",
-            "intent_counts": {
-                "approve": 1,
-                "changes": 1,
-                "blocker": 0
-            }
-            }"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -561,13 +390,7 @@ TASKS = [
                 "changed_ts": "2024-08-23T19:12:00Z"
             })
         ],
-        outputs=[
-            """{
-              "thread_id": "thread_011",
-              "blocked_terms_found": [],
-              "label_applied": false
-            }"""
-        ]
+        outputs=[]
     ),
 
 
@@ -606,13 +429,7 @@ TASKS = [
                 "changed_ts": "2024-08-24T13:42:00Z"
             })
         ],
-        outputs=[
-            """{
-              "thread_id": "thread_011",
-              "blocked_terms_found": [],
-              "label_applied": false
-            }"""
-        ]
+        outputs=[]
     ),
 
 
@@ -644,12 +461,7 @@ TASKS = [
             }),
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_001"})
         ],
-        outputs=[
-            """{
-              "thread_id": "thread_001",
-              "blocked_terms_found": []
-            }"""
-        ]
+        outputs=[]
     ),
 
 
@@ -674,16 +486,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_002"}),
             Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-24T16:26:00Z", "message": "Intent captured and posture verified for art_007"})
         ],
-        outputs=[
-            """[
-                {
-                    "asset_id": "asset_006",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                }
-            ]"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -698,9 +501,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={ 'thread_id': 'thread_008' }),
             Action(name="SearchGmailThreads", kwargs={ 'keyword': 'Pricing' })
         ],
-        outputs=[
-            "[\n  {\n    \"thread_id\": \"thread_008\",\n    \"subject\": \"Pricing Page A/B Testing Results\",\n    \"current_labels\": [\n      \"pricing\",\n      \"ab-testing\",\n      \"results\"\n    ],\n    \"updated_ts\": \"2024-08-23T12:06:00Z\"\n  }\n]"
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -714,17 +515,7 @@ TASKS = [
             Action(name="CreateFigmaComment", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "body": "Please update the brand color token to Brand/Primary/600.", "anchor_ref": "node-2:7", "created_ts": "2024-08-23T12:00:00Z"}),
             Action(name="ListFigmaComments", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "since_ts": "2024-08-01T00:00:00Z"})
         ],
-        outputs=[
-            """[
-            {
-                "comment_id": "cmt_10b86546",
-                "author_email": "sophie.marketing@company.com",
-                "anchor_ref": "node-2:7",
-                "body": "Please update the brand color token to Brand/Primary/600.",
-                "created_ts": "2024-08-23T12:00:00Z"
-            }
-            ]"""
-        ]
+        outputs=[]
     ),
 
 
@@ -739,17 +530,7 @@ TASKS = [
             Action(name="CreateFigmaComment", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "body": "Please update the brand color token to Brand/Primary/600.", "anchor_ref": "node-2:7", "created_ts": "2024-08-23T12:00:00Z"}),
             Action(name="ListFigmaComments", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "since_ts": "2024-08-01T00:00:00Z"})
         ],
-        outputs=[
-            """[
-            {
-                "comment_id": "cmt_10b86546",
-                "author_email": "sophie.marketing@company.com",
-                "anchor_ref": "node-2:7",
-                "body": "Please update the brand color token to Brand/Primary/600.",
-                "created_ts": "2024-08-23T12:00:00Z"
-            }
-            ]"""
-        ]
+        outputs=[]
     ),
 
 
@@ -765,22 +546,7 @@ TASKS = [
             Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_006", "from_email": "qa.lead@company.com", "body": "QA sign-off complete", "created_ts": "2024-08-22T17:06:00Z"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"})
         ],
-        outputs=[
-            """[
-                {
-                    "asset_id": "asset_001",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                },
-                {
-                    "asset_id": "asset_002",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                }
-            ]"""
-        ]
+        outputs=[]
     ),
 
 
@@ -796,20 +562,7 @@ TASKS = [
             Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_001", "add_labels": ["triaged", "figma-sync"], "remove_labels": ["urgent"], "changed_ts": "2024-08-24T09:40:00Z"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """{
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }"""
-    ],
+        outputs=[]
     ),
 
 
@@ -824,9 +577,7 @@ TASKS = [
             Action(name="RecordReviewApproval", kwargs={"cycle_id": "cycle_1dc59e3f", "approver_email": "chris.engineer@company.com", "decision": "APPROVED", "decided_ts": "2024-08-23T13:25:00Z", "comment": "Ship it"}),
             Action(name="ListFigmaComments", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "since_ts": "2024-08-01T00:00:00Z"})
         ],
-        outputs=[
-            """[]"""
-        ]
+        outputs=[]
     ),
 
 
@@ -841,15 +592,7 @@ TASKS = [
             Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_002", "from_email": "emma.creative@company.com", "body": "Please note: temporary password is abcd-1234; rotate after testing.", "created_ts": "2024-08-23T11:00:00Z"}),
             Action(name="DlpScanAndLabelThread", kwargs={"thread_id": "thread_002", "label_if_found": "dlp-flag", "changed_ts": "2024-08-23T11:05:00Z"}),
         ],
-        outputs=[
-            """{
-    "thread_id": "thread_002",
-    "blocked_terms_found": [
-    "password"
-    ],
-    "label_applied": true
-    }"""
-    ],
+        outputs=[]
     ),
 
 
@@ -866,20 +609,7 @@ TASKS = [
             Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_006", "add_labels": ["Design/Release", "sentiment/positive"], "remove_labels": [], "changed_ts": "2024-08-22T17:05:00Z"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """{
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }"""
-    ],
+        outputs=[]
     ),
 
 
@@ -896,21 +626,7 @@ TASKS = [
             Action(name="AddArtifactTag", kwargs={"artifact_id": "art_006", "tag": "audit-in-progress", "changed_ts": "2024-08-24T13:06:00Z"}),
             Action(name="GetArtifactSummary", kwargs={"artifact_id": "art_006"}),
         ],
-        outputs=[
-            """{
-            "artifact_id": "art_006",
-            "artifact_name": "Marketing Website",
-            "artifact_type": "FILE",
-            "owner_email": "anna.brand@company.com",
-            "deep_link": "https://www.figma.com/file/def456ghi789/Marketing-Website",
-            "current_tags": [
-            "marketing",
-            "website",
-            "landing-pages"
-            ],
-            "modified_ts": "2024-08-24T13:06:00Z"
-            }"""
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 17
@@ -927,17 +643,7 @@ TASKS = [
             Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_003", "from_email": "chris.engineer@company.com", "body": "Please REVISE the grid spacing to 8px multiples.", "created_ts": "2024-08-23T13:15:00Z"}),
             Action(name="SyncGmailIntentsToReview", kwargs={"cycle_id": "cycle_1dc59e3f", "thread_id": "thread_003"})
         ],
-        outputs=[
-            """{
-            "cycle_id": "cycle_1dc59e3f",
-            "thread_id": "thread_003",
-            "intent_counts": {
-                "approve": 1,
-                "changes": 1,
-                "blocker": 0
-            }
-            }"""
-        ]
+        outputs=[]
     ),
 
     # complexity_edges: 18
@@ -970,17 +676,7 @@ TASKS = [
                 "since_ts": "2024-08-01T00:00:00Z"
             })
         ],
-        outputs=[
-            """[
-            {
-                "comment_id": "cmt_10b86546",
-                "author_email": "sophie.marketing@company.com",
-                "anchor_ref": "node-2:7",
-                "body": "Please update the brand color token to Brand/Primary/600.",
-                "created_ts": "2024-08-23T12:00:00Z"
-            }
-            ]"""
-        ]
+        outputs=[]
     ),
 
     # complexity_edges: 17
@@ -995,22 +691,7 @@ TASKS = [
             Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_001", "add_labels": ["triaged", "figma-sync"], "remove_labels": ["urgent"], "changed_ts": "2024-08-24T09:40:00Z"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"})
         ],
-        outputs=[
-            """[
-                {
-                    "asset_id": "asset_001",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                },
-                {
-                    "asset_id": "asset_002",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                }
-            ]"""
-        ]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -1035,16 +716,7 @@ TASKS = [
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_002"}),
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_006"})
         ],
-        outputs=[
-            """[
-                {
-                    "asset_id": "asset_003",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                }
-            ]"""
-        ]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -1073,20 +745,7 @@ TASKS = [
             }),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """{
-            "asset_id": "asset_001",
-            "profile": null,
-            "file_name": null,
-            "mime_type": null
-            },
-            {
-            "asset_id": "asset_002",
-            "profile": null,
-            "file_name": null,
-            "mime_type": null
-            }"""
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -1115,16 +774,7 @@ TASKS = [
             }),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_007"}),
         ],
-        outputs=[
-            """[
-            {
-            "asset_id": "asset_006",
-            "profile": null,
-            "file_name": null,
-            "mime_type": null
-            }
-            ]"""
-            ],
+        outputs=[]
         ),
 
     # complexity_edges: 14
@@ -1155,17 +805,7 @@ TASKS = [
             "thread_id": "thread_003"
             }),
         ],
-        outputs=[
-        """{
-        "cycle_id": "cycle_003",
-        "thread_id": "thread_003",
-        "intent_counts": {
-        "approve": 1,
-        "changes": 1,
-        "blocker": 0
-        }
-        }"""
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -1195,20 +835,7 @@ TASKS = [
             }),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """{
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }"""
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 12
@@ -1242,12 +869,7 @@ TASKS = [
             }),
             Action(name="SummarizeAudit", kwargs={"audit_id": "audit_c924d63d"}),
         ],
-        outputs=[
-            """{"audit_id": "audit_c924d63d",
-        "ds_findings": 0,
-        "a11y_findings": 0
-        }"""
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -1262,12 +884,7 @@ TASKS = [
             Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_010", "from_email": "emma.creative@company.com", "body": "Design synced to Figma.", "created_ts": "2024-08-25T10:02:00Z"}),
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_010"})
         ],
-        outputs=[
-            """{
-    "thread_id": "thread_010",
-    "blocked_terms_found": []
-    }"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -1306,16 +923,7 @@ TASKS = [
                 "artifact_id": "art_007"
             })
         ],
-        outputs=[
-            """[
-    {
-    "asset_id": "asset_006",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ]
+        outputs=[]
     ),
 
 
@@ -1353,12 +961,7 @@ TASKS = [
                 "thread_id": "thread_003"
             })
         ],
-        outputs=[
-            """{
-    "thread_id": "thread_003",
-    "blocked_terms_found": []
-    }"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -1391,13 +994,7 @@ TASKS = [
                 "changed_ts": "2024-08-24T14:12:00Z"
             })
         ],
-        outputs=[
-            """{
-    "thread_id": "thread_010",
-    "blocked_terms_found": [],
-    "label_applied": false
-    }"""
-    ],
+        outputs=[]
     ),
 
 
@@ -1429,22 +1026,7 @@ TASKS = [
         "artifact_id": "art_001"
         })
         ],
-        outputs=[
-        """[
-        {
-        "asset_id": "asset_001",
-        "profile": null,
-        "file_name": null,
-        "mime_type": null
-        },
-        {
-        "asset_id": "asset_002",
-        "profile": null,
-        "file_name": null,
-        "mime_type": null
-        }
-        ]"""
-        ]
+        outputs=[]
     ),
 
     # complexity_edges:  15
@@ -1479,17 +1061,7 @@ TASKS = [
                 "thread_id": "thread_012"
             })
         ],
-        outputs=[
-            """{
-    "cycle_id": "cycle_19bc41cf",
-    "thread_id": "thread_012",
-    "intent_counts": {
-    "approve": 1,
-    "changes": 0,
-    "blocker": 0
-    }
-    }"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -1516,14 +1088,7 @@ TASKS = [
             }),
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_007"})
         ],
-        outputs=[
-            """{
-    "release_id": "release_002",
-    "added": 0,
-    "updated": 0,
-    "removed": 0
-    }"""
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -1562,13 +1127,7 @@ TASKS = [
                 "artifact_id": "art_001"
             })
         ],
-        outputs=[
-            """{
-            "audit_id": "audit_001",
-            "ds_findings": 0,
-            "a11y_findings": 2
-            }"""
-            ]
+        outputs=[]
         ),
 
     # complexity_edges: 13
@@ -1597,9 +1156,7 @@ TASKS = [
                 "since_ts": "2024-08-01T00:00:00Z"
             })
         ],
-        outputs=[
-            "[\n  {\n    \"comment_id\": \"cmt_10b86546\",\n    \"author_email\": \"sophie.marketing@company.com\",\n    \"anchor_ref\": \"node-2:7\",\n    \"body\": \"Please update the brand color token to Brand/Primary/600.\",\n    \"created_ts\": \"2024-08-23T12:00:00Z\"\n  }\n]"
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -1630,21 +1187,7 @@ TASKS = [
                 "artifact_id": "art_007"
             })
         ],
-        outputs=[
-            """{
-            "artifact_id": "art_007",
-            "artifact_name": "Pricing Page",
-            "artifact_type": "FRAME",
-            "owner_email": "anna.brand@company.com",
-            "deep_link": "https://www.figma.com/file/def456ghi789/Marketing-Website?node-id=3%3A3",
-            "current_tags": [
-            "pricing",
-            "conversion",
-            "cta"
-            ],
-            "modified_ts": "2024-08-25T18:40:00Z"
-            }"""
-            ]
+        outputs=[]
         ),
 
     # complexity_edges:  14
@@ -1674,9 +1217,7 @@ TASKS = [
             }),
             Action(name="SearchGmailThreads", kwargs={"label": "dlp-flag"})
         ],
-        outputs=[
-            "[\n  {\n    \"thread_id\": \"thread_003\",\n    \"subject\": \"Marketing Website Launch Approval\",\n    \"current_labels\": [\n      \"marketing\",\n      \"approval\",\n      \"launch\",\n      \"dlp-flag\"\n    ],\n    \"updated_ts\": \"2024-08-23T09:05:00Z\"\n  }\n]"
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -1707,9 +1248,7 @@ TASKS = [
             }),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"})
         ],
-        outputs=[
-            "[\n  {\n    \"asset_id\": \"asset_001\",\n    \"profile\": null,\n    \"file_name\": null,\n    \"mime_type\": null\n  },\n  {\n    \"asset_id\": \"asset_002\",\n    \"profile\": null,\n    \"file_name\": null,\n    \"mime_type\": null\n  }\n]"
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -1737,9 +1276,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_008"}),
             Action(name="SearchGmailThreads", kwargs={"keyword": "Pricing"})
         ],
-        outputs=[
-            "[\n  {\n    \"thread_id\": \"thread_008\",\n    \"subject\": \"Pricing Page A/B Testing Results\",\n    \"current_labels\": [\n      \"pricing\",\n      \"ab-testing\",\n      \"results\"\n    ],\n    \"updated_ts\": \"2024-08-23T12:06:00Z\"\n  }\n]"
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -1767,14 +1304,7 @@ TASKS = [
             }),
             Action(name="GetReleaseDiffSummary", kwargs={"release_id": "release_001"})
         ],
-        outputs=[
-            """{
-    "release_id": "release_001",
-    "added": 0,
-    "updated": 0,
-    "removed": 0
-    }"""
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -1802,9 +1332,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_008"}),
             Action(name="SearchGmailThreads", kwargs={"keyword": "Pricing"})
         ],
-        outputs=[
-            "[\n  {\n    \"thread_id\": \"thread_008\",\n    \"subject\": \"Pricing Page A/B Testing Results\",\n    \"current_labels\": [\n      \"pricing\",\n      \"ab-testing\",\n      \"results\"\n    ],\n    \"updated_ts\": \"2024-08-23T12:06:00Z\"\n  }\n]"
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -1838,22 +1366,7 @@ TASKS = [
             }),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"})
         ],
-        outputs=[
-            """[
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -1871,22 +1384,7 @@ TASKS = [
             Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_006", "add_labels": ["Design/Release", "release-ready"], "remove_labels": [], "changed_ts": "2024-08-22T17:06:00Z"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """[
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -1905,22 +1403,7 @@ TASKS = [
             Action(name="ReadSystemConfig", kwargs={"config_key": "intent_keywords"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """[
-        {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ]
+        outputs=[]
     ),
 
 
@@ -1936,22 +1419,7 @@ TASKS = [
             Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_006", "from_email": "qa.lead@company.com", "body": "QA sign-off complete", "created_ts": "2024-08-22T17:06:00Z"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """[
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 17
@@ -1968,23 +1436,7 @@ TASKS = [
             Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-23T13:31:00Z", "message": "Review approved and labels aligned"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """[
-
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ]
+        outputs=[]
     ),
 
 
@@ -2002,23 +1454,7 @@ TASKS = [
             Action(name="SyncGmailIntentsToReview", kwargs={"cycle_id": "cycle_1dc59e3f", "thread_id": "thread_003"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """[
-
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ]
+        outputs=[]
     ),
 
 
@@ -2050,21 +1486,7 @@ TASKS = [
             }),
             Action(name="GetArtifactSummary", kwargs={"artifact_id": "art_006"}),
         ],
-        outputs=[
-            """{
-    "artifact_id": "art_006",
-    "artifact_name": "Marketing Website",
-    "artifact_type": "FILE",
-    "owner_email": "anna.brand@company.com",
-    "deep_link": "https://www.figma.com/file/def456ghi789/Marketing-Website",
-    "current_tags": [
-    "marketing",
-    "website",
-    "landing-pages"
-    ],
-    "modified_ts": "2024-08-28T13:20:00Z"
-    }"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -2095,22 +1517,7 @@ TASKS = [
             }),
             Action(name="GetArtifactSummary", kwargs={"artifact_id": "art_006"}),
         ],
-        outputs=[
-            """{
-    "artifact_id": "art_006",
-    "artifact_name": "Marketing Website",
-    "artifact_type": "FILE",
-    "owner_email": "anna.brand@company.com",
-    "deep_link": "https://www.figma.com/file/def456ghi789/Marketing-Website",
-    "current_tags": [
-    "marketing",
-    "website",
-    "landing-pages",
-    "a11y-queued"
-    ],
-    "modified_ts": "2024-08-28T15:30:00Z"
-    }"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -2126,22 +1533,7 @@ TASKS = [
             Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-26T09:07:00Z", "message": "Brand feedback captured for art_012"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """[
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -2156,21 +1548,7 @@ TASKS = [
             Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-28T09:07:00Z", "message": "Brand guidance captured for Design System"}),
             Action(name="GetArtifactSummary", kwargs={"artifact_id": "art_003"}),
         ],
-        outputs=[
-            """{
-    "artifact_id": "art_003",
-    "artifact_name": "Design System",
-    "artifact_type": "PAGE",
-    "owner_email": "emma.creative@company.com",
-    "deep_link": "https://www.figma.com/file/abc123def456/Design-System?node-id=1%3A2",
-    "current_tags": [
-    "design-system",
-    "components",
-    "tokens"
-    ],
-    "modified_ts": "2024-08-22T16:45:00Z"
-    }"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -2201,12 +1579,7 @@ TASKS = [
                 "created_ts": "2024-08-24T09:12:00Z"
             }),
         ],
-        outputs=[
-    """{
-    "success": true,
-    "message_id": "msg_84dd1303"
-    }""",
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -2236,12 +1609,7 @@ TASKS = [
                 "created_ts": "2024-08-22T17:07:00Z"
             }),
         ],
-        outputs=[
-    """{
-    "success": true,
-    "message_id": "msg_da121760"
-    }""",
-    ],
+        outputs=[]
     ),
 
     Task(
@@ -2282,13 +1650,7 @@ TASKS = [
                 "changed_ts": "2024-08-23T22:35:00Z"
             })
         ],
-        outputs=[
-            """{
-              "thread_id": "thread_013",
-              "blocked_terms_found": [],
-              "label_applied": false
-            }"""
-        ]
+        outputs=[]
     ),
 
 
@@ -2319,14 +1681,7 @@ TASKS = [
             Action(name="ReadSystemConfig", kwargs={"config_key": "dlp_config"}),
             Action(name="ReadSystemConfig", kwargs={"config_key": "design_system_mappings"})
         ],
-        outputs=[
-            """{
-                "release_id": "release_002",
-                "added": 0,
-                "updated": 0,
-                "removed": 0
-            }"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2352,16 +1707,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_006"}),
             Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-24T18:17:00Z", "message": "Review intents captured and tag applied for art_002"})
         ],
-        outputs=[
-            """[
-                {
-                    "asset_id": "asset_003",
-                    "profile": null,
-                    "file_name": null,
-                    "mime_type": null
-                }
-            ]"""
-        ]
+        outputs=[]
     ),
 
     # complexity_edges: 16
@@ -2377,17 +1723,7 @@ TASKS = [
             Action(name="CreateFigmaComment", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "body": "Please update the brand color token to Brand/Primary/600.", "anchor_ref": "node-2:7", "created_ts": "2024-08-23T12:00:00Z"}),
             Action(name="ListFigmaComments", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "since_ts": "2024-08-01T00:00:00Z"})
         ],
-        outputs=[
-            """[
-            {
-                "comment_id": "cmt_10b86546",
-                "author_email": "sophie.marketing@company.com",
-                "anchor_ref": "node-2:7",
-                "body": "Please update the brand color token to Brand/Primary/600.",
-                "created_ts": "2024-08-23T12:00:00Z"
-            }
-            ]"""
-        ]
+        outputs=[]
     ),
 
 
@@ -2405,17 +1741,7 @@ TASKS = [
             Action(name="CreateFigmaComment", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "body": "Please update the brand color token to Brand/Primary/600.", "anchor_ref": "node-2:7", "created_ts": "2024-08-23T12:00:00Z"}),
             Action(name="ListFigmaComments", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "since_ts": "2024-08-01T00:00:00Z"})
         ],
-        outputs=[
-            """[
-            {
-                "comment_id": "cmt_10b86546",
-                "author_email": "sophie.marketing@company.com",
-                "anchor_ref": "node-2:7",
-                "body": "Please update the brand color token to Brand/Primary/600.",
-                "created_ts": "2024-08-23T12:00:00Z"
-            }
-            ]"""
-        ]
+        outputs=[]
     ),
 
 
@@ -2435,17 +1761,7 @@ TASKS = [
             Action(name="CreateFigmaComment", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "body": "Please update the brand color token to Brand/Primary/600.", "anchor_ref": "node-2:7", "created_ts": "2024-08-23T12:00:00Z"}),
             Action(name="ListFigmaComments", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "since_ts": "2024-08-01T00:00:00Z"})
         ],
-        outputs=[
-            """[
-            {
-                "comment_id": "cmt_10b86546",
-                "author_email": "sophie.marketing@company.com",
-                "anchor_ref": "node-2:7",
-                "body": "Please update the brand color token to Brand/Primary/600.",
-                "created_ts": "2024-08-23T12:00:00Z"
-            }
-            ]"""
-        ]
+        outputs=[]
     ),
 
 
@@ -2466,15 +1782,7 @@ TASKS = [
             Action(name="CreateFigmaComment", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "body": "Please update the brand color token to Brand/Primary/600.", "anchor_ref": "node-2:7", "created_ts": "2024-08-23T12:00:00Z"}),
             Action(name="ListFigmaComments", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "since_ts": "2024-08-01T00:00:00Z"})
         ],
-        outputs=[
-            """{
-                "comment_id": "cmt_10b86546",
-                "author_email": "sophie.marketing@company.com",
-                "anchor_ref": "node-2:7",
-                "body": "Please update the brand color token to Brand/Primary/600.",
-                "created_ts": "2024-08-23T12:00:00Z"
-            }"""
-        ]
+        outputs=[]
     ),
 
 
@@ -2493,20 +1801,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_006"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """{
-            "asset_id": "asset_001",
-            "profile": null,
-            "file_name": null,
-            "mime_type": null
-            },
-            {
-            "asset_id": "asset_002",
-            "profile": null,
-            "file_name": null,
-            "mime_type": null
-            }"""
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2540,13 +1835,7 @@ TASKS = [
                 "since_ts": "2024-08-01T00:00:00Z"
             })
         ],
-        outputs=[
-            """{
-              "artifact_id": "art_012",
-              "comments_recorded": 2,
-              "filtered_list_count": 1
-            }"""
-        ]
+        outputs=[]
     ),
 
     # complexity_edges: 21
@@ -2563,20 +1852,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_001"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """{
-            "asset_id": "asset_001",
-            "profile": null,
-            "file_name": null,
-            "mime_type": null
-            },
-            {
-            "asset_id": "asset_002",
-            "profile": null,
-            "file_name": null,
-            "mime_type": null
-            }"""
-        ],
+        outputs=[]
     ),
 
 
@@ -2594,20 +1870,7 @@ TASKS = [
             Action(name="CreateFigmaComment", kwargs={"artifact_id": "art_001", "author_email": "chris.engineer@company.com", "body": "CHANGES requested noted.", "anchor_ref": "node-1:2", "created_ts": "2024-08-24T12:11:00Z"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """{
-            "asset_id": "asset_001",
-            "profile": null,
-            "file_name": null,
-            "mime_type": null
-            },
-            {
-            "asset_id": "asset_002",
-            "profile": null,
-            "file_name": null,
-            "mime_type": null
-            }"""
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 21
@@ -2625,20 +1888,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_008"}),
             Action(name="SearchGmailThreads", kwargs={"keyword": "Pricing"}),
         ],
-        outputs=[
-            """[
-            {
-            "thread_id": "thread_008",
-            "subject": "Pricing Page A/B Testing Results",
-            "current_labels": [
-            "pricing",
-            "ab-testing",
-            "results"
-            ],
-            "updated_ts": "2024-08-24T19:06:00Z"
-            }
-            ]"""
-        ]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -2668,12 +1918,7 @@ TASKS = [
             }),
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_003"}),
         ],
-        outputs=[
-            """{
-    "thread_id": "thread_003",
-    "blocked_terms_found": []
-    }"""
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 17
@@ -2713,20 +1958,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_001"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """{
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }"""
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 19
@@ -2761,20 +1993,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_006"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """{
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }"""
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 20
@@ -2790,15 +2009,7 @@ TASKS = [
             Action(name="ReadSystemConfig", kwargs={"config_key": "dlp_config"}),
             Action(name="DlpScanAndLabelThread", kwargs={"thread_id": "thread_004", "label_if_found": "dlp-flag", "changed_ts": "2024-08-25T15:12:00Z"})
         ],
-        outputs=[
-            """{
-    "thread_id": "thread_004",
-    "blocked_terms_found": [
-    "ssn"
-    ],
-    "label_applied": true
-    }"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 18
@@ -2815,12 +2026,7 @@ TASKS = [
             Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_014", "from_email": "qa.lead@company.com", "body": "ACK: No blocking issues in QA.", "created_ts": "2024-08-25T16:06:00Z"}),
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_014"})
         ],
-        outputs=[
-            """{
-    "thread_id": "thread_014",
-    "blocked_terms_found": []
-    }"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 20
@@ -2855,22 +2061,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_006"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"})
         ],
-        outputs=[
-            """[
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 20
@@ -2912,15 +2103,7 @@ TASKS = [
                 "changed_ts": "2024-08-25T15:12:00Z"
             })
         ],
-        outputs=[
-            """{
-    "thread_id": "thread_004",
-    "blocked_terms_found": [
-    "password"
-    ],
-    "label_applied": true
-    }"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -2962,9 +2145,7 @@ TASKS = [
             }),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"})
         ],
-        outputs=[
-            "[\n  {\n    \"asset_id\": \"asset_001\",\n    \"profile\": null,\n    \"file_name\": null,\n    \"mime_type\": null\n  },\n  {\n    \"asset_id\": \"asset_002\",\n    \"profile\": null,\n    \"file_name\": null,\n    \"mime_type\": null\n  }\n]"
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -3004,9 +2185,7 @@ TASKS = [
                 "since_ts": "2024-08-01T00:00:00Z"
             })
         ],
-        outputs=[
-            "[\n  {\n    \"comment_id\": \"cmt_10b86546\",\n    \"author_email\": \"sophie.marketing@company.com\",\n    \"anchor_ref\": \"node-2:7\",\n    \"body\": \"Please update the brand color token to Brand/Primary/600.\",\n    \"created_ts\": \"2024-08-23T12:00:00Z\"\n  }\n]"
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -3043,9 +2222,7 @@ TASKS = [
             }),
             Action(name="SearchGmailThreads", kwargs={"label": "dlp-flag"})
         ],
-        outputs=[
-            "[\n  {\n    \"thread_id\": \"thread_003\",\n    \"subject\": \"Marketing Website Launch Approval\",\n    \"current_labels\": [\n      \"marketing\",\n      \"approval\",\n      \"launch\",\n      \"dlp-flag\"\n    ],\n    \"updated_ts\": \"2024-08-23T09:05:00Z\"\n  }\n]"
-        ],
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -3061,22 +2238,7 @@ TASKS = [
             Action(name="SyncGmailIntentsToReview", kwargs={"cycle_id": "cycle_1dc59e3f", "thread_id": "thread_003"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """[
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 18
@@ -3095,22 +2257,7 @@ TASKS = [
             Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-23T13:31:00Z", "message": "Review approved and labels aligned"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """[
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ]
+        outputs=[]
     ),
 
 
@@ -3131,22 +2278,7 @@ TASKS = [
             Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_010", "add_labels": [], "remove_labels": [], "changed_ts": "2024-08-24T18:25:00Z"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """[
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -3164,22 +2296,7 @@ TASKS = [
     Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_010", "add_labels": ["marketing", "triaged"], "remove_labels": [], "changed_ts": "2024-08-24T14:05:00Z"}),
     Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
     ],
-    outputs=[
-    """[
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ],
+    outputs=[]
     ),
 
     # complexity_edges: 18
@@ -3200,22 +2317,7 @@ TASKS = [
             Action(name="ReadSystemConfig", kwargs={"config_key": "dlp_config"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """[
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ],
+        outputs=[]
     ),
 
     # complexity_edges: 16
@@ -3232,22 +2334,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_010"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """[
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ],
+        outputs=[]
     ),
 
 
@@ -3266,22 +2353,7 @@ TASKS = [
             Action(name="DlpScanThread", kwargs={"thread_id": "thread_006"}),
             Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
         ],
-        outputs=[
-            """[
-    {
-    "asset_id": "asset_001",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    },
-    {
-    "asset_id": "asset_002",
-    "profile": null,
-    "file_name": null,
-    "mime_type": null
-    }
-    ]"""
-    ]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -3300,21 +2372,7 @@ TASKS = [
             Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-24T13:21:00Z", "message": "Cleanup audit markers"}),
             Action(name="GetArtifactSummary", kwargs={"artifact_id": "art_006"}),
         ],
-        outputs=[
-            """{
-    "artifact_id": "art_006",
-    "artifact_name": "Marketing Website",
-    "artifact_type": "FILE",
-    "owner_email": "anna.brand@company.com",
-    "deep_link": "https://www.figma.com/file/def456ghi789/Marketing-Website",
-    "current_tags": [
-    "marketing",
-    "website",
-    "landing-pages"
-    ],
-    "modified_ts": "2024-08-24T13:20:00Z"
-    }"""
-    ]
+        outputs=[]
     ),
 
 #     ### BACKUP TASKS ####

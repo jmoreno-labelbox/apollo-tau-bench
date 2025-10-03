@@ -21,9 +21,7 @@ TASKS = [
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 9}),
             Action(name="GetCampaignDetails", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Campaign exists; two emails recorded for client 9 under that campaign; review event present at 2025‑08‑21T15:00:00Z."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -51,9 +49,7 @@ TASKS = [
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 6}),
             Action(name="GetCampaignDetails", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Two emails recorded under the created campaign; two client holds exist on 2025‑08‑22 (16:00 and 17:00 Z)."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -84,9 +80,7 @@ TASKS = [
                                                     "metadata_json": {"stops": ["HTX001","HTX004","HTX005"],
                                                                       "map_url": "https://maps.google.com/route/htx_003_20250824"}}),
         ],
-        outputs=[
-            "Route persisted with specified map_url; one email recorded under created campaign; two calendar holds confirmed; audits saved."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -110,9 +104,7 @@ TASKS = [
             Action(name="PostAuditEvent", kwargs={"actor_id": 12, "action": "briefing_sent", "entity_type": "documents", "entity_id": 21,
                                                     "metadata_json": {"client_id": 8, "campaign_id": 9}}),
         ],
-        outputs=[
-            "Briefing generated/attached; broker email filed under created campaign; review reminder present; audit logged."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -131,9 +123,7 @@ TASKS = [
             Action(name="GetEmailsForClient", kwargs={"client_id": 14}),
             Action(name="GetCampaignDetails", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Comps [4,5,6] retrieved; route saved with provided map; email filed under created campaign."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -174,9 +164,7 @@ TASKS = [
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 2}),
             Action(name="GetCampaignDetails", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Two general update emails filed under created campaign; follow‑ups scheduled for 2025‑08‑23 and confirmed via reads."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -198,9 +186,7 @@ TASKS = [
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 13}),
             Action(name="GetCampaignDetails", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Finance-first context prepared; one email filed under created campaign; consultation hold present for 2025‑08‑26T18:00:00Z."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -220,9 +206,7 @@ TASKS = [
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 10}),
             Action(name="GetCampaignDetails", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Briefing generated; follow‑up email filed under created campaign; 2025‑08‑23 recap hold present."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -249,9 +233,7 @@ TASKS = [
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 11}),
             Action(name="GetCampaignDetails", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Campaign exists; shortlist email filed; route saved with provided map; both Saturday holds confirmed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -331,10 +313,7 @@ TASKS = [
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 1}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 2}),
         ],
-        outputs=[
-            "Campaign created and verified; mortgage snapshot computed for client 1; route saved with the given URL and stops and is drive‑time feasible (≤30 minutes per hop); "
-            "two emails recorded under the campaign; and both Saturday calendar holds exist."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -352,7 +331,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 2, "client_id": 4, "title": "Pre-tour call", "start_at": "2025-08-22T15:00:00Z", "end_at": "2025-08-22T15:30:00Z", "location": "Video - Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 4}),
         ],
-        outputs=["Campaign exists and is referenced by the email; listings snapshot retrieved; email recorded; calendar hold present for 2025-08-22T15:00Z."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -371,7 +350,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 2, "client_id": 5, "title": "Day-of check-CO", "start_at": "2025-08-23T10:00:00Z", "end_at": "2025-08-23T10:15:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 5}),
         ],
-        outputs=["Campaign exists; route saved and feasible; email recorded; calendar hold present for 2025-08-23."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -393,7 +372,7 @@ TASKS = [
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 6}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 7}),
         ],
-        outputs=["Campaign verified; two emails filed; two prep-call holds present on 2025-08-23."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -427,7 +406,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 8}),
         ],
-        outputs=["Mortgage estimate computed; comp report saved and verified; campaign verified; email filed; two calendar holds present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -462,7 +441,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 9}),
         ],
-        outputs=["Open-house windows fetched; route saved and feasible; campaign verified; email recorded; pre-drive hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -480,7 +459,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 11, "client_id": 10, "title": "Follow up on viewing requests", "start_at": "2025-08-25T16:00:00Z", "end_at": "2025-08-25T16:20:00Z", "location": "Video - Teams", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 10}),
         ],
-        outputs=["Drafts produced; campaign verified; internal email stored; follow-up hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -498,7 +477,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 1, "client_id": 3, "title": "Listings check-CO", "start_at": "2025-08-23T17:00:00Z", "end_at": "2025-08-23T17:20:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 3}),
         ],
-        outputs=["Preferences referenced and mirrored in search; campaign exists; email recorded; check-CO hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -518,7 +497,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 3, "client_id": 2, "title": "Bordering areas consult", "start_at": "2025-08-23T16:00:00Z", "end_at": "2025-08-23T16:30:00Z", "location": "Video - Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 2}),
         ],
-        outputs=["Neighborhood context gathered; bordering-only search performed; campaign exists; email recorded; consult hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -539,7 +518,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 3, "client_id": 2, "title": "Post-route debrief", "start_at": "2025-08-24T13:00:00Z", "end_at": "2025-08-24T13:20:00Z", "location": "Video - Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 2}),
         ],
-        outputs=["Route saved and feasible; campaign verified; email recorded; two holds present for kickoff and debrief."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -556,7 +535,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 14, "title": "New homeowner check-CO", "start_at": "2025-08-25T16:00:00Z", "end_at": "2025-08-25T16:20:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 14}),
         ],
-        outputs=["Campaign verified; email recorded; check-CO hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -575,7 +554,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 18, "title": "Investor review", "start_at": "2025-08-24T19:00:00Z", "end_at": "2025-08-24T19:30:00Z", "location": "Video - Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 18}),
         ],
-        outputs=["Search and estimate computed as context; campaign exists; email recorded; review hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -593,7 +572,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 7, "client_id": 20, "title": "Next-steps planning", "start_at": "2025-08-23T18:00:00Z", "end_at": "2025-08-23T18:30:00Z", "location": "Video - Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 20}),
         ],
-        outputs=["Campaign verified; welcome email recorded; two planning holds present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -614,7 +593,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 1, "client_id": 3, "title": "Pre-drive check-CO", "start_at": "2025-08-24T09:45:00Z", "end_at": "2025-08-24T10:00:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 3}),
         ],
-        outputs=["Open-house windows fetched; route saved and feasible; campaign verified; email recorded; check-CO hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -632,7 +611,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 3, "client_id": 1, "title": "Tour window", "start_at": "2025-08-24T15:00:00Z", "end_at": "2025-08-24T16:30:00Z", "location": "TBD", "source": "viewing"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 1}),
         ],
-        outputs=["Estimate computed; campaign verified; email recorded; two holds present for lender and tour."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -664,7 +643,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 2}),
         ],
-        outputs=["Neighborhood and borders read; campaign verified; email recorded; follow‑up hold present on 2025‑08‑22T16:00Z."]
+        outputs=[]
     ),
 
     Task(
@@ -715,7 +694,7 @@ TASKS = [
                 "metadata_json": {"stops": ["HTX021","HTX024","HTX025"], "map_url": "https://maps.google.com/route/oh_c5_20250823"}
             }),
         ],
-        outputs=["Route saved and feasible; campaign verified; email recorded; two holds present; audit logged for the route."]
+        outputs=[]
     ),
 
     Task(
@@ -748,7 +727,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 10}),
         ],
-        outputs=["Comp report saved and updated; campaign verified; email recorded; debrief hold present."]
+        outputs=[]
     ),
 
     Task(
@@ -777,7 +756,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 6}),
         ],
-        outputs=["Mortgage profile referenced; estimate computed; campaign verified; email recorded; consult hold present."]
+        outputs=[]
     ),
 
     Task(
@@ -812,7 +791,7 @@ TASKS = [
             Action(name="GetEmailsForClient", kwargs={"client_id": 7}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 7}),
         ],
-        outputs=["Briefing generated and referenced; campaign verified; email recorded; review hold present; audit logged."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -875,10 +854,7 @@ TASKS = [
                 }
             }),
         ],
-        outputs=[
-            "Open‑house context confirmed; route saved and hop check OK; campaign exists; email recorded under that campaign; "
-            "calendar hold present; and the route build is audited."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -898,7 +874,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 4, "client_id": 11, "title": "Confirm viewing requests", "start_at": "2025-08-22T17:00:00Z", "end_at": "2025-08-22T17:20:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 11}),
         ],
-        outputs=["Open‑house windows reviewed; route stored and feasible; campaign/email verified; confirmation hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -917,7 +893,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 8, "client_id": 15, "title": "Investment consult", "start_at": "2025-08-24T20:30:00Z", "end_at": "2025-08-24T21:00:00Z", "location": "Video — Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 15}),
         ],
-        outputs=["Snapshot saved and read; finance estimate produced; campaign/email verified; consult hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -947,7 +923,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 2}),
         ],
-        outputs=["Comp report saved and verified; campaign verified; email recorded; review hold present."]
+        outputs=[]
     ),
 
     Task(
@@ -989,7 +965,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 12}),
         ],
-        outputs=["Route saved and feasible; campaign verified; email recorded; two holds present."]
+        outputs=[]
     ),
 
     Task(
@@ -1019,7 +995,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 4}),
         ],
-        outputs=["Open‑house windows retrieved; campaign verified; email recorded; planning hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1051,7 +1027,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 18}),
         ],
-        outputs=["Estimate computed; campaign verified; email recorded; two holds present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1078,7 +1054,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 3}),
         ],
-        outputs=["Briefing v2 generated; campaign verified; email recorded under the campaign; review hold present."]
+        outputs=[]
     ),
 
     Task(
@@ -1124,7 +1100,7 @@ TASKS = [
             }),
             Action(name="GetRouteDetails", kwargs={"route_id": 11}),
         ],
-        outputs=["Route saved and feasible; campaign verified; email recorded; two holds present; route audit logged and proven."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1165,7 +1141,7 @@ TASKS = [
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 13}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 14}),
         ],
-        outputs=["Context search run; campaign verified; two emails recorded; two follow‑up holds present."]
+        outputs=[]
     ),
 
     Task(
@@ -1207,7 +1183,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 1}),
         ],
-        outputs=["Route saved and feasible; campaign verified; email recorded; two holds present."]
+        outputs=[]
     ),
 
     Task(
@@ -1230,7 +1206,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 14}),
         ],
-        outputs=["Comp report saved and updated; follow‑up hold present and confirmed."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1269,9 +1245,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 19}),
         ],
-        outputs=[
-            "Drafts generated; campaign verified; email recorded referencing the drafts URI; selection hold present."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1311,9 +1285,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 16}),
         ],
-        outputs=[
-            "Briefing doc generated; campaign verified; email recorded using the generated doc URI; reminder hold present."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1340,7 +1312,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 17}),
         ],
-        outputs=["Estimate computed; campaign verified; email recorded under the campaign; SF consult hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1381,7 +1353,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 20}),
         ],
-        outputs=["Route saved and feasible; campaign verified; email recorded; two follow‑up holds present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1398,7 +1370,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 11, "client_id": 20, "title": "Investor packet review", "start_at": "2025-08-22T20:00:00Z", "end_at": "2025-08-22T20:25:00Z", "location": "Video — Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 20}),
         ],
-        outputs=["Briefing generated and referenced via email; campaign verified; review hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1430,7 +1402,7 @@ TASKS = [
             }),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 6}),
         ],
-        outputs=["Comp report saved and updated; campaign verified; email recorded under the campaign; debrief hold present."]
+        outputs=[]
     ),
 
     Task(
@@ -1488,7 +1460,7 @@ TASKS = [
             }),
             Action(name="GetRouteDetails", kwargs={"route_id": 11}),
         ],
-        outputs=["Comp report verified; route saved and feasible; campaign verified; two emails recorded; two holds present; route audit logged and proven."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1506,7 +1478,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 8, "client_id": 15, "title": "Investor consult", "start_at": "2025-08-24T20:30:00Z", "end_at": "2025-08-24T21:00:00Z", "location": "Video — Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 15}),
         ],
-        outputs=["Campaign 9 verified; email recorded for client 15; consult scheduled 2025-08-24 20:30Z."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1530,7 +1502,7 @@ TASKS = [
             Action(name="PostAuditEvent", kwargs={"actor_id": 3, "action": "open_house_route_built", "entity_type": "routes", "entity_id": 11, "metadata_json": {"stops": ["HTX001","HTX004","HTX005"]}}),
             Action(name="GetRouteDetails", kwargs={"route_id": 11}),
         ],
-        outputs=["Route 11 feasible; campaign 9 verified; email present; both holds present; audit logged & route re-read."]
+        outputs=[]
     ),    
     Task(
         annotator="A",
@@ -1548,7 +1520,7 @@ TASKS = [
         Action(name="SendEmail", kwargs={"client_id": 11, "broker_id": 6, "subject": "Your CMA", "template_code": "likely_buyer", "body_uri": "https://storage.example.com/emails/cma_c11.html", "campaign_id": 9}),
         Action(name="GetEmailsForClient", kwargs={"client_id": 11}),
         ],
-        outputs=["Report 9 saved then sent_to_client; campaign verified; email recorded."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1568,7 +1540,7 @@ TASKS = [
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 1}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 2}),
         ],
-        outputs=["Campaign verified; both emails present; both phone holds present for 2025-08-23."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1586,7 +1558,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 12, "client_id": 8, "title": "Financing consult", "start_at": "2025-08-26T09:00:00Z", "end_at": "2025-08-26T09:30:00Z", "location": "Video — Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 8}),
         ],
-        outputs=["Campaign 9 verified; email for client 8 present; consult hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1608,7 +1580,7 @@ TASKS = [
             Action(name="PostAuditEvent", kwargs={"actor_id": 3, "action": "routes_shared_and_viewings_set", "entity_type": "routes", "entity_id": 11}),
             Action(name="GetRouteDetails", kwargs={"route_id": 11}),
         ],
-        outputs=["Route 11 saved and feasible; drafts referenced via email; campaign verified; email and hold present; audit logged & route re-read."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1625,7 +1597,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 8, "client_id": 16, "title": "Briefing v3 review", "start_at": "2025-08-31T12:30:00Z", "end_at": "2025-08-31T12:50:00Z", "location": "Video — Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 16}),
         ],
-        outputs=["Briefing v3 email recorded; review reminder present; campaign verified."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1645,7 +1617,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 4, "client_id": 21, "title": "CMA Q&A", "start_at": "2025-08-23T15:30:00Z", "end_at": "2025-08-23T15:50:00Z", "location": "Video — Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 21}),
         ],
-        outputs=["Report saved then sent_to_client; campaign/email verified; follow-up scheduled and confirmed."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1662,7 +1634,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 11, "client_id": 10, "title": "Plan weekend open houses", "start_at": "2025-08-23T13:00:00Z", "end_at": "2025-08-23T13:20:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 10}),
         ],
-        outputs=["Campaign 9 verified; open-house overview sent; planning hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1681,7 +1653,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 2, "client_id": 6, "title": "Shortlist debrief", "start_at": "2025-08-23T18:40:00Z", "end_at": "2025-08-23T19:00:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 6}),
         ],
-        outputs=["Snapshot saved and verified; campaign/email verified; debrief call scheduled and confirmed."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1699,7 +1671,7 @@ TASKS = [
             Action(name="PostAuditEvent", kwargs={"actor_id": 1, "action": "campaign_sent", "entity_type": "campaigns", "entity_id": 9}),
             Action(name="GetCampaignDetails", kwargs={"campaign_id": 9}),
         ],
-        outputs=["Campaign/email/hold verified; audit logged and campaign re-read."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1717,7 +1689,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 7, "client_id": 19, "title": "CMA Draft consult", "start_at": "2025-08-23T12:40:00Z", "end_at": "2025-08-23T13:00:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 19}),
         ],
-        outputs=["Report 9 verified; campaign/email/consult present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1736,7 +1708,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 2, "client_id": 4, "title": "Pre-tour call", "start_at": "2025-08-22T15:00:00Z", "end_at": "2025-08-22T15:30:00Z", "location": "Video — Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 4}),
         ],
-        outputs=["Bordering set used → listings context; campaign/email verified; pre-tour call present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1754,7 +1726,7 @@ TASKS = [
         Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 8, "title": "Luxury plan consult", "start_at": "2025-08-26T10:00:00Z", "end_at": "2025-08-26T10:30:00Z", "location": "Video — Zoom", "source": "follow_up"}),
         Action(name="GetCalendarEventsForClient", kwargs={"client_id": 8}),
         ],
-        outputs=["Campaign/email verified; mortgage estimate saved; consult scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1771,7 +1743,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 6, "client_id": 11, "title": "Curated picks debrief", "start_at": "2025-08-24T11:10:00Z", "end_at": "2025-08-24T11:30:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 11}),
         ],
-        outputs=["Curated items read; campaign/email verified; debrief hold present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1790,7 +1762,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 3, "client_id": 12, "title": "Townhouse plan", "start_at": "2025-08-25T14:30:00Z", "end_at": "2025-08-25T14:50:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 12}),
         ],
-        outputs=["Neighborhood & borders loaded; context search saved; campaign/email/hold verified."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1809,7 +1781,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 14, "client_id": 2, "title": "Broker internal debrief", "start_at": "2025-08-27T18:10:00Z", "end_at": "2025-08-27T18:30:00Z", "location": "Office", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 2}),
         ],
-        outputs=["CMA draft verified; campaign/email recorded; both events present."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1828,7 +1800,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 5, "title": "Discuss premium options", "start_at": "2025-08-23T12:00:00Z", "end_at": "2025-08-23T12:20:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 5}),
         ],
-        outputs=["Snapshot saved and verified; campaign/email verified; follow-up hold scheduled and confirmed."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1847,7 +1819,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 1, "client_id": 3, "title": "Post-tour buffer", "start_at": "2025-08-24T13:20:00Z", "end_at": "2025-08-24T13:40:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 3}),
         ],
-        outputs=["Comp report saved and verified; campaign/email present; viewing and buffer holds scheduled and confirmed."]
+        outputs=[]
     ),    
     Task(
         annotator="A",
@@ -1867,7 +1839,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 13, "title": "Comps debrief", "start_at": "2025-08-26T09:00:00Z", "end_at": "2025-08-26T09:20:00Z", "location": "USNV Strickland, FPO AP 98640", "source": "client_meeting"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 13}),
         ],
-        outputs=["CMA 9 saved/sent; campaign/email verified; debrief created."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1888,7 +1860,7 @@ TASKS = [
             Action(name="PostAuditEvent", kwargs={"actor_id": 2, "action": "routes_shared_and_viewings_set", "entity_type": "routes", "entity_id": 11}),
             Action(name="GetRouteDetails", kwargs={"route_id": 11}),
         ],
-        outputs=["Route 11 feasible; campaign/email/hold verified; audit posted & route re-read."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1905,7 +1877,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 10, "client_id": 17, "title": "Financing consult (SF)", "start_at": "2025-08-22T22:00:00Z", "end_at": "2025-08-22T22:30:00Z", "location": "Video — Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 17}),
         ],
-        outputs=["Education email recorded; consult slot verified; campaign 9 ok."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1924,7 +1896,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 6, "client_id": 9, "title": "Depart for first stop", "start_at": "2025-08-23T09:20:00Z", "end_at": "2025-08-23T09:40:00Z", "location": "Client Home", "source": "viewing"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 9}),
         ],
-        outputs=["Route stored and verified; drive-time OK; campaign/email present; kickoff hold scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1943,7 +1915,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 18, "title": "Pre-drive sync", "start_at": "2025-08-24T11:10:00Z", "end_at": "2025-08-24T11:20:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 18}),
         ],
-        outputs=["Route/email/hold verified; campaign 9 ok."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1960,7 +1932,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 13, "title": "Price-move debrief", "start_at": "2025-08-23T10:00:00Z", "end_at": "2025-08-23T10:20:00Z", "location": "USNV Strickland, FPO AP 98640", "source": "client_meeting"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 13}),
         ],
-        outputs=["Sales context used; campaign/email verified; debrief set."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1980,7 +1952,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 3, "client_id": 2, "title": "Compare neighborhoods", "start_at": "2025-08-24T16:30:00Z", "end_at": "2025-08-24T17:00:00Z", "location": "Video - Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 2}),
         ],
-        outputs=["Both comp reports saved and verified; campaign/email verified; Zoom hold scheduled and confirmed."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1998,7 +1970,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 8, "client_id": 15, "title": "Heights tour plan", "start_at": "2025-08-30T14:00:00Z", "end_at": "2025-08-30T14:20:00Z", "location": "1234 Heights Boulevard, Phoenix, AZ 77008", "source": "viewing"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 15}),
         ],
-        outputs=["Comp report saved and verified; campaign/email verified; viewing plan scheduled and confirmed."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2017,7 +1989,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 3, "client_id": 12, "title": "Compare plan", "start_at": "2025-08-25T14:00:00Z", "end_at": "2025-08-25T14:20:00Z", "location": "3030 Caroline Street, Phoenix, AZ 77004", "source": "viewing"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 12}),
         ],
-        outputs=["Snapshot saved and verified; finance estimate returned; campaign/email verified; viewing hold scheduled and confirmed."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2034,7 +2006,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 11, "client_id": 10, "title": "Sizing consult", "start_at": "2025-08-23T13:20:00Z", "end_at": "2025-08-23T13:40:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 10}),
         ],
-        outputs=["Loan estimate + campaign/email verified; consult set."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2053,7 +2025,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 15, "client_id": 7, "title": "Contract Review - Mr. Sean Hardy", "start_at": "2025-08-28T16:00:00Z", "end_at": "2025-08-28T17:00:00Z", "location": "5033 Parker Keys Suite 325, Old Williamsburg, VT 03979", "source": "client_meeting"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 7}),
         ],
-        outputs=["Route/email/meeting present; campaign verified."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2071,7 +2043,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 14, "client_id": 2, "title": "Uptown options debrief", "start_at": "2025-08-27T18:00:00Z", "end_at": "2025-08-27T18:20:00Z", "location": "Office", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 2}),
         ],
-        outputs=["Comp report saved and verified; campaign/email present; debrief scheduled and confirmed."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2092,7 +2064,7 @@ TASKS = [
             Action(name="PostAuditEvent", kwargs={"actor_id": 9, "action": "routes_shared_and_viewings_set", "entity_type": "routes", "entity_id": 11}),
             Action(name="GetRouteDetails", kwargs={"route_id": 11}),
         ],
-        outputs=["Finance+route context present; two emails filed; audit posted; route re-read and feasible."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2109,7 +2081,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 7, "title": "Brief Q&A", "start_at": "2025-08-24T17:10:00Z", "end_at": "2025-08-24T17:30:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 7}),
         ],
-        outputs=["Briefing referenced in email; campaign verified; follow-up scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2128,7 +2100,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 6, "client_id": 18, "title": "Financing plan", "start_at": "2025-08-25T16:00:00Z", "end_at": "2025-08-25T16:30:00Z", "location": "Office", "source": "client_meeting"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 18}),
         ],
-        outputs=["Estimate computed; draft CMA saved; campaign/email verified; consult scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2145,7 +2117,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 3, "client_id": 12, "title": "Open-house kickoff", "start_at": "2025-08-23T10:00:00Z", "end_at": "2025-08-23T10:20:00Z", "location": "Client Home", "source": "viewing"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 12}),
         ],
-        outputs=["Open-house plan shared; campaign/email verified; kickoff scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2162,7 +2134,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 5, "title": "Review outreach drafts", "start_at": "2025-08-22T21:10:00Z", "end_at": "2025-08-22T21:30:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 5}),
         ],
-        outputs=["Drafts bundle referenced in email; campaign verified; follow-up logged."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2182,7 +2154,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 9, "client_id": 22, "title": "CMA contrast debrief", "start_at": "2025-08-26T11:30:00Z", "end_at": "2025-08-26T11:50:00Z", "location": "Video — Zoom", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 22}),
         ],
-        outputs=["Both CMAs saved; campaign/email verified; debrief scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2199,7 +2171,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 7, "client_id": 20, "title": "Open House Sweep Q&A", "start_at": "2025-08-24T12:40:00Z", "end_at": "2025-08-24T13:00:00Z", "location": "Cafe — Arcadia", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 20}),
         ],
-        outputs=["Neighborhood windows reviewed; campaign/email sent; buffer hold set."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2216,7 +2188,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 14, "title": "Inspection Q&A", "start_at": "2025-08-22T19:15:00Z", "end_at": "2025-08-22T19:35:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 14}),
         ],
-        outputs=["Briefing generated and referenced; campaign/email verified; Q&A scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2235,7 +2207,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 6, "client_id": 11, "title": "Pre-tour brief", "start_at": "2025-08-25T08:30:00Z", "end_at": "2025-08-25T08:50:00Z", "location": "Video — Zoom", "source": "client_meeting"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 11}),
         ],
-        outputs=["Route verified; drive-time OK; campaign/email present; pre-tour hold set."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2253,7 +2225,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 14, "client_id": 2, "title": "CMA debrief", "start_at": "2025-08-23T18:20:00Z", "end_at": "2025-08-23T18:40:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 2}),
         ],
-        outputs=["Draft CMA saved; campaign/email verified; debrief set."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2271,7 +2243,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 4, "client_id": 10, "title": "Financing consult", "start_at": "2025-08-25T20:10:00Z", "end_at": "2025-08-25T20:40:00Z", "location": "Video — Zoom", "source": "client_meeting"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 10}),
         ],
-        outputs=["Scenarios computed; campaign/email verified; consult scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2291,7 +2263,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 5, "title": "CMA questions", "start_at": "2025-08-24T15:00:00Z", "end_at": "2025-08-24T15:20:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 5}),
         ],
-        outputs=["CMA saved then sent; campaign/email verified; follow‑up scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2309,7 +2281,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 9, "client_id": 22, "title": "Depart for first stop", "start_at": "2025-08-27T12:10:00Z", "end_at": "2025-08-27T12:40:00Z", "location": "Client Home", "source": "viewing"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 22}),
         ],
-        outputs=["Draft shortlist CMA saved; campaign/email verified; kickoff scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2328,7 +2300,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 6, "client_id": 18, "title": "Financing Q&A", "start_at": "2025-08-24T19:00:00Z", "end_at": "2025-08-24T19:20:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 18}),
         ],
-        outputs=["Profile checked; estimate computed; briefing mailed; Q&A scheduled."]
+        outputs=[]
     ),    
     Task(
         annotator="A",
@@ -2348,7 +2320,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 8, "client_id": 16, "title": "Depart for first stop", "start_at": "2025-08-31T09:15:00Z", "end_at": "2025-08-31T09:35:00Z", "location": "Client Home", "source": "viewing"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 16}),
         ],
-        outputs=["Route stored; drive-time OK; campaign/email verified; kickoff scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2368,7 +2340,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 2, "client_id": 13, "title": "CMA debrief", "start_at": "2025-08-26T18:10:00Z", "end_at": "2025-08-26T18:30:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 13}),
         ],
-        outputs=["CMA saved; client notified; report re-read; debrief scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2385,7 +2357,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 5, "title": "Disclosure Q&A", "start_at": "2025-08-23T12:10:00Z", "end_at": "2025-08-23T12:30:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 5}),
         ],
-        outputs=["Briefing generated; campaign verified; disclosures emailed; Q&A scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2404,7 +2376,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 5, "client_id": 8, "title": "Seller outreach debrief", "start_at": "2025-08-25T13:30:00Z", "end_at": "2025-08-25T13:50:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 8}),
         ],
-        outputs=["Drafts referenced; campaign audited; debrief scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2423,7 +2395,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 2, "client_id": 6, "title": "Pre-commute check-CO", "start_at": "2025-08-27T07:40:00Z", "end_at": "2025-08-27T08:00:00Z", "location": "Phone", "source": "client_meeting"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 6}),
         ],
-        outputs=["Drive-time checked; route verified; campaign/email present; meeting scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2442,7 +2414,7 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 7, "client_id": 17, "title": "CMA review", "start_at": "2025-08-28T17:00:00Z", "end_at": "2025-08-28T17:30:00Z", "location": "Video — Zoom", "source": "client_meeting"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 17}),
         ],
-        outputs=["CMA saved; estimate computed; campaign/email verified; review scheduled."]
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2463,6 +2435,6 @@ TASKS = [
             Action(name="CreateCalendarEvent", kwargs={"broker_id": 1, "client_id": 3, "title": "Recap call", "start_at": "2025-08-29T09:10:00Z", "end_at": "2025-08-29T09:30:00Z", "location": "Phone", "source": "follow_up"}),
             Action(name="GetCalendarEventsForClient", kwargs={"client_id": 3}),
         ],
-        outputs=["Briefing mailed; CMA saved; audit logged via report re-read; recap call scheduled."]
+        outputs=[]
     ),
 ]

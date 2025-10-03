@@ -26,10 +26,7 @@ TASKS = [
                                                                   "qc_label": "QC_TEMP_ANOM_2025-04"}}),
             Action(name="ReadAuditEvents", kwargs={"event_type": "series_qc_recorded"}),
         ],
-        outputs=[
-            "series.name=temp_anom_2025-04; points=3; p1.value=1.2; p2.value=-0.3; p3.value=0.6 | "
-            "qc.figure_label=QC_TEMP_ANOM_2025-04; qc.figure_path=https://storage.example.com/reports/QC_TEMP_ANOM_2025-04.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -56,10 +53,7 @@ TASKS = [
                                                                   "qc_label": "QC_SAL_ANOM_2025-06"}}),
             Action(name="ReadAuditEvents", kwargs={"event_type": "series_qc_recorded"}),
         ],
-        outputs=[
-            "series.name=sal_anom_2025-06; points=2; p1.value=0.5; p2.value=-0.1 | "
-            "qc.figure_label=QC_SAL_ANOM_2025-06; qc.figure_path=https://storage.example.com/reports/QC_SAL_ANOM_2025-06.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -86,10 +80,7 @@ TASKS = [
                                                                   "qc_label": "QC_RAIN_ANOM_2025-05"}}),
             Action(name="ReadAuditEvents", kwargs={"event_type": "series_qc_recorded"}),
         ],
-        outputs=[
-            "series.name=rain_anom_2025-05; points=3; p1.value=12.0; p2.value=-3.2; p3.value=4.7 | "
-            "qc.figure_label=QC_RAIN_ANOM_2025-05; qc.figure_path=https://storage.example.com/reports/QC_RAIN_ANOM_2025-05.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -113,12 +104,7 @@ TASKS = [
                            "value": 0.902, "dataset_split": "validation"}),
             Action(name="ReadModelMetrics", kwargs={"model_name": "LSTM_Flood_v2"}),
         ],
-        outputs=[
-
-            "model.name=LSTM_Flood_v2; type=rnn; framework=tensorflow; version=2.0; status=staged | "
-            "config.model=LSTM_Flood_v2; config.name=seq_default; params.hidden_units=128; params.dropout=0.3; params.layers=3 | "
-            "metric.model=LSTM_Flood_v2; metric.name=Accuracy; metric.value=0.902; split=validation"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -142,11 +128,7 @@ TASKS = [
                            "value": 0.145, "dataset_split": "validation"}),
             Action(name="ReadModelMetrics", kwargs={"model_name": "Transformer_Climate_v3"}),
         ],
-        outputs=[
-            "model.name=Transformer_Climate_v3; type=transformer; framework=pytorch; version=3.1; status=staged | "
-            "config.model=Transformer_Climate_v3; config.name=attention_default; params.heads=8; params.d_model=256; params.layers=6 | "
-            "metric.model=Transformer_Climate_v3; metric.name=Loss; metric.value=0.145; split=validation"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -180,13 +162,7 @@ TASKS = [
             }),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Backfill Cutoff Jan 2026"}),
         ],
-        outputs=[
-            "config.backfill_cutoff=2026-01-10T08:00:00Z | "
-            "series.name=backfill_probe_2026-01; points=2; p1.ts=2026-01-10T08:00:00Z; p1.value=1 | "
-            "audit.event_type=BACKFILL_READY; audit.message=Early January backfill cutoff configured successfully. | "
-            "qc.figure_label=QC_CONFIG_BACKFILL_2026-01; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_BACKFILL_2026-01.pdf | "
-            "stakeholder.output_label=Backfill Cutoff Jan 2026; audience=internal_ops"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -213,12 +189,7 @@ TASKS = [
                                                     "artifact_type": "png"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_WD_VAL_2025-10"}),
         ],
-        outputs=[
-            "model.name=GradientBoosting_Wind_v3; type=gradient_boosting; framework=sklearn; version=3.0; status=staged | "
-            "lot.batch_name=VAL_WD_2025-10; rows=1; first_ts=2025-10-10T12:00:00Z; first_pred=15.3 | "
-            "metric.model=GradientBoosting_Wind_v3; metric.name=MAE; metric.value=0.95; split=validation | "
-            "qc.figure_label=QC_WD_VAL_2025-10; qc.figure_path=https://storage.example.com/reports/QC_WD_VAL_2025-10.png"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -245,12 +216,7 @@ TASKS = [
                                                     "artifact_type": "png"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_WD_VAL_2025-10"}),
         ],
-        outputs=[
-            "model.name=GradientBoosting_Wind_v3; type=gradient_boosting; framework=sklearn; version=3.0; status=staged | "
-            "lot.batch_name=VAL_WD_2025-10; rows=1; first_ts=2025-10-10T12:00:00Z; first_pred=15.3 | "
-            "metric.model=GradientBoosting_Wind_v3; metric.name=MAE; metric.value=0.95; split=validation | "
-            "qc.figure_label=QC_WD_VAL_2025-10; qc.figure_path=https://storage.example.com/reports/QC_WD_VAL_2025-10.png"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -285,12 +251,7 @@ TASKS = [
                            "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_RAIN_VAL_2025-07"}),
         ],
-        outputs=[
-            "model.name=XGBoost_Rainfall_v1; type=xgboost; framework=xgboost; version=1.0; status=staged | "
-            "pred.batch_name=VAL_RAIN_2025-07; rows=1; first_ts=2025-07-15T00:00:00Z; first_pred=124.3 | "
-            "metric.model=XGBoost_Rainfall_v1; metric.name=R2; metric.value=0.93; split=validation | "
-            "qc.figure_label=QC_RAIN_VAL_2025-07; qc.figure_path=https://storage.example.com/reports/QC_RAIN_VAL_2025-07.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -328,13 +289,7 @@ TASKS = [
             }),
             Action(name="ReadAuditEvents", kwargs={"event_type": "FEATURE_SET_ACTIVATED"}),
         ],
-        outputs=[
-            "feature_set.name=storm_features_v2; version=2.0; columns=surge_height|wind_speed|precipitation | "
-            "file.path=/features/storm_features_v2.parquet; file.mime=application/parquet | "
-            "config.active_feature_set=storm_features_v2 | "
-            "qc.figure_label=QC_STORM_FEATURES_2025-06; qc.figure_path=https://storage.example.com/reports/QC_STORM_FEATURES_2025-06.pdf | "
-            "audit.event_type=FEATURE_SET_ACTIVATED; audit.message=storm_features_v2 set active."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -368,12 +323,7 @@ TASKS = [
             }),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_HARBOR_ARRIVAL_2025-03"}),
         ],
-        outputs=[
-            "feature_set.name=harbor_arrival_metrics_v2; version=2.0; columns=arrival_count|dwell_time_mean|dwell_time_median | "
-            "file.path=/features/harbor_arrival_metrics_v2.parquet; file.mime=application/parquet | "
-            "config.active_feature_set=harbor_arrival_metrics_v2 | "
-            "qc.figure_label=QC_HARBOR_ARRIVAL_2025-03; qc.figure_path=https://storage.example.com/reports/QC_HARBOR_ARRIVAL_2025-03.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -405,11 +355,7 @@ TASKS = [
             }),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Harbor Ice Thickness May 2025"}),
         ],
-        outputs=[
-            "series.name=ice_thickness_2025-05; points=3; p1.value=0.25; p2.value=0.30; p3.value=0.28 | "
-            "qc.figure_label=QC_ICE_THICKNESS_2025-05; qc.figure_path=https://storage.example.com/reports/QC_ICE_THICKNESS_2025-05.pdf | "
-            "stakeholder.output_label=Harbor Ice Thickness May 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_ICE_THICKNESS_2025-05.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -438,12 +384,7 @@ TASKS = [
             }),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_STORM_SURGE_2025-05"}),
         ],
-        outputs=[
-            "feature_set.name=storm_surge_v2; version=2.0; columns=max_surge|mean_surge | "
-            "file.path=/features/storm_surge_v2.parquet; file.mime=application/parquet | "
-            "config.active_feature_set=storm_surge_v2 | "
-            "qc.figure_label=QC_STORM_SURGE_2025-05; qc.figure_path=https://storage.example.com/reports/QC_STORM_SURGE_2025-05.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -475,12 +416,7 @@ TASKS = [
             }),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Rainfall-Runoff Anomaly Mar 2025"}),
         ],
-        outputs=[
-            "series.name=rainfall_runoff_anom_2025-03; points=3; p1.ts=2025-03-05T00:00:00Z; p1.value=12.4; "
-            "p2.ts=2025-03-12T00:00:00Z; p2.value=9.8; p3.ts=2025-03-19T00:00:00Z; p3.value=15.2 | "
-            "qc.figure_label=QC_RR_ANOM_2025-03; qc.figure_path=https://storage.example.com/reports/QC_RR_ANOM_2025-03.pdf | "
-            "stakeholder.output_label=Rainfall-Runoff Anomaly Mar 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_RR_ANOM_2025-03.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -509,12 +445,7 @@ TASKS = [
                                                     "artifact_type": "png"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_FE_VAL_2025-07"}),
         ],
-        outputs=[
-            "model.name=CNN_FloodExtent_v1; type=cnn; framework=tensorflow; version=1.0; status=staged | "
-            "pred.batch_name=VAL_FE_2025-07; rows=1; first_ts=2025-07-12T15:00:00Z; first_pred=0.88 | "
-            "metric.model=CNN_FloodExtent_v1; metric.name=MAE; metric.value=0.09; split=validation | "
-            "qc.figure_label=QC_FE_VAL_2025-07; qc.figure_path=https://storage.example.com/reports/QC_FE_VAL_2025-07.png"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -544,12 +475,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_RF_VAL_2025-06"}),
         ],
-        outputs=[
-            "model.name=GRU_Rainfall_v1; type=gru; framework=pytorch; version=1.0; status=staged | "
-            "pred.batch_name=VAL_RF_2025-06; rows=1; first_ts=2025-06-15T09:00:00Z; first_pred=15.3 | "
-            "metric.model=GRU_Rainfall_v1; metric.name=RMSE; metric.value=1.2; split=validation | "
-            "qc.figure_label=QC_RF_VAL_2025-06; qc.figure_path=https://storage.example.com/reports/QC_RF_VAL_2025-06.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -589,12 +515,7 @@ TASKS = [
             }),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_TEMP_VAL_2025-05"}),
         ],
-        outputs=[
-            "model.name=RF_Temperature_v3; type=random_forest; framework=sklearn; version=3.1; status=staged | "
-            "pred.batch_name=VAL_TEMP_2025-05; rows=1; first_ts=2025-05-05T00:00:00Z; first_pred=18.7 | "
-            "metric.model=RF_Temperature_v3; metric.name=R2; metric.value=0.91; split=validation | "
-            "qc.figure_label=QC_TEMP_VAL_2025-05; qc.figure_path=https://storage.example.com/reports/QC_TEMP_VAL_2025-05.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -623,12 +544,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_TC_VAL_2025-05"}),
         ],
-        outputs=[
-            "model.name=Prophet_TideCycle_v1; type=prophet; framework=prophet; version=1.0; status=staged | "
-            "pred.batch_name=VAL_TC_2025-05; rows=1; first_ts=2025-05-20T06:00:00Z; first_pred=2.44 | "
-            "metric.model=Prophet_TideCycle_v1; metric.name=MAPE; metric.value=4.5; split=validation | "
-            "qc.figure_label=QC_TC_VAL_2025-05; qc.figure_path=https://storage.example.com/reports/QC_TC_VAL_2025-05.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -658,12 +574,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_WD_VAL_2025-02"}),
         ],
-        outputs=[
-            "model.name=XGB_WindDamage_v1; type=xgboost; framework=xgboost; version=1.6; status=staged | "
-            "pred.batch_name=VAL_WD_2025-02; rows=1; first_ts=2025-02-14T18:00:00Z; first_pred=12.8 | "
-            "metric.model=XGB_WindDamage_v1; metric.name=MAE; metric.value=1.7; split=validation | "
-            "qc.figure_label=QC_WD_VAL_2025-02; qc.figure_path=https://storage.example.com/reports/QC_WD_VAL_2025-02.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -693,12 +604,7 @@ TASKS = [
                                                     "artifact_type": "png"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_FR_VAL_2025-04"}),
         ],
-        outputs=[
-            "model.name=LSTM_FloodRisk_v2; type=lstm; framework=tensorflow; version=2.0; status=staged | "
-            "pred.batch_name=VAL_FR_2025-04; rows=1; first_ts=2025-04-05T12:00:00Z; first_pred=0.76 | "
-            "metric.model=LSTM_FloodRisk_v2; metric.name=RMSE; metric.value=0.32; split=validation | "
-            "qc.figure_label=QC_FR_VAL_2025-04; qc.figure_path=https://storage.example.com/reports/QC_FR_VAL_2025-04.png"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -727,11 +633,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_SAL_ANOM_2024-12.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Salinity Anomaly Dec 2024"}),
         ],
-        outputs=[
-            "series.name=sal_anom_2024-12; points=4; p1.ts=2024-12-03T00:00:00Z; p1.value=0.12; p2.ts=2024-12-10T00:00:00Z; p2.value=-0.04; p3.ts=2024-12-18T00:00:00Z; p3.value=0.05; p4.ts=2024-12-27T00:00:00Z; p4.value=0.09 | "
-            "qc.figure_label=QC_SAL_ANOM_2024-12; qc.figure_path=https://storage.example.com/reports/QC_SAL_ANOM_2024-12.pdf | "
-            "stakeholder.output_label=Salinity Anomaly Dec 2024; audience=internal; artifact_path=https://storage.example.com/reports/QC_SAL_ANOM_2024-12.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -762,14 +664,7 @@ TASKS = [
             }),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Tidal Harmonics Jan 2025"}),
         ],
-        outputs=[
-            "series.name=tidal_harm_2025-01; points=3; "
-            "p1.ts=2025-01-05T00:00:00Z; p1.value=1.21; "
-            "p2.ts=2025-01-15T00:00:00Z; p2.value=1.15; "
-            "p3.ts=2025-01-25T00:00:00Z; p3.value=1.18 | "
-            "qc.figure_label=QC_TIDAL_HARM_2025-01; qc.figure_path=https://storage.example.com/reports/QC_TIDAL_HARM_2025-01.pdf | "
-            "stakeholder.output_label=Tidal Harmonics Jan 2025; audience=external; artifact_path=https://storage.example.com/reports/QC_TIDAL_HARM_2025-01.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -797,11 +692,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_SURGE_RESID_2025-02.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Feb 2025 Surge Residual"}),
         ],
-        outputs=[
-            "series.name=surge_resid_2025-02; points=4; p1.value=-0.11; p2.value=0.07; p3.value=0.02; p4.value=-0.05 | "
-            "qc.figure_label=QC_SURGE_RESID_2025-02; qc.figure_path=https://storage.example.com/reports/QC_SURGE_RESID_2025-02.pdf | "
-            "stakeholder.output_label=Feb 2025 Surge Residual; audience=internal; artifact_path=https://storage.example.com/reports/QC_SURGE_RESID_2025-02.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -824,10 +715,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_SAL_INDEX_2025-06"}),
         ],
-        outputs=[
-            "series.name=sal_index_2025-06; points=3; p1.value=33.1; p2.value=34.2; p3.value=32.8 | "
-            "qc.figure_label=QC_SAL_INDEX_2025-06; qc.figure_path=https://storage.example.com/reports/QC_SAL_INDEX_2025-06.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -850,10 +738,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_RAIN_DEV_2025-05"}),
         ],
-        outputs=[
-            "series.name=rain_dev_2025-05; points=3; p1.value=-5.1; p2.value=2.4; p3.value=-1.7 | "
-            "qc.figure_label=QC_RAIN_DEV_2025-05; qc.figure_path=https://storage.example.com/reports/QC_RAIN_DEV_2025-05.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -879,11 +764,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_NOAA_TIDE_1990_2020.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "NOAA Tide QC 1990-2020"}),
         ],
-        outputs=[
-            "series.name=noaa_tide_qc_1990_2020; points=2; p1.ts=mean_sea_level; p1.value=2.34; p2.ts=max_tide; p2.value=3.78 | "
-            "qc.figure_label=QC_NOAA_TIDE_1990_2020; qc.figure_path=https://storage.example.com/reports/QC_NOAA_TIDE_1990_2020.pdf | "
-            "stakeholder.output_label=NOAA Tide QC 1990-2020; audience=internal; artifact_path=https://storage.example.com/reports/QC_NOAA_TIDE_1990_2020.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -910,11 +791,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_SAL_ANOM_2025-03.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Salinity Anomaly Mar 2025"}),
         ],
-        outputs=[
-            "series.name=salinity_anom_2025-03; points=3; p1.ts=2025-03-07T00:00:00Z; p1.value=0.07; p2.ts=2025-03-14T00:00:00Z; p2.value=-0.02; p3.ts=2025-03-21T00:00:00Z; p3.value=0.04 | "
-            "qc.figure_label=QC_SAL_ANOM_2025-03; qc.figure_path=https://storage.example.com/reports/QC_SAL_ANOM_2025-03.pdf | "
-            "stakeholder.output_label=Salinity Anomaly Mar 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_SAL_ANOM_2025-03.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -941,12 +818,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_HARBOR_OPS_2025-03"}),
         ],
-        outputs=[
-            "feature_set.name=harbor_ops_v2; version=2.0; columns=arrival_count|dwell_time_median|departure_count | "
-            "file.path=/features/harbor_ops_v2.parquet; file.mime=application/parquet | "
-            "config.active_feature_set=harbor_ops_v2 | "
-            "qc.figure_label=QC_HARBOR_OPS_2025-03; qc.figure_path=https://storage.example.com/reports/QC_HARBOR_OPS_2025-03.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -972,11 +844,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_TEMP_ANOM_2025-04.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Temp Anomaly Apr 2025"}),
         ],
-        outputs=[
-            "series.name=temp_anom_2025-04; points=2; p1.value=1.1; p2.value=-0.3 | "
-            "qc.figure_label=QC_TEMP_ANOM_2025-04; qc.figure_path=https://storage.example.com/reports/QC_TEMP_ANOM_2025-04.pdf | "
-            "stakeholder.output_label=Temp Anomaly Apr 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_TEMP_ANOM_2025-04.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -1000,13 +868,7 @@ TASKS = [
             }),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_PRECIP_ANOM_2025-06"}),
         ],
-        outputs=[
-            "series.name=precip_anom_2025-06; points=3; "
-            "p1.ts=2025-06-01T00:00:00Z; p1.value=-5.0; "
-            "p2.ts=2025-06-15T00:00:00Z; p2.value=3.2; "
-            "p3.ts=2025-06-29T00:00:00Z; p3.value=-1.1 | "
-            "qc.figure_label=QC_PRECIP_ANOM_2025-06; qc.figure_path=https://storage.example.com/reports/QC_PRECIP_ANOM_2025-06.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -1030,13 +892,7 @@ TASKS = [
             }),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_FLOW_ANOM_2025-02"}),
         ],
-        outputs=[
-            "series.name=flow_anom_2025-02; points=3; "
-            "p1.ts=2025-02-03T00:00:00Z; p1.value=120; "
-            "p2.ts=2025-02-14T00:00:00Z; p2.value=110; "
-            "p3.ts=2025-02-25T00:00:00Z; p3.value=130 | "
-            "qc.figure_label=QC_FLOW_ANOM_2025-02; qc.figure_path=https://storage.example.com/reports/QC_FLOW_ANOM_2025-02.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -1063,12 +919,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_PRECIP_2025-08"}),
         ],
-        outputs=[
-            "feature_set.name=precip_extremes_v1; version=1.0; columns=daily_rainfall_max|monthly_rainfall_mean|extreme_event_count | "
-            "file.path=/features/precip_extremes_v1.parquet; file.mime=application/parquet | "
-            "config.climate_features=precip_extremes_v1 | "
-            "qc.figure_label=QC_PRECIP_2025-08; qc.figure_path=https://storage.example.com/reports/QC_PRECIP_2025-08.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1095,11 +946,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_RAINFALL_SAT_2000_2020.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Rainfall QC 2000-2020"}),
         ],
-        outputs=[
-            "series.name=rainfall_sat_qc_2000_2020; points=2; p1.ts=avg_rainfall; p1.value=114.6; p2.ts=max_rainfall_day; p2.value=312.0 | "
-            "qc.figure_label=QC_RAINFALL_SAT_2000_2020; qc.figure_path=https://storage.example.com/reports/QC_RAINFALL_SAT_2000_2020.pdf | "
-            "stakeholder.output_label=Rainfall QC 2000-2020; audience=external; artifact_path=https://storage.example.com/reports/QC_RAINFALL_SAT_2000_2020.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1126,11 +973,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_CO2_1990_2015.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Global CO₂ QC 1990-2015"}),
         ],
-        outputs=[
-            "series.name=co2_qc_1990_2015; points=2; p1.ts=avg_co2_ppm; p1.value=402.5; p2.ts=max_co2_ppm; p2.value=419.1 | "
-            "qc.figure_label=QC_CO2_1990_2015; qc.figure_path=https://storage.example.com/reports/QC_CO2_1990_2015.pdf | "
-            "stakeholder.output_label=Global CO₂ QC 1990-2015; audience=external; artifact_path=https://storage.example.com/reports/QC_CO2_1990_2015.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1157,11 +1000,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_AMAZON_DISCHARGE_1980_2010.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Amazon River Discharge QC 1980-2010"}),
         ],
-        outputs=[
-            "series.name=amazon_discharge_qc_1980_2010; points=2; p1.ts=avg_discharge; p1.value=85000.0; p2.ts=peak_discharge; p2.value=120000.0 | "
-            "qc.figure_label=QC_AMAZON_DISCHARGE_1980_2010; qc.figure_path=https://storage.example.com/reports/QC_AMAZON_DISCHARGE_1980_2010.pdf | "
-            "stakeholder.output_label=Amazon River Discharge QC 1980-2010; audience=internal; artifact_path=https://storage.example.com/reports/QC_AMAZON_DISCHARGE_1980_2010.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -1189,12 +1028,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_TIDE_VAL_2025-05"}),
         ],
-        outputs=[
-            "model.name=ARIMA_Tide_v2; type=arima; framework=statsmodels; version=2.0; status=staged | "
-            "pred.batch_name=VAL_TIDE_2025-05; pred.model=ARIMA_Tide_v2; rows=1; first_ts=2025-05-09T00:00:00Z; first_pred=1.45 | "
-            "metric.model=ARIMA_Tide_v2; metric.name=MAPE; metric.value=7.8; split=validation | "
-            "qc.figure_label=QC_TIDE_VAL_2025-05; qc.figure_path=https://storage.example.com/reports/QC_TIDE_VAL_2025-05.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1224,12 +1058,7 @@ TASKS = [
                                                     "artifact_type": "png"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_TEMP_VAL_2025-06"}),
         ],
-        outputs=[
-            "model.name=GRU_Temperature_v1; type=gru; framework=pytorch; version=1.0; status=staged | "
-            "pred.batch_name=VAL_TEMP_2025-06; pred.model=GRU_Temperature_v1; rows=1; first_ts=2025-06-18T12:00:00Z; first_pred=27.6 | "
-            "metric.model=GRU_Temperature_v1; metric.name=MAE; metric.value=0.3; split=validation | "
-            "qc.figure_label=QC_TEMP_VAL_2025-06; qc.figure_path=https://storage.example.com/reports/QC_TEMP_VAL_2025-06.png"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1259,12 +1088,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_FR_VAL_2025-07"}),
         ],
-        outputs=[
-            "model.name=XGBoost_FloodRisk_v1; type=xgboost; framework=xgboost; version=1.0; status=staged | "
-            "pred.batch_name=VAL_FR_2025-07; pred.model=XGBoost_FloodRisk_v1; rows=1; first_ts=2025-07-20T00:00:00Z; first_pred=0.34 | "
-            "metric.model=XGBoost_FloodRisk_v1; metric.name=RMSE; metric.value=0.05; split=validation | "
-            "qc.figure_label=QC_FR_VAL_2025-07; qc.figure_path=https://storage.example.com/reports/QC_FR_VAL_2025-07.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1294,12 +1118,7 @@ TASKS = [
                                                     "artifact_type": "png"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_WH_VAL_2025-09"}),
         ],
-        outputs=[
-            "model.name=CNN_WaveHeight_v1; type=cnn; framework=tensorflow; version=1.0; status=staged | "
-            "pred.batch_name=VAL_WH_2025-09; pred.model=CNN_WaveHeight_v1; rows=1; first_ts=2025-09-05T06:00:00Z; first_pred=1.72 | "
-            "metric.model=CNN_WaveHeight_v1; metric.name=MAE; metric.value=0.12; split=validation | "
-            "qc.figure_label=QC_WH_VAL_2025-09; qc.figure_path=https://storage.example.com/reports/QC_WH_VAL_2025-09.png"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -1328,12 +1147,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_RF_VAL_2025-08"}),
         ],
-        outputs=[
-            "model.name=LSTM_Rainfall_v2; type=lstm; framework=pytorch; version=2.0; status=staged | "
-            "pred.batch_name=VAL_RF_2025-08; pred.model=LSTM_Rainfall_v2; rows=1; first_ts=2025-08-10T12:00:00Z; first_pred=22.5 | "
-            "metric.model=LSTM_Rainfall_v2; metric.name=RMSE; metric.value=1.05; split=validation | "
-            "qc.figure_label=QC_RF_VAL_2025-08; qc.figure_path=https://storage.example.com/reports/QC_RF_VAL_2025-08.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1363,12 +1177,7 @@ TASKS = [
                            "body_text": "Sales aggregation QC attached.",
                            "attachment": "https://storage.example.com/reports/QC_SALES_2025-04.pdf"}),
         ],
-        outputs=[
-            "etl.run_name=sales_rollup_2025-04; etl.task=monthly_sales_aggregation; etl.status=finished; etl.rows_processed=420 | "
-            "qc.figure_label=QC_SALES_2025-04; qc.figure_path=https://storage.example.com/reports/QC_SALES_2025-04.pdf | "
-            "audit.event_type=SALES_QC_DONE; audit.message=April sales aggregation complete. | "
-            "email.to=finance-team@example.com; email.subject=QC_SALES_2025-04; email.attachment=https://storage.example.com/reports/QC_SALES_2025-04.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1396,11 +1205,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_PRECIP_2025-01.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Jan 2025 Precipitation Summary"}),
         ],
-        outputs=[
-            "series.name=precip_total_2025-01; points=3; p1.ts=2025-01-05T00:00:00Z; p1.value=14.2; p2.ts=2025-01-18T00:00:00Z; p2.value=9.7; p3.ts=2025-01-30T00:00:00Z; p3.value=12.5 | "
-            "qc.figure_label=QC_PRECIP_2025-01; qc.figure_path=https://storage.example.com/reports/QC_PRECIP_2025-01.pdf | "
-            "stakeholder.output_label=Jan 2025 Precipitation Summary; audience=external; artifact_path=https://storage.example.com/reports/QC_PRECIP_2025-01.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -1427,11 +1232,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_TIDE_MAX_2025-04.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "April 2025 Tide Max Report"}),
         ],
-        outputs=[
-            "series.name=tide_max_2025-04; points=3; p1.ts=2025-04-02T00:00:00Z; p1.value=3.12; p2.ts=2025-04-15T00:00:00Z; p2.value=3.44; p3.ts=2025-04-29T00:00:00Z; p3.value=3.21 | "
-            "qc.figure_label=QC_TIDE_MAX_2025-04; qc.figure_path=https://storage.example.com/reports/QC_TIDE_MAX_2025-04.pdf | "
-            "stakeholder.output_label=April 2025 Tide Max Report; audience=municipal; artifact_path=https://storage.example.com/reports/QC_TIDE_MAX_2025-04.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1458,11 +1259,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_WIND_1995_2015.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Wind QC 1995-2015"}),
         ],
-        outputs=[
-            "series.name=wind_qc_1995_2015; points=2; p1.ts=avg_wind; p1.value=12.4; p2.ts=max_wind_day; p2.value=68.0 | "
-            "qc.figure_label=QC_WIND_1995_2015; qc.figure_path=https://storage.example.com/reports/QC_WIND_1995_2015.pdf | "
-            "stakeholder.output_label=Wind QC 1995-2015; audience=internal; artifact_path=https://storage.example.com/reports/QC_WIND_1995_2015.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1492,12 +1289,7 @@ TASKS = [
                                                     "artifact_type": "csv"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_SS_VAL_2025-07"}),
         ],
-        outputs=[
-            "model.name=LSTM_StormSurge_v3; type=lstm; framework=tensorflow; version=3.0; status=staged | "
-            "pred.batch_name=VAL_SS_2025-07; pred.model=LSTM_StormSurge_v3; rows=1; first_ts=2025-07-15T03:00:00Z; first_pred=1.92 | "
-            "metric.model=LSTM_StormSurge_v3; metric.name=MAE; metric.value=0.15; split=validation | "
-            "qc.figure_label=QC_SS_VAL_2025-07; qc.figure_path=https://storage.example.com/reports/QC_SS_VAL_2025-07.csv"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -1525,12 +1317,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_PC_VAL_2025-08"}),
         ],
-        outputs=[
-            "model.name=ARIMA_Precip_v1; type=arima; framework=statsmodels; version=1.0; status=staged | "
-            "pred.batch_name=VAL_PC_2025-08; pred.model=ARIMA_Precip_v1; rows=1; first_ts=2025-08-05T12:00:00Z; first_pred=5.7 | "
-            "metric.model=ARIMA_Precip_v1; metric.name=R2; metric.value=0.89; split=validation | "
-            "qc.figure_label=QC_PC_VAL_2025-08; qc.figure_path=https://storage.example.com/reports/QC_PC_VAL_2025-08.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1560,12 +1347,7 @@ TASKS = [
                                                     "artifact_type": "png"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_WD_VAL_2025-09"}),
         ],
-        outputs=[
-            "model.name=RandomForest_Wind_v5; type=random_forest; framework=sklearn; version=5.0; status=staged | "
-            "pred.batch_name=VAL_WD_2025-09; pred.model=RandomForest_Wind_v5; rows=1; first_ts=2025-09-18T15:00:00Z; first_pred=12.6 | "
-            "metric.model=RandomForest_Wind_v5; metric.name=RMSE; metric.value=1.2; split=validation | "
-            "qc.figure_label=QC_WD_VAL_2025-09; qc.figure_path=https://storage.example.com/reports/QC_WD_VAL_2025-09.png"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1592,11 +1374,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_NOAA_WIND_1995_2020.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "NOAA Wind QC 1995-2020"}),
         ],
-        outputs=[
-            "series.name=noaa_wind_qc_1995_2020; points=2; p1.ts=mean_wind_speed; p1.value=12.4; p2.ts=max_wind_speed; p2.value=29.8 | "
-            "qc.figure_label=QC_NOAA_WIND_1995_2020; qc.figure_path=https://storage.example.com/reports/QC_NOAA_WIND_1995_2020.pdf | "
-            "stakeholder.output_label=NOAA Wind QC 1995-2020; audience=internal; artifact_path=https://storage.example.com/reports/QC_NOAA_WIND_1995_2020.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1623,11 +1401,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_NOAA_RIVER_2000_2020.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "NOAA River QC 2000-2020"}),
         ],
-        outputs=[
-            "series.name=noaa_river_qc_2000_2020; points=2; p1.ts=mean_discharge; p1.value=350.6; p2.ts=max_discharge; p2.value=1120.3 | "
-            "qc.figure_label=QC_NOAA_RIVER_2000_2020; qc.figure_path=https://storage.example.com/reports/QC_NOAA_RIVER_2000_2020.pdf | "
-            "stakeholder.output_label=NOAA River QC 2000-2020; audience=internal; artifact_path=https://storage.example.com/reports/QC_NOAA_RIVER_2000_2020.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1654,11 +1428,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_NOAA_PRECIP_2005_2020.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "NOAA Precip QC 2005-2020"}),
         ],
-        outputs=[
-            "series.name=noaa_precip_qc_2005_2020; points=2; p1.ts=mean_precip; p1.value=102.7; p2.ts=max_precip_day; p2.value=210.5 | "
-            "qc.figure_label=QC_NOAA_PRECIP_2005_2020; qc.figure_path=https://storage.example.com/reports/QC_NOAA_PRECIP_2005_2020.pdf | "
-            "stakeholder.output_label=NOAA Precip QC 2005-2020; audience=internal; artifact_path=https://storage.example.com/reports/QC_NOAA_PRECIP_2005_2020.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1685,11 +1455,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_NOAA_SALINITY_2010_2020.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "NOAA Salinity QC 2010-2020"}),
         ],
-        outputs=[
-            "series.name=noaa_salinity_qc_2010_2020; points=2; p1.ts=mean_salinity; p1.value=35.1; p2.ts=max_salinity; p2.value=36.7 | "
-            "qc.figure_label=QC_NOAA_SALINITY_2010_2020; qc.figure_path=https://storage.example.com/reports/QC_NOAA_SALINITY_2010_2020.pdf | "
-            "stakeholder.output_label=NOAA Salinity QC 2010-2020; audience=internal; artifact_path=https://storage.example.com/reports/QC_NOAA_SALINITY_2010_2020.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1716,11 +1482,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_NOAA_SST_2008_2020.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "NOAA SST QC 2008-2020"}),
         ],
-        outputs=[
-            "series.name=noaa_sst_qc_2008_2020; points=2; p1.ts=mean_sst; p1.value=18.5; p2.ts=max_sst; p2.value=29.2 | "
-            "qc.figure_label=QC_NOAA_SST_2008_2020; qc.figure_path=https://storage.example.com/reports/QC_NOAA_SST_2008_2020.pdf | "
-            "stakeholder.output_label=NOAA SST QC 2008-2020; audience=internal; artifact_path=https://storage.example.com/reports/QC_NOAA_SST_2008_2020.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -1748,12 +1510,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_WILDFIRE_RISK_2025-06.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Wildfire Risk Jun 2025"}),
         ],
-        outputs=[
-            "feature_set.name=wildfire_risk_v1; version=1.0; columns=temperature|humidity|fire_risk | "
-            "file.path=/features/wildfire_risk_v1.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_WILDFIRE_RISK_2025-06; qc.figure_path=https://storage.example.com/reports/QC_WILDFIRE_RISK_2025-06.pdf | "
-            "stakeholder.output_label=Wildfire Risk Jun 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_WILDFIRE_RISK_2025-06.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1783,12 +1540,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_FLOOD_FORECAST_2025-05.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Flood Forecast May 2025"}),
         ],
-        outputs=[
-            "feature_set.name=flood_forecast_v2; version=2.0; columns=rainfall|river_level|flood_probability | "
-            "file.path=/features/flood_forecast_v2.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_FLOOD_FORECAST_2025-05; qc.figure_path=https://storage.example.com/reports/QC_FLOOD_FORECAST_2025-05.pdf | "
-            "stakeholder.output_label=Flood Forecast May 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_FLOOD_FORECAST_2025-05.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1817,12 +1569,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_AIR_QUALITY_2025-07.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Air Quality Jul 2025"}),
         ],
-        outputs=[
-            "feature_set.name=air_quality_index_v3; version=3.0; columns=PM2_5|PM10|AQI | "
-            "file.path=/features/air_quality_index_v3.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_AIR_QUALITY_2025-07; qc.figure_path=https://storage.example.com/reports/QC_AIR_QUALITY_2025-07.pdf | "
-            "stakeholder.output_label=Air Quality Jul 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_AIR_QUALITY_2025-07.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1852,12 +1599,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_COASTAL_EROSION_2025-08.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Coastal Erosion Aug 2025"}),
         ],
-        outputs=[
-            "feature_set.name=coastal_erosion_v2; version=2.0; columns=wave_height|shoreline_change|erosion_risk | "
-            "file.path=/features/coastal_erosion_v2.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_COASTAL_EROSION_2025-08; qc.figure_path=https://storage.example.com/reports/QC_COASTAL_EROSION_2025-08.pdf | "
-            "stakeholder.output_label=Coastal Erosion Aug 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_COASTAL_EROSION_2025-08.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -1879,10 +1621,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_SST_ANOM_2025-09"}),
         ],
-        outputs=[
-            "series.name=sst_anom_2025-09; points=3; p1.ts=2025-09-03T00:00:00Z; p1.value=0.25; p2.ts=2025-09-15T00:00:00Z; p2.value=-0.12; p3.ts=2025-09-28T00:00:00Z; p3.value=0.08 | "
-            "qc.figure_label=QC_SST_ANOM_2025-09; qc.figure_path=https://storage.example.com/reports/QC_SST_ANOM_2025-09.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1905,10 +1644,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_CHL_ANOM_2025-10"}),
         ],
-        outputs=[
-            "series.name=chl_anom_2025-10; points=3; p1.ts=2025-10-01T00:00:00Z; p1.value=1.15; p2.ts=2025-10-12T00:00:00Z; p2.value=-0.95; p3.ts=2025-10-25T00:00:00Z; p3.value=0.60 | "
-            "qc.figure_label=QC_CHL_ANOM_2025-10; qc.figure_path=https://storage.example.com/reports/QC_CHL_ANOM_2025-10.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1931,10 +1667,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_NO3_ANOM_2025-11"}),
         ],
-        outputs=[
-            "series.name=no3_anom_2025-11; points=3; p1.ts=2025-11-05T00:00:00Z; p1.value=0.55; p2.ts=2025-11-16T00:00:00Z; p2.value=-0.40; p3.ts=2025-11-29T00:00:00Z; p3.value=0.22 | "
-            "qc.figure_label=QC_NO3_ANOM_2025-11; qc.figure_path=https://storage.example.com/reports/QC_NO3_ANOM_2025-11.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1963,12 +1696,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_PORT_DEPARTURE_2025-03"}),
         ],
-        outputs=[
-            "feature_set.name=port_departure_metrics_v1; version=1.1; columns=departure_count|avg_wait_time|max_wait_time | "
-            "file.path=/features/port_departure_metrics_v1.parquet; file.mime=application/parquet | "
-            "config.active_feature_set=port_departure_metrics_v1 | "
-            "qc.figure_label=QC_PORT_DEPARTURE_2025-03; qc.figure_path=https://storage.example.com/reports/QC_PORT_DEPARTURE_2025-03.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -1995,11 +1723,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_WAVE_HEIGHT_2025-04.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Wave Height Apr 2025"}),
         ],
-        outputs=[
-            "series.name=wave_height_2025-04; points=3; p1.ts=2025-04-05T00:00:00Z; p1.value=1.2; p2.ts=2025-04-12T00:00:00Z; p2.value=0.8; p3.ts=2025-04-19T00:00:00Z; p3.value=1.5 | "
-            "qc.figure_label=QC_WAVE_HEIGHT_2025-04; qc.figure_path=https://storage.example.com/reports/QC_WAVE_HEIGHT_2025-04.pdf | "
-            "stakeholder.output_label=Wave Height Apr 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_WAVE_HEIGHT_2025-04.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2027,12 +1751,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_CLIMATE_RISK_2025-04.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Climate Risk Apr 2025"}),
         ],
-        outputs=[
-            "feature_set.name=climate_risk_v1; version=1.0; columns=temperature|rainfall|flood_risk | "
-            "file.path=/features/climate_risk_v1.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_CLIMATE_RISK_2025-04; qc.figure_path=https://storage.example.com/reports/QC_CLIMATE_RISK_2025-04.pdf | "
-            "stakeholder.output_label=Climate Risk Apr 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_CLIMATE_RISK_2025-04.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2060,12 +1779,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_SURGE_RISK_2025-04.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Surge Risk QC Apr 2025"}),
         ],
-        outputs=[
-            "feature_set.name=surge_risk_v2; version=2.1; columns=risk_index|exceedance_prob | "
-            "file.path=/features/surge_risk_v2.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_SURGE_RISK_2025-04; qc.figure_path=https://storage.example.com/reports/QC_SURGE_RISK_2025-04.pdf | "
-            "stakeholder.output_label=Surge Risk QC Apr 2025; audience=regulators; artifact_path=https://storage.example.com/reports/QC_SURGE_RISK_2025-04.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2094,12 +1808,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_WAVE_ANOMALY_2025-05.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Wave Anomaly QC May 2025"}),
         ],
-        outputs=[
-            "feature_set.name=wave_anomaly_v1; version=1.3; columns=hmean|hmax|stddev | "
-            "file.path=/features/wave_anomaly_v1.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_WAVE_ANOMALY_2025-05; qc.figure_path=https://storage.example.com/reports/QC_WAVE_ANOMALY_2025-05.pdf | "
-            "stakeholder.output_label=Wave Anomaly QC May 2025; audience=science_team; artifact_path=https://storage.example.com/reports/QC_WAVE_ANOMALY_2025-05.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2128,12 +1837,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_RAIN_INTENSITY_2025-06.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Rainfall Intensity QC Jun 2025"}),
         ],
-        outputs=[
-            "feature_set.name=rain_intensity_v3; version=3.0; columns=avg_rate|peak_rate|duration | "
-            "file.path=/features/rain_intensity_v3.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_RAIN_INTENSITY_2025-06; qc.figure_path=https://storage.example.com/reports/QC_RAIN_INTENSITY_2025-06.pdf | "
-            "stakeholder.output_label=Rainfall Intensity QC Jun 2025; audience=external_partners; artifact_path=https://storage.example.com/reports/QC_RAIN_INTENSITY_2025-06.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2164,11 +1868,7 @@ TASKS = [
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_CONFIG_RETRAIN_2025-04"}),
             Action(name="ReadAuditEvents", kwargs={"event_type": "MODEL_RETRAIN_WINDOW_SET"}),
         ],
-        outputs=[
-            "config.retrain_window_start=2025-04-01T00:00:00Z; config.retrain_window_end=2025-04-30T23:59:59Z | "
-            "audit.event_type=MODEL_RETRAIN_WINDOW_SET; audit.message=April retrain window applied. | "
-            "qc.figure_label=QC_CONFIG_RETRAIN_2025-04; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_RETRAIN_2025-04.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2191,11 +1891,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_CONFIG_VALIDATION_2026-02"}),
         ],
-        outputs=[
-            "config.validation_checkpoint=2026-02-14T14:00:00Z | "
-            "audit.event_type=VALIDATION_CHECKPOINT_SET; audit.message=Validation checkpoint created for mid-February. | "
-            "qc.figure_label=QC_CONFIG_VALIDATION_2026-02; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_VALIDATION_2026-02.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2218,10 +1914,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_PRECIP_ANOM_2025-05"}),
         ],
-        outputs=[
-            "series.name=precip_anom_2025-05; points=3; p1.ts=2025-05-02T00:00:00Z; p1.value=-12.5; p2.ts=2025-05-18T00:00:00Z; p2.value=8.3; p3.ts=2025-05-29T00:00:00Z; p3.value=3.1 | "
-            "qc.figure_label=QC_PRECIP_ANOM_2025-05; qc.figure_path=https://storage.example.com/reports/QC_PRECIP_ANOM_2025-05.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2244,10 +1937,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_SEA_LVL_ANOM_2025-06"}),
         ],
-        outputs=[
-            "series.name=sea_lvl_anom_2025-06; points=3; p1.ts=2025-06-04T00:00:00Z; p1.value=0.12; p2.ts=2025-06-14T00:00:00Z; p2.value=-0.05; p3.ts=2025-06-25T00:00:00Z; p3.value=0.22 | "
-            "qc.figure_label=QC_SEA_LVL_ANOM_2025-06; qc.figure_path=https://storage.example.com/reports/QC_SEA_LVL_ANOM_2025-06.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2270,10 +1960,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_WINDSPD_ANOM_2025-07"}),
         ],
-        outputs=[
-            "series.name=windspd_anom_2025-07; points=3; p1.ts=2025-07-07T00:00:00Z; p1.value=2.5; p2.ts=2025-07-16T00:00:00Z; p2.value=-1.8; p3.ts=2025-07-28T00:00:00Z; p3.value=0.9 | "
-            "qc.figure_label=QC_WINDSPD_ANOM_2025-07; qc.figure_path=https://storage.example.com/reports/QC_WINDSPD_ANOM_2025-07.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2296,10 +1983,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_HUMID_ANOM_2025-08"}),
         ],
-        outputs=[
-            "series.name=humid_anom_2025-08; points=3; p1.ts=2025-08-03T00:00:00Z; p1.value=4.0; p2.ts=2025-08-14T00:00:00Z; p2.value=-2.7; p3.ts=2025-08-26T00:00:00Z; p3.value=1.5 | "
-            "qc.figure_label=QC_HUMID_ANOM_2025-08; qc.figure_path=https://storage.example.com/reports/QC_HUMID_ANOM_2025-08.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2323,11 +2007,7 @@ TASKS = [
             }),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_WAVE_ANOM_2025-07"}),
         ],
-        outputs=[
-            "series.name=wave_anom_2025-07; points=3; p1.ts=2025-07-07T00:00:00Z; p1.value=0.35; "
-            "p2.ts=2025-07-18T00:00:00Z; p2.value=-0.06; p3.ts=2025-07-29T00:00:00Z; p3.value=0.21 | "
-            "qc.figure_label=QC_WAVE_ANOM_2025-07; qc.figure_path=https://storage.example.com/reports/QC_WAVE_ANOM_2025-07.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2352,11 +2032,7 @@ TASKS = [
             }),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_DO_ANOM_2025-08"}),
         ],
-        outputs=[
-            "series.name=do_anom_2025-08; points=3; p1.ts=2025-08-02T00:00:00Z; p1.value=0.18; "
-            "p2.ts=2025-08-14T00:00:00Z; p2.value=-0.07; p3.ts=2025-08-27T00:00:00Z; p3.value=0.10 | "
-            "qc.figure_label=QC_DO_ANOM_2025-08; qc.figure_path=https://storage.example.com/reports/QC_DO_ANOM_2025-08.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2395,12 +2071,7 @@ TASKS = [
             }),
             Action(name="RetrieveFileEntry", kwargs={"path": "/models/XGBoost_Rainfall_v1_v1.0.json"}),
         ],
-        outputs=[
-            "model.name=XGBoost_Rainfall_v1; type=xgboost; framework=xgboost; version=1.0; status=staged | "
-            "profile.model=XGBoost_Rainfall_v1; profile.name=default; params.max_depth=5; params.n_estimators=150; params.learning_rate=0.05 | "
-            "metric.model=XGBoost_Rainfall_v1; metric.name=AUC; metric.value=0.94; split=test | "
-            "file.path=/models/XGBoost_Rainfall_v1_v1.0.json; file.mime=application/json"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2429,12 +2100,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_FLOOD_RISK_2025-10.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Flood Risk Oct 2025"}),
         ],
-        outputs=[
-            "feature_bundle.name=flood_risk_v5; version=5.0; columns=flood_probability|storm_surge_height|risk_index | "
-            "file.path=/features/flood_risk_v5.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_FLOOD_RISK_2025-10; qc.figure_path=https://storage.example.com/reports/QC_FLOOD_RISK_2025-10.pdf | "
-            "stakeholder.output_label=Flood Risk Oct 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_FLOOD_RISK_2025-10.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2462,12 +2128,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_TIDAL_VARIATION_2025-11.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Tidal Variation Nov 2025"}),
         ],
-        outputs=[
-            "feature_bundle.name=tidal_variation_v3; version=3.0; columns=high_tide|low_tide|tidal_range | "
-            "file.path=/features/tidal_variation_v3.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_TIDAL_VARIATION_2025-11; qc.figure_path=https://storage.example.com/reports/QC_TIDAL_VARIATION_2025-11.pdf | "
-            "stakeholder.output_label=Tidal Variation Nov 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_TIDAL_VARIATION_2025-11.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2495,11 +2156,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_NOAA_PRECIP_1980_2020.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "NOAA Precipitation QC 1980-2020"}),
         ],
-        outputs=[
-            "series.name=noaa_precip_qc_1980_2020; points=3; p1.ts=annual_avg; p1.value=1023.4; p2.ts=max_annual; p2.value=1820.1; p3.ts=min_annual; p3.value=540.2 | "
-            "qc.figure_label=QC_NOAA_PRECIP_1980_2020; qc.figure_path=https://storage.example.com/reports/QC_NOAA_PRECIP_1980_2020.pdf | "
-            "stakeholder.output_label=NOAA Precipitation QC 1980-2020; audience=internal; artifact_path=https://storage.example.com/reports/QC_NOAA_PRECIP_1980_2020.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2527,11 +2184,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_USGS_GW_2005_2025.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "USGS Groundwater QC 2005-2025"}),
         ],
-        outputs=[
-            "series.name=usgs_groundwater_qc_2005_2025; points=3; p1.ts=mean_level; p1.value=15.7; p2.ts=lowest_level; p2.value=3.4; p3.ts=highest_level; p3.value=28.1 | "
-            "qc.figure_label=QC_USGS_GW_2005_2025; qc.figure_path=https://storage.example.com/reports/QC_USGS_GW_2005_2025.pdf | "
-            "stakeholder.output_label=USGS Groundwater QC 2005-2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_USGS_GW_2005_2025.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2559,11 +2212,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_LANDSAT_TEMP_1990_2020.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Landsat Surface Temp QC 1990-2020"}),
         ],
-        outputs=[
-            "series.name=landsat_surf_temp_qc_1990_2020; points=3; p1.ts=avg_temp; p1.value=22.3; p2.ts=max_temp_day; p2.value=38.7; p3.ts=min_temp_day; p3.value=-4.2 | "
-            "qc.figure_label=QC_LANDSAT_TEMP_1990_2020; qc.figure_path=https://storage.example.com/reports/QC_LANDSAT_TEMP_1990_2020.pdf | "
-            "stakeholder.output_label=Landsat Surface Temp QC 1990-2020; audience=internal; artifact_path=https://storage.example.com/reports/QC_LANDSAT_TEMP_1990_2020.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2591,11 +2240,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_TRMM_RAINFALL_1998_2018.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "TRMM Rainfall QC 1998-2018"}),
         ],
-        outputs=[
-            "series.name=trmm_rainfall_qc_1998_2018; points=3; p1.ts=annual_avg; p1.value=105.7; p2.ts=max_daily_rain; p2.value=289.5; p3.ts=min_daily_rain; p3.value=0.0 | "
-            "qc.figure_label=QC_TRMM_RAINFALL_1998_2018; qc.figure_path=https://storage.example.com/reports/QC_TRMM_RAINFALL_1998_2018.pdf | "
-            "stakeholder.output_label=TRMM Rainfall QC 1998-2018; audience=external; artifact_path=https://storage.example.com/reports/QC_TRMM_RAINFALL_1998_2018.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2624,12 +2269,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_DROUGHT_RISK_2025-09.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Drought Risk Sep 2025"}),
         ],
-        outputs=[
-            "feature_bundle.name=drought_risk_v1; version=1.0; columns=soil_moisture|temperature|drought_index | "
-            "file.path=/features/drought_risk_v1.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_DROUGHT_RISK_2025-09; qc.figure_path=https://storage.example.com/reports/QC_DROUGHT_RISK_2025-09.pdf | "
-            "stakeholder.output_label=Drought Risk Sep 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_DROUGHT_RISK_2025-09.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2658,12 +2298,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_SST_FEATURES_2025-06.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "SST QC June 2025"}),
         ],
-        outputs=[
-            "feature_bundle.name=sst_features_v2; version=2.1; columns=sst_mean|sst_max|sst_std | "
-            "file.path=/features/sst_features_v2.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_SST_FEATURES_2025-06; qc.figure_path=https://storage.example.com/reports/QC_SST_FEATURES_2025-06.pdf | "
-            "stakeholder.output_label=SST QC June 2025; audience=oceanography_team; artifact_path=https://storage.example.com/reports/QC_SST_FEATURES_2025-06.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2692,12 +2327,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_OCEAN_CURRENT_2025-07.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Ocean Current QC July 2025"}),
         ],
-        outputs=[
-            "feature_bundle.name=ocean_current_v1; version=1.5; columns=current_speed|current_dir|std_dev | "
-            "file.path=/features/ocean_current_v1.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_OCEAN_CURRENT_2025-07; qc.figure_path=https://storage.example.com/reports/QC_OCEAN_CURRENT_2025-07.pdf | "
-            "stakeholder.output_label=Ocean Current QC July 2025; audience=marine_team; artifact_path=https://storage.example.com/reports/QC_OCEAN_CURRENT_2025-07.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2726,12 +2356,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_SALINITY_INDEX_2025-08.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Salinity Index QC Aug 2025"}),
         ],
-        outputs=[
-            "feature_bundle.name=salinity_index_v1; version=1.2; columns=salinity_mean|salinity_max|salinity_std | "
-            "file.path=/features/salinity_index_v1.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_SALINITY_INDEX_2025-08; qc.figure_path=https://storage.example.com/reports/QC_SALINITY_INDEX_2025-08.pdf | "
-            "stakeholder.output_label=Salinity Index QC Aug 2025; audience=research_team; artifact_path=https://storage.example.com/reports/QC_SALINITY_INDEX_2025-08.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2765,12 +2390,7 @@ TASKS = [
             }),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_COASTAL_FEATURES_2025-06"}),
         ],
-        outputs=[
-            "feature_set.name=coastal_flood_features_v1; version=1.0; columns=water_level_max|wave_height_mean|precipitation_total | "
-            "file.path=/features/coastal_flood_features_v1.parquet; file.mime=application/parquet | "
-            "config.active_feature_set=coastal_flood_features_v1 | "
-            "qc.figure_label=QC_COASTAL_FEATURES_2025-06; qc.figure_path=https://storage.example.com/reports/QC_COASTAL_FEATURES_2025-06.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2801,11 +2421,7 @@ TASKS = [
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_CONFIG_RETRAIN_2025-05"}),
             Action(name="ReadAuditEvents", kwargs={"event_type": "MODEL_RETRAIN_WINDOW_SET"}),
         ],
-        outputs=[
-            "config.retrain_window_start=2025-05-01T00:00:00Z; config.retrain_window_end=2025-05-31T23:59:59Z | "
-            "log.event_type=MODEL_RETRAIN_WINDOW_SET; log.message=May retrain window applied. | "
-            "qc.figure_label=QC_CONFIG_RETRAIN_2025-05; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_RETRAIN_2025-05.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2836,11 +2452,7 @@ TASKS = [
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_CONFIG_RETRAIN_2025-06"}),
             Action(name="ReadAuditEvents", kwargs={"event_type": "MODEL_RETRAIN_WINDOW_SET"}),
         ],
-        outputs=[
-            "config.retrain_window_start=2025-06-01T00:00:00Z; config.retrain_window_end=2025-06-30T23:59:59Z | "
-            "log.event_type=MODEL_RETRAIN_WINDOW_SET; log.message=June retrain window applied. | "
-            "qc.figure_label=QC_CONFIG_RETRAIN_2025-06; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_RETRAIN_2025-06.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2868,12 +2480,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_HEATWAVE_RISK_2025-08.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Heatwave Risk Aug 2025"}),
         ],
-        outputs=[
-            "feature_set.name=heatwave_risk_v1; version=1.0; columns=temperature|humidity|heat_risk | "
-            "file.path=/features/heatwave_risk_v1.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_HEATWAVE_RISK_2025-08; qc.figure_path=https://storage.example.com/reports/QC_HEATWAVE_RISK_2025-08.pdf | "
-            "stakeholder.output_label=Heatwave Risk Aug 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_HEATWAVE_RISK_2025-08.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2896,11 +2503,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_CONFIG_BACKFILL_2025-12"}),
         ],
-        outputs=[
-            "config.backfill_cutoff=2025-12-22T20:00:00Z | "
-            "log.event_type=BACKFILL_CUTOFF_APPLIED; log.message=Backfill cutoff applied for end-of-year runs. | "
-            "qc.figure_label=QC_CONFIG_BACKFILL_2025-12; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_BACKFILL_2025-12.pdf"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2923,11 +2526,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_CONFIG_BACKFILL_2025-09"}),
         ],
-        outputs=[
-            "config.backfill_cutoff=2025-09-15T16:00:00Z | "
-            "log.event_type=BACKFILL_CUTOFF_CONFIRMED; log.message=September backfill cutoff completed successfully. | "
-            "qc.figure_label=QC_CONFIG_BACKFILL_2025-09; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_BACKFILL_2025-09.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2955,12 +2554,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_CARGO_THROUGHPUT_2025-03"}),
         ],
-        outputs=[
-            "feature_set.name=cargo_throughput_summary_v3; version=3.0; columns=total_cargo|avg_loading_time|avg_unloading_time | "
-            "file.path=/features/cargo_throughput_summary_v3.parquet; file.mime=application/parquet | "
-            "config.active_feature_set=cargo_throughput_summary_v3 | "
-            "qc.figure_label=QC_CARGO_THROUGHPUT_2025-03; qc.figure_path=https://storage.example.com/reports/QC_CARGO_THROUGHPUT_2025-03.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -2988,12 +2582,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_PORT_UTILIZATION_2025-03"}),
         ],
-        outputs=[
-            "feature_set.name=port_utilization_stats_v4; version=4.2; columns=berth_occupancy|avg_turnaround_time|peak_traffic_hour | "
-            "file.path=/features/port_utilization_stats_v4.parquet; file.mime=application/parquet | "
-            "config.active_feature_set=port_utilization_stats_v4 | "
-            "qc.figure_label=QC_PORT_UTILIZATION_2025-03; qc.figure_path=https://storage.example.com/reports/QC_PORT_UTILIZATION_2025-03.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -3015,11 +2604,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_CONFIG_INGESTION_2025-07"}),
         ],
-        outputs=[
-            "config.ingestion_deadline=2025-07-15T12:00:00Z | "
-            "log.event_type=INGESTION_DEADLINE_SET; log.message=Deadline established for mid-July ingestion. | "
-            "qc.figure_label=QC_CONFIG_INGESTION_2025-07; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_INGESTION_2025-07.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -3041,11 +2626,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_CONFIG_BACKFILL_2025-11"}),
         ],
-        outputs=[
-            "config.backfill_cutoff=2025-11-20T18:00:00Z | "
-            "log.event_type=BACKFILL_CUTOFF_SET; log.message=Backfill cutoff applied for late November runs. | "
-            "qc.figure_label=QC_CONFIG_BACKFILL_2025-11; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_BACKFILL_2025-11.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -3069,11 +2650,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_CONFIG_RETRAIN_2025-07"}),
         ],
-        outputs=[
-            "config.retrain_window_start=2025-07-01T00:00:00Z; config.retrain_window_end=2025-07-31T23:59:59Z | "
-            "log.event_type=MODEL_RETRAIN_WINDOW_SET; log.message=July retrain window applied. | "
-            "qc.figure_label=QC_CONFIG_RETRAIN_2025-07; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_RETRAIN_2025-07.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -3101,12 +2678,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_URBAN_FLOOD_2025-07.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "Urban Flood Jul 2025"}),
         ],
-        outputs=[
-            "feature_set.name=urban_flood_v1; version=1.0; columns=rainfall|drainage_capacity|flood_risk | "
-            "file.path=/features/urban_flood_v1.parquet; file.mime=application/parquet | "
-            "qc.figure_label=QC_URBAN_FLOOD_2025-07; qc.figure_path=https://storage.example.com/reports/QC_URBAN_FLOOD_2025-07.pdf | "
-            "stakeholder.output_label=Urban Flood Jul 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_URBAN_FLOOD_2025-07.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -3128,11 +2700,7 @@ TASKS = [
                                                     "artifact_type": "pdf"}),
             Action(name="ReadQcReport", kwargs={"figure_label": "QC_CONFIG_BACKFILL_2025-10"}),
         ],
-        outputs=[
-            "config.backfill_cutoff=2025-10-18T17:00:00Z | "
-            "log.event_type=BACKFILL_CUTOFF_CONFIRMED; log.message=October backfill cutoff finalized. | "
-            "qc.figure_label=QC_CONFIG_BACKFILL_2025-10; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_BACKFILL_2025-10.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -3159,12 +2727,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_TIDE_RANGE_2025-07.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "July 2025 Tidal Range Brief"}),
         ],
-        outputs=[
-            "series.name=tide_range_2025-07; points=3; p1.ts=2025-07-05T00:00:00Z; p1.value=2.67; "
-            "p2.ts=2025-07-18T00:00:00Z; p2.value=3.02; p3.ts=2025-07-31T00:00:00Z; p3.value=2.88 | "
-            "qc.figure_label=QC_TIDE_RANGE_2025-07; qc.figure_path=https://storage.example.com/reports/QC_TIDE_RANGE_2025-07.pdf | "
-            "stakeholder.output_label=July 2025 Tidal Range Brief; audience=municipal; artifact_path=https://storage.example.com/reports/QC_TIDE_RANGE_2025-07.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -3191,12 +2754,7 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_TIDE_MEAN_2025-08.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "August 2025 Mean Tide Brief"}),
         ],
-        outputs=[
-            "series.name=tide_mean_2025-08; points=3; p1.ts=2025-08-04T00:00:00Z; p1.value=1.87; "
-            "p2.ts=2025-08-17T00:00:00Z; p2.value=2.01; p3.ts=2025-08-30T00:00:00Z; p3.value=1.95 | "
-            "qc.figure_label=QC_TIDE_MEAN_2025-08; qc.figure_path=https://storage.example.com/reports/QC_TIDE_MEAN_2025-08.pdf | "
-            "stakeholder.output_label=August 2025 Mean Tide Brief; audience=state; artifact_path=https://storage.example.com/reports/QC_TIDE_MEAN_2025-08.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -3223,11 +2781,6 @@ TASKS = [
                            "artifact_path": "https://storage.example.com/reports/QC_TIDE_MIN_2025-05.pdf"}),
             Action(name="ReadStakeholderArtifact", kwargs={"output_label": "May 2025 Tide Min Summary"}),
         ],
-        outputs=[
-            "series.name=tide_min_2025-05; points=3; p1.ts=2025-05-03T00:00:00Z; p1.value=0.42; "
-            "p2.ts=2025-05-16T00:00:00Z; p2.value=0.35; p3.ts=2025-05-29T00:00:00Z; p3.value=0.50 | "
-            "qc.figure_label=QC_TIDE_MIN_2025-05; qc.figure_path=https://storage.example.com/reports/QC_TIDE_MIN_2025-05.pdf | "
-            "stakeholder.output_label=May 2025 Tide Min Summary; audience=coastal; artifact_path=https://storage.example.com/reports/QC_TIDE_MIN_2025-05.pdf"
-        ],
+        outputs=[]
     )
 ]

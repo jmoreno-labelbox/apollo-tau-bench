@@ -26,16 +26,7 @@ TASKS = [
             Action(name="GetEmployeeInfo", kwargs={"employee_id": "EMP-1002"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1002", "timestamp": "2025-09-01T13:45:00Z", "photo": "compliance001.jpg", "digital_signature": "SIG-COMP-001"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "system_count": 60}',
-            '"product_info": {"sku": "GROC-ALMBTR500", "name": "Organic Almond Butter 500g", "unit_cost": 7.85}',
-            '"expired_flagged": true',
-            '"active_promotions": []',
-            '"clearance_discount_applied": true',
-            '"safety_stock_ok": true',
-            '"employee_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1002", "timestamp": "2025-09-01T13:45:00Z", "photo": "compliance001.jpg", "digital_signature": "SIG-COMP-001"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -47,12 +38,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 20, "physical_count": 20, "unit_cost": 78.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-005", "sku": "AUDIO-BTSPKR02", "auditor_id": "EMP-1017", "timestamp": "2025-07-01T14:00:00Z", "photo": "photo023.jpg", "digital_signature": "SIG-023"}),
         ],
-        outputs=[
-            '"system_count": 20',
-            '"physical_count": 20',
-            '"discrepancy_amount": 0',
-            '"audit_log": {"store_id": "STORE-005", "sku": "AUDIO-BTSPKR02", "auditor_id": "EMP-1017", "timestamp": "2025-07-01T14:00:00Z", "photo": "photo023.jpg", "digital_signature": "SIG-023"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -67,13 +53,7 @@ TASKS = [
             Action(name="RestockLowInventory", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "quantity": 8}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-25T13:00:00Z", "photo": "photo072.jpg", "digital_signature": "SIG-072"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2}',
-            '"employee_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}',
-            '"restock_triggered": true',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-25T13:00:00Z", "photo": "photo072.jpg", "digital_signature": "SIG-072"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -87,14 +67,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-001", "ELEC-4KTV55")}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "ELEC-4KTV55", "auditor_id": "EMP-1002", "timestamp": "2025-07-01T18:00:00Z", "photo": "photo049.jpg", "digital_signature": "SIG-049"}),
         ],
-        outputs=[
-            '"system_count": 8',
-            '"physical_count": 8',
-            '"discrepancy_amount": 0.0',
-            f'"adjustment_id": "{adj_id("STORE-001", "ELEC-4KTV55")}"',
-            '"dual_approved": true',
-            '"audit_log": {"store_id": "STORE-001", "sku": "ELEC-4KTV55", "timestamp": "2025-07-01T18:00:00Z", "photo": "photo049.jpg", "digital_signature": "SIG-049"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -111,15 +84,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1003"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-08-04T09:00:00Z", "photo": "photo105.jpg", "digital_signature": "SIG-105"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2}',
-            '"employee_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}',
-            '"discrepancy_amount": 86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": 86.0}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1003", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-08-04T09:00:00Z", "photo": "photo105.jpg", "digital_signature": "SIG-105"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -133,14 +98,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-001", "ELEC-4KTV55"), "approver_id": "EMP-1003"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "ELEC-4KTV55", "auditor_id": "EMP-1001", "timestamp": "2025-07-15T09:00:00Z", "photo": "photo000a.jpg", "digital_signature": "SIG-000A"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "ELEC-4KTV55", "system_count": 8}',
-            '"physical_count": 8',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "ELEC-4KTV55")}", "store_id": "STORE-001", "sku": "ELEC-4KTV55", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "ELEC-4KTV55")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "ELEC-4KTV55", "auditor_id": "EMP-1001", "timestamp": "2025-07-15T09:00:00Z", "photo": "photo000a.jpg", "digital_signature": "SIG-000A"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -152,12 +110,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 100, "physical_count": 100, "unit_cost": 6.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-07-01T21:00:00Z", "photo": "photo040.jpg", "digital_signature": "SIG-040"}),
         ],
-        outputs=[
-            '"system_count": 100',
-            '"physical_count": 100',
-            '"discrepancy_amount": 0.0',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "timestamp": "2025-07-01T21:00:00Z", "photo": "photo040.jpg", "digital_signature": "SIG-040"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -169,12 +122,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 30, "physical_count": 30, "unit_cost": 22.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "CLTH-SLFJEAN34", "auditor_id": "EMP-1013", "result": "discrepancy_logged", "timestamp": "2025-07-01T12:00:00Z", "photo": "photo008.jpg", "digital_signature": "SIG-008"}),
         ],
-        outputs=[
-            '"system_count": 30',
-            '"physical_count": 30',
-            '"discrepancy_amount": 0.0',
-            '"audit_log": {"store_id": "STORE-002", "sku": "CLTH-SLFJEAN34", "system_count": 30, "physical_count": 30, "timestamp": "2025-07-01T12:00:00Z", "photo": "photo008.jpg", "digital_signature": "SIG-008"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -191,15 +139,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1003"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-02T10:00:00Z", "photo": "photo009.jpg", "digital_signature": "SIG-009"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2}',
-            '"employee_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1003", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-02T10:00:00Z", "photo": "photo009.jpg", "digital_signature": "SIG-009"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -212,11 +152,7 @@ TASKS = [
             Action(name="TriggerRecountIfNeeded", kwargs={"store_id": "STORE-003", "sku": "GROC-ALMBTR500", "discrepancy_threshold": 5}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-003", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-2010", "timestamp": "2025-07-22T10:00:00Z", "photo": "photo010.jpg", "digital_signature": "SIG-010"}),
         ],
-        outputs=[
-            '"transaction_details": {"transaction_id": "TXN-0003", "sku": "GROC-ALMBTR500", "quantity": 2, "total": 5.0}',
-            '"recount_triggered": true',
-            '"audit_log": {"store_id": "STORE-003", "sku": "GROC-ALMBTR500", "timestamp": "2025-07-22T10:00:00Z", "photo": "photo010.jpg", "digital_signature": "SIG-010"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -231,13 +167,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": 0.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-07-03T09:00:00Z", "photo": "photo011.jpg", "digital_signature": "SIG-011"}),
         ],
-        outputs=[
-            '"system_count": 100',
-            '"physical_count": 100',
-            '"discrepancy_amount": 0.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": 0.0, "reason": "audit_discrepancy"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-07-03T09:00:00Z", "photo": "photo011.jpg", "digital_signature": "SIG-011"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -255,16 +185,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1031"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-25T09:00:00Z", "photo": "photo070.jpg", "digital_signature": "SIG-070"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2}',
-            '"employee_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1031", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-25T09:00:00Z", "photo": "photo070.jpg", "digital_signature": "SIG-070"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -279,13 +200,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1008", "timestamp": "2025-07-05T09:00:00Z", "photo": "photo013.jpg", "digital_signature": "SIG-013"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-013", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-05T09:00:00Z", "photo": "photo013.jpg", "digital_signature": "SIG-013"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -300,13 +215,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1014", "timestamp": "2025-07-04T09:00:00Z", "photo": "photo014.jpg", "digital_signature": "SIG-014"}),
         ],
-        outputs=[
-            '"system_count": 45',
-            '"physical_count": 40',
-            '"discrepancy_amount": 86.0',
-            '"adjustment_id": "ADJ-HOME-DESKLMP01-STORE-001"',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-04T09:00:00Z", "photo": "photo014.jpg", "digital_signature": "SIG-014"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -321,13 +230,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1009", "timestamp": "2025-07-06T09:00:00Z", "photo": "photo015.jpg", "digital_signature": "SIG-015"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-015", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-06T09:00:00Z", "photo": "photo015.jpg", "digital_signature": "SIG-015"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -343,14 +246,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-001", "HOME-BTHTWL01"), "approver_id": "EMP-1003"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-07-06T10:00:00Z", "photo": "photo016.jpg", "digital_signature": "SIG-016"}),
         ],
-        outputs=[
-            '"expired_batches": ["BATCH-20240501"]',
-            '"product_info": {"sku": "HOME-BTHTWL01", "name": "UltraSoft Cotton Bath Towel", "unit_cost": 6.0}',
-            '"employee_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": -30.0, "reason": "expired_stock"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-07-06T10:00:00Z", "photo": "photo016.jpg", "digital_signature": "SIG-016"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -362,10 +258,7 @@ TASKS = [
             Action(name="GetStoreInventory", kwargs={"store_id": "STORE-002", "sku": "BAKERY-BREAD500"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "BAKERY-BREAD500", "auditor_id": "EMP-1017", "timestamp": "2025-07-03T10:00:00Z", "photo": "photo017.jpg", "digital_signature": "SIG-017"}),
         ],
-        outputs=[
-            '"system_count": 0',
-            '"audit_log": {"store_id": "STORE-002", "sku": "BAKERY-BREAD500", "timestamp": "2025-07-03T10:00:00Z", "photo": "photo017.jpg", "digital_signature": "SIG-017"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -381,14 +274,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1003"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-24T09:00:00Z", "photo": "photo068.jpg", "digital_signature": "SIG-068"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1003", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-24T09:00:00Z", "photo": "photo068.jpg", "digital_signature": "SIG-068"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -403,13 +289,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1019", "timestamp": "2025-07-05T12:00:00Z", "photo": "photo019.jpg", "digital_signature": "SIG-019"}),
         ],
-        outputs=[
-            '"system_count": 45',
-            '"physical_count": 40',
-            '"discrepancy_amount": 86.0',
-            '"adjustment_id": "ADJ-HOME-DESKLMP01-STORE-001"',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-05T12:00:00Z", "photo": "photo019.jpg", "digital_signature": "SIG-019"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -421,12 +301,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 100, "physical_count": 100, "unit_cost": 6.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1033", "result": "discrepancy_logged", "timestamp": "2025-07-01T21:00:00Z", "photo": "photo020.jpg", "digital_signature": "SIG-020"}),
         ],
-        outputs=[
-            '"system_count": 100',
-            '"physical_count": 100',
-            '"discrepancy_amount": 0.0',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "timestamp": "2025-07-01T21:00:00Z", "photo": "photo020.jpg", "digital_signature": "SIG-020"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -438,12 +313,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 90, "physical_count": 90, "unit_cost": 9.9}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-1015", "result": "discrepancy_logged"}),
         ],
-        outputs=[
-            '"system_count": 90',
-            '"physical_count": 90',
-            '"discrepancy_amount": 0',
-            '"audit_log": {"store_id": "STORE-003", "sku": "ELEC-RCHAA04"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -455,12 +325,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 6, "physical_count": 6, "unit_cost": 110.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "CLTH-WINJKT01", "auditor_id": "EMP-1016", "result": "discrepancy_logged", "timestamp": "2025-07-01T22:00:00Z", "photo": "photo022.jpg", "digital_signature": "SIG-022"}),
         ],
-        outputs=[
-            '"system_count": 6',
-            '"physical_count": 6',
-            '"discrepancy_amount": 0',
-            '"audit_log": {"store_id": "STORE-002", "sku": "CLTH-WINJKT01"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -473,13 +338,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-002", "sku": "SMRT-THERM02", "amount": 0.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "SMRT-THERM02", "auditor_id": "EMP-1008", "timestamp": "2025-07-01T18:30:00Z", "photo": "photo050.jpg", "digital_signature": "SIG-050"}),
         ],
-        outputs=[
-            '"system_count": 15',
-            '"physical_count": 15',
-            '"discrepancy_amount": 0.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-SMRT-THERM02-STORE-002", "store_id": "STORE-002", "sku": "SMRT-THERM02", "amount": 0.0}',
-            '"audit_log": {"store_id": "STORE-002", "sku": "SMRT-THERM02", "timestamp": "2025-07-01T18:30:00Z", "photo": "photo050.jpg", "digital_signature": "SIG-050"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -491,12 +350,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 22, "physical_count": 22, "unit_cost": 82.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "AUDIO-NCEBUDS01", "auditor_id": "EMP-1018", "result": "discrepancy_logged"}),
         ],
-        outputs=[
-            '"system_count": 22',
-            '"physical_count": 22',
-            '"discrepancy_amount": 0',
-            '"audit_log": {"store_id": "STORE-002", "sku": "AUDIO-NCEBUDS01"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -508,12 +362,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 60, "physical_count": 60, "unit_cost": 13.8}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "SPORT-YOGMAT01", "auditor_id": "EMP-1019", "result": "discrepancy_logged"}),
         ],
-        outputs=[
-            '"system_count": 60',
-            '"physical_count": 60',
-            '"discrepancy_amount": 0',
-            '"audit_log": {"store_id": "STORE-001", "sku": "SPORT-YOGMAT01"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -528,13 +377,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1012", "timestamp": "2025-07-10T09:00:00Z", "photo": "photo026.jpg", "digital_signature": "SIG-026"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-026", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-10T09:00:00Z", "photo": "photo026.jpg", "digital_signature": "SIG-026"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -546,12 +389,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 40, "physical_count": 40, "unit_cost": 12.2}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-003", "sku": "KITCH-FRYPAN10", "auditor_id": "EMP-1015", "result": "discrepancy_logged", "timestamp": "2025-07-01T13:30:00Z", "photo": "photo027.jpg", "digital_signature": "SIG-027"}),
         ],
-        outputs=[
-            '"system_count": 40',
-            '"physical_count": 40',
-            '"discrepancy_amount": 0.0',
-            '"audit_log": {"store_id": "STORE-003", "sku": "KITCH-FRYPAN10", "timestamp": "2025-07-01T13:30:00Z", "photo": "photo027.jpg", "digital_signature": "SIG-027"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -585,14 +423,7 @@ TASKS = [
                 "digital_signature": "SIG-028"
             }),
         ],
-        outputs=[
-            '"system_count": 30',
-            '"physical_count": 30',
-            '"discrepancy_amount": 0.0',
-            f'"adjustment_id": "{adj_id("STORE-002", "CLTH-SLFJEAN34")}"',
-            '"dual_approved": true',
-            '"audit_log": {"store_id": "STORE-002", "sku": "CLTH-SLFJEAN34", "timestamp": "2025-07-01T18:40:00Z", "photo": "photo028.jpg", "digital_signature": "SIG-028"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -607,13 +438,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1013", "timestamp": "2025-07-11T09:00:00Z", "photo": "photo029.jpg", "digital_signature": "SIG-029"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1013", "timestamp": "2025-07-11T09:00:00Z", "photo": "photo029.jpg", "digital_signature": "SIG-029"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -628,13 +453,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1030", "timestamp": "2025-07-11T09:00:00Z", "photo": "photo030.jpg", "digital_signature": "SIG-030"}),
         ],
-        outputs=[
-            '"system_count": 45',
-            '"physical_count": 40',
-            '"discrepancy_amount": 86.0',
-            '"adjustment_id": "ADJ-HOME-DESKLMP01-STORE-001"',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-11T09:00:00Z", "photo": "photo030.jpg", "digital_signature": "SIG-030"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -649,13 +468,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1031", "timestamp": "2025-07-12T09:00:00Z", "photo": "photo031.jpg", "digital_signature": "SIG-031"}),
         ],
-        outputs=[
-            '"system_count": 45',
-            '"physical_count": 40',
-            '"discrepancy_amount": 86.0',
-            '"adjustment_id": "ADJ-HOME-DESKLMP01-STORE-001"',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-12T09:00:00Z", "photo": "photo031.jpg", "digital_signature": "SIG-031"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -667,12 +480,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 15, "physical_count": 15, "unit_cost": 98.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "SMRT-THERM02", "auditor_id": "EMP-1008", "result": "discrepancy_logged"}),
         ],
-        outputs=[
-            '"system_count": 15',
-            '"physical_count": 15',
-            '"discrepancy_amount": 0',
-            '"audit_log": {"store_id": "STORE-002", "sku": "SMRT-THERM02"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -684,10 +492,7 @@ TASKS = [
             Action(name="LogTransfer", kwargs={"from_store": "STORE-001", "to_store": "STORE-003", "sku": "BOOK-KDSSTY01", "quantity": 12}),
             Action(name="UpdateTransferCompliance", kwargs={"transfer_id": trf_id("STORE-001", "STORE-003", "BOOK-KDSSTY01"), "status": "logged"}),
         ],
-        outputs=[
-            f'"transfer_id": "{trf_id("STORE-001", "STORE-003", "BOOK-KDSSTY01")}"',
-            '"compliance_status": "logged"'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -700,12 +505,7 @@ TASKS = [
             # No recount triggered since discrepancy is 0, which is below threshold
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-1015", "result": "discrepancy_logged", "timestamp": "2025-07-01T16:00:00Z", "photo": "photo034.jpg", "digital_signature": "SIG-034"}),
         ],
-        outputs=[
-            '"system_count": 90',
-            '"physical_count": 90',
-            '"discrepancy_amount": 0.0',
-            '"audit_log": {"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "timestamp": "2025-07-01T16:00:00Z", "photo": "photo034.jpg", "digital_signature": "SIG-034"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -718,11 +518,7 @@ TASKS = [
             Action(name="LogTransfer", kwargs={"from_store": "STORE-001", "to_store": "STORE-002", "sku": "HOME-DESKLMP01", "quantity": 8}),
             Action(name="UpdateTransferCompliance", kwargs={"transfer_id": trf_id("STORE-001", "STORE-002", "HOME-DESKLMP01"), "status": "compliance_reviewed"}),
         ],
-        outputs=[
-            f'"transfer_id": "{trf_id("STORE-001", "STORE-002", "HOME-DESKLMP01")}"',
-            '"compliance_reviewed": true',
-            '"compliance_status": "compliance_reviewed"'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -734,12 +530,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 6, "physical_count": 6, "unit_cost": 110.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "CLTH-WINJKT01", "auditor_id": "EMP-1009", "result": "discrepancy_logged", "timestamp": "2025-07-01T17:00:00Z", "photo": "photo036.jpg", "digital_signature": "SIG-036"}),
         ],
-        outputs=[
-            '"system_count": 6',
-            '"physical_count": 6',
-            '"discrepancy_amount": 0.0',
-            '"audit_log": {"store_id": "STORE-002", "sku": "CLTH-WINJKT01", "timestamp": "2025-07-01T17:00:00Z", "photo": "photo036.jpg", "digital_signature": "SIG-036"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -754,13 +545,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "result": "discrepancy_logged", "timestamp": "2025-07-02T09:00:00Z", "photo": "photo002.jpg", "digital_signature": "SIG-002"}),
         ],
-        outputs=[
-            '"system_count": 45',
-            '"physical_count": 40',
-            '"discrepancy_amount": 86.0',
-            '"adjustment_id": "ADJ-AAD81F"',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-02T09:00:00Z", "photo": "photo002.jpg", "digital_signature": "SIG-002"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -778,16 +563,7 @@ TASKS = [
             Action(name="EscalateDiscrepancy", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": 86.0, "escalation_level": "regional"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-12T09:00:00Z", "photo": "photo038.jpg", "digital_signature": "SIG-038"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2}',
-            '"employee_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"escalation": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": 86.0, "escalation_level": "regional"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-12T09:00:00Z", "photo": "photo038.jpg", "digital_signature": "SIG-038"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -803,14 +579,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1014"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1013", "timestamp": "2025-07-12T10:00:00Z", "photo": "photo039.jpg", "digital_signature": "SIG-039"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1014", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1013", "timestamp": "2025-07-12T10:00:00Z", "photo": "photo039.jpg", "digital_signature": "SIG-039"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -822,12 +591,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 100, "physical_count": 100, "unit_cost": 6.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "result": "discrepancy_logged", "timestamp": "2025-07-01T21:00:00Z", "photo": "photo040.jpg", "digital_signature": "SIG-040"}),
         ],
-        outputs=[
-            '"system_count": 100',
-            '"physical_count": 100',
-            '"discrepancy_amount": 0.0',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "timestamp": "2025-07-01T21:00:00Z", "photo": "photo040.jpg", "digital_signature": "SIG-040"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -839,12 +603,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 90, "physical_count": 90, "unit_cost": 9.9}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-1015", "result": "discrepancy_logged"}),
         ],
-        outputs=[
-            '"system_count": 90',
-            '"physical_count": 90',
-            '"discrepancy_amount": 0.0',
-            '"audit_log": {"store_id": "STORE-003", "sku": "ELEC-RCHAA04"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -856,10 +615,7 @@ TASKS = [
             Action(name="LogTransfer", kwargs={"from_store": "STORE-001", "to_store": "STORE-003", "sku": "BOOK-KDSSTY01", "quantity": 12}),
             Action(name="UpdateTransferCompliance", kwargs={"transfer_id": trf_id("STORE-001", "STORE-003", "BOOK-KDSSTY01"), "status": "logged"}),
         ],
-        outputs=[
-            f'"transfer_id": "{trf_id("STORE-001", "STORE-003", "BOOK-KDSSTY01")}"',
-            '"compliance_status": "logged"'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -871,12 +627,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 90, "physical_count": 90, "unit_cost": 9.9}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-1015", "result": "discrepancy_logged", "timestamp": "2025-07-01T22:00:00Z", "photo": "photo043.jpg", "digital_signature": "SIG-043"}),
         ],
-        outputs=[
-            '"system_count": 90',
-            '"physical_count": 90',
-            '"discrepancy_amount": 0.0',
-            '"audit_log": {"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "timestamp": "2025-07-01T22:00:00Z", "photo": "photo043.jpg", "digital_signature": "SIG-043"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -889,11 +640,7 @@ TASKS = [
             Action(name="LogTransfer", kwargs={"from_store": "STORE-001", "to_store": "STORE-002", "sku": "HOME-DESKLMP01", "quantity": 8}),
             Action(name="UpdateTransferCompliance", kwargs={"transfer_id": trf_id("STORE-001", "STORE-002", "HOME-DESKLMP01"), "status": "compliance_reviewed"}),
         ],
-        outputs=[
-            f'"transfer_id": "{trf_id("STORE-001", "STORE-002", "HOME-DESKLMP01")}"',
-            '"compliance_reviewed": true',
-            '"compliance_status": "compliance_reviewed"'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -905,12 +652,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 6, "physical_count": 6, "unit_cost": 110.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "CLTH-WINJKT01", "auditor_id": "EMP-1009", "result": "discrepancy_logged", "timestamp": "2025-07-01T23:00:00Z", "photo": "photo045.jpg", "digital_signature": "SIG-045"}),
         ],
-        outputs=[
-            '"system_count": 6',
-            '"physical_count": 6',
-            '"discrepancy_amount": 0.0',
-            '"audit_log": {"store_id": "STORE-002", "sku": "CLTH-WINJKT01", "timestamp": "2025-07-01T23:00:00Z", "photo": "photo045.jpg", "digital_signature": "SIG-045"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -926,14 +668,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1014"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1013", "timestamp": "2025-07-12T10:00:00Z", "photo": "photo039.jpg", "digital_signature": "SIG-039"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1014", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1013", "timestamp": "2025-07-12T10:00:00Z", "photo": "photo039.jpg", "digital_signature": "SIG-039"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -947,11 +682,7 @@ TASKS = [
             Action(name="ListActivePromotions", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-3001", "result": "promotion_checked", "timestamp": "2025-08-24T11:00:00Z", "photo": "photo077_new.jpg", "digital_signature": "SIG-077N"}),
         ],
-        outputs=[
-            '"skus": ["ELEC-RCHAA04", "HOME-BTHTWL01", "GROC-ALMBTR500"]',
-            '"active_promotions": ["PROMO-10PCT-OFF", "PROMO-BUY1GET1"]',
-            '"audit_log": {"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-3001", "result": "promotion_checked", "timestamp": "2025-08-24T11:00:00Z", "photo": "photo077_new.jpg", "digital_signature": "SIG-077N"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -964,13 +695,7 @@ TASKS = [
             # No escalation since discrepancy is 0, which is not > $40
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "BOOK-KDSSTY01", "auditor_id": "EMP-1002", "result": "discrepancy_logged", "timestamp": "2025-07-01T17:30:00Z", "photo": "photo048.jpg", "digital_signature": "SIG-048"}),
         ],
-        outputs=[
-            '"system_count": 40',
-            '"physical_count": 40',
-            '"discrepancy_amount": 0.0',
-            '"escalated": false',
-            '"audit_log": {"store_id": "STORE-001", "sku": "BOOK-KDSSTY01", "timestamp": "2025-07-01T17:30:00Z", "photo": "photo048.jpg", "digital_signature": "SIG-048"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -986,14 +711,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1016"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1015", "timestamp": "2025-07-15T09:00:00Z", "photo": "photo049.jpg", "digital_signature": "SIG-049"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1016", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-15T09:00:00Z", "photo": "photo049.jpg", "digital_signature": "SIG-049"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1010,15 +728,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1003"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-08-04T09:00:00Z", "photo": "photo105.jpg", "digital_signature": "SIG-105"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2}',
-            '"employee_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}',
-            '"discrepancy_amount": 86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": 86.0}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1003", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-08-04T09:00:00Z", "photo": "photo105.jpg", "digital_signature": "SIG-105"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1030,10 +740,7 @@ TASKS = [
             Action(name="LogTransfer", kwargs={"from_store": "STORE-001", "to_store": "STORE-003", "sku": "BOOK-KDSSTY01", "quantity": 12}),
             Action(name="UpdateTransferCompliance", kwargs={"transfer_id": trf_id("STORE-001", "STORE-003", "BOOK-KDSSTY01"), "status": "logged"}),
         ],
-        outputs=[
-            f'"transfer_id": "{trf_id("STORE-001", "STORE-003", "BOOK-KDSSTY01")}"',
-            '"compliance_status": "logged"'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1046,13 +753,7 @@ TASKS = [
             Action(name="GetEmployeeInfo", kwargs={"employee_id": "EMP-1002"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-15T09:00:00Z", "photo": "photo052.jpg", "digital_signature": "SIG-052"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"restock_triggered": true',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "Desk Lamp", "unit_cost": 17.2}',
-            '"employee_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-15T09:00:00Z", "photo": "photo052.jpg", "digital_signature": "SIG-052"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1066,14 +767,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "amount": 0.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1002", "timestamp": "2025-07-10T09:00:00Z", "photo": "photo053.jpg", "digital_signature": "SIG-053"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "system_count": 60}',
-            '"physical_count": 60',
-            '"product_info": {"sku": "GROC-ALMBTR500", "name": "Organic Almond Butter 500g", "unit_cost": 7.85}',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "GROC-ALMBTR500")}", "store_id": "STORE-001", "sku": "GROC-ALMBTR500", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1002", "timestamp": "2025-07-10T09:00:00Z", "photo": "photo053.jpg", "digital_signature": "SIG-053"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1087,14 +781,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": 86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-11T09:00:00Z", "photo": "photo054.jpg", "digital_signature": "SIG-054"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2, "category": "Home & Kitchen", "price": 34.99, "description": "Dimmable LED lamp with USB charging port and color modes.", "brand": "LumiLux", "status": "active", "barcode": "0123456789022", "tax_rate": 0.0825, "discount_rate": 0.08, "supplier_id": "SUP-1002", "weight_kg": 1.1, "dimensions_cm": "18x18x42", "created_at": "2025-02-18T10:12:00Z", "updated_at": "2025-05-03T10:12:00Z"}',
-            '"physical_count": 40',
-            '"discrepancy_amount": 86.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-DESKLMP01")}", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": 86.0, "reason": "audit_discrepancy"}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-11T09:00:00Z", "photo": "photo054.jpg", "digital_signature": "SIG-054"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1109,15 +796,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-001", "HOME-DESKLMP01"), "approver_id": "EMP-1003"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-16T10:00:00Z", "photo": "photo000b.jpg", "digital_signature": "SIG-000B"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-DESKLMP01")}", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "HOME-DESKLMP01")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1002", "timestamp": "2025-07-16T10:00:00Z", "photo": "photo000b.jpg", "digital_signature": "SIG-000B"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1132,13 +811,7 @@ TASKS = [
             Action(name="EscalateDiscrepancy", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": 86.0, "escalation_level": "regional"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1001", "timestamp": "2025-07-31T09:00:00Z", "photo": "photo101.jpg", "digital_signature": "SIG-101"}),
         ],
-        outputs=[
-            '"safety_stock_ok": true',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "Desk Lamp", "unit_cost": 17.2}',
-            '"discrepancy_amount": -86.0',
-            '"escalation": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": 86.0, "escalation_level": "regional"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-31T09:00:00Z", "photo": "photo101.jpg", "digital_signature": "SIG-101"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1154,14 +827,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1007"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1006", "timestamp": "2025-07-03T09:00:00Z", "photo": "photo006.jpg", "digital_signature": "SIG-006"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1007", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-03T09:00:00Z", "photo": "photo006.jpg", "digital_signature": "SIG-006"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1173,12 +839,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 15, "physical_count": 15, "unit_cost": 98.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "SMRT-THERM02", "auditor_id": "EMP-1005", "timestamp": "2025-07-01T10:00:00Z", "photo": "photo004.jpg", "digital_signature": "SIG-004"}),
         ],
-        outputs=[
-            '"system_count": 15',
-            '"physical_count": 15',
-            '"discrepancy_amount": 0.0',
-            '"audit_log": {"store_id": "STORE-002", "sku": "SMRT-THERM02", "timestamp": "2025-07-01T10:00:00Z", "photo": "photo004.jpg", "digital_signature": "SIG-004"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1194,14 +855,7 @@ TASKS = [
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1037", "result": "flagged_products", "timestamp": "2025-07-13T09:00:00Z", "photo": "photo004.jpg", "digital_signature": "SIG-004"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "CLTH-WINJKT01", "auditor_id": "EMP-1037", "result": "flagged_products", "timestamp": "2025-07-13T09:00:00Z", "photo": "photo004.jpg", "digital_signature": "SIG-004"}),
         ],
-        outputs=[
-            '"skus_store_001": ["HOME-BTHTWL01", "ELEC-RCHAA04", "GROC-ALMBTR500"]',
-            '"skus_store_002": ["CLTH-WINJKT01", "AUDIO-NCEBUDS01", "SMRT-THERM02"]',
-            '"flagged_products_store_001": true',
-            '"flagged_products_store_002": true',
-            '"audit_log_store_001": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1037", "result": "flagged_products", "timestamp": "2025-07-13T09:00:00Z", "photo": "photo004.jpg", "digital_signature": "SIG-004"}',
-            '"audit_log_store_002": {"store_id": "STORE-002", "sku": "CLTH-WINJKT01", "auditor_id": "EMP-1037", "result": "flagged_products", "timestamp": "2025-07-13T09:00:00Z", "photo": "photo004.jpg", "digital_signature": "SIG-004"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1213,12 +867,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 130, "physical_count": 130, "unit_cost": 3.4}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "GROC-SPRWAT6P", "auditor_id": "EMP-1021", "result": "discrepancy_logged"}),
         ],
-        outputs=[
-            '"system_count": 130',
-            '"physical_count": 130',
-            '"discrepancy_amount": 0',
-            '"audit_log": {"store_id": "STORE-001", "sku": "GROC-SPRWAT6P"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1230,12 +879,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 25, "physical_count": 25, "unit_cost": 34.5}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOM-COFMKR12", "auditor_id": "EMP-1022", "result": "discrepancy_logged"}),
         ],
-        outputs=[
-            '"system_count": 25',
-            '"physical_count": 25',
-            '"discrepancy_amount": 0',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOM-COFMKR12"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1247,12 +891,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 10, "physical_count": 10, "unit_cost": 140.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-003", "sku": "OFFC-ERGCHR01", "auditor_id": "EMP-1023", "result": "discrepancy_logged"}),
         ],
-        outputs=[
-            '"system_count": 10',
-            '"physical_count": 10',
-            '"discrepancy_amount": 0',
-            '"audit_log": {"store_id": "STORE-003", "sku": "OFFC-ERGCHR01"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1264,12 +903,7 @@ TASKS = [
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 8, "physical_count": 8, "unit_cost": 480.0}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "ELEC-4KTV55", "auditor_id": "EMP-1024", "result": "discrepancy_logged"}),
         ],
-        outputs=[
-            '"system_count": 8',
-            '"physical_count": 8',
-            '"discrepancy_amount": 0',
-            '"audit_log": {"store_id": "STORE-001", "sku": "ELEC-4KTV55"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1285,14 +919,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1019"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1018", "timestamp": "2025-07-18T09:00:00Z", "photo": "photo062.jpg", "digital_signature": "SIG-062"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1019", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-18T09:00:00Z", "photo": "photo062.jpg", "digital_signature": "SIG-062"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1309,15 +936,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-001", "SPORT-YOGMAT01"), "approver_id": "EMP-1003"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "SPORT-YOGMAT01", "auditor_id": "EMP-1002", "timestamp": "2025-08-13T09:00:00Z", "photo": "photo113.jpg", "digital_signature": "SIG-113"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "SPORT-YOGMAT01", "system_count": 60}',
-            '"product_info": {"sku": "SPORT-YOGMAT01", "name": "FlexFit Premium Yoga Mat", "unit_cost": 13.8}',
-            '"employee_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}',
-            '"discrepancy_amount": -13.8',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "SPORT-YOGMAT01")}", "store_id": "STORE-001", "sku": "SPORT-YOGMAT01", "amount": -13.8, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "SPORT-YOGMAT01")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "SPORT-YOGMAT01", "auditor_id": "EMP-1002", "timestamp": "2025-08-13T09:00:00Z", "photo": "photo113.jpg", "digital_signature": "SIG-113"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1333,14 +952,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1023"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1022", "timestamp": "2025-07-20T09:00:00Z", "photo": "photo064.jpg", "digital_signature": "SIG-064"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1023", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-20T09:00:00Z", "photo": "photo064.jpg", "digital_signature": "SIG-064"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1356,14 +968,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1025"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1024", "timestamp": "2025-07-21T09:00:00Z", "photo": "photo065.jpg", "digital_signature": "SIG-065"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1025", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-21T09:00:00Z", "photo": "photo065.jpg", "digital_signature": "SIG-065"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1379,14 +984,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1027"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1026", "timestamp": "2025-07-22T09:00:00Z", "photo": "photo066.jpg", "digital_signature": "SIG-066"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1027", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-22T09:00:00Z", "photo": "photo066.jpg", "digital_signature": "SIG-066"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1402,14 +1000,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1029"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1028", "timestamp": "2025-07-23T09:00:00Z", "photo": "photo067.jpg", "digital_signature": "SIG-067"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1029", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1028", "timestamp": "2025-07-23T09:00:00Z", "photo": "photo067.jpg", "digital_signature": "SIG-067"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1425,14 +1016,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1008"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1007", "timestamp": "2025-07-03T10:00:00Z", "photo": "photo007.jpg", "digital_signature": "SIG-007"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": 86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": 86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1008", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-03T10:00:00Z", "photo": "photo007.jpg", "digital_signature": "SIG-007"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1449,15 +1033,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1002"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1001", "timestamp": "2025-07-25T09:00:00Z", "photo": "photo070.jpg", "digital_signature": "SIG-070"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "Desk Lamp", "unit_cost": 17.2}',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"dual_approval": {"adjustment_id": "ADJ-AAD81F", "approver_id": "EMP-1002", "approved": true}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-25T09:00:00Z", "photo": "photo070.jpg", "digital_signature": "SIG-070"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1473,16 +1049,7 @@ TASKS = [
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1003", "timestamp": "2025-07-17T11:00:00Z", "photo": "photo000c.jpg", "digital_signature": "SIG-000C"}),
             Action(name="FlagExpiredProducts", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "as_of_date": "2025-07-17"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "system_count": 60}',
-            '"product_info": {"sku": "GROC-ALMBTR500", "name": "Organic Almond Butter 500g", "unit_cost": 7.85}',
-            '"physical_count": 60',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "GROC-ALMBTR500")}", "store_id": "STORE-001", "sku": "GROC-ALMBTR500", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "GROC-ALMBTR500")}", "approver_id": "EMP-1001", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1003", "timestamp": "2025-07-17T11:00:00Z", "photo": "photo000c.jpg", "digital_signature": "SIG-000C"}',
-            '"expired_flagged": true'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1496,12 +1063,7 @@ TASKS = [
             Action(name="GetCustomerInfo", kwargs={"customer_id": "CUST-5001"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1002", "timestamp": "2025-07-25T14:00:00Z", "photo": "photo073.jpg", "digital_signature": "SIG-073"}),
         ],
-        outputs=[
-            '"transactions": ["TXN-0001", "TXN-0008", "TXN-0012"]',
-            '"transaction_details": {"transaction_id": "TXN-0001", "sku": "GROC-ALMBTR500", "quantity": 2, "total": 5.0}',
-            '"customer_info": {"customer_id": "CUST-5001", "name": "Emma Wilson", "loyalty_points": 1240}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "timestamp": "2025-07-25T14:00:00Z", "photo": "photo073.jpg", "digital_signature": "SIG-073"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1518,15 +1080,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-001", "GROC-ALMBTR500"), "approver_id": "EMP-1003"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1002", "timestamp": "2025-08-10T09:00:00Z", "photo": "photo110.jpg", "digital_signature": "SIG-110"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "system_count": 60}',
-            '"product_info": {"sku": "GROC-ALMBTR500", "name": "Organic Almond Butter 500g", "unit_cost": 7.85}',
-            '"employee_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}',
-            '"discrepancy_amount": -15.7',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "GROC-ALMBTR500")}", "store_id": "STORE-001", "sku": "GROC-ALMBTR500", "amount": -15.7, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "GROC-ALMBTR500")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1002", "timestamp": "2025-08-10T09:00:00Z", "photo": "photo110.jpg", "digital_signature": "SIG-110"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1541,12 +1095,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-001", "HOME-BTHTWL01")}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "result": "expired_flagged", "timestamp": "2025-07-08T09:00:00Z", "photo": "photo064.jpg", "digital_signature": "SIG-064"}),
         ],
-        outputs=[
-            '"expired_batches": ["BATCH-20240501"]',
-            f'"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}"',
-            '"dual_approved": true',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "timestamp": "2025-07-08T09:00:00Z", "photo": "photo064.jpg", "digital_signature": "SIG-064"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1560,14 +1109,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-001", "HOME-BTHTWL01")}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "result": "discrepancy_logged", "timestamp": "2025-07-01T10:00:00Z", "photo": "photo001.jpg", "digital_signature": "SIG-001"}),
         ],
-        outputs=[
-            '"system_count": 100',
-            '"physical_count": 100',
-            '"discrepancy_amount": 0.0',
-            f'"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}"',
-            '"dual_approved": true',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "timestamp": "2025-07-01T10:00:00Z", "photo": "photo001.jpg", "digital_signature": "SIG-001"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1584,15 +1126,7 @@ TASKS = [
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1002", "timestamp": "2025-10-12T10:00:00Z", "photo": "photo112.jpg", "digital_signature": "SIG-112"}),
             Action(name="FlagExpiredProducts", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "as_of_date": "2025-10-12"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "system_count": 60}',
-            '"physical_count": 60',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "GROC-ALMBTR500")}", "store_id": "STORE-001", "sku": "GROC-ALMBTR500", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "GROC-ALMBTR500")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1002", "timestamp": "2025-10-12T10:00:00Z", "photo": "photo112.jpg", "digital_signature": "SIG-112"}',
-            '"expired_flagged": true'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1628,14 +1162,7 @@ TASKS = [
                 "digital_signature": "SIG-078N"
             }),
         ],
-        outputs=[
-            '"skus": ["HOME-BTHTWL01", "ELEC-RCHAA04", "GROC-ALMBTR500"]',
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "system_count": 100}',
-            '"expired_batches": ["BATCH-20250901"]',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": -12.0, "reason": "expired_stock"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "result": "expired_flagged", "timestamp": "2025-09-08T10:00:00Z", "photo": "photo078_new.jpg", "digital_signature": "SIG-078N"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1654,15 +1181,7 @@ TASKS = [
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1002", "timestamp": "2025-10-12T10:00:00Z", "photo": "photo112.jpg", "digital_signature": "SIG-112"}),
             Action(name="FlagExpiredProducts", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "as_of_date": "2025-10-12"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "system_count": 60}',
-            '"physical_count": 60',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "GROC-ALMBTR500")}", "store_id": "STORE-001", "sku": "GROC-ALMBTR500", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "GROC-ALMBTR500")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1002", "timestamp": "2025-10-12T10:00:00Z", "photo": "photo112.jpg", "digital_signature": "SIG-112"}',
-            '"expired_flagged": true'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1703,15 +1222,7 @@ TASKS = [
                 "digital_signature": "SIG-080N"
             }),
         ],
-        outputs=[
-            '"skus": ["ELEC-RCHAA04", "HOME-BTHTWL01", "GROC-ALMBTR500"]',
-            '"store_inventory": {"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "system_count": 90}',
-            '"physical_count": 90',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-003", "ELEC-RCHAA04")}", "store_id": "STORE-003", "sku": "ELEC-RCHAA04", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-003", "ELEC-RCHAA04")}", "approver_id": "EMP-3002", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-3001", "timestamp": "2025-08-27T09:00:00Z", "photo": "photo080_new.jpg", "digital_signature": "SIG-080N"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1752,15 +1263,7 @@ TASKS = [
                 "digital_signature": "SIG-081N"
             }),
         ],
-        outputs=[
-            '"skus": ["ELEC-RCHAA04", "HOME-BTHTWL01", "GROC-ALMBTR500"]',
-            '"store_inventory": {"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "system_count": 90}',
-            '"physical_count": 90',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-003", "ELEC-RCHAA04")}", "store_id": "STORE-003", "sku": "ELEC-RCHAA04", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-003", "ELEC-RCHAA04")}", "approver_id": "EMP-3002", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-3001", "timestamp": "2025-09-03T09:00:00Z", "photo": "photo081_new.jpg", "digital_signature": "SIG-081N"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1801,15 +1304,7 @@ TASKS = [
                 "digital_signature": "SIG-082N"
             }),
         ],
-        outputs=[
-            '"skus": ["HOME-BTHTWL01", "ELEC-RCHAA04", "GROC-ALMBTR500"]',
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "system_count": 100}',
-            '"physical_count": 100',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-09-04T10:00:00Z", "photo": "photo082_new.jpg", "digital_signature": "SIG-082N"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1827,16 +1322,7 @@ TASKS = [
             Action(name="ComplianceReview", kwargs={"adjustment_id": adj_id("STORE-001", "HOME-BTHTWL01")}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-10-10T10:00:00Z", "photo": "photo110.jpg", "digital_signature": "SIG-110"}),
         ],
-        outputs=[
-            '"skus": ["HOME-BTHTWL01", "ELEC-RCHAA04", "GROC-ALMBTR500"]',
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "system_count": 100}',
-            '"physical_count": 100',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "approver_id": "EMP-1003", "approved": true}}',
-            f'"compliance_reviewed": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "reviewed": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-10-10T10:00:00Z", "photo": "photo110.jpg", "digital_signature": "SIG-110"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1850,12 +1336,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": -60.0, "reason": "expired_stock"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-07-25T11:00:00Z", "photo": "photo084.jpg", "digital_signature": "SIG-084"}),
         ],
-        outputs=[
-            '"employees": ["EMP-1002", "EMP-1003", "EMP-1004"]',
-            '"product_info": {"sku": "HOME-BTHTWL01", "name": "UltraSoft Cotton Bath Towel", "unit_cost": 6.0}',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": -60.0, "reason": "expired_stock"}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "timestamp": "2025-07-25T11:00:00Z", "photo": "photo084.jpg", "digital_signature": "SIG-084"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1891,15 +1372,7 @@ TASKS = [
                 "digital_signature": "SIG-085N"
             }),
         ],
-        outputs=[
-            '"product_info": {"sku": "HOME-BTHTWL01", "name": "UltraSoft Cotton Bath Towel", "unit_cost": 6.0}',
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "system_count": 100}',
-            '"physical_count": 100',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-09-06T10:00:00Z", "photo": "photo085_new.jpg", "digital_signature": "SIG-085N"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1919,18 +1392,7 @@ TASKS = [
             Action(name="GetProductInfo", kwargs={"sku": "GROC-SPRWAT6P"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1001", "timestamp": "2025-07-26T09:00:00Z", "photo": "photo086.jpg", "digital_signature": "SIG-086"}),
         ],
-        outputs=[
-            '"skus": ["ELEC-4KTV55", "HOM-COFMKR12", "GROC-ALMBTR500", "HOME-BTHTWL01", "HOME-DESKLMP01", "BOOK-KDSSTY01", "SPORT-YOGMAT01", "GROC-SPRWAT6P"]',
-            '"product_info_1": {"sku": "ELEC-4KTV55", "name": "UltraVision 55\" 4K Smart TV", "unit_cost": 480.0}',
-            '"product_info_2": {"sku": "HOM-COFMKR12", "name": "BrewMaster 12-Cup Coffee Maker", "unit_cost": 34.5}',
-            '"product_info_3": {"sku": "GROC-ALMBTR500", "name": "Organic Almond Butter 500g", "unit_cost": 7.85}',
-            '"product_info_4": {"sku": "HOME-BTHTWL01", "name": "UltraSoft Cotton Bath Towel", "unit_cost": 6.0}',
-            '"product_info_5": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2}',
-            '"product_info_6": {"sku": "BOOK-KDSSTY01", "name": "Adventures in Sillytown", "unit_cost": 4.2}',
-            '"product_info_7": {"sku": "SPORT-YOGMAT01", "name": "FlexFit Premium Yoga Mat", "unit_cost": 13.8}',
-            '"product_info_8": {"sku": "GROC-SPRWAT6P", "name": "SparkleLife Sparkling Water 1L (6 Pack)", "unit_cost": 3.4}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "timestamp": "2025-07-26T09:00:00Z", "photo": "photo086.jpg", "digital_signature": "SIG-086"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1966,15 +1428,7 @@ TASKS = [
                 "digital_signature": "SIG-089N"
             }),
         ],
-        outputs=[
-            '"skus": ["BOOK-KDSSTY01", "HOME-BTHTWL01", "GROC-ALMBTR500"]',
-            '"store_inventory": {"store_id": "STORE-001", "sku": "BOOK-KDSSTY01", "system_count": 40}',
-            '"physical_count": 40',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "BOOK-KDSSTY01")}", "store_id": "STORE-001", "sku": "BOOK-KDSSTY01", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "BOOK-KDSSTY01")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "BOOK-KDSSTY01", "auditor_id": "EMP-1002", "timestamp": "2025-09-10T10:00:00Z", "photo": "photo089_new.jpg", "digital_signature": "SIG-089N"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1994,18 +1448,7 @@ TASKS = [
             Action(name="GetProductInfo", kwargs={"sku": "GROC-SPRWAT6P"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1001", "timestamp": "2025-07-26T09:00:00Z", "photo": "photo086.jpg", "digital_signature": "SIG-086"}),
         ],
-        outputs=[
-            '"skus": ["ELEC-4KTV55", "HOM-COFMKR12", "GROC-ALMBTR500", "HOME-BTHTWL01", "HOME-DESKLMP01", "BOOK-KDSSTY01", "SPORT-YOGMAT01", "GROC-SPRWAT6P"]',
-            '"product_info_1": {"sku": "ELEC-4KTV55", "name": "UltraVision 55\" 4K Smart TV", "unit_cost": 480.0}',
-            '"product_info_2": {"sku": "HOM-COFMKR12", "name": "BrewMaster 12-Cup Coffee Maker", "unit_cost": 34.5}',
-            '"product_info_3": {"sku": "GROC-ALMBTR500", "name": "Organic Almond Butter 500g", "unit_cost": 7.85}',
-            '"product_info_4": {"sku": "HOME-BTHTWL01", "name": "UltraSoft Cotton Bath Towel", "unit_cost": 6.0}',
-            '"product_info_5": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2}',
-            '"product_info_6": {"sku": "BOOK-KDSSTY01", "name": "Adventures in Sillytown", "unit_cost": 4.2}',
-            '"product_info_7": {"sku": "SPORT-YOGMAT01", "name": "FlexFit Premium Yoga Mat", "unit_cost": 13.8}',
-            '"product_info_8": {"sku": "GROC-SPRWAT6P", "name": "SparkleLife Sparkling Water 1L (6 Pack)", "unit_cost": 3.4}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "timestamp": "2025-07-26T09:00:00Z", "photo": "photo086.jpg", "digital_signature": "SIG-086"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2041,15 +1484,7 @@ TASKS = [
                 "digital_signature": "SIG-083N"
             }),
         ],
-        outputs=[
-            '"skus": ["HOME-BTHTWL01", "ELEC-RCHAA04", "GROC-ALMBTR500"]',
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "system_count": 100}',
-            '"physical_count": 100',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-09-05T10:00:00Z", "photo": "photo083_new.jpg", "digital_signature": "SIG-083N"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2085,15 +1520,7 @@ TASKS = [
                 "digital_signature": "SIG-090N"
             }),
         ],
-        outputs=[
-            '"skus": ["ELEC-4KTV55", "HOME-BTHTWL01", "GROC-ALMBTR500"]',
-            '"store_inventory": {"store_id": "STORE-001", "sku": "ELEC-4KTV55", "system_count": 8}',
-            '"physical_count": 8',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "ELEC-4KTV55")}", "store_id": "STORE-001", "sku": "ELEC-4KTV55", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "ELEC-4KTV55")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "ELEC-4KTV55", "auditor_id": "EMP-1002", "timestamp": "2025-09-11T10:00:00Z", "photo": "photo090_new.jpg", "digital_signature": "SIG-090N"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2106,11 +1533,7 @@ TASKS = [
             Action(name="UpdateTransferCompliance", kwargs={"transfer_id": trf_id("STORE-002", "STORE-001", "HOME-BTHTWL01"), "status": "logged"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-2004", "timestamp": "2025-11-03T12:00:00Z", "photo": "photo202.jpg", "digital_signature": "SIG-202"}),
         ],
-        outputs=[
-            f'"transfer_id": "{trf_id("STORE-002", "STORE-001", "HOME-BTHTWL01")}"',
-            '"compliance_status": "logged"',
-            '"audit_log": {"store_id": "STORE-002", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-2004", "timestamp": "2025-11-03T12:00:00Z", "photo": "photo202.jpg", "digital_signature": "SIG-202"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2126,14 +1549,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1092", "timestamp": "2025-07-28T09:00:00Z", "photo": "photo092.jpg", "digital_signature": "SIG-092"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-28T09:00:00Z", "photo": "photo092.jpg", "digital_signature": "SIG-092"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2159,17 +1575,7 @@ TASKS = [
             Action(name="CreateTransferOrder", kwargs={"from_store": "STORE-001", "to_store": "STORE-003", "sku": "HOME-BTHTWL01", "quantity": 10}),
             Action(name="ComplianceReview", kwargs={"transfer_id": trf_id("STORE-001", "STORE-003", "HOME-BTHTWL01")}),
         ],
-        outputs=[
-            '"skus": ["HOME-BTHTWL01", "ELEC-RCHAA04", "GROC-ALMBTR500"]',
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "system_count": 100}',
-            '"physical_count": 100',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-10-13T10:00:00Z", "photo": "photo091.jpg", "digital_signature": "SIG-091"}',
-            f'"transfer_order": {{"transfer_id": "{trf_id("STORE-001", "STORE-003", "HOME-BTHTWL01")}", "from_store": "STORE-001", "to_store": "STORE-003", "sku": "HOME-BTHTWL01", "quantity": 10}}',
-            '"compliance_reviewed": true'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2185,14 +1591,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1094", "timestamp": "2025-07-29T09:00:00Z", "photo": "photo094.jpg", "digital_signature": "SIG-094"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-29T09:00:00Z", "photo": "photo094.jpg", "digital_signature": "SIG-094"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2208,14 +1607,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1095", "timestamp": "2025-07-29T10:00:00Z", "photo": "photo095.jpg", "digital_signature": "SIG-095"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"product_info": {"sku": "HOME-DESKLMP01", "name": "LumiLux LED Desk Lamp", "unit_cost": 17.2}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-29T10:00:00Z", "photo": "photo095.jpg", "digital_signature": "SIG-095"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2231,13 +1623,7 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1096", "timestamp": "2025-07-29T11:00:00Z", "photo": "photo096.jpg", "digital_signature": "SIG-096"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-DESKLMP01")}", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1096", "timestamp": "2025-07-29T11:00:00Z", "photo": "photo096.jpg", "digital_signature": "SIG-096"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2258,17 +1644,7 @@ TASKS = [
             Action(name="CreateTransferOrder", kwargs={"from_store": "STORE-001", "to_store": "STORE-003", "sku": "HOME-BTHTWL01", "quantity": 10}),
             Action(name="ComplianceReview", kwargs={"transfer_id": trf_id("STORE-001", "STORE-003", "HOME-BTHTWL01")}),
         ],
-        outputs=[
-            '"skus": ["HOME-BTHTWL01", "ELEC-RCHAA04", "GROC-ALMBTR500"]',
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "system_count": 100}',
-            '"physical_count": 100',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "approver_id": "EMP-1003", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002", "timestamp": "2025-10-13T10:00:00Z", "photo": "photo113.jpg", "digital_signature": "SIG-113"}',
-            f'"transfer_order": {{"transfer_id": "{trf_id("STORE-001", "STORE-003", "HOME-BTHTWL01")}", "from_store": "STORE-001", "to_store": "STORE-003", "sku": "HOME-BTHTWL01", "quantity": 10}}',
-            f'"compliance_reviewed": {{"transfer_id": "{trf_id("STORE-001", "STORE-003", "HOME-BTHTWL01")}", "reviewed": true}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2287,13 +1663,7 @@ TASKS = [
             Action(name="UpdateTransferCompliance", kwargs={"transfer_id": trf_id("STORE-002", "STORE-004", "CLTH-SLFJEAN34"), "status": "dual_approved"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "CLTH-SLFJEAN34", "auditor_id": "EMP-1050", "timestamp": "2025-07-03T09:00:00Z", "photo": "photo080.jpg", "digital_signature": "SIG-080"}),
         ],
-        outputs=[
-            f'"transfer_id": "{trf_id("STORE-002", "STORE-004", "CLTH-SLFJEAN34")}"',
-            f'"adjustment_id": "{adj_id("STORE-002", "CLTH-SLFJEAN34")}"',
-            '"dual_approved": true',
-            '"compliance_status": "dual_approved"',
-            '"audit_log": {"store_id": "STORE-002", "sku": "CLTH-SLFJEAN34", "timestamp": "2025-07-03T09:00:00Z", "photo": "photo080.jpg", "digital_signature": "SIG-080"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2309,15 +1679,7 @@ TASKS = [
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-001", "HOME-BTHTWL01"), "approver_id": "EMP-1002"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1061", "timestamp": "2025-07-03T00:00:00Z", "photo": "photo098.jpg", "digital_signature": "SIG-098"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "system_count": 100}',
-            '"product_info": {"sku": "HOME-BTHTWL01", "name": "UltraSoft Cotton Bath Towel", "unit_cost": 6.0}',
-            '"physical_count": 100',
-            '"discrepancy_amount": 0.0',
-            f'"inventory_adjustment": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": 0.0, "reason": "audit_discrepancy"}}',
-            f'"dual_approval": {{"adjustment_id": "{adj_id("STORE-001", "HOME-BTHTWL01")}", "approver_id": "EMP-1002", "approved": true}}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "timestamp": "2025-07-03T00:00:00Z", "photo": "photo098.jpg", "digital_signature": "SIG-098"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2332,12 +1694,6 @@ TASKS = [
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "auditor_id": "EMP-1020", "timestamp": "2025-07-19T09:00:00Z", "photo": "photo063.jpg", "digital_signature": "SIG-063"}),
         ],
-        outputs=[
-            '"store_inventory": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "system_count": 45}',
-            '"physical_count": 40',
-            '"discrepancy_amount": -86.0',
-            '"inventory_adjustment": {"adjustment_id": "ADJ-AAD81F", "store_id": "STORE-001", "sku": "HOME-DESKLMP01", "amount": -86.0, "reason": "audit_discrepancy"}',
-            '"audit_log": {"store_id": "STORE-001", "sku": "HOME-DESKLMP01", "timestamp": "2025-07-19T09:00:00Z", "photo": "photo063.jpg", "digital_signature": "SIG-063"}'
-        ],
+        outputs=[]
     )
 ]

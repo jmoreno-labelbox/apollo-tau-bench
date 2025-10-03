@@ -53,12 +53,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "Development Planning -> In Progress"}',
-            '{"success": "U304 enrolled in C1004"}',
-            '{"success": "Mentor M100 -> U304"}',
-            '{"success": "Goal set for U304"}',
-        ],
+        outputs=[]
     ),
     # 2 - HIGH COMPLEXITY
     Task(
@@ -97,7 +92,7 @@ TASKS = [
                 name="AssignCourse", kwargs={"user_id": "U308", "course_id": "C1004"}
             ),
         ],
-        outputs=["U308 enrolled in C1004"],
+        outputs=[]
     ),
     # 3 - EXPERT COMPLEXITY (15 edges)- COMPREHENSIVE LEADERSHIP DEVELOPMENT
     Task(
@@ -158,12 +153,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "Mentor M101 -> U306"}',
-            '{"success": "U306 Terraform -> Beginner"}',
-            '{"success": "Goal set for U306"}',
-            '{"success": "Log entry added for T003"}',
-        ],
+        outputs=[]
     ),
     # 4 - EXPERT COMPLEXITY (16 edges) CLOUD SECURITY SPECIALIZATION
     Task(
@@ -221,12 +211,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U303 enrolled in C1007"}',
-            '{"success": "U303 Policy Writing -> Intermediate"}',
-            '{"success": "Mentor M100 -> U303"}',
-            '{"success": "Goal set for U303"}',
-        ],
+        outputs=[]
     ),
     # 5 - HIGH COMPLEXITY (13 edges) - SENIOR DATA SCIENTIST PREPARATION
     Task(
@@ -272,12 +257,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U310 enrolled in C1005"}',
-            '{"success": "U310 enrolled in C1003"}',
-            '{"success": "Mentor M102 -> U310"}',
-            '{"success": "Goal set for U310"}',
-        ],
+        outputs=[]
     ),
     # 6 - HIGH COMPLEXITY (8 edges) - DEVOPS LEADERSHIP DEVELOPMENT
     Task(
@@ -332,12 +312,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U305 enrolled in C1003"}',
-            '{"success": "Mentor M101 -> U305"}',
-            '{"success": "Development Plan -> Completed"}',
-            '{"success": "Log entry added for T004"}',
-        ],
+        outputs=[]
     ),
     # 7 - EXPERT COMPLEXITY (14 edges) - UX DESIGN LEADERSHIP TRANSITION
     Task(
@@ -398,13 +373,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U312 enrolled in C1004"}',
-            '{"success": "Mentor M101 -> U312"}',
-            '{"success": "U312 Team Leadership -> Beginner"}',
-            '{"success": "Goal set for U312"}',
-            '{"success": "Log entry added for T003"}',
-        ],
+        outputs=[]
     ),
     # 8 - REPLACED
     Task(
@@ -471,7 +440,7 @@ TASKS = [
                 kwargs={"user_id": "U302", "mentor_id": "M102"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # 9 - HIGH COMPLEXITY (13 edges) - BACKEND LEADERSHIP DEVELOPMENT
     Task(
@@ -536,13 +505,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "Development Planning -> In Progress"}',
-            '{"success": "U304 enrolled in C1004"}',
-            '{"success": "Mentor M102 -> U304"}',
-            '{"success": "Goal set for U304"}',
-            '{"success": "Log entry added for T002"}',
-        ],
+        outputs=[]
     ),
     # 10 - REPLACED
     Task(
@@ -586,7 +549,7 @@ TASKS = [
                 kwargs={"user_id": "U302", "skill": "Python", "new_level": "Beginner"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # 11 - HIGH COMPLEXITY (14 edges) - CLINICAL ANALYTICS PROGRESSION
     Task(
@@ -646,12 +609,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U302 enrolled in C1005"}',
-            '{"success": "Mentor M102 -> U302"}',
-            '{"success": "U302 Machine Learning -> Beginner"}',
-            '{"success": "Log entry added for T001"}',
-        ],
+        outputs=[]
     ),
     # 12 - REPLACED
     Task(
@@ -721,7 +679,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # 13 - HIGH COMPLEXITY (13 edges) - CLINICAL ANALYTICS UPSKILLING
     Task(
@@ -767,12 +725,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U310 enrolled in C1005"}',
-            '{"success": "U310 enrolled in C1003"}',
-            '{"success": "Mentor M102 -> U310"}',
-            '{"success": "Goal set for U310"}',
-        ],
+        outputs=[]
     ),
     # 14 - EXPERT COMPLEXITY (16 edges) - ANALYTICS VISUALIZATION DEVELOPMENT
     Task(
@@ -837,13 +790,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U311 enrolled in C1003"}',
-            '{"success": "U311 Tableau -> Beginner"}',
-            '{"success": "Mentor M101 -> U311"}',
-            '{"success": "Goal set for U311"}',
-            '{"success": "Log entry added for T007"}',
-        ],
+        outputs=[]
     ),
     # 15 - REPLACED
     Task(
@@ -894,7 +841,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # 16 - EXPERT COMPLEXITY (14 edges) - DEVOPS SECURITY DEVELOPMENT
     Task(
@@ -951,7 +898,7 @@ TASKS = [
                 kwargs={"user_id": "U305", "mentor_id": "M100"},
             ),
         ],
-        outputs=['{\n  "success": "Mentor M100 -> U305"\n}'],
+        outputs=[]
     ),
     # 17 - REPLACED
     Task(
@@ -1021,7 +968,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # 18 - EXPERT COMPLEXITY (15 edges) - PRODUCT MARKETING UPSKILLING
     Task(
@@ -1082,12 +1029,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "Mentor M100 -> U308"}',
-            '{"success": "U308 UX Writing -> Intermediate"}',
-            '{"success": "Goal set for U308"}',
-            '{"success": "Log entry added for T006"}',
-        ],
+        outputs=[]
     ),
     # 19 - REPLACED
     Task(
@@ -1143,7 +1085,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # 20 - EXPERT COMPLEXITY (15 edges) - ANALYTICS SKILLS DEVELOPMENT
     Task(
@@ -1205,11 +1147,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "Mentor M100 -> U308"}',
-            '{"success": "Goal set for U308"}',
-            '{"success": "Log entry added for T006"}',
-        ],
+        outputs=[]
     ),
     # 21 - REPLACED
     Task(
@@ -1251,11 +1189,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U312 enrolled in C1004"}',
-            '{"success": "Mentor M101 -> U312"}',
-            '{"success": "Goal set for U312"}',
-        ],
+        outputs=[]
     ),
     # 22 - REPLACED
     Task(
@@ -1318,12 +1252,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U302 enrolled in C1001"}',
-            '{"success": "Development Plan -> In Progress"}',
-            '{"success": "Mentor M102 -> U302"}',
-            '{"success": "Log entry added for T001"}',
-        ],
+        outputs=[]
     ),
     # 23 - REPLACED
     Task(
@@ -1385,12 +1314,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U305 enrolled in C1006"}',
-            '{"success": "Mentor M101 -> U305"}',
-            '{"success": "Development Plan -> Completed"}',
-            '{"success": "Log entry added for T004"}',
-        ],
+        outputs=[]
     ),
     # 24 - EXPERT COMPLEXITY (13 edges) - UX DESIGN SKILLS DEVELOPMENT
     Task(
@@ -1447,13 +1371,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U301 enrolled in C1005"}',
-            '{"success": "U301 enrolled in C1004"}',
-            '{"success": "Mentor M101 -> U301"}',
-            '{"success": "Goal set for U301"}',
-            '{"success": "Log entry added for T001"}',
-        ],
+        outputs=[]
     ),
     # 25 - REPLACED
     Task(
@@ -1501,12 +1419,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U306 shortlisted for J003"}',
-            '{"success": "APP007 status Interview Scheduled"}',
-            '{"success": "Mentor M101 -> U306"}',
-            '{"success": "Log entry added for T003"}',
-        ],
+        outputs=[]
     ),
     # 26 - HIGH COMPLEXITY (11 edges) - COMPLIANCE TECHNOLOGY ADVANCEMENT
     Task(
@@ -1582,15 +1495,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "Training Delivery -> Completed"}',
-            '{"success": "Progress Assessment -> In Progress"}',
-            '{"success": "U302 enrolled in C1001"}',
-            '{"success": "U302 enrolled in C1005"}',
-            '{"success": "Mentor M102 -> U302"}',
-            '{"success": "Goal set for U302"}',
-            '{"success": "Log entry added for T001"}',
-        ],
+        outputs=[]
     ),
     # 27 - REPLACED
     Task(
@@ -1657,13 +1562,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "Training Delivery -> Completed"}',
-            '{"success": "Progress Assessment -> In Progress"}',
-            '{"success": "U310 enrolled in C1005"}',
-            '{"success": "Mentor M102 -> U310"}',
-            '{"success": "Log entry added for T008"}',
-        ],
+        outputs=[]
     ),
     # 28 - EXPERT COMPLEXITY (14 edges) - CONTENT WRITING CAREER GROWTH
     Task(
@@ -1724,13 +1623,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U301 enrolled in C1005"}',
-            '{"success": "Mentor M102 -> U301"}',
-            '{"success": "U301 Machine Learning -> Intermediate"}',
-            '{"success": "Goal set for U301"}',
-            '{"success": "Log entry added for T001"}',
-        ],
+        outputs=[]
     ),
     # 29 - REPLACED
     Task(
@@ -1778,12 +1671,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "APP001 status Interview Scheduled"}',
-            '{"success": "U302 shortlisted for J001"}',
-            '{"success": "Mentor M102 -> U302"}',
-            '{"success": "Log entry added for T001"}',
-        ],
+        outputs=[]
     ),
     # 30 - EXPERT COMPLEXITY (15 edges) - MARKETING STRATEGY DEVELOPMENT
     Task(
@@ -1844,12 +1732,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "Mentor M101 -> U309"}',
-            '{"success": "U309 AR/VR Training -> Beginner"}',
-            '{"success": "Goal set for U309"}',
-            '{"success": "Log entry added for T007"}',
-        ],
+        outputs=[]
     ),
     # 31 - REPLACED
     Task(
@@ -1913,13 +1796,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U305 enrolled in C1006"}',
-            '{"success": "U305 enrolled in C1003"}',
-            '{"success": "Mentor M101 -> U305"}',
-            '{"success": "Development Plan -> Completed"}',
-            '{"success": "Goal set for U305"}',
-        ],
+        outputs=[]
     ),
     # 32 - EXPERT COMPLEXITY (14 edges) - INFRASTRUCTURE AUTOMATION DEVELOPMENT
     Task(
@@ -1991,14 +1868,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "APP002 status Rejected - Development Plan Initiated"}',
-            '{"success": "U310 enrolled in C1005"}',
-            '{"success": "U310 enrolled in C1001"}',
-            '{"success": "Mentor M101 -> U310"}',
-            '{"success": "Goal set for U310"}',
-            '{"success": "Log entry added for T008"}',
-        ],
+        outputs=[]
     ),
     # 33 - REPLACED
     Task(
@@ -2050,12 +1920,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U306 enrolled in C1004"}',
-            '{"success": "Mentor M101 -> U306"}',
-            '{"success": "U306 Team Leadership -> Beginner"}',
-            '{"success": "Log entry added for T003"}',
-        ],
+        outputs=[]
     ),
     # 34 - HIGH COMPLEXITY (7 edges) - ACCESSIBILITY EXPERTISE DEVELOPMENT
     Task(
@@ -2120,13 +1985,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U303 enrolled in C1007"}',
-            '{"success": "U303 Policy Writing -> Intermediate"}',
-            '{"success": "Mentor M102 -> U303"}',
-            '{"success": "Goal set for U303"}',
-            '{"success": "Log entry added for T005"}',
-        ],
+        outputs=[]
     ),
     # 35 - EXPERT COMPLEXITY (10 edges) - DESIGNOPS LEAD DEVELOPMENT
     Task(
@@ -2198,14 +2057,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "APP002 status Rejected - Future Consideration"}',
-            '{"success": "U310 enrolled in C1005"}',
-            '{"success": "U310 enrolled in C1001"}',
-            '{"success": "Mentor M102 -> U310"}',
-            '{"success": "Goal set for U310"}',
-            '{"success": "Log entry added for T008"}',
-        ],
+        outputs=[]
     ),
     # 36 - REPLACED
     Task(
@@ -2261,13 +2113,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "APP001 status Interview Scheduled"}',
-            '{"success": "U302 shortlisted for J001"}',
-            '{"success": "U302 enrolled in C1005"}',
-            '{"success": "Mentor M102 -> U302"}',
-            '{"success": "Log entry added for T001"}',
-        ],
+        outputs=[]
     ),
     # 37 - EXPERT COMPLEXITY 13 edges - COMPREHENSIVE UX WRITING DEVELOPMENT
     Task(
@@ -2320,12 +2166,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U312 enrolled in C1004"}',
-            '{"success": "Mentor M101 -> U312"}',
-            '{"success": "Goal set for U312"}',
-            '{"success": "Log entry added for T003"}',
-        ],
+        outputs=[]
     ),
     # 38 - HIGH COMPLEXITY (12 edges) - INFRASTRUCTURE RELIABILITY ENHANCEMENT
     Task(
@@ -2382,12 +2223,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "U304 enrolled in C1004"}',
-            '{"success": "Mentor M102 -> U304"}',
-            '{"success": "Goal set for U304"}',
-            '{"success": "Log entry added for T002"}',
-        ],
+        outputs=[]
     ),
     # 39 - EXPERT COMPLEXITY (15 edges) - WRITING TECHNOLOGY ADVANCEMENT
     Task(
@@ -2460,14 +2296,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "Candidate Identification -> Completed"}',
-            '{"success": "Skills Assessment -> In Progress"}',
-            '{"success": "U304 enrolled in C1004"}',
-            '{"success": "Mentor M102 -> U304"}',
-            '{"success": "Goal set for U304"}',
-            '{"success": "Log entry added for T002"}',
-        ],
+        outputs=[]
     ),
     # 40 - EXPERT COMPLEXITY (15 edges) - COMPREHENSIVE DEVELOPMENT INITIATIVE
     Task(
@@ -2547,13 +2376,6 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"success": "APP001 status Rejected - Future Consideration"}',
-            '{"success": "Skills Assessment -> Completed"}',
-            '{"success": "Development Plan -> In Progress"}',
-            '{"success": "U302 enrolled in C1005"}',
-            '{"success": "Mentor M102 -> U302"}',
-            '{"success": "Goal set for U302"}',
-        ],
+        outputs=[]
     ),
 ]

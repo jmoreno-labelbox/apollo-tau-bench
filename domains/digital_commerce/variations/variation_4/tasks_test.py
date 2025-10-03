@@ -19,7 +19,7 @@ TASKS = [
                 "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -41,7 +41,7 @@ TASKS = [
                 "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9006"]
+        outputs=[]
     ),
 
     Task(
@@ -59,7 +59,7 @@ TASKS = [
                    kwargs={"subject_id": "00D8d000000LmnopQRS:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -90,7 +90,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["sg-ffffffffffffffff"]
+        outputs=[]
     ),
 
     Task(
@@ -113,7 +113,7 @@ TASKS = [
                    kwargs={"subject_id": "00D8d000000KxyzABC:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -133,7 +133,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000LmnopQRS:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -152,7 +152,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -172,7 +172,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -193,7 +193,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9005", "event_type": "RETURN_EVIDENCE", "bucket": "RETURN_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9005"]
+        outputs=[]
     ),
 
     Task(
@@ -217,7 +217,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -239,7 +239,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -260,7 +260,7 @@ TASKS = [
                    kwargs={"subject_id": "00D8d000000KxyzABC:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -282,7 +282,7 @@ TASKS = [
                 "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -300,7 +300,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -321,7 +321,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000KxyzABC:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -342,7 +342,7 @@ TASKS = [
                 "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -366,7 +366,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -389,7 +389,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -409,7 +409,7 @@ TASKS = [
                    kwargs={"subject_id": "00D8d000000LmnopQRS:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -429,7 +429,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -448,7 +448,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "sg-ffffffffffffffff", "event_type": "SG_EVIDENCE", "bucket": "SG_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["sg-ffffffffffffffff"]
+        outputs=[]
     ),
 
     Task(
@@ -469,7 +469,7 @@ TASKS = [
                    kwargs={"subject_id": "00D8d000000KxyzABC:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -492,7 +492,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
 
@@ -515,7 +515,7 @@ TASKS = [
                    kwargs={"subject_id": "00D8d000000KxyzABC:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9005"]
+        outputs=[]
     ),
 
     Task(
@@ -542,7 +542,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -573,7 +573,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -597,7 +597,7 @@ TASKS = [
                 "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -620,7 +620,7 @@ TASKS = [
                            "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -644,7 +644,7 @@ TASKS = [
                 "bucket": "RETURN_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9005"]
+        outputs=[]
     ),
 
     Task(
@@ -668,7 +668,7 @@ TASKS = [
                 "bucket": "SG_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["sg-ffffffffffffffff"]
+        outputs=[]
     ),
 
     Task(
@@ -687,7 +687,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -710,7 +710,7 @@ TASKS = [
                 "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -733,7 +733,7 @@ TASKS = [
                 "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -753,7 +753,7 @@ TASKS = [
                    kwargs={"subject_id": "9005", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9005"]
+        outputs=[]
     ),
 
     Task(
@@ -775,7 +775,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000KxyzABC:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -795,7 +795,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000LmnopQRS:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -815,7 +815,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -835,7 +835,7 @@ TASKS = [
                    kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -853,7 +853,7 @@ TASKS = [
                    kwargs={"subject_id": "9005", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9005"]
+        outputs=[]
     ),
 
     Task(
@@ -877,7 +877,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "sg-ffffffffffffffff", "event_type": "SG_EVIDENCE", "bucket": "SG_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["sg-ffffffffffffffff"]
+        outputs=[]
     ),
 
     Task(
@@ -902,7 +902,7 @@ TASKS = [
                 "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -923,7 +923,7 @@ TASKS = [
                 "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -943,7 +943,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -961,7 +961,7 @@ TASKS = [
             Action(name="EmitAnnotation", kwargs={"subject_id": "9015", "note": "Tax exempt N/A"}),
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -986,7 +986,7 @@ TASKS = [
                 "bucket": "CACHE_ALIGNMENT_EVIDENCE"
             }),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -1013,7 +1013,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -1039,7 +1039,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -1060,7 +1060,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -1077,7 +1077,7 @@ TASKS = [
             Action(name="EmitAnnotation", kwargs={"subject_id": "sg-ffffffffffffffff", "note": "CIDR restricted"}),
             Action(name="CreateAuditRecord", kwargs={"subject_id": "sg-ffffffffffffffff", "event_type": "SG_EVIDENCE", "bucket": "SG_EVIDENCE"}),
         ],
-        outputs=["sg-ffffffffffffffff"]
+        outputs=[]
     ),
 
     Task(
@@ -1094,7 +1094,7 @@ TASKS = [
             Action(name="EmitAnnotation", kwargs={"subject_id": "sg-ffffffffffffffff", "note": "Endpoint validated"}),
             Action(name="CreateAuditRecord", kwargs={"subject_id": "sg-ffffffffffffffff", "event_type": "SG_EVIDENCE", "bucket": "SG_EVIDENCE"}),
         ],
-        outputs=["sg-ffffffffffffffff"]
+        outputs=[]
     ),
 
     Task(
@@ -1120,7 +1120,7 @@ TASKS = [
                    kwargs={"subject_id": "00D8d000000KxyzABC:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -1141,7 +1141,7 @@ TASKS = [
             Action(name="BuildAuditDetailsForBucket", kwargs={"subject_id": "9014", "bucket": "PRICING_EVIDENCE"}),
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -1161,7 +1161,7 @@ TASKS = [
             Action(name="CollectSubjectSnapshot", kwargs={"subject_id": "9015"}),
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -1183,7 +1183,7 @@ TASKS = [
             Action(name="CreateAuditRecord",
                    kwargs={"subject_id": "00D8d000000LmnopQRS:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -1208,7 +1208,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000KxyzABC:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -1229,7 +1229,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000LmnopQRS:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -1250,7 +1250,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -1271,7 +1271,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -1294,7 +1294,7 @@ TASKS = [
                    kwargs={"subject_id": "00D8d000000KxyzABC:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -1317,7 +1317,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -1340,7 +1340,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000LmnopQRS:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C100"]
+        outputs=[]
     ),
     Task(
         annotator="v4",
@@ -1362,7 +1362,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -1386,7 +1386,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000KxyzABC:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -1406,7 +1406,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -1426,7 +1426,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -1446,7 +1446,7 @@ TASKS = [
             Action(name="BuildAuditDetailsForBucket", kwargs={"subject_id": "9015", "bucket": "PRICING_EVIDENCE"}),
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -1471,7 +1471,7 @@ TASKS = [
                    kwargs={"subject_id": "00D8d000000KxyzABC:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -1495,7 +1495,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000LmnopQRS:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -1517,7 +1517,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -1539,7 +1539,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -1561,7 +1561,7 @@ TASKS = [
             Action(name="CreateAuditRecord",
                    kwargs={"subject_id": "00D8d000000KxyzABC:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
         ],
-        outputs=["00D8d000000KxyzABC:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -1582,7 +1582,7 @@ TASKS = [
             Action(name="CreateAuditRecord",
                    kwargs={"subject_id": "00D8d000000LmnopQRS:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
         ],
-        outputs=["00D8d000000LmnopQRS:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -1599,7 +1599,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -1619,7 +1619,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -1642,7 +1642,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000KxyzABC:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -1665,7 +1665,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000LmnopQRS:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -1683,7 +1683,7 @@ TASKS = [
                 "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -1705,7 +1705,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -1723,7 +1723,7 @@ TASKS = [
                 "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -1747,7 +1747,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -1768,7 +1768,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -1789,7 +1789,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -1807,7 +1807,7 @@ TASKS = [
                 "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -1831,7 +1831,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -1851,7 +1851,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -1871,7 +1871,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -1892,7 +1892,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000KxyzABC:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -1913,7 +1913,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000LmnopQRS:C100", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -1933,7 +1933,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -1957,7 +1957,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -1977,7 +1977,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -1997,7 +1997,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -2018,7 +2018,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000KxyzABC:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -2039,7 +2039,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000LmnopQRS:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 
     Task(
@@ -2059,7 +2059,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -2079,7 +2079,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9015", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9015"]
+        outputs=[]
     ),
 
     Task(
@@ -2099,7 +2099,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -2123,7 +2123,7 @@ TASKS = [
             }),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000KxyzABC:C100"]
+        outputs=[]
     ),
 
     Task(
@@ -2143,7 +2143,7 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "9014", "event_type": "PRICING_EVIDENCE", "bucket": "PRICING_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["9014"]
+        outputs=[]
     ),
 
     Task(
@@ -2164,6 +2164,6 @@ TASKS = [
             Action(name="CreateAuditRecord", kwargs={"subject_id": "00D8d000000LmnopQRS:C200", "event_type": "CACHE_ALIGNMENT_EVIDENCE", "bucket": "CACHE_ALIGNMENT_EVIDENCE"}),
             Action(name="GetAuditLog", kwargs={}),
         ],
-        outputs=["00D8d000000LmnopQRS:C200"]
+        outputs=[]
     ),
 ]

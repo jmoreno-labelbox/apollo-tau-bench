@@ -51,7 +51,7 @@ TASKS = [
             # Update Emma Wilson's loyalty points and membership status
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5001", "loyalty_points": 2740, "membership_level": "platinum", "current_time": "2025-07-20T16:35:00Z"}),
         ],
-        outputs=[{"email": "emma.wilson@example.com"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -66,7 +66,7 @@ TASKS = [
             # reduce inventory for WaveSound All-Weather Bluetooth Speaker
             Action(name="UpdateInventoryItem", kwargs={"sku": "AUDIO-BTSPKR02", "store_id": "STORE-005", "quantity_change": -1, "current_time": "2025-07-20T16:41:00Z"}),
         ],
-        outputs=[{"email":"jack.thomas@retailpos.com"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -139,7 +139,7 @@ TASKS = [
             # Create the promotion 'End of stock Discount'
             Action(name="EditPromotionsDb", kwargs={"name": "End of stock Discount", "type": "percentage", "discount_value": 15, "applicable_skus": ["KITCH-CHEFKNF8"], "start_date": "2025-07-20", "end_date": "2026-07-20"}),
         ],
-        outputs=["liam.nguyen@example.com"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -153,7 +153,7 @@ TASKS = [
             # Get the email addresses of these customers
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5005"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email":"emma.garcia@example.com"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -179,7 +179,7 @@ TASKS = [
             # Get Charlotte Dubois's email address
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"name": "Charlotte Dubois"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email":"charlotte.dubois@example.com"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -194,7 +194,7 @@ TASKS = [
             # Get Ava's email address
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Ava Thompson"}, "info_items": ["email"]})
         ],
-        outputs=[{"email":"ava.thompson@retailpos.com"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -213,7 +213,7 @@ TASKS = [
             # Get the email addresses of these customers
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5002"}, "info_items": ["name", "email"]})
         ],
-        outputs=[{"name": "Liam Nguyen", "email": "liam.nguyen@example.com"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -277,9 +277,7 @@ TASKS = [
             # Get email addresses of customers who purchased during the last month
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5011", "CUST-5012"]}, "info_items": ["email"]}),
         ],
-        outputs=[
-            {"emails": ["mia.kim@example.com", "logan.smith@example.com"]}
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -293,7 +291,7 @@ TASKS = [
             # Get the email addresses of all employees in STORE-004
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"store_id": "STORE-004"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email":"amelia.lee@retailpos.com"}, {"email":"jack.robinson@retailpos.com"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -309,7 +307,7 @@ TASKS = [
             # Get email addresses of customers who purchased in STORE-002 during the last month
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5011", "CUST-5002", "CUST-5006"]}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "mia.kim@example.com"}, {"email": "william.zhang@example.com"}, {"email": "liam.nguyen@example.com"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -331,7 +329,7 @@ TASKS = [
             # Change role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1020", "role": "Inventory Specialist"}),
         ],
-        outputs=[{"name": "Zoe Martinez", "email": "zoe.martinez@retailpos.com", "phone_number": "+1-555-210-1015"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -345,7 +343,7 @@ TASKS = [
             # Get the customer email address associated with the transaction
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5012"}, "info_items": ["email"]}),
         ],
-        outputs=[{"logan.smith@example.com"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -379,7 +377,7 @@ TASKS = [
             # Create a list of customer IDs who have purchased books
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5008"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "james.oconnor@example.com"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -393,7 +391,7 @@ TASKS = [
             # Create the 'VIP Customer Sale' promotion
             Action(name="EditPromotionsDb", kwargs={"name": "VIP Customer Sale", "type": "percentage", "discount_value": 10, "applicable_skus": [], "start_date": "2025-07-20", "end_date": "2025-08-20"}),
         ],
-        outputs=[{"email": "emma.garcia@example.com"}, {"email": "ava.thompson@example.com"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -410,7 +408,7 @@ TASKS = [
             Action(name="EditEmployeesDb", kwargs={"name": "Marty Skipper", "role": "Inventory Specialist", "store_id": "STORE-001"}),
 
         ],
-        outputs=[{"sku": "ELEC-4KTV55","quantity": 8,}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -441,7 +439,7 @@ TASKS = [
             # Get the email address of the Department Manager
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"store_id": "STORE-003", "role": "Floor Supervisor"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "henry.adams@retailpos.com"}]
+        outputs=[]
     ),
     # task that looks at the current promotions
     Task(
@@ -480,7 +478,7 @@ TASKS = [
             # Get the customer email address associated with the transaction
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5010"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "ben.cohen@example.com"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -499,7 +497,7 @@ TASKS = [
             # Get John's email address
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "John Doe"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "megan.young@retailpos.com"},{"email": "john.doe@retailpos.com"}]
+        outputs=[]
     ),
     # Task 27: Inventory Management and Customer Notification
     Task(
@@ -514,7 +512,7 @@ TASKS = [
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"sku": ["ELEC-GAMLP15","SMRT-THERM02","CLTH-WINJKT01"]}, "info_items": ["customer_id"]}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5005","CUST-5011"]}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "ava.martinez@example.com"},{"email": "mia.kim@example.com"}]
+        outputs=[]
     ),
     # Task 28: Product Analysis and Promotion Creation
     Task(
@@ -530,7 +528,7 @@ TASKS = [
             # Change role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1008", "role": "Head of Promotions"}),
         ],
-        outputs=[{"name": "Liam Anderson","email": "liam.anderson@example.com","phone_number": "+1-555-0987-654"}]
+        outputs=[]
     ),
     # Task 29: Employee Performance Tracking
     Task(
@@ -544,7 +542,7 @@ TASKS = [
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"employee_id": "EMP-1032"}, "info_items": ["name", "email"]}),
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1032", "role": "Senior Sales Associate"}),
         ],
-        outputs=[{"name": "Amelia Lee", "email": "amelia.lee@retailpos.com"}]
+        outputs=[]
     ),
     # Task 30: Customer Birthday Campaign
     Task(
@@ -561,7 +559,7 @@ TASKS = [
             # Change role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1002", "role": "Customer Relations Manager"}),
         ],
-        outputs=[{"name": "Sophia Singh", "email": "sophia.singh@example.com"}]
+        outputs=[]
     ),
     # Task 31: Inventory Audit and Low Stock Alert
     Task(
@@ -575,7 +573,7 @@ TASKS = [
             Action(name="EditPromotionsDb", kwargs={"name": "Low Stock Clearance", "type": "percentage", "discount_value": 20, "applicable_skus": ["KITCH-FRYPAN10"], "start_date": "2025-07-20", "end_date": "2025-07-27"}),
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"store_id": "STORE-003", "role": "Inventory Specialist"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "zoe.martinez@retailpos.com"}]
+        outputs=[]
     ),
     # Task 32: Product Return and Quality Control
     Task(
@@ -592,7 +590,7 @@ TASKS = [
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"category": "Sports & Outdoors"}, "info_items": ["sku"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "Helmet Safety Check", "type": "percentage", "discount_value": 15, "applicable_skus": ["SPORT-BIKHLM01", "SPORT-YOGMAT01"], "start_date": "2025-07-20", "end_date": "2025-08-03"}),
         ],
-        outputs=[{"email": "noah.johnson@example.com"}]
+        outputs=[]
     ),
     # Task 33: Loyalty Program Enhancement
     Task(
@@ -608,7 +606,7 @@ TASKS = [
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"category": "Electronics"}, "info_items": ["sku"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "Platinum Elite Benefits", "type": "percentage", "discount_value": 35, "applicable_skus": ["ELEC-4KTV55", "ELEC-GAMLP15", "AUDIO-BTSPKR02", "AUDIO-NCEBUDS01", "ELEC-RCHAA04"], "start_date": "2025-07-20", "end_date": "2025-08-20"}),
         ],
-        outputs=[{"email": "noah.johnson@example.com"}, {"email": "ava.thompson@example.com"}]
+        outputs=[]
     ),
     # Task 34: Supplier Quality Assessment
     Task(
@@ -642,7 +640,7 @@ TASKS = [
             # Change role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1034", "role": "Customer Engagement Specialist"}),
         ],
-        outputs=[{"email": "ben.cohen@example.com"}]
+        outputs=[]
     ),
     # Task 36: Seasonal Inventory Preparation
     Task(
@@ -667,7 +665,7 @@ TASKS = [
             Action(name="EditPromotionsDb", kwargs={"name": "Staff Training Special", "type": "percentage", "discount_value": 50, "applicable_skus": [], "start_date": "2025-07-20"}),
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"store_id": "STORE-001"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "grace.miller@retailpos.com"}, {"email": "daniel.perez@retailpos.com"}, {"email": "natalie.cooper@retailpos.com"}, {"email": "sarah.williams@retailpos.com"}]
+        outputs=[]
     ),
     # Task 38: Product Bundle Creation
     Task(
@@ -683,7 +681,7 @@ TASKS = [
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5002"}, "info_items": ["email"]}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5011"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "noah.tran@example.com"}, {"email": "mia.kim@example.com"}]
+        outputs=[]
     ),
     # Task 39: Quality Control and Customer Satisfaction
     Task(
@@ -701,7 +699,7 @@ TASKS = [
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"category": "Home & Kitchen"}, "info_items": ["sku"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "Quality Guarantee", "type": "Quality Assurance", "discount_value": 0, "applicable_skus": ["HOM-COFMKR12", "KITCH-CHEFKNF8", "KITCH-FRYPAN10", "HOME-BTHTWL01", "HOME-DESKLMP01"], "start_date": "2025-07-20", "end_date": "2025-10-20"}),
         ],
-        outputs=[{"email": "charlotte.dubois@example.com"}]
+        outputs=[]
     ),
     # Task 40: Store Performance Analysis
     Task(
@@ -713,7 +711,7 @@ TASKS = [
             Action(name="EditPromotionsDb", kwargs={"name": "Store Boost Mega Sale", "type": "percentage", "discount_value": 45, "applicable_skus": [], "start_date": "2025-07-20", "end_date": "2025-07-27"}),
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"store_id": "STORE-003"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "henry.adams@retailpos.com"}, {"email": "zoe.martinez@retailpos.com"}]
+        outputs=[]
     ),
     # Task 41: Customer Retention Program
     Task(
@@ -729,7 +727,7 @@ TASKS = [
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5004", "status": "valued_customer", "current_time": "2025-07-20T17:24:00Z"}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5010", "status": "valued_customer", "current_time": "2025-07-20T17:24:00Z"}),
         ],
-        outputs=[{"email": "emma.wilson@example.com"}, {"email": "liam.anderson@example.com"}, {"email": "ben.cohen@example.com"}]
+        outputs=[]
     ),
     # Task 42: Emergency Stock Transfer
     Task(
@@ -766,7 +764,7 @@ TASKS = [
             # upgrade membership and add loyalty points
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5004", "membership_level": "platinum", "loyalty_points": 1720, "current_time": "2025-07-20T17:26:00Z"}),
         ],
-        outputs=[{"email": "liam.anderson@example.com"}]
+        outputs=[]
     ),
     # Task 44: Technology Upgrade Campaign
     Task(
@@ -780,7 +778,7 @@ TASKS = [
             Action(name="EditPromotionsDb", kwargs={"name": "Laptop Distribution Special", "type": "percentage", "discount_value": 15, "applicable_skus": ["ELEC-GAMLP15"], "start_date": "2025-07-20", "end_date": "2025-07-30"}),
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"role": "Store Manager"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "megan.young@retailpos.com"}]
+        outputs=[]
     ),
     # Task 45: Sustainability Initiative
     Task(
@@ -796,7 +794,7 @@ TASKS = [
             Action(name="GetCustomerPurchaseCountsBySku", kwargs={"sku": "SKU-1021"}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5011"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "mia.kim@example.com"}]
+        outputs=[]
     ),
     # Task 46: Holiday Preparation Campaign
     Task(
@@ -810,7 +808,7 @@ TASKS = [
             Action(name="UpdateInventoryItem", kwargs={"sku": "ELEC-4KTV55", "store_id": "STORE-001", "quantity_change": 10, "current_time": "2025-07-20T17:29:00Z"}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"membership_level": ["gold","platinum"]}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "emma.wilson@example.com"},{"email": "ben.cohen@example.com"}, {"email": "liam.anderson@example.com"}]
+        outputs=[]
     ),
     # Task 47: Supplier Relationship Management
     Task(
@@ -826,7 +824,7 @@ TASKS = [
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5002"}, "info_items": ["email"]}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5011"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "noah.tran@example.com"}, {"email": "mia.kim@example.com"}]
+        outputs=[]
     ),
     # Task 48: Store Transfer and Optimization
     Task(
@@ -853,7 +851,7 @@ TASKS = [
             Action(name="EditCustomersDb", kwargs={"name": "David Wilson", "email": "david.wilson@retailpos.com", "current_time": "2025-07-20T17:32:00Z"}),
             Action(name="EditPromotionsDb", kwargs={"name": "Employee Welcome Discount", "type": "percentage", "discount_value": 40, "applicable_skus": [], "start_date": "2025-07-20", "end_date": "2025-08-19"}),
         ],
-        outputs=[{"email": "david.wilson@retailpos.com"}]
+        outputs=[]
     ),
     # Task 50: Customer Loyalty Tier Adjustment
     Task(
@@ -865,7 +863,7 @@ TASKS = [
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5002", "membership_level": "gold", "loyalty_points": 1075, "current_time": "2025-07-20T17:33:00Z"}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5006", "loyalty_points": 1180, "membership_level": "gold", "current_time": "2025-07-20T17:33:00Z"}),
         ],
-        outputs=[{"email":"noah.tran@example.com"}, {"email": "william.zhang@example.com"}]
+        outputs=[]
     ),
     # Task 51: Expired Product Management
     Task(
@@ -896,7 +894,7 @@ TASKS = [
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5005"}, "info_items": ["email", "loyalty_points"]}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5005", "loyalty_points": 495, "current_time": "2025-07-20T17:35:00Z"}),
         ],
-        outputs=[{"email": "ava.martinez@example.com"}]
+        outputs=[]
     ),
     # Task 53: Seasonal Clothing Clearance
     Task(
@@ -910,7 +908,7 @@ TASKS = [
             Action(name="EditProductsDb", kwargs={"sku": "CLTH-SLFJEAN34", "discount_rate": 0.55, "current_time": "2025-07-20T17:36:00Z"}),
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"sku": ["CLTH-SLFJEAN34","CLTH-WINJKT01"]}, "info_items": ["customer_id"]})
         ],
-        outputs=[{"email": "noah.tran@example.com"}]
+        outputs=[]
     ),
     # Task 54: Smart Home Technology Push
     Task(
@@ -924,7 +922,7 @@ TASKS = [
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"sku": ["ELEC-4KTV55","AUDIO-BTSPKR02","ELEC-GAMLP15","AUDIO-NCEBUDS01","ELEC-RCHAA04"]}, "info_items": ["customer_id"]}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5001","CUST-5005", "CUST-5010"]}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "emma.wilson@example.com"}, {"email": "ava.martinez@example.com"}, {"email": "ben.cohen@example.com"}]
+        outputs=[]
     ),
     # Task 55: Book Club Customer Engagement
     Task(
@@ -938,7 +936,7 @@ TASKS = [
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"sku": "BOOK-KDSSTY01"}, "info_items": ["customer_id"]}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5008"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "bookclub@retailpos.com"}, {"email": "james.oconnor@example.com"}]
+        outputs=[]
     ),
     # Task 56: Damaged Goods Management
     Task(
@@ -956,7 +954,7 @@ TASKS = [
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"category": "Electronics"}, "info_items": ["sku"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "Sound Quality Guarantee", "type": "percentage", "discount_value": 15, "applicable_skus": ["ELEC-4KTV55", "AUDIO-BTSPKR02", "ELEC-GAMLP15", "AUDIO-NCEBUDS01", "ELEC-RCHAA04"], "start_date": "2025-07-20"}),
         ],
-        outputs=[{"email": "ben.cohen@example.com"}]
+        outputs=[]
     ),
     # Task 57: Store Manager Performance Review
     Task(
@@ -970,7 +968,7 @@ TASKS = [
             Action(name="EditPromotionsDb", kwargs={"name": "Team Excellence Discount", "type": "percentage", "discount_value": 35, "applicable_skus": [], "start_date": "2025-07-20", "end_date": "2025-07-27"}),
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"store_id": "STORE-002"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "ethan.walker@retailpos.com"}, {"email": "robert.zhang@retailpos.com"}, {"email": "amanda.romano@retailpos.com"}]
+        outputs=[]
     ),
     # Task 58: Inventory Audit and Restock
     Task(
@@ -1001,7 +999,7 @@ TASKS = [
             Action(name="CreatePurchaseTransaction", kwargs={"customer_id": "CUST-5009", "employee_id": "EMP-1002", "items": {"AUDIO-NCEBUDS01": 1}, "store_id": "STORE-002", "payment_method": "credit_card", "current_time": "2025-07-20T17:42:00Z"}),
             Action(name="UpdateInventoryItem", kwargs={"sku": "AUDIO-NCEBUDS01", "store_id": "STORE-002", "quantity_change": -1, "current_time": "2025-07-20T17:42:00Z"}),
         ],
-        outputs=[{"email": "charlotte.dubois@example.com"}]
+        outputs=[]
     ),
     # Task 60: Flash Sale Weekend Event
     Task(
@@ -1018,7 +1016,7 @@ TASKS = [
             # Change role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1008", "role": "Weekend Sales Manager"}),
         ],
-        outputs=[{"email": "william.zhang@example.com"}]
+        outputs=[]
     ),
     # Task 61: Membership Program Overhaul
     Task(
@@ -1034,7 +1032,7 @@ TASKS = [
             # Change role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1020", "role": "Membership Program Director"}),
         ],
-        outputs=[{"email": "liam.anderson@example.com"}]
+        outputs=[]
     ),
     # Task 62: Product Bundle Innovation
     Task(
@@ -1051,7 +1049,7 @@ TASKS = [
             # Change role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1032", "role": "Product Innovation Manager"}),
         ],
-        outputs=[{"email": "william.zhang@example.com"}]
+        outputs=[]
     ),
     # Task 63: Return Customer Win-Back
     Task(
@@ -1065,7 +1063,7 @@ TASKS = [
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5012", "status": "win_back_target", "current_time": "2025-07-20T17:46:00Z"}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5012"]}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "logan.smith@example.com"}]
+        outputs=[]
     ),
     # Task 64: Cross-Store Inventory Balancing
     Task(
@@ -1093,7 +1091,7 @@ TASKS = [
             Action(name="EditCustomersDb", kwargs={"name": "Megan Young", "email": "megan.young@retailpos.com", "membership_level": "employee", "loyalty_points": 500, "current_time": "2025-07-20T17:48:00Z"}),
             Action(name="EditPromotionsDb", kwargs={"name": "Staff Appreciation Sale", "type": "percentage", "discount_value": 45, "applicable_skus": [], "start_date": "2025-07-20"}),
         ],
-        outputs=[{"email": "megan.young@retailpos.com"}]
+        outputs=[]
     ),
     # Task 66: Product Category Performance Analysis
     Task(
@@ -1109,7 +1107,7 @@ TASKS = [
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5005", "loyalty_points": 445, "current_time": "2025-07-20T17:49:00Z"}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5010", "loyalty_points": 1175, "current_time": "2025-07-20T17:49:00Z"}),
         ],
-        outputs=[{"email": "emma.wilson@example.com"}, {"email": "ava.martinez@example.com"}, {"email": "ben.cohen@example.com"}]
+        outputs=[]
     ),
     # Task 67: Customer Birthday Promotions Launch
     Task(
@@ -1154,7 +1152,7 @@ TASKS = [
             Action(name="EditPromotionsDb", kwargs={"name": "Wireless Freedom Week", "type": "percentage", "discount_value": 15.0, "applicable_skus": ["SKU-1021"], "start_date": "2025-07-20", "end_date": "2025-07-27"}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"membership_level": ["platinum", "gold"]}, "info_items": ["phone_number"]})
         ],
-        outputs=[{"phone_number": "+1-555-0123-456"}, {"phone_number": "+1-555-0999-888"}, {"phone_number": "+1-555-0987-654"}]
+        outputs=[]
     ),
     # Task 70: Customer Loyalty Tier Analysis
     Task(
@@ -1235,7 +1233,7 @@ TASKS = [
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Amelia Lee"}, "info_items": ["employee_id"]}),
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1032", "role": "Customer Retention Specialist"}),
         ],
-        outputs=[{"email": "logan.smith@example.com"}]
+        outputs=[]
     ),
     # Task 75: Supplier Relations and New Product Integration
     Task(
@@ -1251,7 +1249,7 @@ TASKS = [
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"sku": ["SPORT-YOGMAT01"]}, "info_items": ["customer_id"]}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5004"]}, "info_items": ["phone_number"]})
         ],
-        outputs=[{"phone_number": "+1-555-0987-654"}]
+        outputs=[]
     ),
     # Task 76: Premium Customer Concierge Service
     Task(
@@ -1265,7 +1263,7 @@ TASKS = [
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5004","loyalty_points": 2020, "current_time": "2025-07-20T18:09:00Z"}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5004"}, "info_items": ["email"]}),
         ],
-        outputs=[{"email": "liam.anderson@example.com"}]
+        outputs=[]
     ),
     # Task 77: Theft Prevention and Security Audit
     Task(
@@ -1278,7 +1276,7 @@ TASKS = [
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"employee_id": "EMP-1002"}, "info_items": ["transaction_id"]}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5012"}, "info_items": ["name"]}),
         ],
-        outputs=[{"name": "Logan Smith"}]
+        outputs=[]
     ),
     # Task 78: Holiday Preparation and Staff Scheduling
     Task(
@@ -1291,7 +1289,7 @@ TASKS = [
             Action(name="EditPromotionsDb", kwargs={"name": "Holiday Prep Special", "type": "percentage", "discount_value": 25.0, "applicable_skus": ["SPORT-BIKHLM01", "SPORT-YOGMAT01"], "start_date": "2025-07-20"}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5004", "CUST-5012"]}, "info_items": ["email", "phone_number"]})
         ],
-        outputs=[{"email": "liam.anderson@example.com", "phone_number": "+1-555-0987-654"}, {"email": "logan.smith@example.com", "phone_number": "+1-555-0667-899"}]
+        outputs=[]
     ),
     # Task 79: Customer Feedback and Product Improvement
     Task(
@@ -1305,7 +1303,7 @@ TASKS = [
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5012"]}, "info_items": ["email"]}),
             Action(name="EditEmployeesDb", kwargs={"name": "Charlie Brown", "role": "Quality Assurance Specialist"})
         ],
-        outputs=[{"email": "logan.smith@example.com"}]
+        outputs=[]
     ),
     # Task 80: Multi-Store Anniversary Celebration
     Task(
@@ -1325,7 +1323,7 @@ TASKS = [
             Action(name="FilterAndSortIdsByDate", kwargs={"ids_dates": {"CUST-5001": "1990-07-12", "CUST-5002": "1985-11-05", "CUST-5003": "1997-02-27", "CUST-5004": "1982-09-14", "CUST-5005": "1995-12-03", "CUST-5006": "1988-04-30", "CUST-5007": "1993-06-18", "CUST-5008": "1998-10-09", "CUST-5009": "1986-01-25", "CUST-5010": "1983-03-04", "CUST-5011": "1992-08-11", "CUST-5012": "2000-01-19"}, "sort_order": "oldest", "top_n": 1}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5004"}, "info_items": ["email"]}),
         ],
-        outputs=[{"emails": ["liam.anderson@example.com"]}]
+        outputs=[]
     ),
     # Task 81: Eco-Friendly Initiative Launch
     Task(
@@ -1345,7 +1343,7 @@ TASKS = [
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5011"}, "info_items": ["membership_level", "email"]}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5011", "membership_level": "gold", "current_time": "2025-07-20T18:14:00Z"}),
         ],
-        outputs=[{"email": "mia.kim@example.com"}]
+        outputs=[]
     ),
     # Task 82: Emergency Store Support and Crisis Management
     Task(
@@ -1365,7 +1363,7 @@ TASKS = [
             # get customer info by customer_id
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5004", "CUST-5009"]}, "info_items": ["customer_id", "email", "name"]})
         ],
-        outputs=[{"email": "liam.anderson@example.com"}, {"email": "charlotte.dubois@example.com"}]
+        outputs=[]
     ),
     # Task 83: Social Media Marketing Integration
     Task(
@@ -1400,7 +1398,7 @@ TASKS = [
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5009"]}, "info_items": ["customer_id", "email", "loyalty_points"]}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5009", "loyalty_points": 775, "current_time": "2025-07-20T18:17:00Z"})
         ],
-        outputs=[{"email": ["charlotte.dubois@example.com"]}]
+        outputs=[]
     ),
     # Task 85: Technology Upgrade and Digital Transformation
     Task(
@@ -1449,7 +1447,7 @@ TASKS = [
             Action(name="EditInventoryDb", kwargs={"id": "INV-0013", "quantity": 0, "safety_stock": 5, "status": "high_security", "current_time": "2025-07-20T18:20:00Z"}),
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"role": "Inventory Specialist"}, "info_items": ["email"]})
         ],
-        outputs=[{"email": "zoe.martinez@retailpos.com"}]
+        outputs=[]
     ),
     # Task 88: Local Community Engagement Initiative
     Task(
@@ -1484,7 +1482,7 @@ TASKS = [
             Action(name="EditPromotionsDb", kwargs={"name": "We Listen", "type": "percentage", "discount_value": 25.0, "applicable_skus": [], "start_date": "2025-07-20"}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5012"}, "info_items": ["email"]})
         ],
-        outputs=[{"emails": ["logan.smith@example.com"]}]
+        outputs=[]
     ),
     # Task 90: Student and Education Discount Program
     Task(

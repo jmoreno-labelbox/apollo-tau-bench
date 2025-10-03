@@ -24,7 +24,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_001"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -49,7 +49,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_003"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -74,7 +74,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_005"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -99,7 +99,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_007"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -124,7 +124,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_010"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -149,7 +149,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_011"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -174,7 +174,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_012"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -199,7 +199,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_013"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -224,7 +224,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_014"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
 
@@ -250,7 +250,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_006"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -275,7 +275,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_015"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -300,7 +300,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_016"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -325,7 +325,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_017"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -350,7 +350,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_018"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -375,7 +375,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_019"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -400,7 +400,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_020"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -425,7 +425,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_021"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -450,7 +450,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_022"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -475,7 +475,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_023"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -500,7 +500,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "build-triage", "inputs": {"run_id": "run_024"}, "outputs": {"pr_number": 33, "ticket_key": "ENG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -566,7 +566,7 @@ TASKS = [
             ),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -632,7 +632,7 @@ TASKS = [
             ),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -698,7 +698,7 @@ TASKS = [
             ),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -764,7 +764,7 @@ TASKS = [
             ),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -830,7 +830,7 @@ TASKS = [
             ),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
 
@@ -897,7 +897,7 @@ TASKS = [
             ),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
 
@@ -964,7 +964,7 @@ TASKS = [
             ),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -1030,7 +1030,7 @@ TASKS = [
             ),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
 
@@ -1096,7 +1096,7 @@ TASKS = [
             ),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -1161,7 +1161,7 @@ TASKS = [
             ),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1185,7 +1185,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "asset-qa", "inputs": {"asset_id": "asset_001"}, "outputs": {"pr_number": 33, "qa_id": "QA-asset_001-sha256:a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -1210,7 +1210,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "asset-qa", "inputs": {"asset_id": "asset_002"}, "outputs": {"pr_number": 33, "qa_id": "QA-asset_002-sha256:b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef1234567890"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -1235,7 +1235,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "asset-qa", "inputs": {"asset_id": "asset_003"}, "outputs": {"pr_number": 33, "qa_id": "QA-asset_003-sha256:c3d4e5f6789012345678901234567890abcdef1234567890abcdef1234567890abcd"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -1260,7 +1260,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "asset-qa", "inputs": {"asset_id": "asset_004"}, "outputs": {"pr_number": 33, "qa_id": "QA-asset_004-sha256:d4e5f6789012345678901234567890abcdef1234567890abcdef1234567890abcdef"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -1285,7 +1285,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "asset-qa", "inputs": {"asset_id": "asset_005"}, "outputs": {"pr_number": 33, "qa_id": "QA-asset_005-sha256:e5f6789012345678901234567890abcdef1234567890abcdef1234567890abcdef12"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -1310,7 +1310,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "asset-qa", "inputs": {"asset_id": "asset_006"}, "outputs": {"pr_number": 33, "qa_id": "QA-asset_006-sha256:f6789012345678901234567890abcdef1234567890abcdef1234567890abcdef1234"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -1335,7 +1335,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "asset-qa", "inputs": {"asset_id": "asset_007"}, "outputs": {"pr_number": 33, "qa_id": "QA-asset_007-sha256:789012345678901234567890abcdef1234567890abcdef1234567890abcdef123456"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -1362,7 +1362,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "asset-qa", "inputs": {"asset_id": "asset_008"}, "outputs": {"pr_number": 33, "qa_id": "QA-asset_008-sha256:89012345678901234567890abcdef1234567890abcdef1234567890abcdef1234567"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -1389,7 +1389,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "asset-qa", "inputs": {"asset_id": "asset_009"}, "outputs": {"pr_number": 33, "qa_id": "QA-asset_009-sha256:9012345678901234567890abcdef1234567890abcdef1234567890abcdef12345678"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -1413,7 +1413,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "asset-qa", "inputs": {"asset_id": "asset_010"}, "outputs": {"pr_number": 33, "qa_id": "QA-asset_010-sha256:012345678901234567890abcdef1234567890abcdef1234567890abcdef123456789"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1435,7 +1435,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_026"}, "outputs": {"ticket_key": "work_026"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_026"}),
         ],
-        outputs=["work_026"],
+        outputs=[]
     ),
 
     Task(
@@ -1460,7 +1460,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_026"}, "outputs": {"ticket_key": "work_026"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_026"}),
         ],
-        outputs=["work_026"],
+        outputs=[]
     ),
 
     Task(
@@ -1483,7 +1483,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_027"}, "outputs": {"ticket_key": "work_027"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_027"}),
         ],
-        outputs=["work_027"],
+        outputs=[]
     ),
 
     Task(
@@ -1503,7 +1503,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_027"}, "outputs": {"ticket_key": "work_027"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_027"}),
         ],
-        outputs=["work_027"],
+        outputs=[]
     ),
 
     Task(
@@ -1524,7 +1524,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_026"}, "outputs": {"ticket_key": "work_026"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_026"}),
         ],
-        outputs=["work_026"],
+        outputs=[]
     ),
 
     Task(
@@ -1548,7 +1548,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_027"}, "outputs": {"ticket_key": "work_027"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_027"}),
         ],
-        outputs=["work_027"],
+        outputs=[]
     ),
 
     Task(
@@ -1570,7 +1570,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_027"}, "outputs": {"ticket_key": "work_027"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_027"}),
         ],
-        outputs=["work_027"],
+        outputs=[]
     ),
 
     Task(
@@ -1590,7 +1590,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_026"}, "outputs": {"ticket_key": "work_026"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_026"}),
         ],
-        outputs=["work_026"],
+        outputs=[]
     ),
 
     Task(
@@ -1610,7 +1610,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_026"}, "outputs": {"ticket_key": "work_026"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_026"}),
         ],
-        outputs=["work_026"],
+        outputs=[]
     ),
 
     Task(
@@ -1631,7 +1631,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_027"}, "outputs": {"ticket_key": "work_027"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_027"}),
         ],
-        outputs=["work_027"],
+        outputs=[]
     ),
 
     Task(
@@ -1651,7 +1651,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_026"}, "outputs": {"ticket_key": "work_026"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_026"}),
         ],
-        outputs=["work_026"],
+        outputs=[]
     ),
 
     Task(
@@ -1672,7 +1672,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_029"}, "outputs": {"ticket_key": "work_029"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_029"}),
         ],
-        outputs=["work_029"],
+        outputs=[]
     ),
 
     Task(
@@ -1691,7 +1691,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "bug_006"}, "outputs": {"ticket_key": "bug_006"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "bug_006"}),
         ],
-        outputs=["bug_006"],
+        outputs=[]
     ),
 
     Task(
@@ -1716,7 +1716,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "bug_009"}, "outputs": {"ticket_key": "bug_009"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "bug_009"}),
         ],
-        outputs=["bug_009"],
+        outputs=[]
     ),
 
     Task(
@@ -1735,7 +1735,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "bug_013"}, "outputs": {"ticket_key": "bug_013"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "bug_013"}),
         ],
-        outputs=["bug_013"],
+        outputs=[]
     ),
 
     Task(
@@ -1754,7 +1754,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "bug_016"}, "outputs": {"ticket_key": "bug_016"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "bug_016"}),
         ],
-        outputs=["bug_016"],
+        outputs=[]
     ),
 
     Task(
@@ -1779,7 +1779,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "bug_intake_008"}, "outputs": {"ticket_key": "bug_intake_008"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "bug_intake_008"}),
         ],
-        outputs=["bug_intake_008"],
+        outputs=[]
     ),
 
     Task(
@@ -1799,7 +1799,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "bug_intake_016"}, "outputs": {"ticket_key": "bug_intake_016"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "bug_intake_016"}),
         ],
-        outputs=["bug_intake_016"],
+        outputs=[]
     ),
 
     Task(
@@ -1824,7 +1824,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "bug_intake_020"}, "outputs": {"ticket_key": "bug_intake_020"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "bug_intake_020"}),
         ],
-        outputs=["bug_intake_020"],
+        outputs=[]
     ),
 
     Task(
@@ -1849,7 +1849,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "bug_intake_024"}, "outputs": {"ticket_key": "bug_intake_024"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "bug_intake_024"}),
         ],
-        outputs=["bug_intake_024"],
+        outputs=[]
     ),
 
     Task(
@@ -1872,7 +1872,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "localization", "inputs": {"pr_number": 999}, "outputs": {"pr_number": 999}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "999"}),
         ],
-        outputs=["999"],
+        outputs=[]
     ),
 
     Task(
@@ -1895,7 +1895,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "localization", "inputs": {"pr_number": 999}, "outputs": {"pr_number": 999}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "999"}),
         ],
-        outputs=["999"],
+        outputs=[]
     ),
 
     Task(
@@ -1918,7 +1918,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "localization", "inputs": {"pr_number": 999}, "outputs": {"pr_number": 999}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "999"}),
         ],
-        outputs=["999"],
+        outputs=[]
     ),
 
     Task(
@@ -1941,7 +1941,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "localization", "inputs": {"pr_number": 999}, "outputs": {"pr_number": 999}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "999"}),
         ],
-        outputs=["999"],
+        outputs=[]
     ),
 
     Task(
@@ -1964,7 +1964,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "localization", "inputs": {"pr_number": 999}, "outputs": {"pr_number": 999}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "999"}),
         ],
-        outputs=["999"],
+        outputs=[]
     ),
 
     Task(
@@ -1987,7 +1987,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "localization", "inputs": {"pr_number": 999}, "outputs": {"pr_number": 999}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "999"}),
         ],
-        outputs=["999"],
+        outputs=[]
     ),
 
     Task(
@@ -2010,7 +2010,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "localization", "inputs": {"pr_number": 999}, "outputs": {"pr_number": 999}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "999"}),
         ],
-        outputs=["999"],
+        outputs=[]
     ),
 
     Task(
@@ -2033,7 +2033,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "localization", "inputs": {"pr_number": 999}, "outputs": {"pr_number": 999}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "999"}),
         ],
-        outputs=["999"],
+        outputs=[]
     ),
 
     Task(
@@ -2056,7 +2056,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "localization", "inputs": {"pr_number": 999}, "outputs": {"pr_number": 999}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "999"}),
         ],
-        outputs=["999"],
+        outputs=[]
     ),
 
     Task(
@@ -2079,7 +2079,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "localization", "inputs": {"pr_number": 999}, "outputs": {"pr_number": 999}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "999"}),
         ],
-        outputs=["999"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2098,7 +2098,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "vo-subtitles", "inputs": {"lines": ["subtitle_001", "subtitle_002"]}, "outputs": {"lines": ["subtitle_001", "subtitle_002"]}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "2"}),
         ],
-        outputs=["2"],
+        outputs=[]
     ),
 
     Task(
@@ -2118,7 +2118,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "vo-subtitles", "inputs": {"lines": ["subtitle_003", "subtitle_004"]}, "outputs": {"lines": ["subtitle_003", "subtitle_004"], "bundle_uri": "artifact://bundle/bundle-en-1", "tms_job_id": "TMS-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "2"}),
         ],
-        outputs=["2"],
+        outputs=[]
     ),
 
     Task(
@@ -2138,7 +2138,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "vo-subtitles", "inputs": {"lines": ["subtitle_005", "subtitle_006"]}, "outputs": {"lines": ["subtitle_005", "subtitle_006"], "bundle_uris": {"en": "artifact://bundle/bundle-en-1", "ja": "artifact://bundle/bundle-ja-1"}}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "2"}),
         ],
-        outputs=["2"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2157,7 +2157,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "vo-subtitles", "inputs": {"lines": ["subtitle_007", "subtitle_008"]}, "outputs": {"lines": ["subtitle_007", "subtitle_008"]}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "2"}),
         ],
-        outputs=["2"],
+        outputs=[]
     ),
 
     Task(
@@ -2177,7 +2177,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "vo-subtitles", "inputs": {"lines": ["subtitle_009", "subtitle_010"]}, "outputs": {"lines": ["subtitle_009", "subtitle_010"], "bundle_uris": {"en": "artifact://bundle/bundle-en-1", "zh": "artifact://bundle/bundle-zh-1"}, "tms_job_id": "TMS-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "2"}),
         ],
-        outputs=["2"],
+        outputs=[]
     ),
 
     Task(
@@ -2197,7 +2197,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "vo-subtitles", "inputs": {"lines": ["subtitle_001", "subtitle_003", "subtitle_005"]}, "outputs": {"lines": ["subtitle_001", "subtitle_003", "subtitle_005"], "bundle_uri": "artifact://bundle/bundle-en-3", "tms_job_id": "TMS-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "3"}),
         ],
-        outputs=["3"],
+        outputs=[]
     ),
 
     Task(
@@ -2217,7 +2217,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "vo-subtitles", "inputs": {"lines": ["subtitle_002", "subtitle_004"]}, "outputs": {"lines": ["subtitle_002", "subtitle_004"], "bundle_uris": {"de": "artifact://bundle/bundle-de-1", "fr": "artifact://bundle/bundle-fr-1"}, "tms_job_id": "TMS-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "2"}),
         ],
-        outputs=["2"],
+        outputs=[]
     ),
 
     Task(
@@ -2239,7 +2239,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "vo-subtitles", "inputs": {"lines": ["subtitle_006", "subtitle_008", "subtitle_010"]}, "outputs": {"lines": ["subtitle_006", "subtitle_008", "subtitle_010"]}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "3"}),
         ],
-        outputs=["3"],
+        outputs=[]
     ),
 
     Task(
@@ -2258,7 +2258,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "vo-subtitles", "inputs": {"lines": ["subtitle_007", "subtitle_009"]}, "outputs": {"lines": ["subtitle_007", "subtitle_009"], "bundle_uri": "artifact://bundle/bundle-en-2", "tms_job_id": "TMS-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "2"}),
         ],
-        outputs=["2"],
+        outputs=[]
     ),
 
     Task(
@@ -2278,7 +2278,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "vo-subtitles", "inputs": {"lines": ["subtitle_001", "subtitle_004"]}, "outputs": {"lines": ["subtitle_001", "subtitle_004"]}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "2"}),
         ],
-        outputs=["2"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2304,7 +2304,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "ci-bug-pr-loop", "inputs": {"run_id": "run_001"}, "outputs": {"pr_number": 33, "ticket_key": "ENGINE-MIG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2330,7 +2330,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "ci-bug-pr-loop", "inputs": {"run_id": "run_003"}, "outputs": {"pr_number": 33, "ticket_key": "ENGINE-MIG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -2357,7 +2357,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "ci-bug-pr-loop", "inputs": {"run_id": "run_005"}, "outputs": {"pr_number": 33, "ticket_key": "ENGINE-MIG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -2384,7 +2384,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "ci-bug-pr-loop", "inputs": {"run_id": "run_007"}, "outputs": {"pr_number": 33, "ticket_key": "ENGINE-MIG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -2411,7 +2411,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "ci-bug-pr-loop", "inputs": {"run_id": "run_010"}, "outputs": {"pr_number": 33, "ticket_key": "ENGINE-MIG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -2433,7 +2433,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "ci-bug-pr-loop", "inputs": {"run_id": "run_002"}, "outputs": {"pr_number": 33, "ticket_key": "ENGINE-MIG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -2457,7 +2457,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "ci-bug-pr-loop", "inputs": {"run_id": "run_004"}, "outputs": {"pr_number": 33, "ticket_key": "ENGINE-MIG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -2484,7 +2484,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "ci-bug-pr-loop", "inputs": {"run_id": "run_008"}, "outputs": {"pr_number": 33, "ticket_key": "ENGINE-MIG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -2506,7 +2506,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "ci-bug-pr-loop", "inputs": {"run_id": "run_009"}, "outputs": {"pr_number": 33, "ticket_key": "ENGINE-MIG-1", "status": "success"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -2533,7 +2533,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "ci-bug-pr-loop", "inputs": {"run_id": "run_006"}, "outputs": {"pr_number": 33, "ticket_key": "ENGINE-MIG-1"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "33"}),
         ],
-        outputs=["33"],
+        outputs=[]
     ),
 
     Task(
@@ -2554,7 +2554,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "release-blocker", "inputs": {"run_id": "run_001"}, "outputs": {"ticket_key": "ENGINE-MIG-1", "signature": "sig:run_001:first_failure"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "ok"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 
     Task(
@@ -2575,7 +2575,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "release-blocker", "inputs": {"run_id": "run_003"}, "outputs": {"ticket_key": "ENGINE-MIG-1", "signature": "sig:run_003:first_failure"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "ok"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 
     Task(
@@ -2596,7 +2596,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "release-blocker", "inputs": {"run_id": "run_013"}, "outputs": {"ticket_key": "ENGINE-MIG-1", "signature": "sig:run_013:first_failure"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "ok"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 
     Task(
@@ -2617,7 +2617,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "release-blocker", "inputs": {"run_id": "run_012"}, "outputs": {"ticket_key": "ENGINE-MIG-1", "signature": "sig:run_012:first_failure"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "ok"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 
     Task(
@@ -2638,7 +2638,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "release-blocker", "inputs": {"run_id": "run_011"}, "outputs": {"ticket_key": "ENGINE-MIG-1", "signature": "sig:run_011:first_failure"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "ok"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 
     Task(
@@ -2659,7 +2659,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "release-blocker", "inputs": {"run_id": "run_010"}, "outputs": {"ticket_key": "ENGINE-MIG-1", "signature": "sig:run_010:first_failure"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "ok"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 
     Task(
@@ -2680,7 +2680,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "release-blocker", "inputs": {"run_id": "run_008"}, "outputs": {"ticket_key": "ENGINE-MIG-1", "signature": "sig:run_008:first_failure"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "ok"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 
     Task(
@@ -2701,7 +2701,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "release-blocker", "inputs": {"run_id": "run_007"}, "outputs": {"ticket_key": "ENGINE-MIG-1", "signature": "sig:run_007:first_failure"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "ok"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2722,7 +2722,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "release-blocker", "inputs": {"run_id": "run_006"}, "outputs": {"ticket_key": "ENGINE-MIG-1", "signature": "sig:run_006:first_failure"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "ok"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 
     Task(
@@ -2743,7 +2743,7 @@ TASKS = [
             Action(name="RecordAutomationRun", kwargs={"automation_type": "release-blocker", "inputs": {"run_id": "run_005"}, "outputs": {"ticket_key": "ENGINE-MIG-1", "signature": "sig:run_005:first_failure"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "ok"}),
         ],
-        outputs=["ok"],
+        outputs=[]
     ),
 
 ]

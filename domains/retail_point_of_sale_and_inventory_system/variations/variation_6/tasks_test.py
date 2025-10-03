@@ -14,14 +14,7 @@ TASKS = [
             Action(name="UpdateCustomer", kwargs={"timestamp": "2025-08-25T16:45:00Z", "customer_id": "CUST-5003", "loyalty_points": 960}),
             Action(name="FindEmployees", kwargs={"employee_id": "EMP-1045"}),
         ],
-        outputs=[
-            '"bronze_customers": [{"customer_id": "CUST-5003", "name": "Sophia Singh", "opt_in_marketing": true}, {"customer_id": "CUST-5005", "name": "Ava Martinez", "opt_in_marketing": false}, {"customer_id": "CUST-5007", "name": "Olivia Romano", "opt_in_marketing": false}]',
-            '"marketing_opt_ins": [{"customer_id": "CUST-5003", "name": "Sophia Singh", "opt_in_marketing": true}]',
-            '"marketing_opt_outs": [{"customer_id": "CUST-5005", "name": "Ava Martinez", "opt_in_marketing": false}, {"customer_id": "CUST-5007", "name": "Olivia Romano", "opt_in_marketing": false}]',
-
-            '"customer_updated": {"customer_id": "CUST-5003", "loyalty_points": 960, "updated_at": "2025-08-25T16:45:00Z"}',
-            '"manager_info": {"employee_id": "EMP-1045", "name": "Megan Young", "role": "Store Manager"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator = "0",
@@ -58,15 +51,7 @@ TASKS = [
             Action(name="FindEmployees", kwargs={"employee_id": "EMP-1045"}),
             Action(name="FindEmployees", kwargs={"store_id": "STORE-005", "role": "Store Manager"}),
         ],
-        outputs=[
-            '"loyalty_program_analysis": {"platinum_customers": 1, "gold_customers": 2, "silver_customers": 4, "total_active_members": 7}',
-            '"high_value_customers": [{"customer_id": "CUST-5001", "name": "Emma Wilson", "loyalty_points": 1240, "total_spent": 789.97}, {"customer_id": "CUST-5004", "name": "Liam Anderson", "loyalty_points": 1520, "total_spent": 205.48}]',
-            '"transaction_patterns": [{"customer_id": "CUST-5001", "recent_transactions": 1, "avg_transaction_value": 789.97}, {"customer_id": "CUST-5004", "recent_transactions": 1, "avg_transaction_value": 205.48}]',
-
-            '"loyalty_updates": [{"customer_id": "CUST-5004", "loyalty_points": 1570, "points_added": 50, "updated_at": "2025-11-20T16:45:00Z"}, {"customer_id": "CUST-5006", "membership_level": "gold", "upgraded_from": "silver", "updated_at": "2025-11-20T16:45:00Z"}]',
-
-            '"employee_verification": {"employee_id": "EMP-1045", "name": "Megan Young", "role": "Store Manager", "store_id": "STORE-005", "authorization_level": "manager"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator = "0",
@@ -107,14 +92,7 @@ TASKS = [
             Action(name="CreateProduct", kwargs={"sku": "KITCH-CHEFKNF9", "name": "ProSlice 9\" Chef Knife", "category": "Home & Kitchen", "price": 39.95, "description": "High-carbon stainless steel knife with ergonomic handle.", "supplier_id": "SUP-1002", "weight_kg": 0.24, "dimensions_cm": "38x8x3", "brand": "ProSlice", "cost": 18.75, "barcode": "0123456789018", "tax_rate": 0.0825}),
             Action(name="RemoveProduct", kwargs={"sku": "KITCH-CHEFKNF8"}),
         ],
-        outputs=[
-            '"old_product": {"sku": "KITCH-CHEFKNF8", "name": "ProSlice 8\" Chef Knife", "status": "active", "supplier_id": "SUP-1002"}',
-            '"inventory_analysis": [{"store_id": "STORE-002", "sku": "KITCH-CHEFKNF8", "quantity": 35}]',
-            '"supplier_verification": {"sku": "KITCH-CHEFKNF8", "supplier_id": "SUP-1002", "status": "verified"}',
-            '"new_product": {"success": "complete", "sku": "KITCH-CHEFKNF9", "name": "ProSlice 9\\" Chef Knife"}',
-            '"old_product_removed": {"success": "Removed product: KITCH-CHEFKNF8"}',
-            '"replacement_complete": {"replacement_date": "2025-09-15"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -130,14 +108,7 @@ TASKS = [
             Action(name="FindProducts", kwargs={"sku": "ELEC-4KTV55"}),
 
         ],
-        outputs=[
-            '"existing_promotion": {"promotion_id": "PROMO-001", "name": "Summer Electronics Sale", "status": "canceled"}',
-            '"product_details": {"sku": "ELEC-4KTV55", "name": "4K Smart TV 55\"", "is_discountable": true}',
-            '"promotion_canceled": {"success": "complete"}',
-            '"new_promotion": {"success": "complete"}',
-            '"updated_product": {"sku": "ELEC-4KTV55", "is_discountable": true, "discount_rate": 0.2}',
-
-        ],
+        outputs=[]
     ),
     Task(
         annotator = "0",
@@ -177,11 +148,7 @@ TASKS = [
             Action(name="FindCustomers", kwargs={"phone_number": "+1-555-777-7896"}),
             Action(name="CreateCustomer", kwargs={"name": "Bob Smith", "phone_number": "+1-555-777-7896", "email": "b.smith@example.com", "address": "987 Sycamore Street, Springfield, IL, 62704", "birthdate": "1992-08-20", "membership_level": "bronze", "loyalty_points": 50}),
         ],
-        outputs=[
-            '"employee_verification": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier", "authorization_level": "customer_service"}',
-            '"duplicate_check": {"existing_customers_found": 0, "duplicate_prevention": "successful"}',
-            '"customer_created": {"customer_id": "CUST-5013", "name": "Bob Smith", "loyalty_points": 50, "membership_level": "bronze"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -203,14 +170,7 @@ TASKS = [
             Action(name="FindItems", kwargs={"store_id": "STORE-002", "sku": "ELEC-GAMLP15"}),
             Action(name="FindItems", kwargs={"store_id": "STORE-002", "sku": "AUDIO-NCEBUDS01"}),
         ],
-        outputs=[
-            '"electronics_inventory_analysis": {"total_electronics_items": 2, "low_stock_items": 1, "optimization_needed": true}',
-            '"electronics_products": [{"sku": "ELEC-GAMLP15", "name": "GigaPlay 15\\" Gaming Laptop", "price": 1499.0, "category": "Electronics"}, {"sku": "AUDIO-NCEBUDS01", "name": "QuietTone Wireless Earbuds", "price": 149.99, "category": "Electronics"}]',
-            '"low_stock_analysis": [{"sku": "ELEC-GAMLP15", "current_stock": 3, "reorder_level": 5, "status": "low_stock"}]',
-            '"profit_margin_analysis": [{"sku": "ELEC-GAMLP15", "profit_margin": 0.35, "priority": "high"}, {"sku": "AUDIO-NCEBUDS01", "profit_margin": 0.28, "priority": "medium"}]',
-            '"stock_verification": [{"sku": "ELEC-GAMLP15", "before_quantity": 3, "after_quantity": 15, "restocked": true}, {"sku": "AUDIO-NCEBUDS01", "before_quantity": 8, "after_quantity": 12, "restocked": true}]',
-            '"inventory_optimization": {"campaign_timestamp": "2025-01-01T09:10:00Z", "optimization_status": "complete"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator = "0",
@@ -248,14 +208,7 @@ TASKS = [
             Action(name="FindEmployees", kwargs={"employee_id": "EMP-1045"}),
             Action(name="UpdateCustomer", kwargs={"timestamp": "2025-09-05T14:30:00Z", "customer_id": "CUST-5004", "opt_in_marketing": True}),
         ],
-        outputs=[
-            '"customer_verification": {"customer_id": "CUST-5004", "name": "Liam Anderson", "membership_level": "platinum", "loyalty_points": 1520, "total_transactions": 1}',
-            '"transaction_analysis": [{"transaction_id": "TXN-0004", "total_amount": 205.48, "status": "completed", "store_id": "STORE-004", "employee_id": "EMP-1032"}]',
-            '"pending_items_check": {"pending_transactions": 0, "pending_returns": 0, "account_clear": true}',
-            '"authorization_verification": {"employee_id": "EMP-1045", "name": "Megan Young", "role": "Store Manager", "authorization_level": "manager"}',
-            '"customer_updated": {"customer_id": "CUST-5004", "opt_in_marketing": true, "updated_at": "2025-09-05T14:30:00Z"}',
-            '"review_complete": {"customer_id": "CUST-5004", "review_timestamp": "2025-09-05T14:30:00Z", "reviewed_by": "EMP-1045", "status": "reviewed"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator = "0",
@@ -393,11 +346,7 @@ TASKS = [
             Action(name="FindProducts", kwargs={"sku": "CLTH-SLFJEAN34"}),
             Action(name="UpdateStockQuantity", kwargs={"store_id": "STORE-002", "sku": "CLTH-WINJKT01", "quantity": 15}),
         ],
-        outputs=[
-            '"apparel_products": [{"sku": "CLTH-WINJKT01", "name": "ArcticShield Men\'s Parka - Large", "category": "Apparel"}, {"sku": "CLTH-SLFJEAN34", "name": "Men\'s Slim Fit Jeans - 34W 32L", "category": "Apparel"}]',
-            '"store_inventory": [{"sku": "CLTH-WINJKT01", "quantity": 15}, {"sku": "CLTH-SLFJEAN34", "quantity": 30}]',
-            '"stock_updated": {"sku": "CLTH-WINJKT01", "new_quantity": 15}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -415,16 +364,7 @@ TASKS = [
             Action(name="FindEmployees", kwargs={"employee_id": "EMP-1002"}),
             Action(name="CreateCustomer", kwargs={"timestamp": "2025-08-15T11:30:00Z", "name": "Damage Assessment Log", "phone_number": "+1-555-000-0000", "email": "damage.log@store.com", "address": "Internal Log", "birthdate": "2025-08-15"}),
         ],
-        outputs=[
-            '"initial_inventory": {"id": "INV-0001", "sku": "ELEC-4KTV55", "store_id": "STORE-001", "quantity": 8, "status": "in_stock"}',
-            '"product_details": {"sku": "ELEC-4KTV55", "name": "4K Smart TV 55\"", "price": 699.99, "category": "Electronics", "supplier_id": "SUP-1001"}',
-            '"profit_analysis": [{"sku": "ELEC-4KTV55", "profit": 219.99, "profit_margin": 0.314, "profit_margin_percent": 45.83}]',
-            '"stock_updated": {"success": true}',
-            '"low_stock_check": []',
-            '"final_inventory": {"id": "INV-0001", "sku": "ELEC-4KTV55", "store_id": "STORE-001", "quantity": 6, "status": "in_stock"}',
-            '"manager_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}',
-            '"damage_assessment_log": {"customer_id": "CUST-5013", "name": "Damage Assessment Log", "phone_number": "+1-555-000-0000", "email": "damage.log@store.com", "address": "Internal Log", "birthdate": "2025-08-15", "timestamp": "2025-08-15T11:30:00Z"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -439,13 +379,7 @@ TASKS = [
             Action(name="FindCustomers", kwargs={"customer_id": "CUST-5003"}),
             Action(name="FindEmployees", kwargs={"employee_id": "EMP-1002"}),
         ],
-        outputs=[
-            '"customer_found": {"customer_id": "CUST-5003", "name": "Sophia Singh", "phone_number": "+1-555-0789-012", "loyalty_points": 460}',
-            '"transaction_history": [{"transaction_id": "TNX-0003", "total_amount": 37.58}]',
-            '"customer_updated": {"customer_id": "CUST-5003", "name": "Sophia Singh", "phone_number": "+1-555-0789-099"}',
-            '"update_verified": {"customer_id": "CUST-5003", "phone_number": "+1-555-0789-099", "updated_at": "2025-09-10T11:20:00Z"}',
-            '"employee_info": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -459,12 +393,7 @@ TASKS = [
             Action(name="UpdateEmployee", kwargs={"timestamp": "2025-08-30T09:30:00Z", "employee_id": "EMP-1002", "role": "Floor Supervisor"}),
             Action(name="FindEmployees", kwargs={"employee_id": "EMP-1002"}),
         ],
-        outputs=[
-            '"employee_found": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Cashier", "store_id": "STORE-001"}',
-            '"current_cashiers": [{"employee_id": "EMP-1002", "name": "Sarah Anderson"}]',
-            '"promotion_processed": {"employee_id": "EMP-1002", "name": "Sarah Anderson", "role": "Floor Supervisor"}',
-            '"promotion_verified": {"employee_id": "EMP-1002", "role": "Floor Supervisor", "updated_at": "2025-08-30T09:30:00Z"}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator = "0",
@@ -1207,10 +1136,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 35.46,\n  "tax_amount": 2.7,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 7.19,\n  "change_given": 964.54,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "KITCH-CHEFKNF8",\n      "quantity": 1,\n      "unit_price": 39.95,\n      "discount": 7.19\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 7.59,\n  "tax_amount": 0.0,\n  "payment_method": "cash",\n  "tax_rate": 0,\n  "discount_total": 0.4,\n  "change_given": 992.41,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "GROC-SPRWAT6P",\n      "quantity": 1,\n      "unit_price": 7.99,\n      "discount": 0.4\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1274,10 +1200,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 47.53,\n  "tax_amount": 3.62,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 5.99,\n  "change_given": 952.47,\n  "status": "completed",\n  "customer_id": "CUST-5005",\n  "line_items": [\n    {\n      "sku": "KITCH-FRYPAN10",\n      "quantity": 2,\n      "unit_price": 24.95,\n      "discount": 5.99\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 428.39,\n  "tax_amount": 32.65,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 43.19,\n  "change_given": 571.61,\n  "status": "completed",\n  "customer_id": "CUST-5005",\n  "line_items": [\n    {\n      "sku": "KITCH-CHEFKNF8",\n      "quantity": 1,\n      "unit_price": 39.95,\n      "discount": 7.19\n    },\n    {\n      "sku": "AUDIO-NCEBUDS01",\n      "quantity": 2,\n      "unit_price": 149.99,\n      "discount": 36.0\n    },\n    {\n      "sku": "CLTH-SLFJEAN34",\n      "quantity": 2,\n      "unit_price": 49.5,\n      "discount": 0.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1327,10 +1250,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 107.17,\n  "tax_amount": 8.17,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 892.83,\n  "status": "completed",\n  "customer_id": "CUST-5011",\n  "line_items": [\n    {\n      "sku": "CLTH-SLFJEAN34",\n      "quantity": 2,\n      "unit_price": 49.5,\n      "discount": 0.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-004",\n  "employee_id": "EMP-1034",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 77.07,\n  "tax_amount": 5.87,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 17.8,\n  "change_given": 922.93,\n  "status": "completed",\n  "customer_id": "CUST-5011",\n  "line_items": [\n    {\n      "sku": "SPORT-BIKHLM01",\n      "quantity": 1,\n      "unit_price": 89.0,\n      "discount": 17.8\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1400,11 +1320,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-005",\n  "employee_id": "EMP-1050",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 123.83,\n  "tax_amount": 9.44,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 15.6,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5011",\n  "line_items": [\n    {\n      "sku": "AUDIO-BTSPKR02",\n      "quantity": 1,\n      "unit_price": 129.99,\n      "discount": 15.6\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 681.96,\n  "tax_amount": 51.97,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 70.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5011",\n  "line_items": [\n    {\n      "sku": "ELEC-4KTV55",\n      "quantity": 1,\n      "unit_price": 699.99,\n      "discount": 70.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0015",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 47.53,\n  "tax_amount": 3.62,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 5.99,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5011",\n  "line_items": [\n    {\n      "sku": "KITCH-FRYPAN10",\n      "quantity": 2,\n      "unit_price": 24.95,\n      "discount": 5.99\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1465,10 +1381,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 77.28,\n  "tax_amount": 5.31,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 6.0,\n  "change_given": 922.72,\n  "status": "completed",\n  "customer_id": "CUST-5001",\n  "line_items": [\n    {\n      "sku": "HOME-DESKLMP01",\n      "quantity": 2,\n      "unit_price": 34.99,\n      "discount": 5.6\n    },\n    {\n      "sku": "GROC-SPRWAT6P",\n      "quantity": 1,\n      "unit_price": 7.99,\n      "discount": 0.4\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 28.48,\n  "tax_amount": 0.0,\n  "payment_method": "cash",\n  "tax_rate": 0,\n  "discount_total": 1.5,\n  "change_given": 971.52,\n  "status": "completed",\n  "customer_id": "CUST-5001",\n  "line_items": [\n    {\n      "sku": "GROC-GRNLBR12",\n      "quantity": 2,\n      "unit_price": 14.99,\n      "discount": 1.5\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1527,10 +1440,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 410.27,\n  "tax_amount": 31.27,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5002",\n  "line_items": [\n    {\n      "sku": "CLTH-WINJKT01",\n      "quantity": 2,\n      "unit_price": 189.5,\n      "discount": 0.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 85.69,\n  "tax_amount": 6.53,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 8.64,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5002",\n  "line_items": [\n    {\n      "sku": "KITCH-FRYPAN10",\n      "quantity": 2,\n      "unit_price": 24.95,\n      "discount": 5.99\n    },\n    {\n      "sku": "ELEC-RCHAA04",\n      "quantity": 2,\n      "unit_price": 18.95,\n      "discount": 2.65\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1579,10 +1489,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-004",\n  "employee_id": "EMP-1034",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 77.07,\n  "tax_amount": 5.87,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 17.8,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5011",\n  "line_items": [\n    {\n      "sku": "SPORT-BIKHLM01",\n      "quantity": 1,\n      "unit_price": 89.0,\n      "discount": 17.8\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 107.17,\n  "tax_amount": 8.17,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5011",\n  "line_items": [\n    {\n      "sku": "CLTH-SLFJEAN34",\n      "quantity": 2,\n      "unit_price": 49.5,\n      "discount": 0.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1641,10 +1548,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 240.59,\n  "tax_amount": 18.33,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 7.19,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5009",\n  "line_items": [\n    {\n      "sku": "CLTH-WINJKT01",\n      "quantity": 1,\n      "unit_price": 189.5,\n      "discount": 0.0\n    },\n    {\n      "sku": "KITCH-CHEFKNF8",\n      "quantity": 1,\n      "unit_price": 39.95,\n      "discount": 7.19\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 34.85,\n  "tax_amount": 2.66,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 2.8,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5009",\n  "line_items": [\n    {\n      "sku": "HOME-DESKLMP01",\n      "quantity": 1,\n      "unit_price": 34.99,\n      "discount": 2.8\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1704,10 +1608,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 47.53,\n  "tax_amount": 3.62,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 5.99,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "KITCH-FRYPAN10",\n      "quantity": 2,\n      "unit_price": 24.95,\n      "discount": 5.99\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 49.77,\n  "tax_amount": 3.8,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 3.53,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "HOME-BTHTWL01",\n      "quantity": 1,\n      "unit_price": 14.5,\n      "discount": 0.73\n    },\n    {\n      "sku": "HOME-DESKLMP01",\n      "quantity": 1,\n      "unit_price": 34.99,\n      "discount": 2.8\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1766,10 +1667,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 85.69,\n  "tax_amount": 6.53,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 8.64,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "KITCH-FRYPAN10",\n      "quantity": 2,\n      "unit_price": 24.95,\n      "discount": 5.99\n    },\n    {\n      "sku": "ELEC-RCHAA04",\n      "quantity": 2,\n      "unit_price": 18.95,\n      "discount": 2.65\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 7.59,\n  "tax_amount": 0.0,\n  "payment_method": "credit_card",\n  "tax_rate": 0,\n  "discount_total": 0.4,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "GROC-SPRWAT6P",\n      "quantity": 1,\n      "unit_price": 7.99,\n      "discount": 0.4\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1809,9 +1707,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 240.59,\n  "tax_amount": 18.33,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 7.19,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5001",\n  "line_items": [\n    {\n      "sku": "CLTH-WINJKT01",\n      "quantity": 1,\n      "unit_price": 189.5,\n      "discount": 0.0\n    }\n, {\n      "sku": "KITCH-CHEFKNF8",\n      "quantity": 1,\n      "unit_price": 39.95,\n      "discount": 7.19\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1863,10 +1759,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 19.07,\n  "tax_amount": 1.45,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 1.33,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "ELEC-RCHAA04",\n      "quantity": 1,\n      "unit_price": 18.95,\n      "discount": 1.33\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 3245.34,\n  "tax_amount": 247.34,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "ELEC-GAMLP15",\n      "quantity": 2,\n      "unit_price": 1499.0,\n      "discount": 0.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1905,9 +1798,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 62.78,\n  "tax_amount": 4.21,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 9.4,\n  "change_given": 937.22,\n  "status": "completed",\n  "customer_id": "CUST-5006",\n  "line_items": [\n    {\n      "sku": "GROC-SPRWAT6P",\n      "quantity": 1,\n      "unit_price": 7.99,\n      "discount": 0.4\n    },\n    {\n      "sku": "SPORT-YOGMAT01",\n      "quantity": 2,\n      "unit_price": 29.99,\n      "discount": 9.0\n    }\n  ]\n}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1976,11 +1867,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-004",\n  "employee_id": "EMP-1034",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 154.15,\n  "tax_amount": 11.75,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 35.6,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "SPORT-BIKHLM01",\n      "quantity": 2,\n      "unit_price": 89.0,\n      "discount": 35.6\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 224.07,\n  "tax_amount": 17.08,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 23.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "OFFC-ERGCHR01",\n      "quantity": 1,\n      "unit_price": 229.99,\n      "discount": 23.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0015",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 29.82,\n  "tax_amount": 2.27,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 1.45,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "HOME-BTHTWL01",\n      "quantity": 2,\n      "unit_price": 14.5,\n      "discount": 1.45\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2050,11 +1937,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 29.82,\n  "tax_amount": 2.27,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 1.45,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "HOME-BTHTWL01",\n      "quantity": 2,\n      "unit_price": 14.5,\n      "discount": 1.45\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 70.93,\n  "tax_amount": 5.41,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 14.38,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "KITCH-CHEFKNF8",\n      "quantity": 2,\n      "unit_price": 39.95,\n      "discount": 14.38\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0015",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 14.24,\n  "tax_amount": 0.0,\n  "payment_method": "credit_card",\n  "tax_rate": 0,\n  "discount_total": 0.75,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "GROC-GRNLBR12",\n      "quantity": 1,\n      "unit_price": 14.99,\n      "discount": 0.75\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2104,10 +1987,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 47.53,\n  "tax_amount": 3.62,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 5.99,\n  "change_given": 952.47,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "KITCH-FRYPAN10",\n      "quantity": 2,\n      "unit_price": 24.95,\n      "discount": 5.99\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 55.16,\n  "tax_amount": 4.2,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 8.99,\n  "change_given": 944.84,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "HOM-COFMKR12",\n      "quantity": 1,\n      "unit_price": 59.95,\n      "discount": 8.99\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2146,9 +2026,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 1797.06,\n  "tax_amount": 136.96,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 17.9,\n  "change_given": 8202.94,\n  "status": "completed",\n  "customer_id": "CUST-5002",\n  "line_items": [\n    {\n      "sku": "ELEC-GAMLP15",\n      "quantity": 1,\n      "unit_price": 1499.0,\n      "discount": 0.0\n    },\n    {\n      "sku": "SMRT-THERM02",\n      "quantity": 1,\n      "unit_price": 179.0,\n      "discount": 17.9\n    }\n  ]\n}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2211,10 +2089,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 14.92,\n  "tax_amount": 1.14,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 0.73,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "HOME-BTHTWL01",\n      "quantity": 1,\n      "unit_price": 14.5,\n      "discount": 0.73\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 567.32,\n  "tax_amount": 43.24,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 53.9,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "AUDIO-NCEBUDS01",\n      "quantity": 2,\n      "unit_price": 149.99,\n      "discount": 36.0\n    },\n    {\n      "sku": "CLTH-SLFJEAN34",\n      "quantity": 2,\n      "unit_price": 49.5,\n      "discount": 0.0\n    },\n    {\n      "sku": "SMRT-THERM02",\n      "quantity": 1,\n      "unit_price": 179.0,\n      "discount": 17.9\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2275,10 +2150,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 1474.26,\n  "tax_amount": 112.36,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 157.98,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5012",\n  "line_items": [\n    {\n      "sku": "HOM-COFMKR12",\n      "quantity": 2,\n      "unit_price": 59.95,\n      "discount": 17.98\n    },\n    {\n      "sku": "ELEC-4KTV55",\n      "quantity": 2,\n      "unit_price": 699.99,\n      "discount": 140.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 142.88,\n  "tax_amount": 10.89,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 18.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5012",\n  "line_items": [\n    {\n      "sku": "AUDIO-NCEBUDS01",\n      "quantity": 1,\n      "unit_price": 149.99,\n      "discount": 18.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2358,11 +2230,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 82.75,\n  "tax_amount": 6.3,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 13.49,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5005",\n  "line_items": [\n    {\n      "sku": "SPORT-YOGMAT01",\n      "quantity": 1,\n      "unit_price": 29.99,\n      "discount": 4.5\n    },\n    {\n      "sku": "HOM-COFMKR12",\n      "quantity": 1,\n      "unit_price": 59.95,\n      "discount": 8.99\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 53.58,\n  "tax_amount": 4.08,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5005",\n  "line_items": [\n    {\n      "sku": "CLTH-SLFJEAN34",\n      "quantity": 1,\n      "unit_price": 49.5,\n      "discount": 0.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0015",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 38.16,\n  "tax_amount": 2.91,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 2.65,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5005",\n  "line_items": [\n    {\n      "sku": "ELEC-RCHAA04",\n      "quantity": 2,\n      "unit_price": 18.95,\n      "discount": 2.65\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2412,10 +2280,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 12.99,\n  "tax_amount": 0.0,\n  "payment_method": "credit_card",\n  "tax_rate": 0,\n  "discount_total": 0.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5007",\n  "line_items": [\n    {\n      "sku": "GROC-ALMBTR500",\n      "quantity": 1,\n      "unit_price": 12.99,\n      "discount": 0.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 23.77,\n  "tax_amount": 1.81,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 2.99,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5007",\n  "line_items": [\n    {\n      "sku": "KITCH-FRYPAN10",\n      "quantity": 1,\n      "unit_price": 24.95,\n      "discount": 2.99\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2464,10 +2329,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 25.98,\n  "tax_amount": 0.0,\n  "payment_method": "credit_card",\n  "tax_rate": 0,\n  "discount_total": 0.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5006",\n  "line_items": [\n    {\n      "sku": "GROC-ALMBTR500",\n      "quantity": 2,\n      "unit_price": 12.99,\n      "discount": 0.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 70.93,\n  "tax_amount": 5.41,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 14.38,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5006",\n  "line_items": [\n    {\n      "sku": "KITCH-CHEFKNF8",\n      "quantity": 2,\n      "unit_price": 39.95,\n      "discount": 14.38\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2528,10 +2390,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 70.37,\n  "tax_amount": 4.21,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 9.8,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "SPORT-YOGMAT01",\n      "quantity": 2,\n      "unit_price": 29.99,\n      "discount": 9.0\n    },\n    {\n      "sku": "GROC-SPRWAT6P",\n      "quantity": 2,\n      "unit_price": 7.99,\n      "discount": 0.8\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 23.77,\n  "tax_amount": 1.81,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 2.99,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "KITCH-FRYPAN10",\n      "quantity": 1,\n      "unit_price": 24.95,\n      "discount": 2.99\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2630,12 +2489,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-004",\n  "employee_id": "EMP-1034",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 154.15,\n  "tax_amount": 11.75,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 35.6,\n  "change_given": 845.85,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "SPORT-BIKHLM01",\n      "quantity": 2,\n      "unit_price": 89.0,\n      "discount": 35.6\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 34.85,\n  "tax_amount": 2.66,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 2.8,\n  "change_given": 965.15,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "HOME-DESKLMP01",\n      "quantity": 1,\n      "unit_price": 34.99,\n      "discount": 2.8\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0015",\n  "store_id": "STORE-005",\n  "employee_id": "EMP-1050",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 247.65,\n  "tax_amount": 18.87,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 31.2,\n  "change_given": 752.35,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "AUDIO-BTSPKR02",\n      "quantity": 2,\n      "unit_price": 129.99,\n      "discount": 31.2\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0016",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 312.3,\n  "tax_amount": 23.8,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 687.7,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "CLTH-WINJKT01",\n      "quantity": 1,\n      "unit_price": 189.5,\n      "discount": 0.0\n    },\n    {\n      "sku": "CLTH-SLFJEAN34",\n      "quantity": 2,\n      "unit_price": 49.5,\n      "discount": 0.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2695,10 +2549,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 1376.92,\n  "tax_amount": 103.95,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 140.0,\n  "change_given": 623.08,\n  "status": "completed",\n  "customer_id": "CUST-5007",\n  "line_items": [\n    {\n      "sku": "ELEC-4KTV55",\n      "quantity": 2,\n      "unit_price": 699.99,\n      "discount": 140.0\n    }\n, {\n      "sku": "GROC-ALMBTR500",\n      "quantity": 1,\n      "unit_price": 12.99,\n      "discount": 0.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 47.53,\n  "tax_amount": 3.62,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 5.99,\n  "change_given": 1952.47,\n  "status": "completed",\n  "customer_id": "CUST-5007",\n  "line_items": [\n    {\n      "sku": "KITCH-FRYPAN10",\n      "quantity": 2,\n      "unit_price": 24.95,\n      "discount": 5.99\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2750,10 +2601,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 110.33,\n  "tax_amount": 8.41,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 17.98,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5006",\n  "line_items": [\n    {\n      "sku": "HOM-COFMKR12",\n      "quantity": 2,\n      "unit_price": 59.95,\n      "discount": 17.98\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 410.27,\n  "tax_amount": 31.27,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5006",\n  "line_items": [\n    {\n      "sku": "CLTH-WINJKT01",\n      "quantity": 2,\n      "unit_price": 189.5,\n      "discount": 0.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2822,11 +2670,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 1363.93,\n  "tax_amount": 103.95,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 140.0,\n  "change_given": 636.07,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "ELEC-4KTV55",\n      "quantity": 2,\n      "unit_price": 699.99,\n      "discount": 140.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-005",\n  "employee_id": "EMP-1050",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 123.83,\n  "tax_amount": 9.44,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 15.6,\n  "change_given": 1876.17,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "AUDIO-BTSPKR02",\n      "quantity": 1,\n      "unit_price": 129.99,\n      "discount": 15.6\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0015",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 47.53,\n  "tax_amount": 3.62,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 5.99,\n  "change_given": 1952.47,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "KITCH-FRYPAN10",\n      "quantity": 2,\n      "unit_price": 24.95,\n      "discount": 5.99\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2906,11 +2750,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 245.32,\n  "tax_amount": 18.7,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 32.28,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5006",\n  "line_items": [\n    {\n      "sku": "SMRT-THERM02",\n      "quantity": 1,\n      "unit_price": 179.0,\n      "discount": 17.9\n    },\n    {\n      "sku": "KITCH-CHEFKNF8",\n      "quantity": 2,\n      "unit_price": 39.95,\n      "discount": 14.38\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 448.13,\n  "tax_amount": 34.15,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 46.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5006",\n  "line_items": [\n    {\n      "sku": "OFFC-ERGCHR01",\n      "quantity": 2,\n      "unit_price": 229.99,\n      "discount": 46.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0015",\n  "store_id": "STORE-004",\n  "employee_id": "EMP-1034",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 77.07,\n  "tax_amount": 5.87,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 17.8,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5006",\n  "line_items": [\n    {\n      "sku": "SPORT-BIKHLM01",\n      "quantity": 1,\n      "unit_price": 89.0,\n      "discount": 17.8\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2959,10 +2799,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 1363.93,\n  "tax_amount": 103.95,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 140.0,\n  "change_given": 3636.07,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "ELEC-4KTV55",\n      "quantity": 2,\n      "unit_price": 699.99,\n      "discount": 140.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 3245.34,\n  "tax_amount": 247.34,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 1754.66,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "ELEC-GAMLP15",\n      "quantity": 2,\n      "unit_price": 1499.0,\n      "discount": 0.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3013,10 +2850,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 410.27,\n  "tax_amount": 31.27,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5012",\n  "line_items": [\n    {\n      "sku": "CLTH-WINJKT01",\n      "quantity": 2,\n      "unit_price": 189.5,\n      "discount": 0.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 15.18,\n  "tax_amount": 0.0,\n  "payment_method": "credit_card",\n  "tax_rate": 0,\n  "discount_total": 0.8,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5012",\n  "line_items": [\n    {\n      "sku": "GROC-SPRWAT6P",\n      "quantity": 2,\n      "unit_price": 7.99,\n      "discount": 0.8\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3065,10 +2899,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-004",\n  "employee_id": "EMP-1034",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 154.15,\n  "tax_amount": 11.75,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 35.6,\n  "change_given": 845.85,\n  "status": "completed",\n  "customer_id": "CUST-5006",\n  "line_items": [\n    {\n      "sku": "SPORT-BIKHLM01",\n      "quantity": 2,\n      "unit_price": 89.0,\n      "discount": 35.6\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 70.93,\n  "tax_amount": 5.41,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 14.38,\n  "change_given": 929.07,\n  "status": "completed",\n  "customer_id": "CUST-5006",\n  "line_items": [\n    {\n      "sku": "KITCH-CHEFKNF8",\n      "quantity": 2,\n      "unit_price": 39.95,\n      "discount": 14.38\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3118,10 +2949,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 15.18,\n  "tax_amount": 0.0,\n  "payment_method": "cash",\n  "tax_rate": 0,\n  "discount_total": 0.8,\n  "change_given": 984.82,\n  "status": "completed",\n  "customer_id": "CUST-5001",\n  "line_items": [\n    {\n      "sku": "GROC-SPRWAT6P",\n      "quantity": 2,\n      "unit_price": 7.99,\n      "discount": 0.8\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-004",\n  "employee_id": "EMP-1034",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 77.07,\n  "tax_amount": 5.87,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 17.8,\n  "change_given": 922.93,\n  "status": "completed",\n  "customer_id": "CUST-5001",\n  "line_items": [\n    {\n      "sku": "SPORT-BIKHLM01",\n      "quantity": 1,\n      "unit_price": 89.0,\n      "discount": 17.8\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3201,11 +3029,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 23.77,\n  "tax_amount": 1.81,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 2.99,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5011",\n  "line_items": [\n    {\n      "sku": "KITCH-FRYPAN10",\n      "quantity": 1,\n      "unit_price": 24.95,\n      "discount": 2.99\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 3280.8,\n  "tax_amount": 250.04,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 7.19,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5011",\n  "line_items": [\n    {\n      "sku": "ELEC-GAMLP15",\n      "quantity": 2,\n      "unit_price": 1499.0,\n      "discount": 0.0\n    },\n    {\n      "sku": "KITCH-CHEFKNF8",\n      "quantity": 1,\n      "unit_price": 39.95,\n      "discount": 7.19\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0015",\n  "store_id": "STORE-005",\n  "employee_id": "EMP-1050",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 123.83,\n  "tax_amount": 9.44,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 15.6,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5011",\n  "line_items": [\n    {\n      "sku": "AUDIO-BTSPKR02",\n      "quantity": 1,\n      "unit_price": 129.99,\n      "discount": 15.6\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3235,9 +3059,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 38.16,\n  "tax_amount": 2.91,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 2.65,\n  "change_given": 961.84,\n  "status": "completed",\n  "customer_id": "CUST-5003",\n  "line_items": [\n    {\n      "sku": "ELEC-RCHAA04",\n      "quantity": 2,\n      "unit_price": 18.95,\n      "discount": 2.65\n    }\n  ]\n}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3297,10 +3119,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 42.81,\n  "tax_amount": 2.27,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 1.45,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5002",\n  "line_items": [\n    {\n      "sku": "HOME-BTHTWL01",\n      "quantity": 2,\n      "unit_price": 14.5,\n      "discount": 1.45\n    },\n    {\n      "sku": "GROC-ALMBTR500",\n      "quantity": 1,\n      "unit_price": 12.99,\n      "discount": 0.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 142.88,\n  "tax_amount": 10.89,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 18.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5002",\n  "line_items": [\n    {\n      "sku": "AUDIO-NCEBUDS01",\n      "quantity": 1,\n      "unit_price": 149.99,\n      "discount": 18.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3389,11 +3208,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 238.31,\n  "tax_amount": 17.08,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 23.75,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5010",\n  "line_items": [\n    {\n      "sku": "OFFC-ERGCHR01",\n      "quantity": 1,\n      "unit_price": 229.99,\n      "discount": 23.0\n    },\n    {\n      "sku": "GROC-GRNLBR12",\n      "quantity": 1,\n      "unit_price": 14.99,\n      "discount": 0.75\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 737.12,\n  "tax_amount": 56.17,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 78.99,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5010",\n  "line_items": [\n    {\n      "sku": "ELEC-4KTV55",\n      "quantity": 1,\n      "unit_price": 699.99,\n      "discount": 70.0\n    },\n    {\n      "sku": "HOM-COFMKR12",\n      "quantity": 1,\n      "unit_price": 59.95,\n      "discount": 8.99\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0015",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 70.93,\n  "tax_amount": 5.41,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 14.38,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5010",\n  "line_items": [\n    {\n      "sku": "KITCH-CHEFKNF8",\n      "quantity": 2,\n      "unit_price": 39.95,\n      "discount": 14.38\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3452,10 +3267,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 81.17,\n  "tax_amount": 4.21,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 9.0,\n  "change_given": 918.83,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "GROC-ALMBTR500",\n      "quantity": 2,\n      "unit_price": 12.99,\n      "discount": 0.0\n    },\n    {\n      "sku": "SPORT-YOGMAT01",\n      "quantity": 2,\n      "unit_price": 29.99,\n      "discount": 9.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 224.07,\n  "tax_amount": 17.08,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 23.0,\n  "change_given": 775.93,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "OFFC-ERGCHR01",\n      "quantity": 1,\n      "unit_price": 229.99,\n      "discount": 23.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3504,10 +3316,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 224.07,\n  "tax_amount": 17.08,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 23.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5002",\n  "line_items": [\n    {\n      "sku": "OFFC-ERGCHR01",\n      "quantity": 1,\n      "unit_price": 229.99,\n      "discount": 23.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 107.17,\n  "tax_amount": 8.17,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5002",\n  "line_items": [\n    {\n      "sku": "CLTH-SLFJEAN34",\n      "quantity": 2,\n      "unit_price": 49.5,\n      "discount": 0.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3576,10 +3385,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 33.31,\n  "tax_amount": 1.45,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 2.08,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "ELEC-RCHAA04",\n      "quantity": 1,\n      "unit_price": 18.95,\n      "discount": 1.33\n    },\n    {\n      "sku": "GROC-GRNLBR12",\n      "quantity": 1,\n      "unit_price": 14.99,\n      "discount": 0.75\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 57.41,\n  "tax_amount": 4.37,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 5.95,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5004",\n  "line_items": [\n    {\n      "sku": "SPORT-YOGMAT01",\n      "quantity": 1,\n      "unit_price": 29.99,\n      "discount": 4.5\n    },\n    {\n      "sku": "HOME-BTHTWL01",\n      "quantity": 2,\n      "unit_price": 14.5,\n      "discount": 1.45\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3618,9 +3424,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 77.28,\n  "tax_amount": 5.31,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 6.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "HOME-DESKLMP01",\n      "quantity": 2,\n      "unit_price": 34.99,\n      "discount": 5.6\n    },\n    {\n      "sku": "GROC-SPRWAT6P",\n      "quantity": 1,\n      "unit_price": 7.99,\n      "discount": 0.4\n    }\n  ]\n}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3669,10 +3473,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-004",\n  "employee_id": "EMP-1034",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 77.07,\n  "tax_amount": 5.87,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 17.8,\n  "change_given": 922.93,\n  "status": "completed",\n  "customer_id": "CUST-5002",\n  "line_items": [\n    {\n      "sku": "SPORT-BIKHLM01",\n      "quantity": 1,\n      "unit_price": 89.0,\n      "discount": 17.8\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 410.27,\n  "tax_amount": 31.27,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 589.73,\n  "status": "completed",\n  "customer_id": "CUST-5002",\n  "line_items": [\n    {\n      "sku": "CLTH-WINJKT01",\n      "quantity": 2,\n      "unit_price": 189.5,\n      "discount": 0.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3702,9 +3503,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 681.96,\n  "tax_amount": 51.97,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 70.0,\n  "change_given": 318.04,\n  "status": "completed",\n  "customer_id": "CUST-5005",\n  "line_items": [\n    {\n      "sku": "ELEC-4KTV55",\n      "quantity": 1,\n      "unit_price": 699.99,\n      "discount": 70.0\n    }\n  ]\n}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3743,9 +3542,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 517.44,\n  "tax_amount": 39.44,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 482.56,\n  "status": "completed",\n  "customer_id": "CUST-5003",\n  "line_items": [\n    {\n      "sku": "CLTH-SLFJEAN34",\n      "quantity": 2,\n      "unit_price": 49.5,\n      "discount": 0.0\n    },\n    {\n      "sku": "CLTH-WINJKT01",\n      "quantity": 2,\n      "unit_price": 189.5,\n      "discount": 0.0\n    }\n  ]\n}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3806,10 +3603,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 3655.61,\n  "tax_amount": 278.61,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 6344.39,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "ELEC-GAMLP15",\n      "quantity": 2,\n      "unit_price": 1499.0,\n      "discount": 0.0\n    }\n, {\n      "sku": "CLTH-WINJKT01",\n      "quantity": 2,\n      "unit_price": 189.5,\n      "discount": 0.0\n    }  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 29.82,\n  "tax_amount": 2.27,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 1.45,\n  "change_given": 9970.18,\n  "status": "completed",\n  "customer_id": "CUST-5008",\n  "line_items": [\n    {\n      "sku": "HOME-BTHTWL01",\n      "quantity": 2,\n      "unit_price": 14.5,\n      "discount": 1.45\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3888,11 +3682,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-005",\n  "employee_id": "EMP-1050",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 123.83,\n  "tax_amount": 9.44,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 15.6,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5012",\n  "line_items": [\n    {\n      "sku": "AUDIO-BTSPKR02",\n      "quantity": 1,\n      "unit_price": 129.99,\n      "discount": 15.6\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 1376.92,\n  "tax_amount": 103.95,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 140.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5012",\n  "line_items": [\n    {\n      "sku": "GROC-ALMBTR500",\n      "quantity": 1,\n      "unit_price": 12.99,\n      "discount": 0.0\n    },\n    {\n      "sku": "ELEC-4KTV55",\n      "quantity": 2,\n      "unit_price": 699.99,\n      "discount": 140.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0015",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 224.07,\n  "tax_amount": 17.08,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 23.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5012",\n  "line_items": [\n    {\n      "sku": "OFFC-ERGCHR01",\n      "quantity": 1,\n      "unit_price": 229.99,\n      "discount": 23.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3951,10 +3741,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 711.78,\n  "tax_amount": 54.24,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 71.45,\n  "change_given": 2288.22,\n  "status": "completed",\n  "customer_id": "CUST-5010",\n  "line_items": [\n    {\n      "sku": "HOME-BTHTWL01",\n      "quantity": 2,\n      "unit_price": 14.5,\n      "discount": 1.45\n    },\n    {\n      "sku": "ELEC-4KTV55",\n      "quantity": 1,\n      "unit_price": 699.99,\n      "discount": 70.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 1622.67,\n  "tax_amount": 123.67,\n  "payment_method": "cash",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 1377.33,\n  "status": "completed",\n  "customer_id": "CUST-5010",\n  "line_items": [\n    {\n      "sku": "ELEC-GAMLP15",\n      "quantity": 1,\n      "unit_price": 1499.0,\n      "discount": 0.0\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4037,11 +3824,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 14.92,\n  "tax_amount": 1.14,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 0.73,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5012",\n  "line_items": [\n    {\n      "sku": "HOME-BTHTWL01",\n      "quantity": 1,\n      "unit_price": 14.5,\n      "discount": 0.73\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-003",\n  "employee_id": "EMP-1020",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 448.13,\n  "tax_amount": 34.15,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 46.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5012",\n  "line_items": [\n    {\n      "sku": "OFFC-ERGCHR01",\n      "quantity": 2,\n      "unit_price": 229.99,\n      "discount": 46.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0015",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 1836.48,\n  "tax_amount": 139.97,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 32.38,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5012",\n  "line_items": [\n    {\n      "sku": "ELEC-GAMLP15",\n      "quantity": 1,\n      "unit_price": 1499.0,\n      "discount": 0.0\n    },\n    {\n      "sku": "AUDIO-NCEBUDS01",\n      "quantity": 1,\n      "unit_price": 149.99,\n      "discount": 18.0\n    },\n    {\n      "sku": "KITCH-CHEFKNF8",\n      "quantity": 2,\n      "unit_price": 39.95,\n      "discount": 14.38\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4112,10 +3895,6 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{\n  "transaction_id": "TNX-0013",\n  "store_id": "STORE-001",\n  "employee_id": "EMP-1002",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 69.69,\n  "tax_amount": 5.31,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 5.6,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5007",\n  "line_items": [\n    {\n      "sku": "HOME-DESKLMP01",\n      "quantity": 2,\n      "unit_price": 34.99,\n      "discount": 5.6\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0014",\n  "store_id": "STORE-002",\n  "employee_id": "EMP-1011",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 205.13,\n  "tax_amount": 15.63,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 0.0,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5007",\n  "line_items": [\n    {\n      "sku": "CLTH-WINJKT01",\n      "quantity": 1,\n      "unit_price": 189.5,\n      "discount": 0.0\n    }\n  ]\n}',
-            '{\n  "transaction_id": "TNX-0015",\n  "store_id": "STORE-005",\n  "employee_id": "EMP-1050",\n  "timestamp": "2025-01-01T09:10:00Z",\n  "total_amount": 247.65,\n  "tax_amount": 18.87,\n  "payment_method": "credit_card",\n  "tax_rate": 0.0825,\n  "discount_total": 31.2,\n  "change_given": 0.0,\n  "status": "completed",\n  "customer_id": "CUST-5007",\n  "line_items": [\n    {\n      "sku": "AUDIO-BTSPKR02",\n      "quantity": 2,\n      "unit_price": 129.99,\n      "discount": 31.2\n    }\n  ]\n}',
-        ],
+        outputs=[]
     ),
 ]

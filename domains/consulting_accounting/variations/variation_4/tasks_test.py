@@ -42,10 +42,7 @@ TASKS = [
 
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-08"}),
         ],
-        outputs=[
-            "PUB010 created & read; PUB002 AP updated & read; CONS001 phone updated & read; "
-            "Aug‑2024 entries fetched; rate resolved for PROJ001; sample total computed; AR_Aging_2024-08 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -70,10 +67,7 @@ TASKS = [
             }),
             Action(name="GetPublisherInfo", kwargs={"publisher_id": "PUB003"}),
         ],
-        outputs=[
-            "PUB011 created & read; 12‑month KPIs computed; AR_Aging_2024-09 exported; "
-            "PUB003 AP updated & read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -94,10 +88,7 @@ TASKS = [
 
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-07"}),
         ],
-        outputs=[
-            "July context fetched/resolved; sample totals computed; CONS001 email updated & read; "
-            "PUB002 AP updated & read; AR_Aging_2024-07 exported."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -133,10 +124,7 @@ TASKS = [
             }),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-08"}),
         ],
-        outputs=[
-            "PUB010 created & read; PROJ990 created & read; PROJ990 rate resolved; "
-            "4h micro‑total computed; AR_Aging_2024-08 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -170,10 +158,7 @@ TASKS = [
             Action(name="FetchProjects", kwargs={}),
             Action(name="GetProjectDetails", kwargs={"project_id": "PROJ004"}),
         ],
-        outputs=[
-            "Open invoices listed; AR_Aging_2024-10 and AR_Aging_2024-09 exported; PUB004 AP updated & read; "
-            "CONS001 address confirmed & read; KPIs computed; 15 days categorized; projects listed; PROJ004 read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -201,9 +186,7 @@ TASKS = [
 
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "PUB013 created & read; PUB002 read; open invoices reviewed; KPIs computed; rates resolved; sample totals; AR_Aging_2024-09 exported."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -236,9 +219,7 @@ TASKS = [
 
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "PUB005 AP updated & read; CONS001 email updated & read; open invoices reviewed; KPIs computed; rate resolved; sample total; aging exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -268,10 +249,7 @@ TASKS = [
             Action(name="GetProjectDetails", kwargs={"project_id": "PROJ003"}),
             Action(name="GetInvoiceDetails", kwargs={"invoice_number": "2024-010"}),
         ],
-        outputs=[
-            "PROJ999 created & read; PUB003 read; open invoices reviewed; KPIs computed; rates resolved; sample totals; "
-            "AR_Aging_2024-11 exported; projects listed; PROJ003 read; invoice 2024-010 read;"
-        ],
+        outputs=[]
     ),    
     Task(
         annotator="A",
@@ -315,11 +293,7 @@ TASKS = [
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-009"}),
             Action(name="GetInvoiceDetails", kwargs={"invoice_number": "2024-021"}),
         ],
-        outputs=[
-            "PUB001 AP updated & read; CONS001 email updated & read; open invoices reviewed; KPIs computed; "
-            "rate resolved; total computed; AR_Aging_2024-09 and AR_Aging_2024-08 exported; projects listed; PROJ001 read; "
-            "invoices 2024-009 and 2024-021 read; audit for 2024-009 recorded & listed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -350,9 +324,7 @@ TASKS = [
             }),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "PUB003 AP updated & read; CONS001 phone updated & read; open invoices reviewed; KPIs computed; rates resolved; totals computed; aging exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -382,10 +354,7 @@ TASKS = [
             Action(name="InsertDashboardSnapshot", kwargs={"snapshot_date": "2024-10-31", "pdf_path": "https://storage.example.com/reports/AR_Aging_2024-10.pdf"}),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-10-31"}),
         ],
-        outputs=[
-            "PROJ1011 created & read; PUB004 read; rates resolved; totals computed; open invoices reviewed; KPIs computed; "
-            "AR_Aging_2024-10 exported; snapshot saved & read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -412,9 +381,7 @@ TASKS = [
             Action(name="InsertDashboardSnapshot", kwargs={"snapshot_date": "2024-08-31", "pdf_path": "https://storage.example.com/reports/AR_Aging_2024-08.pdf"}),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-08-31"}),
         ],
-        outputs=[
-            "PUB021 created & read; PROJ1012 created & read; sample total computed; AR_Aging_2024-08 exported; snapshot saved & read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -440,9 +407,7 @@ TASKS = [
             Action(name="ComputeDaysOutstanding", kwargs={"invoices": [{"invoice_number": "2024-010", "period_end": "2024-10-31"}], "today": "2024-11-15"}),
             Action(name="CategorizeAging", kwargs={"aging": [{"invoice_number": "2024-010", "days_outstanding": 15}]}),
         ],
-        outputs=[
-            "PROJ1013 created & read; open invoices reviewed; KPIs computed; sample total; 15 days categorized for 2024-010."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -465,9 +430,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 4, "rate": 90.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-10"}),
         ],
-        outputs=[
-            "PROJ1015 created & read; PUB005 read; sample total; AR_Aging_2024-10 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -488,9 +451,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 3, "rate": 85.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-08"}),
         ],
-        outputs=[
-            "PUB001 AP updated & read; CONS001 address updated & read; open invoices reviewed; KPIs computed; sample total; AR_Aging_2024-08 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -512,9 +473,7 @@ TASKS = [
             Action(name="ResolveHourlyRates", kwargs={"project_id_list": ["PROJ001", "PROJ003"]}),
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 2, "rate": 85.0}, {"hours": 2, "rate": 75.0}], "hst_rate": 0.13}),
         ],
-        outputs=[
-            "PUB024 created & read; open invoices reviewed; KPIs computed; AR_Aging_2024-09 exported; snapshot saved & read; rates resolved; totals computed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -533,9 +492,7 @@ TASKS = [
 
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-08"}),
         ],
-        outputs=[
-            "CONS001 phone updated & read; PUB004 read; rate resolved; total computed; AR_Aging_2024-08 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -554,9 +511,7 @@ TASKS = [
             Action(name="ResolveHourlyRates", kwargs={"project_id_list": ["PROJ001"]}),
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 2, "rate": 85.0}], "hst_rate": 0.13}),
         ],
-        outputs=[
-            "PUB025 created & read; AR_Aging_2024-08 exported; snapshot saved & read; rate resolved; total computed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -577,9 +532,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 4, "rate": 105.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "PROJ1018 created & read; sample total; AR_Aging_2024-11 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -598,9 +551,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 3, "rate": 85.0}, {"hours": 2, "rate": 75.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "PUB003 AP updated & read; CONS001 phone updated & read; rates resolved; totals computed; AR_Aging_2024-09 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -619,9 +570,7 @@ TASKS = [
             Action(name="ResolveHourlyRates", kwargs={"project_id_list": ["PROJ001"]}),
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 5, "rate": 85.0}], "hst_rate": 0.13}),
         ],
-        outputs=[
-            "PUB027 created & read; AR_Aging_2024-08 exported; snapshot saved & read; rate resolved; total computed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -642,9 +591,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 4, "rate": 85.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-07"}),
         ],
-        outputs=[
-            "PROJ1019 created & read; sample total; AR_Aging_2024-07 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -672,10 +619,7 @@ TASKS = [
             Action(name="FetchProjects", kwargs={}),
             Action(name="GetProjectDetails", kwargs={"project_id": "PROJ003"})
         ],
-        outputs=[
-            "PUB002 AP updated & read; CONS001 GST updated & read; open invoices reviewed; KPIs computed; AR_Aging_2024-07 exported; "
-            "17 days categorized for 2024-023; projects listed; PROJ003 read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -697,9 +641,7 @@ TASKS = [
             Action(name="ComputeCollectionKpis", kwargs={"window_months": 12}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-09"})
         ],
-        outputs=[
-            "CONS001 email updated & read; PUB001 AP updated & read; rates resolved; totals computed; open invoices reviewed; KPIs computed; AR_Aging_2024-09 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -722,9 +664,7 @@ TASKS = [
 
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-10"})
         ],
-        outputs=[
-            "PUB004 and PUB005 AP updated & read; open invoices reviewed; KPIs computed; projects listed; PROJ004 read; AR_Aging_2024-10 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -746,9 +686,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 2, "rate": 87.0}, {"hours": 2, "rate": 85.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-08"})
         ],
-        outputs=[
-            "PROJ2035 created & read; rates resolved; totals computed; AR_Aging_2024-08 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -767,9 +705,7 @@ TASKS = [
             Action(name="ComputeCollectionKpis", kwargs={"window_months": 12}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-07"})
         ],
-        outputs=[
-            "PUB002 GST updated & read; CONS001 GST updated & read; open invoices reviewed; KPIs computed; AR_Aging_2024-07 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -795,9 +731,7 @@ TASKS = [
             Action(name="InsertDashboardSnapshot", kwargs={"snapshot_date": "2024-07-31", "pdf_path": "https://storage.example.com/reports/AR_Aging_2024-07.pdf"}),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-07-31"})
         ],
-        outputs=[
-            "PUB035 created & read; PROJ2041 created & read; sample total; AR_Aging_2024-07 exported; snapshot saved & read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -816,9 +750,7 @@ TASKS = [
             Action(name="UpdatePublisherContact", kwargs={"publisher_id": "PUB003", "contact_email": "ap@canopypress.ca"}),
             Action(name="GetPublisherInfo", kwargs={"publisher_id": "PUB003"})
         ],
-        outputs=[
-            "PUB036 created & read; open invoices reviewed; KPIs computed; AR_Aging_2024-10 exported; PUB003 AP updated & read."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -843,9 +775,7 @@ TASKS = [
 
             Action(name="GetInvoiceDetails", kwargs={"invoice_number": "2024-010"})
         ],
-        outputs=[
-            "PROJ2044 created & read; rate resolved; total computed; AR_Aging_2024-11 exported; invoice 2024-010 read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -864,9 +794,7 @@ TASKS = [
 
             Action(name="FetchInvoices", kwargs={"status": "open"})
         ],
-        outputs=[
-            "PUB039 created & read; AR_Aging_2024-08 and AR_Aging_2024-09 exported; snapshot 2024-08-31 saved & read; open invoices reviewed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -885,9 +813,7 @@ TASKS = [
             Action(name="ComputeCollectionKpis", kwargs={"window_months": 12}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-11"})
         ],
-        outputs=[
-            "PUB001 and PUB003 AP updated & read; open invoices reviewed; KPIs computed; AR_Aging_2024-11 exported."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -913,9 +839,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 2, "rate": 91.0}, {"hours": 1, "rate": 85.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-10"})
         ],
-        outputs=[
-            "PUB041 created & read; PROJ2055 created & read; rates resolved; totals computed; AR_Aging_2024-10 exported."
-        ],
+        outputs=[]
     ),
 
 
@@ -951,9 +875,7 @@ TASKS = [
             Action(name="ListInvoiceLines", kwargs={"invoice_number": "2024-120"}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-10"}),
         ],
-        outputs=[
-            "Invoice 2024-120 inserted & read with correct totals; line inserted & listed; AR_Aging_2024-10 exported."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -984,10 +906,7 @@ TASKS = [
             }),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_id": 1}),
         ],
-        outputs=[
-            "PUB031 created & read; PROJ2026A created & read; rate resolved & sample total computed; "
-            "open invoices reviewed; KPIs computed; AR_Aging_2024-11 exported; snapshot saved & read by id."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1013,9 +932,7 @@ TASKS = [
             }),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_id": 2}),
         ],
-        outputs=[
-            "PUB032 created & read; open invoices reviewed; KPIs computed; AR_Aging_2024-07 and AR_Aging_2024-06 exported; both snapshots saved & read by id."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1043,9 +960,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-026", "event_type": "risk_categorized"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-026"}),
         ],
-        outputs=[
-            "Aging computed & categorized; PUB001 open invoices reviewed; AR_Aging_2024-09 exported; risk audit recorded & listed for 2024-026."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1075,9 +990,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-131", "event_type": "generated"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-131"}),
         ],
-        outputs=[
-            "Invoice 2024-131 inserted & read; lines inserted & listed; audit recorded & listed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1106,9 +1019,7 @@ TASKS = [
             }),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_id": 1}),
         ],
-        outputs=[
-            "PUB033 created & read; PROJ2034 created & read; sample total; open invoices reviewed; AR_Aging_2024-09 exported; snapshot saved & read by id."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1132,10 +1043,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-009", "event_type": "reviewed"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-009"}),
         ],
-        outputs=[
-            "Projects listed; PROJ003 read; rate resolved; total computed; open invoices reviewed; KPIs computed; "
-            "AR_Aging_2024-08 exported; snapshot saved & read by id; invoice 2024-009 audit recorded & listed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1158,9 +1066,7 @@ TASKS = [
             Action(name="ResolveHourlyRates", kwargs={"project_id_list": ["PROJ001"]}),
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 2, "rate": 85.0}], "hst_rate": 0.13}),
         ],
-        outputs=[
-            "PUB034 created & read; open invoices reviewed; KPIs computed; AR_Aging_2024-11 exported; snapshot saved & read by id; rate resolved & sample total computed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1185,9 +1091,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-024", "event_type": "risk_reviewed"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-024"}),
         ],
-        outputs=[
-            "Upcoming‑due flagged for 2024-024; open invoices reviewed; AR_Aging_2024-09 exported; snapshot saved & read by id; risk audit recorded & listed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1216,9 +1120,7 @@ TASKS = [
             }),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_id": 1}),
         ],
-        outputs=[
-            "PUB037 created & read; PROJ2046 created & read; sample total; open invoices reviewed; AR_Aging_2024-09 exported; snapshot saved & read by id."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1239,9 +1141,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-025", "event_type": "reviewed"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-025"}),
         ],
-        outputs=[
-            "Projects listed; PROJ001 read; open invoices reviewed; KPIs computed; AR_Aging_2024-11 exported; sample total computed; invoice 2024-025 read; audit recorded & listed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1271,9 +1171,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-134", "event_type": "generated"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-134"}),
         ],
-        outputs=[
-            "Invoice 2024-134 inserted & read; line inserted & listed; audit recorded & listed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1301,9 +1199,7 @@ TASKS = [
             }),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_id": 1}),
         ],
-        outputs=[
-            "PUB040 created & read; PROJ2053 created & read; sample total; AR_Aging_2024-09 exported; snapshot saved & read by id."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1336,9 +1232,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-135", "event_type": "generated"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-135"}),
         ],
-        outputs=[
-            "PROJ2056 created & read; invoice 2024-135 inserted & read; audit recorded & listed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1362,9 +1256,7 @@ TASKS = [
             Action(name="ResolveHourlyRates", kwargs={"project_id_list": ["PROJ001"]}),
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 2, "rate": 85.0}], "hst_rate": 0.13}),
         ],
-        outputs=[
-            "PUB042 created & read; open invoices reviewed; KPIs computed; AR_Aging_2024-11 exported; snapshot saved & read by id; invoice 2024-021 read; sample total computed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1404,9 +1296,7 @@ TASKS = [
             }),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-130"}),
         ],
-        outputs=[
-            "Time entries validated; totals computed; invoice 2024-130 inserted & read; audit recorded & listed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1431,9 +1321,7 @@ TASKS = [
             Action(name="ComputeCollectionKpis", kwargs={"window_months": 12}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "Invoice 2024-011 emailed & re‑read; audit recorded & listed; open invoices reviewed; KPIs computed; AR_Aging_2024-11 exported."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1467,9 +1355,7 @@ TASKS = [
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-132"}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "Time entries validated; invoice 2024-132 inserted & read; audit recorded & listed; AR_Aging_2024-09 exported."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1501,9 +1387,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-133", "event_type": "generated"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-133"}),
         ],
-        outputs=[
-            "Invoice 2024-133 inserted & read; line inserted & listed; audit recorded & listed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1534,10 +1418,7 @@ TASKS = [
             }),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-10-31"}),
         ],
-        outputs=[
-            "PUB043 created & read; PROJ3053 created & read; rates resolved; sample total computed; "
-            "AR_Aging_2024-10 exported; snapshot saved & read by date."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1568,9 +1449,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-141", "event_type": "generated"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-141"}),
         ],
-        outputs=[
-            "Invoice 2024-141 inserted & read; line inserted & listed; audit recorded & listed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1597,9 +1476,7 @@ TASKS = [
             Action(name="InsertDashboardSnapshot", kwargs={"snapshot_date": "2024-08-31", "pdf_path": "https://storage.example.com/reports/AR_Aging_2024-08.pdf"}),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-08-31"}),
         ],
-        outputs=[
-            "PUB044 created & read; PROJ3057 created & read; sample total; AR_Aging_2024-08 exported; snapshot saved & read by date."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1624,9 +1501,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 1, "rate": 87.0}, {"hours": 1, "rate": 85.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-07"}),
         ],
-        outputs=[
-            "PUB045 created & read; PROJ3059 created & read; rates resolved; sample total; AR_Aging_2024-07 exported."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1656,9 +1531,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-142", "event_type": "generated"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-142"}),
         ],
-        outputs=[
-            "Invoice 2024-142 inserted & read; line inserted & listed; audit recorded & listed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1684,9 +1557,7 @@ TASKS = [
             Action(name="InsertDashboardSnapshot", kwargs={"snapshot_date": "2024-08-31", "pdf_path": "https://storage.example.com/reports/AR_Aging_2024-08.pdf"}),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-08-31"}),
         ],
-        outputs=[
-            "PUB047 created & read; PROJ3064 created & read; sample total; aging exported; snapshot saved & read by date."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1718,9 +1589,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-144", "event_type": "generated"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-144"}),
         ],
-        outputs=[
-            "Invoice 2024-144 inserted & read; line inserted & listed; audit recorded & listed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1746,9 +1615,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 2, "rate": 95.0}, {"hours": 1, "rate": 85.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-10"}),
         ],
-        outputs=[
-            "PUB051 created & read; PROJ3073 created & read; rates resolved; sample total; AR_Aging_2024-10 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1772,9 +1639,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 2, "rate": 101.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-08"}),
         ],
-        outputs=[
-            "PUB053 created & read; PROJ3076 created & read; sample total; AR_Aging_2024-08 exported."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1795,9 +1660,7 @@ TASKS = [
             Action(name="InsertDashboardSnapshot", kwargs={"snapshot_date": "2024-11-30", "pdf_path": "https://storage.example.com/reports/AR_Aging_2024-11.pdf"}),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-11-30"}),
         ],
-        outputs=[
-            "Open invoices reviewed; KPIs computed; 46 days categorized for 2024-009; AR_Aging_2024-11 exported; snapshot saved & read by date."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1823,9 +1686,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 3, "rate": 92.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "PUB054 created & read; PROJ3078 created & read; rate resolved; sample total; AR_Aging_2024-09 exported."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1857,9 +1718,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-146", "event_type": "generated"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-146"}),
         ],
-        outputs=[
-            "Invoice 2024-146 inserted & read; line inserted & listed; audit recorded & listed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1882,9 +1741,7 @@ TASKS = [
             Action(name="ResolveHourlyRates", kwargs={"project_id_list": ["PROJ001"]}),
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 1, "rate": 85.0}], "hst_rate": 0.13}),
         ],
-        outputs=[
-            "PUB055 created & read; AR_Aging_2024-10 exported; snapshot saved & read by date; open invoices reviewed; KPIs computed; rate resolved; sample total."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1909,9 +1766,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 2, "rate": 86.0}, {"hours": 1, "rate": 85.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "PUB056 created & read; PROJ3083 created & read; rates resolved; sample total; AR_Aging_2024-09 exported."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1942,9 +1797,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-147", "event_type": "generated"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-147"}),
         ],
-        outputs=[
-            "Invoice 2024-147 inserted & read; line inserted & listed; audit recorded & listed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -1976,9 +1829,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-148", "event_type": "generated"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-148"}),
         ],
-        outputs=[
-            "Invoice 2024-148 inserted & read; line inserted & listed; audit recorded & listed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2004,9 +1855,7 @@ TASKS = [
             Action(name="CategorizeAging", kwargs={"aging": [{"invoice_number": "2024-010", "days_outstanding": 15}]}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "PROJ3054 created & read; rate resolved; sample total computed; 15 days categorized for 2024-010; AR_Aging_2024-11 exported."
-        ],
+        outputs=[]
     ),    
     Task(
         annotator="A",
@@ -2033,10 +1882,7 @@ TASKS = [
             Action(name="RecordInvoiceAudit", kwargs={"invoice_number": "2024-010", "event_type": "aging_categorized"}),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-010"}),
         ],
-        outputs=[
-            "Projects listed; PROJ001 read; rate resolved; sample total; open invoices reviewed; KPIs computed; AR_Aging_2024-11 exported; "
-            "20 days categorized for 2024-010; audit recorded & listed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2060,9 +1906,7 @@ TASKS = [
             Action(name="CategorizeAging", kwargs={"aging": [{"invoice_number": "2024-010", "days_outstanding": 15}]}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-10"}),
         ],
-        outputs=[
-            "PUB003 AP updated & read; CONS001 address updated & read; rate resolved; sample total; 15 days categorized for 2024-010; AR_Aging_2024-10 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2088,9 +1932,7 @@ TASKS = [
             Action(name="CalculateInvoiceTotals", kwargs={"lines": [{"hours": 2, "rate": 88.0}], "hst_rate": 0.13}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "PUB049 created & read; PROJ3069 created & read; open invoices reviewed; KPIs computed; sample total; AR_Aging_2024-09 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2114,9 +1956,7 @@ TASKS = [
             Action(name="ComputeCollectionKpis", kwargs={"window_months": 12}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "Invoice 2024-010 emailed & re‑read; audit recorded & listed; open invoices reviewed; KPIs computed; AR_Aging_2024-11 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2145,9 +1985,7 @@ TASKS = [
             }),
             Action(name="CategorizeAging", kwargs={"aging": [{"invoice_number": "2024-010", "days_outstanding": 15}]}),
         ],
-        outputs=[
-            "PROJ3081 created & read; rate resolved; sample total; open invoices reviewed; AR_Aging_2024-11 exported; 15 days categorized for 2024-010."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2172,9 +2010,7 @@ TASKS = [
             Action(name="ComputeCollectionKpis", kwargs={"window_months": 12}),
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-09"}),
         ],
-        outputs=[
-            "PUB001 AP updated & read; upcoming‑due flagged for 2024-024; audit recorded & listed; open invoices reviewed; KPIs computed; AR_Aging_2024-09 exported."
-        ],
+        outputs=[]
     ),    
     Task(
         annotator="A",
@@ -2194,9 +2030,7 @@ TASKS = [
             Action(name="InsertDashboardSnapshot", kwargs={"snapshot_date": "2024-11-30", "pdf_path": "https://storage.example.com/reports/AR_Aging_2024-11.pdf"}),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-11-30"}),
         ],
-        outputs=[
-            "PUB048 created & read; open invoices reviewed; KPIs computed; rate resolved; sample total; AR_Aging_2024-11 exported; snapshot saved & read by date."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2221,9 +2055,7 @@ TASKS = [
             }),
             Action(name="CategorizeAging", kwargs={"aging": [{"invoice_number": "2024-010", "days_outstanding": 15}]}),
         ],
-        outputs=[
-            "PUB057 created & read; rate resolved; sample total; AR_Aging_2024-08 exported; snapshot saved & read by date; 15 days categorized for 2024-010."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2251,9 +2083,7 @@ TASKS = [
             Action(name="InsertDashboardSnapshot", kwargs={"snapshot_date": "2024-11-30", "pdf_path": "https://storage.example.com/reports/AR_Aging_2024-11.pdf"}),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-11-30"}),
         ],
-        outputs=[
-            "PUB046 created & read; PROJ3061 created & read; open invoices reviewed; KPIs computed; aging exported; snapshot saved & read by date."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2279,10 +2109,7 @@ TASKS = [
             Action(name="InsertDashboardSnapshot", kwargs={"snapshot_date": "2024-11-30", "pdf_path": "https://storage.example.com/reports/AR_Aging_2024-11.pdf"}),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-11-30"}),
         ],
-        outputs=[
-            "20 days categorized for 2024-021; projects listed; PROJ003 read; rate resolved; sample total; open invoices reviewed; KPIs computed; "
-            "AR_Aging_2024-11 exported; snapshot saved & read by date."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2302,9 +2129,7 @@ TASKS = [
             Action(name="InsertDashboardSnapshot", kwargs={"snapshot_date": "2024-08-31", "pdf_path": "https://storage.example.com/reports/AR_Aging_2024-08.pdf"}),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-08-31"}),
         ],
-        outputs=[
-            "PUB050 created & read; open invoices reviewed; KPIs computed; rate resolved; sample total; AR_Aging_2024-08 exported; snapshot saved & read by date."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2324,9 +2149,7 @@ TASKS = [
             Action(name="InsertDashboardSnapshot", kwargs={"snapshot_date": "2024-11-30", "pdf_path": "https://storage.example.com/reports/AR_Aging_2024-11.pdf"}),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-11-30"}),
         ],
-        outputs=[
-            "PUB052 created & read; open invoices reviewed; KPIs computed; rate resolved; sample total; AR_Aging_2024-11 exported; snapshot saved & read by date."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2351,9 +2174,7 @@ TASKS = [
             }),
             Action(name="CategorizeAging", kwargs={"aging": [{"invoice_number": "2024-010", "days_outstanding": 15}]}),
         ],
-        outputs=[
-            "PUB057 created & read; rate resolved; sample total; AR_Aging_2024-08 exported; snapshot saved & read by date; 15 days categorized for 2024-010."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2390,9 +2211,7 @@ TASKS = [
             }),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-10-31"}),
         ],
-        outputs=[
-            "PUB021 created & read; PROJ1102 created & read; rates resolved; totals computed; AR_Aging_2024-10 exported; snapshot saved & read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2432,9 +2251,7 @@ TASKS = [
             }),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-11-30"}),
         ],
-        outputs=[
-            "PUB022 created & read; PROJ1104 created & read; rate resolved; total computed; open invoices reviewed; KPIs computed; AR_Aging_2024-11 exported; snapshot saved & read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2456,9 +2273,7 @@ TASKS = [
 
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-10"}),
         ],
-        outputs=[
-            "CONS001 phone updated & read; PUB004 read; open invoices reviewed; KPIs computed; AR_Aging_2024-10 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2496,9 +2311,7 @@ TASKS = [
                 "aging": [{"invoice_number": "2024-024", "days_outstanding": 10}]
             }),
         ],
-        outputs=[
-            "PROJ1105 created & read; sample total; AR_Aging_2024-10 exported; snapshot saved & read; 2024-024 aging categorized."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2527,9 +2340,7 @@ TASKS = [
             }),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-08-31"}),
         ],
-        outputs=[
-            "PUB023 created & read; AP updated & read; AR_Aging_2024-08 exported; snapshot saved & read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2555,9 +2366,7 @@ TASKS = [
             }),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-07-31"}),
         ],
-        outputs=[
-            "PUB002 read; 2024-023 aging categorized; AR_Aging_2024-07 exported; snapshot saved & read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2588,9 +2397,7 @@ TASKS = [
             }),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-08-31"}),
         ],
-        outputs=[
-            "PROJ1106 created & read; rate resolved; total computed; AR_Aging_2024-08 exported; snapshot saved & read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2619,9 +2426,7 @@ TASKS = [
 
             Action(name="ExportArAgingReport", kwargs={"period_label": "2024-11"}),
         ],
-        outputs=[
-            "PUB003 AP updated & read; CONS001 email updated & read; rates resolved; total computed; AR_Aging_2024-11 exported."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2651,9 +2456,7 @@ TASKS = [
             }),
             Action(name="GetDashboardSnapshotDetails", kwargs={"snapshot_date": "2024-07-31"}),
         ],
-        outputs=[
-            "PROJ1109 created & read; sample totals; AR_Aging_2024-07 exported; snapshot saved & read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2690,9 +2493,7 @@ TASKS = [
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "INV-2024-401"}),
             Action(name="GetInvoiceDetails", kwargs={"invoice_number": "INV-2024-401"}),
         ],
-        outputs=[
-            "Invoice INV-2024-401 inserted & read; emailed; emailed audit recorded & listed; invoice re-read."
-        ],
+        outputs=[]
     ),    
     Task(
         annotator="A",
@@ -2729,9 +2530,7 @@ TASKS = [
                 "aging": [{"invoice_number": "2024-021", "days_outstanding": 16}]
             }),
         ],
-        outputs=[
-            "PUB001 AP updated & read; 2024-021 read; audit recorded & listed; AR_Aging_2024-09 exported; snapshot saved & read; 2024-021 aging categorized."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2768,9 +2567,7 @@ TASKS = [
             }),
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "2024-010"}),
         ],
-        outputs=[
-            "Time entries fetched; validated; grouped; rates resolved; totals computed; AR_Aging_2024-10 exported; snapshot saved & read; audit recorded & listed."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2808,9 +2605,7 @@ TASKS = [
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "INV-2024-230"}),
             Action(name="GetInvoiceDetails", kwargs={"invoice_number": "INV-2024-230"}),
         ],
-        outputs=[
-            "Invoice INV-2024-230 inserted & read; emailed; emailed audit recorded & listed; invoice re-read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2847,9 +2642,7 @@ TASKS = [
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "INV-2024-361"}),
             Action(name="GetInvoiceDetails", kwargs={"invoice_number": "INV-2024-361"}),
         ],
-        outputs=[
-            "Invoice INV-2024-361 inserted & read; emailed; emailed audit recorded & listed; invoice re-read."
-        ],
+        outputs=[]
     ),  
     Task(
         annotator="A",
@@ -2882,9 +2675,7 @@ TASKS = [
                 "aging": [{"invoice_number": "2024-024", "days_outstanding": 5}]
             }),
         ],
-        outputs=[
-            "PUB004 AP updated & read; open invoices reviewed; KPIs computed; AR_Aging_2024-10 exported; snapshot saved & read; 2024-024 aging categorized."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2922,9 +2713,7 @@ TASKS = [
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "INV-2024-209"}),
             Action(name="GetInvoiceDetails", kwargs={"invoice_number": "INV-2024-209"}),
         ],
-        outputs=[
-            "Invoice INV-2024-209 inserted & read; emailed; emailed audit recorded & listed; invoice re-read."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -2961,9 +2750,7 @@ TASKS = [
             Action(name="ListInvoiceAudit", kwargs={"invoice_number": "INV-2024-231"}),
             Action(name="GetInvoiceDetails", kwargs={"invoice_number": "INV-2024-231"}),
         ],
-        outputs=[
-            "Invoice INV-2024-231 inserted & read; emailed; emailed audit recorded & listed; invoice re-read."
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -3003,8 +2790,6 @@ TASKS = [
                 "aging": [{"invoice_number": "2024-021", "days_outstanding": 25}]
             }),
         ],
-        outputs=[
-            "PUB024 created & read; open invoices reviewed; KPIs computed; rate resolved; total computed; AR_Aging_2024-10 exported; snapshot saved & read; 2024-021 aging categorized."
-        ],
+        outputs=[]
     ),
 ]

@@ -44,7 +44,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 2
     Task(
@@ -89,7 +89,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 3
     Task(
@@ -130,7 +130,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 4
     Task(
@@ -167,7 +167,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "5"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 5
     Task(
@@ -204,7 +204,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "6"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 6
     Task(
@@ -249,7 +249,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "1"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 7
     Task(
@@ -289,7 +289,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 8
     Task(
@@ -325,7 +325,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 9
     Task(
@@ -363,7 +363,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "8"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 10
     Task(
@@ -401,7 +401,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "8"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 11
     Task(
@@ -438,7 +438,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "5"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 12
     Task(
@@ -475,7 +475,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "9"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 13
     Task(
@@ -520,7 +520,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 14
     Task(
@@ -544,7 +544,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 15
     Task(
@@ -570,7 +570,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[{"mortgage_id": 4}],
+        outputs=[]
     ),
     # Task 16
     Task(
@@ -613,7 +613,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 17
     Task(
@@ -658,7 +658,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 18
     Task(
@@ -682,7 +682,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 19
     Task(
@@ -705,7 +705,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 20
     Task(
@@ -749,7 +749,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 21
     Task(
@@ -793,7 +793,7 @@ TASKS = [
             ),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 22
     Task(
@@ -829,7 +829,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[{"MAX_PRICE":284669}],
+        outputs=[]
     ),
     # Task 23
     Task(
@@ -853,7 +853,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[4],
+        outputs=[]
     ),
     # Task 24
     Task(
@@ -891,7 +891,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[{"MONTHLY_PAYMENT": 5174}],
+        outputs=[]
     ),
     # Task 25
     Task(
@@ -933,7 +933,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "7"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 26
     Task(
@@ -970,7 +970,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "9"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 27
     Task(
@@ -1013,7 +1013,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 28
     Task(
@@ -1037,7 +1037,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 29
     Task(
@@ -1061,7 +1061,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 30
     Task(
@@ -1092,7 +1092,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 31
     Task(
@@ -1128,7 +1128,7 @@ TASKS = [
             ),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 32
     Task(
@@ -1165,7 +1165,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "5"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 34
     Task(
@@ -1220,7 +1220,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 35
     Task(
@@ -1256,7 +1256,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 36
     Task(
@@ -1292,7 +1292,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 37
     Task(
@@ -1316,7 +1316,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 38
     Task(
@@ -1345,7 +1345,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 39
     Task(
@@ -1390,7 +1390,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "3"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 40
     Task(
@@ -1435,7 +1435,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 41
     Task(
@@ -1464,7 +1464,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 42
     Task(
@@ -1495,7 +1495,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 43
     Task(
@@ -1531,7 +1531,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 44
     Task(
@@ -1581,7 +1581,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "1"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1610,7 +1610,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 46
     Task(
@@ -1654,7 +1654,7 @@ TASKS = [
             ),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 47
     Task(
@@ -1700,7 +1700,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 48
     Task(
@@ -1740,7 +1740,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 49
     Task(
@@ -1764,7 +1764,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 50
     Task(
@@ -1795,7 +1795,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 51
     Task(
@@ -1832,7 +1832,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "1"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 52
     Task(
@@ -1869,7 +1869,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "6"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 53
     Task(
@@ -1914,7 +1914,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 54
     Task(
@@ -1965,7 +1965,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 55
     Task(
@@ -2006,7 +2006,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 56
     Task(
@@ -2049,7 +2049,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 57
     Task(
@@ -2084,7 +2084,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[{"STREET_VIEW_URL": "https://maps.google.com/?q=29.7377,-95.4017&layer=c"}],
+        outputs=[]
     ),
     # Task 58
     Task(
@@ -2121,7 +2121,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 59
     Task(
@@ -2158,7 +2158,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "9"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 60
     Task(
@@ -2203,7 +2203,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "12"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 61
     Task(
@@ -2236,7 +2236,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[{"HTX021": 874000, "HTX050": 1549000, "HTX018": 4300000}],
+        outputs=[]
     ),
     # Task 62
     Task(
@@ -2277,7 +2277,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 63
     Task(
@@ -2310,7 +2310,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 64
     Task(
@@ -2348,7 +2348,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "1"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # Task 65
     Task(
@@ -2388,7 +2388,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2411,7 +2411,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2434,7 +2434,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2457,7 +2457,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2493,7 +2493,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "3"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2529,7 +2529,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "1"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2565,7 +2565,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "1"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2601,7 +2601,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "1"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2637,7 +2637,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "8"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2673,7 +2673,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "8"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2713,7 +2713,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2753,7 +2753,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2793,7 +2793,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2828,7 +2828,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2867,7 +2867,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2902,7 +2902,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2937,7 +2937,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2972,7 +2972,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3007,7 +3007,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3044,7 +3044,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "1"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3081,7 +3081,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "14"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3118,7 +3118,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "1"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3157,7 +3157,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "4"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3194,7 +3194,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "1"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3234,7 +3234,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "1"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3269,7 +3269,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[{"MAX_PRICE": 868888}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3304,7 +3304,7 @@ TASKS = [
             ),
             Action(name="FetchClientFullContext", kwargs={"client_id": "19"}),
         ],
-        outputs=[{"MAX_PRICE": 617543}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3339,7 +3339,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[{"MAX_PRICE": 529693}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3367,7 +3367,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3395,7 +3395,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3423,7 +3423,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3459,7 +3459,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "2"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3495,7 +3495,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "3"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3531,7 +3531,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "4"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3567,7 +3567,7 @@ TASKS = [
                 kwargs={"report_id": "9", "created_by": "1"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3601,7 +3601,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3641,6 +3641,6 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 ]

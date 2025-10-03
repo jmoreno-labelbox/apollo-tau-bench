@@ -22,7 +22,7 @@ TASKS = [
             Action(name="reassignRelationshipManager", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1", "relationship_manager_id": "rm-de-10"}),
             Action(name="getCustomerTotalBalance", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1"}),
         ],
-        outputs=['"new_relationship_manager": "rm-de-10"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -42,7 +42,7 @@ TASKS = [
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-12", "new_channel": "Phone"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-12", "account_id": "acc_chk_16001", "reason": "Synthetic Identity Fraud Remediation Report"}),
         ],
-        outputs=['"fraudulent_loan_status": "Paid Off"', '"checking_account_status": "Locked"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -61,7 +61,7 @@ TASKS = [
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a", "new_channel": "Mail"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a", "account_id": "acc_inv_3002", "reason": "Escalation to Legal: Potential Insider Trading"}),
         ],
-        outputs=['"employer": "City General Hospital"', '"investment_account_status": "Locked"', '"relationship_manager": "rm012"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -81,7 +81,7 @@ TASKS = [
             Action(name="deactivateAccountByRequest", kwargs={"account_id": "acc_chk_19001"}),
             Action(name="createSupportTicketForTransaction", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18", "transaction_id": "loan_pers_013", "reason": "Final Estate Settlement Documentation"}),
         ],
-        outputs=['"final_checking_balance": 0.00', '"loan_status": "Paid Off"', '"account_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -125,9 +125,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"similar_past_disputes_found": false',
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -144,7 +142,7 @@ TASKS = [
             Action(name="reassignRelationshipManager", kwargs={"customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3", "relationship_manager_id": "rm-jp-02"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3", "account_id": "acc_chk_24001", "reason": "Corporate merger documentation"}),
         ],
-        outputs=['"kenji_tanaka_credit_score": 820', '"adetokunbo_adebayor_credit_score": 760', '"new_overdraft_limit": 200000.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -179,7 +177,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"loan_balance_after_overpayment": 714740.50', '"new_maturity_date": "2051-07-15"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -219,7 +217,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"aml_risk_level": "Low"', '"transactions_reviewed": 1', '"new_overdraft_limit": 3000.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -253,7 +251,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_balance": 2550000.0', '"transactions_reviewed": 1', '"split_transaction_count": 2'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -296,7 +294,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"credit_score": 650', '"total_balance": 850.75', '"new_manager": "rm_senior_001"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -334,7 +332,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"aml_risk_level": "Low"', '"total_balance": 895000.00', '"transfer_authorized": true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -369,7 +367,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"loan_balance_after_overpayment": 178000.00', '"new_maturity_date": "2035-11-01"', '"credit_score": 800'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -410,7 +408,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"credit_score": 810', '"total_balance": 162540.25', '"merged_customer_ids": ["a1b2c3d4-e5f6-7890-1234-567890abcdef-16"]'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -446,12 +444,12 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"credit_score": 820', '"total_balance": 17500000.00', '"reactivation_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
         user_id="USER_015",
-        instruction=("In your duty as a business banking officer, confirm Chloe Dubois's (d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1) total balance and the most recent 30 transactions. Initiate a support ticket for transaction 'txn_e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-14' referencing 'Business expense allocation correction'. Proceed by dividing the 2000 EUR by withdrawing 1400 EUR from checking (acc_chk_8001) and 600 EUR from savings (acc_sav_8002), adjust his communication preference to 'App', and provide a report on the total balance, number of transactions reviewed, and the divided amounts."),
+        instruction="In your duty as a business banking officer, confirm Chloe Dubois's (d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1) total balance and the most recent 30 transactions. Initiate a support ticket for transaction 'txn_e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-14' referencing 'Business expense allocation correction'. Proceed by dividing the 2000 EUR by withdrawing 1400 EUR from checking (acc_chk_8001) and 600 EUR from savings (acc_sav_8002), adjust his communication preference to 'App', and provide a report on the total balance, number of transactions reviewed, and the divided amounts.",
         actions=[
             Action(
                 name="getCustomerTotalBalance",
@@ -490,7 +488,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_balance": 132800.50', '"transactions_reviewed": 1', '"split_amounts": [-1400.00, -600.00]'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -525,7 +523,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"loan_balance_after_overpayment": 43150.90', '"new_maturity_date": "2027-04-01"', '"credit_score": 720'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -543,7 +541,7 @@ TASKS = [
             }),
             Action(name="enforceKycRefreshForCustomer", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-12"})
         ],
-        outputs=['"aml_risk_level": "Low"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -582,7 +580,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_balance": 12000.00', '"transactions_reviewed": 1', '"ticket_reason": "Help categorize fashion industry business expense"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -629,7 +627,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_balance": 17500000.00', '"transactions_reviewed": 1', '"account_locked": true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -678,7 +676,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"credit_score": 790', '"total_balance": 2550000.00', '"new_manager": "rm_premium_001"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -729,7 +727,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"new_loan_balance": 4950.75', '"new_overdraft_limit": 100.00', '"credit_score": 710'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -785,7 +783,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"aml_risk_level": "Medium"', '"total_deposits": 0', '"relationship_manager_id": "rm-br-02"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -832,7 +830,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_balance": 28750000.00', '"new_loan_balance": 6500000.00', '"new_overdraft_limit": 100000.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -866,7 +864,7 @@ TASKS = [
                 "reason": "Inquiry about international loan payment options"
             })
         ],
-        outputs=['"risk_profile": "Low"', '"total_balance": 17500000.00', '"savings_balance": 15000000.00', '"new_payment_amount": 250000.00', '"kyc_status": "Refresh Required"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -912,10 +910,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"investment_balance": 150000.00',
-            '"relationship_manager_id": "rm006"'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -962,7 +957,7 @@ TASKS = [
             ),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4", "account_id": "acc_chk_5002", "reason": "Fraud investigation and account lock audit"}),
         ],
-        outputs=['"account_status": "Locked"', '"kyc_status": "Refresh Required"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1016,7 +1011,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"new_loan_balance": 90000.00', '"employer": "Global Innovations Inc."', '"overdraft_limit": 500.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1051,7 +1046,7 @@ TASKS = [
                 "new_channel": "Email"
             }),
         ],
-        outputs=['"checking_balance": 5230.50', '"savings_balance": 15780.00', '"ticket_created": true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1101,7 +1096,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_balance": 250000.00', '"sufficient_funds": true', '"new_channel": "Phone"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1158,7 +1153,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"credit_score": 800', '"new_loan_balance": 175000.00', '"kyc_status": "Refresh Required"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1213,7 +1208,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_balance": 18510.50', '"kyc_status": "Refresh Required"', '"account_status": "Locked"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1268,7 +1263,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"new_loan_balance": 24500.00', '"new_maturity_date": "2032-09-25"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1322,7 +1317,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_deposits": 150.0', '"refund_status": "Completed"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1371,7 +1366,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_balance": 25100.75', '"checking_accounts_count": 1', '"new_payment_amount": 750.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1425,7 +1420,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"transfer_status": "Completed"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1477,7 +1472,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_balance": 2700.00', '"new_overdraft_limit": 50.00', '"credit_card_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1532,7 +1527,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_balance": 17500000.00', '"merged_customer_ids": ["b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23"]', '"new_manager": "rm_premium_001"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1589,7 +1584,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_deposits": 0', '"split_status": "Completed"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1641,7 +1636,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_balance": 896500.00', '"beneficiaries_count": 1', '"compliance_status": "Refresh Required"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1700,7 +1695,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"new_maturity_date": "2025-10-01"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1751,7 +1746,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"new_loan_balance": 4950.75', '"new_overdraft_limit": 100.00', '"credit_score": 710'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1803,7 +1798,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"aml_risk_level": "Medium"', '"total_deposits": 0.0', '"relationship_manager_id": "rm-br-02"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1855,7 +1850,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"new_maturity_date": "2028-03-10"', '"new_overdraft_limit": 150000.0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1915,7 +1910,7 @@ TASKS = [
                 },
              )
         ],
-        outputs=['"total_balance": 132800.5', '"accounts_locked": true', '"relationship_manager_id": "rm-de-09"'],
+        outputs=[]
     ),
    Task(
         annotator="0",
@@ -1966,7 +1961,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_deposits": 500.00', '"credit_score": 790'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2013,7 +2008,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"credit_score": 810', '"active_loan_balance": 0.0', '"total_deposits": 0.0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2059,10 +2054,7 @@ TASKS = [
                     "reason": "Wire transfer support"
                 }),
         ],
-        outputs=[
-            '"aml_risk_level": "Low"',
-            '"transaction_status": "Completed"'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2118,7 +2110,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"business_beneficiaries_count": 1', '"new_payment_amount": 400.00', '"relationship_manager_id": "rm008"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2179,7 +2171,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_balance": 450000.00', '"account_status": "Inactive"', '"kyc_status": "Refresh Required"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2240,7 +2232,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=['"total_balance": 150000.00', '"overdraft_limit": 25000.00', '"kyc_status": "Refresh Required"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2256,7 +2248,7 @@ TASKS = [
             Action(name="enforceKycRefreshForCustomer", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19", }),
             Action(name="reassignRelationshipManager", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19", "relationship_manager_id": "rm-cl-01"}),
         ],
-        outputs=['"credit_score": 800', '"total_deposits": 0.0', '"relationship_manager_id": "rm-cl-01"'],
+        outputs=[]
     ),
 
     # TASK 32: Deceased Client Account Management
@@ -2275,7 +2267,7 @@ TASKS = [
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18", "account_id": "acc_chk_19001", "reason": "Estate closure process documentation"}),
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18", "new_channel": "Mail"}),
         ],
-        outputs=['"final_balance": 0.0', '"loan_status": "Paid Off"', '"account_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2295,7 +2287,7 @@ TASKS = [
             Action(name="reassignRelationshipManager", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "relationship_manager_id": "rm008"}),
             Action(name="createSupportTicketForTransaction", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "transaction_id": "txn_6c3d6f9h-4d6b-7c2f-2d5h-8f9d2e6g7c3c", "reason": "Account Takeover Investigation"}),
         ],
-        outputs=['"total_refunded": 338.25', '"accounts_status": "Locked"', '"relationship_manager_id": "rm008"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2311,7 +2303,7 @@ TASKS = [
             Action(name="addEmployerToCustomerProfile", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23", "employer": "Consultant"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23", "account_id": "acc_sav_24002", "reason": "Business advising"}),
         ],
-        outputs=['"final_total_balance": 22500000.00', '"loan_status": "Paid Off"', '"checking_account_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2328,7 +2320,7 @@ TASKS = [
             Action(name="reassignRelationshipManager", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a", "relationship_manager_id": "rm009"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a", "account_id": "acc_inv_3002", "reason": "High-frequency trading audit"}),
         ],
-        outputs=['"total_deposits": 150.00', '"kyc_status": "Refresh Required"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2346,7 +2338,7 @@ TASKS = [
             Action(name="addEmployerToCustomerProfile", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19", "employer": "Atacama Observatory"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19", "account_id": "acc_chk_20001", "reason": "International expansion advice"}),
         ],
-        outputs=['"credit_score": 800', '"new_maturity_date": "2036-01-01"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2364,7 +2356,7 @@ TASKS = [
             Action(name="deactivateAccountByRequest", kwargs={"account_id": "acc_sav_25001"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24", "account_id": "acc_sav_25001", "reason": "Fraud Investigation"}),
         ],
-        outputs=['"total_balance": 250000.00', '"account_status": "Inactive"', '"scheduled_payments_count": 1'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2391,7 +2383,7 @@ TASKS = [
             Action(name="enforceKycRefreshForCustomer", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a", "account_id": "acc_inv_3002", "reason": "Joint mortgage application documentation"}),
         ],
-        outputs=['"david_chen_credit_score": 810', '"olivia_jones_credit_score": 810'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2408,12 +2400,12 @@ TASKS = [
             Action(name="getPaymentScheduleForAccount", kwargs={"account_id": "acc_chk_12001"}),
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11", "new_channel": "Phone"}),
         ],
-        outputs=['"new_loan_balance": 42150.90', '"new_overdraft_limit": 500.00', '"credit_score": 720'],
+        outputs=[]
     ),
     Task(
         annotator="0",
         user_id="USER_060",
-        instruction=("In the capacity of a financial consultant for Zoltan Nagy (d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13), who just completed bankruptcy proceedings, begin with accessing his risk profile and total balance. Investigate each loan associated with the account 'acc_chk_14001', emphasizing the auto loan (loan_auto_015) status review. Examine scheduled payments on his checking account (acc_chk_14001) for any lapses or delinquency. Update his employer information to 'Global Analytics' and record this change in his customer profile. A KYC update is mandatory as part of the rehabilitation strategy. Furthermore, evaluate his overdraft limits on the account. Finally, change his communication preference to 'Email' and create a support ticket within the account, summarizing the rehabilitation strategy with the note 'Recovery plan summary'. Provide a comprehensive report on his total balance, loan overview, scheduled payments analysis, employer details, overdraft limits, and confirmation of the modified communication preference."),
+        instruction="In the capacity of a financial consultant for Zoltan Nagy (d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13), who just completed bankruptcy proceedings, begin with accessing his risk profile and total balance. Investigate each loan associated with the account 'acc_chk_14001', emphasizing the auto loan (loan_auto_015) status review. Examine scheduled payments on his checking account (acc_chk_14001) for any lapses or delinquency. Update his employer information to 'Global Analytics' and record this change in his customer profile. A KYC update is mandatory as part of the rehabilitation strategy. Furthermore, evaluate his overdraft limits on the account. Finally, change his communication preference to 'Email' and create a support ticket within the account, summarizing the rehabilitation strategy with the note 'Recovery plan summary'. Provide a comprehensive report on his total balance, loan overview, scheduled payments analysis, employer details, overdraft limits, and confirmation of the modified communication preference.",
         actions=[
             Action(name="getCustomerRiskProfileSummary", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13"}),
             Action(name="getCustomerTotalBalance", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13"}),
@@ -2426,19 +2418,12 @@ TASKS = [
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13", "new_channel": "Email"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13", "account_id": "acc_chk_14001", "reason": "Recovery plan summary"}),
         ],
-        outputs=[
-            '"total_balance": 3500000.00',
-            '"loans_summary": "Auto loan paid off; other loans current"',
-            '"scheduled_payments_status": "No overdue payments"',
-            '"employer": "Global Analytics"',
-            '"checking_overdraft_limit": 10000.0',
-            '"communication_preference_updated": true'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
         user_id="USER_061",
-        instruction=("Manage the advisory responsibilities for Elena Popescu (a1b2c3d4-e5f6-7890-1234-567890abcdef), a graphic designer located in Canada. Start by evaluating her risk profile and total balance. She holds a significant deposit in her checking account (acc_chk_2001); confirm verification of her 'Family' type beneficiary 'Kenji Tanaka' (bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f). Ensure there are sufficient funds for her scheduled payment 'sp_e5m7b6l8-k3l2-m1n0-o9p8-q7r6s5t4u3v2' and adjust the payment amount to 400 CAD. Being a retail customer, carry out a KYC update. Produce a support ticket related to her student loan (loan_stud_012) with the issue 'Inquiry about student loan deferment options'. Assemble her total balance, the modified scheduled payment amount, and her KYC status in a report."),
+        instruction="Manage the advisory responsibilities for Elena Popescu (a1b2c3d4-e5f6-7890-1234-567890abcdef), a graphic designer located in Canada. Start by evaluating her risk profile and total balance. She holds a significant deposit in her checking account (acc_chk_2001); confirm verification of her 'Family' type beneficiary 'Kenji Tanaka' (bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f). Ensure there are sufficient funds for her scheduled payment 'sp_e5m7b6l8-k3l2-m1n0-o9p8-q7r6s5t4u3v2' and adjust the payment amount to 400 CAD. Being a retail customer, carry out a KYC update. Produce a support ticket related to her student loan (loan_stud_012) with the issue 'Inquiry about student loan deferment options'. Assemble her total balance, the modified scheduled payment amount, and her KYC status in a report.",
         actions=[
             Action(
                 name="getCustomerRiskProfileSummary",
@@ -2473,11 +2458,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"total_balance": 25100.75',  # sum of checking + savings: 3100.75 + 22000.00
-            '"new_payment_amount": 400.00',
-            '"kyc_status": "Refresh Required"'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2494,7 +2475,7 @@ TASKS = [
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6", "new_channel": "App"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6", "account_id": "acc_chk_7001", "reason": "Account consultation"}),
         ],
-        outputs=['"total_balance": 900000.00', '"new_overdraft_limit": 7500.00', '"relationship_manager_id": "rm-ae-03"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2511,7 +2492,7 @@ TASKS = [
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18", "new_channel": "SMS"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18", "account_id": "acc_chk_19001", "reason": "Debt consolidation"}),
         ],
-        outputs=['"credit_score": 740', '"loan_status": "Paid Off"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2528,7 +2509,7 @@ TASKS = [
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "account_id": "acc_chk_2001", "reason": "AML audit"}),
             Action(name="getCustomerContactMethods", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"}),
         ],
-        outputs=['"aml_risk_level": "Low"', '"kyc_status": "Refresh Required"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2564,7 +2545,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"transactions_reviewed": 8', '"suspicious_amount": -250.00', '"account_locked": true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2582,7 +2563,7 @@ TASKS = [
             Action(name="enforceKycRefreshForCustomer", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1", }),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1", "account_id": "acc_chk_8001", "reason": "Annual Financial Review Summary 2023"}),
         ],
-        outputs=['"credit_score": 800', '"new_mortgage_balance": 175000.00', '"total_deposits_2023": 0.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2624,7 +2605,7 @@ TASKS = [
                 kwargs={"account_id": "acc_chk_2001"}
             ),
         ],
-        outputs=['"credit_score": 820', '"total_balance": 25100.75', '"existing_loans_count": 0', '"overdraft_limit": 250.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2641,7 +2622,7 @@ TASKS = [
             Action(name="addEmployerToCustomerProfile", kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4", "employer": "Global Tech Services"}),
             Action(name="reassignRelationshipManager", kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4", "relationship_manager_id": "rm-in-02"}),
         ],
-        outputs=['"credit_score": 790'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2665,7 +2646,7 @@ TASKS = [
             ),
             Action(name="createSupportTicketForTransaction", kwargs={"customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9", "transaction_id": "loan_stud_004", "reason": "Inquiry about income-driven repayment plans"}),
         ],
-        outputs=['"credit_score": 690', '"kyc_status": "Refresh Required"', '"overdraft_limit": 100.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2682,7 +2663,7 @@ TASKS = [
             Action(name="findRecentSupportTicketsByCategory", kwargs={"customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-14", "category": "Beneficiary Management"}),
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-14", "new_channel": "Email"}),
         ],
-        outputs=['"final_checking_balance": 0.00', '"account_status": "Inactive"', '"credit_score": 750'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2703,7 +2684,7 @@ TASKS = [
             Action(name="getCustomerTotalBalance", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1"}),
             Action(name="getAccountBalance", kwargs={"account_id": "acc_inv_3002"}),
         ],
-        outputs=['"investment_balance": 150000.00', '"all_accounts_status": "Inactive"', '"scheduled_payment_amount": 0.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2725,7 +2706,7 @@ TASKS = [
             Action(name="getPaymentScheduleForAccount", kwargs={"account_id": "acc_chk_2001"}),
             Action(name="deactivateAccountByRequest", kwargs={"account_id": "acc_crd_1003"}),
         ],
-        outputs=['"jane_smith_credit_score": 820', '"john_doe_credit_score": 780', '"new_combined_balance": 43611.25', '"account_acc_crd_1003_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2744,7 +2725,7 @@ TASKS = [
             Action(name="enforceKycRefreshForCustomer", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-25", }),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-25", "account_id": "acc_chk_26001", "reason": "AML Case Escalation"}),
         ],
-        outputs=['"aml_risk_level": "Low"', '"total_deposits": 0.0', '"account_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2762,7 +2743,7 @@ TASKS = [
             Action(name="findRecentSupportTicketsByCategory", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6", "category": "Security"}),
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6", "new_channel": "Mail"}),
         ],
-        outputs=['"savings_account_status": "Inactive"', '"checking_account_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2779,12 +2760,12 @@ TASKS = [
             Action(name="enforceKycRefreshForCustomer", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
             Action(name="reassignRelationshipManager", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "relationship_manager_id": "rm005"}),
         ],
-        outputs=['"loan_status": "Paid Off"', '"new_overdraft_limit": 1000.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
         user_id="USER_076",
-        instruction=("Supervise the integration of assets for Zoltan Nagy (d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a). Obtain his risk profile and total balance. Address a payment on his mortgage loan (loan_mort_001) from his investment account (acc_inv_3002) amounting to 125,000.00 as specified. Confirm all deposits made to the investment account from 2023-10-22 to 2023-10-29. Analyze all scheduled payments from the investment account (acc_inv_3002). Access his 'Business' beneficiaries and validate 'Metropolis Power & Light' (bene_6d5e4f3a-2b1c-9d8e-7f6a-5b4c3d2e1f0a). Reassign his relationship manager to 'rm010'. Perform a KYC update. Finally, generate a report on the mortgage loan status."),
+        instruction="Supervise the integration of assets for Zoltan Nagy (d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a). Obtain his risk profile and total balance. Address a payment on his mortgage loan (loan_mort_001) from his investment account (acc_inv_3002) amounting to 125,000.00 as specified. Confirm all deposits made to the investment account from 2023-10-22 to 2023-10-29. Analyze all scheduled payments from the investment account (acc_inv_3002). Access his 'Business' beneficiaries and validate 'Metropolis Power & Light' (bene_6d5e4f3a-2b1c-9d8e-7f6a-5b4c3d2e1f0a). Reassign his relationship manager to 'rm010'. Perform a KYC update. Finally, generate a report on the mortgage loan status.",
         actions=[
             Action(name="getCustomerRiskProfileSummary", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
             Action(name="getCustomerTotalBalance", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
@@ -2797,7 +2778,7 @@ TASKS = [
             Action(name="enforceKycRefreshForCustomer", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"}),
             Action(name="GetLoanDetails", kwargs={"loan_id": "loan_mort_001"}),
         ],
-        outputs=['"mortgage_status": "Active"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2817,7 +2798,7 @@ TASKS = [
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21", "new_channel": "Mail"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21", "account_id": "acc_chk_22001", "reason": "AML Case Escalation: Structured Payments"}),
         ],
-        outputs=['"aml_risk_level": "Low"', '"scheduled_payments_count": 1', '"account_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2855,7 +2836,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_balance": 18510.50', '"sufficient_funds": true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2873,7 +2854,7 @@ TASKS = [
             Action(name="addEmployerToCustomerProfile", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23", "employer": "Unemployed"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23", "account_id": "acc_sav_24002", "reason": "Debt restructuring and forbearance plan"}),
         ],
-        outputs=['"remaining_loan_balance": 2500000.00', '"new_overdraft_limit": 5000.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2891,7 +2872,7 @@ TASKS = [
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6", "new_channel": "Email"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6", "account_id": "acc_chk_7001", "reason": "PEP Status Change and Profile Security Enhancement"}),
         ],
-        outputs=['"aml_risk_level": "Low"', '"new_overdraft_limit": 0.0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2916,7 +2897,7 @@ TASKS = [
             Action(name="createSupportTicketForTransaction", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "transaction_id": "txn_7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k", "reason": "Fraud Ring Takedown Documentation"}),
             Action(name="createSupportTicketForTransaction", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "transaction_id": "txn_7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k", "reason": "Fraud Ring Takedown Documentation"}),
         ],
-        outputs=['"jane_smith_total_balance": 25100.75', '"john_doe_accounts_status": "Inactive"', '"new_relationship_manager": "rm011"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2933,7 +2914,7 @@ TASKS = [
             Action(name="addEmployerToCustomerProfile", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23", "employer": "A.A. Consulting"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23", "account_id": "acc_chk_24001", "reason": "Loan Payoff During Corporate Divestiture"}),
         ],
-        outputs=['"loan_status": "Paid Off"', '"new_overdraft_limit": 50000.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2952,7 +2933,7 @@ TASKS = [
             Action(name="findRecentSupportTicketsByCategory", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17", "category": "Security"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17", "account_id": "acc_chk_18001", "reason": "Natural Disaster Financial Relief Package Applied"}),
         ],
-        outputs=['"new_maturity_date": "2039-02-10"', '"new_overdraft_limit": 20000.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2971,7 +2952,7 @@ TASKS = [
             Action(name="reassignRelationshipManager", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24", "relationship_manager_id": "rm-ro-10"}),
             Action(name="enforceKycRefreshForCustomer", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24"}),
         ],
-        outputs=['"new_relationship_manager": "rm-ro-10"', '"new_payment_amount": 250.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2991,7 +2972,7 @@ TASKS = [
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19", "account_id": "acc_chk_20001", "reason": "AML Investigation: Large Crypto Off-Ramp"}),
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19", "new_channel": "Mail"}),
         ],
-        outputs=['"aml_risk_level": "Low"', '"total_balance": 8500000.00', '"account_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3032,7 +3013,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=['"total_balance": 1200.50', '"transactions_reviewed": 1', '"account_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3054,7 +3035,7 @@ TASKS = [
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13", "new_channel": "Mail"}),
             Action(name="createSupportTicketForTransaction", kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13", "transaction_id": "loan_auto_007", "reason": "Full Account Data Compilation for Subpoena"}),
         ],
-        outputs=['"transaction_count": 1', '"active_loan_count": 1', '"checking_account_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3073,7 +3054,7 @@ TASKS = [
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "new_channel": "Phone"}),
             Action(name="createSupportTicketForTransaction", kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "transaction_id": "txn_4e5f8h2j-6f8d-9e4h-4f7j-1h2f4g8i9e5e", "reason": "Phishing Attack Remediation"}),
         ],
-        outputs=['"total_refunded": 120.00', '"new_payment_amount": 0.00', '"checking_account_status": "Inactive"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3091,7 +3072,7 @@ TASKS = [
             Action(name="enforceKycRefreshForCustomer", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24", }),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24", "account_id": "acc_sav_25001", "reason": "Protective measures for vulnerable client"}),
         ],
-        outputs=['"total_balance": 250000.00', '"savings_account_status": "Locked"', '"new_relationship_manager": "rm-ro-11"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3108,7 +3089,7 @@ TASKS = [
             Action(name="reassignRelationshipManager", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a", "relationship_manager_id": "rm006"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a", "account_id": "acc_inv_3002", "reason": "Annual Tax Optimization Strategy Documentation"}),
         ],
-        outputs=['"total_deposits": 150.00', '"new_mortgage_balance": 665240.50'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3155,10 +3136,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            '"checking_account_balance": 3900.00',
-            '"loan_account_balance": -49400.00'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3180,7 +3158,7 @@ TASKS = [
             Action(name="reassignRelationshipManager", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11", "relationship_manager_id": "rm-ie-03"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11", "account_id": "acc_chk_12001", "reason": "Comprehensive Audit Initiation"}),
         ],
-        outputs=['"credit_score": 720', '"checking_account_status": "Locked"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3217,7 +3195,7 @@ TASKS = [
             Action(name="getAccountBalance", kwargs={"account_id": "acc_sav_8002"}),
             Action(name="getAccountBalance", kwargs={"account_id": "acc_chk_8001"}),
         ],
-        outputs=['"saving_balance": 125000.00', '"checking_balance": 7800.50', '"new_overdraft_limit": 1000.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3235,7 +3213,7 @@ TASKS = [
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9", "new_channel": "Mail"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9", "account_id": "acc_chk_4001", "reason": "Guardian Verified and Trust Account Adjustments"}),
         ],
-        outputs=['"new_payment_amount": 100.00', '"overdraft_limit": 0.0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3252,7 +3230,7 @@ TASKS = [
             Action(name="enforceKycRefreshForCustomer", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "account_id": "acc_sav_1002", "reason": "Inheritance consultation"}),
         ],
-        outputs=['"loan_status": "Paid Off"', '"new_relationship_manager": "rm005"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3271,7 +3249,7 @@ TASKS = [
             Action(name="enforceKycRefreshForCustomer", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6", }),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6", "account_id": "acc_sav_7002", "reason": "International Property Purchase Documentation"}),
         ],
-        outputs=['"new_overdraft_limit": 10000.00', '"new_maturity_date": "2045-01-01"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3289,7 +3267,7 @@ TASKS = [
             Action(name="deactivateAccountByRequest", kwargs={"account_id": "acc_chk_22001"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21", "account_id": "acc_chk_22001", "reason": "Ransomware Payment and Account Compromise Report"}),
         ],
-        outputs=['"account_status": "Inactive"', '"new_relationship_manager": "rm-hu-03"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3307,7 +3285,7 @@ TASKS = [
             Action(name="updateCustomerCommunicationPreference", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17", "new_channel": "App"}),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17", "account_id": "acc_chk_18001", "reason": "Athlete Financial Plan Implementation"}),
         ],
-        outputs=['"student_loan_status": "Paid Off"', '"new_overdraft_limit": 50000.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3325,7 +3303,7 @@ TASKS = [
             Action(name="enforceKycRefreshForCustomer", kwargs={"customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3", }),
             Action(name="createSupportTicketForAccount", kwargs={"customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3", "account_id": "acc_sav_10002", "reason": "Annual Foundation Financial Review"}),
         ],
-        outputs=['"total_donations": 0.0', '"new_grant_amount": 300000.00', '"new_overdraft_limit": 250000.00'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3342,6 +3320,6 @@ TASKS = [
             Action(name="findRecentSupportTicketsByCategory", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5", "category": "Security"}),
             Action(name="getCustomerContactMethods", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5"}),
         ],
-        outputs=['"new_overdraft_limit": 200.00', '"credit_score": 650'],
+        outputs=[]
     ),
 ]

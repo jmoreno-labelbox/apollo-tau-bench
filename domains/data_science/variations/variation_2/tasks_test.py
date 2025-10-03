@@ -37,24 +37,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[{
-            "city": "Oakland",
-            "primary_station_id": "9414290",
-            "timeseries": {"csv_path": "/data/processed/timeseries_sf_weather.csv", "row_count": 168},
-            "predictions": {
-                "model_name": "simple_model",
-                "csv_path": "/processed_data/predictions_simple.csv",
-                "row_count": 34,
-                "columns": ["proba", "pred"]
-            },
-            "metrics": {"model_name": "simple_model", "auc": 0.79, "accuracy": 0.76},
-            "logged": {
-                "command": "status_compilation_san-francisco",
-                "exit_code": 0,
-                "printed_message": "status_compilation_san-francisco completed",
-                "printed_ts": "2024-03-17T10:45:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -86,24 +69,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:18:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "primary_station_id": "8443970",
-            "timeseries": {"csv_path": "/data/processed/timeseries_boston_weather.csv", "row_count": 120},
-            "predictions": {
-                "model_name": "boston_harbor_model",
-                "csv_path": "/data/processed/predictions_boston.csv",
-                "row_count": 24,
-                "columns": ["proba", "pred"]
-            },
-            "metrics": {"model_name": "boston_harbor_model", "auc": 0.73, "accuracy": 0.81},
-            "logged": {
-                "command": "status_compilation_boston",
-                "exit_code": 0,
-                "printed_message": "status_compilation_boston completed",
-                "printed_ts": "2024-03-01T13:18:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -130,10 +96,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[{
-            "chosen_model_name": "flood_risk_sf_v2",
-            "predictions_csv_path": "/results/predictions_sf_v2.csv"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -175,29 +138,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[{
-            "primary_station_id": "9414290",
-            "metrics": {
-                "auc": 0.89,
-                "accuracy": 0.85
-            },
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "csv_path": "/data/processed/timeseries_sf_weather.csv",
-                "columns": [
-                    "timestamp",
-                    "tide_pred_m",
-                    "wind_speed_ms",
-                    "precipitation_mm_hr",
-                    "pressure_hpa",
-                    "temperature_c",
-                    "high_risk_flag"
-                ],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -258,24 +199,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[{
-            "chosen_station_id": "8723214",
-            "metrics": {"auc": 0.73, "accuracy": 0.75},
-            "predictions_csv_path": "/results/predictions_miami_v1.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "tide_pred_m",
-                    "wind_speed_ms",
-                    "precipitation_mm_hr",
-                    "pressure_hpa",
-                    "temperature_c"
-                ],
-                "row_count": 96,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-05T00:00:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -314,26 +238,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "csv_path": "/data/processed/timeseries_sf_weather.csv",
-                "columns": [
-                    "timestamp",
-                    "tide_pred_m",
-                    "wind_speed_ms",
-                    "precipitation_mm_hr",
-                    "pressure_hpa",
-                    "temperature_c",
-                    "high_risk_flag"
-                ],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -375,24 +280,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[{
-            "primary_station_id": "8723214",
-            "metrics": {"auc": 0.73, "accuracy": 0.75},
-            "predictions_csv_path": "/results/predictions_miami_v1.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "tide_pred_m",
-                    "wind_speed_ms",
-                    "precipitation_mm_hr",
-                    "pressure_hpa",
-                    "temperature_c"
-                ],
-                "row_count": 96,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-05T00:00:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -430,19 +318,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[{
-            "primary_station_id": "9447130",
-            "timeseries": {
-                "csv_path": "/data/processed/timeseries_seattle_weather.csv",
-                "row_count": 240
-            },
-            "logged": {
-                "command": "station_determination_seattle",
-                "exit_code": 0,
-                "printed_message": "station_determination_seattle completed",
-                "printed_ts": "2024-02-01T15:25:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -478,23 +354,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:34:10Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "tide_pred_m", "wind_speed_ms", "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-san-francisco",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-san-francisco completed",
-                "printed_ts": "2024-03-18T16:34:10Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -523,35 +383,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T14:15:20Z"
             }),
         ],
-        outputs=[{
-            "winning_city": "Providence",
-            "miami": {
-                "metrics": {"auc": 0.73, "accuracy": 0.75},
-                "predictions_csv_path": "/results/predictions_miami_v1.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp","tide_pred_m","wind_speed_ms","precipitation_mm_hr","pressure_hpa","temperature_c"],
-                    "row_count": 96,
-                    "min_timestamp": "2024-02-01T00:00:00Z",
-                    "max_timestamp": "2024-02-05T00:00:00Z"
-                }
-            },
-            "boston": {
-                "metrics": {"auc": 0.73, "accuracy": 0.81},
-                "predictions_csv_path": "/data/processed/predictions_boston.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp","ice_coverage_pct","snow_depth_mm","temperature_feels_like_c","pressure_tendency_hpa_3h","high_risk_flag"],
-                    "row_count": 120,
-                    "min_timestamp": "2024-03-01T00:00:00Z",
-                    "max_timestamp": "2024-03-06T00:00:00Z"
-                }
-            },
-            "terminal_log": {
-                "command": "multi_snapshot_miami-boston",
-                "exit_code": 0,
-                "printed_message": "multi_snapshot_miami-boston completed",
-                "printed_ts": "2024-03-01T14:15:20Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -585,17 +417,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T15:45:00Z"
             })
         ],
-        outputs=[{
-            "selected_model": "flood_risk_sf_v2",
-            "policy": {"primary_metric": "AUC", "min_auc": 0.88, "tie_breakers": ["accuracy", "generated_ts(desc)"]},
-            "evidence": {
-                "station_id": "9414290",
-                "tide_window": ["2024-03-15T00:00:00Z", "2024-03-22T00:00:00Z"],
-                "water_level_window": ["2024-02-14T00:00:00Z", "2024-03-15T00:00:00Z"],
-                "features_csv_path": "/processed_data/features.csv"
-            },
-            "timestamp": "2024-03-18T15:45:00Z"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -618,12 +440,7 @@ TASKS = [
                 "command": "risk_snapshot_miami", "exit_code": 0, "stdout": "", "stderr": "", "printed_message": "risk_snapshot_miami completed", "printed_ts": "2024-02-02T15:45:00Z"
             }),
         ],
-        outputs=[{
-            "primary_station_id": "8723214",
-            "metrics": {"auc": 0.73, "accuracy": 0.75},
-            "predictions_csv_path": "/results/predictions_miami_v1.csv",
-            "processed_dataset_summary": {"csv_path": "/data/processed/timeseries_miami_weather.csv", "row_count": 96, "min_timestamp": "2024-02-01T00:00:00Z", "max_timestamp": "2024-02-05T00:00:00Z"}
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -642,8 +459,7 @@ TASKS = [
                 "command": "model_selection_san-francisco", "exit_code": 0, "stdout": "", "stderr": "", "printed_message": "model_selection_san-francisco completed", "printed_ts": "2024-03-18T15:45:00Z"
             }),
         ],
-        outputs=[{"chosen_model_name": "flood_risk_sf_v2",
-                  "predictions_csv_path": "/results/predictions_sf_v2.csv"}]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -668,12 +484,7 @@ TASKS = [
                 "command": "dmsc_snapshot_boston", "exit_code": 0, "stdout": "", "stderr": "", "printed_message": "dmsc_snapshot_boston completed", "printed_ts": "2024-03-01T13:18:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_station_id": "8443970",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {"csv_path": "/data/processed/timeseries_boston_weather.csv", "row_count": 120, "min_timestamp": "2024-03-01T00:00:00Z", "max_timestamp": "2024-03-06T00:00:00Z"}
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -712,35 +523,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T14:14:40Z"
             }),
         ],
-        outputs=[{
-            "winning_city": "Portland",
-            "seattle": {
-                "metrics": {"auc": 0.79, "accuracy": 0.76},
-                "predictions_csv_path": "/processed_data/predictions_simple.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                    "row_count": 240,
-                    "min_timestamp": "2024-02-01T00:00:00Z",
-                    "max_timestamp": "2024-02-11T00:00:00Z"
-                }
-            },
-            "boston": {
-                "metrics": {"auc": 0.73, "accuracy": 0.81},
-                "predictions_csv_path": "/data/processed/predictions_boston.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                    "row_count": 120,
-                    "min_timestamp": "2024-03-01T00:00:00Z",
-                    "max_timestamp": "2024-03-06T00:00:00Z"
-                }
-            },
-            "terminal_log": {
-                "command": "multi_snapshot_seattle-boston",
-                "exit_code": 0,
-                "printed_message": "multi_snapshot_seattle-boston completed",
-                "printed_ts": "2024-03-01T14:14:40Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -771,12 +554,7 @@ TASKS = [
                 "command": "dmsc_snapshot_boston", "exit_code": 0, "stdout": "", "stderr": "",
                 "printed_message": "dmsc_snapshot_boston completed", "printed_ts": "2024-03-01T14:02:00Z"})
         ],
-        outputs=[{
-            "chosen_station_id": "8443970",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {"csv_path": "/data/processed/timeseries_boston_weather.csv", "row_count": 120}
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -805,18 +583,7 @@ TASKS = [
                 "command": "status_compilation_san-francisco", "exit_code": 0, "stdout": "", "stderr": "",
                 "printed_message": "status_compilation_san-francisco completed", "printed_ts": "2024-03-18T15:45:00Z"})
         ],
-        outputs=[{
-            "city": "Oakland",
-            "primary_station_id": "9414290",
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "logged": {
-                "command": "status_compilation_san-francisco",
-                "exit_code": 0,
-                "printed_message": "status_compilation_san-francisco completed",
-                "printed_ts": "2024-03-18T15:45:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -840,13 +607,7 @@ TASKS = [
             Action(name="AppendTerminalLogEntry", kwargs={"command": "status_compilation_miami", "exit_code": 0, "stdout": "",
                    "stderr": "", "printed_message": "status_compilation_miami completed", "printed_ts": "2024-02-02T11:45:00Z"})
         ],
-        outputs=[{
-            "city": "Orlando",
-            "primary_station_id": "8723214",
-            "predictions_csv_path": "/results/predictions_miami_v1.csv",
-            "metrics": {"auc": 0.73, "accuracy": 0.75},
-            "logged": {"command": "status_compilation_miami", "exit_code": 0, "printed_message": "status_compilation_miami completed", "printed_ts": "2024-02-02T11:45:00Z"}
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -882,23 +643,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:33:10Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "tide_pred_m", "wind_speed_ms", "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_miami-san-francisco",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_miami-san-francisco completed",
-                "printed_ts": "2024-03-18T16:33:10Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -940,32 +685,7 @@ TASKS = [
                 "printed_ts": "2024-02-01T15:25:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Portland",
-            "primary_station_id": "9447130",
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "processed_dataset_summary": {
-                "csv_path": "/data/processed/timeseries_seattle_weather.csv",
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_seattle",
-                "exit_code": 0,
-                "printed_message": "status_compilation_seattle completed",
-                "printed_ts": "2024-02-01T15:25:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -995,36 +715,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:20:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "dataset_split": {
-                "method": "time_based",
-                "test_fraction": 0.25,
-                "train_index_count": 90,
-                "test_index_count": 30,
-                "split_summary_json_path": "/processed_data/split_summary_boston.json"
-            },
-            "processed_dataset_summary": {
-                "csv_path": "/data/processed/timeseries_boston_weather.csv",
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "dataset_split_boston",
-                "exit_code": 0,
-                "printed_message": "dataset_split_boston completed",
-                "printed_ts": "2024-03-01T13:20:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1054,32 +745,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:22:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "primary_station_id": "8443970",
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "processed_dataset_summary": {
-                "csv_path": "/data/processed/timeseries_boston_weather.csv",
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "model_readiness_boston",
-                "exit_code": 0,
-                "printed_message": "model_readiness_boston completed",
-                "printed_ts": "2024-03-01T13:22:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1123,30 +789,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:00:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-boston",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-boston completed",
-                "printed_ts": "2024-02-08T12:00:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1185,31 +828,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:15:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Portland",
-            "primary_station_id": "9447130",
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_snapshot_seattle",
-                "exit_code": 0,
-                "printed_message": "status_snapshot_seattle completed",
-                "printed_ts": "2024-02-08T12:15:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1236,36 +855,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:20:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Portland",
-            "dataset_split": {
-                "method": "time_based",
-                "test_fraction": 0.20,
-                "train_index_count": 192,
-                "test_index_count": 48,
-                "split_summary_json_path": "/processed_data/split_summary_seattle.json"
-            },
-            "processed_dataset_summary": {
-                "csv_path": "/data/processed/timeseries_seattle_weather.csv",
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "dataset_split_seattle",
-                "exit_code": 0,
-                "printed_message": "dataset_split_seattle completed",
-                "printed_ts": "2024-02-08T12:20:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1323,30 +913,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:18:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Providence",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_boston-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_boston-miami completed",
-                "printed_ts": "2024-03-01T13:18:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1385,31 +952,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:21:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "primary_station_id": "8443970",
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_snapshot_boston",
-                "exit_code": 0,
-                "printed_message": "status_snapshot_boston completed",
-                "printed_ts": "2024-03-01T13:21:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1448,31 +991,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:18:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Portland",
-            "primary_station_id": "9447130",
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "model_readiness_seattle",
-                "exit_code": 0,
-                "printed_message": "model_readiness_seattle completed",
-                "printed_ts": "2024-02-08T12:18:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1530,30 +1049,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:10:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-miami completed",
-                "printed_ts": "2024-02-08T12:10:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1592,31 +1088,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:24:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "primary_station_id": "8443970",
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_snapshot_boston",
-                "exit_code": 0,
-                "printed_message": "status_snapshot_boston completed",
-                "printed_ts": "2024-03-01T13:24:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1643,35 +1115,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:24:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "dataset_split": {
-                "method": "time_based",
-                "test_fraction": 0.30,
-                "train_index_count": 84,
-                "test_index_count": 36,
-                "split_summary_json_path": "/processed_data/split_summary_boston_v2.json"
-            },
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "dataset_split_boston_v2",
-                "exit_code": 0,
-                "printed_message": "dataset_split_boston_v2 completed",
-                "printed_ts": "2024-03-01T13:24:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1710,31 +1154,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:22:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Portland",
-            "primary_station_id": "9447130",
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_seattle",
-                "exit_code": 0,
-                "printed_message": "status_compilation_seattle completed",
-                "printed_ts": "2024-02-08T12:22:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1792,30 +1212,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:30:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-boston",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-boston completed",
-                "printed_ts": "2024-02-08T12:30:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1869,30 +1266,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:35:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-miami completed",
-                "printed_ts": "2024-02-08T12:35:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1929,31 +1303,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:40:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Portland",
-            "primary_station_id": "9447130",
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_seattle",
-                "exit_code": 0,
-                "printed_message": "status_compilation_seattle completed",
-                "printed_ts": "2024-02-08T12:40:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1980,35 +1330,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:25:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Portland",
-            "dataset_split": {
-                "method": "time_based",
-                "test_fraction": 0.25,
-                "train_index_count": 180,
-                "test_index_count": 60,
-                "split_summary_json_path": "/processed_data/split_summary_seattle_v2.json"
-            },
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "dataset_split_seattle_v2",
-                "exit_code": 0,
-                "printed_message": "dataset_split_seattle_v2 completed",
-                "printed_ts": "2024-02-08T12:25:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2045,31 +1367,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:26:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "primary_station_id": "8443970",
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_boston",
-                "exit_code": 0,
-                "printed_message": "status_compilation_boston completed",
-                "printed_ts": "2024-03-01T13:26:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2108,35 +1406,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:32:40Z"
             }),
         ],
-        outputs=[{
-            "winning_city": "Oakland",
-            "boston": {
-                "metrics": {"auc": 0.73, "accuracy": 0.81},
-                "predictions_csv_path": "/data/processed/predictions_boston.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                    "row_count": 120,
-                    "min_timestamp": "2024-03-01T00:00:00Z",
-                    "max_timestamp": "2024-03-06T00:00:00Z"
-                }
-            },
-            "san_francisco": {
-                "metrics": {"auc": 0.89, "accuracy": 0.85},
-                "predictions_csv_path": "/results/predictions_sf_v2.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp", "tide_pred_m", "wind_speed_ms", "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"],
-                    "row_count": 168,
-                    "min_timestamp": "2024-03-15T00:00:00Z",
-                    "max_timestamp": "2024-03-22T00:00:00Z"
-                }
-            },
-            "terminal_log": {
-                "command": "multi_snapshot_boston-san-francisco",
-                "exit_code": 0,
-                "printed_message": "multi_snapshot_boston-san-francisco completed",
-                "printed_ts": "2024-03-18T16:32:40Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2190,30 +1460,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:45:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-boston",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-boston completed",
-                "printed_ts": "2024-02-08T12:45:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2250,31 +1497,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:50:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Portland",
-            "primary_station_id": "9447130",
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_seattle",
-                "exit_code": 0,
-                "printed_message": "status_compilation_seattle completed",
-                "printed_ts": "2024-02-08T12:50:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2301,35 +1524,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:27:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "dataset_split": {
-                "method": "time_based",
-                "test_fraction": 0.20,
-                "train_index_count": 96,
-                "test_index_count": 24,
-                "split_summary_json_path": "/processed_data/split_summary_boston_v3.json"
-            },
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "dataset_split_boston_v3",
-                "exit_code": 0,
-                "printed_message": "dataset_split_boston_v3 completed",
-                "printed_ts": "2024-03-01T13:27:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2366,31 +1561,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:28:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "primary_station_id": "8443970",
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_boston",
-                "exit_code": 0,
-                "printed_message": "status_compilation_boston completed",
-                "printed_ts": "2024-03-01T13:28:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2444,30 +1615,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:55:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-miami completed",
-                "printed_ts": "2024-02-08T12:55:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2521,30 +1669,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:58:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-boston",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-boston completed",
-                "printed_ts": "2024-02-08T12:58:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2596,30 +1721,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:18:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Providence",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_boston-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_boston-miami completed",
-                "printed_ts": "2024-03-01T13:18:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2656,31 +1758,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:33:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "primary_station_id": "8443970",
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_boston",
-                "exit_code": 0,
-                "printed_message": "status_compilation_boston completed",
-                "printed_ts": "2024-03-01T13:33:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2707,35 +1785,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:27:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Portland",
-            "dataset_split": {
-                "method": "time_based",
-                "test_fraction": 0.22,
-                "train_index_count": 188,
-                "test_index_count": 52,
-                "split_summary_json_path": "/processed_data/split_summary_seattle_v3.json"
-            },
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "dataset_split_seattle_v3",
-                "exit_code": 0,
-                "printed_message": "dataset_split_seattle_v3 completed",
-                "printed_ts": "2024-02-08T12:27:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2772,31 +1822,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:53:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Portland",
-            "primary_station_id": "9447130",
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_seattle",
-                "exit_code": 0,
-                "printed_message": "status_compilation_seattle completed",
-                "printed_ts": "2024-02-08T12:53:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2848,30 +1874,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:57:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-miami completed",
-                "printed_ts": "2024-02-08T12:57:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2898,35 +1901,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:30:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "dataset_split": {
-                "method": "time_based",
-                "test_fraction": 0.28,
-                "train_index_count": 87,
-                "test_index_count": 33,
-                "split_summary_json_path": "/processed_data/split_summary_boston_v4.json"
-            },
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "dataset_split_boston_v4",
-                "exit_code": 0,
-                "printed_message": "dataset_split_boston_v4 completed",
-                "printed_ts": "2024-03-01T13:30:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2963,31 +1938,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:35:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "primary_station_id": "8443970",
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_boston",
-                "exit_code": 0,
-                "printed_message": "status_compilation_boston completed",
-                "printed_ts": "2024-03-01T13:35:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3039,30 +1990,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:36:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_boston-seattle",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_boston-seattle completed",
-                "printed_ts": "2024-03-01T13:36:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3089,35 +2017,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:29:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Portland",
-            "dataset_split": {
-                "method": "time_based",
-                "test_fraction": 0.18,
-                "train_index_count": 197,
-                "test_index_count": 43,
-                "split_summary_json_path": "/processed_data/split_summary_seattle_v4.json"
-            },
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "rainfall_intensity_mmh",
-                    "wave_height_m",
-                    "lunar_phase_pct",
-                    "daylight_hours",
-                    "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "dataset_split_seattle_v4",
-                "exit_code": 0,
-                "printed_message": "dataset_split_seattle_v4 completed",
-                "printed_ts": "2024-02-08T12:29:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3159,30 +2059,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[{
-            "primary_station_id": "8443970",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp",
-                    "ice_coverage_pct",
-                    "snow_depth_mm",
-                    "temperature_feels_like_c",
-                    "pressure_tendency_hpa_3h",
-                    "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "logged": {
-                "command": "station_determination_boston",
-                "exit_code": 0,
-                "printed_message": "station_determination_boston completed",
-                "printed_ts": "2024-03-01T13:18:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3204,10 +2081,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T15:45:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_model_name": "flood_risk_sf_v2",
-            "predictions_csv_path": "/results/predictions_sf_v2.csv"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3235,26 +2109,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T15:45:00Z"
             }),
         ],
-        outputs=[{
-            "primary_station_id": "9414290",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp", "tide_pred_m", "wind_speed_ms",
-                    "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"
-                ],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "logged": {
-                "command": "station_determination_san-francisco",
-                "exit_code": 0,
-                "printed_message": "station_determination_san-francisco completed",
-                "printed_ts": "2024-03-18T15:45:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3282,26 +2137,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:18:00Z"
             }),
         ],
-        outputs=[{
-            "primary_station_id": "8443970",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp", "ice_coverage_pct", "snow_depth_mm",
-                    "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "logged": {
-                "command": "risk_snapshot_boston",
-                "exit_code": 0,
-                "printed_message": "risk_snapshot_boston completed",
-                "printed_ts": "2024-03-01T13:18:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3340,37 +2176,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T14:12:50Z"
             }),
         ],
-        outputs=[{
-            "winning_city": "Portland",
-            "boston": {
-                "metrics": {"auc": 0.73, "accuracy": 0.81},
-                "predictions_csv_path": "/data/processed/predictions_boston.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                    "row_count": 120,
-                    "min_timestamp": "2024-03-01T00:00:00Z",
-                    "max_timestamp": "2024-03-06T00:00:00Z"
-                }
-            },
-            "seattle": {
-                "metrics": {"auc": 0.79, "accuracy": 0.76},
-                "predictions_csv_path": "/processed_data/predictions_simple.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                    "row_count": 240,
-                    "min_timestamp": "2024-02-01T00:00:00Z",
-                    "max_timestamp": "2024-02-11T00:00:00Z"
-                }
-            },
-            "terminal_log": {
-                "command": "multi_snapshot_boston-seattle",
-                "exit_code": 0,
-                "stdout": "",
-                "stderr": "",
-                "printed_message": "multi_snapshot_boston-seattle completed",
-                "printed_ts": "2024-03-01T14:12:50Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3406,23 +2212,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T14:13:30Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Providence",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_boston-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_boston-miami completed",
-                "printed_ts": "2024-03-01T14:13:30Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3461,26 +2251,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T15:45:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp", "tide_pred_m", "wind_speed_ms",
-                    "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"
-                ],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "logged": {
-                "command": "ccap_promotion_san-francisco-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_san-francisco-miami completed",
-                "printed_ts": "2024-03-18T15:45:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3516,23 +2287,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T13:04:55Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_miami-seattle",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_miami-seattle completed",
-                "printed_ts": "2024-02-08T13:04:55Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3569,26 +2324,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T15:45:00Z"
             }),
         ],
-        outputs=[{
-            "weather": {"city": "Oakland", "horizon_days": 7},
-            "features": {"csv_path": "/processed_data/features.csv"},
-            "model": {"model_name": "flood_risk_sf_v2"},
-            "config_text": {"path": "/config/model_config.json"},
-            "terminal": {"command": "jupyter nbconvert --to html notebooks/exploratory_analysis.ipynb"},
-            "mcp_calls": {"server": "gmail"},
-            "gmail_message": {"subject": "San Francisco Flood Risk Analysis - Complete Results"},
-            "published": {
-                "predictions_final_csv_path": "/results/predictions_sf_v2.csv",
-                "metrics_summary_csv_path": "/results/metrics_sf_v2.csv",
-                "generated_ts": "2024-03-18T15:45:00Z"
-            },
-            "logged": {
-                "command": "audit_provenance_san-francisco",
-                "exit_code": 0,
-                "printed_message": "audit_provenance_san-francisco completed",
-                "printed_ts": "2024-03-18T15:45:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3622,23 +2358,7 @@ TASKS = [
                 "printed_message": "ccap_promotion_seattle-miami completed", "printed_ts": "2024-02-08T12:42:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-miami completed",
-                "printed_ts": "2024-02-08T12:42:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3660,23 +2380,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T14:16:10Z"
             }),
         ],
-        outputs=[{
-            "primary_station_id": "8443970",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp","ice_coverage_pct","snow_depth_mm","temperature_feels_like_c","pressure_tendency_hpa_3h","high_risk_flag"],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "station_determination_boston",
-                "exit_code": 0,
-                "printed_message": "station_determination_boston completed",
-                "printed_ts": "2024-03-01T14:16:10Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3698,22 +2402,7 @@ TASKS = [
                 "printed_message": "dataset_split_seattle_v5 completed", "printed_ts": "2024-02-08T12:31:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Portland",
-            "dataset_split": {"method": "time_based", "test_fraction": 0.15, "train_index_count": 204, "test_index_count": 36, "split_summary_json_path": "/processed_data/split_summary_seattle_v5.json"},
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "dataset_split_seattle_v5",
-                "exit_code": 0,
-                "printed_message": "dataset_split_seattle_v5 completed",
-                "printed_ts": "2024-02-08T12:31:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3741,26 +2430,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T14:07:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "primary_station_id": "8443970",
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_boston",
-                "exit_code": 0,
-                "stdout": "",
-                "stderr": "",
-                "printed_message": "status_compilation_boston completed",
-                "printed_ts": "2024-03-01T14:07:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3796,25 +2466,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T14:08:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_boston-seattle",
-                "exit_code": 0,
-                "stdout": "",
-                "stderr": "",
-                "printed_message": "ccap_promotion_boston-seattle completed",
-                "printed_ts": "2024-03-01T14:08:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3850,23 +2502,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T13:02:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-miami completed",
-                "printed_ts": "2024-02-08T13:02:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3894,24 +2530,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T14:10:30Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "primary_station_id": "8443970",
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_boston",
-                "exit_code": 0,
-                "printed_message": "status_compilation_boston completed",
-                "printed_ts": "2024-03-01T14:10:30Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3947,23 +2566,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:28:10Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "tide_pred_m", "wind_speed_ms", "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_san-francisco-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_san-francisco-miami completed",
-                "printed_ts": "2024-03-18T16:28:10Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3999,25 +2602,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:21:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "tide_pred_m", "wind_speed_ms", "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_san-francisco-boston",
-                "exit_code": 0,
-                "stdout": "",
-                "stderr": "",
-                "printed_message": "ccap_promotion_san-francisco-boston completed",
-                "printed_ts": "2024-03-18T16:21:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4045,23 +2630,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T14:05:00Z"
             }),
         ],
-        outputs=[{
-            "primary_station_id": "8443970",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "risk_snapshot_boston",
-                "exit_code": 0,
-                "printed_message": "risk_snapshot_boston completed",
-                "printed_ts": "2024-03-01T14:05:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4108,26 +2677,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T15:55:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp", "tide_pred_m", "wind_speed_ms",
-                    "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"
-                ],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_san-francisco-boston",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_san-francisco-boston completed",
-                "printed_ts": "2024-03-18T15:55:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4163,23 +2713,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T14:06:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-boston",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-boston completed",
-                "printed_ts": "2024-03-01T14:06:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4217,28 +2751,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:29:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_station_id": "8443970",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp", "ice_coverage_pct", "snow_depth_mm",
-                    "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "dmsc_snapshot_boston",
-                "exit_code": 0,
-                "stdout": "",
-                "stderr": "",
-                "printed_message": "dmsc_snapshot_boston completed",
-                "printed_ts": "2024-03-01T13:29:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4271,28 +2784,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:46:00Z"
             }),
         ],
-        outputs=[{
-            "primary_station_id": "9447130",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp", "rainfall_intensity_mmh", "wave_height_m",
-                    "lunar_phase_pct", "daylight_hours", "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "station_determination_seattle",
-                "exit_code": 0,
-                "stdout": "",
-                "stderr": "",
-                "printed_message": "station_determination_seattle completed",
-                "printed_ts": "2024-02-08T12:46:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4357,26 +2849,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "csv_path": "/data/processed/timeseries_sf_weather.csv",
-                "columns": [
-                    "timestamp",
-                    "tide_pred_m",
-                    "wind_speed_ms",
-                    "precipitation_mm_hr",
-                    "pressure_hpa",
-                    "temperature_c",
-                    "high_risk_flag"
-                ],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4410,24 +2883,7 @@ TASKS = [
                 "printed_ts": "2024-03-17T12:50:00Z"
             })
         ],
-        outputs=[{
-            "mcp_scope": "weather-api",
-            "forecast_city": "Oakland",
-            "noaa_station": "9414290",
-            "tide_window": ["2024-03-15T00:00:00Z", "2024-03-22T00:00:00Z"],
-            "water_level_window": ["2024-02-14T00:00:00Z", "2024-03-15T00:00:00Z"],
-            "gmail_subject": "Weekly Progress Update - Flood Prediction Project",
-            "validated_command": "python src/models/train_model.py --config config/model_config.json",
-            "audit_checkpoint": {
-                "command": "promotion_sf_model",
-                "exit_code": 0,
-                "stdout": "promotion audit checkpoint",
-                "stderr": "none",
-                "printed_message": "promotion approved",
-                "printed_ts": "2024-03-17T12:50:00Z"
-            },
-            "protocol_status": "criteria evaluated with all evidence present"
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4476,28 +2932,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:40:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp", "rainfall_intensity_mmh", "wave_height_m",
-                    "lunar_phase_pct", "daylight_hours", "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_boston-seattle",
-                "exit_code": 0,
-                "stdout": "",
-                "stderr": "",
-                "printed_message": "ccap_promotion_boston-seattle completed",
-                "printed_ts": "2024-03-01T13:40:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4530,26 +2965,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:47:00Z"
             }),
         ],
-        outputs=[{
-            "primary_station_id": "9447130",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp", "rainfall_intensity_mmh", "wave_height_m",
-                    "lunar_phase_pct", "daylight_hours", "high_risk_flag"
-                ],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "risk_snapshot_seattle",
-                "exit_code": 0,
-                "printed_message": "risk_snapshot_seattle completed",
-                "printed_ts": "2024-02-08T12:47:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4582,29 +2998,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:41:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "primary_station_id": "8443970",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": [
-                    "timestamp", "ice_coverage_pct", "snow_depth_mm",
-                    "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"
-                ],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_boston",
-                "exit_code": 0,
-                "stdout": "",
-                "stderr": "",
-                "printed_message": "status_compilation_boston completed",
-                "printed_ts": "2024-03-01T13:41:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4645,35 +3039,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:20:00Z"
             }),
         ],
-        outputs=[{
-            "winning_city": "Oakland",
-            "san_francisco": {
-                "metrics": {"auc": 0.89, "accuracy": 0.85},
-                "predictions_csv_path": "/results/predictions_sf_v2.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp", "tide_pred_m", "wind_speed_ms", "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"],
-                    "row_count": 168,
-                    "min_timestamp": "2024-03-15T00:00:00Z",
-                    "max_timestamp": "2024-03-22T00:00:00Z"
-                }
-            },
-            "seattle": {
-                "metrics": {"auc": 0.79, "accuracy": 0.76},
-                "predictions_csv_path": "/processed_data/predictions_simple.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                    "row_count": 240,
-                    "min_timestamp": "2024-02-01T00:00:00Z",
-                    "max_timestamp": "2024-02-11T00:00:00Z"
-                }
-            },
-            "terminal_log": {
-                "command": "multi_snapshot_san-francisco-seattle",
-                "exit_code": 0,
-                "printed_message": "multi_snapshot_san-francisco-seattle completed",
-                "printed_ts": "2024-03-18T16:20:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4712,23 +3078,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:01:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "tide_pred_m", "wind_speed_ms", "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_san-francisco-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_san-francisco-miami completed",
-                "printed_ts": "2024-03-18T16:01:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4767,23 +3117,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:02:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "tide_pred_m", "wind_speed_ms", "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_boston-san-francisco",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_boston-san-francisco completed",
-                "printed_ts": "2024-03-18T16:02:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4809,25 +3143,7 @@ TASKS = [
                 "printed_message": "risk_snapshot_boston completed", "printed_ts": "2024-03-01T13:42:00Z"
             }),
         ],
-        outputs=[{
-            "primary_station_id": "8443970",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "risk_snapshot_boston",
-                "exit_code": 0,
-                "stdout": "",
-                "stderr": "",
-                "printed_message": "risk_snapshot_boston completed",
-                "printed_ts": "2024-03-01T13:42:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4855,24 +3171,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T14:02:00Z"
             }),
         ],
-        outputs=[{
-            "city": "Providence",
-            "primary_station_id": "8443970",
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "status_compilation_boston",
-                "exit_code": 0,
-                "printed_message": "status_compilation_boston completed",
-                "printed_ts": "2024-03-01T14:02:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4900,23 +3199,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:56:00Z"
             }),
         ],
-        outputs=[{
-            "primary_station_id": "9447130",
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "risk_snapshot_seattle",
-                "exit_code": 0,
-                "printed_message": "risk_snapshot_seattle completed",
-                "printed_ts": "2024-02-08T12:56:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4942,23 +3225,7 @@ TASKS = [
                 "printed_message": "station_determination_boston completed", "printed_ts": "2024-03-01T14:03:00Z"
             }),
         ],
-        outputs=[{
-            "primary_station_id": "8443970",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "station_determination_boston",
-                "exit_code": 0,
-                "printed_message": "station_determination_boston completed",
-                "printed_ts": "2024-03-01T14:03:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4997,23 +3264,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T14:04:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Providence",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_miami-boston",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_miami-boston completed",
-                "printed_ts": "2024-03-01T14:04:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5041,23 +3292,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:36:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp","tide_pred_m","wind_speed_ms","precipitation_mm_hr","pressure_hpa","temperature_c","high_risk_flag"],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_boston-san-francisco",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_boston-san-francisco completed",
-                "printed_ts": "2024-03-18T16:36:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5098,35 +3333,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:44:00Z"
             }),
         ],
-        outputs=[{
-            "winning_city": "Portland",
-            "seattle": {
-                "metrics": {"auc": 0.79, "accuracy": 0.76},
-                "predictions_csv_path": "/processed_data/predictions_simple.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                    "row_count": 240,
-                    "min_timestamp": "2024-02-01T00:00:00Z",
-                    "max_timestamp": "2024-02-11T00:00:00Z"
-                }
-            },
-            "boston": {
-                "metrics": {"auc": 0.73, "accuracy": 0.81},
-                "predictions_csv_path": "/data/processed/predictions_boston.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                    "row_count": 120,
-                    "min_timestamp": "2024-03-01T00:00:00Z",
-                    "max_timestamp": "2024-03-06T00:00:00Z"
-                }
-            },
-            "terminal_log": {
-                "command": "multi_snapshot_seattle-boston",
-                "exit_code": 0,
-                "printed_message": "multi_snapshot_seattle-boston completed",
-                "printed_ts": "2024-03-01T13:44:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5164,23 +3371,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:05:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "tide_pred_m", "wind_speed_ms", "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_san-francisco-seattle",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_san-francisco-seattle completed",
-                "printed_ts": "2024-03-18T16:05:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5218,23 +3409,7 @@ TASKS = [
                 "printed_ts": "2024-02-08T12:58:30Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_miami-seattle",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_miami-seattle completed",
-                "printed_ts": "2024-02-08T12:58:30Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5264,23 +3439,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:55:00Z"
             }),
         ],
-        outputs=[{
-            "primary_station_id": "8443970",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "risk_snapshot_boston",
-                "exit_code": 0,
-                "printed_message": "risk_snapshot_boston completed",
-                "printed_ts": "2024-03-01T13:55:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5316,23 +3475,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:59:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Providence",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_boston-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_boston-miami completed",
-                "printed_ts": "2024-03-01T13:59:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5368,23 +3511,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:10:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "tide_pred_m", "wind_speed_ms", "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_san-francisco-boston",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_san-francisco-boston completed",
-                "printed_ts": "2024-03-18T16:10:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5423,35 +3550,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:57:30Z"
             }),
         ],
-        outputs=[{
-            "winning_city": "Portland",
-            "boston": {
-                "metrics": {"auc": 0.73, "accuracy": 0.81},
-                "predictions_csv_path": "/data/processed/predictions_boston.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                    "row_count": 120,
-                    "min_timestamp": "2024-03-01T00:00:00Z",
-                    "max_timestamp": "2024-03-06T00:00:00Z"
-                }
-            },
-            "seattle": {
-                "metrics": {"auc": 0.79, "accuracy": 0.76},
-                "predictions_csv_path": "/processed_data/predictions_simple.csv",
-                "processed_dataset_summary": {
-                    "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                    "row_count": 240,
-                    "min_timestamp": "2024-02-01T00:00:00Z",
-                    "max_timestamp": "2024-02-11T00:00:00Z"
-                }
-            },
-            "terminal_log": {
-                "command": "multi_snapshot_boston-seattle",
-                "exit_code": 0,
-                "printed_message": "multi_snapshot_boston-seattle completed",
-                "printed_ts": "2024-03-01T13:57:30Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5487,23 +3586,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:58:15Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Portland",
-            "metrics": {"auc": 0.79, "accuracy": 0.76},
-            "predictions_csv_path": "/processed_data/predictions_simple.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "rainfall_intensity_mmh", "wave_height_m", "lunar_phase_pct", "daylight_hours", "high_risk_flag"],
-                "row_count": 240,
-                "min_timestamp": "2024-02-01T00:00:00Z",
-                "max_timestamp": "2024-02-11T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-boston",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-boston completed",
-                "printed_ts": "2024-03-01T13:58:15Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5539,23 +3622,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:14:00Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "tide_pred_m", "wind_speed_ms", "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_san-francisco-miami",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_san-francisco-miami completed",
-                "printed_ts": "2024-03-18T16:14:00Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5583,23 +3650,7 @@ TASKS = [
                 "printed_ts": "2024-03-01T13:58:45Z"
             }),
         ],
-        outputs=[{
-            "primary_station_id": "8443970",
-            "predictions_csv_path": "/data/processed/predictions_boston.csv",
-            "metrics": {"auc": 0.73, "accuracy": 0.81},
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "ice_coverage_pct", "snow_depth_mm", "temperature_feels_like_c", "pressure_tendency_hpa_3h", "high_risk_flag"],
-                "row_count": 120,
-                "min_timestamp": "2024-03-01T00:00:00Z",
-                "max_timestamp": "2024-03-06T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "station_determination_boston",
-                "exit_code": 0,
-                "printed_message": "station_determination_boston completed",
-                "printed_ts": "2024-03-01T13:58:45Z"
-            }
-        }]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5635,23 +3686,7 @@ TASKS = [
                 "printed_ts": "2024-03-18T16:12:30Z"
             }),
         ],
-        outputs=[{
-            "chosen_city": "Oakland",
-            "metrics": {"auc": 0.89, "accuracy": 0.85},
-            "predictions_csv_path": "/results/predictions_sf_v2.csv",
-            "processed_dataset_summary": {
-                "columns": ["timestamp", "tide_pred_m", "wind_speed_ms", "precipitation_mm_hr", "pressure_hpa", "temperature_c", "high_risk_flag"],
-                "row_count": 168,
-                "min_timestamp": "2024-03-15T00:00:00Z",
-                "max_timestamp": "2024-03-22T00:00:00Z"
-            },
-            "terminal_log": {
-                "command": "ccap_promotion_seattle-san-francisco",
-                "exit_code": 0,
-                "printed_message": "ccap_promotion_seattle-san-francisco completed",
-                "printed_ts": "2024-03-18T16:12:30Z"
-            }
-        }]
+        outputs=[]
     )
 
 ]

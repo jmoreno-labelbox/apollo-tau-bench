@@ -19,7 +19,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":80.0,"discount_amount":0.0,"total_amount":80.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -37,7 +37,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":160.0,"discount_amount":0.0,"total_amount":160.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -59,7 +59,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":110.0,"discount_amount":0.0,"total_amount":110.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -77,7 +77,7 @@ TASKS = [
             Action(name="UpdateSubnetGroupDescription", kwargs={"subnet_group_id": "sgp-lab-01","name": "cache-subnet-lab-renamed","description": "Lab cache subnets"}),
             Action(name="GetSubnetGroup", kwargs={"subnet_group_id": "sgp-lab-01"}),
         ],
-        outputs=['{"subnet_group_id":"sgp-lab-01","name":"cache-subnet-lab-renamed"}'],
+        outputs=[]
     ),
 
     Task(
@@ -96,7 +96,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="SetOrderShippingAddress", kwargs={"order_id": "O001","address": {"name": "Maria Garcia","line1": "123 Maple St","city": "Nashville","region": "TN","postal_code": "37209","country": "US"}}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":1500.0,"discount_amount":0.0,"total_amount":1500.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -116,7 +116,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":60.0,"discount_amount":0.0,"total_amount":60.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -138,7 +138,7 @@ TASKS = [
             Action(name="AddSecurityGroupRule", kwargs={"group_id": "sg-cache","direction": "ingress","protocol": "tcp","port": 6379,"cidr": "10.2.0.0/16","description": "Temporary allow for verification"}),
             Action(name="ListSecurityGroupRules", kwargs={"group_id": "sg-cache"}),
         ],
-        outputs=['{"cluster_id":"ec-lab-01","status":"Available"}'],
+        outputs=[]
     ),
 
     Task(
@@ -156,7 +156,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":75.0,"discount_amount":5.0,"total_amount":70.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -179,7 +179,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":274.0,"discount_amount":54.8,"total_amount":219.2}'],
+        outputs=[]
     ),
 
     Task(
@@ -201,7 +201,7 @@ TASKS = [
             Action(name="AddSecurityGroupRule", kwargs={"group_id": "sg-cache","direction": "ingress","protocol": "tcp","port": 6379,"cidr": "10.0.0.0/16","description": "Temporary allow for verification"}),
             Action(name="ListSecurityGroupRules", kwargs={"group_id": "sg-cache"}),
         ],
-        outputs=['{"cluster_id":"ec-maint-01","final_status":"Available"}'],
+        outputs=[]
     ),
 
     Task(
@@ -223,7 +223,7 @@ TASKS = [
             Action(name="ListOrderItems", kwargs={"order_id": "O001"}),
             Action(name="ReturnOrder", kwargs={"order_id": "O001", "lines": [{"product_id": "1003", "qty": 1}], "reason": "Customer changed mind"}),
         ],
-        outputs=['{"order_id":"O001","items_processed":[{"product_id":"1003","quantity":1,"refund_amount":40.0,"reason":"Customer changed mind"}],"total_refund_amount":40.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -245,7 +245,7 @@ TASKS = [
             Action(name="AddSecurityGroupRule", kwargs={"group_id": "sg-cache","direction": "egress","protocol": "tcp","port": 443,"cidr": "0.0.0.0/0","description": "Temporary HTTPS egress for audit"}),
             Action(name="ListSecurityGroupRules", kwargs={"group_id": "sg-cache"}),
         ],
-        outputs=['{"cluster_id":"ec-lite-01","status":"Available"}'],
+        outputs=[]
     ),
 
     Task(
@@ -265,7 +265,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":1250.0,"discount_amount":0.0,"total_amount":1250.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -283,7 +283,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":40.0,"discount_amount":8.0,"total_amount":32.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -305,7 +305,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":199.0,"discount_amount":5.0,"total_amount":194.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -326,7 +326,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":65.0,"discount_amount":0.0,"total_amount":65.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -347,7 +347,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":2500.0,"discount_amount":375.0,"total_amount":2125.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -365,7 +365,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":32.0,"discount_amount":0.0,"total_amount":32.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -383,7 +383,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":75.0,"discount_amount":15.0,"total_amount":60.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -401,7 +401,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":80.0,"discount_amount":5.0,"total_amount":75.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -425,7 +425,7 @@ TASKS = [
                 "cidr": "10.140.0.0/16", "description": "Metrics scrapers"}),
             Action(name="ListSecurityGroupRules", kwargs={"group_id": "sg-cache"}),
         ],
-        outputs=['{"group_id":"sg-cache","changes_recorded":true}'],
+        outputs=[]
     ),
 
     Task(
@@ -443,7 +443,7 @@ TASKS = [
             Action(name="ApplyOfferToCart", kwargs={"cart_id": "C022", "code": "WINTER20"}),
             Action(name="CreateOrder", kwargs={"order_id": "O022", "cart_id": "C022", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O022","status":"Processing","subtotal":55.0,"discount_amount":11.0,"total_amount":44.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -461,7 +461,7 @@ TASKS = [
             Action(name="ApplyOfferToCart", kwargs={"cart_id": "C023", "code": "WELCOME5"}),
             Action(name="CreateOrder", kwargs={"order_id": "O023", "cart_id": "C023", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O023","status":"Processing","subtotal":60.0,"discount_amount":5.0,"total_amount":55.0}'],
+        outputs=[]
     ),
 
 
@@ -481,7 +481,7 @@ TASKS = [
             Action(name="ApplyOfferToCart", kwargs={"cart_id": "C024", "code": "WINTER20"}),
             Action(name="CreateOrder", kwargs={"order_id": "O024", "cart_id": "C024", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O024","status":"Processing","subtotal":32.0,"discount_amount":6.4,"total_amount":25.6}'],
+        outputs=[]
     ),
 
     Task(
@@ -509,7 +509,7 @@ TASKS = [
             }),
             Action(name="ListSecurityGroupRules", kwargs={"group_id": "sg-cache"}),
         ],
-        outputs=['{"cluster_id":"ec-lite-02","status":"Available"}'],
+        outputs=[]
     ),
 
     Task(
@@ -530,7 +530,7 @@ TASKS = [
             Action(name="PreviewCartTotals", kwargs={"cart_id": "C026"}),
             Action(name="CreateOrder", kwargs={"order_id": "O026", "cart_id": "C026", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O026","status":"Processing","subtotal":115.0,"discount_amount":23.0,"total_amount":92.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -550,7 +550,7 @@ TASKS = [
             Action(name="AddItemToCart", kwargs={"cart_id": "C027", "product_id": "1002", "quantity": 1}),
             Action(name="CreateOrder", kwargs={"order_id": "O027", "cart_id": "C027", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O027","status":"Processing","subtotal":125.0,"discount_amount":0.0,"total_amount":125.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -579,7 +579,7 @@ TASKS = [
                 }
             }),
         ],
-        outputs=['{"order_id":"O028","status":"Processing","subtotal":55.0,"discount_amount":5.0,"total_amount":50.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -607,7 +607,7 @@ TASKS = [
             Action(name="GetElasticacheCluster", kwargs={"cluster_id": "ec-audit-01"}),
             Action(name="ListElasticacheClusters", kwargs={}),
         ],
-        outputs=['{"cluster_id":"ec-audit-01","status":"Available","subnet_group_id":"sgp-audit-01"}'],
+        outputs=[]
     ),
 
     Task(
@@ -627,8 +627,7 @@ TASKS = [
             Action(name="ListOrderItems", kwargs={"order_id": "O030"}),
             Action(name="ReturnOrder", kwargs={"order_id": "O030", "lines": [{"product_id": "1003", "qty": 1}], "reason": "Changed mind"}),
         ],
-        outputs=[
-            '{"order_id":"O030","items_processed":[{"product_id":"1003","quantity":1,"refund_amount":40.0,"reason":"Changed mind"}],"total_refund_amount":40.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -646,7 +645,7 @@ TASKS = [
             Action(name="CreateCase", kwargs={"case_id": "CASE031", "order_id": "O031", "contact_id": "204", "subject": "Package never arrived", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "CASE031", "status": "Resolved"}),
         ],
-        outputs=['{"case_id":"CASE031","final_status":"Resolved","order_id":"O031"}'],
+        outputs=[]
     ),
 
     Task(
@@ -666,7 +665,7 @@ TASKS = [
             Action(name="RemoveItemFromCart", kwargs={"cart_id": "C032", "product_id": "1002"}),
             Action(name="CreateOrder", kwargs={"order_id": "O032", "cart_id": "C032", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O032","status":"Processing","subtotal":199.0,"discount_amount":0.0,"total_amount":199.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -686,7 +685,7 @@ TASKS = [
             Action(name="PreviewCartTotals", kwargs={"cart_id": "C033"}),
             Action(name="CreateOrder", kwargs={"order_id": "O033", "cart_id": "C033", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O033","status":"Processing","subtotal":160.0,"discount_amount":24.0,"total_amount":136.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -705,7 +704,7 @@ TASKS = [
             Action(name="AddItemToCart", kwargs={"cart_id": "C034", "product_id": "1002", "quantity": 1}),
             Action(name="CreateOrder", kwargs={"order_id": "O034", "cart_id": "C034", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O034","status":"Processing","subtotal":60.0,"discount_amount":0.0,"total_amount":60.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -725,7 +724,7 @@ TASKS = [
             Action(name="ReturnOrder", kwargs={"order_id": "O035", "lines": [{"product_id": "1003", "qty": 1}], "reason": "Unwanted"}),
             Action(name="RefundOrderPartial", kwargs={"order_id": "O035", "amount": 32.0, "reason": "Return of Wireless Mouse"}),
         ],
-        outputs=['{"refund_id":"RF_0001","order_id":"O035","amount":32.0,"kind":"partial","reason":"Return of Wireless Mouse"}'],
+        outputs=[]
     ),
 
     Task(
@@ -744,7 +743,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O036", "cart_id": "C036", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="CreateCase", kwargs={"case_id": "CASE036", "order_id": "O036", "contact_id": "208", "subject": "Gift receipt needed", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O036","status":"Processing","subtotal":60.0,"discount_amount":5.0,"total_amount":55.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -769,7 +768,7 @@ TASKS = [
             }),
             Action(name="GetElasticacheCluster", kwargs={"cluster_id": "ec-scale-02"}),
         ],
-        outputs=['{"cluster_id":"ec-scale-02","node_type":"cache.t3.medium","num_nodes":2,"status":"Available"}'],
+        outputs=[]
     ),
 
     Task(
@@ -794,7 +793,7 @@ TASKS = [
             }),
             Action(name="GetElasticacheCluster", kwargs={"cluster_id": "ec-throw-03"}),
         ],
-        outputs=['{"cluster_id":"ec-throw-03","status":"Deleted"}'],
+        outputs=[]
     ),
 
     Task(
@@ -812,7 +811,7 @@ TASKS = [
             Action(name="CreateCase", kwargs={"case_id": "CASE039", "order_id": "O039", "contact_id": "204", "subject": "Wrong color", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "CASE039", "status": "Resolved"}),
         ],
-        outputs=['{"case_id":"CASE039","final_status":"Resolved","order_id":"O039"}'],
+        outputs=[]
     ),
 
     Task(
@@ -832,7 +831,7 @@ TASKS = [
             Action(name="PreviewCartTotals", kwargs={"cart_id": "C040"}),
             Action(name="CreateOrder", kwargs={"order_id": "O040", "cart_id": "C040", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O040","status":"Processing","subtotal":60.0,"discount_amount":0.0,"total_amount":60.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -860,7 +859,7 @@ TASKS = [
             }),
             Action(name="CancelOrder", kwargs={"order_id": "O041", "cancel_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O041","new_status":"Cancelled"}'],
+        outputs=[]
     ),
 
     Task(
@@ -878,8 +877,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O042", "cart_id": "C042", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="ReturnOrder", kwargs={"order_id": "O042", "lines": [{"product_id": "1016", "qty": 1}], "reason": "Wrong capacity"}),
         ],
-        outputs=[
-            '{"order_id":"O042","items_processed":[{"product_id":"1016","quantity":1,"refund_amount":120.0,"reason":"Wrong capacity"}],"total_refund_amount":120.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -896,7 +894,7 @@ TASKS = [
             Action(name="ReturnOrder", kwargs={"order_id": "O043", "lines": [{"product_id": "1018", "qty": 1}], "reason": "Defective"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "CASE043", "status": "Resolved"}),
         ],
-        outputs=['{"order_id":"O043","return":{"items_processed":[{"product_id":"1018","quantity":1,"refund_amount":199.0,"reason":"Defective"}],"total_refund_amount":199.0},"case":{"case_id":"CASE043","final_status":"Resolved"}}'],
+        outputs=[]
     ),
 
     Task(
@@ -915,8 +913,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O044", "cart_id": "C044", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="ReturnOrder", kwargs={"order_id": "O044", "lines": [{"product_id": "1013", "qty": 1}], "reason": "Not needed"}),
         ],
-        outputs=[
-            '{"order_id":"O044","items_processed":[{"product_id":"1013","quantity":1,"refund_amount":65.0,"reason":"Not needed"}],"total_refund_amount":65.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -936,7 +933,7 @@ TASKS = [
             Action(name="ListOrderItems", kwargs={"order_id": "O045"}),
             Action(name="CancelOrder", kwargs={"order_id": "O045", "cancel_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O045","items":[{"product_id":"1006","qty":1,"unit_price":60.0,"line_subtotal":60.0},{"product_id":"1003","qty":1,"unit_price":40.0,"line_subtotal":40.0}],"order_update":{"order_id":"O045","new_status":"Cancelled"}}'],
+        outputs=[]
     ),
 
     Task(
@@ -953,7 +950,7 @@ TASKS = [
             Action(name="UpdateCaseStatus", kwargs={"case_id": "CASE046", "status": "In Progress"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "CASE046", "status": "Resolved"}),
         ],
-        outputs=['{"case_id":"CASE046","final_status":"Resolved","order_id":"O046"}'],
+        outputs=[]
     ),
 
     Task(
@@ -978,7 +975,7 @@ TASKS = [
             }),
             Action(name="GetElasticacheCluster", kwargs={"cluster_id": "ec-lab-02"}),
         ],
-        outputs=['{"cluster_id":"ec-lab-02","status":"Available"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1005,7 +1002,7 @@ TASKS = [
             }),
             Action(name="GetElasticacheCluster", kwargs={"cluster_id": "ec-green-01"}),
         ],
-        outputs=['{"cluster_id":"ec-green-01","status":"Available","subnet_group_id":"sgp-green-01"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1024,7 +1021,7 @@ TASKS = [
             }),
             Action(name="GetElasticacheCluster", kwargs={"cluster_id": "dcomm-uat-redis"}),
         ],
-        outputs=['{"cluster_id":"dcomm-uat-redis","node_type":"cache.t3.medium","num_nodes":2,"status":"Available"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1042,8 +1039,7 @@ TASKS = [
             Action(name="ListOrderItems", kwargs={"order_id": "O050"}),
             Action(name="ReturnOrder", kwargs={"order_id": "O050", "lines": [{"product_id": "1018", "qty": 1}], "reason": "Not needed"}),
         ],
-        outputs=[
-            '{"order_id":"O050","items":[{"product_id":"1018","qty":1,"unit_price":199.0,"line_subtotal":199.0}],"refund":{"total_refund_amount":199.0,"reason":"Not needed"}}'],
+        outputs=[]
     ),
 
     Task(
@@ -1061,7 +1057,7 @@ TASKS = [
             Action(name="CreateCase", kwargs={"case_id": "CASE051", "order_id": "O051", "contact_id": "204", "subject": "Wrong size", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "CASE051", "status": "Resolved"}),
         ],
-        outputs=['{"case_id":"CASE051","final_status":"Resolved","order_id":"O051"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1089,7 +1085,7 @@ TASKS = [
             Action(name="GetElasticacheCluster", kwargs={"cluster_id": "ec-mini-01"}),
             Action(name="ListElasticacheClusters", kwargs={}),
         ],
-        outputs=['{"cluster_id":"ec-mini-01","status":"Available","subnet_group_id":"sgp-mini-01"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1105,7 +1101,7 @@ TASKS = [
             Action(name="ApplyOfferToCart", kwargs={"cart_id": "C053", "code": "WINTER20"}),
             Action(name="CreateOrder", kwargs={"order_id": "O053", "cart_id": "C053", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O053","status":"Processing","subtotal":120.0,"discount_amount":24.0,"total_amount":96.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1121,7 +1117,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O054", "cart_id": "C054", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="ReturnOrder", kwargs={"order_id": "O054", "lines": [{"product_id": "1006", "qty": 1}], "reason": "Wrong color"}),
         ],
-        outputs=['{"order_id":"O054","items_processed":[{"product_id":"1006","quantity":1,"refund_amount":60.0,"reason":"Wrong color"}],"total_refund_amount":60.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1137,7 +1133,7 @@ TASKS = [
             Action(name="ListOrderItems", kwargs={"order_id": "O055"}),
             Action(name="CancelOrder", kwargs={"order_id": "O055", "cancel_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O055","new_status":"Cancelled"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1153,7 +1149,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O056", "cart_id": "C056", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="RefundOrderPartial", kwargs={"order_id": "O056", "amount": 5.0, "reason": "Goodwill"}),
         ],
-        outputs=['{"refund_id":"RF_0001","order_id":"O056","amount":5.0,"kind":"partial","reason":"Goodwill"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1169,7 +1165,7 @@ TASKS = [
             Action(name="AddItemToCart", kwargs={"cart_id": "C057", "product_id": "1003", "quantity": 1}),
             Action(name="CreateOrder", kwargs={"order_id": "O057", "cart_id": "C057", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O057","status":"Processing","subtotal":32.0,"discount_amount":0.0,"total_amount":32.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1196,7 +1192,7 @@ TASKS = [
                         "postal_code": "37209",
                         "country": "US"}}),
         ],
-        outputs=['{"order_id":"O058","status":"Processing","subtotal":80.0,"discount_amount":0.0,"total_amount":80.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1214,8 +1210,7 @@ TASKS = [
             Action(name="ListOrderItems", kwargs={"order_id": "O059"}),
             Action(name="ReturnOrder", kwargs={"order_id": "O059", "lines": [{"product_id": "1002", "qty": 1}], "reason": "Changed mind"}),
         ],
-        outputs=[
-            '{"order_id":"O059","items":[{"product_id":"1002","qty":1,"unit_price":60.0,"line_subtotal":60.0}],"refund":{"total_refund_amount":60.0,"reason":"Changed mind"},"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1230,7 +1225,7 @@ TASKS = [
             Action(name="PreviewCartTotals", kwargs={"cart_id": "C060"}),
             Action(name="CreateOrder", kwargs={"order_id": "O060", "cart_id": "C060", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O060","status":"Processing","subtotal":120.0,"discount_amount":0.0,"total_amount":120.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1246,7 +1241,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O061", "cart_id": "C061", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="CancelOrder", kwargs={"order_id": "O061", "cancel_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O061","new_status":"Cancelled"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1261,7 +1256,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O062", "cart_id": "C062", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="ReturnOrder", kwargs={"order_id": "O062", "lines": [{"product_id": "1010", "qty": 1}], "reason": "Not needed"}),
         ],
-        outputs=['{"order_id":"O062","items_processed":[{"product_id":"1010","quantity":1,"refund_amount":55.0,"reason":"Not needed"}],"total_refund_amount":55.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1277,7 +1272,7 @@ TASKS = [
             Action(name="CreateCase", kwargs={"case_id": "CASE063", "order_id": "O063", "contact_id": "208", "subject": "Charge discrepancy", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "CASE063", "status": "Resolved"}),
         ],
-        outputs=['{"case_id":"CASE063","final_status":"Resolved","order_id":"O063"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1303,7 +1298,7 @@ TASKS = [
             }),
             Action(name="ListSecurityGroupRules", kwargs={"group_id": "sg-cache"}),
         ],
-        outputs=['{"cluster_id":"ec-analytics-03","status":"Available"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1319,7 +1314,7 @@ TASKS = [
             Action(name="AddItemToCart", kwargs={"cart_id": "C065", "product_id": "1016", "quantity": 1}),
             Action(name="CreateOrder", kwargs={"order_id": "O065", "cart_id": "C065", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O065","status":"Processing","subtotal":95.0,"discount_amount":19.0,"total_amount":76.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1343,8 +1338,7 @@ TASKS = [
             }),
             Action(name="ReturnOrder", kwargs={"order_id": "O001", "lines": [{"product_id": "1003", "qty": 1}], "reason": "Changed mind"}),
         ],
-        outputs=[
-            '{"order_id":"O001","items_processed":[{"product_id":"1003","quantity":1,"refund_amount":40.0,"reason":"Changed mind"}],"total_refund_amount":40.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1367,7 +1361,7 @@ TASKS = [
                    kwargs={"cluster_id": "ec-mod-01", "status": "Available", "changed_at": "2025-08-06T12:00:00Z"}),
             Action(name="GetElasticacheCluster", kwargs={"cluster_id": "ec-mod-01"}),
         ],
-        outputs=['{"cluster_id":"ec-mod-01","status":"Available"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1387,7 +1381,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":60.0,"discount_amount":0.0,"total_amount":60.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1407,7 +1401,7 @@ TASKS = [
             Action(name="ListOrderItems", kwargs={"order_id": "O001"}),
             Action(name="CancelOrder", kwargs={"order_id": "O001", "cancel_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","items":[{"product_id":"1016","qty":1,"unit_price":95.0,"line_subtotal":95.0}],"order_update":{"order_id":"O001","new_status":"Cancelled"}}'],
+        outputs=[]
     ),
 
     Task(
@@ -1428,7 +1422,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":230.0,"discount_amount":0.0,"total_amount":230.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1448,7 +1442,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":75.0,"discount_amount":5.0,"total_amount":70.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1468,7 +1462,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":40.0,"discount_amount":0.0,"total_amount":40.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1490,7 +1484,7 @@ TASKS = [
                 "address": {"name": "Mike Rivera", "line1": "9 Elm Rd", "city": "Boulder", "region": "CO", "postal_code": "80202", "country": "US"}
             }),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":199.0,"discount_amount":0.0,"total_amount":199.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1511,8 +1505,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="ReturnOrder", kwargs={"order_id": "O001", "lines": [{"product_id": "1003", "qty": 1}], "reason": "Changed mind"}),
         ],
-        outputs=[
-            '{"order_id":"O001","items_processed":[{"product_id":"1003","quantity":1,"refund_amount":40.0,"reason":"Changed mind"}],"total_refund_amount":40.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1534,7 +1527,7 @@ TASKS = [
             Action(name="CancelOrder", kwargs={"order_id": "O001", "cancel_at": "2025-08-06T12:00:00Z"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "CASE075", "status": "Resolved"}),
         ],
-        outputs=['{"order_id":"O001","new_status":"Cancelled","case":{"case_id":"CASE075","final_status":"Resolved"}}'],
+        outputs=[]
     ),
 
     Task(
@@ -1553,7 +1546,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":1500.0,"discount_amount":0.0,"total_amount":1500.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1575,7 +1568,7 @@ TASKS = [
             }),
             Action(name="ListSecurityGroupRules", kwargs={"group_id": "sg-cache"}),
         ],
-        outputs=['{"group_id":"sg-cache","changes_recorded":true}'],
+        outputs=[]
     ),
 
     Task(
@@ -1596,7 +1589,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":60.0,"discount_amount":12.0,"total_amount":48.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1617,7 +1610,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":60.0,"discount_amount":0.0,"total_amount":60.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1639,8 +1632,7 @@ TASKS = [
                                                                           "region": "FL", "postal_code": "33101", "country": "US"}}),
             Action(name="ReturnOrder", kwargs={"order_id": "O001", "lines": [{"product_id": "1001", "qty": 1}], "reason": "Return within policy"}),
         ],
-        outputs=[
-            '{"order_id":"O080","items_processed":[{"product_id":"1001","quantity":1,"refund_amount":1500.0,"reason":"Return within policy"}],"total_refund_amount":1500.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1663,7 +1655,7 @@ TASKS = [
             Action(name="CancelOrder", kwargs={"order_id": "O001", "cancel_at": "2025-08-06T12:00:00Z"}),
         ],
 
-        outputs=['{"order_id":"O081","new_status":"Cancelled"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1682,8 +1674,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="ReturnOrder", kwargs={"order_id": "O001", "lines": [{"product_id": "1016", "qty": 1}], "reason": "Not needed"}),
         ],
-        outputs=[
-            '{"order_id":"O082","items_processed":[{"product_id":"1016","quantity":1,"refund_amount":120.0,"reason":"Not needed"}],"total_refund_amount":120.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1706,7 +1697,7 @@ TASKS = [
                                                "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "CASE083", "status": "Resolved"}),
         ],
-        outputs=['{"case_id":"CASE083","final_status":"Resolved","order_id":"O083"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1725,7 +1716,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="RefundOrderFull", kwargs={"order_id": "O001", "reason": "Goodwill"}),
         ],
-        outputs=['{"refund_id":"RF_0001","order_id":"O084","amount":170.0,"kind":"full","reason":"Goodwill"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1771,7 +1762,7 @@ TASKS = [
             }),
             Action(name="GetElasticacheCluster", kwargs={"cluster_id": "ec-perf-02"}),
         ],
-        outputs=['{"cluster_id":"ec-perf-02","node_type":"cache.m6g.large","num_nodes":2,"status":"Available"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1792,8 +1783,7 @@ TASKS = [
             Action(name="ReturnOrder", kwargs={"order_id": "O001", "lines": [{"product_id": "1003", "qty": 1}], "reason": "Changed mind"}),
         ],
 
-        outputs=[
-            '{"order_id":"O086","items_processed":[{"product_id":"1003","quantity":1,"refund_amount":40.0,"reason":"Changed mind"}],"total_refund_amount":40.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1814,7 +1804,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="CancelOrder", kwargs={"order_id": "O001", "cancel_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O087","new_status":"Cancelled"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1834,7 +1824,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O088","status":"Processing","subtotal":95.0,"discount_amount":0.0,"total_amount":95.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -1855,7 +1845,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
 
-        outputs=['{"order_id":"O089","status":"Processing","subtotal":120.0,"discount_amount":5.0,"total_amount":115.0}'],
+        outputs=[]
     ),
     Task(
         annotator="v5",
@@ -1874,7 +1864,7 @@ TASKS = [
             Action(name="CreateCase", kwargs={"case_id": "CASE090", "order_id": "O001", "contact_id": "208", "subject": "Delayed shipment", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "CASE090", "status": "In Progress"}),
         ],
-        outputs=['{"case_id":"CASE090","status":"In Progress","order_id":"O001"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1894,7 +1884,7 @@ TASKS = [
             Action(name="ListOrderItems", kwargs={"order_id": "O001"}),
             Action(name="ReturnOrder", kwargs={"order_id": "O001", "lines": [{"product_id": "1001", "qty": 1}], "reason": "Not needed"}),
         ],
-        outputs=['{"order_id":"O001","items_processed":[{"product_id":"1001","quantity":1,"refund_amount":1250.0,"reason":"Not needed"}],"total_refund_amount":1250.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1915,7 +1905,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="CancelOrder", kwargs={"order_id": "O001", "cancel_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","new_status":"Cancelled"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1948,7 +1938,7 @@ TASKS = [
             ),
             Action(name="ReturnOrder", kwargs={"order_id": "O001", "lines": [{"product_id": "1010", "qty": 1}], "reason": "Return within policy"}),
         ],
-        outputs=['{"order_id":"O001","items_processed":[{"product_id":"1010","quantity":1,"refund_amount":55.0,"reason":"Return within policy"}],"total_refund_amount":55.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1967,7 +1957,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="RefundOrderPartial", kwargs={"order_id": "O001", "amount": 20.0, "reason": "Goodwill"}),
         ],
-        outputs=['{"refund_id":"RF_0001","order_id":"O001","amount":20.0,"kind":"partial","reason":"Goodwill"}'],
+        outputs=[]
     ),
 
     Task(
@@ -1988,7 +1978,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":80.0,"discount_amount":12.0,"total_amount":68.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -2009,7 +1999,7 @@ TASKS = [
             Action(name="ReserveOrderId", kwargs={}),
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":120.0,"discount_amount":0.0,"total_amount":120.0}'],
+        outputs=[]
     ),
 
     Task(
@@ -2032,7 +2022,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"order_id": "O001", "cart_id": "C001", "created_at": "2025-08-06T12:00:00Z"}),
             Action(name="ReturnOrder", kwargs={"order_id": "O001", "lines": [{"product_id": "1003", "qty": 1}], "reason": "Not needed"}),
         ],
-        outputs=['{"order_id":"O001","items_processed":[{"product_id":"1003","quantity":1,"refund_amount":32.0,"reason":"Not needed"}],"total_refund_amount":32.0,"order_status":"Return Pending"}'],
+        outputs=[]
     ),
 
     Task(
@@ -2054,7 +2044,7 @@ TASKS = [
             }),
             Action(name="ListSecurityGroupRules", kwargs={"group_id": "sg-cache"}),
         ],
-        outputs=['{"group_id":"sg-cache","changes_recorded":true}'],
+        outputs=[]
     ),
 
     Task(
@@ -2080,7 +2070,7 @@ TASKS = [
             }),
             Action(name="ListSecurityGroupRules", kwargs={"group_id": "sg-cache"}),
         ],
-        outputs=['{"cluster_id":"ec-metrics-02","status":"Available"}'],
+        outputs=[]
     ),
 
     Task(
@@ -2104,6 +2094,6 @@ TASKS = [
                 "address": {"name": "David Chen","line1": "42 Ocean Ave","city": "Orlando","region": "FL","postal_code": "33101","country": "US"}
             }),
         ],
-        outputs=['{"order_id":"O001","status":"Processing","subtotal":40.0,"discount_amount":8.0,"total_amount":32.0}'],
+        outputs=[]
     ),
 ]

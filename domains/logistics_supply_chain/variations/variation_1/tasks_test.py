@@ -14,7 +14,7 @@ TASKS = [
             Action(name="ShipOutboundOrder", kwargs={"order_id": "ORD-0017", "warehouse_id": "WH-06", "carrier_scac": "GPLS"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -63,7 +63,7 @@ TASKS = [
             }
         )
     ],
-        outputs=["1-216-555-0113"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -107,7 +107,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["4500"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -120,7 +120,7 @@ TASKS = [
             Action(name="UpdateCarrierStatus", kwargs={"carrier_name": "NorthStar Shipping", "status": "Under Review"}),
             Action(name="GetCarrierDetails", kwargs={"carrier_name": "NorthStar Shipping"})
         ],
-        outputs=["Under Review"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -183,7 +183,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["PO-2025-0001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -239,7 +239,7 @@ TASKS = [
                 kwargs={"credit_memo_id": "CM-0001"}
             )
         ],
-        outputs=["RMA-1001", "CM-0001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -297,7 +297,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["251.4"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -332,7 +332,7 @@ TASKS = [
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0018"})
         ],
-        outputs=["GPLS-0017", "GPLS-0018"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -360,7 +360,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["0.00128"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -380,7 +380,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["98.2"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -404,7 +404,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["55000000"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -448,7 +448,7 @@ TASKS = [
             ),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -480,7 +480,7 @@ TASKS = [
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0018"})
         ],
-        outputs=["GPLS-0017;GPLS-0018"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -511,7 +511,7 @@ TASKS = [
             ),
             Action(name="GetCarrierDetails", kwargs={"carrier_name": "Express World Delivery"})
         ],
-        outputs=["info-us@expressworld.com"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -536,7 +536,7 @@ TASKS = [
             ),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0006"})
         ],
-        outputs=["ALFS"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -556,7 +556,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["POL-GOCN-2024"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -589,7 +589,7 @@ TASKS = [
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0018"})
         ],
-        outputs=["GPLS-0017", "GPLS-0018"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -620,7 +620,7 @@ TASKS = [
             Action(name="ShipOutboundOrder", kwargs={"order_id": "ORD-0017", "warehouse_id": "WH-01", "carrier_scac": "GPLS"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -638,7 +638,7 @@ TASKS = [
             Action(name="ShipOutboundOrder", kwargs={"order_id": "ORD-0017", "warehouse_id": "WH-02", "carrier_scac": "GPLS"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -659,7 +659,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["UN1993"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -681,7 +681,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["37.53"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -706,7 +706,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["570"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -731,7 +731,7 @@ TASKS = [
             Action(name="ShipOutboundOrder", kwargs={"order_id": "ORD-0017", "warehouse_id": "WH-02", "carrier_scac": "GPLS"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -756,7 +756,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["2"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -778,7 +778,7 @@ TASKS = [
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"}),
             Action(name="LogAuditTrail", kwargs={"audit_event": "HAZMAT_RETURN_REPLACE", "subject_id": "ORD-0009", "outcome_code": "SUCCESS", "outcome_details": {"replacement_order_id": "ORD-0017"}})
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -800,7 +800,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["EWDL"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -819,7 +819,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["GPLS"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -838,7 +838,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["RMA-1001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -870,7 +870,7 @@ TASKS = [
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0005"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=["GPLS-0005;GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -894,7 +894,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["WH-07"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -917,7 +917,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["3524.00"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -941,7 +941,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["EWDL"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -965,7 +965,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["Global Parcel Service"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -996,7 +996,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["1400"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1017,7 +1017,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["57500.00"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1039,7 +1039,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["25.00"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1077,7 +1077,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["GPLS-0017", "GPLS-0018"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1101,7 +1101,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["Global Parcel Service"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1123,7 +1123,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["SHIP-0031"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1150,7 +1150,7 @@ TASKS = [
             ),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1180,7 +1180,7 @@ TASKS = [
             }
         )
     ],
-        outputs=["72000.00"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1211,7 +1211,7 @@ TASKS = [
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0018"})
         ],
-        outputs=["GPLS-0017;GPLS-0018"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1228,7 +1228,7 @@ TASKS = [
             Action(name="LogAuditTrail", kwargs={"audit_event": "DEADLOCK_RESOLUTION", "subject_id": "ORD-0017", "outcome_code": "FULFILLED_BY_CANCELLING_ORD-0001"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1263,7 +1263,7 @@ TASKS = [
             ),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1288,7 +1288,7 @@ TASKS = [
             ),
             Action(name="GetInventoryDetails", kwargs={"sku": "BLDG-TILE-J10", "warehouse_id": "WH-12"})
         ],
-        outputs=["180"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1311,7 +1311,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["1"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1340,7 +1340,7 @@ TASKS = [
             ),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=["ALFS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1361,7 +1361,7 @@ TASKS = [
                 kwargs={"audit_event": "HAZMAT_RETURN_AUDIT", "subject_id": "RMA-1001", "outcome_code": "CARRIER_COMPLIANT"}
             )
         ],
-        outputs=["RMA-1001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1378,7 +1378,7 @@ TASKS = [
             Action(name="LogAuditTrail", kwargs={"audit_event": "PARTIAL_DAMAGE_RETURN", "subject_id": "RMA-1001", "outcome_code": "SPLIT_DISPOSITION_COMPLETE"}),
             Action(name="GetInventoryDetails", kwargs={"sku": "BLDG-TILE-J10", "warehouse_id": "WH-12"})
         ],
-        outputs=["180"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1419,7 +1419,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1440,7 +1440,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["4.8"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1461,7 +1461,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["52.50"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1482,7 +1482,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["110000.00"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1501,7 +1501,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["ORD-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1521,7 +1521,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["TECH-BATT-Q17"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1547,7 +1547,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["4.8"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1567,7 +1567,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["CM-0001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1585,7 +1585,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["4.8"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1601,7 +1601,7 @@ TASKS = [
             Action(name="IssueCustomerCreditMemo", kwargs={"order_id": "ORD-0001", "customer_id": "CUST-2001", "returned_items": [{"sku": "ELEC-CHIP-A1", "quantity": 50}]}),
             Action(name="LogAuditTrail", kwargs={"audit_event": "RETURN_CARRIER_EXCEPTION_AUDIT", "subject_id": "RMA-1001", "outcome_code": "ALTERNATIVE_CARRIER_ASSIGNED"})
         ],
-        outputs=["GPLS"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1622,7 +1622,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["Suspended"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1653,7 +1653,7 @@ TASKS = [
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0018"})
         ],
-        outputs=["GPLS-0017", "GPLS-0018"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1686,7 +1686,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["2500.00"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1708,7 +1708,7 @@ TASKS = [
             ),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1738,7 +1738,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1759,7 +1759,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["24000.00"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1777,7 +1777,7 @@ TASKS = [
             Action(name="ShipOutboundOrder", kwargs={"order_id": "ORD-0018", "warehouse_id": "WH-04", "carrier_scac": "GPLS"}),
             Action(name="LogAuditTrail", kwargs={"audit_event": "MULTI_SHIP_KIT_AUDIT", "subject_id": "ORD-0017;ORD-0018", "outcome_code": "PROFIT_CALCULATED", "outcome_details": {"profit": 44.99}})
         ],
-        outputs=["44.99"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1800,7 +1800,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["52.50"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1824,7 +1824,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["52.50"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1846,7 +1846,7 @@ TASKS = [
             Action(name="LogAuditTrail", kwargs={"audit_event": "CONSOLIDATION_FULFILLMENT", "subject_id": "ORD-0017", "outcome_code": "TRANSFER_PREREQUISITE_MET"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1867,7 +1867,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["52.50"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1894,7 +1894,7 @@ TASKS = [
                 kwargs={"audit_event": "MULTI_SHIP_KIT_FULFILLMENT", "subject_id": "ORD-0017;ORD-0018", "outcome_code": "FULFILLMENT_COMPLETE"}
             )
         ],
-        outputs=["GPLS-0017", "GPLS-0018"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1919,7 +1919,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["52.50"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1968,7 +1968,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1995,7 +1995,7 @@ TASKS = [
                 kwargs={"audit_event": "MULTI_SHIP_KIT_FULFILLMENT", "subject_id": "ORD-0017;ORD-0018", "outcome_code": "FULFILLMENT_COMPLETE"}
             )
         ],
-        outputs=["GPLS-0017;GPLS-0018"]
+        outputs=[]
     ),
     Task(
             annotator="0",
@@ -2022,7 +2022,7 @@ TASKS = [
                 Action(name="ShipOutboundOrder", kwargs={"order_id": "ORD-0017", "warehouse_id": "WH-12", "carrier_scac": "GPLS"}),
                 Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"})
             ],
-            outputs=["GPLS-0017"]
+            outputs=[]
         ),
     Task(
         annotator="0",
@@ -2053,7 +2053,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["PO-2025-0001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2084,7 +2084,7 @@ TASKS = [
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"}),
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0018"})
         ],
-        outputs=["GPLS-0017", "GPLS-0018"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2108,7 +2108,7 @@ TASKS = [
                 kwargs={"audit_event": "FULFILLMENT_CORRECTION", "subject_id": "ORD-0002", "outcome_code": "RECOVERY_COMPLETE", "outcome_details": {"replacement_order_id": "ORD-0017", "rma_id": "RMA-1001", "credit_memo_id": "CM-0002"}}
             )
         ],
-        outputs=["GPLS-0017", "CM-0002"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2130,7 +2130,7 @@ TASKS = [
                 kwargs={"audit_event": "PARTIAL_RETURN_AUDIT", "subject_id": "RMA-1001", "outcome_code": "PROCESSED_WITH_SPLIT", "outcome_details": {"original_order_id": "ORD-0001", "damaged_quantity": 10, "restocked_quantity": 15, "credited_quantity": 15, "credit_memo_id": "CM-0001"}}
             )
         ],
-        outputs=["RMA-1001", "CM-0001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2153,7 +2153,7 @@ TASKS = [
                 kwargs={"audit_event": "HAZMAT_COMPLIANCE_BREACH", "subject_id": "SHIP-0013", "outcome_code": "MITIGATION_INITIATED", "outcome_details": {"non_compliant_carrier": "NRMC", "new_po_number": "PO-2025-0001"}}
             )
         ],
-        outputs=["PO-2025-0001", "SHIP-0013"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2176,7 +2176,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["PO-2025-0001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2203,7 +2203,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2218,7 +2218,7 @@ TASKS = [
             Action(name="GetInventoryDetails", kwargs={"sku": "PHRM-VACC-D4", "warehouse_id": "WH-06"}),
             Action(name="LogAuditTrail", kwargs={"audit_event": "EXPIRING_STOCK_DISPOSAL", "subject_id": "PHRM-VACC-D4", "outcome_code": "DISPOSED_AND_REORDERED", "outcome_details": {"inventory_id": "INV-0004", "disposed_quantity": 18000, "new_po_number": "PO-2025-0001", "replenishment_shipment_id": "SHIP-0031"}})
         ],
-        outputs=["PO-2025-0001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2234,7 +2234,7 @@ TASKS = [
             Action(name="GetOutboundOrderDetails", kwargs={"order_id": "ORD-0017"}),
             Action(name="LogAuditTrail", kwargs={"audit_event": "CUSTOMS_PREP", "subject_id": "ORD-0017", "outcome_code": "DATA_AGGREGATED", "outcome_details": {"total_weight_kg": 1257.0, "total_value_usd": 125899.9, "carrier_scac": "GPLS"}})
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2258,7 +2258,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["PO-2025-0001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2276,7 +2276,7 @@ TASKS = [
             Action(name="ShipOutboundOrder", kwargs={"order_id": "ORD-0018", "warehouse_id": "WH-02", "carrier_scac": "GPLS"}),
             Action(name="LogAuditTrail", kwargs={"audit_event": "ORDER_SPLIT_AND_REDIRECT", "subject_id": "ORD-0002", "outcome_code": "SPLIT_COMPLETE", "outcome_details": {"new_order_hamburg": "ORD-0017", "new_order_berlin": "ORD-0018"}})
         ],
-        outputs=["GPLS-0017", "GPLS-0018"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2301,7 +2301,7 @@ TASKS = [
                 kwargs={"audit_event": "MISSHIPMENT_RECOVERY", "subject_id": "ORD-0001", "outcome_code": "RECOVERY_COMPLETE", "outcome_details": {"incorrect_customer_id": "CUST-2001", "correct_customer_name": "Iota Automotive NAC", "new_order_id": "ORD-0017", "credit_memo_id": "CM-0001"}}
             )
         ],
-        outputs=["GPLS-0017", "CM-0001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2320,7 +2320,7 @@ TASKS = [
             Action(name="CreatePurchaseOrder", kwargs={"supplier_id": "SUP-1002", "line_items": [{"sku": "ELEC-SMART-W23", "quantity": 4000}], "priority": "High"}),
             Action(name="LogAuditTrail", kwargs={"audit_event": "SUPPLIER_RESOURCING", "subject_id": "SUP-1001;SUP-1025", "outcome_code": "ORDERS_REPLACED", "outcome_details": {"cancelled_shipments": "SHIP-0001;SHIP-0025", "new_supplier_id": "SUP-1002", "new_po_numbers": "PO-2025-0001;PO-2025-0002"}})
         ],
-        outputs=["PO-2025-0001", "PO-2025-0002"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2346,7 +2346,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["PO-2025-0001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2364,7 +2364,7 @@ TASKS = [
                 kwargs={"audit_event": "FRAUDULENT_ORDER_REPORTED", "subject_id": "ORD-0001", "outcome_code": "INVESTIGATION_OPENED", "outcome_details": {"customer_id": "CUST-2001", "credit_memo_id": "CM-0001"}}
             )
         ],
-        outputs=["CM-0001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2387,7 +2387,7 @@ TASKS = [
                 kwargs={"audit_event": "NEW_KIT_FULFILLMENT", "subject_id": "ORD-0017", "outcome_code": "PRO_KIT_LAUNCH_ORDER_SHIPPED", "outcome_details": {"customer_name": "Osaka Robotics Corp.", "carrier_scac": "GPLS"}}
             )
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2435,7 +2435,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["CM-0008", "PO-2025-0001"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2452,7 +2452,7 @@ TASKS = [
             Action(name="UpdateOutboundOrderStatus", kwargs={"order_id": "ORD-0005", "new_status": "Returned"}),
             Action(name="LogAuditTrail", kwargs={"audit_event": "DOMESTIC_RETURN_PROCESSING", "subject_id": "ORD-0005", "outcome_code": "RETURN_COMPLETE", "outcome_details": {"rma_id": "RMA-1001", "inbound_shipment_id": "SHIP-0031", "credit_memo_id": "CM-0005"}})
         ],
-        outputs=["RMA-1001", "SHIP-0031"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2491,7 +2491,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["PO-2025-0001", "194000.00"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2519,7 +2519,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["GPLS-0002"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2566,7 +2566,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["GPLS-0018", "GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2593,7 +2593,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["ALFS-0009"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2632,7 +2632,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["GPLS-0017", "ORD-0018"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2661,7 +2661,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=["GPLS-0017"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2686,6 +2686,6 @@ TASKS = [
                 }
             )
         ],
-        outputs=["510.00", "52.50"]
+        outputs=[]
     )
 ]

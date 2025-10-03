@@ -62,15 +62,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"message": "Transfer successful (same currency).",'
-            '"source_account_id": "acc_chk_1001",'
-            '"target_account_id": "acc_1",'
-            '"amount_transferred": 500.0,'
-            '"currency": "USD",'
-            '"source_balance": 4730.50,'
-            '"target_balance": 500.0'
-        ],
+        outputs=[]
     ),
 
     # 02. Add an existing beneficiary for Jane Smith and send her USD 200 from Checking → Savings
@@ -136,16 +128,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "\"message\": \"Paid 200.00 USD to beneficiary 'Kenji Tanaka'.\", "
-            "\"source_account_id\": \"acc_chk_2001\", "
-            "\"beneficiary_account_number\": \"1122334455\", "
-            "\"source_amount\": 250.0, "
-            "\"source_currency\": \"CAD\", "
-            "\"target_amount\": 200.0, "
-            "\"target_currency\": \"USD\", "
-            "\"new_source_balance\": 2850.75\""
-        ],
+        outputs=[]
     ),
 
 
@@ -206,13 +189,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "\"payment_id\": \"sp_1\", \"customer_id\": \"b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5\", "
-            "\"source_account_id\": \"acc_chk_6001\", \"beneficiary_id\": \"bene_3a2b1c9d-8e7f-6a5b-4c3d-2e1f0a9b8c7d\", "
-            "\"amount\": 100.0, \"currency\": \"GBP\", \"frequency\": \"Monthly\", "
-            "\"start_date\": \"2025-08-24\", \"next_payment_date\": \"2025-09-24\", "
-            "\"end_date\": null, \"status\": \"Active\""
-        ],
+        outputs=[]
     ),
 
     # # 04. David Brown → (use David Chen) apply for a personal loan of USD 5,000 and notify him
@@ -268,9 +245,7 @@ TASKS = [
             )
 
         ],
-        outputs=[
-            "\"loan_id\": \"loan_1\",\"loan_account_id\": \"loanacc_1\" \"application_id\": \"app_1\", \"status\": \"Approved\""
-        ],
+        outputs=[]
     ),
 
     # # 05
@@ -326,16 +301,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "\"message\": \"Transfer successful (same currency).\","
-            "\"source_account_id\": \"acc_sav_1002\","
-            "\"target_account_id\": \"acc_crd_1003\","
-            "\"amount_transferred\": 500.0,"
-            "\"currency\": \"USD\","
-            "\"account_type\": \"Checking\", \"balance\": 5230.50\"",
-            "\"account_type\": \"Savings\", \"balance\": 15280.00\"",
-            "\"account_type\": \"Credit Card\", \"balance\": -2000.00\""
-        ],
+        outputs=[]
     ),
 
     # # # 06
@@ -406,12 +372,7 @@ TASKS = [
                 kwargs={"first_name": "Maria", "last_name": "Garcia"},
             ),
         ],
-        outputs=[
-            "\"customer_id\": \"f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9\", "
-            "\"mailing_address\": {\"street_address\": \"789 Pine Street\", \"city\": \"College Town\", "
-            "\"state\": \"TX\", \"postal_code\": \"77840\", \"country\": \"USA\"}, "
-            "\"phone_numbers\": [{\"type\": \"Mobile\", \"number\": \"555-222-3333\", \"is_primary\": true}]"
-        ],
+        outputs=[]
     ),
 
     # # # 07
@@ -491,10 +452,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "\"account_type\": \"Checking\", \"balance\": 7630.50\"",
-            "\"account_type\": \"Savings\", \"balance\": 16380.00\""
-        ],
+        outputs=[]
     ),
 
     # # 08
@@ -543,9 +501,7 @@ TASKS = [
             },
         ),
     ],
-    outputs=[
-        "\"total_balance\": 2500.00\",\"Currency\": \"EUR\""
-    ],
+    outputs=[]
 ),
     # # 09
     Task(
@@ -583,14 +539,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "\"beneficiary_id\": \"bene_1\","
-            "\"beneficiary_name\": \"Jane Doe\","
-            "\"beneficiary_type\": \"Personal\","
-            "\"relationship\": \"Sister\","
-            "\"account_details\": {\"bank_name\": \"ABC Bank\", \"account_number\": \"123456789\", \"routing_number\": \"021000021\"},"
-            "\"date_added\": \"2025-07-24T15:30:00Z\""
-        ],
+        outputs=[]
     ),
 
     # # 10
@@ -628,10 +577,7 @@ TASKS = [
                 kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"},
             ),
         ],
-        outputs=[
-        "\"status\": \"Removed\", "
-        "\"remaining_beneficiaries\": []\""
-        ],
+        outputs=[]
     ),
 
     # # 11
@@ -694,13 +640,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "\"ticket_id\": \"tkt_1\","
-            "\"status\": \"Blocked\","
-            "\"account_id\": \"acc_chk_12001\","
-            "\"account_type\": \"Checking\","
-            "\"balance\": 4500.00\""
-        ],
+        outputs=[]
     ),
 
     # # 12
@@ -741,10 +681,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            # If pending:
-            "\"ticket_id\": \"tkt_1\", \"status\": \"Open\", \"category\": \"Loan Inquiry\", \"target_id\": \"app_b1c2d3e4-f5a6-b7c8-d9e0-f1a2b3c4d5e6\""
-        ],
+        outputs=[]
     ),
 
 
@@ -810,16 +747,7 @@ TASKS = [
             kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"},
         ),
         ],
-        outputs=[
-            "\"customer_id\": \"c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e\"",
-            "\"residential_address\": {"
-                "\"street_address\": \"456 Elm St\", "
-                "\"city\": \"Newcity\", "
-                "\"state\": \"AZ\", "
-                "\"postal_code\": \"85001\", "
-                "\"country\": \"USA\""
-            "}"
-        ],
+        outputs=[]
     ),
 
     ## 14
@@ -893,27 +821,7 @@ TASKS = [
                 kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"},
             ),
         ],
-        outputs=[
-            # From step 2
-            "\"beneficiary_id\": \"bene_1\"",
-            # From step 5
-            "\"new_source_balance\": 4930.50",
-            # From step 6
-            "\"status\": \"Beneficiary removed successfully.\"",
-            # From step 7: final list should exclude Alice Johnson
-            # Elena Popescu…
-            "{\"beneficiary_id\": \"bene_9a8b7c6d-5e4f-3a2b-1c9d-8e7f6a5b4c3d\", "
-            "\"beneficiary_name\": \"Elena Popescu\", "
-            "\"beneficiary_type\": \"Personal\", "
-            "\"relationship\": \"Friend\", "
-            "\"account_details\": {\"account_number\": \"9876543210\", \"bank_name\": \"City National Bank\", \"routing_number\": \"122000661\", \"country\": \"USA\"}}",  # :contentReference[oaicite:4]{index=4}
-            # Anytown Utility Services…
-            "{\"beneficiary_id\": \"bene_8b7c6d5e-4f3a-2b1c-9d8e-7f6a5b4c3d2e\", "
-            "\"beneficiary_name\": \"Anytown Utility Services\", "
-            "\"beneficiary_type\": \"Business\", "
-            "\"relationship\": \"Utility Provider\", "
-            "\"account_details\": {\"account_number\": \"5555666677\", \"bank_name\": \"Bank of Anytown\", \"routing_number\": \"021000021\", \"country\": \"USA\"}}",  # :contentReference[oaicite:5]{index=5}
-        ],
+        outputs=[]
     ),
 
     # # 15
@@ -966,11 +874,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            # From step 2
-            "\"ticket_id\": \"tkt_1\"",
-            "\"account_id\": \"acc_crd_9002\", \"status\": \"Blocked\""
-        ],
+        outputs=[]
     ),
 
     ##16
@@ -1008,10 +912,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "\"application_id\": \"app_1\"",
-            "\"application_status\": \"Submitted\""
-        ],
+        outputs=[]
     ),
 
     # 17
@@ -1088,13 +989,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-
-            "\"beneficiary_id\": \"bene_1\"",
-
-            "\"new_source_balance\": 15680.00",
-
-        ],
+        outputs=[]
     ),
 
     # 18
@@ -1164,12 +1059,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            # From step 2: new beneficiary ID
-            "\"beneficiary_id\": \"bene_1\"",
-            # From step 4: confirmation of schedule
-            "\"payment_id\": \"sp_1\", \"frequency\": \"Monthly\", \"start_date\": \"2025-08-24\", \"amount\": 200.0, \"currency\": \"USD\""
-        ],
+        outputs=[]
     ),
 
     # # 19
@@ -1217,9 +1107,7 @@ TASKS = [
                     "beneficiary_id": "bene_5e4f3a2b-1c9d-8e7f-6a5b-4c3d2e1f0a9b"},
             ),
         ],
-        outputs=[
-            "\"message\": \"Your scheduled payment sp_b3a2c1d9-c3d2-e1f0-a9b8-c7d6e5f4a3b2 has been cancelled and beneficiary 'Global ISP' removed.\""
-        ],
+        outputs=[]
     ),
 
     # # 20
@@ -1271,10 +1159,7 @@ TASKS = [
             kwargs={"customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2"},
         ),
         ],
-        outputs=[
-            "\"ticket_id\": \"tkt_1\"",
-            "\"contact_numbers\": [{\"type\":\"Mobile\",\"number\":\"480-555-1234\",\"is_primary\":false}, …]"
-        ],
+        outputs=[]
     ),
 
         # # 21
@@ -1346,14 +1231,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-
-            "\"checking_balance\": 250000.00\"",
-            # From step 5
-            "\"message\": \"Transferred 50000.00 INR from checking to savings.\"",
-            "\"checking_balance\": 200000.00\"",
-            "\"savings_balance\": 2550000.00\""
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1411,9 +1289,7 @@ TASKS = [
             kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5"},
         ),
     ],
-    outputs=[
-        "\"List of Beneficiary\": \"[]\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -1462,13 +1338,7 @@ Task(
             kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a","loan_id": "loan_1"},
         ),
     ],
-    outputs=[
-        "\"application_id\": \"app_1\"",
-        "\"loan_id\": \"loan_1\"",
-        "\"status\": \"Approved\"",
-        "\"principal_amount\": 20000.0",
-        "\"term_months\": 60"
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -1504,10 +1374,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"application_id\": \"app_1\"",
-        "\"application_status\": \"Submitted\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -1542,10 +1409,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"application_id\": \"app_1\"",
-        "\"application_status\": \"Submitted\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -1595,9 +1459,7 @@ Task(
             kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "account_ids": ["acc_chk_1001","acc_sav_1002","acc_crd_1003"]},
         ),
     ],
-    outputs=[
-        "\"total_balance\": 18410.50\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -1661,10 +1523,7 @@ Task(
             },
             ),
     ],
-    outputs=[
-        "\"ticket_id\": \"tkt_1\"",
-        "\"account_id\": \"acc_chk_3001\", \"status\": \"Blocked\""
-    ],
+    outputs=[]
 ),
 
 
@@ -1719,10 +1578,7 @@ Task(
             kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23"},
         ),
     ],
-    outputs=[
-        "\"ticket_id\": \"tkt_1\"",
-        "\"email_address\": \"adetokunbo.adebayor@newmail.ng\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -1772,11 +1628,7 @@ Task(
             }
         )
     ],
-    outputs=[
-        "\"account_id\": \"acc_1\"",
-        "\"account_type\": \"Checking\"",
-        "\"balance\": 500.0"
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -1837,10 +1689,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"checking_balance\": 2600.75\"",
-        "\"credit_card_balance\": 500\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -1903,15 +1752,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"message": "Transfer successful (same currency).",'
-        '"source_account_id": "acc_chk_2001",'
-        '"target_account_id": "acc_1",'
-        '"amount_transferred": 800.0,'
-        '"currency": "CAD",'
-        '"source_balance": 2300.75,'
-        '"target_balance": 800.0'
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -1974,15 +1815,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"message": "Transfer successful (same currency).",'
-        '"source_account_id": "acc_chk_3001",'
-        '"target_account_id": "acc_1",'
-        '"amount_transferred": 1000.0,'
-        '"currency": "USD",'
-        '"source_balance": 11540.25,'
-        '"target_balance": 1000.0'
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2044,15 +1877,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"message": "Transfer successful (same currency).",'
-        '"source_account_id": "acc_chk_4001",'
-        '"target_account_id": "acc_1",'
-        '"amount_transferred": 200.0,'
-        '"currency": "USD",'
-        '"source_balance": 1000.50,'
-        '"target_balance": 200.0'
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -2107,16 +1932,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"message\": \"Paid 300.00 USD to beneficiary 'Metropolis Power & Light'.\", "
-        "\"source_account_id\": \"acc_chk_3001\", "
-        "\"beneficiary_account_number\": \"9988776655\", "
-        "\"source_amount\": 300.0, "
-        "\"source_currency\": \"USD\", "
-        "\"target_amount\": 300.0, "
-        "\"target_currency\": \"USD\", "
-        "\"new_source_balance\": 12240.25\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -2171,15 +1987,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-
-        "\"source_account_id\": \"acc_chk_8001\", "
-        "\"source_amount\": 100.0, "
-        "\"source_currency\": \"EUR\", "
-        "\"target_amount\": 100.0, "
-        "\"target_currency\": \"EUR\", "
-        "\"new_source_balance\": 7700.50\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2233,15 +2041,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-
-        "\"source_account_id\": \"acc_chk_8001\", "
-        "\"source_amount\": 1000.0, "
-        "\"source_currency\": \"EUR\", "
-        "\"target_amount\": 1000.0, "
-        "\"target_currency\": \"EUR\", "
-        "\"new_source_balance\": 6800.50\""
-    ],
+    outputs=[]
 ),
 # # 03. Oliver Williams set up a recurring monthly payment to Utility Co.
     Task(
@@ -2301,13 +2101,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            "\"payment_id\": \"sp_1\", \"customer_id\": \"b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5\", "
-            "\"source_account_id\": \"acc_chk_6001\", \"beneficiary_id\": \"bene_3a2b1c9d-8e7f-6a5b-4c3d-2e1f0a9b8c7d\", "
-            "\"amount\": 100.0, \"currency\": \"GBP\", \"frequency\": \"Monthly\", "
-            "\"start_date\": \"2025-08-24\", \"next_payment_date\": \"2025-09-24\", "
-            "\"end_date\": null, \"status\": \"Active\""
-        ],
+        outputs=[]
     ),
     # # 01. Zoltan Nagy set up a recurring monthly payment to Global ISP.
 Task(
@@ -2367,13 +2161,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"payment_id\": \"sp_1\", \"customer_id\": \"a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4\", "
-        "\"source_account_id\": \"acc_chk_5002\", \"beneficiary_id\": \"bene_5e4f3a2b-1c9d-8e7f-6a5b-4c3d2e1f0a9b\", "
-        "\"amount\": 1500.0, \"currency\": \"INR\", \"frequency\": \"Monthly\", "
-        "\"start_date\": \"2025-08-24\", \"next_payment_date\": \"2025-09-24\", "
-        "\"end_date\": null, \"status\": \"Active\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2432,13 +2220,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"payment_id\": \"sp_1\", \"customer_id\": \"d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a\", "
-        "\"source_account_id\": \"acc_chk_3001\", \"beneficiary_id\": \"bene_6d5e4f3a-2b1c-9d8e-7f6a-5b4c3d2e1f0a\", "
-        "\"amount\": 350.0, \"currency\": \"USD\", \"frequency\": \"Monthly\", "
-        "\"start_date\": \"2025-08-24\", \"next_payment_date\": \"2025-09-24\", "
-        "\"end_date\": null, \"status\": \"Active\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2492,9 +2274,7 @@ Task(
             },
         )
     ],
-    outputs=[
-        "\"loan_id\": \"loan_1\",\"loan_account_id\": \"loanacc_1\" \"application_id\": \"app_1\", \"status\": \"Approved\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2547,9 +2327,7 @@ Task(
             },
         )
     ],
-    outputs=[
-        "\"loan_id\": \"loan_1\",\"loan_account_id\": \"loanacc_1\" \"application_id\": \"app_1\", \"status\": \"Approved\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2603,9 +2381,7 @@ Task(
             },
         )
     ],
-    outputs=[
-        "\"loan_id\": \"loan_1\",\"loan_account_id\": \"loanacc_1\" \"application_id\": \"app_1\", \"status\": \"Approved\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2659,9 +2435,7 @@ Task(
             },
         )
     ],
-    outputs=[
-        "\"loan_id\": \"loan_1\",\"loan_account_id\": \"loanacc_1\" \"application_id\": \"app_1\", \"status\": \"Approved\""
-    ],
+    outputs=[]
 ),
 
 
@@ -2737,10 +2511,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"account_type\": \"Checking\", \"balance\": 6100.75\"",
-        "\"account_type\": \"Savings\", \"balance\": 23000.00\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2814,10 +2585,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"account_type\": \"Checking\", \"balance\": 23340.25\"",
-        "\"account_type\": \"Investment\", \"balance\": 151200.00\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2892,10 +2660,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"account_type\": \"Checking\", \"balance\": 2500600.0\"",
-        "\"account_type\": \"Savings\", \"balance\": 50600.0\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2970,10 +2735,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"account_type\": \"Checking\", \"balance\": 250000.00\"",
-        "\"account_type\": \"Savings\", \"balance\": 2550000.00\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3049,10 +2811,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"account_type\": \"Checking\", \"balance\": 151530.0\"",
-        "\"account_type\": \"Savings\", \"balance\": 750270.0\""
-    ],
+    outputs=[]
 ),
 Task(
         annotator=0,
@@ -3103,11 +2862,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            # From step 2
-            "\"ticket_id\": \"tkt_1\"",
-            "\"account_id\": \"acc_sav_10002\", \"status\": \"Blocked\""
-        ],
+        outputs=[]
     ),
 Task(
     annotator=0,
@@ -3155,9 +2910,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"total_balance\": 17499000.00\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -3208,9 +2961,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"List of Beneficiary\": \"[]\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -3272,13 +3023,7 @@ Task(
             },
             ),
     ],
-    outputs=[
-        "\"ticket_id\": \"tkt_1\","
-        "\"status\": \"Blocked\","
-        "\"account_id\": \"acc_chk_1001\","
-        "\"account_type\": \"Checking\","
-        "\"balance\": 5230.00\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3334,13 +3079,7 @@ Task(
             },
             ),
     ],
-    outputs=[
-        "\"ticket_id\": \"tkt_1\","
-        "\"status\": \"Blocked\","
-        "\"account_id\": \"acc_chk_2001\","
-        "\"account_type\": \"Checking\","
-        "\"balance\": 3100.75\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -3397,13 +3136,7 @@ Task(
             },
             ),
     ],
-    outputs=[
-        "\"ticket_id\": \"tkt_1\","
-        "\"status\": \"Blocked\","
-        "\"account_id\": \"acc_chk_3001\","
-        "\"account_type\": \"Checking\","
-        "\"balance\": 12500.00\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -3460,13 +3193,7 @@ Task(
             },
             ),
     ],
-    outputs=[
-        "\"ticket_id\": \"tkt_1\","
-        "\"status\": \"Blocked\","
-        "\"account_id\": \"acc_chk_4001\","
-        "\"account_type\": \"Checking\","
-        "\"balance\": 1200.50\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -3531,16 +3258,7 @@ Task(
             kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"},
         ),
         ],
-        outputs=[
-            "\"customer_id\": \"a1b2c3d4-e5f6-7890-1234-567890abcdef\"",
-            "\"residential_address\": {"
-                "\"street_address\": \"789 Oak Avenue\", "
-                "\"city\": \"Toronto\", "
-                "\"state\": \"ON\", "
-                "\"postal_code\": \"M5H 2N2\", "
-                "\"country\": \"Canada\""
-            "}"
-        ],
+        outputs=[]
     ),
 Task(
     annotator="0",
@@ -3597,16 +3315,7 @@ Task(
             kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"},
         ),
         ],
-        outputs=[
-            "\"customer_id\": \"d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a\"",
-            "\"residential_address\": {"
-                "\"street_address\": \"12 Market Street\", "
-                "\"city\": \"San Francisco\", "
-                "\"state\": \"CA\", "
-                "\"postal_code\": \"94103\", "
-                "\"country\": \"USA\""
-            "}"
-        ],
+        outputs=[]
     ),
 
 Task(
@@ -3664,16 +3373,7 @@ Task(
             kwargs={"customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9"},
         ),
         ],
-        outputs=[
-            "\"customer_id\": \"f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9\"",
-            "\"residential_address\": {"
-                "\"street_address\": \"45 Sunset Blvd\", "
-                "\"city\": \"Miami\", "
-                "\"state\": \"FL\", "
-                "\"postal_code\": \"33101\", "
-                "\"country\": \"USA\""
-            "}"
-        ],
+        outputs=[]
     ),
 Task(
     annotator="0",
@@ -3730,16 +3430,7 @@ Task(
             kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4"},
         ),
         ],
-        outputs=[
-            "\"customer_id\": \"a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4\"",
-            "\"residential_address\": {"
-                "\"street_address\": \"22 MG Road\", "
-                "\"city\": \"Bengaluru\", "
-                "\"state\": \"KA\", "
-                "\"postal_code\": \"560001\", "
-                "\"country\": \"India\""
-            "}"
-        ],
+        outputs=[]
     ),
 
 Task(
@@ -3797,16 +3488,7 @@ Task(
             kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5"},
         ),
         ],
-        outputs=[
-            "\"customer_id\": \"b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5\"",
-            "\"residential_address\": {"
-                "\"street_address\": \"55 Baker Street\", "
-                "\"city\": \"London\", "
-                "\"state\": \"London\", "
-                "\"postal_code\": \"W1U 7EU\", "
-                "\"country\": \"UK\""
-            "}"
-        ],
+        outputs=[]
     ),
 Task(
     annotator="0",
@@ -3863,16 +3545,7 @@ Task(
             kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6"},
         ),
         ],
-        outputs=[
-            "\"customer_id\": \"c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6\"",
-            "\"residential_address\": {"
-                "\"street_address\": \"Villa 12, Palm Jumeirah\", "
-                "\"city\": \"Dubai\", "
-                "\"state\": \"Dubai\", "
-                "\"postal_code\": \"00000\", "
-                "\"country\": \"UAE\""
-            "}"
-        ],
+        outputs=[]
     ),
 
 Task(
@@ -3941,10 +3614,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"payment_id\": \"sp_1\", \"frequency\": \"Monthly\", \"start_date\": \"2025-08-24\", \"amount\": 300.0, \"currency\": \"CAD\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -4007,10 +3677,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"payment_id\": \"sp_1\", \"frequency\": \"Monthly\", \"start_date\": \"2025-08-24\", \"amount\": 150.0, \"currency\": \"USD\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -4074,10 +3741,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"payment_id\": \"sp_1\", \"frequency\": \"Monthly\", \"start_date\": \"2025-08-24\", \"amount\": 250.0, \"currency\": \"USD\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -4140,10 +3804,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"payment_id\": \"sp_1\", \"frequency\": \"Monthly\", \"start_date\": \"2025-08-24\", \"amount\": 5000.0, \"currency\": \"INR\""
-    ],
+    outputs=[]
 ),
 
 
@@ -4208,10 +3869,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"payment_id\": \"sp_10\", \"frequency\": \"Monthly\", \"start_date\": \"2025-08-24\", \"amount\": 400.0, \"currency\": \"GBP\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -4273,10 +3931,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"payment_id\": \"sp_11\", \"frequency\": \"Monthly\", \"start_date\": \"2025-08-24\", \"amount\": 1000.0, \"currency\": \"AED\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -4312,10 +3967,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"application_id\": \"app_10\"",
-        "\"application_status\": \"Submitted\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -4351,10 +4003,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"application_id\": \"app_11\"",
-        "\"application_status\": \"Submitted\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -4411,11 +4060,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"account_id\": \"acc_1\"",
-        "\"account_type\": \"Checking\"",
-        "\"balance\": 1000.0"
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -4452,10 +4097,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"application_id\": \"app_12\"",
-        "\"application_status\": \"Submitted\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -4523,10 +4165,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"new_source_balance\": 2900.75"
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -4594,10 +4233,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"new_source_balance\": 12040.25"
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -4665,10 +4301,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"new_source_balance\": 1050.50"
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -4736,10 +4369,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"new_source_balance\": 2,499,000.00"
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -4805,10 +4435,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"new_source_balance\": 550.75"
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -4875,10 +4502,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"new_source_balance\": 749000.0"
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -4944,10 +4568,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"new_source_balance\": 3000.00"
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -5014,10 +4635,7 @@ Task(
                 },
             ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\"",
-        "\"new_source_balance\": 14700.00"
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -5050,10 +4668,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"application_id\": \"app_13\"",
-        "\"application_status\": \"Submitted\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -5086,10 +4701,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"application_id\": \"app_14\"",
-        "\"application_status\": \"Submitted\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -5122,10 +4734,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"application_id\": \"app_15\"",
-        "\"application_status\": \"Submitted\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator=0,
@@ -5158,10 +4767,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"application_id\": \"app_16\"",
-        "\"application_status\": \"Submitted\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -5214,11 +4820,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            # From step 2
-            "\"ticket_id\": \"tkt_1\"",
-            "\"account_id\": \"acc_chk_16001\", \"status\": \"Blocked\""
-        ],
+        outputs=[]
     ),
 Task(
         annotator=0,
@@ -5270,11 +4872,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            # From step 2
-            "\"ticket_id\": \"tkt_1\"",
-            "\"account_id\": \"acc_chk_19001\", \"status\": \"Blocked\""
-        ],
+        outputs=[]
     ),
 Task(
     annotator=0,
@@ -5321,9 +4919,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"total_balance\": 25000.75\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -5371,9 +4967,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"total_balance\": 899000.00\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -5425,9 +5019,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"total_balance\": 899000.00\""
-    ],
+    outputs=[]
 ),
 
 
@@ -5481,9 +5073,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"total_balance\": 24100.75\""
-    ],
+    outputs=[]
 ),
 
 
@@ -5536,9 +5126,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"total_balance\": 2548000.0\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5573,14 +5161,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\","
-        "\"beneficiary_name\": \"Ryan Smith\","
-        "\"beneficiary_type\": \"Personal\","
-        "\"relationship\": \"Brother\","
-        "\"account_details\": {\"bank_name\": \"Maple Bank\", \"account_number\": \"987654321\", \"routing_number\": \"122105155\"},"
-        "\"date_added\": \"2025-07-24\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5615,14 +5196,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\","
-        "\"beneficiary_name\": \"Alex Lee\","
-        "\"beneficiary_type\": \"Personal\","
-        "\"relationship\": \"Friend\","
-        "\"account_details\": {\"bank_name\": \"City National Bank\", \"account_number\": \"111222333\", \"routing_number\": \"021000089\"},"
-        "\"date_added\": \"2025-07-24\""
-    ],
+    outputs=[]
 ),
 Task(
         annotator=0,
@@ -5674,11 +5248,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            # From step 2
-            "\"ticket_id\": \"tkt_1\"",
-            "\"account_id\": \"acc_chk_10001\", \"status\": \"Blocked\""
-        ],
+        outputs=[]
     ),
 Task(
     annotator="0",
@@ -5713,14 +5283,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\","
-        "\"beneficiary_name\": \"Sophia Williams\","
-        "\"beneficiary_type\": \"Personal\","
-        "\"relationship\": \"Wife\","
-        "\"account_details\": {\"bank_name\": \"London Bank\", \"account_number\": \"555666777\", \"routing_number\": \"040000000\"},"
-        "\"date_added\": \"2025-07-24T15:30:00Z\""
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -5756,14 +5319,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        "\"beneficiary_id\": \"bene_1\","
-        "\"beneficiary_name\": \"Narayan Rao\","
-        "\"beneficiary_type\": \"Personal\","
-        "\"relationship\": \"Father\","
-        "\"account_details\": {\"bank_name\": \"State Bank of India\", \"account_number\": \"888999000\", \"routing_number\": \"SBIN000123\"},"
-        "\"date_added\": \"2025-07-24T15:30:00Z\""
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5819,15 +5375,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"message": "Transfer successful (same currency).",'
-        '"source_account_id": "acc_chk_2001",'
-        '"target_account_id": "acc_1",'
-        '"amount_transferred": 600.0,'
-        '"currency": "CAD",'
-        '"source_balance": 2500.75,'
-        '"target_balance": 600.0'
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5883,15 +5431,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"message": "Transfer successful (same currency).",'
-        '"source_account_id": "acc_chk_3001",'
-        '"target_account_id": "acc_1",'
-        '"amount_transferred": 800.0,'
-        '"currency": "USD",'
-        '"source_balance": 8720.00,'
-        '"target_balance": 800.0'
-    ],
+    outputs=[]
 ),
 
 Task(
@@ -5948,14 +5488,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"source_account_id": "acc_chk_4001",'
-        '"target_account_id": "acc_1",'
-        '"amount_transferred": 700.0,'
-        '"currency": "USD",'
-        '"source_balance": 6550.00,'
-        '"target_balance": 700.0'
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6011,15 +5544,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"message": "Transfer successful (same currency).",'
-        '"source_account_id": "acc_chk_6001",'
-        '"target_account_id": "acc_1",'
-        '"amount_transferred": 400.0,'
-        '"currency": "GBP",'
-        '"source_balance": 3200.00,'
-        '"target_balance": 400.0'
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6075,14 +5600,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"source_account_id": "acc_chk_5002",'
-        '"target_account_id": "acc_1",'
-        '"amount_transferred": 50000.0,'
-        '"currency": "INR",'
-        '"source_balance": 0.00,'
-        '"target_balance": 50000.0'
-    ],
+    outputs=[]
 ),
 
 

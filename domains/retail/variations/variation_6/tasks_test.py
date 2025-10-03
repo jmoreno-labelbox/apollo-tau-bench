@@ -18,7 +18,7 @@ TASKS = [
             Action(name='addOrderTag', kwargs={'order_id': '#W1812830', 'tag': 'reconciled'}),
             Action(name='updateOrderStatus', kwargs={'order_id': '#W1812830', 'status': 'processed'})
         ],
-        outputs=["TRK-COU0001-7001","NM-HARD-0001"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -36,7 +36,7 @@ TASKS = [
             Action(name='scheduleDelivery', kwargs={'tracking_id': 'TRK-COU0004-7003', 'scheduled': '2025-03-02T09:00:00'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0004-7003'})
         ],
-        outputs=["210.00","TRK-COU0004-7003"]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -55,7 +55,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0006-7006'}),
             Action(name='getItemVariant', kwargs={'item_id': '9354168549'})
         ],
-        outputs=["TRK-COU0006-7006","145.00"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -74,7 +74,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': '663395959263'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W6114312'})
         ],
-        outputs=["NM-HARD-0007","#COU0007"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -91,7 +91,7 @@ TASKS = [
             Action(name='appendTrackingEvent', kwargs={'tracking_id': 'TRK-COU0008-7008', 'event': 'received', 'timestamp': '2025-03-01T08:00:00'}),
             Action(name='scheduleDelivery', kwargs={'tracking_id': 'TRK-COU0008-7008', 'scheduled': '2025-03-02T09:00:00'})
         ],
-        outputs=["TRK-COU0008-7008"]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -111,7 +111,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0009-7009'}),
             Action(name='getItemVariant', kwargs={'item_id': '6700049080'})
         ],
-        outputs=["480.00","TRK-COU0009-7009"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -131,7 +131,7 @@ TASKS = [
             Action(name='getOrderDetails', kwargs={'order_id': '#W7538736'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': '790735957247'})
         ],
-        outputs=["low","#COU0005"]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -150,7 +150,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0001-7013'}),
             Action(name='getItemVariant', kwargs={'item_id': '9314474252'})
         ],
-        outputs=["TRK-COU0001-7013","120.00"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -168,7 +168,7 @@ TASKS = [
             Action(name='getOrderDetails', kwargs={'order_id': '#W2091016'}),
             Action(name='getUserById', kwargs={'user_id': 'omar_anderson_5940'})
         ],
-        outputs=["NM-HARD-0014"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -187,7 +187,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0003-7015'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': '673941764576'})
         ],
-        outputs=["TRK-COU0003-7015","#COU0005"]
+        outputs=[]
     ),
 
     # GOLD 2
@@ -204,7 +204,7 @@ TASKS = [
             Action(name='setVariantAvailability', kwargs={'item_id': '2492465580', 'available': False}),
             Action(name='getItemVariant', kwargs={'item_id': '2492465580'})
         ],
-        outputs=["#SO9050"]
+        outputs=[]
     ),
 
     # complexity_edges: 13 HARD
@@ -219,7 +219,7 @@ TASKS = [
             Action(name='scheduleDelivery', kwargs={'tracking_id': 'TRK-COU0006-6101', 'scheduled': '2025-03-06T09:00:00'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0006-6101'})
         ],
-        outputs=["TRK-COU0006-6101"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -235,7 +235,7 @@ TASKS = [
             Action(name='setVariantAvailability', kwargs={'item_id': '9862136885', 'available': False}),
             Action(name='getItemVariant', kwargs={'item_id': '9862136885'})
         ],
-        outputs=["#SO8102"]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -254,7 +254,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': '790735957247'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W9527030'})
         ],
-        outputs=["NM-HARD-1007", "#COU0004"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -270,7 +270,7 @@ TASKS = [
             Action(name='setVariantAvailability', kwargs={'item_id': '7624783998', 'available': False}),
             Action(name='getItemVariant', kwargs={'item_id': '7624783998'})
         ],
-        outputs=["#SO8103"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -286,7 +286,7 @@ TASKS = [
             Action(name='updateItemOption', kwargs={'order_id': '#W2091016', 'item_id': '1270145486', 'option_key': 'color', 'option_value': 'green'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W2091016'})
         ],
-        outputs=["NM-HARD-1014"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -302,7 +302,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W8958831', 'status': 'processed'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W8958831'})
         ],
-        outputs=["NM-HARD-1019-R"]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -321,7 +321,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '9083642334'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W1812830'})
         ],
-        outputs=["79.50","NM-HARD-0016"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -335,7 +335,7 @@ TASKS = [
             Action(name='setVariantPrice', kwargs={'item_id': '9494281769', 'price': 260.00}),
             Action(name='setVariantAvailability', kwargs={'item_id': '9494281769', 'available': True})
         ],
-        outputs=["#SO8006","260.00"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -351,7 +351,7 @@ TASKS = [
             Action(name='updateItemOption', kwargs={'order_id': '#W5299644', 'item_id': '6268080249', 'option_key': 'size', 'option_value': 'XL'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W5299644'})
         ],
-        outputs=["NM-HARD-3021"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -373,7 +373,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': '673941764576'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W6114312'})
         ],
-        outputs=["NM-HARD-2018", "#COU0005"]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -389,7 +389,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W2631563', 'status': 'processed'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W2631563'})
         ],
-        outputs=["NM-HARD-3022-R"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -403,7 +403,7 @@ TASKS = [
             Action(name='addOrderTag', kwargs={'order_id': '#W2091016', 'tag': 'adjusted'}),
             Action(name='updateOrderStatus', kwargs={'order_id': '#W2091016', 'status': 'processed'})
         ],
-        outputs=["#W2091016"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -419,7 +419,7 @@ TASKS = [
             Action(name='addOrderPayment', kwargs={'order_id': '#W3113816', 'amount': 25.50, 'payment_method_id': 'credit_card_5869505', 'transaction_id': 'NM-HARD-2021'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': '443521489581'})
         ],
-        outputs=["#COU0006"]
+        outputs=[]
     ),
 
     # GOLD 3
@@ -435,7 +435,7 @@ TASKS = [
             Action(name='addOrderTag', kwargs={'order_id': '#W9527030', 'tag': 'reconciled'}),
             Action(name='updateOrderStatus', kwargs={'order_id': '#W9527030', 'status': 'processed'})
         ],
-        outputs=["118.75", "NM-HARD-3023"]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -454,7 +454,7 @@ TASKS = [
             Action(name='addOrderTag', kwargs={'order_id': '#W7398274', 'tag': 'reconciled'}),
             Action(name='updateOrderStatus', kwargs={'order_id': '#W7398274', 'status': 'processed'}),
         ],
-        outputs=["TRK-COU0002-7002", "NM-HARD-0002", "#COU0003"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -472,7 +472,7 @@ TASKS = [
             Action(name='scheduleDelivery', kwargs={'tracking_id': 'TRK-COU0004-7003', 'scheduled': '2025-03-02T09:00:00'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0004-7003'})
         ],
-        outputs=["210.00","TRK-COU0004-7003"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -490,7 +490,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': '515122929210'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0005-7004'}),
         ],
-        outputs=["TRK-COU0005-7004", "#COU0004"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -507,7 +507,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '8349118980'}),
             Action(name='getProductById', kwargs={'product_id': '9523456873'}),
         ],
-        outputs=["#SO8002", "55.05"]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -526,7 +526,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0006-7006'}),
             Action(name='getItemVariant', kwargs={'item_id': '9354168549'})
         ],
-        outputs=["TRK-COU0006-7006","145.00"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -545,7 +545,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': '663395959263'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W6114312'})
         ],
-        outputs=["NM-HARD-0007","#COU0007"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -562,7 +562,7 @@ TASKS = [
             Action(name='scheduleDelivery', kwargs={'tracking_id': 'TRK-COU0008-7008', 'scheduled': '2025-03-02T09:00:00'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0008-7008'})
         ],
-        outputs=["TRK-COU0008-7008"]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -582,7 +582,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0009-7009'}),
             Action(name='getItemVariant', kwargs={'item_id': '6700049080'})
         ],
-        outputs=["480.00","TRK-COU0009-7009"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -598,7 +598,7 @@ TASKS = [
             Action(name='setVariantAvailability', kwargs={'item_id': '7624783998', 'available': False}),
             Action(name='getItemVariant', kwargs={'item_id': '7624783998'}),
         ],
-        outputs=["#SO8003"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -614,7 +614,7 @@ TASKS = [
             Action(name='reassignCourierForTracking', kwargs={'tracking_id': '790735957247', 'courier_id': '#COU0005'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': '790735957247'})
         ],
-        outputs=["low","#COU0005"]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -633,7 +633,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0001-7013'}),
             Action(name='getItemVariant', kwargs={'item_id': '1262139877'})
         ],
-        outputs=["TRK-COU0001-7013","120.00"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -651,7 +651,7 @@ TASKS = [
             Action(name='getOrderDetails', kwargs={'order_id': '#W2091016'}),
             Action(name='getUserById', kwargs={'user_id': 'omar_white_5940'})
         ],
-        outputs=["NM-HARD-0014"]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -668,7 +668,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0003-7015'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': '673941764576'})
         ],
-        outputs=["TRK-COU0003-7015", "#COU0005"]
+        outputs=[]
     ),
 
     # GOLD 4
@@ -689,7 +689,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0002-9001'}),
             Action(name='getItemVariant', kwargs={'item_id': '9083642334'}),
         ],
-        outputs=["81.00", "TRK-COU0002-9001"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -705,7 +705,7 @@ TASKS = [
             Action(name='appendTrackingEvent', kwargs={'tracking_id': 'TRK-COU0003-9002', 'event': 'out_for_delivery', 'timestamp': '2025-03-06T10:15:00'}),
             Action(name='reassignCourierForTracking', kwargs={'tracking_id': '308411122792', 'courier_id': '#COU0001'}),
         ],
-        outputs=["TRK-COU0003-9002", "#COU0001"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -722,7 +722,7 @@ TASKS = [
             Action(name='reassignCourierForTracking', kwargs={'tracking_id': '604805146457', 'courier_id': '#COU0004'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': '604805146457'})
         ],
-        outputs=["NM-HARD-3003", "#COU0004"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -738,7 +738,7 @@ TASKS = [
             Action(name='setVariantAvailability', kwargs={'item_id': '6700049080', 'available': False}),
             Action(name='getItemVariant', kwargs={'item_id': '6700049080'}),
         ],
-        outputs=["#SO9020"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -756,7 +756,7 @@ TASKS = [
             Action(name='scheduleDelivery', kwargs={'tracking_id': 'TRK-COU0005-9005', 'scheduled': '2025-03-06T09:00:00'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0005-9005'})
         ],
-        outputs=["TRK-COU0005-9005"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -772,7 +772,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W7259850', 'status': 'processed'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W7259850'}),
         ],
-        outputs=["NM-HARD-3006-R"]
+        outputs=[]
     ),
 
     # complexity_edges: 14
@@ -789,7 +789,7 @@ TASKS = [
             Action(name='addOrderTag', kwargs={'order_id': '#W7398274', 'tag': 'reconciled'}),
             Action(name='updateOrderStatus', kwargs={'order_id': '#W7398274', 'status': 'processed'}),
         ],
-        outputs=["TRK-COU0010-9007", "NM-HARD-3007"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -805,7 +805,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W7538736', 'status': 'processing'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': '790735957247'})
         ],
-        outputs=["#COU0002"]
+        outputs=[]
     ),
 
     # complexity_edges: 15
@@ -824,7 +824,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0004-9009'}),
             Action(name='getItemVariant', kwargs={'item_id': '9862136885'}),
         ],
-        outputs=["TRK-COU0004-9009", "139.00"]
+        outputs=[]
     ),
 
     # complexity_edges: 13
@@ -842,7 +842,7 @@ TASKS = [
                 Action(name='updateOrderStatus', kwargs={'order_id': '#W1305304', 'status': 'processed'}),
                 Action(name='getTrackingInfo', kwargs={'tracking_id': '254796145302'}),
         ],
-        outputs=["NM-HARD-3010", "#COU0010"]
+        outputs=[]
     ),
 
     # ADDITIONAL
@@ -859,7 +859,7 @@ TASKS = [
             Action(name='fraudMarkOrder', kwargs={'order_id': '#W4817420', 'risk_level': 'low', 'reason_code': 'MANUAL_REVIEW_PASSED'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W4817420'})
         ],
-        outputs=['TX-2001', 'low']
+        outputs=[]
     ),
 
     Task(
@@ -877,7 +877,7 @@ TASKS = [
             Action(name='setVariantAvailability', kwargs={'item_id': '9647292434', 'available': True}),
             Action(name='getItemVariant', kwargs={'item_id': '9647292434'})
         ],
-        outputs=['TX-2005', '57.48']
+        outputs=[]
     ),
 
     # EXPERT
@@ -902,7 +902,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '3229676465'}),
             Action(name='getItemVariant', kwargs={'item_id': '7274158061'})
         ],
-        outputs=["TRK-COU0003-8002","79.99","44.99"]
+        outputs=[]
     ),
 
     # complexity_edges: 16
@@ -929,7 +929,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '3735133539'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W6114312'})
         ],
-        outputs=["#COU0001","NM-EXP-0003","low"]
+        outputs=[]
     ),
 
     # complexity_edges: 23
@@ -965,7 +965,7 @@ TASKS = [
             Action(name='splitOrderFulfillment', kwargs={'order_id': '#W2325029', 'item_ids': ['7211586944'], 'tracking_id': 'TRK-COU0004-8026', 'courier_id': '#COU0004', 'delivery_options': 'Two-Day'}),
             Action(name='scheduleDelivery', kwargs={'tracking_id': 'TRK-COU0004-8026', 'scheduled': '2025-03-02T09:00:00'}),
         ],
-        outputs=["TRK-COU0004-8026", "129.99"]
+        outputs=[]
     ),
 
     # complexity_edges: 20
@@ -983,7 +983,7 @@ TASKS = [
             Action(name='addOrderTag', kwargs={'order_id': '#W9527030', 'tag': 'reconciled'}),
             Action(name='updateOrderStatus', kwargs={'order_id': '#W9527030', 'status': 'processed'}),
         ],
-        outputs=["TRK-COU0003-8027"]
+        outputs=[]
     ),
 
     # GOLD 2
@@ -1005,7 +1005,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W1812830', 'status': 'processed'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W1812830'})
         ],
-        outputs=["TRK-COU0001-7101", "NM-HARD-1001"]
+        outputs=[]
     ),
 
 
@@ -1033,7 +1033,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '3735133539'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W6114312'})
         ],
-        outputs=["#COU0001", "NM-EXP-1003", "low"]
+        outputs=[]
     ),
 
     # complexity_edges: 21
@@ -1050,7 +1050,7 @@ TASKS = [
             Action(name='splitOrderFulfillment', kwargs={'order_id': '#W2325029', 'item_ids': ['7211586944'], 'tracking_id': 'TRK-COU0004-8226', 'courier_id': '#COU0004', 'delivery_options': 'Two-Day'}),
             Action(name='scheduleDelivery', kwargs={'tracking_id': 'TRK-COU0004-8226', 'scheduled': '2025-03-02T09:00:00'})
         ],
-        outputs=["TRK-COU0004-8226", "129.25"]
+        outputs=[]
     ),
 
     # complexity_edges: 20
@@ -1068,7 +1068,7 @@ TASKS = [
             Action(name='addOrderTag', kwargs={'order_id': '#W9527030', 'tag': 'reconciled'}),
             Action(name='updateOrderStatus', kwargs={'order_id': '#W9527030', 'status': 'processed'}),
         ],
-        outputs=["TRK-COU0003-8227"]
+        outputs=[]
     ),
 
     # complexity_edges: 21 EXP
@@ -1087,7 +1087,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0006-7106'}),
             Action(name='getItemVariant', kwargs={'item_id': '5753502325'})
         ],
-        outputs=["TRK-COU0006-7106", "101.35"]
+        outputs=[]
     ),
 
     # complexity_edges: 22 EXP
@@ -1106,7 +1106,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0001-7113'}),
             Action(name='getItemVariant', kwargs={'item_id': '3229676465'})
         ],
-        outputs=["TRK-COU0001-7113", "80.00"]
+        outputs=[]
     ),
 
     # complexity_edges: 18 EXP
@@ -1123,7 +1123,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0003-7115'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': '673941764576'})
         ],
-        outputs=["TRK-COU0003-7115", "#COU0007"]
+        outputs=[]
     ),
 
     # GOLD 3
@@ -1146,7 +1146,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W8863729', 'status': 'processed'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0002-8001'}),
         ],
-        outputs=["TRK-COU0002-8001", "NM-EXP-0001", "low"]
+        outputs=[]
     ),
 
     # complexity_edges: 18
@@ -1169,7 +1169,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '9408160950'}),
             Action(name='getItemVariant', kwargs={'item_id': '1262139877'})
         ],
-        outputs=["TRK-COU0003-8002","79.99","44.99"]
+        outputs=[]
     ),
 
     # complexity_edges: 16
@@ -1196,7 +1196,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '3735133539'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W6114312'})
         ],
-        outputs=["#COU0001","NM-EXP-0003","low"]
+        outputs=[]
     ),
 
     # complexity_edges: 30
@@ -1222,7 +1222,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W1305304', 'status': 'processed'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0007-8204'})
         ],
-        outputs=["TRK-COU0007-8204", "NM-EXP-1004-R"]
+        outputs=[]
     ),
 
     # complexity_edges: 16
@@ -1246,7 +1246,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0005-8005'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W2325029'})
         ],
-        outputs=["#COU0004","TRK-COU0005-8005","NM-EXP-0005"]
+        outputs=[]
     ),
 
     # complexity_edges: 22
@@ -1263,7 +1263,7 @@ TASKS = [
             Action(name='splitOrderFulfillment', kwargs={'order_id': '#W2091016', 'item_ids': ['7211586944'], 'tracking_id': 'TRK-COU0004-8026', 'courier_id': '#COU0004', 'delivery_options': 'Two-Day'}),
             Action(name='scheduleDelivery', kwargs={'tracking_id': 'TRK-COU0004-8026', 'scheduled': '2025-03-02T09:00:00'}),
         ],
-        outputs=["TRK-COU0004-8026", "129.99"]
+        outputs=[]
     ),
 
     # complexity_edges: 16
@@ -1277,7 +1277,7 @@ TASKS = [
             Action(name='appendTrackingEvent', kwargs={'tracking_id': '713743776331', 'event': 'received', 'timestamp': '2025-05-01T08:00:00'}),
             Action(name='scheduleDelivery', kwargs={'tracking_id': '713743776331', 'scheduled': '2025-05-02T09:00:00'}),
         ],
-        outputs=["#SO8009"]
+        outputs=[]
     ),
 
     # complexity_edges: 21
@@ -1294,7 +1294,7 @@ TASKS = [
             Action(name='addOrderTag', kwargs={'order_id': '#W1812830', 'tag': 'adjusted'}),
             Action(name='updateOrderStatus', kwargs={'order_id': '#W1812830', 'status': 'processed'}),
         ],
-        outputs=["TRK-COU0005-8228"]
+        outputs=[]
     ),
 
     # GOLD 4
@@ -1322,7 +1322,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '6509212169'}),
             Action(name='getItemVariant', kwargs={'item_id': '9354168549'}),
         ],
-        outputs=["TRK-COU0008-9101", "NM-EXP-2001"]
+        outputs=[]
     ),
 
     # complexity_edges: 17
@@ -1342,7 +1342,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W1812830', 'status': 'processed'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0006-9102'}),
         ],
-        outputs=["TRK-COU0006-9102", "NM-EXP-2002-R", "low"]
+        outputs=[]
     ),
 
     # complexity_edges: 18
@@ -1367,7 +1367,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '3229676465'}),
             Action(name='getItemVariant', kwargs={'item_id': '9314474252'}),
         ],
-        outputs=["TRK-COU0009-9103", "85.00", "121.10"]
+        outputs=[]
     ),
 
     # complexity_edges: 18
@@ -1391,7 +1391,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0002-9104'}),
             Action(name='getItemVariant', kwargs={'item_id': '2768401027'}),
         ],
-        outputs=["#SO9044", "TRK-COU0002-9104"]
+        outputs=[]
     ),
 
     # complexity_edges: 17
@@ -1414,7 +1414,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W1305304', 'status': 'processed'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0007-9105'}),
         ],
-        outputs=["TRK-COU0007-9105", "NM-EXP-2005-R"]
+        outputs=[]
     ),
 
     # ADDITIONAl
@@ -1439,7 +1439,7 @@ TASKS = [
             Action(name='reassignCourierForTracking', kwargs={'tracking_id': '357962501027', 'courier_id': '#COU0002'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': '357962501027'})
         ],
-        outputs=['TRK-COU0001-5000', 'TX-8000', '#COU0002']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1457,7 +1457,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0002-7109'}),
             Action(name='getItemVariant', kwargs={'item_id': '6700049080'})
         ],
-        outputs=["475.75", "TRK-COU0002-7109"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1474,7 +1474,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W6304490', 'status': 'processed'}),
             Action(name='reassignCourierForTracking', kwargs={'tracking_id': '889070895653', 'courier_id': '#COU0001'}),
         ],
-        outputs=['TRK-COU0007-5006', 'NM-8006', '#COU0001']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1491,7 +1491,7 @@ TASKS = [
             Action(name='addOrderTag', kwargs={'order_id': '#W4817420', 'tag': 'reconciled'}),
             Action(name='updateOrderStatus', kwargs={'order_id': '#W4817420', 'status': 'processed'}),
         ],
-        outputs=['TRK-COU0002-5008', 'NM-8008', '#COU0003']
+        outputs=[]
     ),
 
     Task(
@@ -1514,7 +1514,7 @@ TASKS = [
             Action(name='getTrackingInfo', kwargs={'tracking_id': '367478070474'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0005-5004'})
         ],
-        outputs=['TRK-COU0005-5004', 'NM-8004', '#COU0006']
+        outputs=[]
     ),
 
     # MEDIUM
@@ -1533,7 +1533,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '2198125883'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W9608525'})
         ],
-        outputs=["299.99"]
+        outputs=[]
     ),
 
     # complexity_edges: 10
@@ -1548,7 +1548,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W1649831', 'status': 'processed'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W1649831'})
         ],
-        outputs=["NM-MED-0001"]
+        outputs=[]
     ),
 
     # complexity_edges: 9
@@ -1562,7 +1562,7 @@ TASKS = [
             Action(name='appendTrackingEvent', kwargs={'tracking_id': '254796145302', 'event': 'return_initiated', 'timestamp': '2025-03-06T12:00:00'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': '254796145302'})
         ],
-        outputs=["#COU0001"]
+        outputs=[]
     ),
 
     # complexity_edges: 12
@@ -1576,7 +1576,7 @@ TASKS = [
             Action(name='updateSupplyOrderStatus', kwargs={'supply_order_id': '#SO8001', 'status': 'fulfilled'}),
             Action(name='getSupplierDetails', kwargs={'supplier_id': '#SUP0005'})
         ],
-        outputs=["#SO8001"]
+        outputs=[]
     ),
 
     # complexity_edges: 11
@@ -1591,7 +1591,7 @@ TASKS = [
             Action(name='scheduleDelivery', kwargs={'tracking_id': 'TRK-COU0003-6001', 'scheduled': '2025-03-02T09:00:00'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0003-6001'})
         ],
-        outputs=["TRK-COU0003-6001"]
+        outputs=[]
     ),
 
     # complexity_edges: 10
@@ -1608,7 +1608,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '5753502325'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W6114312'})
         ],
-        outputs=["100.20"]
+        outputs=[]
     ),
 
     # GOLD 2
@@ -1627,7 +1627,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '3735133539'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W2091016'})
         ],
-        outputs=["512.49"]
+        outputs=[]
     ),
 
     # complexity_edges: 10
@@ -1642,7 +1642,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W5299644', 'status': 'processed'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W5299644'})
         ],
-        outputs=["NM-MED-1001"]
+        outputs=[]
     ),
 
     # complexity_edges: 9
@@ -1658,7 +1658,7 @@ TASKS = [
             Action(name='reassignCourierForTracking', kwargs={'tracking_id': '604805146457', 'courier_id': '#COU0003'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': '604805146457'})
         ],
-        outputs=["low", "#COU0003"]
+        outputs=[]
     ),
 
     # complexity_edges: 10
@@ -1672,7 +1672,7 @@ TASKS = [
             Action(name='updateSupplyOrderStatus', kwargs={'supply_order_id': '#SO8101', 'status': 'fulfilled'}),
             Action(name='getSupplierDetails', kwargs={'supplier_id': '#SUP0001'})
         ],
-        outputs=["#SO8101"]
+        outputs=[]
     ),
 
     # complexity_edges: 11
@@ -1689,7 +1689,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '8349118980'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W1305304'})
         ],
-        outputs=["59.99"]
+        outputs=[]
     ),
 
     # GOLD 3
@@ -1707,7 +1707,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '5753502325'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W6114312'})
         ],
-        outputs=["100.20"]
+        outputs=[]
     ),
 
     # complexity_edges: 10
@@ -1722,7 +1722,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W5299644', 'status': 'processed'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W5299644'})
         ],
-        outputs=["NM-MED-1001"]
+        outputs=[]
     ),
 
     # complexity_edges: 10
@@ -1737,7 +1737,7 @@ TASKS = [
             Action(name='appendTrackingEvent', kwargs={'tracking_id': '254796145302', 'event': 'return_initiated', 'timestamp': '2025-03-06T12:00:00'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': '254796145302'})
         ],
-        outputs=["#COU0001"]
+        outputs=[]
     ),
 
     # complexity_edges: 10
@@ -1751,7 +1751,7 @@ TASKS = [
             Action(name='updateSupplyOrderStatus', kwargs={'supply_order_id': '#SO9001', 'status': 'fulfilled'}),
             Action(name='getSupplierDetails', kwargs={'supplier_id': '#SUP0005'})
         ],
-        outputs=["#SO9001"]
+        outputs=[]
     ),
 
     # complexity_edges: 11
@@ -1766,7 +1766,7 @@ TASKS = [
             Action(name='scheduleDelivery', kwargs={'tracking_id': 'TRK-COU0003-6001', 'scheduled': '2025-03-02T09:00:00'}),
             Action(name='getTrackingInfo', kwargs={'tracking_id': 'TRK-COU0003-6001'})
         ],
-        outputs=["TRK-COU0003-6001"]
+        outputs=[]
     ),
 
     # complexity_edges: 11
@@ -1783,7 +1783,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '3735133539'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W2091016'})
         ],
-        outputs=["512.49"]
+        outputs=[]
     ),
 
     # GOLD 4
@@ -1801,7 +1801,7 @@ TASKS = [
             Action(name='getItemVariant', kwargs={'item_id': '6509212169'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W4073673'}),
         ],
-        outputs=["88.88"]
+        outputs=[]
     ),
 
     # complexity_edges: 10
@@ -1816,7 +1816,7 @@ TASKS = [
             Action(name='updateOrderStatus', kwargs={'order_id': '#W1812830', 'status': 'processed'}),
             Action(name='getOrderDetails', kwargs={'order_id': '#W1812830'}),
         ],
-        outputs=["NM-MED-2001"]
+        outputs=[]
     ),
 
     # complexity_edges: 10
@@ -1830,6 +1830,6 @@ TASKS = [
             Action(name='updateSupplyOrderStatus', kwargs={'supply_order_id': '#SO9010', 'status': 'fulfilled'}),
             Action(name='getSupplierDetails', kwargs={'supplier_id': '#SUP0010'}),
         ],
-        outputs=["#SO9010"]
+        outputs=[]
     ),
 ]

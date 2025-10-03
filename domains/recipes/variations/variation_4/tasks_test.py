@@ -14,7 +14,7 @@ TASKS = [
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101}),
             Action(name="GetOrderStatus", kwargs={"order_id": 10003}),
         ],
-        outputs=["10003", "placed"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -28,7 +28,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 408, "plan_date": "2026-03-24", "user_id": 110}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 210, "user_id": 110}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -41,7 +41,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 423, "plan_date": "2026-03-30", "user_id": 101}),
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 424, "plan_date": "2026-03-31", "user_id": 101}),
         ],
-        outputs=["6003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -56,7 +56,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 424, "plan_date": "2026-04-08", "user_id": 105}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 205, "user_id": 105}),
         ],
-        outputs=["332", "8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -68,7 +68,7 @@ TASKS = [
             Action(name="CreateMealPlan", kwargs={"household_id": 201, "week_start_date": "2025-09-01", "user_id": 101}),
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 402, "plan_date": "2025-09-01", "user_id": 101}),
         ],
-        outputs=["6003", "6118"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -81,7 +81,7 @@ TASKS = [
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101}),
             Action(name="GetOrderStatus", kwargs={"order_id": 10003}),
         ],
-        outputs=["10003", "placed"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -95,7 +95,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "user_id": 102}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 202, "store_id": 9002, "list_id": 8003, "user_id": 102}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -107,7 +107,7 @@ TASKS = [
             Action(name="GetRecipeDetails", kwargs={"recipe_id": 424}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 208, "recipe_id": 424, "plan_date": "2025-09-01", "rating_int": 4, "user_id": 108}),
         ],
-        outputs=["6301"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -129,7 +129,7 @@ TASKS = [
             Action(name="CreateMealPlan", kwargs={"household_id": 210, "week_start_date": "2026-01-26", "user_id": 110}),
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 454, "plan_date": "2026-01-26", "user_id": 110}),
         ],
-        outputs=["454", "6118"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -143,7 +143,7 @@ TASKS = [
             Action(name="AddItemToGroceryList", kwargs={"list_id": 8003, "ingredient_id": 1027, "quantity": 2000, "unit": "g", "user_id": 105}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 205, "store_id": 9004, "list_id": 8003, "user_id": 105}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -156,7 +156,7 @@ TASKS = [
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101}),
             Action(name="GetOrderStatus", kwargs={"order_id": 10003}),
         ],
-        outputs=["10003", "placed"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -170,7 +170,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "user_id": 102}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 202, "store_id": 9002, "list_id": 8003, "user_id": 102}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -182,7 +182,7 @@ TASKS = [
             Action(name="GetRecipeDetails", kwargs={"recipe_id": 424}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 208, "recipe_id": 424, "plan_date": "2025-09-01", "rating_int": 4, "user_id": 108}),
         ],
-        outputs=["6301"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -196,7 +196,7 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 206, "store_id": 9001, "list_id": 8003, "user_id": 106, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -210,7 +210,7 @@ TASKS = [
             Action(name="AddItemToGroceryList", kwargs={"list_id": 8003, "ingredient_id": 1027, "quantity": 2000, "unit": "g", "user_id": 105}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 205, "store_id": 9004, "list_id": 8003, "user_id": 105}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -223,7 +223,7 @@ TASKS = [
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101}),
             Action(name="GetOrderStatus", kwargs={"order_id": 10003}),
         ],
-        outputs=["10003", "placed"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -239,7 +239,7 @@ TASKS = [
             Action(name="CheckProductAvailabilityAtStore", kwargs={"list_id": 8003, "store_id": 9001}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 202, "store_id": 9001, "list_id": 8003, "user_id": 102}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -251,7 +251,7 @@ TASKS = [
             Action(name="GetRecipeDetails", kwargs={"recipe_id": 424}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 208, "recipe_id": 424, "plan_date": "2025-09-01", "rating_int": 4, "user_id": 108}),
         ],
-        outputs=["6301"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -265,7 +265,7 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 206, "store_id": 9001, "list_id": 8003, "user_id": 106, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -279,7 +279,7 @@ TASKS = [
             Action(name="AddItemToGroceryList", kwargs={"list_id": 8003, "ingredient_id": 1027, "quantity": 2000, "unit": "g", "user_id": 105}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 205, "store_id": 9004, "list_id": 8003, "user_id": 105}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -293,7 +293,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 402, "plan_date": "2026-03-03", "user_id": 101}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "user_id": 101}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -307,7 +307,7 @@ TASKS = [
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 210, "store_id": 9001, "list_id": 8003, "user_id": 110}),
             Action(name="GetOrderStatus", kwargs={"order_id": 10003}),
         ],
-        outputs=["10003", "placed"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -319,7 +319,7 @@ TASKS = [
             Action(name="CreateMealPlan", kwargs={"household_id": 203, "week_start_date": "2026-04-27", "user_id": 103}),
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 414, "plan_date": "2026-04-27", "meal_type": "Dessert", "user_id": 103, "notes": "Using banana as a substitute for eggs."}),
         ],
-        outputs=["6118"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -333,7 +333,7 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 206, "store_id": 9001, "list_id": 8003, "user_id": 106, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -348,7 +348,7 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 209, "store_id": 9001, "list_id": 8003, "user_id": 109, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -361,7 +361,7 @@ TASKS = [
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101}),
             Action(name="GetOrderStatus", kwargs={"order_id": 10003}),
         ],
-        outputs=["10003", "placed"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -375,7 +375,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "user_id": 102}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 202, "store_id": 9002, "list_id": 8003, "user_id": 102}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -387,7 +387,7 @@ TASKS = [
             Action(name="GetRecipeDetails", kwargs={"recipe_id": 424}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 208, "recipe_id": 424, "plan_date": "2025-09-01", "rating_int": 4, "user_id": 108}),
         ],
-        outputs=["6301"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -409,7 +409,7 @@ TASKS = [
             Action(name="CreateMealPlan", kwargs={"household_id": 210, "week_start_date": "2026-01-26", "user_id": 110}),
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 454, "plan_date": "2026-01-26", "user_id": 110}),
         ],
-        outputs=["454", "6118"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -423,7 +423,7 @@ TASKS = [
             Action(name="AddItemToGroceryList", kwargs={"list_id": 8003, "ingredient_id": 1027, "quantity": 2000, "unit": "g", "user_id": 105}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 205, "store_id": 9004, "list_id": 8003, "user_id": 105}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -437,7 +437,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "user_id": 101}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -451,7 +451,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "user_id": 102}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 202, "store_id": 9002, "list_id": 8003, "user_id": 102}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -463,7 +463,7 @@ TASKS = [
             Action(name="GetRecipeDetails", kwargs={"recipe_id": 424}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 208, "recipe_id": 424, "plan_date": "2025-09-01", "rating_int": 4, "user_id": 108}),
         ],
-        outputs=["6301"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -477,7 +477,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 405, "plan_date": "2026-04-28", "servings_adult": 1, "user_id": 106}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 206, "user_id": 106}),
         ],
-        outputs=["332", "8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -491,7 +491,7 @@ TASKS = [
             Action(name="AddItemToGroceryList", kwargs={"list_id": 8003, "ingredient_id": 1027, "quantity": 2000, "unit": "g", "user_id": 105}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 205, "store_id": 9004, "list_id": 8003, "user_id": 105}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -503,7 +503,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 403, "plan_date": "2026-03-03", "servings_adult": 1, "user_id": 103}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 203, "user_id": 103}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -515,7 +515,7 @@ TASKS = [
             Action(name="GetRecipeSubstitutions", kwargs={"recipe_id": 414, "ingredient_id_to_replace": 1029}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 210, "recipe_id": 414, "plan_date": "2025-09-01", "rating_int": 5, "user_id": 110, "notes": "Substituted butter with Greek Yogurt"}),
         ],
-        outputs=["6301"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -529,7 +529,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 426, "plan_date": "2026-03-18", "user_id": 101}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "user_id": 101}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -543,7 +543,7 @@ TASKS = [
             Action(name="AddItemToGroceryList", kwargs={"list_id": 8003, "ingredient_id": 1041, "quantity": 500, "unit": "g", "user_id": 102}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 202, "store_id": 9002, "list_id": 8003, "user_id": 102}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -558,7 +558,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 204, "user_id": 104}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 204, "store_id": 9006, "list_id": 8003, "user_id": 104}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -573,7 +573,7 @@ TASKS = [
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101}),
             Action(name="GetOrderStatus", kwargs={"order_id": 10003}),
         ],
-        outputs=["10003", "placed"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -585,7 +585,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 402, "plan_date": "2026-01-20", "user_id": 102}),
             Action(name="GetOrderStatus", kwargs={"order_id": 10002}),
         ],
-        outputs=["6003", "delivered"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -597,7 +597,7 @@ TASKS = [
             Action(name="GetRecipeDetails", kwargs={"recipe_id": 424}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 208, "recipe_id": 424, "plan_date": "2025-09-01", "rating_int": 4, "user_id": 108}),
         ],
-        outputs=["6301"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -619,7 +619,7 @@ TASKS = [
             Action(name="CreateMealPlan", kwargs={"household_id": 210, "week_start_date": "2026-01-26", "user_id": 110}),
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 454, "plan_date": "2026-01-26", "user_id": 110}),
         ],
-        outputs=["454", "6118"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -633,7 +633,7 @@ TASKS = [
             Action(name="AddItemToGroceryList", kwargs={"list_id": 8003, "ingredient_id": 1027, "quantity": 2000, "unit": "g", "user_id": 105}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 205, "store_id": 9004, "list_id": 8003, "user_id": 105}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -648,7 +648,7 @@ TASKS = [
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101}),
             Action(name="GetOrderStatus", kwargs={"order_id": 10003}),
         ],
-        outputs=["10003", "placed"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -660,7 +660,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 402, "plan_date": "2026-01-20", "user_id": 102}),
             Action(name="GetOrderStatus", kwargs={"order_id": 10002}),
         ],
-        outputs=["6003", "delivered"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -672,7 +672,7 @@ TASKS = [
             Action(name="GetRecipeDetails", kwargs={"recipe_id": 424}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 208, "recipe_id": 424, "plan_date": "2025-09-01", "rating_int": 4, "user_id": 108}),
         ],
-        outputs=["6301"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -694,7 +694,7 @@ TASKS = [
             Action(name="CreateMealPlan", kwargs={"household_id": 210, "week_start_date": "2026-01-26", "user_id": 110}),
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 454, "plan_date": "2026-01-26", "user_id": 110}),
         ],
-        outputs=["454", "6118"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -708,7 +708,7 @@ TASKS = [
             Action(name="AddItemToGroceryList", kwargs={"list_id": 8003, "ingredient_id": 1027, "quantity": 2000, "unit": "g", "user_id": 105}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 205, "store_id": 9004, "list_id": 8003, "user_id": 105}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -720,7 +720,7 @@ TASKS = [
             Action(name="CreateMealPlan", kwargs={"household_id": 201, "week_start_date": "2025-09-01", "user_id": 101}),
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 402, "plan_date": "2025-09-01", "user_id": 101}),
         ],
-        outputs=["6003", "6118"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -734,7 +734,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 432, "plan_date": "2026-02-10", "meal_type": "Dinner", "user_id": 104}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 204, "user_id": 104}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -748,7 +748,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 408, "plan_date": "2026-03-24", "user_id": 110}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 210, "user_id": 110}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -761,7 +761,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 423, "plan_date": "2026-03-30", "user_id": 101}),
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 424, "plan_date": "2026-03-31", "user_id": 101}),
         ],
-        outputs=["6003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -776,7 +776,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 424, "plan_date": "2026-04-08", "user_id": 105}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 205, "user_id": 105}),
         ],
-        outputs=["332", "8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -789,7 +789,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "user_id": 102}),
             Action(name="GetGroceryListDetails", kwargs={"list_id": 8003}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -803,7 +803,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "user_id": 102}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 202, "store_id": 9001, "list_id": 8003, "user_id": 102}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
      Task(
         annotator="0",
@@ -816,7 +816,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 425, "plan_date": "2026-03-03", "servings_adult": 1, "user_id": 107}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 207, "recipe_id": 428, "plan_date": "2025-08-31", "rating_int": 5, "user_id": 107}),
         ],
-        outputs=["332", "6003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -831,7 +831,7 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 206, "store_id": 9001, "list_id": 8003, "user_id": 106, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -846,7 +846,7 @@ TASKS = [
             Action(name="AddItemToGroceryList", kwargs={"list_id": 8003, "ingredient_id": 1028, "quantity": 1000, "unit": "g", "user_id": 108}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 208, "store_id": 9004, "list_id": 8003, "user_id": 108}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -860,7 +860,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 446, "plan_date": "2025-12-15", "user_id": 102}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "user_id": 102}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -873,7 +873,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 203, "user_id": 103}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 203, "store_id": 9003, "list_id": 8003, "user_id": 103}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -887,7 +887,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 446, "plan_date": "2025-12-15", "user_id": 102}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "user_id": 102}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -902,7 +902,7 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -914,7 +914,7 @@ TASKS = [
             Action(name="GetRecipeDetails", kwargs={"recipe_id": 424}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 208, "recipe_id": 424, "plan_date": "2025-09-01", "rating_int": 4, "user_id": 108}),
         ],
-        outputs=["6301"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -927,7 +927,7 @@ TASKS = [
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101}),
             Action(name="GetOrderStatus", kwargs={"order_id": 10003}),
         ],
-        outputs=["10003", "placed"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -941,7 +941,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "user_id": 102}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 202, "store_id": 9002, "list_id": 8003, "user_id": 102}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -953,7 +953,7 @@ TASKS = [
             Action(name="GetRecipeDetails", kwargs={"recipe_id": 424}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 208, "recipe_id": 424, "plan_date": "2025-09-01", "rating_int": 4, "user_id": 108}),
         ],
-        outputs=["6301"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -975,7 +975,7 @@ TASKS = [
             Action(name="CreateMealPlan", kwargs={"household_id": 210, "week_start_date": "2026-01-26", "user_id": 110}),
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 454, "plan_date": "2026-01-26", "user_id": 110}),
         ],
-        outputs=["454", "6118"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -989,7 +989,7 @@ TASKS = [
             Action(name="AddItemToGroceryList", kwargs={"list_id": 8003, "ingredient_id": 1027, "quantity": 2000, "unit": "g", "user_id": 105}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 205, "store_id": 9004, "list_id": 8003, "user_id": 105}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1002,7 +1002,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 405, "plan_date": "2025-12-02", "user_id": 101}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "user_id": 101}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1016,7 +1016,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 416, "plan_date": "2026-01-19", "meal_type": "Dessert", "user_id": 110, "notes": "Using Greek Yogurt as a substitute for butter."}),
             Action(name="GetMealPlanForWeek", kwargs={"meal_plan_id": 6003}),
         ],
-        outputs=["6118"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1030,7 +1030,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 446, "plan_date": "2025-12-15", "user_id": 102}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "user_id": 102}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1046,7 +1046,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 207, "user_id": 107}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 207, "store_id": 9007, "list_id": 8003, "user_id": 107}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1061,7 +1061,7 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1075,7 +1075,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 435, "plan_date": "2025-12-02", "user_id": 104}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 204, "recipe_id": 425, "plan_date": "2025-08-31", "rating_int": 5, "user_id": 104}),
         ],
-        outputs=["6003", "6301"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1088,7 +1088,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 412, "plan_date": "2025-12-10", "meal_type": "Lunch", "user_id": 102}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "user_id": 102}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1101,7 +1101,7 @@ TASKS = [
             Action(name="AddItemToGroceryList", kwargs={"list_id": 8003, "ingredient_id": 1022, "quantity": 1, "unit": "pcs", "user_id": 106}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 206, "store_id": 9002, "list_id": 8003, "user_id": 106}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1123,7 +1123,7 @@ TASKS = [
             Action(name="CreateMealPlan", kwargs={"household_id": 205, "week_start_date": "2025-12-22", "user_id": 105}),
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 454, "plan_date": "2025-12-22", "user_id": 105}),
         ],
-        outputs=["454", "6118"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1138,7 +1138,7 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 204, "store_id": 9001, "list_id": 8003, "user_id": 104, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1153,7 +1153,7 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1166,7 +1166,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 203, "user_id": 103}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 203, "store_id": 9003, "list_id": 8003, "user_id": 103}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1180,7 +1180,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 402, "plan_date": "2025-09-10", "user_id": 101}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "user_id": 101}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1195,7 +1195,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 209, "user_id": 109}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 209, "store_id": 9005, "list_id": 8003, "user_id": 109}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1209,7 +1209,7 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 210, "store_id": 9001, "list_id": 8003, "user_id": 110, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1223,7 +1223,7 @@ TASKS = [
             Action(name="UpdateMealPlanEntry", kwargs={"entry_id": 6118, "updates": {"recipe_id": 404}, "user_id": 109}),
             Action(name="RemoveRecipeFromMealPlan", kwargs={"entry_id": 6120, "user_id": 109}),
         ],
-        outputs=["6003", "6118"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1237,7 +1237,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 407, "plan_date": "2025-11-19", "user_id": 101}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "user_id": 101}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1251,7 +1251,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 408, "plan_date": "2025-10-28", "user_id": 110}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 210, "user_id": 110}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1265,7 +1265,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 207, "user_id": 107}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 207, "store_id": 9007, "list_id": 8003, "user_id": 107}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1280,7 +1280,7 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1293,7 +1293,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "user_id": 101}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 201, "store_id": 9001, "list_id": 8003, "user_id": 101}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1304,7 +1304,7 @@ TASKS = [
             Action(name="UpdateMemberPreferences", kwargs={"member_id": 332, "updates": {"activity_level": "high"}, "user_id": 105}),
             Action(name="LogMealAsPrepared", kwargs={"household_id": 205, "recipe_id": 403, "plan_date": "2025-08-31", "rating_int": 5, "user_id": 105}),
         ],
-        outputs=["332", "6301"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1315,7 +1315,7 @@ TASKS = [
             Action(name="AddRecipeToMealPlan", kwargs={"meal_plan_id": 6003, "recipe_id": 434, "plan_date": "2025-09-22", "servings_adult": 1, "user_id": 106}),
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 206, "user_id": 106}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1329,7 +1329,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 207, "user_id": 107}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 207, "store_id": 9007, "list_id": 8003, "user_id": 107}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1342,7 +1342,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 208, "user_id": 108}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 208, "store_id": 9008, "list_id": 8003, "user_id": 108}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1357,7 +1357,7 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 209, "store_id": 9001, "list_id": 8003, "user_id": 109, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1371,7 +1371,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "user_id": 101}),
             Action(name="GetGroceryListDetails", kwargs={"list_id": 8003}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1384,7 +1384,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "user_id": 102}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 202, "store_id": 9002, "list_id": 8003, "user_id": 102}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1397,7 +1397,7 @@ TASKS = [
             Action(name="GenerateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 203, "user_id": 103}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 203, "store_id": 9003, "list_id": 8003, "user_id": 103}),
         ],
-        outputs=["10003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1412,6 +1412,6 @@ TASKS = [
             Action(name="FindSubstituteProducts", kwargs={"store_id": 9001, "problem_items": [{"ingredient_id": 1002, "status": "out_of_stock"}]}),
             Action(name="PlaceGroceryOrder", kwargs={"household_id": 204, "store_id": 9001, "list_id": 8003, "user_id": 104, "substitutions": [{"original_ingredient_id": 1002, "substitute_product_id": 9182}]}),
         ],
-        outputs=["10003"]
+        outputs=[]
     )
 ]

@@ -57,9 +57,7 @@ TASKS = [
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -131,11 +129,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "success"',
-        '"filtered_count": 0',
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
     Task(
     annotator="0",
@@ -179,10 +173,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "failed"',
-        '"missing_files": ["/app/logs/server.log", "/app/logs/database.log"]',
-    ],
+    outputs=[]
 ),
     Task(
     annotator="0",
@@ -232,11 +223,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "success"',
-        '"verified_and_copied": 3',
-        '"cleaned_files_count": 3',
-    ],
+    outputs=[]
 ),
     Task(
         annotator="0",
@@ -307,10 +294,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-        ],
+        outputs=[]
     ),
     Task(
     annotator="0",
@@ -357,10 +341,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "failed"',
-        '"missing_files": ["/data/exports/users.csv", "/data/exports/transactions.csv"]',
-    ],
+    outputs=[]
 ),
     Task(
         annotator="0",
@@ -425,11 +406,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -500,10 +477,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -553,10 +527,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/app/data/config.yaml", "/app/data/settings.json"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -621,11 +592,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -690,11 +657,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -749,10 +712,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/db/production/customers.sql", "/db/production/orders.sql"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -823,11 +783,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -892,11 +848,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -949,10 +901,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/finance/reports/quarterly.xlsx", "/finance/reports/annual.pdf"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1024,10 +973,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1082,10 +1028,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/security/incidents/breach.log", "/security/incidents/vulnerability.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1150,11 +1093,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1207,10 +1146,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/privacy/requests/deletion.json", "/privacy/requests/access.json"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1281,10 +1217,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1336,10 +1269,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/financial/customer/accounts.db", "/financial/customer/transactions.log"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1404,11 +1334,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1460,10 +1386,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/governance/policies/it_policy.doc", "/governance/policies/risk_matrix.xls"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1534,10 +1457,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1589,10 +1509,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/service/incidents/P1_incidents.csv", "/service/incidents/P2_incidents.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1645,10 +1562,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/export/controlled/technical_data.pdf", "/export/controlled/defense_article.doc"]',
-        ],
+        outputs=[]
     ),
     Task(
     annotator="0",
@@ -1704,10 +1618,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "success"',
-        '"verified_and_copied": 3',
-    ],
+    outputs=[]
 ),
     Task(
         annotator="0",
@@ -1760,10 +1671,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/trading/records/transactions.csv", "/trading/records/orders.json"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1834,11 +1742,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1892,10 +1796,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/cloud/assessment/ssp.docx", "/cloud/assessment/sar.pdf"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1960,11 +1861,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
     annotator="0",
@@ -2011,10 +1908,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "failed"',
-        '"missing_files": ["/banking/swift/mt103.txt", "/banking/swift/mt202.txt"]',
-    ],
+    outputs=[]
 ),
     Task(
         annotator="0",
@@ -2085,11 +1979,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2142,10 +2032,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/privacy/processing/activities.json", "/privacy/processing/records.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2210,11 +2097,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2266,10 +2149,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/controls/internal/sox_controls.xlsx", "/controls/internal/risk_assessment.pdf"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2340,11 +2220,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2397,10 +2273,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/banking/stress/adverse_scenario.csv", "/banking/stress/baseline_scenario.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2471,11 +2344,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2527,10 +2396,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/california/privacy/opt_out.json", "/california/privacy/data_requests.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2595,11 +2461,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2651,10 +2513,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/insurance/scr/market_risk.xlsx", "/insurance/scr/operational_risk.xlsx"]',
-        ],
+        outputs=[]
     ),
     Task(
     annotator="0",
@@ -2710,10 +2569,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "success"',
-        '"verified_and_copied": 3',
-    ],
+    outputs=[]
 ),
     Task(
         annotator="0",
@@ -2765,10 +2621,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/climate/risks/physical_risks.json", "/climate/risks/transition_risks.json"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2833,11 +2686,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2890,10 +2739,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/trading/communications/emails.pst", "/trading/communications/chats.json"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2964,11 +2810,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3015,10 +2857,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/reporting/mifir/transaction_reports.xml", "/reporting/mifir/reference_data.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
     annotator="0",
@@ -3074,11 +2913,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "success"',
-        '"verified_and_copied": 3',
-        '"cleaned_files_count": 3',
-    ],
+    outputs=[]
 ),
     Task(
         annotator="0",
@@ -3125,10 +2960,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/derivatives/swaps/interest_rate.json", "/derivatives/swaps/credit_default.json"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3175,10 +3007,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/risk/data/credit_exposures.csv", "/risk/data/market_positions.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3243,11 +3072,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3294,10 +3119,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/canada/privacy/consent_records.json", "/canada/privacy/breach_notifications.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
     annotator="0",
@@ -3353,11 +3175,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "success"',
-        '"verified_and_copied": 3',
-        '"cleaned_files_count": 3',
-    ],
+    outputs=[]
 ),
     Task(
         annotator="0",
@@ -3404,10 +3222,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/saudi/cyber/threat_intel.json", "/saudi/cyber/incident_response.log"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3478,11 +3293,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3529,10 +3340,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/dubai/difc/employee_data.xlsx", "/dubai/difc/customer_records.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3603,11 +3411,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3654,10 +3458,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/apec/privacy/accountability.json", "/apec/privacy/cross_border.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
     annotator="0",
@@ -3713,11 +3514,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "success"',
-        '"verified_and_copied": 3',
-        '"cleaned_files_count": 3',
-    ],
+    outputs=[]
 ),
     Task(
         annotator="0",
@@ -3764,10 +3561,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/broker/records/customer_accounts.csv", "/broker/records/order_tickets.json"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3838,11 +3632,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3889,10 +3679,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/basel/committee/leverage_ratio.xlsx", "/basel/committee/nsfr_calculation.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3963,11 +3750,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4014,10 +3797,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/uk/smcr/senior_managers.json", "/uk/smcr/certification_regime.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4088,11 +3868,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4139,10 +3915,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/india/sebi/insider_trading.log", "/india/sebi/market_manipulation.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4213,11 +3986,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4264,10 +4033,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/australia/asic/market_conduct.json", "/australia/asic/product_intervention.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4338,11 +4104,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4389,10 +4151,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/france/amf/market_abuse.json", "/france/amf/insider_dealing.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4463,11 +4222,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4514,10 +4269,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/mexico/cnbv/banking_supervision.xlsx", "/mexico/cnbv/securities_oversight.json"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4588,11 +4340,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4639,10 +4387,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/luxembourg/cssf/ucits_funds.csv", "/luxembourg/cssf/aifmd_reports.json"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4713,11 +4458,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4764,10 +4505,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/netherlands/dnb/banking_license.json", "/netherlands/dnb/prudential_data.csv"]',
-        ],
+        outputs=[]
     ),
     Task(
     annotator="0",
@@ -4823,11 +4561,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "success"',
-        '"verified_and_copied": 3',
-        '"cleaned_files_count": 3',
-    ],
+    outputs=[]
 ),
     Task(
         annotator="0",
@@ -4874,10 +4608,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "failed"',
-            '"missing_files": ["/switzerland/finma/banking_ordinance.pdf", "/switzerland/finma/insurance_supervision.json"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4948,11 +4679,7 @@ Task(
                 },
             ),
         ],
-        outputs=[
-            '"status": "success"',
-            '"verified_and_copied": 3',
-            '"cleaned_files_count": 3',
-        ],
+        outputs=[]
     ),
     Task(
     annotator="0",
@@ -5010,9 +4737,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5070,9 +4795,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5130,9 +4853,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5190,9 +4911,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5250,9 +4969,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5310,9 +5027,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5370,9 +5085,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5430,9 +5143,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5490,9 +5201,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5550,9 +5259,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
     Task(
     annotator="0",
@@ -5610,9 +5317,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5670,9 +5375,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5730,9 +5433,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5790,9 +5491,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5850,9 +5549,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5910,9 +5607,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
     Task(
     annotator="0",
@@ -5962,11 +5657,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "success"',
-        '"verified_and_copied": 3',
-        '"cleaned_files_count": 3',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6022,10 +5713,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"status": "success"',
-        '"verified_and_copied": 3',
-    ],
+    outputs=[]
 ),
    Task(
     annotator="0",
@@ -6083,9 +5771,7 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6143,8 +5829,6 @@ Task(
             },
         ),
     ],
-    outputs=[
-        '"copied_files": ["local_file_check_log.json", "local_file_check_log.json.sha256"]',
-    ],
+    outputs=[]
 )
 ]

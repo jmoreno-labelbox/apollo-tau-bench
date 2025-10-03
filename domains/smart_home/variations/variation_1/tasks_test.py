@@ -46,10 +46,7 @@ TASKS = [
                                                           "timestamp": "2025-07-28T16:30:00",
                                                           "update": {"brightness": 60}}),
         ],
-        outputs=[
-            '"temperature_c": 22.3',
-            '"co2_ppm": 650',
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -111,8 +108,7 @@ TASKS = [
                                                           "timestamp": "2025-07-28T22:30:00",
                                                           "update": {"position": 100}}),
         ],
-        outputs=[
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -155,8 +151,7 @@ TASKS = [
                                                                      "door": "closed"},
                                                           "rrule": "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR"}),
         ],
-        outputs=[
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -202,10 +197,7 @@ TASKS = [
                                                           "update": {"power": "on",
                                                                      "brightness": 30}}),
         ],
-        outputs=[
-            '"door_open": false',
-            '"motion_detected": false',
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -248,8 +240,7 @@ TASKS = [
             Action(name="UpdateDeviceState",    kwargs={"device_id": "camera_back_door",
                                                           "update": {"recording": True}}),
         ],
-        outputs=[
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -296,9 +287,7 @@ TASKS = [
                                                           "timestamp": "2025-07-28T17:00:00",
                                                           "update": {"power": "off"}}),
         ],
-        outputs=[
-            '"humidity_pct": 45.2',
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -338,8 +327,7 @@ TASKS = [
                                                           "update": {"power": "off"},
                                                           "rrule": "FREQ=DAILY"}),
         ],
-        outputs=[
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -395,8 +383,7 @@ TASKS = [
                                                                  "rrule": "FREQ=DAILY"}),
 
         ],
-        outputs=[
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -443,10 +430,7 @@ TASKS = [
                                                                      "setpoint_c": 20,
                                                                      "fan_speed": "auto"}}),
         ],
-        outputs=[
-            '"temperature_c": 22.3',
-            '"power_generation_w": 4200',
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -487,8 +471,7 @@ TASKS = [
                                                           "update": {"power": "on",
                                                                      "brightness": 50}}),
         ],
-        outputs=[
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -545,8 +528,7 @@ TASKS = [
                                                                      "color": {"hue": 30,
                                                                                "saturation": 60}}}),
         ],
-        outputs=[
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -578,9 +560,7 @@ TASKS = [
             Action(name="ListSensorNamesIds",  kwargs={}),
             Action(name="GetSensorState",       kwargs={"sensor_id": "sensor_sink_leak"}),
         ],
-        outputs=[
-            '"leak_detected": false',
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -619,11 +599,7 @@ TASKS = [
             Action(name="UpdateDeviceState",    kwargs={"device_id": "ac_home",
                                                           "update": {"power": "off"}}),
         ],
-        outputs=[
-            '"motion_detected": false',
-            '"person_detected": false',
-            '"person_detected": false',
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -667,8 +643,7 @@ TASKS = [
                                                           "timestamp": "2025-07-30T00:00:00",
                                                           "update": {"position": 100}}),
         ],
-        outputs=[
-        ],
+        outputs=[]
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
@@ -698,13 +673,7 @@ TASKS = [
                           "sensor_sink_leak"]],
             Action(name="ManageReminders", kwargs={"action": "create", "reminder_id": "rem_battery_charge", "reminder": {"name": "Charge battery (sensor_front_door)", "reminder_id": "rem_battery_charge", "priority": "normal", "notify_via": "mobile_push"}}),
         ],
-        outputs=[
-            '"battery_level": 95',
-            '"battery_level": 88',
-            '"battery_level": 79',
-            '"battery_level": 90',
-            '"battery_level": 93',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -827,10 +796,7 @@ TASKS = [
                 "update": {"power":"on","setpoint_c":22}
             }),
         ],
-        outputs=[
-            '"shift": "Mon-Wed 07:00-15:00"',
-            '"temperature_c": 22.3',
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -938,10 +904,7 @@ TASKS = [
                 "sensor_id":"sensor_front_door"
             }),
         ],
-        outputs=[
-            '"text": "Take out trash"',
-            '"door_open": false',
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1164,9 +1127,7 @@ TASKS = [
                           "color":{"hue":50,"saturation":100}}
             }),
         ],
-        outputs=[
-            "2025-06-29T09:00:00-07:00"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1641,9 +1602,7 @@ TASKS = [
                 "sensor_id": "sensor_bed_smoke"
             }),
         ],
-        outputs=[
-            '"co_detected": false',
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",

@@ -23,12 +23,7 @@ TASKS = [
             Action(name="RunCacheWarmJobs", kwargs={"mode": "metadata"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "dcomm-uat-redis", "environment": "UAT", "change_type": "networking"}),
         ],
-        outputs=[
-            "cluster_id: dcomm-uat-redis",
-            "endpoint_url: dcomm-uat-redis.abcdef.ng.0001.use1.cache.amazonaws.com",
-            "sg_id: sg-uat-commerce-api",
-            "cache_integration_verified: True",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -45,11 +40,7 @@ TASKS = [
             Action(name="RunTestCollection", kwargs={"collection_name": "Catalog-v3-SMOKE", "environment": "UAT"}),
             Action(name="RecordApiChangeLog", kwargs={"change_type": "rollout", "target_id": "spec-catalog-v3-3-1-0", "environment": "UAT"}),
         ],
-        outputs=[
-            "spec_id: spec-catalog-v3-3-1-0",
-            "dcg_id: dcg-catalog-v3-uat",
-            "run_id: run-catalog-v3-smoke-uat-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -75,13 +66,7 @@ TASKS = [
             Action(name="RecordApiChangeLog",
                    kwargs={"target_id": "fn-commerce-api-cache_warmer-uat", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "function_arn: arn:aws:lambda:local:000000000000:function:fn-commerce-api-cache_warmer-uat",
-            "schedule_id: sched-arn-aws-lambda-local-000000000000-function-fn-commerce-api-cache_warmer-uat-rate-15-minutes",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-arn-aws-lambda-local-000000000000-function-fn-commerce-api-cache_warmer-uat-errors-1-0-300-greaterthanorequaltothreshold",
-            "run_id: run-smoke-uat-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -105,9 +90,7 @@ TASKS = [
                 "promo_code": "WINTER20", "shipping_method": "STANDARD"
             }),
         ],
-        outputs=[
-            "cart_id: cart-cust-sam-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -128,10 +111,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "B2B Wholesale", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "applied_tier: B2B Wholesale",
-            "cart_id: cart-cust-david-c-email-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -153,11 +133,7 @@ TASKS = [
                 "threshold": 75.0, "period_seconds": 300, "comparison": "LessThanThreshold"
             }),
         ],
-        outputs=[
-            "applied_version: v4",
-            "schedule_id: cm-uat",
-            "job_run_id: run-load-api-metadata-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -176,11 +152,7 @@ TASKS = [
             Action(name="RecordApiChangeLog", kwargs={"change_type": "oauth", "target_id": "app-commerce-api", "environment": "UAT"}),
             Action(name="CreateSecretFor", kwargs={"environment": "UAT", "purpose": "OAUTH_CLIENT_SECRET", "value_source_id": "app-commerce-api"}),
         ],
-        outputs=[
-            "app_id: app-commerce-api",
-            "run_id: run-oauth-smoke-uat-2025-08-06t12-00-00z",
-            "secret_arn: arn:secret-secret-oauth_client_secret-uat-app-commerce-api-alias-dcomm-uat",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -200,12 +172,7 @@ TASKS = [
                 "threshold": 1.0, "period_seconds": 300, "comparison": "GreaterThanOrEqualToThreshold"
             }),
         ],
-        outputs=[
-            "spec_id: spec-checkout-v2-2-0-0",
-            "dcg_id: dcg-checkout-v2-uat",
-            "run_id: run-checkout-v2-smoke-uat-2025-08-06t12-00-00z",
-            "alarm_id: al-dcg-checkout-v2-uat-5xxerrorrate-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -229,11 +196,7 @@ TASKS = [
                 "change_type": "networking"
             }),
         ],
-        outputs=[
-            "endpoint_id: vpce-vpc-prod-0001-com-amazonaws-us-east-1-elasticache-subnet-prod-a-subnet-prod-b",
-            "sg_change_applied: True",
-            "dashboard_name: dash-prod-cache",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -261,10 +224,7 @@ TASKS = [
                 "environment": "UAT"
             }),
         ],
-        outputs=[
-            "context_rule_id: ctx-newcustomers-prefer-standard-shipping",
-            "cart_id: cart-cust-newuser-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -281,12 +241,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment": "UAT", "purpose": "api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "spec-catalog-v3-3-1-0", "environment": "UAT", "change_type": "rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-catalog-v3-3-1-0",
-            "dcg_id: dcg-catalog-v3-uat",
-            "run_id: run-catalog-v3-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -310,12 +265,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment": "UAT", "purpose": "cache"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "dcomm-uat-redis", "environment": "UAT", "change_type": "networking"}),
         ],
-        outputs=[
-            "sg_id: sg-uat-commerce-api",
-            "cluster_id: dcomm-uat-redis",
-            "alarm_id: al-dcomm-uat-redis-cachehitrate-75-0-300-lessthanthreshold",
-            "dashboard_name: dash-uat-cache",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -335,12 +285,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment": "UAT", "purpose": "api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "app-commerce-api", "environment": "UAT", "change_type": "oauth"}),
         ],
-        outputs=[
-            "app_id: app-commerce-api",
-            "secret_arn: arn:secret-secret-oauth_client_secret-uat-app-commerce-api-alias-dcomm-uat",
-            "run_id: run-oauth-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -363,10 +308,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "Standard Retail", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "upserted_count: 2",
-            "cart_id: cart-cust-sam-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -387,10 +329,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "WELCOME5", "environment": "UAT", "change_type": "personalization"}),
         ],
-        outputs=[
-            "promo_id: promo-welcome5",
-            "cart_id: cart-cust-newuser2-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -407,11 +346,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment": "UAT", "purpose": "cache"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "dcomm-v5", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "applied_version: v5",
-            "job_run_id: run-load-api-metadata-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-cache",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -436,10 +371,7 @@ TASKS = [
             Action(name="RecordApiChangeLog",
                    kwargs={"target_id": "ctx-b2b-enterprise-prefer-ent-support", "environment": "UAT", "change_type": "personalization"}),
         ],
-        outputs=[
-            "context_rule_id: ctx-b2b-enterprise-prefer-ent-support",
-            "cart_id: cart-cust-david-c-email-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -463,11 +395,7 @@ TASKS = [
                 "change_type": "networking"
             }),
         ],
-        outputs=[
-            "endpoint_id: vpce-vpc-resolved-com-amazonaws-us-east-1-elasticache-subnet-a-subnet-b",
-            "sg_change_applied: True",
-            "dashboard_name: dash-uat-cache",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -493,10 +421,7 @@ TASKS = [
                 "target_id": "cart-cust-david-c-email-com-2025-08-06t12-00-00z", "environment": "UAT", "change_type": "ops"
             }),
         ],
-        outputs=[
-            "applied_tier: B2B Wholesale",
-            "cart_id: cart-cust-david-c-email-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -516,10 +441,7 @@ TASKS = [
             Action(name="RunCacheWarmJobs", kwargs={"mode": "metadata"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "CacheAPI.ExternalSystemURL", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "secret_arn: arn:secret-secret-api-auth-header-uat-dcomm-uat-redis-alias-dcomm-uat",
-            "cache_integration_verified: True",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -536,12 +458,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-inventory-v1-1-0-0","environment":"UAT","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-inventory-v1-1-0-0",
-            "dcg_id: dcg-inventory-v1-uat",
-            "run_id: run-inventory-v1-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -561,12 +478,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"app-commerce-api","environment":"UAT","change_type":"oauth"}),
         ],
-        outputs=[
-            "app_id: app-commerce-api",
-            "secret_arn: arn:secret-secret-oauth-client-secret-uat-app-commerce-api-alias-dcomm-uat",
-            "run_id: run-oauth-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -589,10 +501,7 @@ TASKS = [
                 "change_type": "networking"
             }),
         ],
-        outputs=[
-            "endpoint_id: vpce-vpc-resolved-com-amazonaws-us-east-1-elasticache-subnet-a-subnet-b",
-            "sg_change_applied: True",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -612,11 +521,7 @@ TASKS = [
             Action(name="ConfigureTraceSampling", kwargs={"sample_rate": 0.18}),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "dcomm-v6", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "applied_version: v6",
-            "job_run_id: run-load-api-metadata-2025-08-06t12-00-00z",
-            "alarm_id: al-dcomm-uat-redis-cachehitrate-80-0-300-lessthanthreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -642,11 +547,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"B2B Wholesale","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "upserted_count: 2",
-            "applied_tier: B2B Wholesale",
-            "cart_id: cart-cust-alex-cho-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -664,12 +565,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-payments-v1-1-2-0","environment":"UAT","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-payments-v1-1-2-0",
-            "dcg_id: dcg-payments-v1-uat",
-            "run_id: run-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -689,10 +585,7 @@ TASKS = [
             Action(name="RunCacheWarmJobs", kwargs={"mode":"metadata"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"CacheAPI.ExternalSystemURL","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "secret_arn: arn:secret-secret-api-auth-header-uat-dcomm-uat-redis-alias-dcomm-uat",
-            "cache_integration_verified: True",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -718,10 +611,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"ctx-vip-prefer-express","environment":"UAT","change_type":"personalization"}),
         ],
-        outputs=[
-            "context_rule_id: ctx-vip-prefer-express",
-            "cart_id: cart-cust-trialshopper-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -740,10 +630,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "B2BVOLUME15", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "promo_id: promo-b2bvolume15",
-            "cart_id: cart-cust-pat-jones-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -769,13 +656,7 @@ TASKS = [
             Action(name="RecordApiChangeLog",
                    kwargs={"target_id": "fn-commerce-api-cache_warmer-uat", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "function_arn: arn:aws:lambda:local:000000000000:function:fn-commerce-api-cache_warmer-uat",
-            "schedule_id: sched-arn-aws-lambda-local-000000000000-function-fn-commerce-api-cache_warmer-uat-rate-15-minutes",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-arn-aws-lambda-local-000000000000-function-fn-commerce-api-cache_warmer-uat-errors-1-0-300-greaterthanorequaltothreshold",
-            "run_id: run-smoke-uat-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -792,12 +673,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-inventory-v1-1-0-0","environment":"UAT","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-inventory-v1-1-0-0",
-            "dcg_id: dcg-inventory-v1-uat",
-            "run_id: run-inventory-v1-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -822,11 +698,7 @@ TASKS = [
                 "target_id":"vpce-vpc-dev-0001-com-amazonaws-us-east-1-elasticache-subnet-dev-a-subnet-dev-b","environment":"DEV","change_type":"networking"
             }),
         ],
-        outputs=[
-            "endpoint_id: vpce-vpc-dev-0001-com-amazonaws-us-east-1-elasticache-subnet-dev-a-subnet-dev-b",
-            "sg_change_applied: True",
-            "dashboard_name: dash-dev-cache",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -849,10 +721,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "Standard Retail", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "upserted_count: 2",
-            "cart_id: cart-cust-sam-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -873,11 +742,7 @@ TASKS = [
             Action(name="ConfigureTraceSampling", kwargs={"sample_rate": 0.12}),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "dcomm-v7", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "applied_version: v7",
-            "job_run_id: run-populate-cache-job-2025-08-06t12-00-00z",
-            "alarm_id: al-dcomm-uat-redis-cachehitrate-70-0-300-lessthanthreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -901,12 +766,7 @@ TASKS = [
                 "target_id": "app-checkout-api", "environment": "PROD", "change_type": "oauth"
             })
         ],
-        outputs=[
-            "app_id: app-checkout-api",
-            "secret_arn: arn:secret-secret-oauth-client-secret-prod-app-checkout-api-alias-dcomm-prod",
-            "run_id: run-oauth-smoke-prod-2025-08-06t12-00-00z",
-            "dashboard_name: dash-prod-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -932,10 +792,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"ctx-vip-prefer-overnight","environment":"UAT","change_type":"personalization"}),
         ],
-        outputs=[
-            "context_rule_id: ctx-vip-prefer-overnight",
-            "cart_id: cart-cust-pat-jones-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -956,10 +813,7 @@ TASKS = [
             Action(name="RecordApiChangeLog",
                    kwargs={"target_id": "CacheAPI.ExternalSystemAuthHeader", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "secret_arn: arn:secret-secret-api-auth-header-uat-dcomm-uat-redis-alias-dcomm-uat",
-            "cache_integration_verified: True",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -978,10 +832,7 @@ TASKS = [
             Action(name="RecordApiChangeLog",
                    kwargs={"target_id": "sg-prod-checkout-gateway", "environment": "PROD", "change_type": "networking"}),
         ],
-        outputs=[
-            "change_set_id: chg-sg-sg-prod-checkout-gateway-prod-checkout-gateway-443-10-0-0-0-16",
-            "dashboard_name: dash-prod-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -999,12 +850,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"PROD","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-search-v1-1-0-0","environment":"PROD","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-search-v1-1-0-0",
-            "dcg_id: dcg-search-v1-prod",
-            "run_id: run-search-v1-smoke-prod-2025-08-06t12-00-00z",
-            "dashboard_name: dash-prod-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1023,11 +869,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"dcomm-v8","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "applied_version: v8",
-            "job_run_id: run-load-api-metadata-2025-08-06t12-00-00z",
-            "alarm_id: al-dcomm-uat-redis-cachehitrate-72-0-300-lessthanthreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1044,12 +886,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-orders-v1-1-0-0","environment":"UAT","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-orders-v1-1-0-0",
-            "dcg_id: dcg-orders-v1-uat",
-            "run_id: run-orders-v1-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1072,12 +909,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"cache"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"dcomm-uat-redis","environment":"UAT","change_type":"networking"}),
         ],
-        outputs=[
-            "sg_id: sg-uat-commerce-api",
-            "cluster_id: dcomm-uat-redis",
-            "alarm_id: al-dcomm-uat-redis-cachehitrate-78-0-300-lessthanthreshold",
-            "dashboard_name: dash-uat-cache",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1095,12 +927,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment": "PROD", "purpose": "api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "app-commerce-api", "environment": "PROD", "change_type": "oauth"}),
         ],
-        outputs=[
-            "app_id: app-commerce-api",
-            "secret_arn: arn:secret-secret-oauth-client-secret-prod-app-commerce-api-alias-dcomm-prod",
-            "run_id: run-oauth-smoke-prod-2025-08-06t12-00-00z",
-            "dashboard_name: dash-prod-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1126,11 +953,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"B2B Wholesale","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "upserted_count: 2",
-            "applied_tier: B2B Wholesale",
-            "cart_id: cart-cust-sara-lee-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1147,11 +970,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"cache"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"dcomm-v9","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "applied_version: v9",
-            "job_run_id: run-load-api-metadata-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-cache",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1175,10 +994,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"ctx-returning-prefer-standard","environment":"UAT","change_type":"personalization"}),
         ],
-        outputs=[
-            "context_rule_id: ctx-returning-prefer-standard",
-            "cart_id: cart-cust-returning-buyer-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1201,11 +1017,7 @@ TASKS = [
                 "target_id":"vpce-vpc-dev-0001-com-amazonaws-us-east-1-elasticache-subnet-dev-a-subnet-dev-b","environment":"DEV","change_type":"networking"
             }),
         ],
-        outputs=[
-            "endpoint_id: vpce-vpc-dev-0001-com-amazonaws-us-east-1-elasticache-subnet-dev-a-subnet-dev-b",
-            "sg_change_applied: True",
-            "dashboard_name: dash-dev-cache",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1227,12 +1039,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-billing-v2-2-3-0","environment":"PROD","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-billing-v2-2-3-0",
-            "dcg_id: dcg-billing-v2-prod",
-            "run_id: run-billing-v2-smoke-prod-2025-08-06t12-00-00z",
-            "dashboard_name: dash-prod-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1253,10 +1060,7 @@ TASKS = [
             Action(name="RecordApiChangeLog",
                    kwargs={"target_id": "CacheAPI.ExternalSystemAuthHeader", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "secret_arn: arn:secret-secret-api-auth-header-uat-dcomm-uat-redis-alias-dcomm-uat",
-            "cache_integration_verified: True",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1285,13 +1089,7 @@ TASKS = [
             Action(name="RecordApiChangeLog",
                    kwargs={"target_id": "fn-commerce-api-cache_warmer-uat", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "function_arn: arn:aws:lambda:local:000000000000:function:fn-commerce-api-cache_warmer-uat",
-            "schedule_id: sched-arn-aws-lambda-local-000000000000-function-fn-commerce-api-cache_warmer-uat-rate-15-minutes",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-arn-aws-lambda-local-000000000000-function-fn-commerce-api-cache_warmer-uat-errors-1-0-300-greaterthanorequaltothreshold",
-            "run_id: run-smoke-uat-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1316,12 +1114,7 @@ TASKS = [
             Action(name="RunTestCollection", kwargs={"environment":"PROD","collection_name":"SMOKE"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"fn-checkout-api-cache_warmer-prod","environment":"PROD","change_type":"ops"}),
         ],
-        outputs=[
-            "function_arn: arn:aws:lambda:local:000000000000:function:fn-checkout-api-cache_warmer-prod",
-            "schedule_id: sched-arn-aws-lambda-local-000000000000-function-fn-checkout-api-cache_warmer-prod-rate-15-minutes",
-            "dashboard_name: dash-prod-cache",
-            "alarm_id: al-arn-aws-lambda-local-000000000000-function-fn-checkout-api-cache_warmer-prod-errors-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1339,10 +1132,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"sg-uat-checkout-gateway","environment":"UAT","change_type":"networking"}),
         ],
-        outputs=[
-            "change_set_id: chg-sg-sg-uat-checkout-gateway-uat-checkout-gateway-443-10-0-5-0-24",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1360,12 +1150,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"app-search-api","environment":"UAT","change_type":"oauth"}),
         ],
-        outputs=[
-            "app_id: app-search-api",
-            "secret_arn: arn:secret-secret-oauth-client-secret-uat-app-search-api-alias-dcomm-uat",
-            "run_id: run-oauth-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1384,11 +1169,7 @@ TASKS = [
             Action(name="ConfigureTraceSampling", kwargs={"sample_rate":0.11}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"dcomm-v10","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "applied_version: v10",
-            "job_run_id: run-populate-cache-job-2025-08-06t12-00-00z",
-            "alarm_id: al-dcomm-uat-redis-cachehitrate-74-0-300-lessthanthreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1413,11 +1194,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"B2B Wholesale","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "upserted_count: 1",
-            "applied_tier: B2B Wholesale",
-            "cart_id: cart-cust-kelly-ross-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1441,10 +1218,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"ctx-b2b-enterprise-prefer-ent-addon","environment":"UAT","change_type":"personalization"}),
         ],
-        outputs=[
-            "context_rule_id: ctx-b2b-enterprise-prefer-ent-addon",
-            "cart_id: cart-cust-alex-cho-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1461,12 +1235,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-profiles-v1-1-0-0","environment":"UAT","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-profiles-v1-1-0-0",
-            "dcg_id: dcg-profiles-v1-uat",
-            "run_id: run-profiles-v1-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1490,11 +1259,7 @@ TASKS = [
                 "environment": "PROD", "change_type": "networking"
             }),
         ],
-        outputs=[
-            "endpoint_id: vpce-vpc-prod-0001-com-amazonaws-us-east-1-elasticache-subnet-prod-a-subnet-prod-b",
-            "sg_change_applied: True",
-            "dashboard_name: dash-prod-cache",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1512,12 +1277,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"DEV","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"app-checkout-api","environment":"DEV","change_type":"oauth"}),
         ],
-        outputs=[
-            "app_id: app-checkout-api",
-            "secret_arn: arn:secret-secret-oauth-client-secret-dev-app-checkout-api-alias-dcomm-dev",
-            "run_id: run-oauth-smoke-dev-2025-08-06t12-00-00z",
-            "dashboard_name: dash-dev-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1541,10 +1301,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"Standard Retail","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "upserted_count: 1",
-            "cart_id: cart-cust-trialshopper-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1566,13 +1323,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-catalog-v4-4-0-0","environment":"UAT","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-catalog-v4-4-0-0",
-            "dcg_id: dcg-catalog-v4-uat",
-            "run_id: run-catalog-v4-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-            "alarm_id: al-dcg-catalog-v4-uat-5xxerrorrate-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1608,11 +1359,7 @@ TASKS = [
                 "target_id": "dcomm-uat-redis", "environment": "UAT", "change_type": "networking"
             }),
         ],
-        outputs=[
-            "endpoint_id: vpce-vpc-uat-0001-com-amazonaws-us-east-1-elasticache-subnet-uat-a-subnet-uat-b",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-dcomm-uat-redis-cachehitrate-76-0-300-lessthanthreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1631,12 +1378,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"app-orders-api","environment":"UAT","change_type":"oauth"}),
         ],
-        outputs=[
-            "app_id: app-orders-api",
-            "secret_arn: arn:secret-secret-oauth-client-secret-uat-app-orders-api-alias-dcomm-uat",
-            "run_id: run-oauth-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1665,11 +1407,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"B2B Wholesale","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "upserted_count: 2",
-            "applied_tier: B2B Wholesale",
-            "cart_id: cart-cust-david-c-email-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1695,10 +1433,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"ctx-vip-prefer-express","environment":"UAT","change_type":"personalization"}),
         ],
-        outputs=[
-            "context_rule_id: ctx-vip-prefer-express",
-            "cart_id: cart-cust-trialshopper-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1722,12 +1457,7 @@ TASKS = [
                 "target_id":"vpce-vpc-prod-0001-com-amazonaws-us-east-1-elasticache-subnet-prod-a-subnet-prod-b","environment":"PROD","change_type":"networking"
             }),
         ],
-        outputs=[
-            "endpoint_id: vpce-vpc-prod-0001-com-amazonaws-us-east-1-elasticache-subnet-prod-a-subnet-prod-b",
-            "sg_change_applied: True",
-            "dashboard_name: dash-prod-cache",
-            "run_id: run-cache-network-smoke-prod-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1751,13 +1481,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"dcomm-v11","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "applied_version: v11",
-            "schedule_id: cm-uat",
-            "job_run_id: run-populate-cache-job-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-dcomm-uat-redis-cachehitrate-73-0-300-lessthanthreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1779,13 +1503,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-checkout-v3-3-0-0","environment":"DEV","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-checkout-v3-3-0-0",
-            "dcg_id: dcg-checkout-v3-dev",
-            "run_id: run-checkout-v3-smoke-dev-2025-08-06t12-00-00z",
-            "dashboard_name: dash-dev-api",
-            "alarm_id: al-dcg-checkout-v3-dev-5xxerrorrate-1-2-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1803,12 +1521,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"PROD","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"app-search-api","environment":"PROD","change_type":"oauth"}),
         ],
-        outputs=[
-            "app_id: app-search-api",
-            "secret_arn: arn:secret-secret-oauth-client-secret-prod-app-search-api-alias-dcomm-prod",
-            "run_id: run-oauth-smoke-prod-2025-08-06t12-00-00z",
-            "dashboard_name: dash-prod-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1833,11 +1546,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment": "UAT", "purpose": "api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id": "Standard Retail", "environment": "UAT", "change_type": "ops"}),
         ],
-        outputs=[
-            "upserted_count: 2",
-            "cart_id: cart-cust-tasha-green-example-com-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1860,11 +1569,7 @@ TASKS = [
             Action(name="RunTestCollection", kwargs={"environment":"UAT","collection_name":"SMOKE"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"CacheAPI.ExternalSystemAuthHeader","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "secret_arn: arn:secret-secret-api-auth-header-uat-dcomm-uat-redis-alias-dcomm-uat",
-            "cache_integration_verified: True",
-            "dashboard_name: dash-uat-cache",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1887,11 +1592,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"sg-uat-checkout-gateway","environment":"UAT","change_type":"networking"}),
         ],
-        outputs=[
-            "change_set_id: chg-sg-sg-uat-checkout-gateway-uat-checkout-gateway-443-10-0-5-0-24",
-            "dashboard_name: dash-uat-api",
-            "run_id: run-gateway-smoke-uat-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1916,13 +1617,7 @@ TASKS = [
             Action(name="RunTestCollection", kwargs={"environment":"PROD","collection_name":"SMOKE"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"fn-search-api-cache_warmer-prod","environment":"PROD","change_type":"ops"}),
         ],
-        outputs=[
-            "function_arn: arn:aws:lambda:local:000000000000:function:fn-search-api-cache_warmer-prod",
-            "schedule_id: sched-arn-aws-lambda-local-000000000000-function-fn-search-api-cache_warmer-prod-rate-15-minutes",
-            "dashboard_name: dash-prod-cache",
-            "alarm_id: al-arn-aws-lambda-local-000000000000-function-fn-search-api-cache_warmer-prod-errors-1-0-300-greaterthanorequaltothreshold",
-            "run_id: run-smoke-prod-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1956,11 +1651,7 @@ TASKS = [
                 "target_id": "CacheAPI.ExternalSystemURL", "environment": "UAT", "change_type": "ops"
             }),
         ],
-        outputs=[
-            "applied_version: v12",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-dcomm-uat-redis-errors-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1989,14 +1680,7 @@ TASKS = [
                 "promo_code":"WELCOME5","shipping_method":"STANDARD"
             }),
         ],
-        outputs=[
-            "spec_id: spec-offers-v1-1-0-0",
-            "dcg_id: dcg-offers-v1-uat",
-            "run_id: run-offers-v1-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-            "context_rule_id: ctx-newcustomers-prefer-standard",
-            "cart_id: cart-cust-trialshopper-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2030,12 +1714,7 @@ TASKS = [
             Action(name="CreateCloudwatchAlarm", kwargs={"resource_id":"dcomm-uat-redis"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"dcomm-uat-redis","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "endpoint_id: vpce-vpc-uat-0001-com-amazonaws-us-east-1-elasticache-subnet-uat-a-subnet-uat-b",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-dcomm-uat-redis-errors-1-0-300-greaterthanorequaltothreshold",
-            "cache_integration_verified: True",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2056,13 +1735,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-pricing-v1-1-0-0","environment":"UAT","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-pricing-v1-1-0-0",
-            "dcg_id: dcg-pricing-v1-uat",
-            "run_id: run-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-            "alarm_id: al-dcg-pricing-v1-uat-5xxerrorrate-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2085,14 +1758,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"app-inventory-api","environment":"UAT","change_type":"oauth"}),
         ],
-        outputs=[
-            "app_id: app-inventory-api",
-            "secret_arn_oauth: arn:secret-secret-oauth-client-secret-uat-app-inventory-api-alias-dcomm-uat",
-            "secret_arn_api_auth: arn:secret-secret-api-auth-header-uat-app-inventory-api-alias-dcomm-uat",
-            "run_id: run-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-            "alarm_id: al-app-inventory-api-5xxerrorrate-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2130,11 +1796,7 @@ TASKS = [
                 "environment": "PROD", "change_type": "networking"
             }),
         ],
-        outputs=[
-            '"endpoint_id": "vpce-vpc-prod-0001-com-amazonaws-us-east-1-elasticache-subnet-prod-a-subnet-prod-b"',
-            '"dashboard_name": "dash-prod-cache"',
-            '"alarm_id": "al-vpce-vpc-prod-0001-com-amazonaws-us-east-1-elasticache-subnet-prod-a-subnet-prod-b-errors-1-0-300-greaterthanorequaltothreshold"',
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2161,11 +1823,7 @@ TASKS = [
             Action(name="RunTestCollection", kwargs={"environment":"UAT","collection_name":"Pricing-SMOKE"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"B2B Wholesale","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "upserted_count: 2",
-            "applied_tier: B2B Wholesale",
-            "cart_id: cart-cust-alex-cho-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2190,10 +1848,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"ctx-vip-prefer-express","environment":"UAT","change_type":"personalization"}),
         ],
-        outputs=[
-            "context_rule_id: ctx-vip-prefer-express",
-            "cart_id: cart-cust-trialshopper-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2217,13 +1872,7 @@ TASKS = [
             Action(name="RunTestCollection", kwargs={"environment":"UAT"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"fn-commerce-api-cache_warmer-uat","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "function_arn: arn:aws:lambda:local:000000000000:function:fn-commerce-api-cache_warmer-uat",
-            "schedule_id: sched-arn-aws-lambda-local-000000000000-function-fn-commerce-api-cache_warmer-uat-rate-15-minutes",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-arn-aws-lambda-local-000000000000-function-fn-commerce-api-cache_warmer-uat-errors-1-0-300-greaterthanorequaltothreshold",
-            "run_id: run-smoke-uat-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2243,13 +1892,7 @@ TASKS = [
             Action(name="CreateCloudwatchAlarm", kwargs={"resource_id":"dcomm-uat-redis"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"dcomm-v13","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "applied_version: v13",
-            "schedule_id: cm-uat",
-            "job_run_id: run-populate-cache-job-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-dcomm-uat-redis-errors-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2270,13 +1913,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-recommendations-v1-1-0-0","environment":"DEV","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-recommendations-v1-1-0-0",
-            "dcg_id: dcg-recommendations-v1-dev",
-            "run_id: run-smoke-dev-2025-08-06t12-00-00z",
-            "dashboard_name: dash-dev-api",
-            "alarm_id: al-dcg-recommendations-v1-dev-5xxerrorrate-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2305,10 +1942,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"Standard Retail","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "upserted_count: 2",
-            "cart_id: cart-cust-pat-jones-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2330,11 +1964,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"sg-uat-checkout-gateway","environment":"UAT","change_type":"networking"}),
         ],
-        outputs=[
-            "change_set_id: chg-sg-sg-uat-checkout-gateway-uat-checkout-gateway-443-10-0-0-0-16",
-            "dashboard_name: dash-uat-api",
-            "alarm_id: al-sg-uat-checkout-gateway-5xxerrorrate-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2358,13 +1988,7 @@ TASKS = [
             Action(name="RunTestCollection", kwargs={"environment":"DEV"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"fn-checkout-api-cache_warmer-dev","environment":"DEV","change_type":"ops"}),
         ],
-        outputs=[
-            "function_arn: arn:aws:lambda:local:000000000000:function:fn-checkout-api-cache_warmer-dev",
-            "schedule_id: sched-arn-aws-lambda-local-000000000000-functi-rate-15-minutes",
-            "dashboard_name: dash-dev-cache",
-            "alarm_id: al-arn-aws-lambda-local-000000000000-functi-errors-1-0-300-greaterthanorequaltothreshold",
-            "run_id: run-smoke-dev-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2383,13 +2007,7 @@ TASKS = [
             Action(name="CreateCloudwatchAlarm", kwargs={"resource_id":"dcg-orders-v1-prod","metric_name":"5xxErrorRate","threshold":1.0,"period_seconds":300,"comparison":"GreaterThanOrEqualToThreshold"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-orders-v1-1-0-0","environment":"PROD","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-orders-v1-1-0-0",
-            "dcg_id: dcg-orders-v1-prod",
-            "run_id: run-smoke-prod-2025-08-06t12-00-00z",
-            "dashboard_name: dash-prod-api",
-            "alarm_id: al-dcg-orders-v1-prod-5xxerrorrate-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2411,10 +2029,7 @@ TASKS = [
             Action(name="RunTestCollection", kwargs={"environment":"UAT","collection_name":"Promo-SMOKE"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"WINTER20","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "promo_id: promo-winter20",
-            "cart_id: cart-cust-newuser2-example-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2437,12 +2052,7 @@ TASKS = [
             Action(name="RunTestCollection", kwargs={"environment":"UAT","collection_name":"SMOKE"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"CacheAPI.ExternalSystemAuthHeader","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "secret_arn: arn:secret-secret-api-auth-header-uat-dcomm-uat-redis-alias-dcomm-uat",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-dcomm-uat-redis-errors-1-0-300-greaterthanorequaltothreshold",
-            "cache_integration_verified: True",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2475,12 +2085,7 @@ TASKS = [
             Action(name="CreateCloudwatchAlarm", kwargs={"resource_id":"dcomm-uat-redis"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"dcomm-v14","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "endpoint_id: vpce-vpc-uat-0001-com-amazonaws-us-east-1-elasticache-subnet-uat-a-subnet-uat-b",
-            "applied_version: v14",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-dcomm-uat-redis-errors-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2501,13 +2106,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-catalog-v5-5-0-0","environment":"UAT","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-catalog-v5-5-0-0",
-            "dcg_id: dcg-catalog-v5-uat",
-            "run_id: run-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-            "alarm_id: al-dcg-catalog-v5-uat-5xxerrorrate-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2526,12 +2125,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"app-commerce-api","environment":"UAT","change_type":"oauth"}),
         ],
-        outputs=[
-            "app_id: app-commerce-api",
-            "secret_arn: arn:secret-secret-oauth-client-secret-uat-app-commerce-api-alias-dcomm-uat",
-            "run_id: run-oauth-smoke-uat-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2564,11 +2158,7 @@ TASKS = [
                 "environment": "PROD", "change_type": "networking"
             }),
         ],
-        outputs=[
-            "endpoint_id: vpce-vpc-prod-0001-com-amazonaws-us-east-1-elasticache-subnet-prod-a-subnet-prod-b",
-            "dashboard_name: dash-prod-cache",
-            "alarm_id: al-vpce-vpc-prod-0001-com-amazonaws-us-east-1-elasticache-subnet-prod-a-subnet-prod-b-errors-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2598,11 +2188,7 @@ TASKS = [
             Action(name="RunTestCollection", kwargs={"environment":"UAT","collection_name":"Pricing-SMOKE"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"B2B Wholesale","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "upserted_count: 2",
-            "applied_tier: B2B Wholesale",
-            "cart_id: cart-cust-david-c-email-com-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2628,11 +2214,7 @@ TASKS = [
             Action(name="CreateCloudwatchDashboard", kwargs={"environment":"UAT","purpose":"api"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"ctx-vip-prefer-express","environment":"UAT","change_type":"personalization"}),
         ],
-        outputs=[
-            "context_rule_id: ctx-vip-prefer-express",
-            "cart_id: cart-cust-trialshopper-example-com-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-api",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2655,13 +2237,7 @@ TASKS = [
             Action(name="ConfigureTraceSampling", kwargs={"sample_rate":0.10}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"fn-commerce-api-cache_warmer-uat","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "function_arn: arn:aws:lambda:local:000000000000:function:fn-commerce-api-cache_warmer-uat",
-            "schedule_id: sched-arn-aws-lambda-local-000000000000-function-fn-commerce-api-cache_warmer-uat-rate-15-minutes",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-arn-aws-lambda-local-000000000000-function-fn-commerce-api-cache_warmer-uat-errors-1-0-300-greaterthanorequaltothreshold",
-            "run_id: run-smoke-uat-2025-08-06t12-00-00z",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2682,13 +2258,7 @@ TASKS = [
             }),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"spec-payments-v3-3-0-0","environment":"DEV","change_type":"rollout"}),
         ],
-        outputs=[
-            "spec_id: spec-payments-v3-3-0-0",
-            "dcg_id: dcg-payments-v3-dev",
-            "run_id: run-smoke-dev-2025-08-06t12-00-00z",
-            "dashboard_name: dash-dev-api",
-            "alarm_id: al-dcg-payments-v3-dev-5xxerrorrate-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2708,13 +2278,7 @@ TASKS = [
             Action(name="CreateCloudwatchAlarm", kwargs={"resource_id":"dcomm-uat-redis"}),
             Action(name="RecordApiChangeLog", kwargs={"target_id":"dcomm-v15","environment":"UAT","change_type":"ops"}),
         ],
-        outputs=[
-            "applied_version: v15",
-            "schedule_id: cm-uat",
-            "job_run_id: run-populate-cache-job-2025-08-06t12-00-00z",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-dcomm-uat-redis-errors-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2747,10 +2311,6 @@ TASKS = [
                 "environment": "UAT", "change_type": "networking"
             }),
         ],
-        outputs=[
-            "endpoint_id: vpce-vpc-resolved-com-amazonaws-us-east-1-elasticache-subnet-a-subnet-b",
-            "dashboard_name: dash-uat-cache",
-            "alarm_id: al-dcomm-uat-redis-errors-1-0-300-greaterthanorequaltothreshold",
-        ],
+        outputs=[]
     )
 ]

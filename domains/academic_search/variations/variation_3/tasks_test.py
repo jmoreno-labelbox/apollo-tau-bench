@@ -14,11 +14,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_03", "notes": "Your co-authored paper art_05 was recently cited by art_08 as part of a data integrity review."}),
             Action(name="RetrieveCitationData", kwargs={"citation_id": "cit_11"}) # ALTERADO DE cit_05 PARA cit_11
         ],
-        outputs=[
-        '"citation_id": "cit_11"', # ALTERADO DE cit_05 PARA cit_11
-        '"source_article_id": "art_08"',
-        '"cited_article_id": "art_05"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -35,11 +31,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_05", "notes": "Duplicate records for your project 'Exoplanet Atmospheric Analysis' were found and have been consolidated into a single entry (proj_05)."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_05"})
         ],
-        outputs=[
-        '"project_id": "proj_05"',
-        '"linked_articles": [\n      "art_08",\n      "art_13"\n    ]', # ALTERADO: Removido "art_02"
-        '"logs": [\n    "Duplicate project proj_02 merged into this record during data cleanup. Articles consolidated."\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -53,10 +45,7 @@ TASKS = [
             Action(name="SubmitArticleForReview", kwargs={"article_id": "art_16", "author_user_id": "res_16"}), # ALTERADO: res_09 para res_16
             Action(name="QuerySubmissions", kwargs={"submission_id": "sub_06"})
         ],
-        outputs=[
-        '"submission_id": "sub_06"',
-        '"article_id": "art_16"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -70,11 +59,7 @@ TASKS = [
             Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_05", "sender_user_id": "system", "message_content": "Your project 'Exoplanet Atmospheric Analysis' has been successfully funded by the Space Exploration Fund (fs_04)."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_02"})
         ],
-        outputs=[
-        '"project_id": "proj_02"',
-        '"status": "funded"',
-        '"funding_source_id": "fs_04"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -89,10 +74,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"submission_id": "sub_01", "notes": "Thank you note sent to reviewer res_01 for timely feedback."}),
             Action(name="QuerySubmissions", kwargs={"submission_id": "sub_01"})
         ],
-        outputs=[
-        '"submission_id": "sub_01"',
-        '"logs": [\n    "Thank you note sent to reviewer res_01 for timely feedback."\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -107,10 +89,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_02", "notes": "Content audit for your project 'Next-Generation CRISPR Technologies' is complete."}),
             Action(name="FindUsersByCriteria", kwargs={"user_id": "res_02"})
         ],
-        outputs=[
-            '"user_id": "res_02"',
-            '"logs": [\n    "Content audit for your project \'Next-Generation CRISPR Technologies\' is complete."\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -126,10 +105,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"submission_id": "sub_03", "notes": "Reminders sent to reviewers res_05 and res_04."}),
             Action(name="QuerySubmissions", kwargs={"submission_id": "sub_03"})
         ],
-        outputs=[
-            '"submission_id": "sub_03"',
-            '"logs": [\n    "Reminders sent to reviewers res_05 and res_04."\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -144,12 +120,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"project_id": "proj_07", "notes": "Project created, funded, and lead researcher confirmed."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_07"})
         ],
-        outputs=[
-            '"project_id": "proj_07"',
-            '"status": "funded"',
-            '"funding_source_id": "fs_01"',
-            '"lead_researcher_id": "res_02"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -164,11 +135,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_06", "notes": "Thank you for completing the review for submission sub_04. The review process is now closed."}),
             Action(name="LocatePapers", kwargs={"article_id": "art_10"})
         ],
-        outputs=[
-            '"article_id": "art_10"',
-            '"status": "published"',
-            '"publication_date": "2025-06-25"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -187,10 +154,7 @@ TASKS = [
             Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_02", "sender_user_id": "system", "message_content": "An improper citation (cit_04) from art_01 to your article art_03 has been investigated and removed as part of an ethics review."}),
             Action(name="LocatePapers", kwargs={"article_id": "art_01"})
         ],
-        outputs=[
-            '"article_id": "art_01"',
-            '"status": "retracted"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -206,12 +170,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_08", "notes": "You have been assigned as the new lead for the revitalized project 'Quantum Computing Applications' (proj_01)."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_01"})
         ],
-        outputs=[
-        '"project_id": "proj_01"',
-        '"status": "active"',
-        '"lead_researcher_id": [\n      "res_08"\n    ]',
-        '"funding_source_id": "fs_04"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -229,10 +188,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_04", "notes": "A citation in your article 'Multimodal AI for Medical Imaging Analysis' (art_12) pointing to a retracted work was removed."}),
             Action(name="LocatePapers", kwargs={"article_id": "art_12"})
         ],
-        outputs=[
-            '"article_id": "art_12"',
-            '"logs": [\n    "Citation to retracted article art_01 was removed during audit."\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -249,11 +205,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_10", "notes": "Your paper art_11 has been cited by art_14 to highlight a research synergy."}), # res_10 é o ID de Dr. Carlos Ruiz
             Action(name="RetrieveCitationData", kwargs={"citation_id": "cit_11"}) # Presume que cit_11 será o ID gerado para a nova citação. Verificar se este ID é sequencialmente correto após as correções em citation_audit_and_correction. A última citação no `citations.json` é `cit_10`, então a próxima seria `cit_11`.
         ],
-        outputs=[
-            '"citation_id": "cit_11"',
-            '"source_article_id": "art_14"',
-            '"cited_article_id": "art_11"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -269,11 +221,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_07", "notes": "You have been assigned to review submission sub_02."}),
             Action(name="QuerySubmissions", kwargs={"submission_id": "sub_02"})
         ],
-        outputs=[
-            '"submission_id": "sub_02"',
-            '"status": "under_review"',
-            '"assigned_reviewers": [\n      "res_02",\n      "res_07"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -288,11 +236,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_09", "notes": "You have been assigned as the new lead for the refocused project 'Federated AI Systems' (proj_04)."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_04"})
         ],
-        outputs=[
-            '"project_id": "proj_04"',
-            '"lead_researcher_id": [\n      "res_09"\n    ]',
-            '"linked_articles": [\n      "art_06",\n      "art_12"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -309,11 +253,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_04", "notes": "You have been added as co-lead to project proj_03 to help guide its new 'Biomedicine' focus."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_03"})
         ],
-        outputs=[
-            '"project_id": "proj_03"',
-            '"funding_source_id": "fs_03"',
-            '"lead_researcher_id": [\n      "res_02",\n      "res_04"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -329,10 +269,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_03", "notes": "Congratulations, your article 'Quantum Cryptography Protocols for Secure Communications' has been published!"}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_06"})
         ],
-        outputs=[
-            '"project_id": "proj_06"',
-            '"status": "completed"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -348,11 +285,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_06", "notes": "A citation to 'Robotic Process Automation...' was added to your article 'Federated Learning...' to strengthen its context."}),
             Action(name="RetrieveCitationData", kwargs={"citation_id": "cit_11"}) # Presume que cit_11 será o ID gerado para a nova citação
         ],
-        outputs=[
-            '"citation_id": "cit_11"',
-            '"source_article_id": "art_06"',
-            '"cited_article_id": "art_15"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -368,10 +301,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_03", "notes": "Congratulations, your article 'Quantum Cryptography Protocols for Secure Communications' has been published!"}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_06"})
         ],
-        outputs=[
-        '"project_id": "proj_06"',
-        '"status": "completed"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -387,10 +317,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_06", "notes": "Your project, 'Federated AI Systems', has been placed under financial review due to an audit of its funding source."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_04"})
         ],
-        outputs=[
-        '"project_id": "proj_04"',
-        '"status": "pending_review"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -407,11 +334,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_07", "notes": "Your project 'Next-Generation CRISPR Technologies' has been approved for a two-year extension with new funding."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_03"})
         ],
-        outputs=[
-        '"project_id": "proj_03"',
-        '"end_date": "2029-01-14"',
-        '"funding_source_id": "fs_06"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -428,11 +351,7 @@ TASKS = [
             Action(name="ModifyRecord", kwargs={"record_type": "funding_source", "record_id": "fs_07", "logs": ["Proposal incoming from project proj_07 (Astro-AI Analytics)."]}), # Modificar campo 'logs' não existente na ferramenta, mas simulado para unicidade
             Action(name="QueryProjects", kwargs={"project_id": "proj_07"})
         ],
-        outputs=[
-            '"project_id": "proj_07"',
-            '"lead_researcher_id": [\n      "res_05",\n      "res_06"\n    ]',
-            '"funding_source_id": "fs_07"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -450,10 +369,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_12", "notes": "You have been assigned to review submission sub_03. Please access the manuscript and submit your feedback."}),
             Action(name="QuerySubmissions", kwargs={"submission_id": "sub_03"})
         ],
-        outputs=[
-            '"submission_id": "sub_03"',
-            '"assigned_reviewers": [\n      "res_05",\n      "res_12"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -475,11 +391,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_09", "notes": "You have been assigned as the lead for the new merged project 'Federated Analytics for Space Science' (proj_07)."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_07"})
         ],
-        outputs=[
-            '"project_name": "Federated Analytics for Space Science"',
-            '"lead_researcher_id": "res_09"', # CORRIGIDO: Para ser string
-            '"funding_source_id": "fs_07"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -498,11 +410,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_07", "notes": "URGENT: You have been assigned to an expedited review for high-impact submission sub_05. Please prioritize this review."}),
             Action(name="QuerySubmissions", kwargs={"submission_id": "sub_05"})
         ],
-        outputs=[
-            '"submission_id": "sub_05"',
-            '"status": "expedited_review"',
-            '"assigned_reviewers": [\n      "res_02",\n      "res_04",\n      "res_07"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -519,10 +427,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_03", "notes": "A citation from art_01 to your article art_02 was removed during a relevance audit."}),
             Action(name="LocatePapers", kwargs={"article_id": "art_01"})
         ],
-        outputs=[
-            '"article_id": "art_01"',
-            '"logs": [\n    "Citation cit_01 to art_02 removed during audit for relevance."\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -539,10 +444,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_09", "notes": "You have been assigned as the new lead for project proj_04."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_04"})
         ],
-        outputs=[
-            '"project_id": "proj_04"',
-            '"lead_researcher_id": [\n      "res_09"\n    ]',
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -563,10 +465,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_13", "notes": "You have been assigned to an interdisciplinary review panel for submission sub_06."}),
             Action(name="QuerySubmissions", kwargs={"submission_id": "sub_06"})
         ],
-        outputs=[
-        '"submission_id": "sub_06"',
-        '"assigned_reviewers": [\n      "res_15",\n      "res_13"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -587,11 +486,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_04", "notes": "To resolve an authorship dispute, a new project (proj_07) and submission (sub_06) have been created for your work on 'Multimodal AI for Medical Imaging Analysis'."}),
             Action(name="QuerySubmissions", kwargs={"submission_id": "sub_06"})
         ],
-        outputs=[
-        '"submission_id": "sub_06"',
-        '"author_user_id": "res_04"',
-        '"article_id": "art_12"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -610,10 +505,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_03", "notes": "A potential collaboration opportunity has been identified between your project (proj_06) and 'Quantum Computing Applications' (proj_01)."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_01"})
         ],
-        outputs=[
-            '"project_id": "proj_01"',
-            '"logs": [\n    "Proactive collaboration suggested with project proj_06 based on shared research keywords."\n  ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -632,11 +524,7 @@ TASKS = [
             Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_16", "sender_user_id": "system", "message_content": "You have been assigned as a new reviewer for expedited submission sub_05. Please prioritize."}),
             Action(name="QuerySubmissions", kwargs={"submission_id": "sub_05"})
         ],
-        outputs=[
-            '"submission_id": "sub_05"',
-            '"status": "expedited_review"',
-            '"assigned_reviewers": [\n      "res_16"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -655,12 +543,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_09", "notes": "You are now the lead for project proj_04."}), # 1 edge (prompt)
             Action(name="QueryProjects", kwargs={"project_id": "proj_04"}) # 1 edge (prompt)
         ],
-        outputs=[
-            '"project_id": "proj_04"',
-            '"funding_source_id": "fs_08"',
-            '"status": "active"',
-            '"lead_researcher_id": "res_09"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -677,12 +560,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_13", "notes": "You have been added as co-lead to project proj_03 and your article art_14 has been linked."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_03"})
         ],
-        outputs=[
-            '"project_id": "proj_03"',
-            '"lead_researcher_id": [\n      "res_02",\n      "res_13"\n    ]',
-            '"linked_articles": [\n      "art_03",\n      "art_11",\n      "art_14"\n    ]',
-            '"funding_source_id": "fs_06"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -699,11 +577,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_03", "notes": "Your article art_10 had its citation network expanded with links to art_07 and art_09."}),
             Action(name="RetrieveCitationData", kwargs={"citation_id": "cit_11"})
         ],
-        outputs=[
-            '"citation_id": "cit_11"',
-            '"source_article_id": "art_10"',
-            '"cited_article_id": "art_07"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -719,11 +593,7 @@ TASKS = [
             Action(name="AddEntryToLog", kwargs={"user_id": "res_02", "notes": "Your project proj_03 has been funded by the Medical Research Council (fs_03)."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_03"})
         ],
-        outputs=[
-            '"project_id": "proj_03"',
-            '"funding_source_id": "fs_03"',
-            '"status": "funded"'
-        ]
+        outputs=[]
     ),
 Task(
     annotator="0",
@@ -747,10 +617,7 @@ Task(
         Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_04", "sender_user_id": "system", "message_content": "A citation in your article art_14 to a retracted work (art_01) has been removed."}),
         Action(name="LocatePapers", kwargs={"article_id": "art_01"})
     ],
-    outputs=[
-        '"article_id": "art_01"',
-        '"logs": [\n    "Retraction confirmed. Citations to this article have been removed from relevant citing articles."\n  ]'
-    ]
+    outputs=[]
 ),
     Task(
         annotator="0",
@@ -766,10 +633,7 @@ Task(
             Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_03", "sender_user_id": "system", "message_content": "Your project proj_01 has been marked as completed, and article art_02 is now published."}),  # 1 edge (prompt)
             Action(name="QueryProjects", kwargs={"project_id": "proj_01"})  # 1 edge (prompt)
         ],
-        outputs=[
-            '"project_id": "proj_01"',
-            '"status": "completed"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -786,10 +650,7 @@ Task(
             Action(name="AddEntryToLog", kwargs={"user_id": "res_07", "notes": "Your review for sub_02 was instrumental in its approval. Thank you!"}),  # 1 edge (prompt)
             Action(name="QuerySubmissions", kwargs={"submission_id": "sub_02"})  # 1 edge (prompt)
         ],
-        outputs=[
-            '"submission_id": "sub_02"',
-            '"status": "approved"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -805,11 +666,7 @@ Task(
             Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_02", "sender_user_id": "system", "message_content": "Your project proj_03 is now officially linked with art_14, reflecting new collaborations."}),  # 1 edge (prompt)
             Action(name="QueryProjects", kwargs={"project_id": "proj_03"})  # 1 edge (prompt)
         ],
-        outputs=[
-            '"project_id": "proj_03"',
-            '"status": "collaborative_active"',
-            '"linked_articles": [\n      "art_03",\n      "art_11",\n      "art_14"\n    ]'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -825,9 +682,6 @@ Task(
             Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_02", "sender_user_id": "system", "message_content": "Your project's funding from fs_07 is under review. Status changed to needs_reconciliation."}),
             Action(name="LocateFundingSources", kwargs={"funding_source_id": "fs_07"})
         ],
-        outputs=[
-            '"funding_source_id": "fs_07"',
-            '"logs": [\n    "Audit initiated. Project proj_03 flagged for reconciliation."\n  ]'
-        ]
+        outputs=[]
     )
 ]

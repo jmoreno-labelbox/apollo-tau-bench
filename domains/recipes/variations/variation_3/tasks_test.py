@@ -18,7 +18,7 @@ TASKS = [
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-01"}}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -34,7 +34,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 202, "week_start_date": "2025-09-01", "created_by_user_id": 102, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 102}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -50,7 +50,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 203, "week_start_date": "2025-09-01", "created_by_user_id": 103, "servings_adult": 1, "servings_child": 0, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 103}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -67,7 +67,7 @@ TASKS = [
             Action(name="CreateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 104}),
             Action(name="RecordAuditLog", kwargs={"household_id": 204, "user_id": 104, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-08"}}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -84,7 +84,7 @@ TASKS = [
             Action(name="CreateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 105}),
             Action(name="RecordAuditLog", kwargs={"household_id": 205, "user_id": 105, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-01"}}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -101,7 +101,7 @@ TASKS = [
             Action(name="CreateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 106}),
             Action(name="RecordAuditLog", kwargs={"household_id": 206, "user_id": 106, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-01"}}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -118,7 +118,7 @@ TASKS = [
             Action(name="CreateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 107}),
             Action(name="RecordAuditLog", kwargs={"household_id": 207, "user_id": 107, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-01"}}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -134,7 +134,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 208, "week_start_date": "2025-09-01", "created_by_user_id": 108, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 108}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -151,7 +151,7 @@ TASKS = [
             Action(name="CreateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 109}),
             Action(name="RecordAuditLog", kwargs={"household_id": 209, "user_id": 109, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-01"}}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -167,7 +167,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 210, "week_start_date": "2025-09-01", "created_by_user_id": 110, "servings_adult": 2, "servings_child": 0, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 110}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
 
     Task(
@@ -183,7 +183,7 @@ TASKS = [
             Action(name="SelectInventoryDinnerAndLog", kwargs={"household_id": 201, "date_today": "2025-09-01", "min_protein_g": 10, "exclude_days_back": 7, "rating_int": 5, "allow_pantry_staples": True, "max_missing_ingredients": 1}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "inventory dinner selection", "date": "2025-09-01"}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -198,7 +198,7 @@ TASKS = [
             Action(name="SelectInventoryDinnerAndLog", kwargs={"household_id": 202, "date_today": "2025-09-01", "min_protein_g": 10, "exclude_days_back": 7, "rating_int": 4, "allow_pantry_staples": True, "max_missing_ingredients": 1}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "inventory dinner selection", "date": "2025-09-01"}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -213,7 +213,7 @@ TASKS = [
             Action(name="SelectInventoryDinnerAndLog", kwargs={"household_id": 203, "date_today": "2025-09-01", "min_protein_g": 10, "exclude_days_back": 7, "rating_int": 5, "allow_pantry_staples": True, "max_missing_ingredients": 1}),
             Action(name="RecordAuditLog", kwargs={"household_id": 203, "user_id": 103, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "inventory dinner selection", "date": "2025-09-01"}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -228,7 +228,7 @@ TASKS = [
             Action(name="SelectInventoryDinnerAndLog", kwargs={"household_id": 204, "date_today": "2025-09-08", "min_protein_g": 10, "exclude_days_back": 7, "rating_int": 5, "allow_pantry_staples": True, "max_missing_ingredients": 2}),
             Action(name="RecordAuditLog", kwargs={"household_id": 204, "user_id": 104, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "inventory dinner selection", "date": "2025-09-08"}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -243,7 +243,7 @@ TASKS = [
             Action(name="SelectInventoryDinnerAndLog", kwargs={"household_id": 205, "date_today": "2025-09-01", "min_protein_g": 10, "exclude_days_back": 7, "rating_int": 4, "allow_pantry_staples": True, "max_missing_ingredients": 2}),
             Action(name="RecordAuditLog", kwargs={"household_id": 205, "user_id": 105, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "inventory dinner selection", "date": "2025-09-01"}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -258,7 +258,7 @@ TASKS = [
             Action(name="SelectInventoryDinnerAndLog", kwargs={"household_id": 206, "date_today": "2025-09-01", "min_protein_g": 10, "exclude_days_back": 7, "rating_int": 5, "allow_pantry_staples": True, "max_missing_ingredients": 1}),
             Action(name="RecordAuditLog", kwargs={"household_id": 206, "user_id": 106, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "inventory dinner selection", "date": "2025-09-01"}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -273,7 +273,7 @@ TASKS = [
             Action(name="SelectInventoryDinnerAndLog", kwargs={"household_id": 207, "date_today": "2025-09-01", "min_protein_g": 10, "exclude_days_back": 7, "rating_int": 4, "allow_pantry_staples": True, "max_missing_ingredients": 1}),
             Action(name="RecordAuditLog", kwargs={"household_id": 207, "user_id": 107, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "inventory dinner selection", "date": "2025-09-01"}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -288,7 +288,7 @@ TASKS = [
             Action(name="SelectInventoryDinnerAndLog", kwargs={"household_id": 208, "date_today": "2025-09-01", "min_protein_g": 10, "exclude_days_back": 7, "rating_int": 5, "allow_pantry_staples": True, "max_missing_ingredients": 2}),
             Action(name="RecordAuditLog", kwargs={"household_id": 208, "user_id": 108, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "inventory dinner selection", "date": "2025-09-01"}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -303,7 +303,7 @@ TASKS = [
             Action(name="SelectInventoryDinnerAndLog", kwargs={"household_id": 209, "date_today": "2025-09-01", "min_protein_g": 10, "exclude_days_back": 7, "rating_int": 5, "allow_pantry_staples": True, "max_missing_ingredients": 1}),
             Action(name="RecordAuditLog", kwargs={"household_id": 209, "user_id": 109, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "inventory dinner selection", "date": "2025-09-01"}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -318,7 +318,7 @@ TASKS = [
             Action(name="SelectInventoryDinnerAndLog", kwargs={"household_id": 210, "date_today": "2025-09-01", "min_protein_g": 10, "exclude_days_back": 7, "rating_int": 4, "allow_pantry_staples": True, "max_missing_ingredients": 1}),
             Action(name="RecordAuditLog", kwargs={"household_id": 210, "user_id": 110, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "inventory dinner selection", "date": "2025-09-01"}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
 
     Task(
@@ -333,7 +333,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 201, "list_id": 8001, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-02T14:00:00Z", "slot_end_ts": "2025-09-02T16:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8001}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -347,7 +347,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 202, "list_id": 8002, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-02T10:00:00Z", "slot_end_ts": "2025-09-02T12:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8002}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -361,7 +361,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 201, "list_id": 8001, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-03T14:00:00Z", "slot_end_ts": "2025-09-03T16:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8001}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -375,7 +375,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 202, "list_id": 8002, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-03T10:00:00Z", "slot_end_ts": "2025-09-03T12:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8002}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -389,7 +389,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 201, "list_id": 8001, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-04T14:00:00Z", "slot_end_ts": "2025-09-04T16:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8001}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -403,7 +403,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 202, "list_id": 8002, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-04T10:00:00Z", "slot_end_ts": "2025-09-04T12:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8002}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -417,7 +417,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 201, "list_id": 8001, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-05T14:00:00Z", "slot_end_ts": "2025-09-05T16:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8001}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -431,7 +431,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 202, "list_id": 8002, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-05T10:00:00Z", "slot_end_ts": "2025-09-05T12:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8002}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -445,7 +445,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 201, "list_id": 8001, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-06T14:00:00Z", "slot_end_ts": "2025-09-06T16:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8001}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -459,7 +459,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 202, "list_id": 8002, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-06T10:00:00Z", "slot_end_ts": "2025-09-06T12:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8002}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
 
     Task(
@@ -477,7 +477,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 201, "plan_date": "2025-09-01", "recipe_id": 417, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "cookie recovery - egg missing", "original_recipe_id": 414, "chosen_alternative": 417}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -494,7 +494,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 202, "plan_date": "2025-09-01", "recipe_id": 417, "was_prepared": True, "rating_int": 4}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "cookie recovery - egg missing", "original_recipe_id": 414, "chosen_alternative": 417}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -511,7 +511,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 203, "plan_date": "2025-09-01", "recipe_id": 417, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 203, "user_id": 103, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "cookie recovery - egg missing", "original_recipe_id": 414, "chosen_alternative": 417}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -528,7 +528,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 204, "plan_date": "2025-09-08", "recipe_id": 417, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 204, "user_id": 104, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "cookie recovery - egg missing", "original_recipe_id": 414, "chosen_alternative": 417}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -545,7 +545,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 205, "plan_date": "2025-09-01", "recipe_id": 417, "was_prepared": True, "rating_int": 4}),
             Action(name="RecordAuditLog", kwargs={"household_id": 205, "user_id": 105, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "cookie recovery - egg missing", "original_recipe_id": 414, "chosen_alternative": 417}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -562,7 +562,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 206, "plan_date": "2025-09-01", "recipe_id": 417, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 206, "user_id": 106, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "cookie recovery - egg missing", "original_recipe_id": 414, "chosen_alternative": 417}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -579,7 +579,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 207, "plan_date": "2025-09-01", "recipe_id": 417, "was_prepared": True, "rating_int": 4}),
             Action(name="RecordAuditLog", kwargs={"household_id": 207, "user_id": 107, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "cookie recovery - egg missing", "original_recipe_id": 414, "chosen_alternative": 417}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -596,7 +596,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 208, "plan_date": "2025-09-06", "recipe_id": 417, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 208, "user_id": 108, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "cookie recovery - egg missing", "original_recipe_id": 414, "chosen_alternative": 417}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -613,7 +613,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 209, "plan_date": "2025-09-01", "recipe_id": 417, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 209, "user_id": 109, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "cookie recovery - egg missing", "original_recipe_id": 414, "chosen_alternative": 417}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -630,7 +630,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 210, "plan_date": "2025-09-01", "recipe_id": 417, "was_prepared": True, "rating_int": 4}),
             Action(name="RecordAuditLog", kwargs={"household_id": 210, "user_id": 110, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "create", "payload_json": {"reason": "cookie recovery - egg missing", "original_recipe_id": 414, "chosen_alternative": 417}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
 
     Task(
@@ -646,7 +646,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 203, "week_start_date": "2025-09-08", "created_by_user_id": 103, "servings_adult": 1, "servings_child": 0, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 103}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -661,7 +661,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 204, "week_start_date": "2025-09-08", "created_by_user_id": 104, "servings_adult": 2, "servings_child": 2, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 104}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -676,7 +676,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 205, "week_start_date": "2025-09-08", "created_by_user_id": 105, "servings_adult": 3, "servings_child": 2, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 105}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -691,7 +691,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 206, "week_start_date": "2025-09-08", "created_by_user_id": 106, "servings_adult": 2, "servings_child": 0, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 106}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -706,7 +706,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 207, "week_start_date": "2025-09-08", "created_by_user_id": 107, "servings_adult": 2, "servings_child": 4, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 107}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -721,7 +721,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 208, "week_start_date": "2025-09-08", "created_by_user_id": 108, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 108}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -736,7 +736,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 209, "week_start_date": "2025-09-08", "created_by_user_id": 109, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 109}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -751,7 +751,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 210, "week_start_date": "2025-09-08", "created_by_user_id": 110, "servings_adult": 2, "servings_child": 0, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 110}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -766,7 +766,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 203, "week_start_date": "2025-09-15", "created_by_user_id": 103, "servings_adult": 1, "servings_child": 0, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 103}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -781,7 +781,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 204, "week_start_date": "2025-09-15", "created_by_user_id": 104, "servings_adult": 2, "servings_child": 2, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 104}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
 
     Task(
@@ -797,7 +797,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 203, "week_start_date": "2025-09-15", "created_by_user_id": 103, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 103}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -812,7 +812,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 204, "week_start_date": "2025-09-15", "created_by_user_id": 104, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 104}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -827,7 +827,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 205, "week_start_date": "2025-09-15", "created_by_user_id": 105, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 105}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -842,7 +842,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 206, "week_start_date": "2025-09-15", "created_by_user_id": 106, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 106}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -857,7 +857,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 207, "week_start_date": "2025-09-15", "created_by_user_id": 107, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 107}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -871,7 +871,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 208, "week_start_date": "2025-09-15", "created_by_user_id": 108, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 108}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -885,7 +885,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 209, "week_start_date": "2025-09-15", "created_by_user_id": 109, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 109}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -899,7 +899,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 210, "week_start_date": "2025-09-15", "created_by_user_id": 110, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 110}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -913,7 +913,7 @@ TASKS = [
             Action(name="CreateMealPlanWithAutoEntries", kwargs={"household_id": 203, "week_start_date": "2025-09-22", "created_by_user_id": 103, "servings_adult": 2, "servings_child": 1, "max_per_cuisine": 2, "exclude_days_back": 14}),
             Action(name="CreateAndPopulateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 103}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -929,7 +929,7 @@ TASKS = [
             Action(name="CreateGroceryListFromPlan", kwargs={"meal_plan_id": 6003, "created_by_user_id": 104}),
             Action(name="RecordAuditLog", kwargs={"household_id": 204, "user_id": 104, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-22", "cuisine_cap": 2, "exclude_days_back": 14}}),
         ],
-        outputs=["6003", "8003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -944,7 +944,7 @@ TASKS = [
             Action(name="AddOrderItems", kwargs={"order_id": 10003, "items": [{"product_id": 9101, "requested_qty": 1}, {"product_id": 9102, "requested_qty": 1}, {"product_id": 9103, "requested_qty": 1}, {"product_id": 9104, "requested_qty": 1}]}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9001, "list_id": 8001}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -959,7 +959,7 @@ TASKS = [
             Action(name="AddOrderItems", kwargs={"order_id": 10003, "items": [{"product_id": 9111, "requested_qty": 1}, {"product_id": 9112, "requested_qty": 1}, {"product_id": 9113, "requested_qty": 1}]}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8002}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -973,7 +973,7 @@ TASKS = [
             Action(name="GetGroceryList", kwargs={"list_id": 8001}),
             Action(name="CreateOrder", kwargs={"store_id": 9001, "household_id": 201, "list_id": 8001, "status_enum": "placed", "subtotal_cents": 2596, "total_cents": 2796, "slot_start_ts": "2025-09-03T18:00:00Z", "slot_end_ts": "2025-09-03T20:00:00Z"}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -988,7 +988,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 202, "list_id": 8002, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-03T10:00:00Z", "slot_end_ts": "2025-09-03T12:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"strategy": "aggregator_selected", "list_id": 8002}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1001,7 +1001,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9001, "household_id": 201, "list_id": 8001, "status_enum": "placed", "subtotal_cents": 2596, "total_cents": 2796, "slot_start_ts": "2025-09-04T18:00:00Z", "slot_end_ts": "2025-09-04T20:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9001, "list_id": 8001}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1016,7 +1016,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 202, "list_id": 8002, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-04T10:00:00Z", "slot_end_ts": "2025-09-04T12:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8002}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1031,7 +1031,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9001, "household_id": 201, "list_id": 8001, "status_enum": "placed", "subtotal_cents": 2596, "total_cents": 2796, "slot_start_ts": "2025-09-05T18:00:00Z", "slot_end_ts": "2025-09-05T20:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9001, "list_id": 8001}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1046,7 +1046,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 202, "list_id": 8002, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-05T10:00:00Z", "slot_end_ts": "2025-09-05T12:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8002}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1061,7 +1061,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9001, "household_id": 201, "list_id": 8001, "status_enum": "placed", "subtotal_cents": 2596, "total_cents": 2796, "slot_start_ts": "2025-09-06T18:00:00Z", "slot_end_ts": "2025-09-06T20:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9001, "list_id": 8001}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1076,7 +1076,7 @@ TASKS = [
             Action(name="CreateOrder", kwargs={"store_id": 9002, "household_id": 202, "list_id": 8002, "status_enum": "placed", "subtotal_cents": 1647, "total_cents": 1747, "slot_start_ts": "2025-09-06T10:00:00Z", "slot_end_ts": "2025-09-06T12:00:00Z"}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "orders", "entity_id": 10003, "action_enum": "place_order", "payload_json": {"store_id": 9002, "list_id": 8002}}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
 
     Task(
@@ -1092,7 +1092,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 201, "plan_date": "2025-09-07", "recipe_id": 401, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "validate_substitutions", "payload_json": {"recipe_id": 401}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1107,7 +1107,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 202, "plan_date": "2025-09-07", "recipe_id": 402, "was_prepared": True, "rating_int": 4}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "validate_substitutions", "payload_json": {"recipe_id": 402}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1122,7 +1122,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 203, "plan_date": "2025-09-07", "recipe_id": 403, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 203, "user_id": 103, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "validate_substitutions", "payload_json": {"recipe_id": 403}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1137,7 +1137,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 204, "plan_date": "2025-09-08", "recipe_id": 404, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 204, "user_id": 104, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "validate_substitutions", "payload_json": {"recipe_id": 404}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1152,7 +1152,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 205, "plan_date": "2025-09-07", "recipe_id": 405, "was_prepared": True, "rating_int": 4}),
             Action(name="RecordAuditLog", kwargs={"household_id": 205, "user_id": 105, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "validate_substitutions", "payload_json": {"recipe_id": 405}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1167,7 +1167,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 206, "plan_date": "2025-09-07", "recipe_id": 406, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 206, "user_id": 106, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "validate_substitutions", "payload_json": {"recipe_id": 406}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1182,7 +1182,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 207, "plan_date": "2025-09-07", "recipe_id": 407, "was_prepared": True, "rating_int": 4}),
             Action(name="RecordAuditLog", kwargs={"household_id": 207, "user_id": 107, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "validate_substitutions", "payload_json": {"recipe_id": 407}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1197,7 +1197,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 208, "plan_date": "2025-09-07", "recipe_id": 408, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 208, "user_id": 108, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "validate_substitutions", "payload_json": {"recipe_id": 408}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1212,7 +1212,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 209, "plan_date": "2025-09-07", "recipe_id": 409, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 209, "user_id": 109, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "validate_substitutions", "payload_json": {"recipe_id": 409}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1227,7 +1227,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 210, "plan_date": "2025-09-07", "recipe_id": 410, "was_prepared": True, "rating_int": 4}),
             Action(name="RecordAuditLog", kwargs={"household_id": 210, "user_id": 110, "entity_type": "meal_history", "entity_id": 6301, "action_enum": "validate_substitutions", "payload_json": {"recipe_id": 410}}),
         ],
-        outputs=["6301"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1241,7 +1241,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 201, "plan_date": "2025-09-09", "recipe_id": 401, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-08"}}),
         ],
-        outputs=["6003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1255,7 +1255,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 202, "plan_date": "2025-09-09", "recipe_id": 402, "was_prepared": True, "rating_int": 4}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-08"}}),
         ],
-        outputs=["6003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1269,7 +1269,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 203, "plan_date": "2025-09-09", "recipe_id": 403, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 203, "user_id": 103, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-08"}}),
         ],
-        outputs=["6003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1283,7 +1283,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 204, "plan_date": "2025-09-09", "recipe_id": 404, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 204, "user_id": 104, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-08"}}),
         ],
-        outputs=["6003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1297,7 +1297,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 205, "plan_date": "2025-09-09", "recipe_id": 405, "was_prepared": True, "rating_int": 4}),
             Action(name="RecordAuditLog", kwargs={"household_id": 205, "user_id": 105, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-08"}}),
         ],
-        outputs=["6003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1311,7 +1311,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 206, "plan_date": "2025-09-09", "recipe_id": 406, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 206, "user_id": 106, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-08"}}),
         ],
-        outputs=["6003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1325,7 +1325,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 207, "plan_date": "2025-09-09", "recipe_id": 407, "was_prepared": True, "rating_int": 4}),
             Action(name="RecordAuditLog", kwargs={"household_id": 207, "user_id": 107, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-08"}}),
         ],
-        outputs=["6003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1339,7 +1339,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 208, "plan_date": "2025-09-09", "recipe_id": 408, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 208, "user_id": 108, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-08"}}),
         ],
-        outputs=["6003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1353,7 +1353,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 209, "plan_date": "2025-09-09", "recipe_id": 409, "was_prepared": True, "rating_int": 5}),
             Action(name="RecordAuditLog", kwargs={"household_id": 209, "user_id": 109, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-08"}}),
         ],
-        outputs=["6003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1367,7 +1367,7 @@ TASKS = [
             Action(name="AppendMealHistory", kwargs={"household_id": 210, "plan_date": "2025-09-09", "recipe_id": 410, "was_prepared": True, "rating_int": 4}),
             Action(name="RecordAuditLog", kwargs={"household_id": 210, "user_id": 110, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2025-09-08"}}),
         ],
-        outputs=["6003"],
+        outputs=[]
     ),
 
     Task(
@@ -1385,7 +1385,7 @@ TASKS = [
             Action(name="UpdateInventoryQuantity", kwargs={"household_id": 201, "ingredient_id": 1006, "delta": -100}),
             Action(name="RecordAuditLog", kwargs={"household_id": 201, "user_id": 101, "entity_type": "orders", "entity_id": 10001, "action_enum": "delivered", "payload_json": {"list_id": 8001, "store_id": 9001, "total_cents": 2796, "slot_end": "2025-08-22T20:00:00Z"}}),
         ],
-        outputs=["10001"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1401,7 +1401,7 @@ TASKS = [
             Action(name="UpdateInventoryQuantity", kwargs={"household_id": 202, "ingredient_id": 1039, "delta": -80}),
             Action(name="RecordAuditLog", kwargs={"household_id": 202, "user_id": 102, "entity_type": "orders", "entity_id": 10002, "action_enum": "delivered", "payload_json": {"list_id": 8002, "store_id": 9002, "total_cents": 1747, "slot_end": "2025-08-21T16:00:00Z"}}),
         ],
-        outputs=["10002"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1418,7 +1418,7 @@ TASKS = [
             Action(name="UpdateInventoryQuantity", kwargs={"household_id": 203, "ingredient_id": 1003, "delta": -100}),
             Action(name="RecordAuditLog", kwargs={"household_id": 203, "user_id": 103, "entity_type": "inventory_items", "entity_id": 7031, "action_enum": "consume", "payload_json": {"ingredient_id": 1003, "delta": -100}}),
         ],
-        outputs=["1003"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1435,7 +1435,7 @@ TASKS = [
             Action(name="UpdateInventoryQuantity", kwargs={"household_id": 204, "ingredient_id": 1073, "delta": -1}),
             Action(name="RecordAuditLog", kwargs={"household_id": 204, "user_id": 104, "entity_type": "inventory_items", "entity_id": 7047, "action_enum": "consume", "payload_json": {"ingredient_id": 1073, "delta": -1}}),
         ],
-        outputs=["1073"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1452,7 +1452,7 @@ TASKS = [
             Action(name="UpdateInventoryQuantity", kwargs={"household_id": 205, "ingredient_id": 1058, "delta": -200}),
             Action(name="RecordAuditLog", kwargs={"household_id": 205, "user_id": 105, "entity_type": "inventory_items", "entity_id": 7054, "action_enum": "consume", "payload_json": {"ingredient_id": 1058, "delta": -200}}),
         ],
-        outputs=["1058"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1469,7 +1469,7 @@ TASKS = [
             Action(name="UpdateInventoryQuantity", kwargs={"household_id": 206, "ingredient_id": 1002, "delta": -200}),
             Action(name="RecordAuditLog", kwargs={"household_id": 206, "user_id": 106, "entity_type": "inventory_items", "entity_id": 7060, "action_enum": "consume", "payload_json": {"ingredient_id": 1002, "delta": -200, "recent_history_ids": [6254, 6255, 6256, 6257, 6258]}}),
         ],
-        outputs=["1002"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1486,7 +1486,7 @@ TASKS = [
             Action(name="UpdateInventoryQuantity", kwargs={"household_id": 207, "ingredient_id": 1024, "delta": -100}),
             Action(name="RecordAuditLog", kwargs={"household_id": 207, "user_id": 107, "entity_type": "inventory_items", "entity_id": 7066, "action_enum": "consume", "payload_json": {"ingredient_id": 1024, "delta": -100, "recent_history_ids": [6261, 6262, 6263, 6264, 6265]}}),
         ],
-        outputs=["1024"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1503,7 +1503,7 @@ TASKS = [
             Action(name="UpdateInventoryQuantity", kwargs={"household_id": 208, "ingredient_id": 1009, "delta": -2}),
             Action(name="RecordAuditLog", kwargs={"household_id": 208, "user_id": 108, "entity_type": "inventory_items", "entity_id": 7076, "action_enum": "consume", "payload_json": {"ingredient_id": 1009, "delta": -2, "recent_history_ids": [6268, 6269, 6270, 6271, 6272]}}),
         ],
-        outputs=["1009"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1520,7 +1520,7 @@ TASKS = [
             Action(name="UpdateInventoryQuantity", kwargs={"household_id": 209, "ingredient_id": 1092, "delta": -250}),
             Action(name="RecordAuditLog", kwargs={"household_id": 209, "user_id": 109, "entity_type": "inventory_items", "entity_id": 7078, "action_enum": "consume", "payload_json": {"ingredient_id": 1092, "delta": -250, "recent_history_ids": [6275, 6276, 6277, 6278, 6279]}}),
         ],
-        outputs=["1092"],
+        outputs=[]
     ),
     Task(
         annotator="v3",
@@ -1537,6 +1537,6 @@ TASKS = [
             Action(name="UpdateInventoryQuantity", kwargs={"household_id": 210, "ingredient_id": 1056, "delta": -200}),
             Action(name="RecordAuditLog", kwargs={"household_id": 210, "user_id": 110, "entity_type": "inventory_items", "entity_id": 7087, "action_enum": "consume", "payload_json": {"ingredient_id": 1056, "pre_qty": 500, "post_qty": 300, "delta": -200}}),
         ],
-        outputs=["1056"],
+        outputs=[]
     ),
 ]

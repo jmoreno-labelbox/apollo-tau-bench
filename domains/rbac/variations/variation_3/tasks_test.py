@@ -39,7 +39,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-021"},
             ),
         ],
-        outputs=[{"AR-021": "REJECTED", "NOTES": "Already assigned."}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -88,9 +88,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-008"},
             ),
         ],
-        outputs=[
-            {"AR-008": "APPROVED", "NOTES": "Met prerequisite finance-base (ROL-029)."}
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -172,17 +170,7 @@ TASKS = [
             ),
             Action(name="GetUserSessions", kwargs={"user_id": "U-009"}),
         ],
-        outputs=[
-            {
-                "AR-021": "REJECTED",
-                "AR-022": "REJECTED",
-                "U-019_ROL-004": "REVOKED",
-                "U-019_ROLES": ["ROL-001", "ROL-005"],
-                "U-009_SESSIONS": [],
-                "U-009_ROLES": ["ROL-011", "ROL-012", "ROL-013"],
-                "U-026_ROLES": ["ROL-006", "ROL-007", "ROL-010"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -260,16 +248,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-034"},
             ),
         ],
-        outputs=[
-            {
-                "AR-040": "REJECTED",
-                "AR-034": "APPROVED",
-                "NOTES": (
-                    "Certification verified; within clearance and least-privilege."
-                ),
-                "U-013_ROL-001": "REVOKED",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -303,13 +282,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-037"},
             ),
         ],
-        outputs=[
-            {
-                "AR-037": "REJECTED",
-                "NOTES": "Already assigned.",
-                "AUDIT_LOG_ID": ["LOG-AR-037-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -343,13 +316,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-007"},
             ),
         ],
-        outputs=[
-            {
-                "AR-007": "REJECTED",
-                "NOTES": "Requested role does not cover target resource",
-                "AUDIT_LOG_ID": ["LOG-AR-007-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -393,7 +360,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-030"},
             ),
         ],
-        outputs=[{"AR-030": "APPROVED"}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -429,15 +396,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-009"},
             ),
         ],
-        outputs=[
-            {
-                "AR-009": "REJECTED",
-                "NOTES": "Requested role does not cover target resource.",
-                "U-026_SESSIONS": [],
-                "U-026_ROLES": ["ROL-006", "ROL-007", "ROL-010"],
-                "AUDIT_LOG_ID": ["LOG-AR-009-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -475,15 +434,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-009"},
             ),
         ],
-        outputs=[
-            {
-                "AR-009": "REJECTED",
-                "NOTES": "Requested role does not cover target resource.",
-                "U-026_SESSIONS": [],
-                "U-026_ROLES": ["ROL-006", "ROL-007", "ROL-010"],
-                "AUDIT_LOG_ID": ["LOG-AR-009-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -519,13 +470,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-007"},
             ),
         ],
-        outputs=[
-            {
-                "AR-007": "REJECTED",
-                "NOTES": "Requested role does not cover target resource.",
-                "AUDIT_LOG_ID": ["LOG-AR-007-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -573,15 +518,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            {
-                "AR-030": "APPROVED",
-                "NOTES": (
-                    "Certification verified; within clearance and least-privilege."
-                ),
-                "AUDIT_LOG_ID": ["LOG-AR-030-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -616,7 +553,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-021"},
             ),
         ],
-        outputs=[{"AR-021": "REJECTED", "NOTES": "Already assigned."}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -651,13 +588,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-022"},
             ),
         ],
-        outputs=[
-            {
-                "AR-022": "REJECTED",
-                "NOTES": "Already assigned.",
-                "AUDIT_LOG_ID": ["LOG-AR-022-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -700,17 +631,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-034"},
             ),
         ],
-        outputs=[
-            {
-                "AR-034": "APPROVED",
-                "NOTES": (
-                    "Certification verified; within clearance and least-privilege."
-                ),
-                "U-018_ROLES": ["ROL-029", "ROL-030"],
-                "U-018_SESSIONS": [],
-                "AUDIT_LOG_ID": ["LOG-AR-034-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -743,7 +664,7 @@ TASKS = [
             ),
             Action(name="GetUserSessions", kwargs={"user_id": "U-019"}),
         ],
-        outputs=[{"ROL-004": "REMOVED", "U-019_ROLES": ["ROL-001", "ROL-005"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -786,14 +707,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-008"},
             ),
         ],
-        outputs=[
-            {
-                "AR-008": "APPROVED",
-                "U-030_ROLES": ["ROL-029", "ROL-032"],
-                "U-030_SESSIONS": [],
-                "AUDIT_LOG_ID": ["LOG-AR-008-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -828,7 +742,7 @@ TASKS = [
                 kwargs={"filter_by": "revoke_role", "target_id": "U-013:ROL-001"},
             ),
         ],
-        outputs=[{"ROL-001": "REMOVED", "U-013_ROLES": []}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -867,15 +781,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-007"},
             ),
         ],
-        outputs=[
-            {
-                "AR-007": "REJECTED",
-                "NOTES": "Requested role does not cover target resource.",
-                "U-029_ROLES": ["ROL-021"],
-                "U-029_SESSIONS": [],
-                "AUDIT_LOG_ID": ["LOG-AR-007-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -920,16 +826,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-034"},
             ),
         ],
-        outputs=[
-            {
-                "AR-034": "APPROVED",
-                "NOTES": (
-                    "Certification verified; within clearance and least-privilege."
-                ),
-                "U-018_ROLES": ["ROL-029", "ROL-030"],
-                "AUDIT_LOG_ID": ["LOG-AR-034-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -966,7 +863,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-021"},
             ),
         ],
-        outputs=[{"AR-021": "REJECTED", "NOTES": "Already assigned."}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1003,7 +900,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-022"},
             ),
         ],
-        outputs=[{"AR-022": "REJECTED", "NOTES": "Already assigned."}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1036,13 +933,7 @@ TASKS = [
             Action(name="GetUserRoles", kwargs={"user_id": "U-019"}),
             Action(name="GetUserSessions", kwargs={"user_id": "U-019"}),
         ],
-        outputs=[
-            {
-                "ROL-004": "REMOVED",
-                "U-019_ROLES": ["ROL-001", "ROL-005"],
-                "U-019_SESSIONS": [],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1080,15 +971,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-027"},
             ),
         ],
-        outputs=[
-            {
-                "U-007_ROLES": ["ROL-001", "ROL-002"],
-                "U-007_SESSIONS": [],
-                "AR-027": "REJECTED",
-                "NOTES": "Already assigned.",
-                "AUDIT_LOG_ID": ["LOG-AR-027-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1132,13 +1015,7 @@ TASKS = [
             ),
             Action(name="GetAccessRequestDetails", kwargs={"request_id": "AR-101"}),
         ],
-        outputs=[
-            {
-                "AR-101": "REJECTED",
-                "NOTES": "Requested role does not cover target resource.",
-                "AUDIT_LOG_ID": ["LOG-AR-101-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1183,13 +1060,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-102"},
             ),
         ],
-        outputs=[
-            {
-                "AR-102": "REJECTED",
-                "NOTES": "Requested role does not cover target resource.",
-                "AUDIT_LOG_ID": ["LOG-AR-102-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1248,15 +1119,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-103"},
             ),
         ],
-        outputs=[
-            {
-                "AR-103": "APPROVED",
-                "NOTES": "Met prerequisite finance-base (ROL-029).",
-                "U-030_ROLES": ["ROL-029", "ROL-032"],
-                "AUDIT_LOG_ID": ["LOG-AR-103-decision"],
-                "U-030_SESSIONS": [],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1300,13 +1163,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            {
-                "AR-104": "REJECTED",
-                "NOTES": "Missing prerequisite finance-base (ROL-029).",
-                "AUDIT_LOG_ID": ["LOG-AR-104-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1346,15 +1203,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-009"},
             ),
         ],
-        outputs=[
-            {
-                "U-026_ROLES": ["ROL-006", "ROL-007", "ROL-010"],
-                "AR-009": "REJECTED",
-                "U-026_SESSIONS": [],
-                "NOTES": "Requested role does not cover target resource.",
-                "AUDIT_LOG_ID": ["LOG-AR-009-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1387,13 +1236,7 @@ TASKS = [
                 kwargs={"filter_by": "revoke_role", "target_id": "U-013:ROL-001"},
             ),
         ],
-        outputs=[
-            {
-                "U-013_ROLES": [],
-                "U-013_SESSIONS": [],
-                "AUDIT_LOG_ID": ["LOG-U-013-ROL-001-revoke"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1433,13 +1276,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-022"},
             ),
         ],
-        outputs=[
-            {
-                "U-009_SESSIONS": [],
-                "AR-022": "REJECTED",
-                "AUDIT_LOG_ID": ["LOG-AR-022-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1485,14 +1322,7 @@ TASKS = [
             Action(name="GetUserRoles", kwargs={"user_id": "U-010"}),
 
         ],
-        outputs=[
-            {
-                "U-010_ROLES": ["ROL-016", "ROL-019"],
-                "AR-110": "REJECTED",
-                "NOTES": "Admin-like role blocked by policy.",
-                "AUDIT_LOG_ID": ["LOG-AR-110-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1530,14 +1360,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-040"},
             ),
         ],
-        outputs=[
-            {
-                "U-014_ROLES": ["ROL-006", "ROL-009"],
-                "AR-040": "REJECTED",
-                "NOTES": "Already assigned.",
-                "AUDIT_LOG_ID": ["LOG-AR-040-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1580,15 +1403,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-030"},
             ),
         ],
-        outputs=[
-            {
-                "AR-030": "APPROVED",
-                "NOTES": (
-                    "Certification verified; within clearance and least-privilege."
-                ),
-                "AUDIT_LOG_ID": ["LOG-AR-030-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1633,14 +1448,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            {
-                "U-007_ROLES": ["ROL-001", "ROL-002"],
-                "AR-105": "REJECTED",
-                "NOTES": "Requested role does not cover target resource.",
-                "AUDIT_LOG_ID": ["LOG-AR-105-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1691,15 +1499,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-106"},
             ),
         ],
-        outputs=[
-            {
-                "U-025_ROLES": ["ROL-001"],
-                "AR-106": "REJECTED",
-                "NOTES": "Admin-like role blocked by policy.",
-                "U-025_SESSIONS": [],
-                "AUDIT_LOG_ID": ["LOG-AR-106-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1728,14 +1528,7 @@ TASKS = [
             ),
             Action(name="GetUserSessions", kwargs={"user_id": "U-026"}),
         ],
-        outputs=[
-            {
-                "ROL-010": "REMOVED",
-                "U-026_ROLES": ["ROL-006", "ROL-007"],
-                "U-026_SESSIONS": [],
-                "AUDIT_LOG_ID": ["LOG-U-026-ROL-010-revoke"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1771,13 +1564,7 @@ TASKS = [
             ),
             Action(name="GetUserSessions", kwargs={"user_id": "U-026"}),
         ],
-        outputs=[
-            {
-                "U-026_ROLES": ["ROL-006", "ROL-007"],
-                "U-026_SESSIONS": [],
-                "AUDIT_LOG_ID": ["LOG-U-026-ROL-010-revoke"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1825,7 +1612,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-107"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1868,9 +1655,7 @@ TASKS = [
             ),
             Action(name="GetUserRoles", kwargs={"user_id": "U-015"}),
         ],
-        outputs=[
-            {"user_id": "U-015", "roles": ["ROL-011"]},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1923,12 +1708,7 @@ TASKS = [
             ),
             Action(name="GetUserRoles", kwargs={"user_id": "U-022"}),
         ],
-        outputs=[
-            {
-                "U-022_ROLES": ["ROL-016", "ROL-017"],
-                "AUDIT_LOG_ID": ["LOG-AR-030-decision"],
-            },
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1972,9 +1752,7 @@ TASKS = [
             ),
             Action(name="GetUserRoles", kwargs={"user_id": "U-026"}),
         ],
-        outputs=[
-            {"user_id": "U-026", "roles": ["ROL-006", "ROL-007", "ROL-010"]},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2040,7 +1818,7 @@ TASKS = [
                 name="ListCertificationsByStatus", kwargs={"status": "COMPLETED"}
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2092,9 +1870,7 @@ TASKS = [
             ),
             Action(name="GetUserRoles", kwargs={"user_id": "U-026"}),
         ],
-        outputs=[
-            {"user_id": "U-026", "roles": ["ROL-006", "ROL-007"]},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2154,7 +1930,7 @@ TASKS = [
             ),
             Action(name="GetUserRoles", kwargs={"user_id": "U-018"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2211,7 +1987,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-022"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2258,9 +2034,7 @@ TASKS = [
             Action(name="GetUserRoles", kwargs={"user_id": "U-014"}),
             Action(name="GetUserSessions", kwargs={"user_id": "U-014"}),
         ],
-        outputs=[
-            {"U-014_SESSIONS": []}
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2316,7 +2090,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-007"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2375,29 +2149,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-034"},
             ),
         ],
-        outputs=[
-            {
-                "U-018_PERMISSIONS": [
-                    {
-                        "permission_id": "P-075",
-                        "action": "read-ledger",
-                        "resource_id": "RES-030",
-                    },
-                    {
-                        "permission_id": "P-083",
-                        "action": "run-tax-report",
-                        "resource_id": "RES-033",
-                    },
-                    {
-                        "permission_id": "P-085",
-                        "action": "view-financial-report",
-                        "resource_id": "RES-034",
-                    },
-                ]
-            },
-            {"U-018_ROLES": ["ROL-029", "ROL-030"]},
-            {"AUDIT_LOG_ID": ["LOG-AR-034-decision"]},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2460,29 +2212,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-008"},
             ),
         ],
-        outputs=[
-            {
-                "U-030_PERMISSIONS": [
-                    {
-                        "permission_id": "P-080",
-                        "action": "create-budget",
-                        "resource_id": "RES-032",
-                    },
-                    {
-                        "permission_id": "P-081",
-                        "action": "approve-budget",
-                        "resource_id": "RES-032",
-                    },
-                    {
-                        "permission_id": "P-082",
-                        "action": "view-budget",
-                        "resource_id": "RES-032",
-                    },
-                ]
-            },
-            {"user_id": "U-030", "roles": ["ROL-029", "ROL-032"]},
-            {"AUDIT_LOG_ID": "LOG-AR-008-decision"},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2538,7 +2268,7 @@ TASKS = [
                 name="ListCertificationsByStatus", kwargs={"status": "IN_PROGRESS"}
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2590,7 +2320,7 @@ TASKS = [
                 kwargs={"request_id": "AR-030", "assigned_by": "U-005"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2630,15 +2360,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-034"},
             ),
         ],
-        outputs=[
-            {
-                "AR-034": "APPROVED",
-                "NOTES": (
-                    "Certification verified; within clearance and least-privilege."
-                ),
-                "AUDIT_LOG_ID": ["LOG-AR-034-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2684,18 +2406,7 @@ TASKS = [
             ),
             Action(name="ListEmails", kwargs={"email_id": "EM-9601"}),
         ],
-        outputs=[
-            [
-                {
-                    "email_id": "EM-9601",
-                    "timestamp": "2024-06-26 16:05:00+00:00",
-                    "sender": "rbac-bot@sigmatech.com",
-                    "receiver": "aria.hill@sigmatech.com",
-                    "subject": "AR-008 APPROVED",
-                    "text_content": "U-005 2024-06-26 16:05:00+00:00",
-                }
-            ]
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2738,16 +2449,7 @@ TASKS = [
             ),
             Action(name="ListEmails", kwargs={"email_id": "EM-9601"}),
         ],
-        outputs=[
-            {
-                "email_id": "EM-9601",
-                "timestamp": "2024-06-26 16:05:00+00:00",
-                "sender": "rbac-bot@sigmatech.com",
-                "receiver": "madison.Johnson@sigmatech.com",
-                "subject": "AR-040 REJECTED",
-                "text_content": "U-004 2024-06-26 16:05:00+00:00",
-            },
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2788,18 +2490,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-034"},
             ),
         ],
-        outputs=[
-            [
-                {
-                    "log_id": "LOG-AR-034-decision",
-                    "actor_id": "U-005",
-                    "action_type": "review_access_request",
-                    "target_id": "AR-034",
-                    "timestamp": "2024-06-26 16:05:00+00:00",
-                    "details": "APPROVED",
-                }
-            ]
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2848,7 +2539,7 @@ TASKS = [
             ),
             Action(name="GetUserRoles", kwargs={"user_id": "U-018"}),
         ],
-        outputs=[{"user_id": "U-018", "roles": ["ROL-029", "ROL-030"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2868,9 +2559,7 @@ TASKS = [
             Action(name="GetUserEmail", kwargs={"user_id": "U-027"}),
             Action(name="SendEmail", kwargs={"email_id": "EM-9601", "receiver": "U-027", "subject": "ROL-011 APPROVED", "text_content": "U-006 2024-06-26 16:05:00+00:00"}),
         ],
-        outputs=[
-            {"AUDIT_LOG_ID": ["LOG-U-027-ROL-011-revoke"]}
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2899,25 +2588,7 @@ TASKS = [
             Action(name="GetUserRoles", kwargs={"user_id": "U-026"}),
             Action(name="GetRolePermissions", kwargs={"role_id": "ROL-010"}),
         ],
-        outputs=[
-            [
-                {
-                    "permission_id": "P-030",
-                    "action": "create-blog-post",
-                    "resource_id": "RES-011",
-                },
-                {
-                    "permission_id": "P-031",
-                    "action": "publish-blog-post",
-                    "resource_id": "RES-011",
-                },
-                {
-                    "permission_id": "P-032",
-                    "action": "edit-blog-post",
-                    "resource_id": "RES-011",
-                },
-            ],
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -2970,7 +2641,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3018,7 +2689,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3066,7 +2737,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3111,7 +2782,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3175,7 +2846,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3215,7 +2886,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[{"U-026_ROLES": ["ROL-006", "ROL-007", "ROL-010"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3263,7 +2934,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3318,7 +2989,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3367,7 +3038,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3414,18 +3085,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-009"},
             ),
         ],
-        outputs=[
-            [
-                {
-                    "log_id": "LOG-AR-009-decision",
-                    "actor_id": "U-005",
-                    "action_type": "review_access_request",
-                    "target_id": "AR-009",
-                    "timestamp": "2024-06-26 16:05:00+00:00",
-                    "details": "REJECTED",
-                }
-            ],
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3458,9 +3118,7 @@ TASKS = [
             ),
             Action(name="GetUserRoles", kwargs={"user_id": "U-026"}),
         ],
-        outputs=[
-            {"user_id": "U-026", "roles": ["ROL-006", "ROL-007", "ROL-010"]},
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3497,7 +3155,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-007"},
             ),
         ],
-        outputs=[{"AUDIT_LOG_ID": ["LOG-AR-007-decision"], "U-029_ROLES": ["ROL-021"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3533,7 +3191,7 @@ TASKS = [
             ),
             Action(name="GetUserRoles", kwargs={"user_id": "U-030"}),
         ],
-        outputs=[{"U-030_ROLES": ["ROL-029", "ROL-032"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3566,7 +3224,7 @@ TASKS = [
             ),
             Action(name="GetUserRoles", kwargs={"user_id": "U-013"}),
         ],
-        outputs=[{"U-013_ROLES": ["ROL-001"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3611,7 +3269,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-021"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3653,7 +3311,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-030"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3719,13 +3377,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-008"},
             ),
         ],
-        outputs=[
-            {
-                "AR-007": "REJECTED",
-                "AR-008": "APPROVED",
-                "AUDIT_LOG_ID": ["LOG-AR-007-decision", "LOG-AR-008-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3770,7 +3422,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-022"},
             ),
         ],
-        outputs=[{"AUDIT_LOG_ID": ["LOG-AR-022-decision"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3815,15 +3467,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-040"},
             ),
         ],
-        outputs=[
-            {
-                "EMAIL_SENT": {
-                    "subject": "AR-040 REJECTED",
-                    "receiver": "rbac@sigmatech.com",
-                    "content": "U-002 2024-06-26 16:05:00+00:00",
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3852,12 +3496,7 @@ TASKS = [
                 kwargs={"action_type": "revoke_role", "target_id": "U-019:ROL-004"},
             ),
         ],
-        outputs=[
-            {
-                "U-013_ROL-037_REVOCABLE": False,
-                "AUDIT_LOG_ID": "LOG-U-019-ROL-004-revoke",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3897,14 +3536,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            {
-                "AUDIT_LOG_ID": [
-                    "LOG-U-011-ROL-021-decision",
-                    "LOG-U-029-ROL-021-decision",
-                ]
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -3948,7 +3580,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-034"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4001,7 +3633,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-034"},
             ),
         ],
-        outputs=[{"U-018_PERMISSIONS": ["P-075", "P-079", "P-082", "P-083", "P-085"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4041,13 +3673,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-022"},
             ),
         ],
-        outputs=[
-            {
-                "U-009_ROLES": ["ROL-011", "ROL-012", "ROL-013"],
-                "U-009_SESSIONS": [],
-                "AUDIT_LOG_ID": ["LOG-AR-022-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4095,16 +3721,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-040"},
             ),
         ],
-        outputs=[
-            {
-                "EMAIL_SENT": {
-                    "subject": "AR-040 REJECTED",
-                    "receiver": "rbac@sigmatech.com",
-                    "content": "U-002 2024-06-26 16:05:00+00:00",
-                },
-                "AUDIT_LOG_ID": ["LOG-AR-040-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4129,7 +3746,7 @@ TASKS = [
             ),
             Action(name="ListAuditLogs", kwargs={"action_type": "revoke_role"}),
         ],
-        outputs=[{"AUDIT_LOG_ID": ["LOG-U-015-ROL-011-revoke"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4211,13 +3828,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-034"},
             ),
         ],
-        outputs=[
-            {
-                "AR-007": "REJECTED",
-                "AR-034": "APPROVED",
-                "AUDIT_LOG_ID": ["LOG-AR-007-decision", "LOG-AR-034-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4266,7 +3877,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-009"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4306,7 +3917,7 @@ TASKS = [
             ),
             Action(name="GetUserRoles", kwargs={"user_id": "U-007"}),
         ],
-        outputs=[{"U-007_SESSIONS": [], "U-007_ROLES": ["ROL-001", "ROL-002"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4344,7 +3955,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-008"},
             ),
         ],
-        outputs=[{"AUDIT_LOG_ID": ["LOG-AR-008-decision"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4392,12 +4003,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-009"},
             ),
         ],
-        outputs=[
-            {
-                "U-026_PERMISSIONS": ["ROL-006", "ROL-007", "ROL-010"],
-                "AUDIT_LOG_ID": ["LOG-AR-009-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4447,7 +4053,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-062"},
             ),
         ],
-        outputs=[{"U-020_SESSIONS": [], "AUDIT_LOG_ID": ["LOG-AR-062-decision"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4498,7 +4104,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4548,7 +4154,7 @@ TASKS = [
                 kwargs={"action_type": "HUBSPOT_TICKET_UPDATED", "target_id": "TI-053"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4588,7 +4194,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[{"AUDIT_LOG_ID": ["LOG-U-027-ROL-011-revoke"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4632,7 +4238,7 @@ TASKS = [
                 kwargs={"action_type": "review_access_request", "target_id": "AR-020"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4686,17 +4292,7 @@ TASKS = [
             ),
             Action(name="GetUserSessions", kwargs={"user_id": "U-022"}),
         ],
-        outputs=[
-            {
-                "AR-030": "APPROVED",
-                "NOTES": (
-                    "Certification verified; within clearance and least-privilege."
-                ),
-                "U-022_SESSIONS": [],
-                "U-022_ROLES": ["ROL-016", "ROL-017"],
-                "AUDIT_LOG_ID": ["LOG-AR-030-decision"],
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4748,7 +4344,7 @@ TASKS = [
                 kwargs={"request_id": "AR-030", "assigned_by": "U-003"},
             ),
         ],
-        outputs=[{"AUDIT_LOG_ID": ["LOG-AR-030-decision"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4803,7 +4399,7 @@ TASKS = [
                 kwargs={"action_type": "review_access_request", "target_id": "AR-037"},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4844,7 +4440,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "user_id": "U-006"},
             ),
         ],
-        outputs=[{"U-030_ROLES": ["ROL-029", "ROL-032"]}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4880,25 +4476,7 @@ TASKS = [
                 kwargs={"filter_by": "review_access_request", "target_id": "AR-040"},
             ),
         ],
-        outputs=[
-            {
-                "U-014_ROLES": ["ROL-006", "ROL-009"],
-                "AR-040": "REJECTED",
-                "NOTES": "Already assigned.",
-                "U-014_SESSIONS": [],
-                "AUDIT_LOG_ID": ["LOG-AR-040-decision"],
-            },
-            [
-                {
-                    "log_id": "LOG-AR-040-decision",
-                    "actor_id": "U-002",
-                    "action_type": "review_access_request",
-                    "target_id": "AR-040",
-                    "timestamp": "2024-06-26 16:05:00+00:00",
-                    "details": "REJECTED",
-                }
-            ],
-        ],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -4930,6 +4508,6 @@ TASKS = [
             Action(name="GetAccessRequestDetails", kwargs={"request_id": "AR-027"}),
             Action(name="GetUserSessions", kwargs={"user_id": "U-007"}),
         ],
-        outputs=[{"U-007_ROLES": ["ROL-001", "ROL-002"], "U-007_SESSIONS": []}],
+        outputs=[]
     ),
 ]

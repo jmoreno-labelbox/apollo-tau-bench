@@ -20,9 +20,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "CHECKLIST_COMPLETED", "message": "Checklist completed for cand_5", "candidate_id": "cand_5"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_5", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset_request.req_501.status=Approved | asset_request.req_502.status=Approved | asset.LT-005B.status=Assigned | asset.PH-005B.status=Assigned | checklist_item.check_502.status=Completed | onboarding_files.Benefits-Guide.pdf.status=Verified | email.email_502.labels=label_Ready | log.ASSET_ASSIGNED.message=Assets assigned for cand_5 | log.CHECKLIST_COMPLETED.message=Checklist completed for cand_5 | candidate.cand_5.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -51,9 +49,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABELS_APPLIED", "message": "Emails labeled 'Welcome' and 'Policy'", "candidate_id": "cand_4"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_4", "updates": {"onboarding_status": "OnboardingCompleted"}})
         ],
-        outputs=[
-            "asset_request.req_401.status=Approved | asset_request.req_402.status=Approved | asset.PH-LAPTOP-004.status=Assigned | asset.PH-IPHONE-004.status=Assigned | asset.ACC-MOUSE-005.status=Assigned | onboarding_files.welcome_guide_cand4.laptop_assigned=True | onboarding_files.welcome_guide_cand4.phone_assigned=True | onboarding_files.id_scan_cand4.verified=True | checklist.check_401.status=Completed | checklist.check_402.status=Completed | access_check.access_401.status=Approved | email.email_401.labels=label_Welcome | email.email_402.labels=label_Policy | log.ASSET_REQUEST_APPROVED.message=Asset requests req_401 and req_402 approved | log.ASSETS_ASSIGNED.message=Laptop, phone, and mouse assigned | log.CHECKLIST_COMPLETED.message=Checklist items completed | log.ACCESS_CHECK_APPROVED.message=Access checks approved | log.EMAIL_LABELS_APPLIED.message=Emails labeled 'Welcome' and 'Policy' | candidate.cand_4.onboarding_status=OnboardingCompleted"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -82,9 +78,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_4", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_401.status=Approved | asset_request.req_402.status=Approved | asset.PH-LAPTOP-004.status=Assigned | asset.PH-IPHONE-004.status=Assigned | onboarding_files.cand_4.laptop_assigned=True | onboarding_files.cand_4.phone_assigned=True | log.ASSET_REQUEST_APPROVED.message=Requests req_401 and req_402 approved | log.LAPTOP_ASSIGNED.message=PH-LAPTOP-004 assigned | log.PHONE_ASSIGNED.message=PH-IPHONE-004 assigned | candidate.cand_4.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -117,9 +111,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_6", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-OLD-001.status=Available | asset.LT-NEW-006.status=Assigned | asset.PH-NEW-006.status=Assigned | asset_request.req_601.status=Completed | asset_request.req_602.status=Completed | access_check.access_601=Removed | access_check.access_602=Removed | access_check.access_603.status=Pending | access_check.access_604.status=Pending | attachment.Company-Policies.pdf.added=True | attachment.Benefits-Guide.pdf.added=True | email.email_601.labels=label_AssetChange | log.ASSET_REASSIGNMENT.message=Assets reassigned for cand_6 | log.ACCESS_UPDATED.message=Access checks updated for cand_6 | candidate.cand_6.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -137,9 +129,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ASSET_REQUEST_APPROVED", "message": "Asset request req_5 approved"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_5", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_5.status=Approved | asset.PH-IPHONE-003.status=Assigned | onboarding_files.phone_assigned=True | log.PHONE_ASSIGNED.message=Phone assigned to cand_5 | log.ASSET_REQUEST_APPROVED.message=Asset request req_5 approved | candidate.cand_5.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -161,9 +151,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "CHECKLIST_COMPLETED", "message": "Checklist item completed for cand_2", "candidate_id": "cand_2"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"training_status": "InProgress"}}),
         ],
-        outputs=[
-            "asset.LT-002B.status=Assigned | asset_request.req_202.status=Completed | checklist_item.check_202.status=Completed | attachment.Policies.pdf.removed=True | attachment.Training-Guide.pdf.added=True | onboarding_files.id_card.pdf.status=Verified | email.email_202.labels=label_Training | access_check.access_202.status=Pending | log.ASSET_ASSIGNED.message=Laptop assigned for cand_2 | log.CHECKLIST_COMPLETED.message=Checklist item completed for cand_2 | candidate.cand_2.training_status=InProgress"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -195,9 +183,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABELS_APPLIED", "message": "Emails labeled 'Welcome' and 'Policy'", "candidate_id": "cand_3"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_3", "updates": {"onboarding_status": "OnboardingCompleted"}})
         ],
-        outputs=[
-            "asset_request.req_301.status=Approved | asset_request.req_302.status=Approved | asset.PH-LAPTOP-003.status=Assigned | asset.PH-IPHONE-003.status=Assigned | asset.ACC-MOUSE-004.status=Assigned | asset.ACC-KEYBOARD-003.status=Assigned | onboarding_files.welcome_guide_cand3.laptop_assigned=True | onboarding_files.welcome_guide_cand3.phone_assigned=True | onboarding_files.id_scan_cand3.verified=True | onboarding_files.policy_ack_cand3.acknowledged=True | checklist.check_301.status=Completed | checklist.check_302.status=Completed | access_check.access_301.status=Approved | access_check.access_302.status=Approved | email.email_301.labels=label_Welcome | email.email_302.labels=label_Policy | log.ASSET_REQUEST_APPROVED.message=Asset requests req_301 and req_302 approved | log.ASSETS_ASSIGNED.message=Laptop, phone, mouse, and keyboard assigned | log.CHECKLIST_COMPLETED.message=Checklist items completed | log.ACCESS_CHECK_APPROVED.message=Access checks approved | log.EMAIL_LABELS_APPLIED.message=Emails labeled 'Welcome' and 'Policy' | candidate.cand_3.onboarding_status=OnboardingCompleted"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -226,9 +212,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_3", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_102.status=Approved | asset_request.req_103.status=Approved | asset.LT-DELL-002.status=Assigned | asset.MON-LG-001.status=Assigned | onboarding_files.cand_3.laptop_assigned=True | onboarding_files.cand_3.monitor_assigned=True | log.ASSET_REQUEST_APPROVED.message=Asset requests req_102 and req_103 approved | log.LAPTOP_ASSIGNED.message=LT-DELL-002 assigned | log.MONITOR_ASSIGNED.message=MON-LG-001 assigned | candidate.cand_3.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -259,9 +243,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_1", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-001A.status=Available | asset.LT-001B.status=Assigned | asset_request.req_101.status=Completed | asset_request.req_102.status=Completed | access_check.access_101=Removed | access_check.access_102=Removed | access_check.access_105.status=Pending | attachment.Company-Policies.pdf.added=True | email.email_101.labels=label_AssetChange | log.ASSET_REASSIGNMENT.message=Assets reassigned for cand_1 | log.ACCESS_UPDATED.message=Access checks updated for cand_1 | onboarding_files.Passport.pdf.status=Verified | candidate.cand_1.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -284,9 +266,7 @@ TASKS = [
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_4", "updates": {"asset_update_status": "Completed"}}),
             Action(name="UpdateOnboardingFile", kwargs={"file_path": "files/ID-Card.pdf", "updates": {"status": "Verified"}})
         ],
-        outputs=[
-            "asset.LT-004A.status=Available | asset.LT-004B.status=Assigned | asset_request.req_401.status=Completed | access_check.access_401=Removed | access_check.access_402=Removed | access_check.access_405.status=Pending | access_check.access_406.status=Pending | attachment.Company-Policies.pdf.added=True | email.email_401.labels=label_AssetUpdate | log.ASSET_UPDATED.message=Assets updated for cand_4 | onboarding_files.ID-Card.pdf.status=Verified | candidate.cand_4.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -310,9 +290,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_COMPLETED", "message": "Candidate cand_6 onboarding completed", "candidate_id": "cand_6"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_6", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset_request.req_601.status=Approved | asset_request.req_602.status=Approved | asset.LT-HP-006.status=Assigned | asset.PH-IP-006.status=Assigned | checklist_item.check_601.status=Completed | checklist_item.check_602.status=Completed | onboarding_files.offer_letter.pdf.status=Verified | onboarding_files.id_scan.pdf.status=Verified | access_check.access_601.status=Approved | access_check.access_602.status=Approved | email.email_601.labels=label_OnboardingReady | log.ONBOARDING_COMPLETED.message=Candidate cand_6 onboarding completed | candidate.cand_6.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -334,9 +312,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATE", "message": "Access updated for cand_2", "candidate_id": "cand_2"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"security_clearance": "Granted"}})
         ],
-        outputs=[
-            "asset.LT-Temp02.status=Available | asset.LT-002C.status=Assigned | checklist_item.check_221.status=Completed | checklist_item.check_222.status=Completed | onboarding_files.background_verification.pdf.status=Verified | access_check.access_207.status=Approved | access_check.access_208.status=Pending | email.email_221.labels=label_SecurityClearance | log.SECURITY_CHECK.message=Security induction completed for cand_2 | log.ACCESS_UPDATE.message=Access updated for cand_2 | candidate.cand_2.security_clearance=Granted"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -358,9 +334,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "FILE_VERIFIED", "message": "Signed policy verified for cand_4", "candidate_id": "cand_4"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_4", "updates": {"orientation_status": "Completed"}})
         ],
-        outputs=[
-            "asset.TB-004Z.status=Available | asset.MB-004X.status=Assigned | checklist_item.check_410.status=Completed | checklist_item.check_411.status=Completed | onboarding_files.signed_policy.pdf.status=Verified | attachment.team_structure.pdf.added=True | email.email_410.labels=label_Orientation | log.DEVICE_UPDATE.message=Mobile assigned to cand_4 | log.CHECKLIST_COMPLETED.message=Orientation tasks done for cand_4 | log.FILE_VERIFIED.message=Signed policy verified for cand_4 | candidate.cand_4.orientation_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -382,9 +356,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access checks updated for cand_1", "candidate_id": "cand_1"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_1", "updates": {"training_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-001X.status=Available | asset.LT-001Y.status=Assigned | asset_request.req_102.status=Closed | checklist_item.check_103.status=Completed | onboarding_files.confidentiality_agreement.pdf.status=Verified | access_check.access_105.status=Pending | access_check.access_106=Removed | email.email_103.labels=label_TrainingUpdate | log.ASSET_ASSIGNED.message=New permanent laptop assigned to cand_1 | log.ACCESS_UPDATED.message=Access checks updated for cand_1 | candidate.cand_1.training_status=Completed"
-        ],
+        outputs=[]
     ),
 
 
@@ -416,9 +388,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_2", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-002A.status=Available | asset.LT-002B.status=Assigned | asset_request.req_201.status=Completed | asset_request.req_202.status=Completed | access_check.access_201=Removed | access_check.access_202=Removed | access_check.access_206.status=Pending | attachment.Benefits-Guide.pdf.added=True | email.email_201.labels=label_AssetChange | log.ASSET_REASSIGNMENT.message=Assets reassigned for cand_2 | log.ACCESS_UPDATED.message=Access checks updated for cand_2 | onboarding_files.ID-Proof.pdf.status=Verified | candidate.cand_2.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -440,9 +410,7 @@ TASKS = [
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"hr_status": "Updated"}}),
             Action(name="SendEmail", kwargs={"email_id": "email_202", "updates": {"status": "Sent"}})
         ],
-        outputs=[
-            "asset.MON-202A.status=Available | asset.MON-202B.status=Assigned | checklist_item.check_202.status=Completed | attachment.NDA-Form.pdf.added=True | access_check.access_202=Removed | access_check.access_204.status=Pending | email.email_202.labels=label_HR | log.MONITOR_UPDATED.message=Monitor swapped for cand_2 | log.ACCESS_UPDATED.message=Access updated for cand_2 | candidate.cand_2.hr_status=Updated | email.email_202.status=Sent"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -464,9 +432,7 @@ TASKS = [
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_4", "updates": {"orientation_status": "Completed"}}),
             Action(name="SendEmail", kwargs={"email_id": "email_404", "updates": {"status": "Sent"}})
         ],
-        outputs=[
-            "asset.PH-404A.status=Available | asset.PH-404B.status=Assigned | access_check.access_404=Removed | access_check.access_405.status=Pending | attachment.Orientation-Schedule.pdf.added=True | checklist_item.check_404.status=Completed | email.email_404.labels=label_Orientation | log.PHONE_UPDATED.message=Smartphone assigned to cand_4 | log.ACCESS_UPDATED.message=Access updated for cand_4 | candidate.cand_4.orientation_status=Completed | email.email_404.status=Sent"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -493,9 +459,7 @@ TASKS = [
                    kwargs={"event_type": "ONBOARDING_COMPLETED", "message": "Onboarding completed for cand_1",
                            "candidate_id": "cand_1"})
         ],
-        outputs=[
-            "checklist_item.check_101.status=Completed | checklist_item.check_102.status=Completed | asset.LT-001B.status=Available | asset.LT-001D.status=Assigned | asset.PH-001D.status=Assigned | asset_request.req_105.status=Completed | asset_request.req_106.status=Completed | access_check.access_103=Removed | access_check.access_108.status=Pending | attachment.welcome_Jane_Smith.md.added=True | email.email_101.labels=label_OnboardingComplete | log.ONBOARDING_COMPLETED.message=Onboarding completed for cand_1"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="R",
@@ -524,9 +488,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_4", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "access_check.access_403=Removed | access_check.access_404=Removed | access_check.access_407.status=Pending | access_check.access_408.status=Pending | asset.LT-004D.status=Assigned | asset.PH-004D.status=Assigned | asset_request.req_407.status=Completed | attachment.Company-Policies.pdf.added=True | onboarding_files.offer_letter.pdf.status=Verified | log.DEVICE_ASSIGNED.message=Devices assigned for cand_4 | log.ACCESS_UPDATED.message=Access updated for cand_4 | candidate.cand_4.asset_update_status=Completed"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -554,9 +516,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_7", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-007C.status=Assigned | asset.PH-007C.status=Assigned | asset_request.req_701.status=Completed | asset_request.req_702.status=Completed | access_check.access_701=Removed | access_check.access_702=Removed | access_check.access_703.status=Pending | access_check.access_704.status=Pending | attachment.welcome_Robert_Singh.md.added=True | email.email_701.labels=label_OnboardingComplete | log.ONBOARDING_COMPLETED.message=Onboarding completed for cand_7 | candidate.cand_7.asset_update_status=Completed"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="R",
@@ -582,9 +542,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_6", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "checklist_item.check_603.status=Completed | checklist_item.check_604.status=Completed | asset.LT-006B.status=Available | asset.LT-006C.status=Assigned | asset.PH-006C.status=Assigned | asset_request.req_603.status=Completed | asset_request.req_604.status=Completed | access_check.access_603=Removed | access_check.access_605.status=Pending | attachment.Benefits-Guide.pdf.added=True | log.ASSET_UPDATED.message=Assets updated for cand_6 | candidate.cand_6.asset_update_status=Completed"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -607,9 +565,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ASSET_REASSIGNED", "message": "Assets reassigned for cand_2", "candidate_id": "cand_2"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-002A.status=Available | asset.LT-002B.status=Assigned | asset.PH-002B.status=Assigned | asset_request.req_203.status=Completed | asset_request.req_204.status=Completed | access_check.access_203=Removed | access_check.access_204=Removed | access_check.access_205.status=Pending | access_check.access_206.status=Pending | attachment.Company-Policies.pdf.added=True | log.ASSET_REASSIGNED.message=Assets reassigned for cand_2 | candidate.cand_2.asset_update_status=Completed"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -632,9 +588,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ASSET_UPDATED", "message": "Assets updated for cand_3", "candidate_id": "cand_3"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_3", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-003B.status=Available | asset.LT-003C.status=Assigned | asset.PH-003C.status=Assigned | asset_request.req_303.status=Completed | asset_request.req_304.status=Completed | access_check.access_303=Removed | access_check.access_304=Removed | access_check.access_305.status=Pending | access_check.access_306.status=Pending | attachment.offer_letter.pdf.added=True | log.ASSET_UPDATED.message=Assets updated for cand_3 | candidate.cand_3.asset_update_status=Completed"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -656,9 +610,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_COMPLETED", "message": "Onboarding completed for cand_7", "candidate_id": "cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-007D.status=Assigned | asset.PH-007D.status=Assigned | asset_request.req_705.status=Completed | asset_request.req_706.status=Completed | access_check.access_705=Removed | access_check.access_706=Removed | access_check.access_707.status=Pending | access_check.access_708.status=Pending | attachment.welcome_Maria_Rodriguez.md.added=True | log.ONBOARDING_COMPLETED.message=Onboarding completed for cand_7 | candidate.cand_7.asset_update_status=Completed"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="R",
@@ -679,9 +631,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access updated for cand_6", "candidate_id": "cand_6"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_6", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-006C.status=Available | asset.LT-006D.status=Assigned | asset.PH-006D.status=Assigned | asset_request.req_607.status=Completed | asset_request.req_608.status=Completed | access_check.access_605=Removed | access_check.access_606.status=Pending | attachment.Benefits-Guide.pdf.added=True | log.ASSET_UPDATED.message=Assets updated for cand_6 | log.ACCESS_UPDATED.message=Access updated for cand_6 | candidate.cand_6.asset_update_status=Completed"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -703,9 +653,7 @@ TASKS = [
             Action(name="AddAttachment", kwargs={"attachment": {"attachment_id": "attach_3", "file_name": "Company-Policies.pdf"}}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_3", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-003A.status=Available | asset.LT-003B.status=Assigned | checklist_item.check_303.status=Completed | checklist_item.check_304.status=Completed | onboarding_files.offer_letter.pdf.status=Verified | email.email_303.labels=label_AssetUpdate | log.ASSET_RELEASED.message=Old assets released for cand_3 | log.ASSET_ASSIGNED.message=New assets assigned for cand_3 | log.CHECKLIST_COMPLETED.message=Checklist completed for cand_3 | attachment.Company-Policies.pdf.added=True | candidate.cand_3.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -727,9 +675,7 @@ TASKS = [
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_5", "updates": {"asset_update_status": "Completed"}}),
             Action(name="UpdateOnboardingFile", kwargs={"file_path": "files/Driving-License.pdf", "updates": {"status": "Verified"}})
         ],
-        outputs=[
-            "asset.LT-005A.status=Available | asset.LT-005B.status=Assigned | asset_request.req_501.status=Completed | asset_request.req_502.status=Completed | access_check.access_501=Removed | access_check.access_507.status=Pending | attachment.Benefits-Guide.pdf.added=True | email.email_501.labels=label_AssetChange | log.ASSET_UPDATED.message=Assets updated for cand_5 | onboarding_files.Driving-License.pdf.status=Verified | candidate.cand_5.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -751,9 +697,7 @@ TASKS = [
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_6", "updates": {"asset_update_status": "Completed"}}),
             Action(name="UpdateOnboardingFile", kwargs={"file_path": "files/Passport.pdf", "updates": {"status": "Verified"}})
         ],
-        outputs=[
-            "asset.LT-006A.status=Available | asset.LT-006B.status=Assigned | asset_request.req_601.status=Completed | access_check.access_601=Removed | access_check.access_603.status=Pending | access_check.access_604.status=Pending | attachment.Company-Policies.pdf.added=True | email.email_601.labels=label_AssetUpdate | log.ASSET_UPDATED.message=Assets updated for cand_6 | onboarding_files.Passport.pdf.status=Verified | candidate.cand_6.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -775,9 +719,7 @@ TASKS = [
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"asset_update_status": "Completed"}}),
             Action(name="UpdateOnboardingFile", kwargs={"file_path": "files/ID-Proof.pdf", "updates": {"status": "Verified"}})
         ],
-        outputs=[
-            "asset.LT-007A.status=Available | asset.LT-007B.status=Assigned | checklist_item.check_701.status=Completed | checklist_item.check_702.status=Completed | access_check.access_701=Removed | access_check.access_705.status=Pending | attachment.Benefits-Guide.pdf.added=True | email.email_701.labels=label_AssetUpdate | log.ASSET_UPDATED.message=Assets updated for cand_7 | onboarding_files.ID-Proof.pdf.status=Verified | candidate.cand_7.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -800,9 +742,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ASSET_UPDATED", "message": "Assets updated for cand_1", "candidate_id": "cand_1"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_1", "updates": {"onboarding_progress": "Completed"}}),
         ],
-        outputs=[
-            "asset.LT-001A.status=Available | asset.LT-001B.status=Assigned | asset_request.req_101.status=Completed | checklist_item.check_101.status=Completed | checklist_item.check_102.status=Completed | onboarding_files.offer_letter.pdf.status=Verified | email.email_101.labels=label_OnboardingUpdate | access_check.access_101=Removed | access_check.access_105.status=Pending | attachment.Handbook.pdf.added=True | log.ASSET_UPDATED.message=Assets updated for cand_1 | candidate.cand_1.onboarding_progress=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -825,9 +765,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "FINANCE_UPDATE", "message": "Payroll forms updated for cand_3", "candidate_id": "cand_3"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_3", "updates": {"payroll_status": "Active"}}),
         ],
-        outputs=[
-            "asset.LT-003A.status=Available | asset.LT-003B.status=Assigned | checklist_item.check_301.status=Completed | checklist_item.check_302.status=Completed | onboarding_files.tax_form.pdf.status=Verified | email.email_303.labels=label_Finance | access_check.access_303=Removed | access_check.access_304.status=Pending | attachment.Benefits.pdf.removed=True | attachment.Payroll-Form.pdf.added=True | log.FINANCE_UPDATE.message=Payroll forms updated for cand_3 | candidate.cand_3.payroll_status=Active"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -849,9 +787,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "CHECKLIST_COMPLETED", "message": "Checklist completed for cand_2", "candidate_id": "cand_2"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"status": "Onboarded"}})
         ],
-        outputs=[
-            "asset.LT-002A.status=Available | asset.LT-002B.status=Assigned | asset_request.req_201.status=Completed | checklist_item.check_201.status=Completed | checklist_item.check_202.status=Completed | onboarding_files.id_proof.pdf=Removed | onboarding_files.nda.pdf.status=Pending | email.email_201.labels=label_OnboardingComplete | log.ASSET_UPDATED.message=Assets updated for cand_2 | log.CHECKLIST_COMPLETED.message=Checklist completed for cand_2 | candidate.cand_2.status=Onboarded"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -873,9 +809,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "CHECKLIST_COMPLETED", "message": "Checklist item completed for cand_5", "candidate_id": "cand_5"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_5", "updates": {"access_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-005A.status=Available | asset.LT-005B.status=Assigned | asset_request.req_501.status=Completed | access_check.access_501=Removed | access_check.access_502.status=Pending | checklist_item.check_502.status=Completed | email.email_501.subject=Access Updated | email.email_501.labels=label_AccessUpdate | log.ACCESS_UPDATED.message=Access updated for cand_5 | log.CHECKLIST_COMPLETED.message=Checklist item completed for cand_5 | candidate.cand_5.access_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -897,9 +831,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "CHECKLIST_COMPLETED", "message": "All checklist items completed for cand_7", "candidate_id": "cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"phase": "Finalized"}})
         ],
-        outputs=[
-            "asset.LT-007A.status=Available | asset.LT-007B.status=Assigned | checklist_item.check_701.status=Completed | checklist_item.check_702.status=Completed | onboarding_files.tax_form.pdf.status=Verified | attachment.Employee-Handbook.pdf.added=True | email.email_701.subject=Onboarding Policy Updated | email.email_701.labels=label_PolicyUpdate | log.ONBOARDING_UPDATED.message=Onboarding finalized for cand_7 | log.CHECKLIST_COMPLETED.message=All checklist items completed for cand_7 | candidate.cand_7.phase=Finalized"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -922,9 +854,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "CANDIDATE_CONFIRMED", "message": "cand_1 fully confirmed", "candidate_id": "cand_1"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_1", "updates": {"status": "Confirmed"}})
         ],
-        outputs=[
-            "asset.LT-001A.status=Available | asset.LT-001C.status=Assigned | checklist_item.check_101.status=Completed | checklist_item.check_102.status=Completed | access_check.access_101=Removed | access_check.access_103.status=Pending | onboarding_files.offer_letter.pdf.status=Verified | onboarding_files.signed_contract.pdf.status=Pending | email.email_101.subject=Final Contract Signed | email.email_101.labels=label_ContractComplete | log.CANDIDATE_CONFIRMED.message=cand_1 fully confirmed | candidate.cand_1.status=Confirmed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -947,9 +877,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_READY", "message": "Medical cleared and training scheduled for cand_3", "candidate_id": "cand_3"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_3", "updates": {"stage": "ReadyForTraining"}})
         ],
-        outputs=[
-            "asset.LT-003A.status=Available | asset.LT-003B.status=Assigned | asset_request.req_301.status=Completed | checklist_item.check_301.status=Completed | onboarding_files.id_proof.pdf.status=Verified | onboarding_files.medical_form.pdf.status=Pending | email.email_301.subject=Onboarding Medical Cleared | email.email_301.labels=label_MedicalUpdate | attachment.attach_3=Removed | attachment.Training-Schedule.pdf.added=True | log.ONBOARDING_READY.message=Medical cleared and training scheduled for cand_3 | candidate.cand_3.stage=ReadyForTraining"
-        ],
+        outputs=[]
     ),
 
 
@@ -973,9 +901,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "PROFILE_VERIFIED", "message": "Resume verified for cand_4", "candidate_id": "cand_4"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_4", "updates": {"profile_status": "Verified"}})
         ],
-        outputs=[
-            "asset.LT-004A.status=Available | asset.LT-004B.status=Assigned | asset_request.req_401.status=Completed | checklist_item.check_401.status=Completed | checklist_item.check_402.status=Completed | access_check.access_404.status=Pending | onboarding_files.old_resume.pdf=Removed | onboarding_files.updated_resume.pdf.status=Pending | email.email_401.subject=Resume Verified | email.email_401.labels=label_ResumeCheck | log.PROFILE_VERIFIED.message=Resume verified for cand_4 | candidate.cand_4.profile_status=Verified"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -997,9 +923,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "TRAINING_COMPLETED", "message": "cand_6 training completed", "candidate_id": "cand_6"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_6", "updates": {"status": "Trained"}})
         ],
-        outputs=[
-            "asset.LT-006A.status=Available | asset.LT-006B.status=Assigned | asset_request.req_601.status=Completed | checklist_item.check_601.status=Completed | access_check.access_606.status=Pending | onboarding_files.training_doc.pdf.status=Verified | onboarding_files.signed_training.pdf.status=Pending | email.email_601.subject=Training Completed | email.email_601.labels=label_TrainingDone | log.TRAINING_COMPLETED.message=cand_6 training completed | candidate.cand_6.status=Trained"
-        ],
+        outputs=[]
     ),
 
 
@@ -1023,9 +947,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "POLICY_ACCEPTED", "message": "Code of conduct signed for cand_2", "candidate_id": "cand_2"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"phase": "ActiveEmployee"}})
         ],
-        outputs=[
-            "asset.LT-002B.status=Available | asset.LT-002C.status=Assigned | asset_request.req_202.status=Completed | checklist_item.check_203.status=Completed | checklist_item.check_204.status=Completed | access_check.access_205.status=Pending | onboarding_files.nda.pdf.status=Verified | attachment.Code-Of-Conduct.pdf.added=True | email.email_202.subject=Code of Conduct Signed | email.email_202.labels=label_PolicySigned | log.POLICY_ACCEPTED.message=Code of conduct signed for cand_2 | candidate.cand_2.phase=ActiveEmployee"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1047,9 +969,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access changes applied for cand_2", "candidate_id": "cand_2"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-002A.status=Available | asset.LT-002B.status=Assigned | asset_request.req_202.status=Completed | access_check.access_202=Removed | access_check.access_205.status=Pending | attachment.Code-of-Conduct.pdf.added=True | email.email_205.labels=label_PolicyUpdate | checklist_item.check_205.status=Completed | log.ASSET_UPDATED.message=Laptop updated for cand_2 | log.ACCESS_UPDATED.message=Access changes applied for cand_2 | candidate.cand_2.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1071,9 +991,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access updated for cand_1", "candidate_id": "cand_1"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_1", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-001A.status=Available | asset.LT-001B.status=Assigned | asset_request.req_101.status=Completed | access_check.access_101=Removed | access_check.access_103.status=Pending | attachment.Employee-Handbook.pdf.added=True | email.email_103.labels=label_OnboardingDocs | checklist_item.check_103.status=Completed | log.ASSET_UPDATED.message=Laptop updated for cand_1 | log.ACCESS_UPDATED.message=Access updated for cand_1 | candidate.cand_1.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1095,9 +1013,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access updated for cand_4", "candidate_id": "cand_4"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_4", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.MN-004A.status=Available | asset.MN-004B.status=Assigned | asset_request.req_401.status=Completed | access_check.access_401=Removed | access_check.access_402.status=Pending | attachment.Health-Safety.pdf.added=True | email.email_402.labels=label_HealthPolicy | checklist_item.check_402.status=Completed | log.ASSET_UPDATED.message=Monitor updated for cand_4 | log.ACCESS_UPDATED.message=Access updated for cand_4 | candidate.cand_4.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1119,9 +1035,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access updated for cand_6", "candidate_id": "cand_6"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_6", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.PH-006A.status=Available | asset.PH-006B.status=Assigned | asset_request.req_601.status=Completed | access_check.access_601=Removed | access_check.access_603.status=Pending | attachment.Compliance-Report.pdf.added=True | email.email_603.labels=label_Compliance | checklist_item.check_603.status=Completed | log.ASSET_UPDATED.message=Phone updated for cand_6 | log.ACCESS_UPDATED.message=Access updated for cand_6 | candidate.cand_6.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1143,9 +1057,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access updated for cand_2", "candidate_id": "cand_2"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.DT-002A.status=Available | asset.DT-002B.status=Assigned | asset_request.req_201.status=Completed | access_check.access_201=Removed | access_check.access_204.status=Pending | attachment.Payroll-Guide.pdf.added=True | email.email_204.labels=label_FinanceDocs | checklist_item.check_204.status=Completed | log.ASSET_UPDATED.message=Desktop updated for cand_2 | log.ACCESS_UPDATED.message=Access updated for cand_2 | candidate.cand_2.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1167,9 +1079,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access updated for cand_3", "candidate_id": "cand_3"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_3", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.HS-003A.status=Available | asset.HS-003B.status=Assigned | asset_request.req_301.status=Completed | access_check.access_301=Removed | access_check.access_305.status=Pending | attachment.Security-Guidelines.pdf.added=True | email.email_305.labels=label_SecurityDocs | checklist_item.check_305.status=Completed | log.ASSET_UPDATED.message=Headset updated for cand_3 | log.ACCESS_UPDATED.message=Access updated for cand_3 | candidate.cand_3.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1191,9 +1101,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access updated for cand_5", "candidate_id": "cand_5"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_5", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.TB-005A.status=Available | asset.TB-005B.status=Assigned | asset_request.req_501.status=Completed | access_check.access_501=Removed | access_check.access_506.status=Pending | attachment.Training-Plan.pdf.added=True | email.email_506.labels=label_Learning | checklist_item.check_506.status=Completed | log.ASSET_UPDATED.message=Tablet updated for cand_5 | log.ACCESS_UPDATED.message=Access updated for cand_5 | candidate.cand_5.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1215,9 +1123,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access updated for cand_7", "candidate_id": "cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.DS-007A.status=Available | asset.DS-007B.status=Assigned | asset_request.req_701.status=Completed | access_check.access_701=Removed | access_check.access_707.status=Pending | attachment.Onboarding-Schedule.pdf.added=True | email.email_707.labels=label_Onboarding | checklist_item.check_707.status=Completed | log.ASSET_UPDATED.message=Docking station updated for cand_7 | log.ACCESS_UPDATED.message=Access updated for cand_7 | candidate.cand_7.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1238,9 +1144,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access checks updated for cand_1", "candidate_id": "cand_1"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_1", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-001A.status=Available | asset.LT-001B.status=Assigned | asset_request.req_101.status=Completed | asset_request.req_102.status=Completed | access_check.access_101=Removed | access_check.access_103.status=Pending | attachment.Benefits-Guide.pdf.added=True | log.ASSET_UPDATED.message=Assets updated for cand_1 | log.ACCESS_UPDATED.message=Access checks updated for cand_1 | candidate.cand_1.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1261,9 +1165,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access checks updated for cand_4", "candidate_id": "cand_4"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_4", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-004A.status=Available | asset.LT-004B.status=Assigned | asset.PH-004.status=Assigned | asset_request.req_401.status=Completed | access_check.access_401=Removed | access_check.access_403.status=Pending | attachment.Company-Policies.pdf.added=True | log.ASSET_UPDATED.message=Assets updated for cand_4 | log.ACCESS_UPDATED.message=Access checks updated for cand_4 | candidate.cand_4.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1291,9 +1193,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_6", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-006A.status=Available | asset.LT-006B.status=Assigned | asset_request.req_601.status=Completed | access_check.access_601=Removed | access_check.access_603.status=Pending | attachment.Benefits-Guide.pdf.added=True | email.email_603.labels=label_AssetUpdate | checklist_item.check_603.status=Completed | log.ASSET_UPDATED.message=Assets updated for cand_6 | log.ACCESS_UPDATED.message=Access checks updated for cand_6 | candidate.cand_6.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1319,9 +1219,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access checks updated for cand_6", "candidate_id": "cand_6"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_6", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-006.status=Available | asset.LT-006B.status=Assigned | asset.PH-006B.status=Assigned | asset_request.req_601.status=Completed | asset_request.req_602.status=Completed | access_check.access_601=Removed | access_check.access_602=Removed | access_check.access_603.status=Pending | access_check.access_604.status=Pending | attachment.Company-Policies.pdf.added=True | attachment.Benefits-Guide.pdf.added=True | email.email_601.labels=label_AssetChange | log.ASSET_REASSIGNMENT.message=Assets reassigned for cand_6 | log.ACCESS_UPDATED.message=Access checks updated for cand_6 | candidate.cand_6.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1343,9 +1241,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_COMPLETED", "message": "Onboarding completed for cand_7", "candidate_id": "cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-007.status=Assigned | asset.PH-007.status=Assigned | asset_request.req_701.status=Approved | asset_request.req_702.status=Approved | checklist_item.check_701.status=Completed | checklist_item.check_702.status=Completed | onboarding_files.welcome.pdf.status=Verified | onboarding_files.id_scan.pdf.status=Verified | email.email_701.labels=label_Ready | log.ONBOARDING_COMPLETED.message=Onboarding completed for cand_7 | candidate.cand_7.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1367,9 +1263,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "CHECKLIST_COMPLETED", "message": "Checklist completed for cand_3", "candidate_id": "cand_3"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_3", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-003A.status=Available | asset.LT-003B.status=Assigned | checklist_item.check_303.status=Completed | checklist_item.check_304.status=Completed | onboarding_files.offer_letter.pdf.status=Verified | attachment.Company-Policies.pdf.added=True | email.email_303.labels=label_AssetUpdate | log.ASSET_RELEASED.message=Old assets released for cand_3 | log.ASSET_ASSIGNED.message=New assets assigned for cand_3 | log.CHECKLIST_COMPLETED.message=Checklist completed for cand_3 | candidate.cand_3.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1388,9 +1282,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "LAPTOP_REQUEST_APPROVED", "message": "Laptop requests approved and assigned", "candidate_id": "cand_2"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "LAPTOP_REQUEST_APPROVED", "message": "Laptop requests approved and assigned", "candidate_id": "cand_3"}),
         ],
-        outputs=[
-            "asset_request.req_Jane_Laptop.status=Approved | asset_request.req_Peter_Laptop.status=Approved | asset.LT-DELL-003.status=Assigned | asset.LT-DELL-002.status=Assigned | onboarding_files.Jane_Smith.laptop_assigned=True | onboarding_files.Peter_Jones.laptop_assigned=True | log.LAPTOP_REQUEST_APPROVED.message=Laptop requests approved and assigned"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1412,9 +1304,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "CHECKLIST_COMPLETED", "message": "Checklist completed for cand_2", "candidate_id": "cand_2"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-002A.status=Available | asset.LT-002B.status=Assigned | asset.PH-002B.status=Assigned | checklist_item.check_203.status=Completed | checklist_item.check_204.status=Completed | onboarding_files.Company-Policies.pdf.status=Verified | email.email_203.labels=label_AssetUpdate | log.ASSET_RELEASED.message=Old assets released for cand_2 | log.ASSET_ASSIGNED.message=New assets assigned for cand_2 | log.CHECKLIST_COMPLETED.message=Checklist completed for cand_2 | candidate.cand_2.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1436,9 +1326,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABEL_APPLIED", "message": "Email labeled for cand_4", "candidate_id": "cand_4"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_4", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-004A.status=Available | asset.LT-004B.status=Assigned | asset.PH-004B.status=Assigned | checklist_item.check_404.status=Completed | onboarding_files.offer_letter.pdf.status=Verified | attachment.Company-Policies.pdf.added=True | email.email_404.labels=label_AssetUpdate | log.ASSET_UPDATED.message=Assets updated for cand_4 | log.CHECKLIST_COMPLETED.message=Checklist item completed for cand_4 | log.EMAIL_LABEL_APPLIED.message=Email labeled for cand_4 | candidate.cand_4.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1460,9 +1348,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "CHECKLIST_COMPLETED", "message": "Checklist completed for cand_5", "candidate_id": "cand_5"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_5", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-005B.status=Assigned | asset.PH-005B.status=Assigned | checklist_item.check_505.status=Completed | checklist_item.check_506.status=Completed | onboarding_files.resume.pdf.status=Verified | onboarding_files.security_form.pdf.status=Verified | attachment.Company-Policies.pdf.added=True | email.email_505.labels=label_Welcome | log.ONBOARDING_COMPLETED.message=Onboarding completed for cand_5 | log.CHECKLIST_COMPLETED.message=Checklist completed for cand_5 | candidate.cand_5.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1484,9 +1370,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "CHECKLIST_COMPLETED", "message": "Checklist completed for cand_2", "candidate_id": "cand_2"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-002A.status=Available | asset.LT-002B.status=Assigned | asset.PH-002B.status=Assigned | checklist_item.check_202.status=Completed | checklist_item.check_203.status=Completed | onboarding_files.offer_letter.pdf.status=Verified | attachment.Company-Policies.pdf.added=True | email.email_202.labels=label_AssetChange | log.ASSET_UPDATED.message=Assets updated for cand_2 | log.CHECKLIST_COMPLETED.message=Checklist completed for cand_2 | candidate.cand_2.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1566,9 +1450,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABEL_APPLIED", "message": "Email labeled 'Welcome' for cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset_request.req_501.status=Approved | asset_request.req_502.status=Approved | asset.LT-DELL-010.status=Assigned | asset.PH-SAMSUNG-005.status=Assigned | asset.ACC-MOUSE-001.status=Assigned | checklist_item.check_701.status=Completed | checklist_item.check_702.status=Completed | onboarding_files.welcome_guide.pdf.status=Verified | onboarding_files.id_scan.pdf.status=Verified | access_check.access_901.status=Approved | access_check.access_902.status=Approved | email.email_701.labels=label_Welcome | log.ASSET_ASSIGNED.message=Laptop, phone, and accessory assigned to cand_7 | log.ASSET_REQUEST_APPROVED.message=Asset requests req_501 and req_502 approved | log.CHECKLIST_COMPLETED.message=Checklist items completed for cand_7 | log.ACCESS_CHECK_APPROVED.message=Access checks approved for cand_7 | log.EMAIL_LABEL_APPLIED.message=Email labeled 'Welcome' for cand_7 | candidate.cand_7.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1588,9 +1470,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "LAPTOP_ASSIGNED", "message": "PH-LAPTOP-007 assigned", "candidate_id": "cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_701.status=Approved | asset_request.req_702.status=Approved | asset.PH-LAPTOP-007.status=Assigned | asset.PH-IPHONE-007.status=Assigned | onboarding_files.cand_7.laptop_assigned=True | onboarding_files.cand_7.phone_assigned=True | log.ASSET_REQUEST_APPROVED.message=Asset requests req_701 and req_702 approved | log.PHONE_ASSIGNED.message=PH-IPHONE-007 assigned | log.LAPTOP_ASSIGNED.message=PH-LAPTOP-007 assigned | candidate.cand_7.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1619,9 +1499,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABEL_APPLIED", "message": "Email email_701 labeled Welcome", "candidate_id": "cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset_request.req_501.status=Approved | asset_request.req_502.status=Approved | asset.PH-LAPTOP-010.status=Assigned | asset.PH-IPHONE-005.status=Assigned | asset.ACC-MOUSE-001.status=Assigned | onboarding_files.welcome_guide.laptop_assigned=True | onboarding_files.welcome_guide.phone_assigned=True | onboarding_files.welcome_guide.accessory_assigned=True | onboarding_files.id_scan.status=Verified | checklist.check_701.status=Completed | checklist.check_702.status=Completed | access_check.access_901.status=Approved | access_check.access_902.status=Approved | email.email_701.labels=label_Welcome | candidate.cand_7.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1638,9 +1516,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "LAPTOP_ASSIGNED", "message": "PH-LAPTOP-010 assigned", "candidate_id": "cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"onboarding_status": "LaptopAssigned"}})
         ],
-        outputs=[
-            "asset_request.req_501.status=Approved | asset.PH-LAPTOP-010.status=Assigned | onboarding_files.welcome_guide.laptop_assigned=True | log.ASSET_REQUEST_APPROVED.message=Asset request req_501 approved | log.LAPTOP_ASSIGNED.message=PH-LAPTOP-010 assigned | candidate.cand_7.onboarding_status=LaptopAssigned"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1665,9 +1541,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABEL_APPLIED", "message": "Email email_701 labeled Welcome", "candidate_id": "cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"onboarding_status": "AssetsAndChecksReady"}})
         ],
-        outputs=[
-            "asset_request.req_502.status=Approved | asset.PH-IPHONE-005.status=Assigned | onboarding_files.welcome_guide.phone_assigned=True | checklist.check_701.status=Completed | checklist.check_702.status=Completed | access_check.access_901.status=Approved | access_check.access_902.status=Approved | email.email_701.labels=label_Welcome | log.ASSET_REQUEST_APPROVED.message=Asset request req_502 approved | log.PHONE_ASSIGNED.message=PH-IPHONE-005 assigned | log.CHECKLIST_COMPLETED.message=Checklist items check_701 and check_702 completed | log.ACCESS_CHECK_APPROVED.message=Access checks access_901 and access_902 approved | log.EMAIL_LABEL_APPLIED.message=Email email_701 labeled Welcome | candidate.cand_7.onboarding_status=AssetsAndChecksReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1731,9 +1605,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_7", "updates": {"onboarding_status": "OnboardingCompleted"}})
         ],
-        outputs=[
-            "asset_request.req_501.status=Approved | asset_request.req_502.status=Approved | asset.PH-LAPTOP-010.status=Assigned | asset.PH-IPHONE-005.status=Assigned | asset.ACC-MOUSE-001.status=Assigned | asset.ACC-KEYBOARD-002.status=Assigned | onboarding_files.welcome_guide.laptop_assigned=True | onboarding_files.welcome_guide.phone_assigned=True | onboarding_files.id_scan.verified=True | onboarding_files.policy_acknowledgment.acknowledged=True | checklist.check_701.status=Completed | checklist.check_702.status=Completed | checklist.check_703.status=Completed | access_check.access_901.status=Approved | access_check.access_902.status=Approved | access_check.access_903.status=Approved | email.email_701.labels=label_Welcome | email.email_702.labels=label_Policy | log.ASSET_REQUEST_APPROVED.message=Asset requests req_501 and req_502 approved | log.ASSETS_ASSIGNED.message=Laptop, phone, mouse, and keyboard assigned | log.CHECKLIST_COMPLETED.message=Checklist items check_701, check_702, check_703 completed | log.ACCESS_CHECK_APPROVED.message=Access checks access_901, access_902, access_903 approved | log.EMAIL_LABEL_APPLIED.message=Emails email_701 and email_702 labeled | candidate.cand_7.onboarding_status=OnboardingCompleted"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1763,9 +1635,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_5", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_105.status=Approved | asset.LT-MBP-003.status=Assigned | onboarding_files.Alex_Thompson.laptop_assigned=True | checklist_item.check_207.status=Completed | checklist_item.check_208.status=Completed | access_check.access_306.status=Approved | access_check.access_307.status=Approved | log.ASSET_ASSIGNED.message=Laptop LT-MBP-003 assigned to cand_5 | log.ASSET_REQUEST_APPROVED.message=Asset request req_105 approved | log.CHECKLIST_COMPLETED.message=Checklist items completed for cand_5 | log.ACCESS_CHECK_APPROVED.message=Access checks approved for cand_5 | candidate.cand_5.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1788,9 +1658,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "LAPTOP_ASSIGNED", "message": "Laptops assigned to Jane, Peter, Maria", "candidate_id": "cand_3"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "LAPTOP_ASSIGNED", "message": "Laptops assigned to Jane, Peter, Maria", "candidate_id": "cand_4"}),
         ],
-        outputs=[
-            "asset_request.req_Jane_Laptop.status=Approved | asset_request.req_Peter_Laptop.status=Approved | asset_request.req_Maria_Laptop.status=Approved | asset.LT-DELL-003.status=Assigned | asset.LT-DELL-002.status=Assigned | asset.LT-MBP-001.status=Assigned | onboarding_files.Jane_Smith.laptop_assigned=True | onboarding_files.Peter_Jones.laptop_assigned=True | onboarding_files.Maria_Rodriguez.laptop_assigned=True | log.LAPTOP_ASSIGNED.message=Laptops assigned to Jane, Peter, Maria"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1810,9 +1678,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "PHONE_ASSIGNED", "message": "PH-IPHONE-001 assigned", "candidate_id": "cand_5"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_5", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_Alex_Laptop.status=Approved | asset_request.req_Alex_Phone.status=Approved | asset.LT-MBP-002.status=Assigned | asset.PH-IPHONE-001.status=Assigned | onboarding_files.Alex_Thompson.laptop_assigned=True | onboarding_files.Alex_Thompson.phone_assigned=True | log.ASSET_REQUEST_APPROVED.message=Laptop and phone approved for Jordan Williams | log.LAPTOP_ASSIGNED.message=LT-MBP-002 assigned | log.PHONE_ASSIGNED.message=PH-IPHONE-001 assigned | candidate.cand_5.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1835,9 +1701,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_2", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_101.status=Approved | asset.LT-DELL-003.status=Assigned | onboarding_files.cand_2.laptop_assigned=True | log.ASSET_REQUEST_APPROVED.message=Asset request req_101 approved | log.LAPTOP_ASSIGNED.message=LT-DELL-003 assigned | candidate.cand_2.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1857,9 +1721,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "PHONE_ASSIGNED", "message": "PH-IPHONE-002 assigned", "candidate_id": "cand_4"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_4", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_104.status=Approved | asset_request.req_105.status=Approved | asset.LT-MBP-001.status=Assigned | asset.PH-IPHONE-002.status=Assigned | onboarding_files.cand_4.laptop_assigned=True | onboarding_files.cand_4.phone_assigned=True | onboarding_files.cand_4.access_issues_resolved=True | log.ASSET_REQUEST_APPROVED.message=Asset requests req_104 and req_105 approved | log.LAPTOP_ASSIGNED.message=LT-MBP-001 assigned | log.PHONE_ASSIGNED.message=PH-IPHONE-002 assigned | candidate.cand_4.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1896,9 +1758,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_7", "updates": {"onboarding_status": "AssetsAndChecksReady"}})
         ],
-        outputs=[
-            "asset_request.req_501.status=Approved | asset.PH-LAPTOP-010.status=Assigned | onboarding_files.welcome_guide.laptop_assigned=True | checklist.check_701.status=Completed | checklist.check_702.status=Completed | access_check.access_901.status=Approved | access_check.access_902.status=Approved | email.email_701.labels=label_Welcome | log.ASSET_REQUEST_APPROVED.message=Asset request req_501 approved | log.LAPTOP_ASSIGNED.message=PH-LAPTOP-010 assigned | log.CHECKLIST_COMPLETED.message=Checklist items check_701 and check_702 completed | log.ACCESS_CHECK_APPROVED.message=Access checks access_901 and access_902 approved | log.EMAIL_LABEL_APPLIED.message=Email email_701 labeled Welcome | candidate.cand_7.onboarding_status=AssetsAndChecksReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1920,9 +1780,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_COMPLETED", "message": "Onboarding completed for cand_1", "candidate_id": "cand_1"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_1", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset_request.req_101.status=Approved | asset_request.req_102.status=Approved | asset.LT-001.status=Assigned | asset.PH-001.status=Assigned | checklist_item.check_101.status=Completed | checklist_item.check_102.status=Completed | onboarding_files.welcome.pdf.status=Verified | onboarding_files.id_scan.pdf.status=Verified | email.email_101.labels=label_Welcome | log.ONBOARDING_COMPLETED.message=Onboarding completed for cand_1 | candidate.cand_1.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1944,9 +1802,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABELED", "message": "Email labeled 'Ready' for cand_2", "candidate_id": "cand_2"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset_request.req_201.status=Approved | asset_request.req_202.status=Approved | asset.LT-002.status=Assigned | asset.PH-002.status=Assigned | checklist_item.check_201.status=Completed | onboarding_files.offer_letter.pdf.status=Verified | email.email_201.labels=label_Ready | log.ASSET_ASSIGNED.message=Assets assigned to cand_2 | log.CHECKLIST_COMPLETED.message=Checklist completed for cand_2 | log.EMAIL_LABELED.message=Email labeled 'Ready' for cand_2 | candidate.cand_2.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1968,9 +1824,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABELED", "message": "Email labeled 'AssetUpdate' for cand_3", "candidate_id": "cand_3"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_3", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-003.status=Available | asset.PH-003.status=Available | asset.LT-003B.status=Assigned | checklist_item.check_301.status=Completed | checklist_item.check_302.status=Completed | onboarding_files.id_scan.pdf.status=Verified | email.email_301.labels=label_AssetUpdate | log.ASSET_RELEASED.message=Old assets released for cand_3 | log.CHECKLIST_COMPLETED.message=Checklist completed for cand_3 | log.EMAIL_LABELED.message=Email labeled 'AssetUpdate' for cand_3 | candidate.cand_3.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -1992,9 +1846,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABELED", "message": "Email labeled 'AssetUpdate' for cand_3", "candidate_id": "cand_3"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_3", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-003.status=Available | asset.PH-003.status=Available | asset.LT-003B.status=Assigned | checklist_item.check_301.status=Completed | checklist_item.check_302.status=Completed | onboarding_files.id_scan.pdf.status=Verified | email.email_301.labels=label_AssetUpdate | log.ASSET_RELEASED.message=Old assets released for cand_3 | log.CHECKLIST_COMPLETED.message=Checklist completed for cand_3 | log.EMAIL_LABELED.message=Email labeled 'AssetUpdate' for cand_3 | candidate.cand_3.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2015,9 +1867,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABELED", "message": "Email labeled 'Onboarded' for cand_4", "candidate_id": "cand_4"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_4", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset_request.req_401.status=Approved | asset.LT-004.status=Assigned | asset.PH-004.status=Assigned | checklist_item.check_401.status=Completed | onboarding_files.welcome_guide.pdf.status=Verified | email.email_401.labels=label_Onboarded | log.ASSET_ASSIGNED.message=Assets assigned for cand_4 | log.CHECKLIST_COMPLETED.message=Checklist completed for cand_4 | log.EMAIL_LABELED.message=Email labeled 'Onboarded' for cand_4 | candidate.cand_4.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2038,9 +1888,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABELED", "message": "Email labeled 'AssetUpdate' for cand_5", "candidate_id": "cand_5"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_5", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-005.status=Available | asset.LT-005B.status=Assigned | checklist_item.check_501.status=Completed | onboarding_files.id_scan.pdf.status=Verified | email.email_501.labels=label_AssetUpdate | log.ASSET_RELEASED.message=Old assets released for cand_5 | log.ASSET_ASSIGNED.message=New assets assigned for cand_5 | log.CHECKLIST_COMPLETED.message=Checklist completed for cand_5 | log.EMAIL_LABELED.message=Email labeled 'AssetUpdate' for cand_5 | candidate.cand_5.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2065,9 +1913,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_COMPLETED", "message": "Candidate cand_4 onboarding completed", "candidate_id": "cand_4"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_4", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset_request.req_401.status=Approved | asset_request.req_402.status=Approved | asset.LT-DELL-004.status=Assigned | asset.PH-SAMSUNG-004.status=Assigned | asset.ACC-MOUSE-004.status=Assigned | checklist_item.check_401.status=Completed | checklist_item.check_402.status=Completed | onboarding_files.welcome_guide.pdf.status=Verified | onboarding_files.id_scan.pdf.status=Verified | access_check.access_401.status=Approved | access_check.access_402.status=Approved | email.email_401.labels=label_OnboardingReady | log.ONBOARDING_COMPLETED.message=Candidate cand_4 onboarding completed | candidate.cand_4.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2093,9 +1939,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access checks updated for cand_7", "candidate_id": "cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-OLD-007.status=Available | asset.LT-NEW-007.status=Assigned | asset.PH-NEW-007.status=Assigned | asset.ACC-HEADSET-007.status=Assigned | asset_request.req_701.status=Completed | asset_request.req_702.status=Completed | access_check.access_701=Removed | access_check.access_702=Removed | access_check.access_703.status=Pending | access_check.access_704.status=Pending | attachment.Company-Policies.pdf.added=True | email.email_701.labels=label_AssetChange | log.ASSET_REASSIGNMENT.message=Assets reassigned for cand_7 | log.ACCESS_UPDATED.message=Access checks updated for cand_7 | candidate.cand_7.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
 
@@ -2120,9 +1964,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_COMPLETED", "message": "Candidate cand_1 onboarding completed", "candidate_id": "cand_1"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_1", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset_request.req_101.status=Approved | asset_request.req_102.status=Approved | asset.LT-HP-001.status=Assigned | asset.PH-IP-001.status=Assigned | checklist_item.check_101.status=Completed | checklist_item.check_102.status=Completed | onboarding_files.offer_letter.pdf.status=Verified | onboarding_files.id_scan.pdf.status=Verified | access_check.access_101.status=Approved | access_check.access_102.status=Approved | email.email_101.labels=label_OnboardingReady | log.ONBOARDING_COMPLETED.message=Candidate cand_1 onboarding completed | candidate.cand_1.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2146,9 +1988,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_COMPLETED", "message": "Candidate cand_3 onboarding completed", "candidate_id": "cand_3"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_3", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset_request.req_301.status=Approved | asset_request.req_302.status=Approved | asset.LT-HP-003.status=Assigned | asset.PH-IP-003.status=Assigned | checklist_item.check_301.status=Completed | checklist_item.check_302.status=Completed | onboarding_files.offer_letter.pdf.status=Verified | onboarding_files.id_scan.pdf.status=Verified | access_check.access_301.status=Approved | access_check.access_302.status=Approved | email.email_301.labels=label_OnboardingReady | log.ONBOARDING_COMPLETED.message=Candidate cand_3 onboarding completed | candidate.cand_3.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2175,9 +2015,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_CHECK_APPROVED", "message": "Access checks approved for cand_2"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_201.status=Approved | asset_request.req_202.status=Approved | asset.LT-MBP-004.status=Assigned | asset.PH-IPHONE-002.status=Assigned | asset.ACC-HEADSET-001.status=Assigned | checklist_item.check_301.status=Completed | checklist_item.check_302.status=Completed | access_check.access_401.status=Approved | access_check.access_402.status=Approved | onboarding_files.Jane_Smith.laptop_assigned=True | onboarding_files.Jane_Smith.phone_assigned=True | onboarding_files.Jane_Smith.asset_request.assigned_assets=['LT-MBP-004','PH-IPHONE-002','ACC-HEADSET-001'] | log.ASSET_ASSIGNED.message=Laptop, phone, and headset assigned to cand_2 | log.ASSET_REQUEST_APPROVED.message=Asset requests req_201 and req_202 approved | log.CHECKLIST_COMPLETED.message=Checklist items completed for cand_2 | log.ACCESS_CHECK_APPROVED.message=Access checks approved for cand_2 | candidate.cand_2.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2204,9 +2042,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_CHECK_APPROVED", "message": "Access checks approved for cand_3"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_3", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_203.status=Approved | asset_request.req_204.status=Approved | asset.LT-DELL-003.status=Assigned | asset.MON-LG-002.status=Assigned | asset.ACC-KEYBOARD-001.status=Assigned | checklist_item.check_303.status=Completed | checklist_item.check_304.status=Completed | access_check.access_403.status=Approved | access_check.access_404.status=Approved | onboarding_files.Peter_Jones.laptop_assigned=True | onboarding_files.Peter_Jones.monitor_assigned=True | onboarding_files.Peter_Jones.keyboard_assigned=True | onboarding_files.Peter_Jones.asset_request.assigned_assets=['LT-DELL-003','MON-LG-002','ACC-KEYBOARD-001'] | log.ASSET_ASSIGNED.message=Laptop, monitor, and keyboard assigned to cand_3 | log.ASSET_REQUEST_APPROVED.message=Asset requests req_203 and req_204 approved | log.CHECKLIST_COMPLETED.message=Checklist items completed for cand_3 | log.ACCESS_CHECK_APPROVED.message=Access checks approved for cand_3 | candidate.cand_3.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2234,9 +2070,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_CHECK_APPROVED", "message": "Access checks approved for cand_4"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_4", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_205.status=Approved | asset_request.req_206.status=Approved | asset_request.req_207.status=Approved | asset.LT-MBP-005.status=Assigned | asset.PH-IPHONE-003.status=Assigned | asset.ACC-MOUSE-002.status=Assigned | checklist_item.check_305.status=Completed | checklist_item.check_306.status=Completed | access_check.access_405.status=Approved | access_check.access_406.status=Approved | onboarding_files.Maria_Rodriguez.laptop_assigned=True | onboarding_files.Maria_Rodriguez.phone_assigned=True | onboarding_files.Maria_Rodriguez.accessory_assigned=True | onboarding_files.Maria_Rodriguez.asset_request.assigned_assets=['LT-MBP-005','PH-IPHONE-003','ACC-MOUSE-002'] | log.ASSET_ASSIGNED.message=Laptop, phone, and accessory assigned to cand_4 | log.ASSET_REQUEST_APPROVED.message=Asset requests req_205, req_206, req_207 approved | log.CHECKLIST_COMPLETED.message=Checklist items completed for cand_4 | log.ACCESS_CHECK_APPROVED.message=Access checks approved for cand_4 | candidate.cand_4.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2256,9 +2090,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_SENT", "message": "Welcome email sent to cand_6", "candidate_id": "cand_6"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "ASSET_RELEASED", "message": "LT-OLD-001 released from cand_6", "candidate_id": "cand_6"})
         ],
-        outputs=[
-            "asset_request.req_601.status=Approved | asset.LT-LENOVO-006.status=Assigned | email.email_601.labels=label_Onboarding | attachment.attach_601.file_name=welcome_attach.pdf | asset.LT-OLD-001.status=Available | log.ASSET_ASSIGNED.message=LT-LENOVO-006 assigned to cand_6 | log.EMAIL_SENT.message=Welcome email sent to cand_6 | log.ASSET_RELEASED.message=LT-OLD-001 released from cand_6"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2279,9 +2111,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "CHECKLIST_UPDATED", "message": "check_701 completed for cand_7", "candidate_id": "cand_7"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_APPROVED", "message": "access_701 approved for cand_7", "candidate_id": "cand_7"})
         ],
-        outputs=[
-            "email.email_701.status=Deleted | attachment.attach_701.status=Removed | onboarding_files.policies_cand7.pdf.status=Uploaded | checklist_item.check_701.status=Completed | access_check.access_701.status=Approved | log.EMAIL_DELETED.message=email_701 deleted for cand_7 | log.ATTACHMENT_REMOVED.message=attach_701 removed for cand_7 | log.ONBOARDING_FILE_ADDED.message=policies_cand7.pdf uploaded | log.CHECKLIST_UPDATED.message=check_701 completed for cand_7 | log.ACCESS_APPROVED.message=access_701 approved for cand_7"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2310,9 +2140,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_COMPLETED", "message": "Full asset and checklist update for cand_7", "candidate_id": "cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-007A.status=Available | asset.LT-007B.status=Assigned | asset_request.req_701.status=Completed | asset_request.req_702.status=Completed | access_check.access_701=Removed | access_check.access_702=Removed | access_check.access_703.status=Pending | access_check.access_704.status=Pending | attachment.Company-Policies.pdf.added=True | attachment.Benefits-Guide.pdf.added=True | email.email_701.labels=label_AssetUpdate | email.email_702.labels=label_AssetUpdate | checklist_item.check_701.status=Completed | checklist_item.check_702.status=Completed | onboarding_files.ID-Card.pdf.status=Verified | onboarding_files.Passport.pdf.status=Verified | log.ONBOARDING_COMPLETED.message=Full asset and checklist update for cand_7 | candidate.cand_7.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2334,9 +2162,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "OFFBOARDING_COMPLETED", "message": "Checklist, access, and files removed for cand_7", "candidate_id": "cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"offboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-OLD-007.status=Available | asset.PH-OLD-007.status=Available | checklist_item.check_701=Removed | checklist_item.check_702=Removed | access_check.access_701=Removed | access_check.access_702=Removed | onboarding_files.farewell.pdf=Removed | onboarding_files.exit_form.pdf=Removed | log.OFFBOARDING_ASSETS_RELEASED.message=Assets released for cand_7 | log.OFFBOARDING_COMPLETED.message=Checklist, access, and files removed for cand_7 | candidate.cand_7.offboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2361,9 +2187,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_COMPLETED", "message": "All onboarding steps completed for cand_7", "candidate_id": "cand_7"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_7", "updates": {"onboarding_status": "Completed"}})
         ],
-        outputs=[
-            "asset_request.req_701.status=Approved | asset_request.req_702.status=Approved | asset.LT-HP-007.status=Assigned | asset.PH-IP-007.status=Assigned | asset.ACC-KEY-007.status=Assigned | checklist_item.check_801.status=Completed | checklist_item.check_802.status=Completed | onboarding_files.resume.pdf.status=Verified | onboarding_files.id_scan.pdf.status=Verified | access_check.access_901.status=Approved | access_check.access_902.status=Approved | email.email_701.labels=label_OnboardingComplete | log.ONBOARDING_COMPLETED.message=All onboarding steps completed for cand_7 | candidate.cand_7.onboarding_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2388,9 +2212,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_UPDATED", "message": "Access checks updated for cand_6", "candidate_id": "cand_6"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_6", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.PH-OLD-006.status=Available | asset.LT-NEW-006.status=Assigned | asset.PH-NEW-006.status=Assigned | asset_request.req_603.status=Completed | asset_request.req_604.status=Completed | access_check.access_603=Removed | access_check.access_605.status=Pending | access_check.access_606.status=Pending | attachment.Company-Policies.pdf.added=True | attachment.Benefits-Guide.pdf.added=True | email.email_602.labels=label_AssetChange | log.ASSET_REASSIGNMENT.message=Assets reassigned for cand_6 | log.ACCESS_UPDATED.message=Access checks updated for cand_6 | candidate.cand_6.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2415,9 +2237,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_FINALIZED", "message": "Candidate cand_5 onboarding finalized", "candidate_id": "cand_5"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_5", "updates": {"onboarding_status": "Ready"}})
         ],
-        outputs=[
-            "asset_request.req_501.status=Approved | asset_request.req_502.status=Approved | asset.LT-DELL-005.status=Assigned | asset.PH-SAMSUNG-005.status=Assigned | asset.ACC-MOUSE-005.status=Assigned | checklist_item.check_701.status=Completed | checklist_item.check_702.status=Completed | onboarding_files.offer_letter.pdf.status=Verified | onboarding_files.id_scan.pdf.status=Verified | access_check.access_801.status=Approved | access_check.access_802.status=Approved | email.email_501.labels=label_OnboardingReady | log.ONBOARDING_FINALIZED.message=Candidate cand_5 onboarding finalized | candidate.cand_5.onboarding_status=Ready"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2445,9 +2265,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_2", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_101.status=Approved | asset.LT-MBP-001.status=Assigned | onboarding_files.Jane_Smith.laptop_assigned=True | checklist_item.check_201.status=Completed | checklist_item.check_202.status=Completed | access_check.access_301.status=Approved | log.ASSET_ASSIGNED.message=Laptop LT-MBP-001 assigned to cand_2 | log.ASSET_REQUEST_APPROVED.message=Asset request req_101 approved | log.CHECKLIST_COMPLETED.message=Checklist items completed for cand_2 | log.ACCESS_CHECK_APPROVED.message=Access checks approved for cand_2 | candidate.cand_2.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2475,9 +2293,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_COMPLETED", "message": "Full asset and checklist update for cand_5", "candidate_id": "cand_5"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_5", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-005A.status=Available | asset.LT-005B.status=Assigned | asset_request.req_501.status=Completed | asset_request.req_502.status=Completed | access_check.access_501=Removed | access_check.access_502=Removed | access_check.access_503.status=Pending | access_check.access_504.status=Pending | attachment.Company-Policies.pdf.added=True | attachment.Benefits-Guide.pdf.added=True | email.email_501.labels=label_AssetChange | checklist_item.check_501.status=Completed | checklist_item.check_502.status=Completed | onboarding_files.ID-Card.pdf.status=Verified | onboarding_files.Passport.pdf.status=Verified | log.ONBOARDING_COMPLETED.message=Full asset and checklist update for cand_5 | candidate.cand_5.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2508,9 +2324,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_3", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_102.status=Approved | asset.LT-DELL-002.status=Assigned | asset.MON-LG-001.status=Assigned | onboarding_files.Peter_Jones.laptop_assigned=True | onboarding_files.Peter_Jones.monitor_assigned=True | checklist_item.check_203.status=Completed | checklist_item.check_204.status=Completed | access_check.access_302.status=Approved | access_check.access_303.status=Approved | log.ASSET_ASSIGNED.message=Laptop LT-DELL-002 and Monitor MON-LG-001 assigned to cand_3 | log.ASSET_REQUEST_APPROVED.message=Asset request req_102 approved | log.CHECKLIST_COMPLETED.message=Checklist items completed for cand_3 | log.ACCESS_CHECK_APPROVED.message=Access checks approved for cand_3 | candidate.cand_3.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2542,9 +2356,7 @@ TASKS = [
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_4", "updates": {"onboarding_status": "AssetsReady"}})
         ],
-        outputs=[
-            "asset_request.req_103.status=Approved | asset_request.req_104.status=Approved | asset.LT-MBP-002.status=Assigned | asset.PH-IPHONE-001.status=Assigned | onboarding_files.Maria_Rodriguez.laptop_assigned=True | onboarding_files.Maria_Rodriguez.phone_assigned=True | checklist_item.check_205.status=Completed | checklist_item.check_206.status=Completed | access_check.access_304.status=Approved | access_check.access_305.status=Approved | log.ASSET_ASSIGNED.message=Laptop LT-MBP-002 and Phone PH-IPHONE-001 assigned to cand_4 | log.ASSET_REQUEST_APPROVED.message=Asset requests req_103 and req_104 approved | log.CHECKLIST_COMPLETED.message=Checklist items completed for cand_4 | log.ACCESS_CHECK_APPROVED.message=Access checks approved for cand_4 | candidate.cand_4.onboarding_status=AssetsReady"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2568,9 +2380,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ASSETS_ASSIGNED", "message": "Laptop, phone, and mouse assigned", "candidate_id": "cand_1"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_1", "updates": {"onboarding_status": "OnboardingCompleted"}})
         ],
-        outputs=[
-            "asset_request.req_101.status=Approved | asset_request.req_102.status=Approved | asset.PH-LAPTOP-001.status=Assigned | asset.PH-IPHONE-001.status=Assigned | asset.ACC-MOUSE-002.status=Assigned | onboarding_files.welcome_guide.laptop_assigned=True | onboarding_files.welcome_guide.phone_assigned=True | onboarding_files.id_scan.verified=True | checklist.check_101.status=Completed | access_check.access_101.status=Approved | email.email_101.labels=label_Welcome | log.ASSET_REQUEST_APPROVED.message=Asset requests req_101 and req_102 approved | log.ASSETS_ASSIGNED.message=Laptop, phone, and mouse assigned | candidate.cand_1.onboarding_status=OnboardingCompleted"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2618,9 +2428,7 @@ TASKS = [
             # Candidate update
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"onboarding_status": "OnboardingCompleted"}})
         ],
-        outputs=[
-            "asset_request.req_201.status=Approved | asset_request.req_202.status=Approved | asset.PH-LAPTOP-002.status=Assigned | asset.PH-IPHONE-002.status=Assigned | asset.ACC-MOUSE-003.status=Assigned | onboarding_files.welcome_guide_cand2.laptop_assigned=True | onboarding_files.welcome_guide_cand2.phone_assigned=True | onboarding_files.id_scan_cand2.verified=True | onboarding_files.policy_ack_cand2.acknowledged=True | checklist.check_201.status=Completed | checklist.check_202.status=Completed | checklist.check_203.status=Completed | access_check.access_201.status=Approved | access_check.access_202.status=Approved | email.email_201.labels=label_Welcome | email.email_202.labels=label_Policy | email.email_203.labels=label_Onboarding | log.ASSET_REQUEST_APPROVED.message=Asset requests req_201 and req_202 approved | log.ASSETS_ASSIGNED.message=Laptop, phone, and mouse assigned | log.CHECKLIST_COMPLETED.message=Checklist items completed | log.ACCESS_CHECK_APPROVED.message=Access checks approved | log.EMAIL_LABELS_APPLIED.message=Emails labeled 'Welcome', 'Policy', 'Onboarding' | candidate.cand_2.onboarding_status=OnboardingCompleted"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2648,9 +2456,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "ONBOARDING_COMPLETED", "message": "Full asset and checklist update for cand_2", "candidate_id": "cand_2"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"asset_update_status": "Completed"}})
         ],
-        outputs=[
-            "asset.LT-002A.status=Available | asset.LT-002B.status=Assigned | asset_request.req_201.status=Completed | asset_request.req_202.status=Completed | access_check.access_201=Removed | access_check.access_202=Removed | access_check.access_203.status=Pending | access_check.access_204.status=Pending | attachment.Company-Policies.pdf.added=True | attachment.Benefits-Guide.pdf.added=True | email.email_201.labels=label_AssetUpdate | checklist_item.check_201.status=Completed | checklist_item.check_202.status=Completed | onboarding_files.ID-Card.pdf.status=Verified | onboarding_files.Driving-License.pdf.status=Verified | log.ONBOARDING_COMPLETED.message=Full asset and checklist update for cand_2 | candidate.cand_2.asset_update_status=Completed"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2680,9 +2486,7 @@ TASKS = [
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABELS_APPLIED", "message": "Emails labeled 'Welcome' and 'Policy'", "candidate_id": "cand_5"}),
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_5", "updates": {"onboarding_status": "OnboardingCompleted"}})
         ],
-        outputs=[
-            "asset_request.req_501.status=Approved | asset_request.req_502.status=Approved | asset.PH-LAPTOP-005.status=Assigned | asset.PH-IPHONE-005.status=Assigned | asset.ACC-MOUSE-006.status=Assigned | asset.ACC-KEYBOARD-004.status=Assigned | onboarding_files.welcome_guide_cand5.laptop_assigned=True | onboarding_files.welcome_guide_cand5.phone_assigned=True | onboarding_files.id_scan_cand5.verified=True | checklist.check_501.status=Completed | checklist.check_502.status=Completed | access_check.access_501.status=Approved | email.email_501.labels=label_Welcome | email.email_502.labels=label_Policy | log.ASSET_REQUEST_APPROVED.message=Asset requests req_501 and req_502 approved | log.ASSETS_ASSIGNED.message=Laptop, phone, mouse, and keyboard assigned | log.CHECKLIST_COMPLETED.message=Checklist items completed | log.ACCESS_CHECK_APPROVED.message=Access checks approved | log.EMAIL_LABELS_APPLIED.message=Emails labeled 'Welcome' and 'Policy' | candidate.cand_5.onboarding_status=OnboardingCompleted"
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -2729,8 +2533,6 @@ TASKS = [
             # Candidate update
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_1", "updates": {"onboarding_status": "OnboardingCompleted"}})
         ],
-        outputs=[
-            "asset_request.req_101.status=Approved | asset_request.req_102.status=Approved | asset.PH-LAPTOP-001.status=Assigned | asset.PH-IPHONE-001.status=Assigned | asset.ACC-MOUSE-002.status=Assigned | asset.ACC-KEYBOARD-002.status=Assigned | onboarding_files.welcome_guide.laptop_assigned=True | onboarding_files.welcome_guide.phone_assigned=True | onboarding_files.id_scan.verified=True | onboarding_files.policy_acknowledgment.acknowledged=True | checklist.check_101.status=Completed | checklist.check_102.status=Completed | access_check.access_101.status=Approved | access_check.access_102.status=Approved | email.email_101.labels=label_Welcome | email.email_102.labels=label_Policy | log.ASSET_REQUEST_APPROVED.message=Asset requests req_101 and req_102 approved | log.ASSETS_ASSIGNED.message=Laptop, phone, mouse, and keyboard assigned | log.CHECKLIST_COMPLETED.message=Checklist items completed | log.ACCESS_CHECK_APPROVED.message=Access checks approved | log.EMAIL_LABELS_APPLIED.message=Emails labeled 'Welcome' and 'Policy' | candidate.cand_1.onboarding_status=OnboardingCompleted"
-        ],
+        outputs=[]
     ),
 ]

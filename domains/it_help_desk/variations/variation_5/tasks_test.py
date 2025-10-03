@@ -26,9 +26,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -56,9 +54,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_github_ent', 'priority': 'P3'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_salesforce', 'priority': 'P3'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -83,9 +79,7 @@ TASKS = [
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Jordan Kim was offboarded.'}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Sawyer Harris was offboarded.'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -108,9 +102,7 @@ TASKS = [
             Action(name='missingLicenses', kwargs={'employee_id': 'emp_0041', 'job_title': 'Content Strategist'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'emp_0002 is missing no licenses,emp_0012 is missing no licenses, emp_0016 is missing no licenses, emp_0018 is missing no licenses, emp_0021 is missing no licenses, emp_0024 is missing no licenses, emp_0025 is missing no licenses, emp_0027 is missing no licenses, emp_0031 is missing no licenses, emp_0032 is missing no licenses, emp_0034 is missing no licenses, emp_0041 is missing no licenses'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -229,9 +221,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5050', 'priority': 'P1'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5058', 'priority': 'P1'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -270,9 +260,7 @@ TASKS = [
                 'Added app_tiktok account for emp_0041',
             ]})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -293,9 +281,7 @@ TASKS = [
             Action(name='filterEmployees', kwargs={'manager_id': "None"}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'The lifecycles were synchronized.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -313,9 +299,7 @@ TASKS = [
                 'summary': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -349,9 +333,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -375,9 +357,7 @@ TASKS = [
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0019', 'lic_slack_ent',  'lic_m365_e3']}),
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0032', 'lic_salesforce', 'lic_slack_ent', 'lic_m365_e3']}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -405,9 +385,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0003', 'memo_id': 'memo_0005', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -435,9 +413,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_github_ent', 'priority': 'P3'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_salesforce', 'priority': 'P3'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -462,9 +438,7 @@ TASKS = [
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Jordan Kim was offboarded.'}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Sawyer Harris was offboarded.'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -487,9 +461,7 @@ TASKS = [
             Action(name='missingLicenses', kwargs={'employee_id': 'emp_0041', 'job_title': 'Content Strategist'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'emp_0002 is missing no licenses,emp_0012 is missing no licenses, emp_0016 is missing no licenses, emp_0018 is missing no licenses, emp_0021 is missing no licenses, emp_0024 is missing no licenses, emp_0025 is missing no licenses, emp_0027 is missing no licenses, emp_0031 is missing no licenses, emp_0032 is missing no licenses, emp_0034 is missing no licenses, emp_0041 is missing no licenses'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -608,9 +580,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5050', 'priority': 'P1'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5058', 'priority': 'P1'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -649,9 +619,7 @@ TASKS = [
                 'Added app_instagram account for emp_0041',
             ]})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -672,9 +640,7 @@ TASKS = [
             Action(name='filterEmployees', kwargs={'manager_id': "None"}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'The lifecycles were synchronized.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -692,9 +658,7 @@ TASKS = [
                 'summary': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -728,9 +692,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -754,9 +716,7 @@ TASKS = [
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0019', 'lic_slack_ent',  'lic_m365_e3']}),
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0032', 'lic_salesforce', 'lic_slack_ent', 'lic_m365_e3']}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -784,9 +744,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0001', 'memo_id': 'memo_0006', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -815,9 +773,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_slack_ent', 'priority': 'P3'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_salesforce', 'priority': 'P3'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -842,9 +798,7 @@ TASKS = [
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Jordan Kim was offboarded.'}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Sawyer Harris was offboarded.'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -867,9 +821,7 @@ TASKS = [
             Action(name='missingLicenses', kwargs={'employee_id': 'emp_0041', 'job_title': 'Content Strategist'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'emp_0002 is missing no licenses,emp_0012 is missing no licenses, emp_0016 is missing no licenses, emp_0018 is missing no licenses, emp_0021 is missing no licenses, emp_0024 is missing no licenses, emp_0025 is missing no licenses, emp_0027 is missing no licenses, emp_0031 is missing no licenses, emp_0032 is missing no licenses, emp_0034 is missing no licenses, emp_0041 is missing no licenses'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -988,9 +940,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5050', 'priority': 'P1'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5058', 'priority': 'P1'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1029,9 +979,7 @@ TASKS = [
                 'Added app_reddit account for emp_0041',
             ]})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1052,9 +1000,7 @@ TASKS = [
             Action(name='filterEmployees', kwargs={'manager_id': "None"}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'The lifecycles were synchronized.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1072,9 +1018,7 @@ TASKS = [
                 'summary': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1108,9 +1052,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1134,9 +1076,7 @@ TASKS = [
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0019', 'lic_slack_ent',  'lic_m365_e3']}),
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0032', 'lic_salesforce', 'lic_slack_ent', 'lic_m365_e3']}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1164,9 +1104,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0003', 'memo_id': 'memo_0005', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1194,9 +1132,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_github_ent', 'priority': 'P3'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_salesforce', 'priority': 'P3'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1221,9 +1157,7 @@ TASKS = [
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Jordan Kim was offboarded.'}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Sawyer Harris was offboarded.'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1246,9 +1180,7 @@ TASKS = [
             Action(name='missingLicenses', kwargs={'employee_id': 'emp_0041', 'job_title': 'Content Strategist'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'emp_0002 is missing no licenses,emp_0012 is missing no licenses, emp_0016 is missing no licenses, emp_0018 is missing no licenses, emp_0021 is missing no licenses, emp_0024 is missing no licenses, emp_0025 is missing no licenses, emp_0027 is missing no licenses, emp_0031 is missing no licenses, emp_0032 is missing no licenses, emp_0034 is missing no licenses, emp_0041 is missing no licenses'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1367,9 +1299,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5050', 'priority': 'P1'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5058', 'priority': 'P1'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1408,9 +1338,7 @@ TASKS = [
                 'Added app_twitter account for emp_0041',
             ]})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1431,9 +1359,7 @@ TASKS = [
             Action(name='filterEmployees', kwargs={'manager_id': "None"}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'The lifecycles were synchronized.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1451,9 +1377,7 @@ TASKS = [
                 'summary': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1487,9 +1411,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1513,9 +1435,7 @@ TASKS = [
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0019', 'lic_slack_ent',  'lic_m365_e3']}),
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0032', 'lic_salesforce', 'lic_slack_ent', 'lic_m365_e3']}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1543,9 +1463,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0001', 'memo_id': 'memo_0006', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1573,9 +1491,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_github_ent', 'priority': 'P3'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_salesforce', 'priority': 'P3'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1600,9 +1516,7 @@ TASKS = [
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Jordan Kim was offboarded.'}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Sawyer Harris was offboarded.'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1625,9 +1539,7 @@ TASKS = [
             Action(name='missingLicenses', kwargs={'employee_id': 'emp_0041', 'job_title': 'Content Strategist'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'emp_0002 is missing no licenses,emp_0012 is missing no licenses, emp_0016 is missing no licenses, emp_0018 is missing no licenses, emp_0021 is missing no licenses, emp_0024 is missing no licenses, emp_0025 is missing no licenses, emp_0027 is missing no licenses, emp_0031 is missing no licenses, emp_0032 is missing no licenses, emp_0034 is missing no licenses, emp_0041 is missing no licenses'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1746,9 +1658,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5050', 'priority': 'P1'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5058', 'priority': 'P1'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1787,9 +1697,7 @@ TASKS = [
                 'Added app_facebook account for emp_0041',
             ]})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1810,9 +1718,7 @@ TASKS = [
             Action(name='filterEmployees', kwargs={'manager_id': "None"}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'The lifecycles were synchronized.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1830,9 +1736,7 @@ TASKS = [
                 'summary': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1866,9 +1770,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1892,9 +1794,7 @@ TASKS = [
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0019', 'lic_slack_ent',  'lic_m365_e3']}),
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0032', 'lic_salesforce', 'lic_slack_ent', 'lic_m365_e3']}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1922,9 +1822,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0003', 'memo_id': 'memo_0005', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0001', 'memo_id': 'memo_0006', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1953,9 +1851,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_slack_ent', 'priority': 'P3'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_salesforce', 'priority': 'P3'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1980,9 +1876,7 @@ TASKS = [
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Jordan Kim was offboarded.'}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Sawyer Harris was offboarded.'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2005,9 +1899,7 @@ TASKS = [
             Action(name='missingLicenses', kwargs={'employee_id': 'emp_0041', 'job_title': 'Content Strategist'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'emp_0002 is missing no licenses,emp_0012 is missing no licenses, emp_0016 is missing no licenses, emp_0018 is missing no licenses, emp_0021 is missing no licenses, emp_0024 is missing no licenses, emp_0025 is missing no licenses, emp_0027 is missing no licenses, emp_0031 is missing no licenses, emp_0032 is missing no licenses, emp_0034 is missing no licenses, emp_0041 is missing no licenses'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2126,9 +2018,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5050', 'priority': 'P1'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5058', 'priority': 'P1'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2167,9 +2057,7 @@ TASKS = [
                 'Added app_tiktok account for emp_0041',
             ]})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2190,9 +2078,7 @@ TASKS = [
             Action(name='filterEmployees', kwargs={'manager_id': "None"}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'The lifecycles were synchronized.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2210,9 +2096,7 @@ TASKS = [
                 'summary': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2246,9 +2130,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2272,9 +2154,7 @@ TASKS = [
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0019', 'lic_slack_ent',  'lic_m365_e3']}),
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0032', 'lic_salesforce', 'lic_slack_ent', 'lic_m365_e3']}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2311,9 +2191,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0003', 'memo_id': 'memo_0005', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0001', 'memo_id': 'memo_0006', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2341,9 +2219,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_github_ent', 'priority': 'P3'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_salesforce', 'priority': 'P3'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2368,9 +2244,7 @@ TASKS = [
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Jordan Kim was offboarded.'}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Sawyer Harris was offboarded.'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2393,9 +2267,7 @@ TASKS = [
             Action(name='missingLicenses', kwargs={'employee_id': 'emp_0041', 'job_title': 'Content Strategist'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'emp_0002 is missing no licenses,emp_0012 is missing no licenses, emp_0016 is missing no licenses, emp_0018 is missing no licenses, emp_0021 is missing no licenses, emp_0024 is missing no licenses, emp_0025 is missing no licenses, emp_0027 is missing no licenses, emp_0031 is missing no licenses, emp_0032 is missing no licenses, emp_0034 is missing no licenses, emp_0041 is missing no licenses'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2514,9 +2386,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5050', 'priority': 'P1'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5058', 'priority': 'P1'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2555,9 +2425,7 @@ TASKS = [
                 'Added app_instagram account for emp_0041',
             ]})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2578,9 +2446,7 @@ TASKS = [
             Action(name='filterEmployees', kwargs={'manager_id': "None"}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'The lifecycles were synchronized.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2598,9 +2464,7 @@ TASKS = [
                 'summary': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2634,9 +2498,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2660,9 +2522,7 @@ TASKS = [
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0019', 'lic_slack_ent',  'lic_m365_e3']}),
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0032', 'lic_salesforce', 'lic_slack_ent', 'lic_m365_e3']}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2699,9 +2559,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0003', 'memo_id': 'memo_0005', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2729,9 +2587,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_github_ent', 'priority': 'P3'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_salesforce', 'priority': 'P3'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2756,9 +2612,7 @@ TASKS = [
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Jordan Kim was offboarded.'}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Sawyer Harris was offboarded.'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2781,9 +2635,7 @@ TASKS = [
             Action(name='missingLicenses', kwargs={'employee_id': 'emp_0041', 'job_title': 'Content Strategist'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'emp_0002 is missing no licenses,emp_0012 is missing no licenses, emp_0016 is missing no licenses, emp_0018 is missing no licenses, emp_0021 is missing no licenses, emp_0024 is missing no licenses, emp_0025 is missing no licenses, emp_0027 is missing no licenses, emp_0031 is missing no licenses, emp_0032 is missing no licenses, emp_0034 is missing no licenses, emp_0041 is missing no licenses'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2902,9 +2754,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5050', 'priority': 'P1'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5058', 'priority': 'P1'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2943,9 +2793,7 @@ TASKS = [
                 'Added app_reddit account for emp_0041',
             ]})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2966,9 +2814,7 @@ TASKS = [
             Action(name='filterEmployees', kwargs={'manager_id': "None"}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'The lifecycles were synchronized.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2986,9 +2832,7 @@ TASKS = [
                 'summary': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3022,9 +2866,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3048,9 +2890,7 @@ TASKS = [
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0019', 'lic_slack_ent',  'lic_m365_e3']}),
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0032', 'lic_salesforce', 'lic_slack_ent', 'lic_m365_e3']}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3087,9 +2927,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0001', 'memo_id': 'memo_0006', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3118,9 +2956,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_slack_ent', 'priority': 'P3'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_salesforce', 'priority': 'P3'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3145,9 +2981,7 @@ TASKS = [
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Jordan Kim was offboarded.'}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Sawyer Harris was offboarded.'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3170,9 +3004,7 @@ TASKS = [
             Action(name='missingLicenses', kwargs={'employee_id': 'emp_0041', 'job_title': 'Content Strategist'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'emp_0002 is missing no licenses,emp_0012 is missing no licenses, emp_0016 is missing no licenses, emp_0018 is missing no licenses, emp_0021 is missing no licenses, emp_0024 is missing no licenses, emp_0025 is missing no licenses, emp_0027 is missing no licenses, emp_0031 is missing no licenses, emp_0032 is missing no licenses, emp_0034 is missing no licenses, emp_0041 is missing no licenses'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3291,9 +3123,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5050', 'priority': 'P1'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5058', 'priority': 'P1'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3332,9 +3162,7 @@ TASKS = [
                 'Added app_twitter account for emp_0041',
             ]})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3355,9 +3183,7 @@ TASKS = [
             Action(name='filterEmployees', kwargs={'manager_id': "None"}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'The lifecycles were synchronized.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3375,9 +3201,7 @@ TASKS = [
                 'summary': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3411,9 +3235,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3437,9 +3259,7 @@ TASKS = [
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0019', 'lic_slack_ent',  'lic_m365_e3']}),
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0032', 'lic_salesforce', 'lic_slack_ent', 'lic_m365_e3']}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3476,9 +3296,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0001', 'memo_id': 'memo_0006', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0003', 'memo_id': 'memo_0005', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3506,9 +3324,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_github_ent', 'priority': 'P3'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'License Allocation', 'summary': 'Manage license utilization for lic_salesforce', 'priority': 'P3'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3533,9 +3349,7 @@ TASKS = [
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Jordan Kim was offboarded.'}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'Sawyer Harris was offboarded.'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3558,9 +3372,7 @@ TASKS = [
             Action(name='missingLicenses', kwargs={'employee_id': 'emp_0041', 'job_title': 'Content Strategist'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'emp_0002 is missing no licenses,emp_0012 is missing no licenses, emp_0016 is missing no licenses, emp_0018 is missing no licenses, emp_0021 is missing no licenses, emp_0024 is missing no licenses, emp_0025 is missing no licenses, emp_0027 is missing no licenses, emp_0031 is missing no licenses, emp_0032 is missing no licenses, emp_0034 is missing no licenses, emp_0041 is missing no licenses'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3679,9 +3491,7 @@ TASKS = [
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5050', 'priority': 'P1'}),
             Action(name='createJiraTicket', kwargs={'issue_type': 'IT Ticket', 'summary': 'Address T5058', 'priority': 'P1'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3720,9 +3530,7 @@ TASKS = [
                 'Added app_facebook account for emp_0041',
             ]})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3743,9 +3551,7 @@ TASKS = [
             Action(name='filterEmployees', kwargs={'manager_id': "None"}),
             Action(name='notify', kwargs={'recipient_ids': ['emp_0001', 'emp_0002', 'emp_0003', 'emp_0004', 'emp_0005', 'emp_0006', 'emp_0009', 'emp_0017'], 'summary': 'The lifecycles were synchronized.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3763,9 +3569,7 @@ TASKS = [
                 'summary': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'}),
             Action(name='generateReviewAndLog', kwargs={'log_data': 'The average of avg_open_age_hours is 36.2. The average of tickets_opened is 1.6667. The average of tickets_closed is 1.2.'})
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3799,9 +3603,7 @@ TASKS = [
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0002', 'memo_id': 'memo_0007', 'event': 'onboarding'}),
             Action(name='logLifecycle', kwargs={'employee_id': 'emp_0039', 'memo_id': 'memo_0008', 'event': 'onboarding'}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3825,8 +3627,6 @@ TASKS = [
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0019', 'lic_slack_ent',  'lic_m365_e3']}),
             Action(name='reportRun', kwargs={'report_type': 'unassign_licenses', 'run_data': ['emp_0032', 'lic_salesforce', 'lic_slack_ent', 'lic_m365_e3']}),
         ],
-        outputs=[
-
-        ]
+        outputs=[]
     ),
 ]

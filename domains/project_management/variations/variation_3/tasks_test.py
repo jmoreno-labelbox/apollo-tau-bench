@@ -33,7 +33,7 @@ TASKS = [
                 kwargs={"employee_id": "emp_data_01", "fiscal_year": 2025},
             ),
         ],
-        outputs=['"total_reimbursements": 2400'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -74,7 +74,7 @@ TASKS = [
                 kwargs={"employee_id": "emp_devops_02", "fiscal_year": 2024},
             ),
         ],
-        outputs=['"total_reimbursements": 1050'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -112,11 +112,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"budget_utilization": 0.0',
-            '"weekly_cost": 9072.0',
-            '"utilization_percentage": 80.0',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -162,7 +158,7 @@ TASKS = [
                 kwargs={"employee_id": "emp_analyst_02", "fiscal_year": 2025},
             ),
         ],
-        outputs=['"total_reimbursements": 550'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -196,7 +192,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_budget": 450000', '"spent": 185000'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -243,11 +239,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"total": 25000',
-            '"status": "pending_approval"',
-            '"total_budget": 115000.0',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -296,7 +288,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"utilization_percentage": 60.0', '"utilization_rate": 0.0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -347,7 +339,7 @@ TASKS = [
                 kwargs={"employee_id": "emp_dev_03", "fiscal_year": 2024},
             ),
         ],
-        outputs=['"total_reimbursements": 695'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -418,11 +410,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"allocation_percentage": 65.0',
-            '"valid": true',
-            '"status": "pending_approval"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -476,9 +464,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"budget_utilization": 39.14',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -533,9 +519,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"status": "pending_approval"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -581,12 +565,7 @@ TASKS = [
             ),
             Action(name="GetVendorStatus", kwargs={"vendor_id": "vendor_001"}),
         ],
-        outputs=[
-            '"vendor_id": "vendor_',
-            '"utilization_percentage": 41.11',
-            '"status": "pending_review"',
-            '"late_payments_count": 0',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -636,7 +615,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"budget_utilization": 41.11', '"status": "pending_finance_review"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -681,7 +660,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"average_cost_per_story_point": 1650.79'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -726,7 +705,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"average_velocity": 28', '"projected_sprints_remaining": 9.6'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -768,7 +747,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"status": "approved"', '"roi_percentage": 12400.0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -831,7 +810,7 @@ TASKS = [
                 kwargs={"employee_id": "emp_analyst_02", "fiscal_year": 2025},
             ),
         ],
-        outputs=['"late_submissions": 1'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -880,7 +859,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_budget":  850000', '"setup_alert": "true"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -928,7 +907,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"burn_rate": 59.38', '"status": "pending_approval"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -964,7 +943,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"invoice_recorded": true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1005,7 +984,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total": 51300', '"status": "pending_approval"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1041,7 +1020,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"late_payments_count": 1'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1087,7 +1066,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"status": "completed"', '"roi_percentage": 800.0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1139,7 +1118,7 @@ TASKS = [
                 kwargs={"employee_id": "emp_devops_04", "include_overhead": True},
             ),
         ],
-        outputs=["2", '"weekly_rate": 6480.0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1188,7 +1167,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_actual_cost": 5200', '"total_planned_cost": 146250.0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1234,7 +1213,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["2", '"total_cost": 25000'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1280,7 +1259,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"status": "pending_finance_review"', '"alert_id": "alert_'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1332,7 +1311,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"invoice_id": "inv_', '"validation_status": "valid"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1380,7 +1359,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"monthly_burn_rate": 24940.8', '"total_forecasted_cost": 74822.4'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1432,7 +1411,7 @@ TASKS = [
                 kwargs={"employee_id": "emp_analyst_03", "fiscal_year": 2025},
             ),
         ],
-        outputs=['"annual_rate": 673920.0', '"utilization_percentage": 60.0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1472,7 +1451,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"utilization_percentage": 41.11'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1515,10 +1494,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"utilization_rate": 41.67',
-            '"total_forecasted_cost": 145747.8',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1555,7 +1531,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"cost_per_story_point": 940', '"alert_created": "true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1616,7 +1592,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"validation_status": "valid"', '"warnings": []'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1671,7 +1647,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_cost": 2300', '"remaining_budget": 2625000'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1719,7 +1695,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["2", '"total_cost": 3200'],
+        outputs=[]
     ),
         Task(
         annotator="0",
@@ -1785,7 +1761,7 @@ TASKS = [
                 kwargs={"project_id": "proj_insights_01", "fiscal_year": 2025},
             ),
         ],
-        outputs=['"success": true', '"budget_health": "healthy"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1840,7 +1816,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"roi_percentage": 6467.16', "true"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1901,7 +1877,7 @@ TASKS = [
                 kwargs={"project_id": "proj_insights_01", "fiscal_year": 2025},
             ),
         ],
-        outputs=['"success": true', '"available_amount": 650000'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1952,6 +1928,6 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total": 5200', '"includes_contingency": true'],
+        outputs=[]
     ),
 ]

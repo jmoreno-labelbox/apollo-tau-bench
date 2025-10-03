@@ -48,7 +48,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -74,7 +74,7 @@ TASKS = [
                 "event_timestamp_utc": "2024-05-01T06:50:00Z"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -109,7 +109,7 @@ TASKS = [
                 "event_timestamp_utc": "2024-05-22T08:40:00Z"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -144,7 +144,7 @@ TASKS = [
             Action(name="MaintenanceLogsForAircraft", kwargs={"aircraft_id": "AC001"}),
             Action(name="EventsAtAirportOn", kwargs={"airport_id": "ARP_DEN", "date": "2024-05-03"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -173,7 +173,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -217,7 +217,7 @@ TASKS = [
             Action(name="EventsAtAirportOn", kwargs={"airport_id": "ARP_DFW", "date": "2024-05-13"}),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -257,7 +257,7 @@ TASKS = [
                 "message": "Fuel program MCO: HAT214, HAT217 delayed, HAT101, HAT299, HAT298, HAT028, HAT017, HAT075, HAT161, HAT153, HAT048 canceled."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -301,7 +301,7 @@ TASKS = [
 
 
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -347,7 +347,7 @@ TASKS = [
             # Action(name="MaintenanceLogsForAircraft", kwargs={"aircraft_id": "AC001"}),
             Action(name="EventsAtAirportOn", kwargs={"airport_id": "ARP_LAX", "date": "2024-05-16"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -402,7 +402,7 @@ TASKS = [
 
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -441,7 +441,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -468,7 +468,7 @@ TASKS = [
                 "message": "ATL res: HAT299 family group [harper_gonzalez_3796,james_lee_6136] requires coordinated seat adjustments; support engaged."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -507,7 +507,7 @@ TASKS = [
                 "message": "Reservation CPQKE9 refunded."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -537,7 +537,7 @@ TASKS = [
                 "message": "HAT115 2024-05-20: reduced cabin capacity."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -572,7 +572,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -607,7 +607,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -644,7 +644,7 @@ TASKS = [
                 "cabin": "basic_economy"
             }),
         ],
-        outputs=["reservation_id = RES9816", "flight number = HAT220", "date = 2024-05-16"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -682,7 +682,7 @@ TASKS = [
                 "cabin": "basic_economy"
             }),
         ],
-        outputs=["reservation_id = RES9816","flight number = HAT220","date = 2024-05-16"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -728,7 +728,7 @@ TASKS = [
                 "message": "Reservation L6C0W3 refunded."
             }),
         ],
-        outputs=["reservation_id = RES9816", "flight number = HAT106", "date = 2024-05-26"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -785,7 +785,7 @@ TASKS = [
                 "cabin": "business"
             }),
         ],
-        outputs=["reservation_id = RES9816", "flight number = HAT137", "date = 2024-05-18"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -822,7 +822,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -887,7 +887,7 @@ TASKS = [
             Action(name="SetAircraftStatus", kwargs={"aircraft_id": "AC025", "new_status": "In Maintenance"}),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -931,7 +931,7 @@ TASKS = [
             Action(name="SetAircraftStatus", kwargs={"aircraft_id": "AC022", "new_status": "In Maintenance"}),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -974,7 +974,7 @@ TASKS = [
             }),
             Action(name="SetAircraftStatus", kwargs={"aircraft_id": "AC015", "new_status": "In Maintenance"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1001,7 +1001,7 @@ TASKS = [
             Action(name="SendUserNotification", kwargs={"channel_or_user_id": "ops-bos","message": "Flight HAT006 on 2024-05-17 at BOS canceled."}),
             Action(name="SendUserNotification", kwargs={"channel_or_user_id": "ops-bos","message": "Flight HAT006 on 2024-05-18 at BOS canceled."}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1026,7 +1026,7 @@ TASKS = [
                 "message": "Schedule change: HAT006 on 2024-05-20 retimed; check updated itinerary."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1070,7 +1070,7 @@ TASKS = [
                 "message": "Gate change: HAT022 2024-05-15 A16->A15 at LAX"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1113,7 +1113,7 @@ TASKS = [
 
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1153,7 +1153,7 @@ TASKS = [
                 "message": "Connection protection advisory for HAT032 on 2024-05-25: monitoring tight connections; alternatives under review."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1199,7 +1199,7 @@ TASKS = [
                 "event_timestamp_utc": "2024-05-22T00:00:00Z"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1237,7 +1237,7 @@ TASKS = [
                 "message": "Security advisory: temporary boarding pause for HAT035 at JFK."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1283,7 +1283,7 @@ TASKS = [
                 "message": "Delay by 30 minutes for HAT170 (2024-05-18) at DFW."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1327,7 +1327,7 @@ TASKS = [
             Action(name="EventsAtAirportOn", kwargs={"airport_id": "ARP_LAS", "date": "2024-05-16"}),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1368,7 +1368,7 @@ TASKS = [
                 "message": "Reservation VHG5XU refunded."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1427,7 +1427,7 @@ TASKS = [
                 "message": "Delay by 30 minutes for HAT210 (2024-05-23) at BOS."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1466,7 +1466,7 @@ TASKS = [
                 "message": "Connection protection advisory for HAT028 on 2024-05-18: monitoring tight connections; alternatives under review."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1502,7 +1502,7 @@ TASKS = [
                 "delay_minutes": 90
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1550,7 +1550,7 @@ TASKS = [
 
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1585,7 +1585,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1629,7 +1629,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1673,7 +1673,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1717,7 +1717,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1769,7 +1769,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     # TASK - Wheelchair Boarding + Lift Breakdown (HAT219 LGA -> PHX, 2024-05-30)
     Task(
@@ -1835,7 +1835,7 @@ TASKS = [
                 "message": "Delay by 45 minutes for HAT219 (2024-05-30) at LGA."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1893,7 +1893,7 @@ TASKS = [
                 "message": "Delay by 25 minutes for HAT228 (2024-05-20) at LAX."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1929,8 +1929,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[
-        ]
+        outputs=[]
         ,
     ),
     Task(
@@ -1956,7 +1955,7 @@ TASKS = [
             Action(name="UpdateReservationDetails", kwargs={"reservation_id": "N3C95P", "insurance": "no"}),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1978,7 +1977,7 @@ TASKS = [
             Action(name="UpdateReservationDetails", kwargs={"reservation_id": "C2SZKK", "total_baggages": 3}),
             Action(name="UpdateReservationDetails", kwargs={"reservation_id": "IDTRDM", "total_baggages": 1}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2031,7 +2030,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2071,7 +2070,7 @@ TASKS = [
                 "message": "Reservation 2M27GS refunded."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2112,7 +2111,7 @@ TASKS = [
                 "new_status": "diverted"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2170,7 +2169,7 @@ TASKS = [
                 "event_timestamp_utc": "2024-05-22T16:25:00Z"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2211,7 +2210,7 @@ TASKS = [
                 "new_status": "diverted"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2252,7 +2251,7 @@ TASKS = [
                 "event_timestamp_utc": "2024-05-22T16:25:00Z"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2295,7 +2294,7 @@ TASKS = [
                 "message": "Gate change: HAT253 2024-05-15 D22->A10 at SEA"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2326,7 +2325,7 @@ TASKS = [
             Action(name="SetAircraftStatus", kwargs={"aircraft_id": "AC012", "new_status": "Active"}),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2367,7 +2366,7 @@ TASKS = [
             Action(name="SetAircraftStatus", kwargs={"aircraft_id": "AC016", "new_status": "In Maintenance"}),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2417,7 +2416,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2447,7 +2446,7 @@ TASKS = [
 
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2490,7 +2489,7 @@ TASKS = [
                 "cabin": "economy"
             }),
         ],
-        outputs=["reservation_id = RES9816", "flight number = HAT150", "date = 2024-05-20"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2521,7 +2520,7 @@ TASKS = [
             }),
             Action(name="EventsAtAirportOn", kwargs={"airport_id": "ARP_LAX", "date": "2024-05-22"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2581,7 +2580,7 @@ TASKS = [
                 "assigned_role": "Captain"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2634,7 +2633,7 @@ TASKS = [
                 "assigned_role": "Captain"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2671,7 +2670,7 @@ TASKS = [
                 "message": "Connection protection advisory for HAT186 on 2024-05-22: monitoring tight connections; alternatives under review."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2717,7 +2716,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2747,7 +2746,7 @@ TASKS = [
             }),
             Action(name="GetCrewCertifications", kwargs={"crew_member_id": "CM004"})
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2780,7 +2779,7 @@ TASKS = [
             }),
             Action(name="GetCrewCertifications", kwargs={"crew_member_id": "CM004"})
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2823,7 +2822,7 @@ TASKS = [
                 "cabin": "economy",
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2862,7 +2861,7 @@ TASKS = [
                 "delay_minutes": 120
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2898,7 +2897,7 @@ TASKS = [
                 "new_status": "canceled"
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2944,7 +2943,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2989,7 +2988,7 @@ TASKS = [
                 "message": "Fuel program MCO: HAT101, HAT299, HAT298, HAT028 canceled."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3033,7 +3032,7 @@ TASKS = [
 
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3071,7 +3070,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3106,7 +3105,7 @@ TASKS = [
             Action(name="RelocateAircraft", kwargs={"aircraft_id": "AC014", "new_location_airport_id": "ARP_LAX"}),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3149,7 +3148,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3188,7 +3187,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3224,7 +3223,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3295,7 +3294,7 @@ TASKS = [
                 "message": "Flight HAT031 departure and arrival moved 1 hour earlier due to forecast freezing conditions."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3352,7 +3351,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3411,7 +3410,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
     annotator="0",
@@ -3467,7 +3466,7 @@ TASKS = [
         ),
 
     ],
-    outputs=[],
+    outputs=[]
     ),
     Task(
         annotator="0",
@@ -3494,7 +3493,7 @@ TASKS = [
                 "event_timestamp_utc": "2024-05-22T14:30:00Z"}),
 
         ],
-        outputs=[],
+        outputs=[]
     )
     ,
     Task(
@@ -3520,7 +3519,7 @@ TASKS = [
                 "message": "Fuel contamination at LAS: inbounds HAT112 , HAT173 canceled."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3549,7 +3548,7 @@ TASKS = [
                 "event_timestamp_utc": "2024-05-27T17:40:00Z"}),
 
         ],
-        outputs=[],
+        outputs=[]
     )
     ,
     Task(
@@ -3588,7 +3587,7 @@ TASKS = [
                 "message": "CLT terminal sweep-HAT215 & HAT270 set Delayed. Hold gate changes until clear."
             }),
         ],
-        outputs=[],
+        outputs=[]
     )
     ,
     Task(
@@ -3621,7 +3620,7 @@ TASKS = [
                 "message": "EWR VIP TFR-HAT179 & HAT181 divert to PHL. Coordinate gates/handling."
             }),
         ],
-        outputs=[],
+        outputs=[]
     )
     ,
     Task(
@@ -3658,7 +3657,7 @@ TASKS = [
                 "message": "Cabin odor-HAT180 & HAT072 Returned for checks."
             }),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3688,7 +3687,7 @@ TASKS = [
             }),
             Action(name="EventsAtAirportOn", kwargs={"airport_id": "ARP_MCO", "date": "2024-05-25"}),
         ],
-        outputs=[],
+        outputs=[]
     )
     ,
     Task(
@@ -3729,7 +3728,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     )
     ,
     # 11) LAS crew legality - two cancels + dual logs + notify
@@ -3756,7 +3755,7 @@ TASKS = [
                 "details": "Crew legality exceeded; HAT175 & HAT266 canceled.",
                 "event_timestamp_utc": "2024-05-30T05:20:00Z"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3811,7 +3810,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3847,7 +3846,7 @@ TASKS = [
 
             Action(name="EventsAtAirportOn", kwargs={"airport_id": "ARP_LGA", "date": "2024-05-28"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3885,7 +3884,7 @@ TASKS = [
                 "message": "BOS DCS outage; HAT260 & HAT262 marked delayed."
             }),
         ],
-        outputs=[],
+        outputs=[]
     )
     ,
     Task(
@@ -3916,7 +3915,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     )
     ,
     Task(
@@ -3947,7 +3946,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     )
     ,
     Task(
@@ -3978,7 +3977,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     )
     ,
     Task(
@@ -4009,7 +4008,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     )
     ,
     Task(
@@ -4041,7 +4040,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[],
+        outputs=[]
     )
 
 ]

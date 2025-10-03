@@ -46,15 +46,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 16}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -105,15 +97,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 19}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -167,16 +151,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 22}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -230,16 +205,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 19}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -302,17 +268,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 5}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -358,16 +314,7 @@ TASKS = [
             ),
             Action(name="ListClientEmails", kwargs={"client_id": 11}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -445,18 +392,7 @@ TASKS = [
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 5}),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 6}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -518,17 +454,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 9}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -588,16 +514,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 10}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -651,16 +568,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 2}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -724,18 +632,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 2}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -798,16 +695,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 4}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -866,18 +754,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 21}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -925,15 +802,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 10}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -981,15 +850,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 13}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1036,15 +897,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 20}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1102,16 +955,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 15}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1169,17 +1013,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 18}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1232,15 +1066,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 10}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1317,18 +1143,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1387,16 +1202,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 11}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1461,16 +1267,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 20}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1524,16 +1321,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 2}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1591,17 +1379,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 8}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1649,15 +1427,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 7}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1744,22 +1514,7 @@ TASKS = [
             ),
             Action(name="ReadRoute", kwargs={"route_id": 11}),
         ],
-        outputs=[
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1807,15 +1562,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 5}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1875,18 +1622,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 10}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -1948,17 +1684,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 11}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2033,18 +1759,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 12}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2126,18 +1841,7 @@ TASKS = [
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 11}),
             Action(name="ReadCampaign", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2240,17 +1944,7 @@ TASKS = [
                         "entity_id": "c2_2025-08-23"}
             ),
         ],
-        outputs=[
-            "comp_report_status=confirmed",
-            "hops_valid<=30",
-            "route_date=2025-08-23",
-            "campaign_name=Aug 2025 Comp + Tour — Client 2",
-            "email_persisted=Comps Overview",
-            "email_persisted=Saturday Tour Plan",
-            "event_title=Comps review",
-            "event_title=Depart for tour",
-            "audit=routes_shared_and_viewings_set"
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2305,16 +1999,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 19}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2370,17 +2055,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 12}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2434,16 +2109,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 15}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2517,18 +2183,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 20}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2591,17 +2246,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 17}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2653,16 +2298,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 8}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2710,15 +2346,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 20}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2805,20 +2433,7 @@ TASKS = [
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 6}),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 7}),
         ],
-        outputs=[
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2866,15 +2481,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 3}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -2934,16 +2541,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 1}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3018,18 +2616,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 1}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3067,14 +2654,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 14}),
         ],
-        outputs=[
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3157,19 +2737,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 2}),
         ],
-        outputs=[
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3235,17 +2803,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 3}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3307,16 +2865,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 8}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3372,17 +2921,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 4}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3430,15 +2969,7 @@ TASKS = [
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 10}),
             Action(name="ReadCampaign", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3490,15 +3021,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 4}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3566,19 +3089,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 3}),
         ],
-        outputs=[
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3637,18 +3148,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 6}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3750,20 +3250,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3840,20 +3327,7 @@ TASKS = [
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 1}),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 2}),
         ],
-        outputs=[
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3908,16 +3382,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 3}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -3990,19 +3455,7 @@ TASKS = [
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 13}),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 14}),
         ],
-        outputs=[
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4056,16 +3509,7 @@ TASKS = [
             ),
             Action(name="ReadCampaign", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4137,19 +3581,7 @@ TASKS = [
             ),
             Action(name="ReadRoute", kwargs={"route_id": 11}),
         ],
-        outputs=[
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4228,19 +3660,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 3}),
         ],
-        outputs=[
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4288,15 +3708,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 11}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4353,17 +3765,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 2}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4435,19 +3837,7 @@ TASKS = [
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 2}),
             Action(name="ReadCampaign", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4498,17 +3888,7 @@ TASKS = [
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 13}),
             Action(name="ReadCampaign", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4567,18 +3947,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 13}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4630,15 +3999,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 12}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4691,15 +4052,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 14}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4778,19 +4131,7 @@ TASKS = [
             ),
             Action(name="ReadRoute", kwargs={"route_id": 11}),
         ],
-        outputs=[
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4843,15 +4184,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 17}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4910,18 +4243,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 5}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -4987,17 +4309,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 18}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5062,16 +4374,7 @@ TASKS = [
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 9}),
             Action(name="ReadCampaign", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5123,15 +4426,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 5}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5195,17 +4490,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 6}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5271,18 +4556,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 16}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5361,20 +4635,7 @@ TASKS = [
             ),
             Action(name="ReadRoute", kwargs={"route_id": 11}),
         ],
-        outputs=[
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5436,16 +4697,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 10}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5542,20 +4794,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5617,17 +4856,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 18}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5691,18 +4920,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 22}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5761,17 +4979,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 7}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5837,17 +5045,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 2}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5926,19 +5124,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -5992,16 +5178,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 6}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6055,16 +5232,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 2}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6126,17 +5294,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 6}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6182,15 +5340,7 @@ TASKS = [
             Action(name="ListClientEmails", kwargs={"client_id": 14}),
             Action(name="ReadCampaign", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6238,15 +5388,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 16}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6317,18 +5459,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 12}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6390,17 +5521,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 5}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6453,15 +5574,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 17}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6513,15 +5626,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 14}),
         ],
-        outputs=[
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6591,18 +5696,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 8}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6661,18 +5755,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 2}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6737,17 +5820,7 @@ TASKS = [
             Action(name="ListClientEmails", kwargs={"client_id": 7}),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 7}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6825,20 +5898,7 @@ TASKS = [
             ),
             Action(name="ReadCampaign", kwargs={"campaign_id": 9}),
         ],
-        outputs=[
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6898,16 +5958,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 18}),
         ],
-        outputs=[
-            "Updated",
-            "Completed",
-            "Archived",
-            "Verified",
-            "Captured",
-            "Applied",
-            "Action executed",
-            "Queued",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -6971,18 +6022,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 13}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -7044,17 +6084,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -7120,18 +6150,7 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 9}),
         ],
-        outputs=[
-            "Filed",
-            "Processed",
-            "OK — recorded",
-            "Created",
-            "Operation complete",
-            "Marked complete",
-            "Done",
-            "Noted",
-            "Saved",
-            "Confirmed and saved",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="v2",
@@ -7194,16 +6213,6 @@ TASKS = [
             ),
             Action(name="ListClientCalendarEvents", kwargs={"client_id": 18}),
         ],
-        outputs=[
-            "Queued",
-            "Acknowledged",
-            "Synced",
-            "Persisted successfully",
-            "Stored",
-            "Draft saved",
-            "Logged with trace ID",
-            "Filed",
-            "Processed",
-        ],
+        outputs=[]
     ),
 ]

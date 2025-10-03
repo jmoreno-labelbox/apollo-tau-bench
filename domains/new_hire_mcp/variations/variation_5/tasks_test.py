@@ -25,7 +25,7 @@ TASKS = [
                 "orientation_invite_ts": "2025-09-01T00:00:00Z"
             }),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_1"'],
+        outputs=[]
     ),
 
     Task(
@@ -57,7 +57,7 @@ TASKS = [
                 "candidate_id": "cand_3"
             }),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_3"'],
+        outputs=[]
     ),
 
     Task(
@@ -81,7 +81,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_4", "fields": {"onboarding_status": "Packet Sent", "welcome_email_message_id_nullable": "msg_15"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_4"', '"message_id":"msg_15"', '"status":"Packet Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -104,7 +104,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_6", "fields": {"onboarding_status": "Packet Sent", "welcome_email_message_id_nullable": "msg_15"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_6"', '"message_id":"msg_15"', '"status":"Packet Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -127,7 +127,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_7", "fields": {"onboarding_status": "Packet Sent", "welcome_email_message_id_nullable": "msg_15"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_7"', '"message_id":"msg_15"', '"status":"Packet Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -149,7 +149,7 @@ TASKS = [
             Action(name="UpdateAssetRequestStatus",
                    kwargs={"candidate_id": "cand_1", "asset_type": "Standard-Laptop", "status": "Sent", "email_message_id": "msg_15"}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_1"', '"message_id":"msg_15"', '"request_status":"Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -171,7 +171,7 @@ TASKS = [
                    kwargs={"candidate_id": "cand_4", "subject": "Asset Provisioning – Sofia Martinez",
                            "add_names": ["Asset-Request"]})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_4"', '"request_id":"asset_req_3"', '"request_status":"Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -196,7 +196,7 @@ TASKS = [
                    kwargs={"candidate_id": "cand_3", "subject": "Asset Provisioning – William Davis",
                            "add_names": ["Asset-Request"]})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_3"', '"request_id":"asset_req_2"', '"request_status":"Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -220,7 +220,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_2", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -242,7 +242,7 @@ TASKS = [
                            }),
             Action(name="ModifyEmailLabels", kwargs={"message_id": "msg_15", "add_names": ["Asset-Request"]})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_7"', '"request_id":"asset_req_5"', '"request_status":"Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -264,7 +264,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_1", "fields": {"onboarding_status": "Packet Sent", "welcome_email_message_id_nullable": "msg_15"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_1"', '"message_id":"msg_15"', '"status":"Packet Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -286,7 +286,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_3", "fields": {"onboarding_status": "Packet Sent", "welcome_email_message_id_nullable": "msg_15"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_3"', '"message_id":"msg_15"', '"status":"Packet Sent"'],
+        outputs=[]
     ),
 
 
@@ -313,7 +313,7 @@ TASKS = [
                    kwargs={"task": "access_gaps", "to_emails": ["it-assets@example.com", "daniel.lee@example.com"], "subject": "Access Gaps",
                            "candidate_id": "cand_4"}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -339,7 +339,7 @@ TASKS = [
             Action(name="GenerateAndSendEmail", kwargs={
                 "task": "access_gaps", "to_emails": ["it-assets@example.com"], "subject": "Access Gaps", "candidate_id": "cand_1"}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_1"'],
+        outputs=[]
     ),
 
     Task(
@@ -362,7 +362,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_4", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"candidate_id":"cand_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -383,7 +383,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_1", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_1"'],
+        outputs=[]
     ),
 
     Task(
@@ -404,7 +404,7 @@ TASKS = [
                    kwargs={"candidate_id": "cand_3", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}
                            })
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_3"'],
+        outputs=[]
     ),
 
     Task(
@@ -428,7 +428,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_4", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -450,7 +450,7 @@ TASKS = [
                    kwargs={"candidate_id": "cand_6", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}
                            })
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_6"'],
+        outputs=[]
     ),
 
     Task(
@@ -473,7 +473,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_7", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_7"'],
+        outputs=[]
     ),
 
     Task(
@@ -497,7 +497,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields", kwargs={"candidate_id": "cand_2", "fields": {"onboarding_status": "Packet Sent",
                                                                                                        "welcome_email_message_id_nullable": "msg_15"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_2"', '"status":"Packet Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -527,7 +527,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_5", "fields": {"onboarding_status": "Packet Sent", "welcome_email_message_id_nullable": "msg_15"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_5"', '"status":"Packet Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -554,7 +554,7 @@ TASKS = [
                 "candidate_id": "cand_2", "subject": "Asset Provisioning – Emma Thompson",
                 "add_names": ["Asset-Request"]})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_2"', '"request_id":"asset_req_1"', '"request_status":"Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -581,7 +581,7 @@ TASKS = [
                 "candidate_id": "cand_5", "subject": "Asset Provisioning – Jordan Williams",
                 "add_names": ["Asset-Request"]})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_5"', '"request_id":"asset_req_4"', '"request_status":"Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -600,7 +600,7 @@ TASKS = [
                                                "candidate_id": "cand_2"}),
             Action(name="UpdateCandidateInviteTimestamps", kwargs={"candidate_id": "cand_2", "orientation_invite_ts": "2025-09-01T00:00:00Z", "message_id": "msg_15"}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -622,7 +622,7 @@ TASKS = [
             Action(name="GenerateAndSendEmail",
                    kwargs={"task": "access_gaps", "to_emails": ["it-assets@example.com"], "subject": "Access Gaps", "candidate_id": "cand_5"}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -647,7 +647,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_2", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -672,7 +672,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_5", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -705,7 +705,7 @@ TASKS = [
                 "mime_type": "application/json",
                 "payload": {"request_id": "asset_req_1", "status": "allocated"}}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_2"', '"request_id":"asset_req_1"'],
+        outputs=[]
     ),
 
     Task(
@@ -742,7 +742,7 @@ TASKS = [
                 "payload": {"request_id": "asset_req_2"}}),
         ]
         ,
-        outputs=['"candidate_id":"cand_3"', '"request_id":"asset_req_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -784,7 +784,7 @@ TASKS = [
                     "inventory_checked_flag": True,
                     "asset_tag": "LT-DELL-001"}}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_4"', '"request_id":"asset_req_3"', '"allocation_status":"allocated"'],
+        outputs=[]
     ),
 
     Task(
@@ -829,7 +829,7 @@ TASKS = [
                 "status": "Completed",
                 "email_message_id": "msg_15"}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_5"', '"request_id":"asset_req_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -874,7 +874,7 @@ TASKS = [
                 "status": "Completed",
                 "email_message_id": "msg_15"}),
         ],
-        outputs=['"candidate_id":"cand_7"', '"request_id":"asset_req_5"', '"status":"Completed"'],
+        outputs=[]
 
     ),
 
@@ -907,7 +907,7 @@ TASKS = [
                 "mime_type": "application/json",
                 "payload": {"request_id": "asset_req_2", "asset_tag": "LT-DELL-001"}}),
         ],
-        outputs=['"candidate_id":"cand_3"', '"request_id":"asset_req_2"', '"status":"Sent"'],
+        outputs=[]
     ),
 
     Task(
@@ -943,7 +943,7 @@ TASKS = [
                 "candidate_id": "cand_3",
                 "attachment_file_paths": ["/onboarding/Peter_Jones/allocation_receipt.json"]}),
         ],
-        outputs=['"candidate_id":"cand_3"'],
+        outputs=[]
     ),
 
     Task(
@@ -961,7 +961,7 @@ TASKS = [
             Action(name="MarkChecklistItemsReminded", kwargs={"item_ids":["item_13","item_14"],"reminder_email_message_id":"msg_15","updated_ts":"2025-09-01T00:00:00Z"}),
             Action(name="UpdateCandidateStatusFields", kwargs={"candidate_id":"cand_5","fields":{"checklist_follow_up_ts_nullable":"2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -998,7 +998,7 @@ TASKS = [
             Action(name="AuditAttachmentsForEmail",
                    kwargs={"candidate_id": "cand_5", "subject": "Asset Provisioning – Jordan Williams"}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -1037,7 +1037,7 @@ TASKS = [
             Action(name="ReplyToEmailThread", kwargs={
                 "candidate_id": "cand_7", "subject": "Asset Provisioning – Raj Patel",  "task": "acknowledge"})
         ],
-        outputs=['"candidate_id":"cand_7"'],
+        outputs=[]
     ),
 
     Task(
@@ -1078,7 +1078,7 @@ TASKS = [
                 "candidate_id": "cand_1",
                 "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
         ],
-        outputs=['"candidate_id":"cand_1"'],
+        outputs=[]
     ),
 
     Task(
@@ -1105,7 +1105,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields", kwargs={
                 "candidate_id": "cand_6", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_6"'],
+        outputs=[]
     ),
 
     Task(
@@ -1149,7 +1149,7 @@ TASKS = [
                 "candidate_id": "cand_2",
                 "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -1187,7 +1187,7 @@ TASKS = [
                 "status": "Sent",
                 "email_message_id": "msg_17"}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_7"'],
+        outputs=[]
     ),
 
     Task(
@@ -1232,7 +1232,7 @@ TASKS = [
                 "candidate_id": "cand_1",
                 "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
         ],
-        outputs=['"candidate_id":"cand_1"', '"welcome_message_id":"msg_15"', '"reminder_message_id":"msg_16"'],
+        outputs=[]
     ),
 
     Task(
@@ -1280,7 +1280,7 @@ TASKS = [
                 "candidate_id": "cand_5",
                 "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
         ],
-        outputs=['"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -1313,7 +1313,7 @@ TASKS = [
                 "mime_type": "application/json",
                 "payload": {"request_id": "asset_req_5", "status": "allocated", "asset_tag": "LT-DELL-001"}}),
         ],
-        outputs=['"candidate_id":"cand_7"'],
+        outputs=[]
     ),
 
     Task(
@@ -1340,7 +1340,7 @@ TASKS = [
                                                "candidate_id": "cand_6"}),
             Action(name="UpdateCandidateInviteTimestamps", kwargs={"candidate_id": "cand_6", "orientation_invite_ts": "2025-09-01T00:00:00Z"})
         ],
-        outputs=['"candidate_id":"cand_6"'],
+        outputs=[]
     ),
 
     Task(
@@ -1367,7 +1367,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_6", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_6"'],
+        outputs=[]
     ),
 
     Task(
@@ -1405,7 +1405,7 @@ TASKS = [
                 "candidate_id": "cand_4",
                 "attachment_file_paths": ["/onboarding/Maria_Rodriguez/allocation_receipt.json"]}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -1434,7 +1434,7 @@ TASKS = [
                 "candidate_id": "cand_5",
                 "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
         ],
-        outputs=['"candidate_id":"cand_5"', '"reminder_message_id":"msg_15"'],
+        outputs=[]
     ),
 
     Task(
@@ -1461,7 +1461,7 @@ TASKS = [
                 "status": "Sent",
                 "email_message_id": "msg_15"}),
         ],
-        outputs=['"candidate_id":"cand_7"'],
+        outputs=[]
     ),
 
     Task(
@@ -1492,7 +1492,7 @@ TASKS = [
             }),
         ],
 
-        outputs=['"success_flag": true', '"candidate_id":"cand_6"'],
+        outputs=[]
     ),
 
     Task(
@@ -1540,7 +1540,7 @@ TASKS = [
                 "task": "acknowledge"
             }),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -1574,7 +1574,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_3", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"candidate_id":"cand_3"'],
+        outputs=[]
     ),
 
 
@@ -1597,7 +1597,7 @@ TASKS = [
             Action(name="ReplyToEmailThread",
                    kwargs={"candidate_id": "cand_1", "subject": "Access Gaps",  "task": "acknowledge"})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_1"'],
+        outputs=[]
     ),
 
     Task(
@@ -1631,7 +1631,7 @@ TASKS = [
                    kwargs={"candidate_id": "cand_1", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
         ]
         ,
-        outputs=['"candidate_id":"cand_1"'],
+        outputs=[]
     ),
 
     Task(
@@ -1657,7 +1657,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_2", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -1683,7 +1683,7 @@ TASKS = [
                    kwargs={"candidate_id": "cand_7", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
             Action(name="CloseCompletedChecklistItems", kwargs={"candidate_id": "cand_7", "due_date_lte": "2024-09-09"})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_7"'],
+        outputs=[]
     ),
 
     Task(
@@ -1706,7 +1706,7 @@ TASKS = [
                    kwargs={"candidate_id": "cand_7", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
             Action(name="CloseCompletedChecklistItems", kwargs={"candidate_id": "cand_7", "due_date_lte": "2024-09-09"})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_7"'],
+        outputs=[]
     ),
 
     Task(
@@ -1722,7 +1722,7 @@ TASKS = [
             Action(name="GetOrCreateEmailLabel", kwargs={"name": "Asset-Request"}),
             Action(name="ModifyEmailLabels", kwargs={"message_id": "msg_4", "add_names": ["Asset-Request"]})
         ],
-        outputs=['"candidate_id":"cand_3"'],
+        outputs=[]
     ),
 
     Task(
@@ -1766,7 +1766,7 @@ TASKS = [
                 "candidate_id": "cand_4",
                 "subject": "Asset Provisioning – Sofia Martinez"}),
         ],
-        outputs=['"candidate_id":"cand_4"', "/onboarding/Maria_Rodriguez/attachments_audit.json"],
+        outputs=[]
     ),
 
     Task(
@@ -1791,7 +1791,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_4", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -1829,7 +1829,7 @@ TASKS = [
                 "candidate_id": "cand_5",
                 "attachment_file_paths": ["/onboarding/Alex_Thompson/allocation_receipt.json"]}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -1851,7 +1851,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_5", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -1889,7 +1889,7 @@ TASKS = [
                 "candidate_id": "cand_4",
                 "attachment_file_paths": ["/onboarding/Maria_Rodriguez/allocation_receipt.json"]}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -1925,7 +1925,7 @@ TASKS = [
                 "payload": {"request_id": "asset_req_4", "status": "allocated", "asset_tag": "LT-DELL-001", "asset_type": "Laptop"}
             }),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -1953,7 +1953,7 @@ TASKS = [
                 "email_message_id": "msg_15"
             }),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_7"'],
+        outputs=[]
     ),
 
     Task(
@@ -1978,7 +1978,7 @@ TASKS = [
                    kwargs={"to_emails": ["emma.thompson@example.com"], "subject": "Asset Allocation – Emma Thompson", "candidate_id": "cand_2",
                            "attachment_file_paths": ["/onboarding/Jane_Smith/allocation_receipt.json"]}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -2004,7 +2004,7 @@ TASKS = [
                    kwargs={"to_emails": ["jordan.williams@example.com"], "subject": "Asset Allocation – Jordan Williams", "candidate_id": "cand_5",
                            "attachment_file_paths": ["/onboarding/Alex_Thompson/allocation_receipt.json"]}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -2029,7 +2029,7 @@ TASKS = [
                    kwargs={"to_emails": ["emma.thompson@example.com"], "subject": "Asset Allocation – Emma Thompson", "candidate_id": "cand_2",
                            "attachment_file_paths": ["/onboarding/Jane_Smith/allocation_receipt.json"]}),
         ],
-        outputs=['"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -2054,7 +2054,7 @@ TASKS = [
                    kwargs={"to_emails": ["william.davis@example.com"], "subject": "Asset Allocation – William Davis", "candidate_id": "cand_3",
                            "attachment_file_paths": ["/onboarding/Peter_Jones/allocation_receipt.json"]}),
         ],
-        outputs=['"candidate_id":"cand_3"'],
+        outputs=[]
     ),
 
     Task(
@@ -2080,7 +2080,7 @@ TASKS = [
                    kwargs={"to_emails": ["sofia.martinez@example.com"], "subject": "Asset Allocation – Sofia Martinez", "candidate_id": "cand_4",
                            "attachment_file_paths": ["/onboarding/Maria_Rodriguez/allocation_receipt.json"]}),
         ],
-        outputs=['"success_flag": true', '"candidate_id":"cand_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -2103,7 +2103,7 @@ TASKS = [
                                                          "payload": {"request_id": "asset_req_4", "status": "allocated", "asset_tag": "LT-DELL-001",
                                                                      "asset_type": "Laptop"}}),
         ],
-        outputs=['"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -2129,7 +2129,7 @@ TASKS = [
                    kwargs={"to_emails": ["raj.patel@example.com"], "subject": "Asset Allocation – Raj Patel", "candidate_id": "cand_7",
                            "attachment_file_paths": ["/onboarding/Robert_Singh/allocation_receipt.json"]}),
         ],
-        outputs=['"candidate_id":"cand_7"'],
+        outputs=[]
     ),
 
     Task(
@@ -2163,7 +2163,7 @@ TASKS = [
                 "payload": {"request_id": "asset_req_1", "status": "allocated", "asset_tag": "LT-DELL-001"}
             }),
         ],
-        outputs=['"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -2185,7 +2185,7 @@ TASKS = [
                            "payload": {"request_id": "asset_req_2"}}),
         ]
         ,
-        outputs=['"candidate_id":"cand_3"'],
+        outputs=[]
     ),
 
     Task(
@@ -2220,7 +2220,7 @@ TASKS = [
                 "payload": {"request_id": "asset_req_1", "status": "Sent", "email_message_id": "msg_15"}
             }),
         ],
-        outputs=['"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -2251,7 +2251,7 @@ TASKS = [
                 "subject": "Asset Provisioning – William Davis",
                 "task": "acknowledge"}),
         ],
-        outputs=['"candidate_id":"cand_3"'],
+        outputs=[]
     ),
 
     Task(
@@ -2272,7 +2272,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_5", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
         ],
-        outputs=['"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -2294,7 +2294,7 @@ TASKS = [
                                                             "payload": {"request_id": "asset_req_3", "status": "Sent",
                                                                         "email_message_id": "msg_15"}}),
         ],
-        outputs=['"candidate_id":"cand_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -2314,7 +2314,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_1", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"candidate_id":"cand_1"'],
+        outputs=[]
     ),
 
     Task(
@@ -2340,7 +2340,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_1", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"candidate_id":"cand_1"'],
+        outputs=[]
     ),
 
     Task(
@@ -2381,7 +2381,7 @@ TASKS = [
                 "candidate_id": "cand_6",
                 "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
         ],
-        outputs=['"candidate_id":"cand_6"'],
+        outputs=[]
     ),
 
     Task(
@@ -2405,7 +2405,7 @@ TASKS = [
                                                          "payload": {"request_id": "asset_req_3", "status": "allocated", "asset_tag": "LT-DELL-001",
                                                                      "asset_type": "Laptop"}}),
         ],
-        outputs=['"candidate_id":"cand_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -2441,7 +2441,7 @@ TASKS = [
                 "candidate_id": "cand_2",
                 "orientation_invite_ts": "2025-09-01T00:00:00Z"}),
         ],
-        outputs=['"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -2459,7 +2459,7 @@ TASKS = [
             Action(name="ModifyEmailLabels", kwargs={"candidate_id": "cand_3", "subject": "Pending Onboarding Tasks",  "add_names": ["Onboarding-Reminder"]}),
             Action(name="UpdateCandidateStatusFields", kwargs={"candidate_id": "cand_3", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"candidate_id":"cand_3"'],
+        outputs=[]
     ),
 
     Task(
@@ -2485,7 +2485,7 @@ TASKS = [
                 "candidate_id": "cand_7",
                 "manager_intro_invite_ts": "2025-09-01T00:00:00Z"}),
         ],
-        outputs=['"candidate_id":"cand_7"'],
+        outputs=[]
     ),
 
     Task(
@@ -2505,7 +2505,7 @@ TASKS = [
             Action(name="WriteOnboardingFile", kwargs={"candidate_id": "cand_5", "file_path": "/onboarding/Alex_Thompson/allocation_receipt.json",
                                                          "mime_type": "application/json", "payload": {"request_id": "asset_req_4"}}),
         ],
-    outputs=['"candidate_id":"cand_5"'],
+    outputs=[]
     ),
 
     Task(
@@ -2522,7 +2522,7 @@ TASKS = [
             Action(name="ReplyToEmailThread",
                    kwargs={"candidate_id": "cand_2", "thread_id": "msg_3", "subject": "Asset Provisioning – Emma Thompson"}),
         ],
-        outputs=['"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -2545,7 +2545,7 @@ TASKS = [
                    kwargs={"candidate_id": "cand_4", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
         ]
         ,
-        outputs=['"candidate_id":"cand_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -2571,7 +2571,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_5", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
         ],
-        outputs=['"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -2603,7 +2603,7 @@ TASKS = [
                 "candidate_id": "cand_6"
             }),
         ],
-        outputs=['"candidate_id":"cand_6"'],
+        outputs=[]
     ),
 
     Task(
@@ -2631,7 +2631,7 @@ TASKS = [
                 "subject": "Access Gaps",
                 "candidate_id": "cand_2"}),
         ],
-        outputs=['"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -2650,7 +2650,7 @@ TASKS = [
                                                             "payload": {"request_id": "asset_req_2", "status": "Sent", "email_message_id": "msg_4"}}),
             Action(name="AuditAttachmentsForEmail", kwargs={"candidate_id": "cand_3", "subject": "Asset Provisioning – William Davis"}),
         ],
-        outputs=['"candidate_id":"cand_3"'],
+        outputs=[]
     ),
 
     Task(
@@ -2670,7 +2670,7 @@ TASKS = [
             Action(name="UpdateCandidateInviteTimestamps", kwargs={"candidate_id": "cand_4", "orientation_invite_ts": "2025-09-01T00:00:00Z",
                                                                       "manager_intro_invite_ts": "2025-09-01T00:00:00Z"})
         ],
-        outputs=['"candidate_id":"cand_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -2697,7 +2697,7 @@ TASKS = [
                                                          "payload": {"request_id": "asset_req_4", "status": "allocated", "asset_tag": "LT-DELL-001",
                                                                      "asset_type": "Laptop"}}),
         ],
-        outputs=['"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -2724,7 +2724,7 @@ TASKS = [
             Action(name="UpdateCandidateStatusFields",
                    kwargs={"candidate_id": "cand_2", "fields": {"checklist_follow_up_ts_nullable": "2025-09-01T00:00:00Z"}}),
         ],
-        outputs=['"candidate_id":"cand_2"'],
+        outputs=[]
     ),
 
     Task(
@@ -2752,7 +2752,7 @@ TASKS = [
                 "orientation_invite_ts": "2025-09-01T00:00:00Z"
             }),
         ],
-        outputs=['"candidate_id":"cand_3"'],
+        outputs=[]
     ),
 
     Task(
@@ -2770,7 +2770,7 @@ TASKS = [
             Action(name="AllocateFirstAvailableAsset", kwargs={"request_id": "asset_req_3"}),
             Action(name="AuditAttachmentsForEmail", kwargs={ "candidate_id": "cand_4", "subject": "Asset Provisioning – Sofia Martinez"}),
         ],
-        outputs=['"candidate_id":"cand_4"'],
+        outputs=[]
     ),
 
     Task(
@@ -2821,7 +2821,7 @@ TASKS = [
                 "candidate_id": "cand_5",
                 "orientation_invite_ts": "2025-09-01T00:00:00Z"}),
         ],
-        outputs=['"candidate_id":"cand_5"'],
+        outputs=[]
     ),
 
     Task(
@@ -2839,7 +2839,7 @@ TASKS = [
             Action(name="MarkChecklistItemsReminded", kwargs={"item_ids":["item_15","item_16"],"reminder_email_message_id":"msg_15","updated_ts":"2025-09-01T00:00:00Z"}),
             Action(name="UpdateCandidateStatusFields", kwargs={"candidate_id":"cand_7","fields":{"checklist_follow_up_ts_nullable":"2025-09-01T00:00:00Z"}})
         ],
-        outputs=['"candidate_id":"cand_7"'],
+        outputs=[]
     ),
 
 ]

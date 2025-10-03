@@ -90,10 +90,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-013", "assignments": [{"role_id": "ROL-001", "role_name": "engineering-base", "description": "Basic access for engineering staff"}, {"role_id": "ROL-004", "role_name": "engineering-db-schema", "description": "Ability to modify database schemas"}]}',
-            '{"ok": true, "user_id": "U-013", "has_sod_conflicts": false, "conflict_count": 0, "conflicts": [], "checked_on": "2025-08-08T12:00:00.000000Z"}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -161,10 +158,7 @@ TASKS = [
             Action(name="GetUser", kwargs={"username": "btalley"}),
             Action(name="GetUserRoles", kwargs={"user_id": "U-001", "only_active": True}),
         ],
-        outputs=[
-            '{"user_id": "U-013", "username": "btalley", "email": "Nathan.talley@sigmatech.com", "department": "Engineering", "status": "INACTIVE", "mfa_enabled": true}',
-            '{"user_id": "U-001", "assignments": [{"role_id": "ROL-001"}, {"role_id": "ROL-034"}, {"role_id": "ROL-005"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -215,9 +209,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "certification": {"certification_id": "C-014", "reviewer_id": "U-001", "resource_id": "RES-006", "status": "COMPLETED", "due_date": "2025-11-16 04:59:59+00:00", "completed_on": "2025-08-08T12:00:00.000000Z"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -274,9 +266,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-012", "user_id": "U-023", "permission_id": "P-089", "reviewed_by": "U-005", "requested_on": "2025-08-04 18:00:00+00:00", "reviewed_on": "2025-08-08T12:00:00.000000Z", "expires_on": "2025-09-21 04:59:59+00:00", "reason": "Full administrative access to a specific production server for troubleshooting.", "status": "ACTIVE"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -332,9 +322,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-018", "permission_id": "P-084", "reviewed_by": "U-006", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-10-15T23:59:59.000000Z", "reason": "Temporary access to perform submit-tax-filing until 2025-10-15", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -443,9 +431,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-014", "assignments": [{"role_id": "ROL-011", "role_name": "sales-base", "description": "Basic access for sales staff"}]}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -548,9 +534,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "siem_alert": {"alert_id": "ALRT-013", "user_id": "U-013", "resource_id": "RES-026", "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT", "severity": "CRITICAL"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -640,10 +624,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-025"}),
         ],
-        outputs=[
-            '{"user_id": "U-025", "assignments": []}',
-            '{"user_id": "U-025", "username": "mwright", "email": "mason.wright@sigmatech.com", "department": "Engineering", "status": "DISABLED", "mfa_enabled": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -820,11 +801,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-006", "role_name": "marketing-base", "description": "Basic access for marketing staff"}, {"role_id": "ROL-009", "role_name": "marketing-analytics-read", "description": "Read-only access to marketing analytics data"}]}',
-            '{"ok": true, "user_id": "U-034", "has_sod_conflicts": false, "conflict_count": 0, "conflicts": [], "checked_on": "2025-08-08T12:00:00.000000Z"}',
-            '{"user_id": "U-014", "assignments": []}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -948,11 +925,7 @@ TASKS = [
                 name="GetSession", kwargs={"user_id": "U-007", "only_active": True}
             ),
         ],
-        outputs=[
-            '{"ok": true, "user_id": "U-007", "resource_id": "RES-020", "can_access": false, "checked_on": "2025-08-08T12:00:00.000000Z", "reason": "User does not have any active roles that grant access to this resource"}',
-            '{"user_id": "U-007", "username": "wthompson", "email": "william.thompson@sigmatech.com", "department": "Engineering", "status": "SUSPENDED", "mfa_enabled": true}',
-            '{"user_id": "U-007", "assignments": []}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1032,10 +1005,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"access_request": {"request_id": "AR-030", "user_id": "U-022", "resource_id": "RES-020", "requested_role_id": "ROL-017", "justification": "Need read-only access to employee data.", "status": "APPROVED", "submitted_at": "2024-05-29 14:00:00+00:00", "reviewed_by": "U-005", "decision_at": "2025-08-08T12:00:00.000000Z"}}',
-            '{"user_id": "U-022", "assignments": [{"role_id": "ROL-016", "role_name": "hr-base", "description": "Basic access for human resources staff"}, {"role_id": "ROL-017", "role_name": "hr-employee-data-read", "description": "Read-only access to employee records"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1117,10 +1087,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"request_id":"AR-034","user_id":"U-018","resource_id":"RES-034","requested_role_id":"ROL-030","justification":"Requesting read access to tax compliance software.","status":"APPROVED"}',
-            '{"user_id": "U-018", "assignments": [{"role_id": "ROL-029", "role_name": "finance-base", "description": "Basic access for finance staff"}, {"role_id": "ROL-030", "role_name": "finance-read", "description": "Read-only access to finance data"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1183,9 +1150,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-018"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-018", "user_id": "U-007", "permission_id": "P-005", "reviewed_by": "U-001", "requested_on": "2025-08-06 15:00:00+00:00", "reviewed_on": "2025-08-08T12:00:00.000000Z", "expires_on": null, "reason": "Emergency configuration change to the CI/CD pipeline.", "status": "DENIED"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1241,7 +1206,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1295,9 +1260,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "certification": {"certification_id": "C-020", "reviewer_id": "U-005", "resource_id": "RES-027", "status": "COMPLETED", "due_date": "2025-11-08 04:59:59+00:00", "completed_on": "2025-08-08T12:00:00.000000Z"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1395,10 +1358,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"access_request": {"request_id": "AR-008", "user_id": "U-030", "resource_id": "RES-032", "requested_role_id": "ROL-032", "justification": "Need to create budgets for Q3 planning.", "status": "APPROVED", "submitted_at": "2024-05-20 15:00:00+00:00", "reviewed_by": "U-006", "decision_at": "2025-08-08T12:00:00.000000Z"}}',
-            '{"user_id": "U-030", "assignments": [{"role_id": "ROL-029", "role_name": "finance-base", "description": "Basic access for finance staff"}, {"role_id": "ROL-032", "role_name": "finance-budget-admin", "description": "Administers departmental budgets"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1509,11 +1469,7 @@ TASKS = [
                 name="GetUserRoles", kwargs={"user_id": "U-026", "only_active": True}
             ),
         ],
-        outputs=[
-            '{"access_request": {"request_id": "AR-009", "user_id": "U-026", "resource_id": "RES-008", "requested_role_id": "ROL-008", "justification": "Temporary access to social media for a specific campaign launch.", "status": "APPROVED", "submitted_at": "2024-05-20 16:00:00+00:00", "reviewed_by": "U-002", "decision_at": "2025-08-08T12:00:00.000000Z"}}',
-            '{"access_request": {"request_id": "AR-021", "user_id": "U-026", "resource_id": "RES-012", "requested_role_id": "ROL-010", "justification": "Requesting content editor access for the blog.", "status": "REJECTED", "submitted_at": "2024-05-26 15:00:00+00:00", "reviewed_by": "U-002", "decision_at": "2025-08-08T12:00:00.000000Z"}}',
-            '{"user_id": "U-026", "assignments": [{"role_id": "ROL-006"}, {"role_id": "ROL-007"}, {"role_id": "ROL-010"}, {"role_id": "ROL-008"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1568,9 +1524,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-012", "permission_id": "P-084", "reviewed_by": "U-001", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-10-10T23:59:59.000000Z", "reason": "Temporary access to perform submit-tax-filing until 2025-10-10", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1625,9 +1579,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-024", "permission_id": "P-084", "reviewed_by": "U-002", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-09-30T23:59:59.000000Z", "reason": "Temporary access to perform submit-tax-filing until 2025-09-30", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1682,9 +1634,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-001", "permission_id": "P-084", "reviewed_by": "U-005", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-09-25T23:59:59.000000Z", "reason": "Temporary access to perform submit-tax-filing until 2025-09-25", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1747,9 +1697,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-019"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-019", "user_id": "U-024", "permission_id": "P-088", "reviewed_by": "U-006", "requested_on": "2025-08-06 16:00:00+00:00", "reviewed_on": "2025-08-08T12:00:00.000000Z", "expires_on": "2025-11-21 04:59:59+00:00", "reason": "Approval of a large expense report for a new project.", "status": "ACTIVE"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1819,9 +1767,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-010", "assignments": [{"role_id": "ROL-016", "role_name": "hr-base", "description": "Basic access for human resources staff"}, {"role_id": "ROL-019", "role_name": "hr-recruitment-manager", "description": "Manages job postings and candidate applications"}, {"role_id": "ROL-037", "role_name": "hr-lead", "description": "Lead role for the human resources department."}]}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -1916,10 +1862,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-010", "assignments": [{"role_id": "ROL-016", "role_name": "hr-base", "description": "Basic access for human resources staff"}]}',
-            '{"user_id": "U-016", "assignments": [{"role_id": "ROL-016", "role_name": "hr-base", "description": "Basic access for human resources staff"}, {"role_id": "ROL-019", "role_name": "hr-recruitment-manager", "description": "Manages job postings and candidate applications"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2045,10 +1988,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-011", "role_name": "sales-base", "description": "Basic access for sales staff"}]}',
-            '{"user_id": "U-015", "assignments": [{"role_id": "ROL-011", "role_name": "sales-base", "description": "Basic access for sales staff"}, {"role_id": "ROL-013", "role_name": "sales-lead-manager", "description": "Manages sales leads and opportunities"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2107,7 +2047,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['{"user_id": "U-011", "assignments": []}'],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2204,9 +2144,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-029", "role_name": "finance-base", "description": "Basic access for finance staff"}]}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2268,9 +2206,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-023", "assignments": [{"role_id": "ROL-021", "role_name": "operations-base", "description": "Basic access for operations staff"}, {"role_id": "ROL-023", "role_name": "operations-incident-response", "description": "Responds to and resolves system incidents"}]}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2325,9 +2261,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-002", "permission_id": "P-084", "reviewed_by": "U-006", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-09-20T23:59:59.000000Z", "reason": "Temporary access to perform submit-tax-filing until 2025-09-20", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2410,10 +2344,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"access_request": {"request_id": "AR-007", "user_id": "U-029", "resource_id": "RES-025", "requested_role_id": "ROL-026", "justification": "Urgent request for full system admin access for incident response.", "status": "APPROVED", "submitted_at": "2024-05-20 14:00:00+00:00", "reviewed_by": "U-005", "decision_at": "2025-08-08T12:00:00.000000Z"}}',
-            '{"user_id": "U-029", "assignments": [{"role_id": "ROL-021", "role_name": "operations-base", "description": "Basic access for operations staff"}, {"role_id": "ROL-026", "role_name": "operations-system-admin", "description": "Full administrative access to all operations systems."}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2469,9 +2400,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-007", "permission_id": "P-084", "reviewed_by": "U-005", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-10-01T23:59:59.000000Z", "reason": "Temporary access to perform submit-tax-filing until 2025-10-01", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2513,9 +2442,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "ticket": {"ticket_id": "TI-053", "created_at": "2025-06-02 21:30:00+00:00", "updated_at": "2025-08-08T12:00:00.000000Z", "subject": "SIEM Alert: Unauthorized Access Attempt", "description": "SIEM Alert ALRT-012: Critical severity alert for user U-004 attempting to access resource RES-014.", "status": "CLOSED", "priority": "HIGH", "assignee_id": "U-005", "requester_id": "U-004", "category": "SECURITY_INCIDENT", "closed_at": "2025-08-08T12:00:00.000000Z"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2561,9 +2488,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "certification": {"certification_id": "C-024", "reviewer_id": "U-005", "resource_id": "RES-042", "status": "PENDING", "due_date": "2025-10-12T23:59:59.000000Z", "completed_on": null}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2625,11 +2550,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "permission": {"permission_id": "P-113", "action": "approve-merge", "resource_id": "RES-002", "description": "Allows approving merges on the main repository"}}',
-            '{"ok": true, "role_permissions": [{"role_id": "ROL-034", "permission_id": "P-113", "role": {"role_id": "ROL-034", "role_name": "engineering-lead", "description": "Lead role for the engineering department.", "is_temporary": false}, "permission": {"permission_id": "P-113", "action": "approve-merge", "resource_id": "RES-002", "description": "Allows approving merges on the main repository"}}]}',
-            '{"ok": true, "user_id": "U-001", "has_sod_conflicts": false, "conflict_count": 0, "conflicts": [], "checked_on": "2025-08-08T12:00:00.000000Z"}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2690,11 +2611,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "permission": {"permission_id": "P-113", "action": "close-siem-incident", "resource_id": "RES-040", "description": "Allows closing incidents in the SIEM"}}',
-            '{"ok": true, "role_permissions": [{"role_id": "ROL-038", "permission_id": "P-113", "role": {"role_id": "ROL-038", "role_name": "operations-lead", "description": "Lead role for the operations department.", "is_temporary": false}, "permission": {"permission_id": "P-113", "action": "close-siem-incident", "resource_id": "RES-040", "description": "Allows closing incidents in the SIEM"}}]}',
-            '{"ok": true, "user_id": "U-005", "has_sod_conflicts": false, "conflict_count": 0, "conflicts": [], "checked_on": "2025-08-08T12:00:00.000000Z"}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2756,11 +2673,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "permission": {"permission_id": "P-113", "action": "approve-social-post", "resource_id": "RES-008", "description": "Allows approving scheduled social posts"}}',
-            '{"ok": true, "role_permissions": [{"role_id": "ROL-035", "permission_id": "P-113", "role": {"role_id": "ROL-035", "role_name": "marketing-lead", "description": "Lead role for the marketing department.", "is_temporary": false}, "permission": {"permission_id": "P-113", "action": "approve-social-post", "resource_id": "RES-008", "description": "Allows approving scheduled social posts"}}]}',
-            '{"ok": true, "user_id": "U-002", "has_sod_conflicts": false, "conflict_count": 0, "conflicts": [], "checked_on": "2025-08-08T12:00:00.000000Z"}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2837,10 +2750,7 @@ TASKS = [
             Action(name="GetUser", kwargs={"username": "ljacobs"}),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"user_id": "U-016", "username": "ljacobs", "email": "Ava.jacobs@sigmatech.com", "department": "Human Resources", "status": "INACTIVE", "mfa_enabled": false}',
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-028", "permission_id": "P-051", "reviewed_by": "U-004", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-09-30T23:59:59.000000Z", "reason": "Temporary access to perform process-payroll until 2025-09-30", "status": "PENDING_REVIEW"}}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2901,11 +2811,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "permission": {"permission_id": "P-113", "action": "lock-ledger-period", "resource_id": "RES-031", "description": "Allows locking accounting periods in the ledger"}}',
-            '{"ok": true, "role_permissions": [{"role_id": "ROL-039", "permission_id": "P-113", "role": {"role_id": "ROL-039", "role_name": "finance-lead", "description": "Lead role for the finance department.", "is_temporary": false}, "permission": {"permission_id": "P-113", "action": "lock-ledger-period", "resource_id": "RES-031", "description": "Allows locking accounting periods in the ledger"}}]}',
-            '{"ok": true, "user_id": "U-006", "has_sod_conflicts": false, "conflict_count": 0, "conflicts": [], "checked_on": "2025-08-08T12:00:00.000000Z"}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -2982,10 +2888,7 @@ TASKS = [
             Action(name="GetUser", kwargs={"username": "landrews"}),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "user": {"user_id": "U-012", "username": "landrews", "email": "Victoria.andrews@sigmatech.com", "department": "Finance", "status": "INACTIVE", "mfa_enabled": true}}',
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-024", "permission_id": "P-061", "reviewed_by": "U-006", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-12-01T23:59:59.000000Z", "reason": "Temporary access to perform restart-prod-service until 2025-12-01", "status": "PENDING_REVIEW"}}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3053,10 +2956,7 @@ TASKS = [
             Action(name="GetUser", kwargs={"username": "pcarver"}),
             Action(name="GetUserRoles", kwargs={"user_id": "U-005", "only_active": True}),
         ],
-        outputs=[
-            '{"user_id": "U-029", "username": "pcarver", "email": "Oliver.carver@sigmatech.com", "department": "Operations", "status": "INACTIVE", "mfa_enabled": true}',
-            '{"user_id": "U-005", "assignments": [{"role_id": "ROL-021"}, {"role_id": "ROL-038"}, {"role_id": "ROL-023"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3124,10 +3024,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"access_request": {"request_id": "AR-037", "user_id": "U-010", "resource_id": "RES-041", "requested_role_id": "ROL-019", "justification": "Need to post a new job opening.", "status": "REJECTED", "submitted_at": "2024-05-30 19:00:00+00:00", "reviewed_by": "U-005", "decision_at": "2025-08-08T12:00:00.000000Z"}}',
-            '{"user_id": "U-010", "assignments": [{"role_id": "ROL-016", "role_name": "hr-base", "description": "Basic access for human resources staff"}, {"role_id": "ROL-019", "role_name": "hr-recruitment-manager", "description": "Manages job postings and candidate applications"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3243,11 +3140,7 @@ TASKS = [
                 name="GetSession", kwargs={"user_id": "U-004", "only_active": True}
             ),
         ],
-        outputs=[
-            '{"ok": true, "ticket": {"ticket_id": "TI-053", "created_at": "2025-06-02 21:30:00+00:00", "updated_at": "2025-08-08T12:00:00.000000Z", "subject": "SIEM Alert: Unauthorized Access Attempt", "description": "SIEM Alert ALRT-012: Critical severity alert for user U-004 attempting to access resource RES-014.", "status": "CLOSED", "priority": "HIGH", "assignee_id": "U-005", "requester_id": "U-004", "category": "SECURITY_INCIDENT", "closed_at": "2025-08-08T12:00:00.000000Z"}}',
-            '{"user_id": "U-004", "username": "staylor", "email": "sophia.Thompson@sigmatech.com", "department": "Human Resources", "status": "SUSPENDED", "mfa_enabled": true}',
-            '{"user_id": "U-004", "assignments": []}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3302,9 +3195,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-009", "permission_id": "P-084", "reviewed_by": "U-006", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-10-05T23:59:59.000000Z", "reason": "Temporary access to perform submit-tax-filing until 2025-10-05", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3377,10 +3268,7 @@ TASKS = [
                 name="GetUserRoles", kwargs={"user_id": "U-005", "only_active": True}
             ),
         ],
-        outputs=[
-            '{"ok": true, "user": {"user_id": "U-005", "username": "drodriguez", "email": "Noah.Thompson@sigmatech.com", "department": "Operations", "status": "INACTIVE", "mfa_enabled": true}}',
-            '{"user_id": "U-005", "assignments": [{"role_id": "ROL-021"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3435,9 +3323,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-010", "permission_id": "P-084", "reviewed_by": "U-005", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-10-12T23:59:59.000000Z", "reason": "Temporary access to perform submit-tax-filing until 2025-10-12", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3495,9 +3381,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-019", "permission_id": "P-005", "reviewed_by": "U-001", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-08-15T23:59:59.000000Z", "reason": "Temporary access to perform configure-pipeline until 2025-08-15", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3554,9 +3438,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            ' {"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-023", "permission_id": "P-067", "reviewed_by": "U-005", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-09-15T23:59:59.000000Z", "reason": "Temporary access to perform modify-firewall-rules until 2025-09-15", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3613,9 +3495,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-022", "permission_id": "P-057", "reviewed_by": "U-005", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-10-31T23:59:59.000000Z", "reason": "Temporary access to perform modify-benefits until 2025-10-31", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3674,9 +3554,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-013", "permission_id": "P-012", "reviewed_by": "U-001", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-08-31T23:59:59.000000Z", "reason": "Temporary access to perform deploy-api until 2025-08-31", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3733,7 +3611,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3789,7 +3667,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3890,10 +3768,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-018", "username": "srodriguez", "email": "Mia.Thompson@sigmatech.com", "department": "Finance", "status": "INACTIVE", "mfa_enabled": true}',
-            '{"user_id": "U-024", "assignments": [{"role_id": "ROL-029"}, {"role_id": "ROL-033"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -3994,10 +3869,7 @@ TASKS = [
             Action(name="GetUser", kwargs={"username": "nwilson"}),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "user": {"user_id": "U-010", "username": "nwilson", "email": "noah.Martinez@sigmatech.com", "department": "Human Resources", "status": "INACTIVE", "mfa_enabled": true}}',
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-016", "permission_id": "P-051", "reviewed_by": "U-004", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-09-30T23:59:59.000000Z", "reason": "Temporary access to perform process-payroll until 2025-09-30", "status": "PENDING_REVIEW"}}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -4096,10 +3968,7 @@ TASKS = [
             Action(name="GetUser", kwargs={"username": "knguyen"}),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"user_id": "U-015", "username": "knguyen", "email": "Ethan.nguyen@sigmatech.com", "department": "Sales", "status": "INACTIVE", "mfa_enabled": true}',
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-021", "permission_id": "P-043", "reviewed_by": "U-003", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-10-15T23:59:59.000000Z", "reason": "Temporary access to perform calculate-commission until 2025-10-15", "status": "PENDING_REVIEW"}}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -4189,10 +4058,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"username": "ntaylor"}),
         ],
-        outputs=[
-            '{"user_id": "U-025", "assignments": [{"role_id": "ROL-001", "role_name": "engineering-base", "description": "Basic access for engineering staff"}, {"role_id": "ROL-004", "role_name": "engineering-db-schema", "description": "Ability to modify database schemas"}]}',
-            '{"user_id": "U-019", "username": "ntaylor", "email": "nathan.Thompson@sigmatech.com", "department": "Engineering", "status": "INACTIVE", "mfa_enabled": false}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -4282,10 +4148,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"username": "ggreen"}),
         ],
-        outputs=[
-            '{"user_id": "U-029", "assignments": [{"role_id": "ROL-021", "role_name": "operations-base", "description": "Basic access for operations staff"}, {"role_id": "ROL-023", "role_name": "operations-incident-response", "description": "Responds to and resolves system incidents"}]}',
-            '{"user_id": "U-023", "username": "ggreen", "email": "geoffrey.Allen@sigmatech.com", "department": "Operations", "status": "INACTIVE", "mfa_enabled": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -4381,10 +4244,7 @@ TASKS = [
             Action(name="GetUser", kwargs={"username": "nthompson"}),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "user": {"user_id": "U-014", "username": "nthompson", "email": "Madison.thompson@sigmatech.com", "department": "Marketing", "status": "INACTIVE", "mfa_enabled": false}}',
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-026", "permission_id": "P-026", "reviewed_by": "U-002", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-10-10T23:59:59.000000Z", "reason": "Temporary access to perform export-marketing-data until 2025-10-10", "status": "PENDING_REVIEW"}}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -4475,10 +4335,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"username": "eanderson"}),
         ],
-        outputs=[
-            '{"user_id": "U-024", "assignments": [{"role_id": "ROL-029", "role_name": "finance-base", "description": "Basic access for finance staff"}, {"role_id": "ROL-031", "role_name": "finance-invoice-processor", "description": "Processes customer invoices and payments"}]}',
-            '{"user_id": "U-012", "username": "eanderson", "email": "elisabeth.Lee@sigmatech.com", "department": "Finance", "status": "INACTIVE", "mfa_enabled": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -4617,10 +4474,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-002"}),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-006", "role_name": "marketing-base", "description": "Basic access for marketing staff"}, {"role_id": "ROL-035", "role_name": "marketing-lead", "description": "Lead role for the marketing department."}]}',
-            '{"user_id": "U-002", "username": "edavis", "email": "Sophia.Rodriguez@sigmatech.com", "department": "Marketing", "status": "INACTIVE", "mfa_enabled": false}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -4758,10 +4612,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-001"}),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-001", "role_name": "engineering-base", "description": "Basic access for engineering staff"}, {"role_id": "ROL-034", "role_name": "engineering-lead", "description": "Lead role for the engineering department."}]}',
-            '{"user_id": "U-001", "username": "rmartinez", "email": "Mason.martinez@sigmatech.com", "department": "Engineering", "status": "INACTIVE", "mfa_enabled": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -4899,10 +4750,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-005"}),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-021", "role_name": "operations-base", "description": "Basic access for operations staff"}, {"role_id": "ROL-038", "role_name": "operations-lead", "description": "Lead role for the operations department."}]}',
-            '{"user_id": "U-005", "username": "drodriguez", "email": "Noah.Thompson@sigmatech.com", "department": "Operations", "status": "INACTIVE", "mfa_enabled": false}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -5040,10 +4888,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-006"}),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-029", "role_name": "finance-base", "description": "Basic access for finance staff"}, {"role_id": "ROL-039", "role_name": "finance-lead", "description": "Lead role for the finance department."}]}',
-            '{"user_id": "U-006", "username": "oanderson", "email": "olivia.Lee@sigmatech.com", "department": "Finance", "status": "INACTIVE", "mfa_enabled": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -5163,10 +5008,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-019"}),
         ],
-        outputs=[
-            '{"user_id": "U-019", "assignments": [{"role_id": "ROL-021", "role_name": "operations-base", "description": "Basic access for operations staff"}, {"role_id": "ROL-022", "role_name": "operations-server-monitor", "description": "Monitors server health and performance"}]}',
-            '{"user_id": "U-019", "username": "nmartinez", "email": "noah.martinez@sigmatech.com", "department": "Operations", "status": "ACTIVE", "mfa_enabled": false}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -5287,10 +5129,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-012"}),
         ],
-        outputs=[
-            '{"user_id": "U-012", "assignments": [{"role_id": "ROL-016", "role_name": "hr-base", "description": "Basic access for human resources staff"}, {"role_id": "ROL-020", "role_name": "hr-benefits-admin", "description": "Administers employee benefits programs"}]}',
-            '{"user_id": "U-012", "username": "vlee", "email": "victoria.lee@sigmatech.com", "department": "Human Resources", "status": "ACTIVE", "mfa_enabled": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -5384,10 +5223,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-013"}),
         ],
-        outputs=[
-            '{"user_id": "U-013", "assignments": [{"role_id": "ROL-011", "role_name": "sales-base", "description": "Basic access for sales staff"}, {"role_id": "ROL-014", "role_name": "sales-reporting", "description": "Generates sales performance reports"}]}',
-            '{"user_id": "U-013", "username": "nwhite", "email": "nathan.Thompson@sigmatech.com", "department": "Sales", "status": "ACTIVE", "mfa_enabled": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -5527,10 +5363,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-026"}),
         ],
-        outputs=[
-            '{"user_id": "U-026", "assignments": [{"role_id": "ROL-001", "role_name": "engineering-base", "description": "Basic access for engineering staff"}, {"role_id": "ROL-002", "role_name": "engineering-code-commit", "description": "Permission to commit code to repositories"}, {"role_id": "ROL-005", "role_name": "engineering-qa-test", "description": "Access to QA testing environments"}]}',
-            '{"user_id": "U-026", "username": "sturner", "email": "sophie.turner@sigmatech.com", "department": "Engineering", "status": "ACTIVE", "mfa_enabled": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -5623,10 +5456,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-029"}),
         ],
-        outputs=[
-            '{"user_id": "U-029", "assignments": [{"role_id": "ROL-029", "role_name": "finance-base", "description": "Basic access for finance staff"}, {"role_id": "ROL-030", "role_name": "finance-read", "description": "Read-only access to finance data"}]}',
-            '{"user_id": "U-029", "username": "olewis", "email": "oliver.lewis@sigmatech.com", "department": "Finance", "status": "ACTIVE", "mfa_enabled": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -5732,10 +5562,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-025"}),
         ],
-        outputs=[
-            '{"user_id": "U-025", "assignments": [{"role_id": "ROL-029", "role_name": "finance-base", "description": "Basic access for finance staff"}, {"role_id": "ROL-031", "role_name": "finance-invoice-processor", "description": "Processes customer invoices and payments"}]}',
-            '{"user_id": "U-025", "username": "mwright", "email": "mason.wright@sigmatech.com", "department": "Finance", "status": "ACTIVE", "mfa_enabled": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -5926,10 +5753,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-011", "role_name": "sales-base", "description": "Basic access for sales staff"}, {"role_id": "ROL-012", "role_name": "sales-crm-access", "description": "Access to CRM system for customer data"}, {"role_id": "ROL-013", "role_name": "sales-lead-manager", "description": "Manages sales leads and opportunities"}]}',
-            '{"user_id": "U-009", "assignments": []}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -6116,10 +5940,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-001", "role_name": "engineering-base", "description": "Basic access for engineering staff"}, {"role_id": "ROL-002", "role_name": "engineering-code-commit", "description": "Permission to commit code to repositories"}, {"role_id": "ROL-003", "role_name": "engineering-prod-access", "description": "Access to production environments for debugging"}]}',
-            '{"user_id": "U-007", "assignments": []}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -6243,10 +6064,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-016", "role_name": "hr-base", "description": "Basic access for human resources staff"}]}',
-            '{"user_id": "U-022", "assignments": []}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -6388,10 +6206,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-021", "role_name": "operations-base", "description": "Basic access for operations staff"}, {"role_id": "ROL-026", "role_name": "operations-system-admin", "description": "Full administrative access to all operations systems."}]}',
-            '{"user_id": "U-029", "assignments": []}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -6515,10 +6330,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-029", "role_name": "finance-base", "description": "Basic access for finance staff"}]}',
-            '{"user_id": "U-030", "assignments": []}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -6705,10 +6517,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-034", "assignments": [{"role_id": "ROL-006", "role_name": "marketing-base", "description": "Basic access for marketing staff"}, {"role_id": "ROL-007", "role_name": "marketing-campaign-manager", "description": "Manages marketing campaigns"}, {"role_id": "ROL-010", "role_name": "marketing-content-editor", "description": "Edits website and marketing content"}]}',
-            '{"user_id": "U-026", "assignments": []}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -6840,12 +6649,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "resource": {"resource_id": "RES-043", "name": "api-gateway-microservices", "owner_id": "U-019", "criticality": "HIGH", "compliance_scope": "ISO-27001"}}',
-            '{"role_id": "ROL-043", "role_name": "engineering-api-gateway-admin", "description": "Manages API gateway configuration and routing for microservices", "is_temporary": false}',
-            '{"ok": true, "permission": {"permission_id": "P-113", "action": "configure-api-gateway", "resource_id": "RES-043", "description": "Configure routing and load balancing in API gateway"}}',
-            '{"user_id": "U-019", "assignments": [{"role_id": "ROL-001", "role_name": "engineering-base", "description": "Basic access for engineering staff"}, {"role_id": "ROL-004", "role_name": "engineering-db-schema", "description": "Ability to modify database schemas"}, {"role_id": "ROL-005", "role_name": "engineering-qa-test", "description": "Access to QA testing environments"}, {"role_id": "ROL-043", "role_name": "engineering-api-gateway-admin", "description": "Manages API gateway configuration and routing for microservices"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -6983,13 +6787,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "resource": {"resource_id": "RES-043", "name": "customer-support-portal", "owner_id": "U-009", "criticality": "MEDIUM", "compliance_scope": "GDPR"}}',
-            '{"role_id": "ROL-043", "role_name": "support-ticket-manager", "description": "Manages customer support tickets and escalations", "is_temporary": false}',
-            '{"ok": true, "permission": {"permission_id": "P-113", "action": "manage-support-tickets", "resource_id": "RES-043", "description": "Create, update, and resolve customer support tickets"}}',
-            '{"user_id": "U-009", "assignments": [{"role_id": "ROL-011", "role_name": "sales-base", "description": "Basic access for sales staff"}, {"role_id": "ROL-012", "role_name": "sales-crm-access", "description": "Access to CRM system for customer data"}, {"role_id": "ROL-013", "role_name": "sales-lead-manager", "description": "Manages sales leads and opportunities"}, {"role_id": "ROL-043", "role_name": "support-ticket-manager", "description": "Manages customer support tickets and escalations"}]}',
-            '{"ok": true, "user_id": "U-009", "has_sod_conflicts": false, "conflict_count": 0, "conflicts": [], "checked_on": "2025-08-08T12:00:00.000000Z"}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -7122,13 +6920,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "resource": {"resource_id": "RES-043", "name": "code-review-platform", "owner_id": "U-007", "criticality": "HIGH", "compliance_scope": "ISO-27001"}}',
-            '{"role_id": "ROL-043", "role_name": "engineering-code-reviewer", "description": "Reviews code submissions and enforces quality standards", "is_temporary": false}',
-            '{"ok": true, "permission": {"permission_id": "P-113", "action": "approve-code-reviews", "resource_id": "RES-043", "description": "Approve or reject code review submissions"}}',
-            '{"user_id": "U-007", "assignments": [{"role_id": "ROL-001", "role_name": "engineering-base", "description": "Basic access for engineering staff"}, {"role_id": "ROL-002", "role_name": "engineering-code-commit", "description": "Permission to commit code to repositories"}, {"role_id": "ROL-043", "role_name": "engineering-code-reviewer", "description": "Reviews code submissions and enforces quality standards"}]}',
-            '{"ok": true, "user_id": "U-007", "has_sod_conflicts": false, "conflict_count": 0, "conflicts": [], "checked_on": "2025-08-08T12:00:00.000000Z"}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -7261,13 +7053,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "resource": {"resource_id": "RES-043", "name": "marketing-automation-platform", "owner_id": "U-014", "criticality": "HIGH", "compliance_scope": "GDPR"}}',
-            '{"role_id": "ROL-043", "role_name": "marketing-automation-manager", "description": "Manages automated marketing workflows and campaigns", "is_temporary": false}',
-            '{"ok": true, "permission": {"permission_id": "P-113", "action": "configure-marketing-workflows", "resource_id": "RES-043", "description": "Create and modify automated marketing campaign workflows"}}',
-            '{"user_id": "U-014", "assignments": [{"role_id": "ROL-006", "role_name": "marketing-base", "description": "Basic access for marketing staff"}, {"role_id": "ROL-009", "role_name": "marketing-analytics-read", "description": "Read-only access to marketing analytics data"}, {"role_id": "ROL-043", "role_name": "marketing-automation-manager", "description": "Manages automated marketing workflows and campaigns"}]}',
-            '{"ok": true, "user_id": "U-014", "has_sod_conflicts": false, "conflict_count": 0, "conflicts": [], "checked_on": "2025-08-08T12:00:00.000000Z"}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -7400,13 +7186,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "resource": {"resource_id": "RES-043", "name": "executive-financial-dashboard", "owner_id": "U-006", "criticality": "CRITICAL", "compliance_scope": "SOX"}}',
-            '{"role_id": "ROL-043", "role_name": "finance-executive-reporting", "description": "Access to executive-level financial reports and dashboards", "is_temporary": false}',
-            '{"ok": true, "permission": {"permission_id": "P-113", "action": "view-executive-financials", "resource_id": "RES-043", "description": "View executive financial dashboards and sensitive reports"}}',
-            '{"user_id": "U-006", "assignments": [{"role_id": "ROL-029", "role_name": "finance-base", "description": "Basic access for finance staff"}, {"role_id": "ROL-039", "role_name": "finance-lead", "description": "Lead role for the finance department."}, {"role_id": "ROL-043", "role_name": "finance-executive-reporting", "description": "Access to executive-level financial reports and dashboards"}]}',
-            '{"ok": true, "user_id": "U-006", "has_sod_conflicts": false, "conflict_count": 0, "conflicts": [], "checked_on": "2025-08-08T12:00:00.000000Z"}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -7461,9 +7241,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-029", "permission_id": "P-084", "reviewed_by": "U-001", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-09-18T23:59:59.000000Z", "reason": "Temporary access to perform submit-tax-filing until 2025-09-18", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -7547,9 +7325,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-034"}),
         ],
-        outputs=[
-            '{"user_id": "U-034", "username": "VENDOR_INTEGRATION_BOT", "email": "vendor-integration@sigmatech.com", "department": "Operations", "status": "ACTIVE", "mfa_enabled": false}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -7633,9 +7409,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-034"}),
         ],
-        outputs=[
-            '{"user_id": "U-034", "username": "MARKETING_AUTOMATION_BOT", "email": "marketing-automation@sigmatech.com", "department": "Marketing", "status": "ACTIVE", "mfa_enabled": false}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -7719,9 +7493,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-034"}),
         ],
-        outputs=[
-            '{"user_id": "U-034", "username": "PAYMENT_PROCESSOR_BOT", "email": "payment-processor@sigmatech.com", "department": "Finance", "status": "ACTIVE", "mfa_enabled": false}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -7805,9 +7577,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-034"}),
         ],
-        outputs=[
-            '{"user_id": "U-034", "username": "CRM_ANALYTICS_BOT", "email": "crm-analytics@sigmatech.com", "department": "Sales", "status": "ACTIVE", "mfa_enabled": false}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -7891,9 +7661,7 @@ TASKS = [
             ),
             Action(name="GetUser", kwargs={"user_id": "U-034"}),
         ],
-        outputs=[
-            '{"user_id": "U-034", "username": "RECRUITMENT_AUTOMATION_BOT", "email": "recruitment-automation@sigmatech.com", "department": "Human Resources", "status": "ACTIVE", "mfa_enabled": false}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -8007,11 +7775,7 @@ TASKS = [
             ),
             Action(name="GetRole", kwargs={"role_id": "ROL-043"}),
         ],
-        outputs=[
-            '{"role_id": "ROL-043", "role_name": "budget-planning-reviewer", "description": "Temporary cross-department role for budget planning collaboration", "is_temporary": true}',
-            '{"user_id": "U-003", "assignments": [{"role_id": "ROL-011"}, {"role_id": "ROL-036"}, {"role_id": "ROL-043"}]}',
-            '{"user_id": "U-014", "assignments": [{"role_id": "ROL-006"}, {"role_id": "ROL-009"}, {"role_id": "ROL-043"}]}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -8119,9 +7883,7 @@ TASKS = [
             ),
             Action(name="GetRole", kwargs={"role_id": "ROL-043"}),
         ],
-        outputs=[
-            '{"role_id": "ROL-043", "role_name": "microservices-deployment-reviewer", "description": "Temporary cross-department role for microservices deployment", "is_temporary": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -8229,9 +7991,7 @@ TASKS = [
             ),
             Action(name="GetRole", kwargs={"role_id": "ROL-043"}),
         ],
-        outputs=[
-            '{"role_id": "ROL-043", "role_name": "backup-audit-reviewer", "description": "Temporary role for quarterly backup audit", "is_temporary": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -8340,9 +8100,7 @@ TASKS = [
             ),
             Action(name="GetRole", kwargs={"role_id": "ROL-043"}),
         ],
-        outputs=[
-            '{"role_id": "ROL-043", "role_name": "campaign-launch-reviewer", "description": "Temporary role for campaign launch collaboration", "is_temporary": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -8458,9 +8216,7 @@ TASKS = [
             ),
             Action(name="GetRole", kwargs={"role_id": "ROL-043"}),
         ],
-        outputs=[
-            '{"role_id": "ROL-043", "role_name": "benefits-compliance-reviewer", "description": "Temporary role for benefits compliance review", "is_temporary": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -8570,9 +8326,7 @@ TASKS = [
             ),
             Action(name="GetRole", kwargs={"role_id": "ROL-043"}),
         ],
-        outputs=[
-            '{"role_id": "ROL-043", "role_name": "finance-marketing-analyst", "description": "Temporary cross-department role for financial and marketing analysis", "is_temporary": true}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -8779,9 +8533,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "role": {"role_id": "ROL-043", "role_name": "marketing-content-analyst", "description": "Consolidated role for marketing analytics and content editing", "is_temporary": false}}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -8955,9 +8707,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"ok": true, "role": {"role_id": "ROL-043", "role_name": "finance-data-analyst", "description": "Consolidated role for finance data analysis and invoice processing", "is_temporary": false}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -9132,9 +8882,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '{"user_id": "U-002", "username": "edavis", "email": "Sophia.Rodriguez@sigmatech.com", "department": "Marketing", "status": "ACTIVE", "mfa_enabled": false}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -9189,9 +8937,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-013", "permission_id": "P-084", "reviewed_by": "U-002", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-09-22T23:59:59.000000Z", "reason": "Temporary access to perform submit-tax-filing until 2025-09-22", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -9247,9 +8993,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-007", "permission_id": "P-084", "reviewed_by": "U-005", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-10-03T23:59:59.000000Z", "reason": "Temporary access to perform submit-tax-filing until 2025-10-03", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -9304,9 +9048,7 @@ TASKS = [
             ),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-021", "permission_id": "P-084", "reviewed_by": "U-006", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-10-12T23:59:59.000000Z", "reason": "Temporary access to perform submit-tax-filing until 2025-10-12", "status": "PENDING_REVIEW"}}'
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -9378,10 +9120,7 @@ TASKS = [
             Action(name="GetUser", kwargs={"username": "mlucero"}),
             Action(name="GetUserRoles", kwargs={"user_id": "U-015", "only_active": True}),
         ],
-        outputs=[
-            '{"user_id": "U-009", "username": "mlucero", "email": "Alexander.lucero@sigmatech.com", "department": "Sales", "status": "INACTIVE", "mfa_enabled": true}',
-            '{"user_id": "U-015", "assignments": [{"role_id": "ROL-011"}, {"role_id": "ROL-015"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -9449,10 +9188,7 @@ TASKS = [
             Action(name="GetUser", kwargs={"username": "rking"}),
             Action(name="GetUserRoles", kwargs={"user_id": "U-016", "only_active": True}),
         ],
-        outputs=[
-            '{"user_id": "U-022", "username": "rking", "email": "riley.Young@sigmatech.com", "department": "Human Resources", "status": "INACTIVE", "mfa_enabled": true}',
-            '{"user_id": "U-016", "assignments": [{"role_id": "ROL-016"}, {"role_id": "ROL-017"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -9520,10 +9256,7 @@ TASKS = [
             Action(name="GetUser", kwargs={"username": "rwyatt"}),
             Action(name="GetUserRoles", kwargs={"user_id": "U-029", "only_active": True, "include_role_details": True}),
         ],
-        outputs=[
-            '{"user_id": "U-017", "username": "rwyatt", "email": "Lucas.wyatt@sigmatech.com", "department": "Operations", "status": "INACTIVE", "mfa_enabled": true}',
-            '{"user_id": "U-029", "assignments": [{"role_id": "ROL-021", "role_name": "operations-base", "description": "Basic access for operations staff"}, {"role_id": "ROL-023", "role_name": "operations-incident-response", "description": "Responds to and resolves system incidents"}]}',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="liam",
@@ -9601,9 +9334,6 @@ TASKS = [
             Action(name="GetUser", kwargs={"username": "aphelps"}),
             Action(name="GetPolicyException", kwargs={"exception_id": "PE-021"}),
         ],
-        outputs=[
-            '{"ok": true, "user": {"user_id": "U-026", "username": "aphelps", "email": "Sophie.phelps@sigmatech.com", "department": "Marketing", "status": "INACTIVE", "mfa_enabled": true}}',
-            '{"ok": true, "policy_exception": {"exception_id": "PE-021", "user_id": "U-009", "permission_id": "P-071", "reviewed_by": "U-002", "requested_on": "2025-08-08T12:00:00.000000Z", "reviewed_on": null, "expires_on": "2025-10-20T23:59:59.000000Z", "reason": "Temporary access to perform publish-campaign-assets until 2025-10-20", "status": "PENDING_REVIEW"}}',
-        ],
+        outputs=[]
     ),
 ]

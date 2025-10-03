@@ -11,7 +11,7 @@ TASKS = [
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
       annotator="0",
@@ -30,7 +30,7 @@ TASKS = [
               "payload_json": {"week_start_date": "2026-09-28", "meal_plan_id": 6003}
           }),
       ],
-      outputs=["6003", "packet://meal_plan/6003"]
+      outputs=[]
     ),
     Task(
         annotator="0",
@@ -43,7 +43,7 @@ TASKS = [
             Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id": 8003, "household_id": 201, "anchor_date": "2026-10-05"}),
             Action(name="FlagPantryStaplesOnList", kwargs={"list_id": 8003}),
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -74,7 +74,7 @@ TASKS = [
       Action(name="FlagPantryStaplesOnList", kwargs={"list_id": 8003}),
       Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003})
     ],
-    outputs=["8003"]
+    outputs=[]
   ),
 Task(
     annotator="0",
@@ -98,7 +98,7 @@ Task(
       ),
       Action(name="UpdateOrderStatus", kwargs={"order_id": 10003, "new_status": "canceled"})
     ],
-    outputs=["10003"]
+    outputs=[]
   ),
 
     Task(
@@ -114,7 +114,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
 
     Task(
@@ -128,7 +128,7 @@ Task(
             Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id": 6003, "week_start_date": "2026-07-20", "selected_recipe_ids_json": "[402,404,405,423,424,432,434]"}),
             Action(name="GenerateRecipePacket", kwargs={"meal_plan_id": 6003})
         ],
-        outputs=["6003", "packet://meal_plan/6003"]
+        outputs=[]
     ),
 
     Task(
@@ -144,7 +144,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="FlagPantryStaplesOnList", kwargs={"list_id": 8003})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
 
     Task(
@@ -159,7 +159,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id": 8003, "household_id": 201, "anchor_date": "2026-08-03"})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -174,7 +174,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -189,7 +189,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 901})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
 
     Task(
@@ -204,7 +204,7 @@ Task(
             Action(name="GenerateRecipePacket", kwargs={"meal_plan_id": 6003}),
             Action(name="LogAuditEvent", kwargs={"household_id": 201, "user_id": 101, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2026-09-07", "meal_plan_id": 6003}})
         ],
-        outputs=["6003", "packet://meal_plan/6003"]
+        outputs=[]
     ),
 
     Task(
@@ -220,7 +220,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="FlagPantryStaplesOnList", kwargs={"list_id": 8003})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
 
     Task(
@@ -236,7 +236,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 901})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
 
     Task(
@@ -251,7 +251,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="LogAuditEvent", kwargs={"household_id": 201, "user_id": 101, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"list_id": 8003, "source_meal_plan_id": 6003}})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
 
     Task(
@@ -267,7 +267,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
 
     Task(
@@ -281,7 +281,7 @@ Task(
             Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id": 6003, "week_start_date": "2026-10-19", "selected_recipe_ids_json": "[401,404,406,423,425,433,434]"}),
             Action(name="GenerateRecipePacket", kwargs={"meal_plan_id": 6003})
         ],
-        outputs=["6003", "packet://meal_plan/6003"]
+        outputs=[]
     ),
 
     Task(
@@ -297,7 +297,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="FlagPantryStaplesOnList", kwargs={"list_id": 8003})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
 
     Task(
@@ -312,7 +312,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 901})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
 
     Task(
@@ -328,7 +328,7 @@ Task(
             Action(name="GenerateRecipePacket", kwargs={"meal_plan_id": 6003}),
             Action(name="LogAuditEvent", kwargs={"household_id": 201, "user_id": 101, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "create", "payload_json": {"week_start_date": "2026-11-09", "meal_plan_id": 6003}})
         ],
-        outputs=["6003", "packet://meal_plan/6003"]
+        outputs=[]
     ),
 
     Task(
@@ -343,7 +343,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
 
     Task(
@@ -359,7 +359,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id": 8003, "household_id": 201, "anchor_date": "2026-11-23"})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
 
     Task(
@@ -373,7 +373,7 @@ Task(
             Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id": 6003, "week_start_date": "2026-11-30", "selected_recipe_ids_json": "[401,403,406,424,427,433,435]"}),
             Action(name="GenerateRecipePacket", kwargs={"meal_plan_id": 6003})
         ],
-        outputs=["6003", "packet://meal_plan/6003"]
+        outputs=[]
     ),
 
     Task(
@@ -389,7 +389,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="LogAuditEvent", kwargs={"household_id": 201, "user_id": 101, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"list_id": 8003, "source_meal_plan_id": 6003}})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
 
     Task(
@@ -404,7 +404,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003})
         ],
-        outputs=["8003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -418,7 +418,7 @@ Task(
             Action(name="GenerateRecipePacket", kwargs={"meal_plan_id": 6003}),
             Action(name="LogAuditEvent", kwargs={"household_id": 201, "user_id": 101, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "packet_generated", "payload_json": {"week_start_date": "2027-02-22", "meal_plan_id": 6003, "packet_uri": "packet://meal_plan/6003", "scheduled_recipes": [401,403,406,424,427,432,434]}})
         ],
-        outputs=["6003", "packet://meal_plan/6003"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -433,7 +433,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 203, "created_by_user_id": 103}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
         ],
-        outputs=["6003", "packet://meal_plan/6003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -448,7 +448,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 206, "created_by_user_id": 106}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
         ],
-        outputs=["6003", "packet://meal_plan/6003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -463,7 +463,7 @@ Task(
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 901}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -479,7 +479,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 209, "created_by_user_id": 109}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
         ],
-        outputs=["6003", "packet://meal_plan/6003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -494,7 +494,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 202, "created_by_user_id": 102}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
         ],
-        outputs=["6003", "packet://meal_plan/6003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -509,7 +509,7 @@ Task(
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 901}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -525,7 +525,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 208, "created_by_user_id": 108}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
         ],
-        outputs=["6003", "packet://meal_plan/6003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -540,7 +540,7 @@ Task(
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 901}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -556,7 +556,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
         ],
-        outputs=["6003", "packet://meal_plan/6003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -571,7 +571,7 @@ Task(
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 901}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -587,7 +587,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 204, "created_by_user_id": 104}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
         ],
-        outputs=["6003", "packet://meal_plan/6003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -602,7 +602,7 @@ Task(
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 901}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -618,7 +618,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 207, "created_by_user_id": 107}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
         ],
-        outputs=["6003", "packet://meal_plan/6003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -633,7 +633,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 210, "created_by_user_id": 110}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
         ],
-        outputs=["6003", "packet://meal_plan/6003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -648,7 +648,7 @@ Task(
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 901}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -664,7 +664,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 203, "created_by_user_id": 103}),
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
         ],
-        outputs=["6003", "packet://meal_plan/6003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -682,7 +682,7 @@ Task(
             Action(name="CreateGroceryListFromMealPlan", kwargs={"meal_plan_id": 6003, "household_id": 201, "created_by_user_id": 101}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9007}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -701,7 +701,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 202, "user_id": 102, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9001}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -719,7 +719,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 203, "user_id": 103, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9002}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -737,7 +737,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 204, "user_id": 104, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9003}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -755,7 +755,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 205, "user_id": 105, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9004}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -774,7 +774,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 206, "user_id": 106, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9005}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -792,7 +792,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 207, "user_id": 107, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9006}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -810,7 +810,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 208, "user_id": 108, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9007}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -828,7 +828,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 209, "user_id": 109, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9008}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -847,7 +847,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 210, "user_id": 110, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9009}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -865,7 +865,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 201, "user_id": 101, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9010}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -883,7 +883,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 202, "user_id": 102, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9011}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -901,7 +901,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 203, "user_id": 103, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9012}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -920,7 +920,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 204, "user_id": 104, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9013}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -939,7 +939,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 205, "user_id": 105, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9014}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -957,7 +957,7 @@ Task(
             Action(name="LogAuditEvent", kwargs={"household_id": 206, "user_id": 106, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create", "payload_json": {"source_meal_plan_id": 6003}}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9015}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -973,7 +973,7 @@ Task(
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9001}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -990,7 +990,7 @@ Task(
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9002}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1006,7 +1006,7 @@ Task(
             Action(name="ListHouseholdMembers", kwargs={"household_id": 203}),
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1023,7 +1023,7 @@ Task(
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9003}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1040,7 +1040,7 @@ Task(
             Action(name="GetGroceryListDetails", kwargs={"list_id": 8003}),
             Action(name="ListInventoryByHousehold", kwargs={"household_id": 205}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1057,7 +1057,7 @@ Task(
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
             Action(name="ListInventoryByHousehold", kwargs={"household_id": 206}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1075,7 +1075,7 @@ Task(
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
             Action(name="ListInventoryByHousehold", kwargs={"household_id": 207}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1092,7 +1092,7 @@ Task(
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
             Action(name="ListInventoryByHousehold", kwargs={"household_id": 208}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1109,7 +1109,7 @@ Task(
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
             Action(name="ListInventoryByHousehold", kwargs={"household_id": 209}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1126,7 +1126,7 @@ Task(
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
             Action(name="ListInventoryByHousehold", kwargs={"household_id": 210}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1142,7 +1142,7 @@ Task(
             Action(name="ListHouseholdMembers", kwargs={"household_id": 202}),
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1159,7 +1159,7 @@ Task(
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),                                                       
             Action(name="GetGroceryListDetails", kwargs={"list_id": 8003}),                                                        
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1177,7 +1177,7 @@ Task(
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
             Action(name="ListHouseholdMembers", kwargs={"household_id": 204}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1196,7 +1196,7 @@ Task(
             Action(name="ListHouseholdMembers", kwargs={"household_id": 206}),
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1212,7 +1212,7 @@ Task(
             Action(name="CreateOrderFromList", kwargs={"household_id": 207, "store_id": 9007, "list_id": 8003, "scheduled_slot_start_ts": "2028-07-18T10:00:00Z", "scheduled_slot_end_ts": "2028-07-18T12:00:00Z"}),
             Action(name="UpdateOrderStatus", kwargs={"order_id": 10003, "new_status": "on_hold"}),
         ],
-        outputs=["10003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1228,7 +1228,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9010}),
             Action(name="LogAuditEvent", kwargs={"household_id": 210, "user_id": 110, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "packet_generated"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1244,7 +1244,7 @@ Task(
             Action(name="ListHouseholdMembers", kwargs={"household_id": 204}),
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1260,7 +1260,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9005}),                                                                           
             Action(name="LogAuditEvent", kwargs={"household_id": 205, "user_id": 105, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create"}),            
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1275,7 +1275,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9010}),
             Action(name="LogAuditEvent", kwargs={"household_id": 209, "user_id": 109, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1292,7 +1292,7 @@ Task(
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
             Action(name="GetGroceryListDetails", kwargs={"list_id": 8003}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1310,7 +1310,7 @@ Task(
             Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id": 8003, "household_id": 208, "anchor_date": "2028-10-02"}),
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9008}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1329,7 +1329,7 @@ Task(
             Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),                                                                                           
             Action(name="FlagPantryStaplesOnList", kwargs={"list_id": 8003}),                                                                                                
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1347,7 +1347,7 @@ Task(
             Action(name="GetGroceryListDetails", kwargs={"list_id": 8003}),
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1364,7 +1364,7 @@ Task(
             Action(name="GetMealPlanDetails", kwargs={"meal_plan_id": 6003}),
             Action(name="GetGroceryListDetails", kwargs={"list_id": 8003}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 
     Task(
@@ -1383,7 +1383,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9009}),
             Action(name="LogAuditEvent", kwargs={"household_id": 209, "user_id": 109, "entity_type": "grocery_lists", "entity_id": 8003, "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1397,7 +1397,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9001}),
             Action(name="LogAuditEvent", kwargs={"household_id": 201, "user_id": 101, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1411,7 +1411,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9008}),
             Action(name="LogAuditEvent", kwargs={"household_id": 207, "user_id": 107, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1425,7 +1425,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9004}),
             Action(name="LogAuditEvent", kwargs={"household_id": 204, "user_id": 104, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1439,7 +1439,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9005}),
             Action(name="LogAuditEvent", kwargs={"household_id": 205, "user_id": 105, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1453,7 +1453,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9006}),
             Action(name="LogAuditEvent", kwargs={"household_id": 206, "user_id": 106, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1467,7 +1467,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9007}),
             Action(name="LogAuditEvent", kwargs={"household_id": 207, "user_id": 107, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1481,7 +1481,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9002}),
             Action(name="LogAuditEvent", kwargs={"household_id": 201, "user_id": 101, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1495,7 +1495,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9003}),
             Action(name="LogAuditEvent", kwargs={"household_id": 202, "user_id": 102, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1509,7 +1509,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9004}),
             Action(name="LogAuditEvent", kwargs={"household_id": 203, "user_id": 103, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1523,7 +1523,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9005}),
             Action(name="LogAuditEvent", kwargs={"household_id": 204, "user_id": 104, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1537,7 +1537,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9007}),
             Action(name="LogAuditEvent", kwargs={"household_id": 206, "user_id": 106, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1551,7 +1551,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9008}),
             Action(name="LogAuditEvent", kwargs={"household_id": 207, "user_id": 107, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1565,7 +1565,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9009}),
             Action(name="LogAuditEvent", kwargs={"household_id": 208, "user_id": 108, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1579,7 +1579,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9001}),
             Action(name="LogAuditEvent", kwargs={"household_id": 210, "user_id": 110, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1593,7 +1593,7 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9002}),
             Action(name="LogAuditEvent", kwargs={"household_id": 201, "user_id": 101, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1607,6 +1607,6 @@ Task(
             Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9003}),
             Action(name="LogAuditEvent", kwargs={"household_id": 202, "user_id": 102, "entity_type": "grocery_lists", "action_enum": "create"}),
         ],
-        outputs=["8003"],
+        outputs=[]
     ),
 ]

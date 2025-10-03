@@ -5,11 +5,8 @@ TASKS = [
 
 
     Task(
-        annotator="0",
         user_id="USER_106",
-        instruction=(
-            "As a Security Analyst working on assignment 'SEC-REVIEW-CONFIG-01', your goal is to segregate potentially sensitive configuration files from the ongoing file organization job 'dir_op_001' for security assessment purposes. You need to locate all '.dat' and '.json' files listed in the operation manifest on 'server-data-01.company.com'. Rather than permitting them to undergo standard sorting, you must quarantine these files by transferring them to a newly created secure directory at '/secure/quarantine/config_review_20240120/'. Your responsibilities encompass complete task execution, including database updates to reflect moved file statuses and documenting the successful quarantine process."
-        ),
+        instruction="As a Security Analyst working on assignment 'SEC-REVIEW-CONFIG-01', your goal is to segregate potentially sensitive configuration files from the ongoing file organization job 'dir_op_001' for security assessment purposes. You need to locate all '.dat' and '.json' files listed in the operation manifest on 'server-data-01.company.com'. Rather than permitting them to undergo standard sorting, you must quarantine these files by transferring them to a newly created secure directory at '/secure/quarantine/config_review_20240120/'. Your responsibilities encompass complete task execution, including database updates to reflect moved file statuses and documenting the successful quarantine process.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-data-01.company.com"}),
@@ -33,11 +30,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_104",
-        instruction=(
-            "As a Data Analyst Support Specialist working on 'PRIORITY-REVIEW-001', urgent analysis work demands immediate access to all CSV files from the queued sorting operation 'dir_op_001'. Your task is to capture these specific files before processing. You must locate all CSV files within the operation's manifest on 'server-data-01.company.com'. Rather than allowing them to continue to their standard sorting location, you need to move all identified CSV files to a newly established priority review directory at '/data/priority_review/20240120/'. Your duties include complete task execution, database modifications to update moved file statuses within the original 'dir_op_001' workflow, and recording the successful staging operation."
-        ),
+        instruction="As a Data Analyst Support Specialist working on 'PRIORITY-REVIEW-001', urgent analysis work demands immediate access to all CSV files from the queued sorting operation 'dir_op_001'. Your task is to capture these specific files before processing. You must locate all CSV files within the operation's manifest on 'server-data-01.company.com'. Rather than allowing them to continue to their standard sorting location, you need to move all identified CSV files to a newly established priority review directory at '/data/priority_review/20240120/'. Your duties include complete task execution, database modifications to update moved file statuses within the original 'dir_op_001' workflow, and recording the successful staging operation.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-data-01.company.com"}),
@@ -63,11 +57,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_099",
-        instruction=(
-            "As a Data Analyst Support Specialist working on 'PRIORITY-REVIEW-001', urgent analysis work demands immediate access to all CSV files from the queued sorting operation 'dir_op_001'. Your task is to capture these specific files before processing. You must locate all CSV files within the operation's manifest on 'server-data-01.company.com'. Rather than allowing them to continue to their standard sorting location, you need to move all identified CSV files to a newly established priority review directory at '/data/priority_review/20240120/'. Your duties include complete task execution, database modifications to update moved file statuses within the original 'dir_op_001' workflow, recording the successful staging operation, and sending a slack message to the 'Operations' channel."
-        ),
+        instruction="As a Data Analyst Support Specialist working on 'PRIORITY-REVIEW-001', urgent analysis work demands immediate access to all CSV files from the queued sorting operation 'dir_op_001'. Your task is to capture these specific files before processing. You must locate all CSV files within the operation's manifest on 'server-data-01.company.com'. Rather than allowing them to continue to their standard sorting location, you need to move all identified CSV files to a newly established priority review directory at '/data/priority_review/20240120/'. Your duties include complete task execution, database modifications to update moved file statuses within the original 'dir_op_001' workflow, recording the successful staging operation, and sending a slack message to the 'Operations' channel.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-data-01.company.com"}),
@@ -93,11 +84,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_079",
-        instruction=(
-            "As a Data Archival Specialist working on 'EOY-REPORTS-ARCHIVAL-01', you must handle the year-end procedure by transferring all recent financial reports to a permanent archive location. Prior to any file operations, conduct a comprehensive System Readiness Assessment. This involves executing Pre-Execution File Transfer Security Clearance protocols for the user linked to the audit task ('user_003') and confirming that the target server 'server-analytics.company.com' is operational with adequate disk space. Upon successful completion of all checks, identify all reports meeting the criteria specified in 'fc_task_003' and transfer them to a newly created permanent directory at '/analytics/final_reports/2023/'. Your responsibilities include complete task execution, database modifications to update the underlying audit task status, logging the successful archival operation, and sending a slack message to the 'Operations' channel."
-        ),
+        instruction="As a Data Archival Specialist working on 'EOY-REPORTS-ARCHIVAL-01', you must handle the year-end procedure by transferring all recent financial reports to a permanent archive location. Prior to any file operations, conduct a comprehensive System Readiness Assessment. This involves executing Pre-Execution File Transfer Security Clearance protocols for the user linked to the audit task ('user_003') and confirming that the target server 'server-analytics.company.com' is operational with adequate disk space. Upon successful completion of all checks, identify all reports meeting the criteria specified in 'fc_task_003' and transfer them to a newly created permanent directory at '/analytics/final_reports/2023/'. Your responsibilities include complete task execution, database modifications to update the underlying audit task status, logging the successful archival operation, and sending a slack message to the 'Operations' channel.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_003"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_003"}),
@@ -128,11 +116,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_074",
-        instruction=(
-            "As an Incident Commander performing a comprehensive post-mortem analysis on the failed archive task 'arch_005', you must determine the technical root cause of the failure and execute a mandatory security review of the original operation based on the user's role. Document your findings for both the technical failure and any identified security violations using the original task ID. Complete the process by sending a detailed incident report to 'System Alerts', notifying the responsible user ('user_004') and all system administrators ('user_001', 'user_005') with the message: 'Post-mortem for arch_005 COMPLETE. Technical failure: Insufficient storage. Security review: Critical policy violation found. User: @dave.intern. See logs for details. cc @alice.admin @eve.manager'"
-        ),
+        instruction="As an Incident Commander performing a comprehensive post-mortem analysis on the failed archive task 'arch_005', you must determine the technical root cause of the failure and execute a mandatory security review of the original operation based on the user's role. Document your findings for both the technical failure and any identified security violations using the original task ID. Complete the process by sending a detailed incident report to 'System Alerts', notifying the responsible user ('user_004') and all system administrators ('user_001', 'user_005') with the message: 'Post-mortem for arch_005 COMPLETE. Technical failure: Insufficient storage. Security review: Critical policy violation found. User: @dave.intern. See logs for details. cc @alice.admin @eve.manager'",
         actions=[
             Action(name="GetErrorLogDetails", kwargs={"task_id": "arch_005"}),
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_005"}),
@@ -179,7 +164,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_021",
         instruction=(
             "Complete file audit 'fc_task_003' following Standard File Check practices while maintaining secure data handling throughout the entire workflow. "
@@ -226,7 +210,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_049",
         instruction=(
             "Conduct post-mortem security review 'SEC-REV-005' for the failed archive task 'arch_005' initiated by 'user_004' targeting 'personal-backup.company.com'. "
@@ -259,7 +242,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_047",
         instruction=(
             "Execute the secure lifecycle for archive task 'arch_001' by ensuring all pre-flight security and readiness checks pass on target server 'backup-server.company.com' "
@@ -301,7 +283,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_035",
         instruction=(
             "As an Automated Data Librarian, execute the file organization mandate 'dir_op_001' securely and completely. "
@@ -350,7 +331,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_045",
         instruction=(
             "A critical, multi-server data synchronization operation for 'user_003' requires immediate pre-flight coordination. "
@@ -389,11 +369,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_084",
-        instruction=(
-            "Respond to security incident 'INCIDENT-LOG-ISOLATION-01' by immediately isolating and containing recent application logs on 'server-prod-01.company.com'. Follow secure evidence collection protocols under Project Manager ('user_005') authority. Identify all target log files matching criteria from 'fc_task_001', then create a secure archive of these logs and transfer it to the central evidence locker at '/storage/incident_evidence/' on 'backup-server.company.com'. Purge the original source log files from the production server as a containment measure. Complete the task by updating the original file check task status in the database and logging the successful evidence isolation."
-        ),
+        instruction="Respond to security incident 'INCIDENT-LOG-ISOLATION-01' by immediately isolating and containing recent application logs on 'server-prod-01.company.com'. Follow secure evidence collection protocols under Project Manager ('user_005') authority. Identify all target log files matching criteria from 'fc_task_001', then create a secure archive of these logs and transfer it to the central evidence locker at '/storage/incident_evidence/' on 'backup-server.company.com'. Purge the original source log files from the production server as a containment measure. Complete the task by updating the original file check task status in the database and logging the successful evidence isolation.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_005"}),
@@ -425,11 +402,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_060",
-        instruction=(
-            "Execute file organization mandate 'dir_op_001' by first conducting a comprehensive System Readiness Assessment. Ensure the requesting user ('user_002') is fully authorized for the target server ('server-data-01.company.com') according to all security policies, and verify the server's resource health remains within the 80% utilization threshold. After all pre-flight checks pass, execute the complete file organization process. Conclude all operations by sending a final success notification to the 'Operations' channel."
-        ),
+        instruction="Execute file organization mandate 'dir_op_001' by first conducting a comprehensive System Readiness Assessment. Ensure the requesting user ('user_002') is fully authorized for the target server ('server-data-01.company.com') according to all security policies, and verify the server's resource health remains within the 80% utilization threshold. After all pre-flight checks pass, execute the complete file organization process. Conclude all operations by sending a final success notification to the 'Operations' channel.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_002"}),
@@ -471,11 +445,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_078",
-        instruction=(
-            "Handle incident 'INCIDENT-LOG-ISOLATION-01' by immediately isolating recent application logs on 'server-prod-01.company.com' due to a potential security threat. Begin by performing Pre-Execution File Transfer Security Clearance practices for the project manager ('user_005') who authorized this action, if needed. Secure the logs for forensic analysis by identifying all target log files matching criteria from 'fc_task_001', then relocate all identified files to a newly created secure directory at '/var/forensics/incident_20240120/'. Complete the task by updating the original file check task status in the database and logging the successful isolation of the potentially compromised files."
-        ),
+        instruction="Handle incident 'INCIDENT-LOG-ISOLATION-01' by immediately isolating recent application logs on 'server-prod-01.company.com' due to a potential security threat. Begin by performing Pre-Execution File Transfer Security Clearance practices for the project manager ('user_005') who authorized this action, if needed. Secure the logs for forensic analysis by identifying all target log files matching criteria from 'fc_task_001', then relocate all identified files to a newly created secure directory at '/var/forensics/incident_20240120/'. Complete the task by updating the original file check task status in the database and logging the successful isolation of the potentially compromised files.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_005"}),
@@ -505,11 +476,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_072",
-        instruction=(
-            "Investigate root cause analysis 'RCA-STO-001' for the high disk usage alert on 'storage-01.company.com' to determine the underlying cause. Begin by confirming the server's live resource usage, then identify the most recently completed 'archive' task that targeted this server as the likely contributing factor. When your investigation confirms this correlation, log a new 'high' severity 'disk_space_warning' error using the RCA task ID, detailing the server, its usage percentage, and the contributing task ID. Complete the investigation by alerting administrators ('user_001', 'user_005') in 'System Alerts' with your findings using this message: 'RCA Complete (RCA-STO-001): High disk usage (82%) on storage-01.company.com correlated with task arch_002. @alice.admin @eve.manager please review.'"
-        ),
+        instruction="Investigate root cause analysis 'RCA-STO-001' for the high disk usage alert on 'storage-01.company.com' to determine the underlying cause. Begin by confirming the server's live resource usage, then identify the most recently completed 'archive' task that targeted this server as the likely contributing factor. When your investigation confirms this correlation, log a new 'high' severity 'disk_space_warning' error using the RCA task ID, detailing the server, its usage percentage, and the contributing task ID. Complete the investigation by alerting administrators ('user_001', 'user_005') in 'System Alerts' with your findings using this message: 'RCA Complete (RCA-STO-001): High disk usage (82%) on storage-01.company.com correlated with task arch_002. @alice.admin @eve.manager please review.'",
         actions=[
             Action(name="GetServerResourceUsage", kwargs={"hostname": "storage-01.company.com"}),
             Action(name="GetLastSuccessfulTaskRun", kwargs={"task_type": "archive"}),
@@ -544,7 +512,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_024",
         instruction=(
             "Manage the data lifecycle for archival task 'arch_002', which has reached the cleanup stage. "
@@ -573,11 +540,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_030",
-        instruction=(
-            "The '/data/temp' directory on 'server-data-01.company.com' requires routine cleanup to manage disk space effectively. Apply Stale File Cleanup practices for maintenance task 'fc_task_002' by identifying and purging all files that violate the task's defined data retention and size policies. After completing the cleanup, formally mark the task as completed, log the operational success for auditing purposes, and report the results to the 'Operations' channel."
-        ),
+        instruction="The '/data/temp' directory on 'server-data-01.company.com' requires routine cleanup to manage disk space effectively. Apply Stale File Cleanup practices for maintenance task 'fc_task_002' by identifying and purging all files that violate the task's defined data retention and size policies. After completing the cleanup, formally mark the task as completed, log the operational success for auditing purposes, and report the results to the 'Operations' channel.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_002"}),
             Action(name="ScanRemoteDirectory", kwargs={"hostname": "server-data-01.company.com", "directory": "/data/temp"}),
@@ -597,7 +561,6 @@ TASKS = [
         ]
     ),
      Task(
-        annotator="0",
         user_id="USER_022",
         instruction=(
             "Execute the 'System Health Audit' identified as 'HEALTH-AUDIT-01' for primary data servers: 'server-data-01.company.com' and 'server-prod-01.company.com'. "
@@ -647,7 +610,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_012",
         instruction=(
             "Handle incident case 'INC-PERM-007' following the confirmation by security audit that user 'user_003' gained unauthorized access to 'server-data-01.company.com' using credential 'carol_rsa_key'. "
@@ -683,11 +645,8 @@ TASKS = [
         ]
     ),
     Task(
-            annotator="0",
             user_id="USER_016",
-            instruction=(
-                "Conduct a pre-flight security audit for archive task 'arch_003' by enforcing all security protocols through the 'Pre-Execution File Transfer Security Clearance Protocol' for requesting user ('user_002') against target server 'log-storage.company.com'. When a security policy violation is discovered, follow standard practice for halting operations due to critical security failure, including updating all relevant database records and escalating the incident. Send this message to 'System Alerts' for escalation: 'Task arch_003 HALTED on security violation. User @bob.dev is not authorized for log-storage.company.com.'"
-            ),
+            instruction="Conduct a pre-flight security audit for archive task 'arch_003' by enforcing all security protocols through the 'Pre-Execution File Transfer Security Clearance Protocol' for requesting user ('user_002') against target server 'log-storage.company.com'. When a security policy violation is discovered, follow standard practice for halting operations due to critical security failure, including updating all relevant database records and escalating the incident. Send this message to 'System Alerts' for escalation: 'Task arch_003 HALTED on security violation. User @bob.dev is not authorized for log-storage.company.com.'",
             actions=[
                 Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_003"}),
                 Action(name="GetUserInfoById", kwargs={"user_id": "user_002"}),
@@ -712,7 +671,6 @@ TASKS = [
             ]
     ),
    Task(
-        annotator="0",
         user_id="USER_019",
         instruction=(
             "Ensure that source server ('server-prod-01.company.com') is in healthy state before proceeding with pending archive task 'arch_001' for user 'user_001'. "
@@ -744,11 +702,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_020",
-        instruction=(
-            "You are an Incident Responder assigned to 'INC-ARCH-003'. The archive task 'arch_003' has been flagged due to a pre-execution failure. Your directive is to conduct a full 'Task Failure Diagnosis Protocol' to determine the root cause. If the failure is confirmed to be a security policy violation, you must perform a database write to log a new 'critical' 'permission_denied' error for this incident, update the original archive task's status to 'failed', and then escalate the finding. Your escalation must be sent to the 'System Alerts' channel, notifying the original user and all system administrators ('user_001', 'user_005') with the message: 'Incident INC-ARCH-003: Task arch_003 failed due to security policy violation. User @bob.dev (developer) is not authorized for log-storage.company.com. Task aborted. cc @alice.admin @eve.manager'"
-        ),
+        instruction="You are an Incident Responder assigned to 'INC-ARCH-003'. The archive task 'arch_003' has been flagged due to a pre-execution failure. Your directive is to conduct a full 'Task Failure Diagnosis Protocol' to determine the root cause. If the failure is confirmed to be a security policy violation, you must perform a database write to log a new 'critical' 'permission_denied' error for this incident, update the original archive task's status to 'failed', and then escalate the finding. Your escalation must be sent to the 'System Alerts' channel, notifying the original user and all system administrators ('user_001', 'user_005') with the message: 'Incident INC-ARCH-003: Task arch_003 failed due to security policy violation. User @bob.dev (developer) is not authorized for log-storage.company.com. Task aborted. cc @alice.admin @eve.manager'",
         actions=[
             Action(name="GetErrorLogDetails", kwargs={"task_id": "arch_003"}),
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_003"}),
@@ -788,7 +743,6 @@ TASKS = [
         ]
     ),
    Task(
-        annotator="0",
         user_id="USER_087",
         instruction=(
             "Conduct root cause analysis 'RCA-STO-001' for the high disk usage alert (82%) detected on 'storage-01.company.com'. "
@@ -840,11 +794,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_089",
-        instruction=(
-            "Perform post-mortem security review 'SEC-REV-005' on the failed archive task 'arch_005' initiated by 'user_004' targeting 'personal-backup.company.com'. Execute the complete 'Pre-Execution Security Clearance Protocol' on the original task parameters to determine if a security policy was violated before the storage error occurred. Upon confirming a violation, log a new, separate 'critical' 'permission_denied' security violation error using the review ID. Escalate by notifying system administrators ('user_001', 'user_005') via the 'System Alerts' channel with this explicit message: 'CRITICAL SECURITY VIOLATION (SEC-REV-005): User @dave.intern (role: intern) attempted unauthorized archive operation to personal-backup.company.com. Key 'dave_rsa_key' is not authorized. cc @alice.admin @eve.manager'"
-        ),
+        instruction="Perform post-mortem security review 'SEC-REV-005' on the failed archive task 'arch_005' initiated by 'user_004' targeting 'personal-backup.company.com'. Execute the complete 'Pre-Execution Security Clearance Protocol' on the original task parameters to determine if a security policy was violated before the storage error occurred. Upon confirming a violation, log a new, separate 'critical' 'permission_denied' security violation error using the review ID. Escalate by notifying system administrators ('user_001', 'user_005') via the 'System Alerts' channel with this explicit message: 'CRITICAL SECURITY VIOLATION (SEC-REV-005): User @dave.intern (role: intern) attempted unauthorized archive operation to personal-backup.company.com. Key 'dave_rsa_key' is not authorized. cc @alice.admin @eve.manager'",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_005"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_004"}),
@@ -871,11 +822,8 @@ TASKS = [
     ),
 
     Task(
-        annotator="0",
         user_id="USER_007",
-        instruction=(
-            "Handle security review assignment 'SEC-REVIEW-CONFIG-01' by isolating potentially sensitive configuration files from the pending file organization task 'dir_op_001'. Identify all '.dat' and '.json' files within the operation's manifest on 'server-data-01.company.com' and prevent them from being sorted. Quarantine these specific files by relocating them to a newly created secure directory at '/secure/quarantine/config_review_20240120/'. Execute the complete task, including database modifications to update moved file statuses and logging the successful quarantine operation."
-        ),
+        instruction="Handle security review assignment 'SEC-REVIEW-CONFIG-01' by isolating potentially sensitive configuration files from the pending file organization task 'dir_op_001'. Identify all '.dat' and '.json' files within the operation's manifest on 'server-data-01.company.com' and prevent them from being sorted. Quarantine these specific files by relocating them to a newly created secure directory at '/secure/quarantine/config_review_20240120/'. Execute the complete task, including database modifications to update moved file statuses and logging the successful quarantine operation.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-data-01.company.com"}),
@@ -899,7 +847,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_063",
         instruction=(
             "Perform comprehensive Pre-Execution Security Clearance for pending archive task 'arch_004' as a Security Automation Engineer. "
@@ -942,11 +889,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_036",
-        instruction=(
-            "Resolve maintenance task 'fc_task_002' by first performing comprehensive pre-flight readiness checks. Conduct Pre-Execution Security Clearance practices for designated user ('user_001') and verify the target server's operational status. When all checks pass, apply Stale File Cleanup Practices as needed, ensuring you purge only files that strictly match all policy filters defined within the task. Complete the process by notifying the 'File Check' channel with this message: 'Maintenance task fc_task_002 completed successfully. 1 stale file purged from /data/temp on server-data-01.company.com.'"
-        ),
+        instruction="Resolve maintenance task 'fc_task_002' by first performing comprehensive pre-flight readiness checks. Conduct Pre-Execution Security Clearance practices for designated user ('user_001') and verify the target server's operational status. When all checks pass, apply Stale File Cleanup Practices as needed, ensuring you purge only files that strictly match all policy filters defined within the task. Complete the process by notifying the 'File Check' channel with this message: 'Maintenance task fc_task_002 completed successfully. 1 stale file purged from /data/temp on server-data-01.company.com.'",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_002"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_001"}),
@@ -973,11 +917,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_057",
-        instruction=(
-            "Isolate potentially sensitive configuration files from the pending file organization task 'dir_op_001' as part of security review 'SEC-REVIEW-CONFIG-01'. Identify all '.dat' and '.json' files within the operation's manifest on 'server-data-01.company.com' and prevent their standard sorting. Quarantine these specific files by relocating them to a newly established secure directory at '/secure/quarantine/config_review_20240120/'. Handle the complete task execution, including database modifications to update moved file statuses and logging the successful quarantine operation."
-        ),
+        instruction="Isolate potentially sensitive configuration files from the pending file organization task 'dir_op_001' as part of security review 'SEC-REVIEW-CONFIG-01'. Identify all '.dat' and '.json' files within the operation's manifest on 'server-data-01.company.com' and prevent their standard sorting. Quarantine these specific files by relocating them to a newly established secure directory at '/secure/quarantine/config_review_20240120/'. Handle the complete task execution, including database modifications to update moved file statuses and logging the successful quarantine operation.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-data-01.company.com"}),
@@ -1001,11 +942,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_070",
-        instruction=(
-            "Execute file audit 'fc_task_003' and securely deliver the findings by first following the 'Standard File Check Protocol'. After completing the scan, archive the files found and securely transfer the resulting archive to '/storage/file_check_results/' on 'storage-01.company.com'. Confirm transfer integrity, perform cleanup of the temporary archive on the source server, log the delivery using the original task ID, and send final confirmation to 'Operations'."
-        ),
+        instruction="Execute file audit 'fc_task_003' and securely deliver the findings by first following the 'Standard File Check Protocol'. After completing the scan, archive the files found and securely transfer the resulting archive to '/storage/file_check_results/' on 'storage-01.company.com'. Confirm transfer integrity, perform cleanup of the temporary archive on the source server, log the delivery using the original task ID, and send final confirmation to 'Operations'.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_003"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-analytics.company.com"}),
@@ -1043,7 +981,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_038",
         instruction=(
             "Conduct 'Pre-Execution Security Clearance' for archive task 'arch_004' by validating both role-based and key-based authorization under the SSH Access Policy. "
@@ -1086,7 +1023,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_039",
         instruction=(
             "Oversee remediation of the failed archive task 'arch_005' by carrying out Task Failure Diagnosis practices to identify and record the root cause. "
@@ -1137,11 +1073,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_009",
-        instruction=(
-            "Handle priority review assignment 'PRIORITY-REVIEW-001' requiring immediate access to all CSV files from pending sorting job 'dir_op_001'. Intercept these specific files by identifying all CSV files in the operation's manifest on 'server-data-01.company.com'. Prevent them from proceeding to the standard sorting destination by relocating all identified CSV files to a new priority review directory at '/data/priority_review/20240120/'. Execute the complete task, including database modifications to update moved file statuses within the original 'dir_op_001' mandate and logging the successful staging operation."
-        ),
+        instruction="Handle priority review assignment 'PRIORITY-REVIEW-001' requiring immediate access to all CSV files from pending sorting job 'dir_op_001'. Intercept these specific files by identifying all CSV files in the operation's manifest on 'server-data-01.company.com'. Prevent them from proceeding to the standard sorting destination by relocating all identified CSV files to a new priority review directory at '/data/priority_review/20240120/'. Execute the complete task, including database modifications to update moved file statuses within the original 'dir_op_001' mandate and logging the successful staging operation.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-data-01.company.com"}),
@@ -1167,11 +1100,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_064",
-        instruction=(
-            "Conduct comprehensive post-mortem on failed archive task 'arch_005' through dual investigation following all appropriate protocols. Diagnose the technical root cause of the failure, then conduct mandatory security review of the original operation due to the user's role. Log findings for both the technical failure and any discovered security violations. Send comprehensive incident report to 'System Alerts', notifying responsible user ('user_004') and all system administrators ('user_001', 'user_005') with this message: 'Post-mortem for arch_005 COMPLETE. Technical failure: Insufficient storage. Security review: Critical policy violation found. User: @dave.intern. See logs for details. cc @alice.admin @eve.manager'"
-        ),
+        instruction="Conduct comprehensive post-mortem on failed archive task 'arch_005' through dual investigation following all appropriate protocols. Diagnose the technical root cause of the failure, then conduct mandatory security review of the original operation due to the user's role. Log findings for both the technical failure and any discovered security violations. Send comprehensive incident report to 'System Alerts', notifying responsible user ('user_004') and all system administrators ('user_001', 'user_005') with this message: 'Post-mortem for arch_005 COMPLETE. Technical failure: Insufficient storage. Security review: Critical policy violation found. User: @dave.intern. See logs for details. cc @alice.admin @eve.manager'",
         actions=[
             Action(name="GetErrorLogDetails", kwargs={"task_id": "arch_005"}),
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_005"}),
@@ -1218,11 +1148,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_062",
-        instruction=(
-            "Secure all relevant recent reports for quarterly review process 'GOVERNANCE-REVIEW-Q1'. Identify all reports on 'server-analytics.company.com' matching criteria defined in standard file audit task 'fc_task_003'. Prevent modification during review by relocating all identified files to a newly created secure directory at '/analytics/reports/review_pending_q1/'. Complete the task by performing database modification to update audit task status reflecting quarterly completion, logging the successful governance action, and sending slack message to Operations."
-        ),
+        instruction="Secure all relevant recent reports for quarterly review process 'GOVERNANCE-REVIEW-Q1'. Identify all reports on 'server-analytics.company.com' matching criteria defined in standard file audit task 'fc_task_003'. Prevent modification during review by relocating all identified files to a newly created secure directory at '/analytics/reports/review_pending_q1/'. Complete the task by performing database modification to update audit task status reflecting quarterly completion, logging the successful governance action, and sending slack message to Operations.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_003"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-analytics.company.com"}),
@@ -1245,11 +1172,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_065",
-        instruction=(
-            "Execute file organization mandate 'dir_op_001' after conducting comprehensive System Readiness Assessment. Perform Pre-Execution Security Clearance practice for user ('user_002') on target server 'server-data-01.company.com' and Proactive Server Health Check practice using 80% utilization threshold. Log 'low_storage_warning' due to server's high current disk usage before proceeding. When all pre-flight checks pass despite the warning, execute File Organization practice completely. Conclude all operations with final success notification to the 'Operations' channel."
-        ),
+        instruction="Execute file organization mandate 'dir_op_001' after conducting comprehensive System Readiness Assessment. Perform Pre-Execution Security Clearance practice for user ('user_002') on target server 'server-data-01.company.com' and Proactive Server Health Check practice using 80% utilization threshold. Log 'low_storage_warning' due to server's high current disk usage before proceeding. When all pre-flight checks pass despite the warning, execute File Organization practice completely. Conclude all operations with final success notification to the 'Operations' channel.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_002"}),
@@ -1295,7 +1219,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_067",
         instruction=(
             "Handle incident 'INC-DIROP-RETRY-01' concerning deferred file organization task 'dir_op_001' by reassessing the operational environment. Determine whether current resource usage on 'server-data-01.company.com' is within acceptable limits, defined as below 60% CPU utilization. "
@@ -1340,7 +1263,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_001",
         instruction=(
             "Carry out archive operation 'arch_003' with strict adherence to security and operational policies. "
@@ -1392,7 +1314,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_002",
         instruction=(
             "Handle high-priority failure of archive task 'arch_005' by applying Task Failure Diagnosis practices to investigate the incident and confirm whether the root cause is storage-related. "
@@ -1444,11 +1365,8 @@ TASKS = [
     ),
 
     Task(
-        annotator="0",
         user_id="USER_004",
-        instruction=(
-            "Respond to 'INCIDENT-LOG-ISOLATION-01' requiring immediate isolation of recent application logs on 'server-prod-01.company.com' due to potential security incident. Follow secure evidence collection practice by identifying all target log files using criteria from standard file check task 'fc_task_001'. Create secure archive of these files, transfer the archive to central evidence locker at '/storage/incident_evidence/' on 'backup-server.company.com' using administrative account ('user_001'), then purge source log files from production server to contain the incident. Complete the task by updating original file check task status and logging successful isolation of potentially compromised files."
-        ),
+        instruction="Respond to 'INCIDENT-LOG-ISOLATION-01' requiring immediate isolation of recent application logs on 'server-prod-01.company.com' due to potential security incident. Follow secure evidence collection practice by identifying all target log files using criteria from standard file check task 'fc_task_001'. Create secure archive of these files, transfer the archive to central evidence locker at '/storage/incident_evidence/' on 'backup-server.company.com' using administrative account ('user_001'), then purge source log files from production server to contain the incident. Complete the task by updating original file check task status and logging successful isolation of potentially compromised files.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_001"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-prod-01.company.com"}),
@@ -1476,11 +1394,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_005",
-        instruction=(
-            "Handle incident 'INC-DIROP-PARTIAL-01' where file organization task 'dir_op_001' was deferred and user ('user_002') has requested partial execution. Verify server ('server-data-01.company.com') health is below 80% operational threshold, then proceed with modified 'File Organization Protocol'. Move only CSV files to their correct destination and all other file types to new '/data/deferred/' directory for later processing. Update status for every file in the manifest via database modification. Send slack message to Operations with this message: 'Incident INC-DIROP-PARTIAL-01: Partial completion for dir_op_001. CSV files moved to /data/sorted/csv. Non-CSV files moved to /data/deferred for later processing.'"
-        ),
+        instruction="Handle incident 'INC-DIROP-PARTIAL-01' where file organization task 'dir_op_001' was deferred and user ('user_002') has requested partial execution. Verify server ('server-data-01.company.com') health is below 80% operational threshold, then proceed with modified 'File Organization Protocol'. Move only CSV files to their correct destination and all other file types to new '/data/deferred/' directory for later processing. Update status for every file in the manifest via database modification. Send slack message to Operations with this message: 'Incident INC-DIROP-PARTIAL-01: Partial completion for dir_op_001. CSV files moved to /data/sorted/csv. Non-CSV files moved to /data/deferred for later processing.'",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetServerResourceUsage", kwargs={"hostname": "server-data-01.company.com"}),
@@ -1513,7 +1428,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_006",
         instruction=(
             "Handle task 'HYGIENE-PROD-LOGS-01' by ensuring proper archival and removal of outdated log files located in `/var/log/applications` on `server-prod-01.company.com`. "
@@ -1550,11 +1464,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_008",
-        instruction=(
-            "Handle final data lifecycle stage of completed archive task 'arch_001' by purging all original source files from 'server-prod-01.company.com'. Perform 'Pre-Execution Security Clearance Protocol' before any deletions to ensure original user ('user_001') is authorized. After clearance, retrieve the archive's file manifest and systematically delete every source file. Update archive status to 'verified' via database write, signifying lifecycle completion. Conclude by logging cleanup operation ('CLEANUP-ARCH-001') and notifying 'Operations'."
-        ),
+        instruction="Handle final data lifecycle stage of completed archive task 'arch_001' by purging all original source files from 'server-prod-01.company.com'. Perform 'Pre-Execution Security Clearance Protocol' before any deletions to ensure original user ('user_001') is authorized. After clearance, retrieve the archive's file manifest and systematically delete every source file. Update archive status to 'verified' via database write, signifying lifecycle completion. Conclude by logging cleanup operation ('CLEANUP-ARCH-001') and notifying 'Operations'.",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_001"}),
@@ -1582,7 +1493,6 @@ TASKS = [
     ),
 
     Task(
-        annotator="0",
         user_id="USER_010",
         instruction=(
             "Perform pre-flight integrity verification 'AUDIT-DIR-OP-001' of directory operation 'dir_op_001' by validating that every file in the operation's manifest exists on 'server-data-01.company.com' and each file's live checksum matches the reference checksum stored in the manifest. "
@@ -1617,11 +1527,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_011",
-        instruction=(
-            "Execute file organization mandate 'dir_op_002' for task 'DEP-OP-002', but first remediate high disk usage issue on target server 'server-data-01.company.com'. Begin by following 'Stale File Cleanup Protocol' as defined in maintenance task 'fc_task_002', ensuring you purge only files that strictly match all defined policy filters (age and size). After cleanup practice is fully complete, proceed with complete 'File Organization Protocol' for 'dir_op_002' as requested by 'user_001'."
-        ),
+        instruction="Execute file organization mandate 'dir_op_002' for task 'DEP-OP-002', but first remediate high disk usage issue on target server 'server-data-01.company.com'. Begin by following 'Stale File Cleanup Protocol' as defined in maintenance task 'fc_task_002', ensuring you purge only files that strictly match all defined policy filters (age and size). After cleanup practice is fully complete, proceed with complete 'File Organization Protocol' for 'dir_op_002' as requested by 'user_001'.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_002"}),
             Action(name="ScanRemoteDirectory", kwargs={"hostname": "server-data-01.company.com", "directory": "/data/temp"}),
@@ -1656,7 +1563,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_013",
         instruction=(
             "You are a Forensic Investigator assigned to 'RCA-STO-001', a root cause analysis for a high disk usage alert (82%) on 'storage-01.company.com'. "
@@ -1705,11 +1611,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_014",
-        instruction=(
-            "Execute pending archive operation 'arch_002' from initiation to final cleanup by following 'Secure File Archive Creation Protocol' to create and transfer the archive to its destination directory. After transfer completion, follow appropriate data lifecycle practice by purging all original source files from 'server-analytics.company.com'. Finalize by updating archive status to 'verified' via database modification to signify lifecycle completion."
-        ),
+        instruction="Execute pending archive operation 'arch_002' from initiation to final cleanup by following 'Secure File Archive Creation Protocol' to create and transfer the archive to its destination directory. After transfer completion, follow appropriate data lifecycle practice by purging all original source files from 'server-analytics.company.com'. Finalize by updating archive status to 'verified' via database modification to signify lifecycle completion.",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_002"}),
             Action(name="CheckRemoteDiskSpace", kwargs={"hostname": "storage-01.company.com"}),
@@ -1735,11 +1638,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_015",
-        instruction=(
-            "Perform partial migration 'MIGRATE-DATA-ONLY-001' of data-related files from file organization mandate 'dir_op_001'. Ensure operation is fully authorized and target server 'server-data-01.company.com' is ready before proceeding. After all pre-flight checks pass, identify only data-specific files ('.dat' and '.json') from the operation's manifest and relocate them to new pre-migration staging directory at '/staging/data_migration_q1/'. Execute the complete task, including database modifications to update moved file statuses and logging successful staging."
-        ),
+        instruction="Perform partial migration 'MIGRATE-DATA-ONLY-001' of data-related files from file organization mandate 'dir_op_001'. Ensure operation is fully authorized and target server 'server-data-01.company.com' is ready before proceeding. After all pre-flight checks pass, identify only data-specific files ('.dat' and '.json') from the operation's manifest and relocate them to new pre-migration staging directory at '/staging/data_migration_q1/'. Execute the complete task, including database modifications to update moved file statuses and logging successful staging.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_002"}),
@@ -1770,11 +1670,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_017",
-        instruction=(
-            "Handle priority review assignment 'PRIORITY-REVIEW-001' requiring immediate access to all CSV files from pending sorting job 'dir_op_001'. Intercept these specific files by identifying all CSV files in the operation's manifest on 'server-data-01.company.com'. Prevent them from proceeding to standard sorting destination by relocating all identified CSV files to new priority review directory at '/data/priority_review/20240120/'. Execute the complete task, including database modifications to update moved file statuses within original 'dir_op_001' mandate, logging successful staging operation, and sending message to 'Operations' channel."
-        ),
+        instruction="Handle priority review assignment 'PRIORITY-REVIEW-001' requiring immediate access to all CSV files from pending sorting job 'dir_op_001'. Intercept these specific files by identifying all CSV files in the operation's manifest on 'server-data-01.company.com'. Prevent them from proceeding to standard sorting destination by relocating all identified CSV files to new priority review directory at '/data/priority_review/20240120/'. Execute the complete task, including database modifications to update moved file statuses within original 'dir_op_001' mandate, logging successful staging operation, and sending message to 'Operations' channel.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetFilesForDirectoryOperation", kwargs={"operation_id": "dir_op_001"}),
@@ -1799,11 +1696,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_018",
-        instruction=(
-            "Conduct pre-flight security audit for archive task 'arch_004' by enforcing all security protocols before execution. Perform complete 'Pre-Execution Security Clearance Protocol' for requesting user ('user_005') against target server 'document-vault.company.com'. When security policy violation is discovered, immediately halt the operation, update archive task status to 'failed' via database writes, log 'critical' 'permission_denied' error detailing exact violation, and escalate the incident by notifying 'System Alerts' channel."
-        ),
+        instruction="Conduct pre-flight security audit for archive task 'arch_004' by enforcing all security protocols before execution. Perform complete 'Pre-Execution Security Clearance Protocol' for requesting user ('user_005') against target server 'document-vault.company.com'. When security policy violation is discovered, immediately halt the operation, update archive task status to 'failed' via database writes, log 'critical' 'permission_denied' error detailing exact violation, and escalate the incident by notifying 'System Alerts' channel.",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_004"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_005"}),
@@ -1840,11 +1734,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_023",
-        instruction=(
-            "Successfully complete pending archive operation 'arch_001', a critical task requiring full adherence to security and operational best practices. Ensure user is authorized to access destination server and server has adequate disk space before execution. After all pre-flight checks pass, create the archive on source server 'server-prod-01.company.com' and transfer it. Conclude by updating all relevant database records to reflect task completion and notifying 'Operations' channel with this message: 'Archive task arch_001 completed successfully. Archive transferred to backup-server.company.com:/tmp/archives/.'"
-        ),
+        instruction="Successfully complete pending archive operation 'arch_001', a critical task requiring full adherence to security and operational best practices. Ensure user is authorized to access destination server and server has adequate disk space before execution. After all pre-flight checks pass, create the archive on source server 'server-prod-01.company.com' and transfer it. Conclude by updating all relevant database records to reflect task completion and notifying 'Operations' channel with this message: 'Archive task arch_001 completed successfully. Archive transferred to backup-server.company.com:/tmp/archives/.'",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_001"}),
@@ -1870,11 +1761,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_025",
-        instruction=(
-            "Execute file organization mandate 'dir_op_001' for task 'DEP-OP-001', dependent on target server 'server-data-01.company.com' health. Perform health check against 75% disk usage threshold first. When server is unhealthy, remediate the issue by following 'Stale File Cleanup Protocol' for designated cleanup task 'fc_task_002'. After remediation is fully complete, proceed with complete 'File Organization Protocol' for 'dir_op_001'."
-        ),
+        instruction="Execute file organization mandate 'dir_op_001' for task 'DEP-OP-001', dependent on target server 'server-data-01.company.com' health. Perform health check against 75% disk usage threshold first. When server is unhealthy, remediate the issue by following 'Stale File Cleanup Protocol' for designated cleanup task 'fc_task_002'. After remediation is fully complete, proceed with complete 'File Organization Protocol' for 'dir_op_001'.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="CheckRemoteDiskSpace", kwargs={"hostname": "server-data-01.company.com"}),
@@ -1918,11 +1806,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_026",
-        instruction=(
-            "Prepare financial reports for compliance audit 'FIN-AUDIT-PREP-Q1' by identifying all relevant reports on 'server-analytics.company.com' using rules defined in standing audit task 'fc_task_003'. Prevent modification during review by securely isolating these files through relocation of all identified reports to new, centralized quarantine directory at '/secure/quarantine/financial_audit_q1/'. Execute the complete task, including database modification to update underlying audit task status and logging successful preparation for compliance review."
-        ),
+        instruction="Prepare financial reports for compliance audit 'FIN-AUDIT-PREP-Q1' by identifying all relevant reports on 'server-analytics.company.com' using rules defined in standing audit task 'fc_task_003'. Prevent modification during review by securely isolating these files through relocation of all identified reports to new, centralized quarantine directory at '/secure/quarantine/financial_audit_q1/'. Execute the complete task, including database modification to update underlying audit task status and logging successful preparation for compliance review.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_003"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-analytics.company.com"}),
@@ -1945,11 +1830,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_027",
-        instruction=(
-            "Execute file organization mandate 'dir_op_001' for task 'DEP-OP-001', dependent on target server 'server-data-01.company.com' health. Perform health check against 75% disk usage threshold first. When server is unhealthy, remediate the issue by following 'Stale File Cleanup Protocol' for designated cleanup task 'fc_task_002'. After remediation, proceed with complete 'File Organization Protocol' for 'dir_op_001'."
-        ),
+        instruction="Execute file organization mandate 'dir_op_001' for task 'DEP-OP-001', dependent on target server 'server-data-01.company.com' health. Perform health check against 75% disk usage threshold first. When server is unhealthy, remediate the issue by following 'Stale File Cleanup Protocol' for designated cleanup task 'fc_task_002'. After remediation, proceed with complete 'File Organization Protocol' for 'dir_op_001'.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="CheckRemoteDiskSpace", kwargs={"hostname": "server-data-01.company.com"}),
@@ -1993,11 +1875,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_028",
-        instruction=(
-            "Perform mandatory pre-flight integrity audit on source files for archive operation 'arch_002', which reside on 'server-analytics.company.com'. Follow appropriate practice to verify every source file listed in the task's manifest. When any file is not found, immediately halt, update archive status to 'failed' in database, log 'critical' 'file_not_found' error, and alert 'System Alerts' with this message: 'Pre-flight audit for arch_002 FAILED: Source file /analytics/raw_data/page_views_2023.csv not found. Archival process halted.'"
-        ),
+        instruction="Perform mandatory pre-flight integrity audit on source files for archive operation 'arch_002', which reside on 'server-analytics.company.com'. Follow appropriate practice to verify every source file listed in the task's manifest. When any file is not found, immediately halt, update archive status to 'failed' in database, log 'critical' 'file_not_found' error, and alert 'System Alerts' with this message: 'Pre-flight audit for arch_002 FAILED: Source file /analytics/raw_data/page_views_2023.csv not found. Archival process halted.'",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_002"}),
             Action(name="CheckRemoteFileExists", kwargs={"hostname": "server-analytics.company.com", "filepath": "/analytics/raw_data/user_events_2023.csv"}),
@@ -2017,7 +1896,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_029",
         instruction=(
             "Handle file check task 'fc_task_001' requested by user 'user_005' by performing full pre-execution security clearance before execution. "
@@ -2048,11 +1926,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_031",
-        instruction=(
-            "Audit pending archive task 'arch_004' against 'SSH Access Policy' following security compliance review flag. Determine if user's role and SSH key authorizations permit access to target server 'document-vault.company.com'. When policy violation is confirmed, immediately neutralize the threat by canceling the operation, logging critical 'permission_denied' security error, and alerting 'System Alerts' channel about enforcement action."
-        ),
+        instruction="Audit pending archive task 'arch_004' against 'SSH Access Policy' following security compliance review flag. Determine if user's role and SSH key authorizations permit access to target server 'document-vault.company.com'. When policy violation is confirmed, immediately neutralize the threat by canceling the operation, logging critical 'permission_denied' security error, and alerting 'System Alerts' channel about enforcement action.",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_004"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_005"}),
@@ -2086,7 +1961,6 @@ TASKS = [
     ),
 
     Task(
-        annotator="0",
         user_id="USER_032",
         instruction=(
             "Execute file organization mandate 'dir_op_001' by systematically processing the entire contents of '/data/unsorted' directory on 'server-data-01.company.com'. "
@@ -2125,7 +1999,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_033",
         instruction=(
             "Conduct root cause analysis for failed file check task 'fc_task_004' by retrieving the technical error log. After confirming the root cause, "
@@ -2165,11 +2038,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_034",
-        instruction=(
-            """Handle critical storage alert 'storage_alert_S01' for 'storage-01.company.com' by confirming live disk usage. When usage_percent > 80, create low_storage_warning log with structured fields (server, usage_percent, threshold_percent), then notify admins 'user_001' and 'user_005' via 'System Alerts' with this message: 'CRITICAL: Server storage-01.company.com has reached 82 percent disk usage. Immediate action required. @alice.admin @eve.manager please investigate.'.""",
-        ),
+        instruction="""Handle critical storage alert 'storage_alert_S01' for 'storage-01.company.com' by confirming live disk usage. When usage_percent > 80, create low_storage_warning log with structured fields (server, usage_percent, threshold_percent), then notify admins 'user_001' and 'user_005' via 'System Alerts' with this message: 'CRITICAL: Server storage-01.company.com has reached 82 percent disk usage. Immediate action required. @alice.admin @eve.manager please investigate.'.""",
         actions=[
             Action(name="CheckRemoteDiskSpace", kwargs={"hostname": "storage-01.company.com"}),
             Action(
@@ -2208,11 +2078,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_037",
-        instruction=(
-            "Process incident 'INC-FC004-MAINT' concerning failure of task 'fc_task_004' by investigating the failure through retrieving original error log and confirming live status and current resource load of target server. After verifying root cause, perform database write by logging new, formal incident record with 'medium' severity under error type 'server_maintenance', using incident ID as task identifier. Conclude by composing and sending structured notification message to 'File Check' channel, including incident ID, affected user's slack handle, and server's confirmed status."
-        ),
+        instruction="Process incident 'INC-FC004-MAINT' concerning failure of task 'fc_task_004' by investigating the failure through retrieving original error log and confirming live status and current resource load of target server. After verifying root cause, perform database write by logging new, formal incident record with 'medium' severity under error type 'server_maintenance', using incident ID as task identifier. Conclude by composing and sending structured notification message to 'File Check' channel, including incident ID, affected user's slack handle, and server's confirmed status.",
         actions=[
             Action(name="GetErrorLogDetails", kwargs={"task_id": "fc_task_004"}),
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_004"}),
@@ -2257,11 +2124,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_040",
-        instruction=(
-            "Handle incident 'HRA-SRVDATA-01' regarding high resource usage on 'server-data-01.company.com' by executing 'Proactive Server Health Check Protocol' with 70% utilization threshold. When breached, escalate with forensic analysis of '/data/temp' directory against policy defined in task 'fc_task_002'. Log 'warning' severity 'high_resource_usage' error using incident ID, detailing breached metrics and count of policy-violating files. Conclude by alerting 'System Alerts' with structured message including incident ID and server name."
-        ),
+        instruction="Handle incident 'HRA-SRVDATA-01' regarding high resource usage on 'server-data-01.company.com' by executing 'Proactive Server Health Check Protocol' with 70% utilization threshold. When breached, escalate with forensic analysis of '/data/temp' directory against policy defined in task 'fc_task_002'. Log 'warning' severity 'high_resource_usage' error using incident ID, detailing breached metrics and count of policy-violating files. Conclude by alerting 'System Alerts' with structured message including incident ID and server name.",
         actions=[
             Action(name="GetServerResourceUsage", kwargs={"hostname": "server-data-01.company.com"}),
             Action(name="CheckRemoteDiskSpace", kwargs={"hostname": "server-data-01.company.com"}),
@@ -2300,11 +2164,8 @@ TASKS = [
     ),
 
     Task(
-        annotator="0",
         user_id="USER_041",
-        instruction=(
-            "Handle full lifecycle of maintenance task 'fc_task_002' by resolving this task through purging stale files from target server according to defined policies. Ensure operation security by validating that requesting user ('user_001') has fully authorized access to target server before executing any file deletions. After successful execution and cleanup, finalize process by updating all relevant database records and sending comprehensive completion summary to 'Operations' channel with this message: 'Maintenance task fc_task_002 completed successfully. A total of 2 stale files were purged from /data/temp on server-data-01.company.com.'"
-        ),
+        instruction="Handle full lifecycle of maintenance task 'fc_task_002' by resolving this task through purging stale files from target server according to defined policies. Ensure operation security by validating that requesting user ('user_001') has fully authorized access to target server before executing any file deletions. After successful execution and cleanup, finalize process by updating all relevant database records and sending comprehensive completion summary to 'Operations' channel with this message: 'Maintenance task fc_task_002 completed successfully. A total of 2 stale files were purged from /data/temp on server-data-01.company.com.'",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_002"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_001"}),
@@ -2333,11 +2194,8 @@ TASKS = [
     ),
 
     Task(
-        annotator="0",
         user_id="USER_042",
-        instruction=(
-            "Stage relevant input files for new data processing job deployment through assignment 'DEPLOY-PREP-001'. Isolate all CSV files from file organization mandate 'dir_op_001' on 'server-data-01.company.com' instead of moving them to final sorted location. Relocate all identified CSV files to new, temporary staging directory at '/staging/data_processing_job_v2/'. Execute the complete task, including database modifications to update moved file statuses within original mandate and logging successful staging operation."
-        ),
+        instruction="Stage relevant input files for new data processing job deployment through assignment 'DEPLOY-PREP-001'. Isolate all CSV files from file organization mandate 'dir_op_001' on 'server-data-01.company.com' instead of moving them to final sorted location. Relocate all identified CSV files to new, temporary staging directory at '/staging/data_processing_job_v2/'. Execute the complete task, including database modifications to update moved file statuses within original mandate and logging successful staging operation.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-data-01.company.com"}),
@@ -2363,11 +2221,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_043",
-        instruction=(
-            "Prepare project files for pre-production review through assignment 'STAGE-PROJECT-FILES-002'. Identify all files associated with file organization mandate 'dir_op_002' and relocate them to new staging directory on 'server-data-01.company.com' at '/staging/review/dir_op_002/' instead of moving to final archive. Execute the complete task, including database modification to update status of all files within original mandate, logging successful staging operation, and sending slack message to Operations."
-        ),
+        instruction="Prepare project files for pre-production review through assignment 'STAGE-PROJECT-FILES-002'. Identify all files associated with file organization mandate 'dir_op_002' and relocate them to new staging directory on 'server-data-01.company.com' at '/staging/review/dir_op_002/' instead of moving to final archive. Execute the complete task, including database modification to update status of all files within original mandate, logging successful staging operation, and sending slack message to Operations.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_002"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-data-01.company.com"}),
@@ -2391,7 +2246,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_044",
         instruction=(
             "Handle file organization mandate 'dir_op_001' by following standard pre-flight operational practice before executing file moves. "
@@ -2447,7 +2301,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_046",
         instruction=(
             "Investigate alert 'HRA-SRVPROD-01' for 'server-prod-01.company.com' by following standard practice to confirm if server resource usage (memory or disk) has breached 50% operational threshold. "
@@ -2487,11 +2340,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_048",
-        instruction=(
-            "Assess health of 'server-prod-01.company.com' and 'server-data-01.company.com' for audit 'HEALTH-AUDIT-02', enforcing 75% disk usage threshold. When server is found non-compliant, immediately escalate with alert then apply standard remediation procedure for stale files as defined by maintenance task 'fc_task_002'. Conclude audit by logging completion and reporting full summary of findings and actions taken to 'Operations' channel with this message: 'System Health Audit HEALTH-AUDIT-02 complete. Server server-data-01.company.com exceeded disk threshold (78%) and was remediated by purging 2 stale files. Server server-prod-01.company.com is healthy.'"
-        ),
+        instruction="Assess health of 'server-prod-01.company.com' and 'server-data-01.company.com' for audit 'HEALTH-AUDIT-02', enforcing 75% disk usage threshold. When server is found non-compliant, immediately escalate with alert then apply standard remediation procedure for stale files as defined by maintenance task 'fc_task_002'. Conclude audit by logging completion and reporting full summary of findings and actions taken to 'Operations' channel with this message: 'System Health Audit HEALTH-AUDIT-02 complete. Server server-data-01.company.com exceeded disk threshold (78%) and was remediated by purging 2 stale files. Server server-prod-01.company.com is healthy.'",
         actions=[
             Action(name="GetServerResourceUsage", kwargs={"hostname": "server-prod-01.company.com"}),
             Action(name="CheckRemoteDiskSpace", kwargs={"hostname": "server-prod-01.company.com"}),
@@ -2520,11 +2370,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_050",
-        instruction=(
-            "Execute file organization mandate 'dir_op_001', delayed due to low disk space warning, by conducting full readiness assessment first. Perform 'Pre-Execution Security Clearance Protocol' for requesting user ('user_002') and re-validate target server 'server-data-01.company.com' health. When all pre-flight checks pass, proceed with complete 'File Organization Protocol' as originally specified. Conclude all operations with final success notification to 'Operations' channel."
-        ),
+        instruction="Execute file organization mandate 'dir_op_001', delayed due to low disk space warning, by conducting full readiness assessment first. Perform 'Pre-Execution Security Clearance Protocol' for requesting user ('user_002') and re-validate target server 'server-data-01.company.com' health. When all pre-flight checks pass, proceed with complete 'File Organization Protocol' as originally specified. Conclude all operations with final success notification to 'Operations' channel.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_002"}),
@@ -2565,11 +2412,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_051",
-        instruction=(
-            "Perform post-archive cleanup for 'arch_002' following protocol requiring full security clearance check before deleting any files. Validate that original user ('user_003') has authorized access to source server ('server-analytics.company.com') per 'SSH Access Policy'. When policy violation is discovered, halt cleanup, log critical 'permission_denied' error via database write, and escalate to 'System Alerts' channel with this message: 'HALT on arch_002 cleanup: Security violation detected for user @carol.analyst. Unauthorized access to server-analytics.company.com. Cleanup aborted.'"
-        ),
+        instruction="Perform post-archive cleanup for 'arch_002' following protocol requiring full security clearance check before deleting any files. Validate that original user ('user_003') has authorized access to source server ('server-analytics.company.com') per 'SSH Access Policy'. When policy violation is discovered, halt cleanup, log critical 'permission_denied' error via database write, and escalate to 'System Alerts' channel with this message: 'HALT on arch_002 cleanup: Security violation detected for user @carol.analyst. Unauthorized access to server-analytics.company.com. Cleanup aborted.'",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_002"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_003"}),
@@ -2611,11 +2455,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_052",
-        instruction=(
-            "Conduct post-mortem security review 'SEC-REV-005' on failed archive task 'arch_005' by performing 'Pre-Execution Security Clearance Protocol' on original task parameters. The task was initiated by 'user_004' targeting 'personal-backup.company.com'. When policy violation is confirmed, log new, separate 'critical' 'permission_denied' security violation error using review ID. Escalate by notifying system administrators ('user_001', 'user_005') via 'System Alerts' channel with this message: 'CRITICAL SECURITY VIOLATION (SEC-REV-005): User @dave.intern (role: intern) attempted unauthorized archive operation to personal-backup.company.com. Key 'dave_rsa_key' is not authorized. cc @alice.admin @eve.manager'"
-        ),
+        instruction="Conduct post-mortem security review 'SEC-REV-005' on failed archive task 'arch_005' by performing 'Pre-Execution Security Clearance Protocol' on original task parameters. The task was initiated by 'user_004' targeting 'personal-backup.company.com'. When policy violation is confirmed, log new, separate 'critical' 'permission_denied' security violation error using review ID. Escalate by notifying system administrators ('user_001', 'user_005') via 'System Alerts' channel with this message: 'CRITICAL SECURITY VIOLATION (SEC-REV-005): User @dave.intern (role: intern) attempted unauthorized archive operation to personal-backup.company.com. Key 'dave_rsa_key' is not authorized. cc @alice.admin @eve.manager'",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_005"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_004"}),
@@ -2641,11 +2482,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_053",
-        instruction=(
-            "Conduct comprehensive 'System Readiness Assessment' for file organization task 'dir_op_001' before execution by following standard operational practice. Verify user's security clearance for target server 'server-data-01.company.com' and assess server's resource health against 60% operational threshold for CPU and memory. When server health check fails, follow standard procedure for postponing task by logging the issue, marking all constituent files of operation as 'failed' to halt execution, and alerting 'Operations' channel with this message: 'Task dir_op_001 postponed for user @bob.dev due to high resource usage on server-data-01.company.com (CPU: 62%, MEM: 72%).'"
-        ),
+        instruction="Conduct comprehensive 'System Readiness Assessment' for file organization task 'dir_op_001' before execution by following standard operational practice. Verify user's security clearance for target server 'server-data-01.company.com' and assess server's resource health against 60% operational threshold for CPU and memory. When server health check fails, follow standard procedure for postponing task by logging the issue, marking all constituent files of operation as 'failed' to halt execution, and alerting 'Operations' channel with this message: 'Task dir_op_001 postponed for user @bob.dev due to high resource usage on server-data-01.company.com (CPU: 62%, MEM: 72%).'",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_002"}),
@@ -2683,11 +2521,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_054",
-        instruction=(
-            "Conduct comprehensive post-mortem on failed archive task 'arch_005' through dual investigation. Execute 'Task Failure Diagnosis Protocol' to confirm technical root cause first. Since task involved an intern, conduct mandatory 'Pre-Execution Security Clearance Protocol' as security review of original operation. Log findings for both technical failure and any discovered security violations. Conclude by sending comprehensive incident report to 'System Alerts', notifying responsible user and system administrators ('user_001', 'user_005') with this message: 'Post-mortem for arch_005 COMPLETE. Technical failure: Insufficient storage. Security review: Critical policy violation found. User: @dave.intern. See logs for details. cc @alice.admin @eve.manager'"
-        ),
+        instruction="Conduct comprehensive post-mortem on failed archive task 'arch_005' through dual investigation. Execute 'Task Failure Diagnosis Protocol' to confirm technical root cause first. Since task involved an intern, conduct mandatory 'Pre-Execution Security Clearance Protocol' as security review of original operation. Log findings for both technical failure and any discovered security violations. Conclude by sending comprehensive incident report to 'System Alerts', notifying responsible user and system administrators ('user_001', 'user_005') with this message: 'Post-mortem for arch_005 COMPLETE. Technical failure: Insufficient storage. Security review: Critical policy violation found. User: @dave.intern. See logs for details. cc @alice.admin @eve.manager'",
         actions=[
             Action(name="GetErrorLogDetails", kwargs={"task_id": "arch_005"}),
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_005"}),
@@ -2716,11 +2551,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_055",
-        instruction=(
-            "Handle pending file check task 'fc_task_001' by ensuring operation is fully compliant with all security policies through standard pre-execution clearance. After authorization, complete the task by following established file check protocol."
-        ),
+        instruction="Handle pending file check task 'fc_task_001' by ensuring operation is fully compliant with all security policies through standard pre-execution clearance. After authorization, complete the task by following established file check protocol.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_001"}),
             Action(name="GetUserDefaultSshKey", kwargs={"user_id": "user_005"}),
@@ -2744,11 +2576,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_056",
-        instruction=(
-            "Process file check task 'fc_task_004' by adhering to standard security procedure requiring full 'Pre-Execution Security Clearance Protocol' for requesting user ('user_002') on target server ('server-config.company.com'). When policy violation is discovered, halt operation, log 'critical' 'permission_denied' error detailing violation, and alert 'System Alerts' with this message: 'Task fc_task_004 aborted due to security policy violation. User @bob.dev does not have required permissions for server-config.company.com. See logs for details.'"
-        ),
+        instruction="Process file check task 'fc_task_004' by adhering to standard security procedure requiring full 'Pre-Execution Security Clearance Protocol' for requesting user ('user_002') on target server ('server-config.company.com'). When policy violation is discovered, halt operation, log 'critical' 'permission_denied' error detailing violation, and alert 'System Alerts' with this message: 'Task fc_task_004 aborted due to security policy violation. User @bob.dev does not have required permissions for server-config.company.com. See logs for details.'",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_004"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_002"}),
@@ -2772,11 +2601,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_058",
-        instruction=(
-            "Fulfill analyst's ('user_003') request for recent application logs snapshot from 'server-prod-01.company.com' for performance investigation through assignment 'PROVISION-LOGS-001'. Identify relevant log files by applying criteria from standard maintenance task 'fc_task_001'. Securely copy identified files to new, temporary directory '/data/temp/log_snapshot_20240120/' on 'server-data-01.company.com' for analyst access. Facilitate transfer through administrator ('user_001'). Execute complete task, including database modification to update underlying maintenance task status and logging successful data provisioning."
-        ),
+        instruction="Fulfill analyst's ('user_003') request for recent application logs snapshot from 'server-prod-01.company.com' for performance investigation through assignment 'PROVISION-LOGS-001'. Identify relevant log files by applying criteria from standard maintenance task 'fc_task_001'. Securely copy identified files to new, temporary directory '/data/temp/log_snapshot_20240120/' on 'server-data-01.company.com' for analyst access. Facilitate transfer through administrator ('user_001'). Execute complete task, including database modification to update underlying maintenance task status and logging successful data provisioning.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_001"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-prod-01.company.com"}),
@@ -2802,11 +2628,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_059",
-        instruction=(
-            "Handle incident 'INC-DIROP-001' regarding paused file organization task 'dir_op_001', halted due to low disk space warning, by re-assessing the situation. Perform full readiness check including verification of user's ('user_002') security clearance and re-validation of live disk space on 'server-data-01.company.com'. When space is now sufficient (more than 1GB available), proceed with complete 'File Organization Protocol'. Upon successful completion, log incident resolution and notify 'Operations' channel that task is now complete."
-        ),
+        instruction="Handle incident 'INC-DIROP-001' regarding paused file organization task 'dir_op_001', halted due to low disk space warning, by re-assessing the situation. Perform full readiness check including verification of user's ('user_002') security clearance and re-validation of live disk space on 'server-data-01.company.com'. When space is now sufficient (more than 1GB available), proceed with complete 'File Organization Protocol'. Upon successful completion, log incident resolution and notify 'Operations' channel that task is now complete.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_002"}),
@@ -2847,11 +2670,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_061",
-        instruction=(
-            "Execute dual-purpose task 'AUDIT-HYGIENE-01' with two components. Conduct security audit on user 'user_002' to ensure SSH key authorizations comply with 'SSH Access Policy', logging any discovered violations. Execute data hygiene task on 'server-data-01.company.com' following 'Stale File Cleanup Protocol' as defined by maintenance task 'fc_task_002'. Conclude by logging audit completion and sending comprehensive summary of all findings and actions to 'System Alerts' channel with this message: 'Audit & Cleanup AUDIT-HYGIENE-01 complete. Found 1 policy violation for user @bob.dev. Purged 1 stale file from server-data-01.com. See logs for details.'"
-        ),
+        instruction="Execute dual-purpose task 'AUDIT-HYGIENE-01' with two components. Conduct security audit on user 'user_002' to ensure SSH key authorizations comply with 'SSH Access Policy', logging any discovered violations. Execute data hygiene task on 'server-data-01.company.com' following 'Stale File Cleanup Protocol' as defined by maintenance task 'fc_task_002'. Conclude by logging audit completion and sending comprehensive summary of all findings and actions to 'System Alerts' channel with this message: 'Audit & Cleanup AUDIT-HYGIENE-01 complete. Found 1 policy violation for user @bob.dev. Purged 1 stale file from server-data-01.com. See logs for details.'",
         actions=[
             Action(name="GetSecurityPolicyByName", kwargs={"policy_name": "SSH Access Policy"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_002"}),
@@ -2881,11 +2701,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_066",
-        instruction=(
-            "Execute health audit 'HEALTH-AUDIT-02' by assessing 'server-prod-01.company.com' and 'server-data-01.company.com' health, enforcing 75% disk usage threshold. When server is found non-compliant, immediately escalate with alert then apply standard 'Stale File Cleanup Protocol' for that server using policies defined in maintenance task 'fc_task_002'. After remediation, log full audit and cleanup operation using ID 'HEALTH-AUDIT-02' and send comprehensive summary of actions to 'Operations' channel with this message: 'System Health Audit HEALTH-AUDIT-02 complete. server-data-01.company.com exceeded disk threshold and was remediated by purging 2 stale files. server-prod-01.company.com is healthy.'"
-        ),
+        instruction="Execute health audit 'HEALTH-AUDIT-02' by assessing 'server-prod-01.company.com' and 'server-data-01.company.com' health, enforcing 75% disk usage threshold. When server is found non-compliant, immediately escalate with alert then apply standard 'Stale File Cleanup Protocol' for that server using policies defined in maintenance task 'fc_task_002'. After remediation, log full audit and cleanup operation using ID 'HEALTH-AUDIT-02' and send comprehensive summary of actions to 'Operations' channel with this message: 'System Health Audit HEALTH-AUDIT-02 complete. server-data-01.company.com exceeded disk threshold and was remediated by purging 2 stale files. server-prod-01.company.com is healthy.'",
         actions=[
             Action(name="CheckRemoteDiskSpace", kwargs={"hostname": "server-prod-01.company.com"}),
             Action(name="CheckRemoteDiskSpace", kwargs={"hostname": "server-data-01.company.com"}),
@@ -2922,11 +2739,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_068",
-        instruction=(
-            "Enforce data retention policy for temporary files on 'server-data-01.company.com' through assignment 'QUARANTINE-STALE-01'. Identify all stale files in '/data/temp' directory by applying rules defined in maintenance task 'fc_task_002'. Instead of purging, quarantine these files for manual review by relocating all identified files to new directory '/data/quarantine/stale_files_20240120/'. Execute the complete task, including database modification to update underlying maintenance task status, logging successful quarantine operation, and sending message to 'Operations' slack channel."
-        ),
+        instruction="Enforce data retention policy for temporary files on 'server-data-01.company.com' through assignment 'QUARANTINE-STALE-01'. Identify all stale files in '/data/temp' directory by applying rules defined in maintenance task 'fc_task_002'. Instead of purging, quarantine these files for manual review by relocating all identified files to new directory '/data/quarantine/stale_files_20240120/'. Execute the complete task, including database modification to update underlying maintenance task status, logging successful quarantine operation, and sending message to 'Operations' slack channel.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_002"}),
             Action(name="GetServerStatusByHostname", kwargs={"hostname": "server-data-01.company.com"}),
@@ -2949,11 +2763,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_069",
-        instruction=(
-            "Handle final data lifecycle stage of completed archive task 'arch_002' by purging all original source files. Perform 'Pre-Execution Security Clearance Protocol' before any deletions to ensure original user ('user_003') is authorized for source server 'server-analytics.company.com'. When policy violation is discovered, halt cleanup, update archive task status to 'failed', log security failure, and escalate to 'System Alerts' with this message: 'HALT on arch_002 cleanup: Security violation detected for user @carol.analyst. Unauthorized access to server-analytics.company.com. Cleanup aborted.'"
-        ),
+        instruction="Handle final data lifecycle stage of completed archive task 'arch_002' by purging all original source files. Perform 'Pre-Execution Security Clearance Protocol' before any deletions to ensure original user ('user_003') is authorized for source server 'server-analytics.company.com'. When policy violation is discovered, halt cleanup, update archive task status to 'failed', log security failure, and escalate to 'System Alerts' with this message: 'HALT on arch_002 cleanup: Security violation detected for user @carol.analyst. Unauthorized access to server-analytics.company.com. Cleanup aborted.'",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_002"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_003"}),
@@ -2989,11 +2800,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_071",
-        instruction=(
-            "Validate file organization mandate 'dir_op_001' through integrity audit 'AUDIT-DIR-OP-001' before execution by validating every file listed in operation's manifest on 'server-data-01.company.com'. Follow standard integrity verification practice including checking file existence and validating live checksums against recorded values. When any validation failure is discovered, follow standard protocol for failed audit: halt operation by updating all relevant database records to prevent execution, log specific failure, and escalate issue to 'System Alerts' with this message: 'AUDIT-DIR-OP-001 FAILED: Integrity check failed for dir_op_001 on server-data-01.company.com. File not found: /data/unsorted/inventory.dat. Operation halted.'"
-        ),
+        instruction="Validate file organization mandate 'dir_op_001' through integrity audit 'AUDIT-DIR-OP-001' before execution by validating every file listed in operation's manifest on 'server-data-01.company.com'. Follow standard integrity verification practice including checking file existence and validating live checksums against recorded values. When any validation failure is discovered, follow standard protocol for failed audit: halt operation by updating all relevant database records to prevent execution, log specific failure, and escalate issue to 'System Alerts' with this message: 'AUDIT-DIR-OP-001 FAILED: Integrity check failed for dir_op_001 on server-data-01.company.com. File not found: /data/unsorted/inventory.dat. Operation halted.'",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetFilesForDirectoryOperation", kwargs={"operation_id": "dir_op_001"}),
@@ -3022,11 +2830,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_073",
-        instruction=(
-            "Handle final data lifecycle stage of completed archive task 'arch_002' by purging all original source files. Perform 'Pre-Execution Security Clearance Protocol' before any deletions to ensure original user ('user_003') is authorized for source server 'server-analytics.company.com'. When policy violation is discovered, halt cleanup, update archive task status to 'failed', log security failure, and escalate to 'System Alerts' with this message: 'HALT on arch_002 cleanup: Security violation detected for user @carol.analyst. Unauthorized access to server-analytics.company.com. Cleanup aborted.'"
-        ),
+        instruction="Handle final data lifecycle stage of completed archive task 'arch_002' by purging all original source files. Perform 'Pre-Execution Security Clearance Protocol' before any deletions to ensure original user ('user_003') is authorized for source server 'server-analytics.company.com'. When policy violation is discovered, halt cleanup, update archive task status to 'failed', log security failure, and escalate to 'System Alerts' with this message: 'HALT on arch_002 cleanup: Security violation detected for user @carol.analyst. Unauthorized access to server-analytics.company.com. Cleanup aborted.'",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_002"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_003"}),
@@ -3063,11 +2868,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_075",
-        instruction=(
-            "Re-assess file organization task 'dir_op_001' through incident 'INC-DIROP-RETRY-01', previously deferred due to high resource load on 'server-data-01.company.com'. Perform full readiness check including verification of user's ('user_002') security clearance and re-validation of server's live resource usage against 60% operational threshold. When server is still under excessive load, follow standard deferral protocol: log reason, update status of all files in operation to 'failed' to prevent re-queueing, and notify 'Operations' channel with this message: 'Task dir_op_001 for @bob.dev has been deferred again due to persistent high resource usage (CPU: 62%, MEM: 72%) on server-data-01.company.com.'"
-        ),
+        instruction="Re-assess file organization task 'dir_op_001' through incident 'INC-DIROP-RETRY-01', previously deferred due to high resource load on 'server-data-01.company.com'. Perform full readiness check including verification of user's ('user_002') security clearance and re-validation of server's live resource usage against 60% operational threshold. When server is still under excessive load, follow standard deferral protocol: log reason, update status of all files in operation to 'failed' to prevent re-queueing, and notify 'Operations' channel with this message: 'Task dir_op_001 for @bob.dev has been deferred again due to persistent high resource usage (CPU: 62%, MEM: 72%) on server-data-01.company.com.'",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_002"}),
@@ -3105,11 +2907,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_076",
-        instruction=(
-            "Conduct 'System Readiness Assessment' for file organization task 'dir_op_001' with three required conditions: 1. Available disk space on 'server-data-01.company.com' must be at least 20% greater than total size of files in operation's manifest. 2. Server's real-time CPU and memory usage must both be at or below 70% operational threshold. 3. Requesting user ('user_002') must be authorized for server. When operational threshold is exceeded, follow appropriate practice to defer task by logging issue, updating status of all files in operation to 'failed' to halt execution, and alerting 'System Alerts'."
-        ),
+        instruction="Conduct 'System Readiness Assessment' for file organization task 'dir_op_001' with three required conditions: 1. Available disk space on 'server-data-01.company.com' must be at least 20% greater than total size of files in operation's manifest. 2. Server's real-time CPU and memory usage must both be at or below 70% operational threshold. 3. Requesting user ('user_002') must be authorized for server. When operational threshold is exceeded, follow appropriate practice to defer task by logging issue, updating status of all files in operation to 'failed' to halt execution, and alerting 'System Alerts'.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetFilesForDirectoryOperation", kwargs={"operation_id": "dir_op_001"}),
@@ -3139,11 +2938,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_077",
-        instruction=(
-            "Assess health of 'server-data-01.company.com' and 'storage-01.company.com' against 75% utilization threshold for audit 'HEALTH-AUDIT-DATA-TIER-02'. Follow standard practice for responding to health alerts. When server is non-compliant and has defined cleanup task (e.g., 'fc_task_002' for 'server-data-01.company.com'), apply full 'Stale File Cleanup Protocol'. For any other non-compliant server, log 'high_resource_usage' warning and escalate to system administrators ('user_001', 'user_005') via 'System Alerts'. After addressing all findings, log audit completion and send summary to 'Operations'."
-        ),
+        instruction="Assess health of 'server-data-01.company.com' and 'storage-01.company.com' against 75% utilization threshold for audit 'HEALTH-AUDIT-DATA-TIER-02'. Follow standard practice for responding to health alerts. When server is non-compliant and has defined cleanup task (e.g., 'fc_task_002' for 'server-data-01.company.com'), apply full 'Stale File Cleanup Protocol'. For any other non-compliant server, log 'high_resource_usage' warning and escalate to system administrators ('user_001', 'user_005') via 'System Alerts'. After addressing all findings, log audit completion and send summary to 'Operations'.",
         actions=[
             Action(name="GetServerResourceUsage", kwargs={"hostname": "server-data-01.company.com"}),
             Action(name="CheckRemoteDiskSpace", kwargs={"hostname": "server-data-01.company.com"}),
@@ -3173,7 +2969,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_080",
         instruction=(
             "Oversee execution of file organization mandate 'dir_op_002' for task 'DEP-OP-002', permitted only when target server 'server-data-01.company.com' satisfies disk usage threshold of 75% or lower. "
@@ -3215,11 +3010,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_081",
-        instruction=(
-            "Handle incident 'INC-DIROP-PARTIAL-01' where file organization task 'dir_op_001' was deferred due to high server load and user ('user_002') has requested partial execution. Re-assess the situation by verifying server's ('server-data-01.company.com') current resource usage is below 80% operational threshold. When healthy, proceed with modified 'File Organization Protocol' by moving only CSV files to their correct destination. Move all other files (DAT, JSON, TXT) to new '/data/deferred/' directory for later processing. Update status for every file in manifest. Conclude by logging partial completion and notifying 'Operations' with detailed summary of which files were moved where."
-        ),
+        instruction="Handle incident 'INC-DIROP-PARTIAL-01' where file organization task 'dir_op_001' was deferred due to high server load and user ('user_002') has requested partial execution. Re-assess the situation by verifying server's ('server-data-01.company.com') current resource usage is below 80% operational threshold. When healthy, proceed with modified 'File Organization Protocol' by moving only CSV files to their correct destination. Move all other files (DAT, JSON, TXT) to new '/data/deferred/' directory for later processing. Update status for every file in manifest. Conclude by logging partial completion and notifying 'Operations' with detailed summary of which files were moved where.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetServerResourceUsage", kwargs={"hostname": "server-data-01.company.com"}),
@@ -3252,11 +3044,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_083",
-        instruction=(
-            "Manage immediate staging of critical sales data file from pending sorting job 'dir_op_001' for high-priority analysis through assignment 'PRIORITY-DATA-STAGING-001' on 'server-data-01.company.com'. Before relocation, follow standard readiness assessment practice including security clearance for developer ('user_002') and, crucially, verify integrity of target sales data file to prevent processing corrupt data. After validation, relocate file to new staging directory '/staging/priority_review/20240120/'. Execute complete task including database modification to update moved file status and logging successful staging. Conclude by notifying developer that file is ready for analysis with this message: 'Priority Staging Complete for PRIORITY-DATA-STAGING-001: The file sales_data.csv has been validated and moved to the priority review directory. cc @bob.dev'"
-        ),
+        instruction="Manage immediate staging of critical sales data file from pending sorting job 'dir_op_001' for high-priority analysis through assignment 'PRIORITY-DATA-STAGING-001' on 'server-data-01.company.com'. Before relocation, follow standard readiness assessment practice including security clearance for developer ('user_002') and, crucially, verify integrity of target sales data file to prevent processing corrupt data. After validation, relocate file to new staging directory '/staging/priority_review/20240120/'. Execute complete task including database modification to update moved file status and logging successful staging. Conclude by notifying developer that file is ready for analysis with this message: 'Priority Staging Complete for PRIORITY-DATA-STAGING-001: The file sales_data.csv has been validated and moved to the priority review directory. cc @bob.dev'",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_002"}),
@@ -3286,11 +3075,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_085",
-        instruction=(
-            "Handle final data lifecycle stage of completed archive task 'arch_001' by purging all original source files from 'server-prod-01.company.com'. Perform 'Pre-Execution Security Clearance Protocol' before any deletions to ensure original user ('user_001') is authorized. After clearance, retrieve archive's file manifest and systematically delete every source file listed. Following complete purging, update archive status to 'verified' via database write, signifying lifecycle completion. Conclude by logging cleanup operation ('CLEANUP-ARCH-001') and notifying 'Operations'."
-        ),
+        instruction="Handle final data lifecycle stage of completed archive task 'arch_001' by purging all original source files from 'server-prod-01.company.com'. Perform 'Pre-Execution Security Clearance Protocol' before any deletions to ensure original user ('user_001') is authorized. After clearance, retrieve archive's file manifest and systematically delete every source file listed. Following complete purging, update archive status to 'verified' via database write, signifying lifecycle completion. Conclude by logging cleanup operation ('CLEANUP-ARCH-001') and notifying 'Operations'.",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_001"}),
@@ -3317,11 +3103,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_086",
-        instruction=(
-            "Conduct pre-flight security audit for archive task 'arch_004' by enforcing all security protocols before execution. Apply Pre-Execution Security Clearance practice for requesting user ('user_005') against target server 'document-vault.company.com'. When security policy violation is discovered, immediately halt operation, update archive task status to 'failed' via database writes, log 'critical' 'permission_denied' error detailing exact violation, and escalate incident by notifying 'System Alerts' channel with this message: 'Task arch_004 HALTED on security violation. User @eve.manager key is not authorized for document-vault.company.com.'"
-        ),
+        instruction="Conduct pre-flight security audit for archive task 'arch_004' by enforcing all security protocols before execution. Apply Pre-Execution Security Clearance practice for requesting user ('user_005') against target server 'document-vault.company.com'. When security policy violation is discovered, immediately halt operation, update archive task status to 'failed' via database writes, log 'critical' 'permission_denied' error detailing exact violation, and escalate incident by notifying 'System Alerts' channel with this message: 'Task arch_004 HALTED on security violation. User @eve.manager key is not authorized for document-vault.company.com.'",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_004"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_005"}),
@@ -3359,11 +3142,8 @@ TASKS = [
     ),
 
     Task(
-        annotator="0",
         user_id="USER_088",
-        instruction=(
-            "Handle final data lifecycle stage of completed archive task 'arch_001' by purging all original source files from 'server-prod-01.company.com'. Perform 'Pre-Execution Security Clearance Protocol' before any deletions to ensure original user ('user_001') is authorized. After clearance, retrieve archive's file manifest and systematically delete every source file. Following purging, update archive status to 'verified' via database write, signifying lifecycle completion. Conclude by logging cleanup operation ('CLEANUP-ARCH-001') and notifying 'Operations' with this message: 'Lifecycle for arch_001 complete. Source files have been purged and task is now verified.'"
-        ),
+        instruction="Handle final data lifecycle stage of completed archive task 'arch_001' by purging all original source files from 'server-prod-01.company.com'. Perform 'Pre-Execution Security Clearance Protocol' before any deletions to ensure original user ('user_001') is authorized. After clearance, retrieve archive's file manifest and systematically delete every source file. Following purging, update archive status to 'verified' via database write, signifying lifecycle completion. Conclude by logging cleanup operation ('CLEANUP-ARCH-001') and notifying 'Operations' with this message: 'Lifecycle for arch_001 complete. Source files have been purged and task is now verified.'",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_001"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_001"}),
@@ -3391,11 +3171,8 @@ TASKS = [
     ),
 
     Task(
-        annotator="0",
         user_id="USER_090",
-        instruction=(
-            "Perform post-archive cleanup for 'arch_002' following protocol requiring full security clearance check before deleting any files. Validate that original user ('user_003') has authorized access to source server ('server-analytics.company.com') per 'SSH Access Policy'. When policy violation is discovered, halt cleanup, log critical 'permission_denied' error via database write, update archive status to 'failed', and escalate to 'System Alerts' channel with this message: 'HALT on arch_002 cleanup: Security violation detected for user @carol.analyst. Unauthorized access to server-analytics.company.com. Cleanup aborted.'"
-        ),
+        instruction="Perform post-archive cleanup for 'arch_002' following protocol requiring full security clearance check before deleting any files. Validate that original user ('user_003') has authorized access to source server ('server-analytics.company.com') per 'SSH Access Policy'. When policy violation is discovered, halt cleanup, log critical 'permission_denied' error via database write, update archive status to 'failed', and escalate to 'System Alerts' channel with this message: 'HALT on arch_002 cleanup: Security violation detected for user @carol.analyst. Unauthorized access to server-analytics.company.com. Cleanup aborted.'",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_002"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_003"}),
@@ -3439,11 +3216,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_091",
-        instruction=(
-            "Verify integrity of all source files intended for archive through pre-flight audit 'arch_preflight_006'. The manifest includes: `['/data/unsorted/sales_data.csv', '/data/unsorted/customer_info.csv', '/data/unsorted/non_existent_report.csv']` on server `server-data-01.company.com`. Follow standard practice to check existence of each file. When any file fails validation, halt, log 'file_not_found' failure against audit task ID, and alert 'Operations' with this message: 'Pre-flight audit arch_preflight_006 FAILED: Source file /data/unsorted/non_existent_report.csv not found on server-data-01.company.com. Archival process halted.'"
-        ),
+        instruction="Verify integrity of all source files intended for archive through pre-flight audit 'arch_preflight_006'. The manifest includes: `['/data/unsorted/sales_data.csv', '/data/unsorted/customer_info.csv', '/data/unsorted/non_existent_report.csv']` on server `server-data-01.company.com`. Follow standard practice to check existence of each file. When any file fails validation, halt, log 'file_not_found' failure against audit task ID, and alert 'Operations' with this message: 'Pre-flight audit arch_preflight_006 FAILED: Source file /data/unsorted/non_existent_report.csv not found on server-data-01.company.com. Archival process halted.'",
         actions=[
             Action(name="CheckRemoteFileExists", kwargs={"hostname": "server-data-01.company.com", "filepath": "/data/unsorted/sales_data.csv"}),
             Action(name="CheckRemoteFileExists", kwargs={"hostname": "server-data-01.company.com", "filepath": "/data/unsorted/customer_info.csv"}),
@@ -3478,11 +3252,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_092",
-        instruction=(
-            "Audit pending archive task 'arch_003' for user 'user_002' by conducting comprehensive System Readiness Assessment. Perform 'Pre-Execution Security Clearance Protocol' to validate user's access to destination server 'log-storage.company.com'. When security check fails, follow standard procedure to halt operation immediately, log critical error detailing specific failure, update task status to 'failed', and escalate to 'System Alerts' with detailed message."
-        ),
+        instruction="Audit pending archive task 'arch_003' for user 'user_002' by conducting comprehensive System Readiness Assessment. Perform 'Pre-Execution Security Clearance Protocol' to validate user's access to destination server 'log-storage.company.com'. When security check fails, follow standard procedure to halt operation immediately, log critical error detailing specific failure, update task status to 'failed', and escalate to 'System Alerts' with detailed message.",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_003"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_002"}),
@@ -3522,11 +3293,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_093",
-        instruction=(
-            "Assess health of primary servers 'server-prod-01.company.com' and 'server-data-01.company.com' against 75% disk usage threshold for audit 'HEALTH-AUDIT-PRIMARY-01'. When server is non-compliant, immediately escalate by sending alert then apply standard 'Stale File Cleanup Protocol' for that server using policies from maintenance task 'fc_task_002'. After addressing all findings, log completion of full audit and send summary report of actions to 'Operations' with this message: 'HEALTH-AUDIT-PRIMARY-01 complete. Server server-data-01.company.com remediated (2 files purged). Server server-prod-01.company.com is healthy.'"
-        ),
+        instruction="Assess health of primary servers 'server-prod-01.company.com' and 'server-data-01.company.com' against 75% disk usage threshold for audit 'HEALTH-AUDIT-PRIMARY-01'. When server is non-compliant, immediately escalate by sending alert then apply standard 'Stale File Cleanup Protocol' for that server using policies from maintenance task 'fc_task_002'. After addressing all findings, log completion of full audit and send summary report of actions to 'Operations' with this message: 'HEALTH-AUDIT-PRIMARY-01 complete. Server server-data-01.company.com remediated (2 files purged). Server server-prod-01.company.com is healthy.'",
         actions=[
             Action(name="CheckRemoteDiskSpace", kwargs={"hostname": "server-prod-01.company.com"}),
             Action(name="CheckRemoteDiskSpace", kwargs={"hostname": "server-data-01.company.com"}),
@@ -3552,11 +3320,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_094",
-        instruction=(
-            "Conduct mandatory pre-flight integrity audit before file organization task 'dir_op_001' can proceed by validating every file listed in operation's manifest. For each file, confirm existence on source server ('server-data-01.company.com') and verify that live checksum matches checksum recorded in manifest. When any file fails validation, immediately halt process, log 'file_not_found' error with relevant details, and alert 'System Alerts'. When all files are verified, log successful audit and notify 'Operations' that organization task is cleared for execution."
-        ),
+        instruction="Conduct mandatory pre-flight integrity audit before file organization task 'dir_op_001' can proceed by validating every file listed in operation's manifest. For each file, confirm existence on source server ('server-data-01.company.com') and verify that live checksum matches checksum recorded in manifest. When any file fails validation, immediately halt process, log 'file_not_found' error with relevant details, and alert 'System Alerts'. When all files are verified, log successful audit and notify 'Operations' that organization task is cleared for execution.",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetFilesForDirectoryOperation", kwargs={"operation_id": "dir_op_001"}),
@@ -3579,11 +3344,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_095",
-        instruction=(
-            "Verify operation compliance for completed file check task 'fc_task_005' through audit 'AUDIT-FC-005'. Follow appropriate practice including 'Pre-Execution File Transfer Security Clearance Protocol' for original user ('user_004'). When security violation is discovered, halt, log violation, and escalate. When compliant, retrieve task's completion message to find its log file and archive it to 'backup-server.company.com' in '/storage/audit_evidence/' directory."
-        ),
+        instruction="Verify operation compliance for completed file check task 'fc_task_005' through audit 'AUDIT-FC-005'. Follow appropriate practice including 'Pre-Execution File Transfer Security Clearance Protocol' for original user ('user_004'). When security violation is discovered, halt, log violation, and escalate. When compliant, retrieve task's completion message to find its log file and archive it to 'backup-server.company.com' in '/storage/audit_evidence/' directory.",
         actions=[
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_005"}),
             Action(name="GetUserInfoById", kwargs={"user_id": "user_004"}),
@@ -3606,11 +3368,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_096",
-        instruction=(
-            "Execute 'Proactive Server Health Check Protocol' with 70% utilization threshold for incident 'HRA-SRVDATA-01' regarding high resource usage on 'server-data-01.company.com'. When breached, escalate with forensic analysis of '/data/temp' directory against policy defined in task 'fc_task_002'. Log 'warning' severity 'high_resource_usage' error using incident ID, detailing breached metrics and count of policy-violating files. Conclude by alerting 'System Alerts' with structured message including incident ID, server name, and number of non-compliant files found."
-        ),
+        instruction="Execute 'Proactive Server Health Check Protocol' with 70% utilization threshold for incident 'HRA-SRVDATA-01' regarding high resource usage on 'server-data-01.company.com'. When breached, escalate with forensic analysis of '/data/temp' directory against policy defined in task 'fc_task_002'. Log 'warning' severity 'high_resource_usage' error using incident ID, detailing breached metrics and count of policy-violating files. Conclude by alerting 'System Alerts' with structured message including incident ID, server name, and number of non-compliant files found.",
         actions=[
             Action(name="GetServerResourceUsage", kwargs={"hostname": "server-data-01.company.com"}),
             Action(name="CheckRemoteDiskSpace", kwargs={"hostname": "server-data-01.company.com"}),
@@ -3632,11 +3391,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_097",
-        instruction=(
-            "Conduct root cause analysis 'RCA-FC-004' regarding 'connection_timeout' error on file check task 'fc_task_004' for user 'user_002'. Follow appropriate diagnostic practice by retrieving original error log to identify server and confirm its live status. When server is confirmed to be in maintenance, log new 'server_maintenance' error for this RCA task with 'medium' severity, summarizing findings. Conclude by notifying user and their manager ('user_005') in 'Operations' channel with this message: 'RCA for fc_task_004 complete: Failure was due to scheduled maintenance on server-config.company.com. No further action needed. cc @eve.manager @bob.dev'"
-        ),
+        instruction="Conduct root cause analysis 'RCA-FC-004' regarding 'connection_timeout' error on file check task 'fc_task_004' for user 'user_002'. Follow appropriate diagnostic practice by retrieving original error log to identify server and confirm its live status. When server is confirmed to be in maintenance, log new 'server_maintenance' error for this RCA task with 'medium' severity, summarizing findings. Conclude by notifying user and their manager ('user_005') in 'Operations' channel with this message: 'RCA for fc_task_004 complete: Failure was due to scheduled maintenance on server-config.company.com. No further action needed. cc @eve.manager @bob.dev'",
         actions=[
             Action(name="GetErrorLogDetails", kwargs={"task_id": "fc_task_004"}),
             Action(name="GetFileCheckTaskById", kwargs={"task_id": "fc_task_004"}),
@@ -3659,11 +3415,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_098",
-        instruction=(
-            "Move project files as defined in 'dir_op_001' on server 'server-data-01.company.com' for migration 'MIGRATE-PROJECTS-001'. Before migration, verify integrity of every file in manifest by following appropriate integrity verification practice through checking each file's existence and validating live checksum. When any file fails validation, halt operation, log 'file_not_found' error, and escalate to 'Operations' with this message: 'MIGRATE-PROJECTS-001 HALTED: Pre-flight integrity check failed. File not found: /data/unsorted/inventory.dat. Migration aborted.'"
-        ),
+        instruction="Move project files as defined in 'dir_op_001' on server 'server-data-01.company.com' for migration 'MIGRATE-PROJECTS-001'. Before migration, verify integrity of every file in manifest by following appropriate integrity verification practice through checking each file's existence and validating live checksum. When any file fails validation, halt operation, log 'file_not_found' error, and escalate to 'Operations' with this message: 'MIGRATE-PROJECTS-001 HALTED: Pre-flight integrity check failed. File not found: /data/unsorted/inventory.dat. Migration aborted.'",
         actions=[
             Action(name="GetDirectoryOperationById", kwargs={"operation_id": "dir_op_001"}),
             Action(name="GetFilesForDirectoryOperation", kwargs={"operation_id": "dir_op_001"}),
@@ -3687,11 +3440,8 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_100",
-        instruction=(
-            "Verify operation's final state and compliance for post-completion audit 'AUDIT-ARCH-001' where archive task 'arch_001' was reported as having transfer integrity issues. Locate final archive file on 'backup-server.company.com' based on details from original task instructions and related error logs. When file is missing, log 'critical' 'file_not_found' error against this audit task and escalate to 'System Alerts' with this message: 'AUDIT FAILURE (AUDIT-ARCH-001): Final archive for task arch_001 is MISSING from destination. Immediate investigation required. cc @alice.admin'"
-        ),
+        instruction="Verify operation's final state and compliance for post-completion audit 'AUDIT-ARCH-001' where archive task 'arch_001' was reported as having transfer integrity issues. Locate final archive file on 'backup-server.company.com' based on details from original task instructions and related error logs. When file is missing, log 'critical' 'file_not_found' error against this audit task and escalate to 'System Alerts' with this message: 'AUDIT FAILURE (AUDIT-ARCH-001): Final archive for task arch_001 is MISSING from destination. Immediate investigation required. cc @alice.admin'",
         actions=[
             Action(name="GetArchiveInstructionsById", kwargs={"archive_id": "arch_001"}),
             Action(name="GetErrorLogDetails", kwargs={"task_id": "arch_001"}),

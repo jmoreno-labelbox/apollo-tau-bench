@@ -26,18 +26,7 @@ TASKS = [
             Action(name="CreateRelease", kwargs={"repo_name": "notification-service", "version": "v0.1.0", "description": "Initial compliant release."}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "notification-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "notification-service",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -60,18 +49,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "infra-terraform", "issue_number": 13}),
             Action(name="CountCommitsByAuthor", kwargs={"repo_name": "infra-terraform"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "infra-terraform",
-                    "commits_by_author": {
-                        "platform-team": 2
-                    },
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -98,18 +76,7 @@ TASKS = [
             Action(name="CreateRelease", kwargs={"repo_name": "acme-webapp", "version": "v1.1.0", "description": "Security hardening release."}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "acme-webapp"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "acme-webapp",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -128,20 +95,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "ui-kit", "issue_number": 12}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "ui-kit",
-                    "commits_count": 1,
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -169,18 +123,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "portfolio-site", "issue_number": 12}),
             Action(name="ListCommitsByBranch", kwargs={"repo_name": "portfolio-site", "branch": "feature/rebrand"}),
         ],
-        outputs=[
-            [
-                {
-                    "commit_id": "e4d3bffc0cca",
-                    "repo": "portfolio-site",
-                    "branch": "feature/rebrand",
-                    "message": "feat: Rebrand site to team blog",
-                    "author": "intern-emma",
-                    "timestamp": "2025-08-26"
-                }
-            ]
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -204,41 +147,7 @@ TASKS = [
             Action(name="GetIssueAgingReport", kwargs={"repo_name": "security-scanner"}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": [
-                    {
-                        "issue_id": "ISSUE_security-scanner_ad99393c",
-                        "title": "Port hotfix v0.4.1 to main",
-                        "state": "closed",
-                        "created_at": "2025-08-26",
-                        "days_open": 0,
-                        "report_date": "2025-08-26"
-                    },
-                    {
-                        "issue_id": "ISSUE_security-scanner_948af871",
-                        "title": "Verify hotfix integration in next release",
-                        "state": "open",
-                        "created_at": "2025-08-26",
-                        "days_open": 0,
-                        "report_date": "2025-08-26"
-                    }
-                ]
-            },
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "commits_count": 3,
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -267,18 +176,7 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "security-scanner", "issue_number": 13, "assignees": ["tech-lead-tara"]}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -306,27 +204,7 @@ TASKS = [
             Action(name="CountCommitsByAuthor", kwargs={"repo_name": "payments-service"}),
             Action(name="GetRepositoryRiskScore", kwargs={"repo_name": "payments-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "payments-service",
-                    "commits_by_author": {
-                        "server-main": 2
-                    },
-                    "report_date": "2025-08-26"
-                }
-            },
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "payments-service",
-                    "open_alerts_count": 0,
-                    "risk_score": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -354,22 +232,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "portfolio-site", "issue_number": 12}),
             Action(name="ListCommitsByBranch", kwargs={"repo_name": "portfolio-site", "branch": "feature/rebrand"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": [
-                    {
-                        "commit_id": "e4d3bffc0cca",
-                        "repo": "portfolio-site",
-                        "branch": "feature/rebrand",
-                        "message": "feat: Rebrand site to team blog",
-                        "author": "intern-emma",
-                        "timestamp": "2025-08-26",
-                        "report_date": "2025-08-26"
-                    }
-                ]
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -406,18 +269,7 @@ TASKS = [
             Action(name="RegisterDeployEvent", kwargs={"repo_name": "log-analyzer-service", "environment": "development"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "log-analyzer-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "log-analyzer-service",
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts": 1,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -441,41 +293,7 @@ TASKS = [
             Action(name="GetIssueAgingReport", kwargs={"repo_name": "security-scanner"}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": [
-                    {
-                        "issue_id": "ISSUE_security-scanner_ad99393c",
-                        "title": "Port hotfix v0.4.1 to main",
-                        "state": "closed",
-                        "created_at": "2025-08-26",
-                        "days_open": 0,
-                        "report_date": "2025-08-26"
-                    },
-                    {
-                        "issue_id": "ISSUE_security-scanner_948af871",
-                        "title": "Verify hotfix integration in next release",
-                        "state": "open",
-                        "created_at": "2025-08-26",
-                        "days_open": 0,
-                        "report_date": "2025-08-26"
-                    }
-                ]
-            },
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "commits_count": 3,
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ]
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -494,20 +312,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "ml-pipeline", "issue_number": 12}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "ml-pipeline"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "ml-pipeline",
-                    "commits_count": 1,
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -544,20 +349,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "security-scanner", "issue_number": 15}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "commits_count": 3,
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -580,17 +372,7 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "ui-kit", "issue_number": 12, "assignees": ["release-manager"]}),
             Action(name="GenerateEndToEndReport", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "repo": "ui-kit",
-                "commits_count": 0,
-                "open_issues": 1,
-                "merged_prs": 0,
-                "open_alerts": 0,
-                "releases_count": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -619,20 +401,7 @@ TASKS = [
             Action(name="GetCrossEntityReport", kwargs={"repo_name": "react-dashboard"}),
             Action(name="GetCrossEntityReport", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "react-dashboard", "open_issues": 0, "merged_prs": 1, "recent_commits": 2, "open_alerts": 0, "last_deployment": "none", "report_date": "2025-08-26"
-                }
-            },
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "ui-kit", "open_issues": 0, "merged_prs": 1, "recent_commits": 1, "open_alerts": 0, "last_deployment": "none", "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -665,28 +434,7 @@ TASKS = [
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "security-scanner"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            },
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "ui-kit",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -704,22 +452,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "infra-terraform", "issue_number": 12}),
             Action(name="ListCommitsByBranch", kwargs={"repo_name": "infra-terraform", "branch": "docs/rds-guide"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": [
-                    {
-                        "commit_id": "1c2fef47d1cf",
-                        "repo": "infra-terraform",
-                        "branch": "docs/rds-guide",
-                        "message": "docs: Add usage guide for the new RDS module",
-                        "author": "platform-team",
-                        "timestamp": "2025-08-26",
-                        "report_date": "2025-08-26"
-                    }
-                ]
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -737,22 +470,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "react-dashboard", "issue_number": 12}),
             Action(name="ListCommitsByBranch", kwargs={"repo_name": "react-dashboard", "branch": "docs/readme-update"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": [
-                    {
-                        "commit_id": "80fc79c09e51",
-                        "repo": "react-dashboard",
-                        "branch": "docs/readme-update",
-                        "message": "docs: Update README with new setup instructions",
-                        "author": "ui-developer",
-                        "timestamp": "2025-08-26",
-                        "report_date": "2025-08-26"
-                    }
-                ]
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -778,18 +496,7 @@ TASKS = [
             Action(name="CreateRelease", kwargs={"repo_name": "notification-service", "version": "v0.1.0", "description": "Initial compliant release."}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "notification-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "notification-service",
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -809,20 +516,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "nlp-models", "issue_number": 13}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "nlp-models"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "nlp-models",
-                    "commits_count": 1,
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -851,18 +545,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "acme-webapp", "issue_number": 13}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "acme-webapp"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "acme-webapp",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 1,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -885,20 +568,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "security-scanner", "issue_number": 12}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "commits_count": 3,
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -928,32 +598,7 @@ TASKS = [
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "k8s-monitoring"}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "k8s-monitoring",
-                    "commits_count": 1,
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            },
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "commits_count": 1,
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -980,20 +625,7 @@ TASKS = [
             Action(name="GetCrossEntityReport", kwargs={"repo_name": "acme-webapp"}),
             Action(name="GetCrossEntityReport", kwargs={"repo_name": "utils-js"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "acme-webapp", "open_issues": 0, "merged_prs": 1, "recent_commits": 1, "open_alerts": 0, "last_deployment": "none", "report_date": "2025-08-26"
-                }
-            },
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "utils-js", "open_issues": 0, "merged_prs": 1, "recent_commits": 1, "open_alerts": 0, "last_deployment": "none", "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1015,27 +647,7 @@ TASKS = [
             Action(name="FixSecurityAlert", kwargs={"repo_name": "security-scanner", "alert_number": 11}),
             Action(name="GetResolvedSecurityAlerts", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": [
-                    {
-                        "alert_id": "ALERT_security-scanner_56ed3e11",
-                        "severity": "high",
-                        "state": "fixed",
-                        "resolved_at": "2025-08-26",
-                        "description": "Insecure dependency in Cargo.toml"
-                    },
-                    {
-                        "alert_id": "ALERT_security-scanner_a69022dd",
-                        "severity": "low",
-                        "state": "fixed",
-                        "resolved_at": "2025-08-26",
-                        "description": "Unused variable in scanner.rs"
-                    }
-                ]
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1072,20 +684,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "security-scanner", "issue_number": 15}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "commits_count": 3,
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1114,18 +713,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "security-scanner", "issue_number": 13}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1142,31 +730,7 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "user-preferences-api", "issue_number": 13, "assignees": ["server-main"]}),
             Action(name="GetOpenIssues", kwargs={"repo_name": "user-preferences-api"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": [
-                    {
-                        "issue_id": "ISSUE_user-preferences-api_3ded9583",
-                        "title": "Setup CI/CD pipeline",
-                        "state": "open",
-                        "assignees": ["infra-lead"],
-                        "labels": ["setup", "ci-cd"],
-                        "created_at": "2025-08-26",
-                        "report_date": "2025-08-26"
-                    },
-                    {
-                        "issue_id": "ISSUE_user-preferences-api_537cd6a9",
-                        "title": "Add basic authentication endpoints",
-                        "state": "open",
-                        "assignees": ["server-main"],
-                        "labels": ["feature", "auth"],
-                        "created_at": "2025-08-26",
-                        "report_date": "2025-08-26"
-                    }
-                ]
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1191,20 +755,7 @@ TASKS = [
             Action(name="AddCommitToBranch", kwargs={"repo_name": "Ecosystem-Audit-Logs", "branch": "main", "message": "Initial setup for automated health reporting and audit tracking.", "author": "infra-lead"}),
             Action(name="GenerateEndToEndReport", kwargs={"repo_name": "Ecosystem-Audit-Logs"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "Ecosystem-Audit-Logs",
-                    "commits_count": 1,
-                    "open_issues": 3,
-                    "merged_prs": 0,
-                    "open_alerts": 0,
-                    "releases_count": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1224,20 +775,7 @@ TASKS = [
             Action(name="FixSecurityAlert", kwargs={"repo_name": "acme-webapp", "alert_number": 10}),
             Action(name="GetResolvedSecurityAlerts", kwargs={"repo_name": "acme-webapp"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": [
-                    {
-                        "alert_id": "ALERT_acme-webapp_a4e691ce",
-                        "severity": "low",
-                        "state": "fixed",
-                        "resolved_at": "2025-08-26",
-                        "description": "Hardcoded timeout value"
-                    }
-                ]
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1256,20 +794,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "ui-kit", "issue_number": 12}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "ui-kit",
-                    "commits_count": 1,
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1295,20 +820,7 @@ TASKS = [
             Action(name="RegisterDeployEvent", kwargs={"repo_name": "ui-kit", "environment": "production"}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "ui-kit",
-                    "commits_count": 3,
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1340,28 +852,7 @@ TASKS = [
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "ui-kit"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "ui-kit-recovered"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "ui-kit",
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts": 1,
-                    "report_date": "2025-08-26"
-                }
-            },
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "ui-kit-recovered",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1390,32 +881,7 @@ TASKS = [
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "ui-kit"}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "payments-api"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "ui-kit",
-                    "commits_count": 2,
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            },
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "payments-api",
-                    "commits_count": 1,
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1440,20 +906,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "security-scanner", "issue_number": 13}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "commits_count": 1,
-                    "open_issues": 3,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1475,26 +928,7 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "nlp-models", "issue_number": 12, "assignees": ["ml-engineer"]}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "nlp-models"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "nlp-models",
-                    "commits_count": 0,
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {
-                        "critical": 0,
-                        "high": 0,
-                        "medium": 0,
-                        "low": 0,
-                        "unknown": 0
-                    },
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1518,20 +952,7 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "k8s-monitoring", "issue_number": 14, "assignees": ["release-manager"]}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "k8s-monitoring"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "k8s-monitoring",
-                    "commits_count": 1,
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1549,22 +970,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "nlp-models", "issue_number": 12}),
             Action(name="ListCommitsByBranch", kwargs={"repo_name": "nlp-models", "branch": "docs/preprocessing-guide"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": [
-                    {
-                        "commit_id": "8a7d6f5e4c3b",
-                        "repo": "nlp-models",
-                        "branch": "docs/preprocessing-guide",
-                        "message": "docs: Add detailed examples to preprocessing guide",
-                        "author": "ml-engineer",
-                        "timestamp": "2025-08-26",
-                        "report_date": "2025-08-26"
-                    }
-                ]
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1589,20 +995,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "security-scanner", "issue_number": 13}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "commits_count": 1,
-                    "open_issues": 3,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1622,19 +1015,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "nlp-models", "issue_number": 12}),
             Action(name="CountCommitsByAuthor", kwargs={"repo_name": "nlp-models"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "nlp-models",
-                    "commits_by_author": {
-                        "ml-engineer": 1,
-                        "ml-engineer": 1
-                    },
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1661,18 +1042,7 @@ TASKS = [
             Action(name="CreateRelease", kwargs={"repo_name": "notification-service", "version": "v0.1.0", "description": "Initial compliant release."}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "notification-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "notification-service",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1690,18 +1060,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "payments-service", "issue_number": 12}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "payments-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "payments-service",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1728,18 +1087,7 @@ TASKS = [
             Action(name="CreateRelease", kwargs={"repo_name": "inventory-management-api", "version": "v0.1.0", "description": "Initial secure release."}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "inventory-management-api"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "inventory-management-api",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1757,18 +1105,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "payments-service", "issue_number": 12}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "payments-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "payments-service",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1787,20 +1124,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "ui-kit", "issue_number": 12}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "ui-kit",
-                    "commits_count": 1,
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1817,18 +1141,7 @@ TASKS = [
             Action(name="RegisterDeployEvent", kwargs={"repo_name": "log-analyzer-service", "environment": "development"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "log-analyzer-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "log-analyzer-service",
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts": 1,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1848,19 +1161,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "infra-terraform", "issue_number": 12}),
             Action(name="CountCommitsByAuthor", kwargs={"repo_name": "infra-terraform"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "infra-terraform",
-                    "commits_by_author": {
-                        "platform-team": 1,
-                        "infra-lead": 1
-                    },
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1878,18 +1179,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "payments-service", "issue_number": 12}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "payments-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "payments-service",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1908,20 +1198,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "ml-pipeline", "issue_number": 12}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "ml-pipeline"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "ml-pipeline",
-                    "commits_count": 1,
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1941,19 +1218,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "flutter-finance-app", "issue_number": 12}),
             Action(name="CountCommitsByAuthor", kwargs={"repo_name": "flutter-finance-app"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "flutter-finance-app",
-                    "commits_by_author": {
-                        "app-developer": 1,
-                        "ui-developer": 1
-                    },
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1971,18 +1236,7 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "acme-webapp", "issue_number": 13, "assignees": ["tech-lead-tara"]}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "acme-webapp"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "acme-webapp",
-                    "open_issues": 2,
-                    "open_prs": 1,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1999,21 +1253,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "security-scanner", "issue_number": 12}),
             Action(name="GetClosedIssues", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": [
-                    {
-                        "issue_id": "ISSUE_security-scanner_eb76c48f",
-                        "title": "Q3 Security Audit Summary",
-                        "labels": ["audit", "security"],
-                        "state": "closed",
-                        "closed_at": "2025-08-26",
-                        "report_date": "2025-08-26"
-                    }
-                ]
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2032,18 +1272,7 @@ TASKS = [
             Action(name="CreateRelease", kwargs={"repo_name": "payments-service", "version": "v1.0.1", "description": "Hotfix for CAD transaction failures."}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "payments-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "payments-service",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2063,19 +1292,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "nlp-models", "issue_number": 12}),
             Action(name="CountCommitsByAuthor", kwargs={"repo_name": "nlp-models"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "nlp-models",
-                    "commits_by_author": {
-                        "ml-engineer": 1,
-                        "ml-engineer": 1
-                    },
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2093,18 +1310,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "utils-js", "issue_number": 12}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "utils-js"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "utils-js",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2124,20 +1330,7 @@ TASKS = [
             Action(name="FixSecurityAlert", kwargs={"repo_name": "acme-webapp", "alert_number": 10}),
             Action(name="GetResolvedSecurityAlerts", kwargs={"repo_name": "acme-webapp"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": [
-                    {
-                        "alert_id": "ALERT_acme-webapp_9707860a",
-                        "severity": "low",
-                        "state": "fixed",
-                        "resolved_at": "2025-08-26",
-                        "description": "Hardcoded timeout value in configuration"
-                    }
-                ]
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2154,18 +1347,7 @@ TASKS = [
             Action(name="RegisterDeployEvent", kwargs={"repo_name": "log-analyzer-service", "environment": "development"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "log-analyzer-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "log-analyzer-service",
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts": 1,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2185,19 +1367,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "nlp-models", "issue_number": 12}),
             Action(name="CountCommitsByAuthor", kwargs={"repo_name": "nlp-models"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "nlp-models",
-                    "commits_by_author": {
-                        "ml-engineer": 1,
-                        "ml-engineer": 1
-                    },
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2215,18 +1385,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "utils-js", "issue_number": 12}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "utils-js"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "utils-js",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2246,20 +1405,7 @@ TASKS = [
             Action(name="FixSecurityAlert", kwargs={"repo_name": "acme-webapp", "alert_number": 10}),
             Action(name="GetResolvedSecurityAlerts", kwargs={"repo_name": "acme-webapp"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": [
-                    {
-                        "alert_id": "ALERT_acme-webapp_9707860a",
-                        "severity": "low",
-                        "state": "fixed",
-                        "resolved_at": "2025-08-26",
-                        "description": "Hardcoded timeout value in configuration"
-                    }
-                ]
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2278,20 +1424,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "ui-kit", "issue_number": 12}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "ui-kit",
-                    "commits_count": 1,
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2308,18 +1441,7 @@ TASKS = [
             Action(name="RegisterDeployEvent", kwargs={"repo_name": "log-analyzer-service", "environment": "development"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "log-analyzer-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "log-analyzer-service",
-                    "open_issues": 1,
-                    "open_prs": 0,
-                    "open_alerts": 1,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2342,18 +1464,7 @@ TASKS = [
             Action(name="CreateRelease", kwargs={"repo_name": "payments-service", "version": "v1.0.1", "description": "Hotfix for EUR transaction failures."}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "payments-service"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "payments-service",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2380,20 +1491,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "security-scanner", "issue_number": 13}),
             Action(name="GenerateEndToEndReport", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "commits_count": 2,
-                    "open_issues": 0,
-                    "merged_prs": 1,
-                    "open_alerts": 0,
-                    "releases_count": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2413,18 +1511,7 @@ TASKS = [
             Action(name="RegisterDeployEvent", kwargs={"repo_name": "k8s-monitoring", "environment": "production"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "k8s-monitoring"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "k8s-monitoring",
-                    "open_issues": 2,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2439,20 +1526,7 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "nlp-models", "issue_number": 13, "assignees": ["language-ai"]}),
             Action(name="GenerateEndToEndReport", kwargs={"repo_name": "nlp-models"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "nlp-models",
-                    "commits_count": 0,
-                    "open_issues": 2,
-                    "merged_prs": 0,
-                    "open_alerts": 0,
-                    "releases_count": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2470,15 +1544,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "utils-js", "issue_number": 12}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "utils-js"}),
         ],
-        outputs=[
-            {
-                "repo": "utils-js",
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2497,15 +1563,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "react-dashboard", "issue_number": 12}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "react-dashboard"}),
         ],
-        outputs=[
-            {
-                "repo": "react-dashboard",
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2528,17 +1586,7 @@ TASKS = [
             Action(name="FixSecurityAlert", kwargs={"repo_name": "ml-pipeline", "alert_number": 10}),
             Action(name="GetResolvedSecurityAlerts", kwargs={"repo_name": "ml-pipeline"}),
         ],
-        outputs=[
-            [
-                {
-                    "alert_id": "ALERT_ml-pipeline_007eb4d6",
-                    "severity": "high",
-                    "state": "fixed",
-                    "resolved_at": "2025-08-26",
-                    "description": "Data leakage in preprocessing script"
-                }
-            ]
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2560,26 +1608,7 @@ TASKS = [
             Action(name="GetOpenSecurityAlerts", kwargs={"repo_name": "flutter-finance-app"}),
             Action(name="GetResolvedSecurityAlerts", kwargs={"repo_name": "flutter-finance-app"}),
         ],
-        outputs=[
-            [
-                {
-                    "alert_id": "ALERT_flutter-finance-app_klm123no",
-                    "severity": "medium",
-                    "state": "open",
-                    "created_at": "2025-08-26",
-                    "description": "Use of deprecated encryption algorithm"
-                }
-            ],
-            [
-                {
-                    "alert_id": "ALERT_flutter-finance-app_pqr456st",
-                    "severity": "low",
-                    "state": "fixed",
-                    "resolved_at": "2025-08-26",
-                    "description": "Verbose error message in UI"
-                }
-            ]
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2606,20 +1635,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "infra-terraform", "issue_number": 12}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "infra-terraform"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "infra-terraform",
-                    "commits_count": 1,
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2642,24 +1658,7 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "k8s-monitoring", "issue_number": 14, "assignees": ["infra-lead"]}),
             Action(name="ListIssuesByLabel", kwargs={"repo_name": "k8s-monitoring", "label": "monitoring"}),
         ],
-        outputs=[
-            [
-                {
-                    "issue_id": "ISSUE_k8s-monitoring_c0e36431",
-                    "title": "Add recommendation-engine to Prometheus scrape configs",
-                    "labels": ["monitoring", "config"],
-                    "state": "open",
-                    "report_date": "2025-08-26"
-                },
-                {
-                    "issue_id": "ISSUE_k8s-monitoring_22cc09d5",
-                    "title": "Create Grafana dashboard for recommendation-engine",
-                    "labels": ["monitoring", "dashboard"],
-                    "state": "open",
-                    "report_date": "2025-08-26"
-                }
-            ]
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2682,14 +1681,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "payments-service", "issue_number": 13}),
             Action(name="GetPullRequestMergeTimeReport", kwargs={"repo_name": "payments-service"}),
         ],
-        outputs=[
-            {
-                "repo": "payments-service",
-                "merged_pr_count": 2,
-                "average_merge_time": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2713,18 +1705,7 @@ TASKS = [
             Action(name="FixSecurityAlert", kwargs={"repo_name": "infra-terraform", "alert_number": 10}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "infra-terraform"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "infra-terraform",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2748,24 +1729,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "ui-kit", "issue_number": 15}),
             Action(name="ListIssuesByLabel", kwargs={"repo_name": "ui-kit", "label": "design"}),
         ],
-        outputs=[
-            [
-                {
-                    "issue_id": "ISSUE_ui-kit_2bb1b710",
-                    "title": "Redesign Card component shadows",
-                    "labels": ["design", "ui"],
-                    "state": "open",
-                    "report_date": "2025-08-26"
-                },
-                {
-                    "issue_id": "ISSUE_ui-kit_e9e3e3d2",
-                    "title": "Create new color palette for dark mode",
-                    "labels": ["design", "theme"],
-                    "state": "open",
-                    "report_date": "2025-08-26"
-                }
-            ]
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2787,17 +1751,7 @@ TASKS = [
             Action(name="FixSecurityAlert", kwargs={"repo_name": "payments-service", "alert_number": 10}),
             Action(name="GenerateEndToEndReport", kwargs={"repo_name": "payments-service"}),
         ],
-        outputs=[
-            {
-                "repo": "payments-service",
-                "commits_count": 2,
-                "open_issues": 0,
-                "merged_prs": 1,
-                "open_alerts": 0,
-                "releases_count": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2824,26 +1778,7 @@ TASKS = [
             Action(name="GetCrossEntityReport", kwargs={"repo_name": "react-dashboard"}),
             Action(name="GetCrossEntityReport", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "repo": "react-dashboard",
-                "open_issues": 0,
-                "merged_prs": 1,
-                "recent_commits": 2,
-                "open_alerts": 0,
-                "last_deployment": "none",
-                "report_date": "2025-08-26"
-            },
-            {
-                "repo": "ui-kit",
-                "open_issues": 0,
-                "merged_prs": 1,
-                "recent_commits": 1,
-                "open_alerts": 0,
-                "last_deployment": "none",
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2869,17 +1804,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "acme-webapp", "issue_number": 12}),
             Action(name="MapCommitsToPullRequests", kwargs={"repo_name": "acme-webapp"}),
         ],
-        outputs=[
-            [
-                {
-                    "pr_id": "PR_acme-webapp_e47660a5",
-                    "commit_ids": [
-                        "5a0cfd3926b4"
-                    ],
-                    "report_date": "2025-08-26"
-                }
-            ]
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2899,18 +1824,7 @@ TASKS = [
             Action(name="FixSecurityAlert", kwargs={"repo_name": "infra-terraform", "alert_number": 10}),
             Action(name="GetIssueAgingReport", kwargs={"repo_name": "infra-terraform"}),
         ],
-        outputs=[
-            [
-                {
-                    "issue_id": "ISSUE_infra-terraform_b4e9b8f2",
-                    "title": "Incident: Public S3 Bucket Exposure",
-                    "state": "closed",
-                    "created_at": "2025-08-26",
-                    "days_open": 0,
-                    "report_date": "2025-08-26"
-                }
-            ]
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2936,18 +1850,7 @@ TASKS = [
             Action(name="CreateRelease", kwargs={"repo_name": "flutter-finance-app", "version": "v1.3.0", "description": "Integrates new dependency for performance improvements."}),
             Action(name="ListCommitsByDateRange", kwargs={"repo_name": "flutter-finance-app", "start_date": "2025-08-26", "end_date": "2025-08-26"}),
         ],
-        outputs=[
-            [
-                {
-                    "commit_id": "387ef3422d8f",
-                    "repo": "flutter-finance-app",
-                    "message": "feat: Integrate utils-js v1.1.0 for improved performance",
-                    "author": "app-developer",
-                    "timestamp": "2025-08-26",
-                    "report_date": "2025-08-26"
-                }
-            ]
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -2973,26 +1876,7 @@ TASKS = [
             Action(name="GetCrossEntityReport", kwargs={"repo_name": "acme-webapp"}),
             Action(name="GetCrossEntityReport", kwargs={"repo_name": "payments-service"}),
         ],
-        outputs=[
-            {
-                "repo": "acme-webapp",
-                "open_issues": 0,
-                "merged_prs": 1,
-                "recent_commits": 1,
-                "open_alerts": 0,
-                "last_deployment": "none",
-                "report_date": "2025-08-26"
-            },
-            {
-                "repo": "payments-service",
-                "open_issues": 0,
-                "merged_prs": 1,
-                "recent_commits": 1,
-                "open_alerts": 0,
-                "last_deployment": "none",
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3009,37 +1893,7 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "security-scanner", "issue_number": 14, "assignees": ["security-group"]}),
             Action(name="GetOpenIssues", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            [
-                {
-                    "issue_id": "ISSUE_security-scanner_ed799e7d",
-                    "title": "Q3 Remediation Plan for security-scanner",
-                    "state": "open",
-                    "assignees": ["security-group"],
-                    "labels": [],
-                    "created_at": "2025-08-26",
-                    "report_date": "2025-08-26"
-                },
-                {
-                    "issue_id": "ISSUE_security-scanner_7636a0bb",
-                    "title": "Address high false-positive rate for XSS detection",
-                    "state": "open",
-                    "assignees": ["security-group"],
-                    "labels": [],
-                    "created_at": "2025-08-26",
-                    "report_date": "2025-08-26"
-                },
-                {
-                    "issue_id": "ISSUE_security-scanner_292c349e",
-                    "title": "Improve performance for large codebases",
-                    "state": "open",
-                    "assignees": ["security-group"],
-                    "labels": [],
-                    "created_at": "2025-08-26",
-                    "report_date": "2025-08-26"
-                }
-            ]
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3062,14 +1916,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "utils-js", "issue_number": 13}),
             Action(name="GetRepositoryRiskScore", kwargs={"repo_name": "utils-js"}),
         ],
-        outputs=[
-            {
-                "repo": "utils-js",
-                "open_alerts_count": 0,
-                "risk_score": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3089,18 +1936,7 @@ TASKS = [
             Action(name="RegisterDeployEvent", kwargs={"repo_name": "ml-pipeline", "environment": "production-model-serving"}),
             Action(name="GetIssueAgingReport", kwargs={"repo_name": "ml-pipeline"}),
         ],
-        outputs=[
-            [
-                {
-                    "issue_id": "ISSUE_ml-pipeline_d02d357f",
-                    "title": "Incident: Model performance degraded in production",
-                    "state": "closed",
-                    "created_at": "2025-08-26",
-                    "days_open": 0,
-                    "report_date": "2025-08-26"
-                }
-            ]
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3129,22 +1965,7 @@ TASKS = [
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "payments-service"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "repo": "payments-service",
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            },
-            {
-                "repo": "security-scanner",
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3172,22 +1993,7 @@ TASKS = [
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "recommendation-engine"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "repo": "recommendation-engine",
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            },
-            {
-                "repo": "security-scanner",
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3215,17 +2021,7 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "security-scanner", "issue_number": 15, "assignees": ["intern-emma"]}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "repo": "security-scanner",
-                "commits_count": 2,
-                "open_issues": 3,
-                "open_prs": 1,
-                "open_alerts_by_severity": {"critical": 0, "high": 1, "medium": 1, "low": 0, "unknown": 0},
-                "open_alerts": 2,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3248,15 +2044,7 @@ TASKS = [
             Action(name="CreateRelease", kwargs={"repo_name": "legacy-api", "version": "v2.0.0", "description": "Final release with deprecation notice."}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "legacy-api"}),
         ],
-        outputs=[
-            {
-                "repo": "legacy-api",
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3282,17 +2070,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "new-hire-starter-project", "issue_number": 14}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "new-hire-starter-project"}),
         ],
-        outputs=[
-            {
-                "repo": "new-hire-starter-project",
-                "commits_count": 1,
-                "open_issues": 3,
-                "open_prs": 0,
-                "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3318,17 +2096,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "ui-kit", "issue_number": 12}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "repo": "ui-kit",
-                "commits_count": 2,
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3359,15 +2127,7 @@ TASKS = [
             Action(name="RegisterDeployEvent", kwargs={"repo_name": "mission-critical-service", "environment": "production-v1.1.1"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "mission-critical-service"}),
         ],
-        outputs=[
-            {
-                "repo": "mission-critical-service",
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3393,33 +2153,7 @@ TASKS = [
             Action(name="GetTeamContributionStats", kwargs={"repo_name": "ui-kit"}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "repo": "ui-kit",
-                "team_stats": {
-                    "unknown": {"commits": 0, "prs": 1, "issues": 0},
-                    "contractor-alex": {"commits": 1, "prs": 0, "issues": 0},
-                    "ui-dev": {"commits": 1, "prs": 0, "issues": 1},
-                    "qa-erin": {"commits": 1, "prs": 0, "issues": 0}
-                },
-                "report_date": "2025-08-26"
-            },
-            {
-                "repo": "ui-kit",
-                "commits_count": 3,
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts_by_severity": {
-                    "critical": 0,
-                    "high": 0,
-                    "medium": 0,
-                    "low": 0,
-                    "unknown": 0
-                },
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3445,17 +2179,7 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "ui-kit", "issue_number": 14, "assignees": ["release-manager"]}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "repo": "ui-kit",
-                "commits_count": 2,
-                "open_issues": 1,
-                "open_prs": 0,
-                "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3482,15 +2206,7 @@ TASKS = [
             Action(name="CreateRelease", kwargs={"repo_name": "inventory-management-api", "version": "v0.1.0", "description": "Initial secure release."}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "inventory-management-api"}),
         ],
-        outputs=[
-            {
-                "repo": "inventory-management-api",
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3516,17 +2232,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "new-hire-starter-project", "issue_number": 14}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "new-hire-starter-project"}),
         ],
-        outputs=[
-            {
-                "repo": "new-hire-starter-project",
-                "commits_count": 1,
-                "open_issues": 3,
-                "open_prs": 0,
-                "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3552,17 +2258,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "security-scanner", "issue_number": 14}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "repo": "security-scanner",
-                "commits_count": 1,
-                "open_issues": 2,
-                "open_prs": 0,
-                "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3592,15 +2288,7 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "security-scanner", "issue_number": 14, "assignees": ["security-group"]}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "repo": "security-scanner",
-                "open_issues": 2,
-                "open_prs": 1,
-                "open_alerts": 2,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3625,20 +2313,7 @@ TASKS = [
             Action(name="RequestPullRequestReview", kwargs={"repo_name": "security-scanner", "pr_number": 11, "reviewers": ["tech-lead-tara"]}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "security-scanner"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "security-scanner",
-                    "commits_count": 2,
-                    "open_issues": 1,
-                    "open_prs": 1,
-                    "open_alerts_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0},
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3663,18 +2338,7 @@ TASKS = [
             Action(name="CreateRelease", kwargs={"repo_name": "api-gateway", "version": "v0.1.0-alpha", "description": "First alpha release with auth and rate limiting."}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "api-gateway"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data": {
-                    "repo": "api-gateway",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 0,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3703,23 +2367,7 @@ TASKS = [
             Action(name="CloseIssue", kwargs={"repo_name": "ui-kit", "issue_number": 14}),
             Action(name="GetRepositoryActivityDashboard", kwargs={"repo_name": "ui-kit"}),
         ],
-        outputs=[
-            {
-                "repo": "ui-kit",
-                "commits_count": 3,
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts_by_severity": {
-                    "critical": 0,
-                    "high": 0,
-                    "medium": 0,
-                    "low": 0,
-                    "unknown": 0
-                },
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3742,18 +2390,7 @@ TASKS = [
             Action(name="RegisterDeployEvent", kwargs={"repo_name": "data-pipeline-orchestrator", "environment": "staging"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "data-pipeline-orchestrator"}),
         ],
-        outputs=[
-            {
-                "status": "ok",
-                "data":{
-                    "repo": "data-pipeline-orchestrator",
-                    "open_issues": 0,
-                    "open_prs": 0,
-                    "open_alerts": 1,
-                    "report_date": "2025-08-26"
-                }
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3778,15 +2415,7 @@ TASKS = [
             Action(name="LinkPullRequestToIssue", kwargs={"repo_name": "acme-webapp", "pr_number": 11, "issue_number": 13}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "acme-webapp"}),
         ],
-        outputs=[
-            {
-                "repo": "acme-webapp",
-                "open_issues": 1,
-                "open_prs": 1,
-                "open_alerts": 1,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3810,22 +2439,7 @@ TASKS = [
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "ui-kit"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "react-dashboard"}),
         ],
-        outputs=[
-            {
-                "repo": "ui-kit",
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            },
-            {
-                "repo": "react-dashboard",
-                "open_issues": 1,
-                "open_prs": 1,
-                "open_alerts": 0,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3848,15 +2462,7 @@ TASKS = [
             Action(name="RegisterDeployEvent", kwargs={"repo_name": "data-pipeline-orchestrator", "environment": "staging"}),
             Action(name="GetRepositoryHealthSummary", kwargs={"repo_name": "data-pipeline-orchestrator"}),
         ],
-        outputs=[
-            {
-                "repo": "data-pipeline-orchestrator",
-                "open_issues": 0,
-                "open_prs": 0,
-                "open_alerts": 1,
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -3878,16 +2484,6 @@ TASKS = [
             Action(name="AssignIssue", kwargs={"repo_name": "acme-webapp", "issue_number": 12, "assignees": ["maya-w"]}),
             Action(name="GetCrossEntityReport", kwargs={"repo_name": "acme-webapp"}),
         ],
-        outputs=[
-            {
-                "repo": "acme-webapp",
-                "open_issues": 1,
-                "merged_prs": 0,
-                "recent_commits": 0,
-                "open_alerts": 0,
-                "last_deployment": "none",
-                "report_date": "2025-08-26"
-            }
-        ],
+        outputs=[]
     ),
 ]

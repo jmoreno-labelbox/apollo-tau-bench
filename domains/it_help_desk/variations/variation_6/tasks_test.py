@@ -36,7 +36,7 @@ TASKS: List[Task] = [
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_onb_0024_conf", "employee_id": "emp_0024", "app_id": "app_confluence", "status": "active", "created_at": "2025-07-16T09:12:00+00:00"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_onb_00024", "status": "completed", "timestamp": "2025-07-16T10:05:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0013", "lic_adobe_cc", "acc_9071d5"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -62,7 +62,7 @@ TASKS: List[Task] = [
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_onb_0011_jira", "employee_id": "emp_0011", "app_id": "app_jira", "status": "active", "created_at": "2025-07-16T11:02:00+00:00"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_onb_00011", "status": "completed", "timestamp": "2025-07-16T11:02:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0013", "acc_51e138"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -90,7 +90,7 @@ TASKS: List[Task] = [
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_onb_0002_conf", "employee_id": "emp_0002", "app_id": "app_confluence", "status": "active", "created_at": "2025-07-16T13:06:30+00:00"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_onb_00002", "status": "completed", "timestamp": "2025-07-16T14:05:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0013", "acc_287fb8"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -115,7 +115,7 @@ TASKS: List[Task] = [
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_onb_0020_slack", "employee_id": "emp_0020", "app_id": "app_slack", "status": "active", "created_at": "2025-07-16T15:06:00+00:00"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_onb_00020", "status": "completed", "timestamp": "2025-07-16T16:05:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0013", "acc_401a71"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -140,7 +140,7 @@ TASKS: List[Task] = [
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_onb_0035_jira", "employee_id": "emp_0035", "app_id": "app_jira", "status": "active", "created_at": "2025-07-16T17:06:30+00:00"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_onb_00035", "status": "completed", "timestamp": "2025-07-16T18:05:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0013", "acc_d89d5c"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -167,7 +167,7 @@ TASKS: List[Task] = [
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_onb_0037_jira", "employee_id": "emp_0037", "app_id": "app_jira", "status": "active", "created_at": "2025-07-17T09:06:30+00:00"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_onb_00037", "status": "completed", "timestamp": "2025-07-17T10:05:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0013", "acc_451983"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -193,7 +193,7 @@ TASKS: List[Task] = [
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_onb_0006_sf", "employee_id": "emp_0006", "app_id": "app_salesforce", "status": "active", "created_at": "2025-07-17T11:06:30+00:00"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_onb_00006", "status": "completed", "timestamp": "2025-07-17T12:05:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0016", "acc_e7e9ee"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -219,7 +219,7 @@ TASKS: List[Task] = [
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_onb_0017_jira", "employee_id": "emp_0017", "app_id": "app_jira", "status": "active", "created_at": "2025-07-17T13:06:30+00:00"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_onb_00017", "status": "completed", "timestamp": "2025-07-17T14:05:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0013", "acc_82aecf"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -249,7 +249,7 @@ TASKS: List[Task] = [
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_onb_0031_sf", "employee_id": "emp_0031", "app_id": "app_salesforce", "status": "active", "created_at": "2023-07-18T09:00:00+00:00"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_onb_00031", "status": "completed", "timestamp": "2023-07-18T09:00:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0013", "acc_351bb4"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -280,7 +280,7 @@ TASKS: List[Task] = [
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_onb_0027_adobe", "employee_id": "emp_0027", "app_id": "app_adobe_cc", "status": "active", "created_at": "2025-07-17T17:07:00+00:00"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_onb_00027", "status": "completed", "timestamp": "2025-07-17T18:05:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0013", "lic_adobe_cc", "acc_5494f2"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -309,7 +309,7 @@ TASKS: List[Task] = [
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_offb_00019", "event": "manager_notified", "timestamp": "2023-10-24T09:00:00+00:00", "actor": "service_desk"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_offb_00019", "status": "completed", "timestamp": "2023-10-24T09:00:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["acc_1d0980", "mbx_1d0980"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -348,7 +348,7 @@ TASKS: List[Task] = [
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_offb_00032", "event": "manager_notified", "timestamp": "2023-12-24T09:00:00+00:00", "actor": "service_desk"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_offb_00032", "status": "completed", "timestamp": "2023-12-24T09:00:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["acc_f06213", "mbx_f06213"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -377,7 +377,7 @@ TASKS: List[Task] = [
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_offb_00024", "event": "manager_notified", "timestamp": "2025-07-20T11:00:00+00:00", "actor": "service_desk"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_offb_00024", "status": "completed", "timestamp": "2025-07-20T11:00:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0056", "mbx_9071d5"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -399,7 +399,7 @@ TASKS: List[Task] = [
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_salesforce"}),
             Action(name="CreateJiraTicket", kwargs={"jira_id": "JIRA-lic_maint-emp_0034-2025_07_15_0800", "issue_type": "Maintenance", "summary": "license_maintenance_emp_0034_2025_07_15_0800", "priority": "P2", "status": "Closed", "created_at": "2025-07-15T08:00:00+00:00", "updated_at": "2025-07-15T08:00:00+00:00"}),
         ],
-        outputs=["acc_baacc3"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -427,7 +427,7 @@ TASKS: List[Task] = [
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_offb_00036", "event": "manager_notified", "timestamp": "2024-06-21T09:00:00+00:00", "actor": "service_desk"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_offb_00036", "status": "completed", "timestamp": "2024-06-21T09:00:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0055", "mbx_f9a6bc"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -454,7 +454,7 @@ TASKS: List[Task] = [
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_offb_00039", "event": "manager_notified", "timestamp": "2025-07-20T14:00:00+00:00", "actor": "service_desk"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_offb_00039", "status": "completed", "timestamp": "2025-07-20T14:00:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0010", "mbx_c42c15"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -484,7 +484,7 @@ TASKS: List[Task] = [
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_offb_00028", "event": "manager_notified", "timestamp": "2025-07-20T15:06:00+00:00", "actor": "service_desk"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_offb_00028", "status": "completed", "timestamp": "2025-07-20T15:07:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0028", "mbx_81d8d5"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -507,7 +507,7 @@ TASKS: List[Task] = [
             Action(name="UpdateJiraStatus", kwargs={"jira_id": "JIRA-lic_cleanup-emp_0030-2025_07_15_0800", "status": "In Progress", "updated_at": "2025-07-15T08:00:00+00:00"}),
             Action(name="UpdateJiraStatus", kwargs={"jira_id": "JIRA-lic_cleanup-emp_0030-2025_07_15_0800", "status": "Resolved", "updated_at": "2025-07-15T08:00:00+00:00"}),
         ],
-        outputs=["lic_slack_ent", "lic_m365_e3"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -543,7 +543,7 @@ TASKS: List[Task] = [
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_offb_00031", "event": "manager_notified", "timestamp": "2025-07-20T17:00:00+00:00", "actor": "service_desk"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_offb_00031", "status": "completed", "timestamp": "2025-07-20T17:00:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["mbx_351bb4", "acc_351bb4"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -568,7 +568,7 @@ TASKS: List[Task] = [
             Action(name="UpdateJiraStatus", kwargs={"jira_id": "JIRA-lic_cleanup-emp_0029-2025_07_15_0800", "status": "In Progress", "updated_at": "2025-07-15T08:00:00+00:00"}),
             Action(name="UpdateJiraStatus", kwargs={"jira_id": "JIRA-lic_cleanup-emp_0029-2025_07_15_0800", "status": "Resolved", "updated_at": "2025-07-15T08:00:00+00:00"}),
         ],
-        outputs=["lic_slack_ent", "lic_m365_e3"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -596,7 +596,7 @@ TASKS: List[Task] = [
             Action(name="UpdateJiraStatus", kwargs={"jira_id": "JIRA-lic_adobe_cc-rebalance-emp_0031-to-emp_0024-2025_07_15_0800", "status": "Resolved", "updated_at": "2025-07-15T08:00:00+00:00"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_lic_adobe_cc_rebalance_2025_07_15", "status": "completed", "timestamp": "2025-07-15T08:00:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["lic_adobe_cc", "acc_9071d5"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -621,7 +621,7 @@ TASKS: List[Task] = [
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_slack_ent"}),
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_m365_e3"}),
         ],
-        outputs=["lic_slack_ent", "lic_m365_e3"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -641,7 +641,7 @@ TASKS: List[Task] = [
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_lic_adobe_cc_2025_07_15", "status": "completed", "timestamp": "2025-07-15T08:00:00+00:00", "actor": "service_desk"}),
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_adobe_cc"}),
         ],
-        outputs=["lic_adobe_cc"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -663,7 +663,7 @@ TASKS: List[Task] = [
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_m365_e5"}),
             Action(name="CreateJiraTicket", kwargs={"jira_id": "ITSD-1018", "issue_type": "License Maintenance", "summary": "tracking=ITSD-1018;license=lic_m365_e5;op=assign;to=emp_0036,emp_0037;audit=2025-07-15T08:00:00+00:00", "priority": "P3", "status": "Done", "created_at": "2025-07-15T08:00:00+00:00", "updated_at": "2025-07-15T08:00:00+00:00"}),
         ],
-        outputs=["lic_m365_e5"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -686,7 +686,7 @@ TASKS: List[Task] = [
             Action(name="CreateJiraTicket", kwargs={"jira_id": "ITSD-1017", "issue_type": "License Maintenance", "summary": "license_id=lic_github_ent;action=revoke;revoke_from=emp_0030,emp_0040;count=2", "priority": "P3", "status": "Done", "created_at": "2025-07-15T08:00:00+00:00", "updated_at": "2025-07-15T08:00:00+00:00"}),
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_github_ent"}),
         ],
-        outputs=["lic_github_ent"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -704,7 +704,7 @@ TASKS: List[Task] = [
             Action(name="CreateJiraTicket", kwargs={"jira_id": "ITSD-1014", "issue_type": "License Maintenance", "summary": "tracking=ITSD-1014;license=lic_salesforce;op=assign;to=emp_0042;audit=2025-07-15T08:00:00+00:00", "priority": "P3", "status": "Resolved", "created_at": "2025-07-15T08:00:00+00:00", "updated_at": "2025-07-15T08:00:00+00:00"}),
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_salesforce"}),
         ],
-        outputs=["lic_salesforce", "acc_f76658"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -719,7 +719,7 @@ TASKS: List[Task] = [
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_m365_e5"}),
             Action(name="CreateJiraTicket", kwargs={"jira_id": "ITSD-1015", "issue_type": "License Maintenance", "summary": "tracking=ITSD-1015;license=lic_m365_e5;op=reservation_trim;to=2;audit=2025-07-15T08:00:00+00:00", "priority": "P3", "status": "Resolved", "created_at": "2025-07-15T08:00:00+00:00", "updated_at": "2025-07-15T08:00:00+00:00"}),
         ],
-        outputs=["lic_m365_e5"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -741,7 +741,7 @@ TASKS: List[Task] = [
             Action(name="AssignLicense", kwargs={"assignment_id": "lca_00063", "account_id": "acc_0099f1", "employee_id": "emp_0016", "license_id": "lic_adobe_cc", "assigned_at": "2025-07-15T08:00:00+00:00"}),
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_adobe_cc"}),
         ],
-        outputs=["lic_adobe_cc", "acc_0099f1"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -768,7 +768,7 @@ TASKS: List[Task] = [
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_adobe_cc"}),
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_lic_adobe_cc_expand_2025_07_15", "event": "completed", "timestamp": "2025-07-15T08:00:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["lic_adobe_cc"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -791,7 +791,7 @@ TASKS: List[Task] = [
             Action(name="CreateJiraTicket", kwargs={"jira_id": "ITSD-1016", "issue_type": "License Maintenance", "summary": "license_id=lic_adobe_cc;action=revoke+reserve;revoke_from=emp_0031,emp_0025;reserve=2;reason=content_projects_q3", "priority": "P3", "status": "Done", "created_at": "2025-07-15T08:00:00+00:00", "updated_at": "2025-07-15T08:00:00+00:00"}),
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_adobe_cc"}),
         ],
-        outputs=["lic_adobe_cc"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -810,7 +810,7 @@ TASKS: List[Task] = [
             Action(name="FindAssets", kwargs={"asset_type": "laptop", "assigned_to": "emp_0021", "mdm_enrolled": True}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_hw_emp_0021", "status": "completed", "timestamp": "2023-06-10T09:00:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0013"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -828,7 +828,7 @@ TASKS: List[Task] = [
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "dwf_asset_emp_0013_1", "employee_id": "emp_0013", "asset_id": "ast_0016", "process": "mdm", "status": "completed", "pickup_code": "pc_dwf_asset_emp_0013_1", "created_at": "2025-07-18T10:05:00+00:00", "completed_at": "2025-07-18T10:10:00+00:00"}),
             Action(name="FindAssets", kwargs={"asset_type": "phone", "assigned_to": "emp_0013"}),
         ],
-        outputs=["ast_0016"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -853,7 +853,7 @@ TASKS: List[Task] = [
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_devcomp_emp_0016_2025_07_18", "event": "mdm_verified", "timestamp": "2025-07-18T11:10:00+00:00", "actor": "service_desk"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_devcomp_emp_0016_2025_07_18", "status": "completed", "timestamp": "2025-07-18T11:10:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0022"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -878,7 +878,7 @@ TASKS: List[Task] = [
             Action(name="FindAssets", kwargs={"assigned_to": "emp_0022"}),
             Action(name="FindAssets", kwargs={"asset_type": "laptop", "assigned_to": "emp_0022", "mdm_enrolled": True}),
         ],
-        outputs=["ast_0013"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -896,7 +896,7 @@ TASKS: List[Task] = [
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_ret_emp_0030_ast_0014", "event": "return_scheduled", "timestamp": "2025-07-25T17:00:00+00:00", "actor": "service_desk"}),
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_ret_emp_0030_ast_0014", "event": "wipe_scheduled", "timestamp": "2025-07-25T17:00:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0014"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -915,7 +915,7 @@ TASKS: List[Task] = [
             Action(name="RequestAssetReturn", kwargs={"asset_id": "ast_0049", "employee_id": "emp_0029", "due_ts": "2025-07-26T17:30:00+00:00", "workflow_id": "wf_ret_emp_0029_ast_0049"}),
             Action(name="ScheduleMdmAction", kwargs={"asset_id": "ast_0049", "when": "2025-07-26T17:30:00+00:00", "action": "wipe", "workflow_id": "wf_ret_emp_0029_ast_0049"}),
         ],
-        outputs=["ast_0039", "ast_0049"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -942,7 +942,7 @@ TASKS: List[Task] = [
             Action(name="RecordLifecycleAudit", kwargs={"lifecycle_id": "lcq_hw_emp_0038", "event": "mdm_completed", "timestamp": "2025-07-18T13:10:00+00:00", "actor": "service_desk"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_hw_emp_0038", "status": "completed", "timestamp": "2025-07-18T13:10:00+00:00", "actor": "service_desk"}),
         ],
-        outputs=["ast_0013"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -962,7 +962,7 @@ TASKS: List[Task] = [
             Action(name="FindAssets", kwargs={"assigned_to": "emp_0014"}),
             Action(name="FindAssets", kwargs={"asset_type": "laptop", "assigned_to": "emp_0014", "mdm_enrolled": True}),
         ],
-        outputs=["ast_0013"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -981,7 +981,7 @@ TASKS: List[Task] = [
             Action(name="FindAssets", kwargs={"assigned_to": "emp_0010"}),
             Action(name="FindAssets", kwargs={"asset_type": "phone", "assigned_to": "emp_0010"}),
         ],
-        outputs=["ast_0016"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -997,7 +997,7 @@ TASKS: List[Task] = [
             Action(name="AssignAsset", kwargs={"asset_id": "ast_0013", "employee_id": "emp_0026"}),
             Action(name="CreateDeviceWorkflow", kwargs={"workflow_id": "wf_mdm_emp_0026_ast_0013", "employee_id": "emp_0026", "asset_id": "ast_0013", "process": "mdm", "status": "completed", "pickup_code": "pc_mdm_emp_0026_ast_0013", "created_at": "2025-05-15T09:00:00+00:00", "completed_at": "2025-05-15T09:00:00+00:00"}),
         ],
-        outputs=["ast_0013"],
+        outputs=[]
     ),
 
     Task(
@@ -1017,7 +1017,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_0900", "taken_at": "2025-07-16T09:00:00+00:00", "statuses_in_scope": ["New", "Open", "In Progress", "On Hold"]}),
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_0902", "started_at": "2025-07-16T09:01:00+00:00", "completed_at": "2025-07-16T09:02:00+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_first_response.pdf"}),
         ],
-        outputs=["snap_2025_07_16_0900"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -1040,7 +1040,7 @@ TASKS: List[Task] = [
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1202", "started_at": "2025-07-16T12:01:00+00:00", "completed_at": "2025-07-16T12:02:00+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_noon_close.pdf"}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["snap_2025_07_16_1200"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -1067,7 +1067,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1305", "taken_at": "2025-07-16T13:05:00+00:00", "statuses_in_scope": ["New", "Open", "In Progress", "On Hold"]}),
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1306", "started_at": "2025-07-16T13:05:30+00:00", "completed_at": "2025-07-16T13:06:30+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_escalation.pdf"}),
         ],
-        outputs=["SLA-T5017", "SLA-T5029", "SLA-T5036", "SLA-T5058"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -1087,7 +1087,7 @@ TASKS: List[Task] = [
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1406", "started_at": "2025-07-16T14:05:30+00:00", "completed_at": "2025-07-16T14:06:30+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_triage.pdf"}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["snap_2025_07_16_1400"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -1109,7 +1109,7 @@ TASKS: List[Task] = [
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1502", "started_at": "2025-07-16T15:01:00+00:00", "completed_at": "2025-07-16T15:02:00+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_first_response.pdf"}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["snap_2025_07_16_1500"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -1128,7 +1128,7 @@ TASKS: List[Task] = [
             Action(name="UpdateTicketStatus", kwargs={"ticket_id": "T5030", "status": "Closed", "closed_at": "2025-07-16T16:45:00+00:00"}),
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1647", "started_at": "2025-07-16T16:46:00+00:00", "completed_at": "2025-07-16T16:47:00+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_password_resets.pdf"}),
         ],
-        outputs=["rpt_2025_07_16_1647"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -1147,7 +1147,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1700", "taken_at": "2025-07-16T17:00:00+00:00", "statuses_in_scope": ["New", "Open", "In Progress", "On Hold"]}),
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1701", "started_at": "2025-07-16T17:00:00+00:00", "completed_at": "2025-07-16T17:01:00+00:00", "source_ticket_window_days": 14, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_mdm_1701.pdf"}),
         ],
-        outputs=["snap_2025_07_16_1700"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -1162,7 +1162,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1705", "taken_at": "2025-07-16T17:05:00+00:00", "statuses_in_scope": ["New", "Open", "In Progress", "On Hold"]}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["rpt_2025_07_16_1700"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -1187,7 +1187,7 @@ TASKS: List[Task] = [
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1807", "started_at": "2025-07-16T18:06:00+00:00", "completed_at": "2025-07-16T18:07:00+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_mdm_wipes.pdf"}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["rpt_2025_07_16_1807"],
+        outputs=[]
     ),
     Task(
         annotator="it6",
@@ -1212,7 +1212,7 @@ TASKS: List[Task] = [
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1832", "started_at": "2025-07-16T18:31:00+00:00", "completed_at": "2025-07-16T18:32:00+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_access.pdf"}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["rpt_2025_07_16_1832"],
+        outputs=[]
     ),
 
     Task(
@@ -1230,7 +1230,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_0735", "taken_at": "2025-07-16T07:35:00+00:00", "statuses_in_scope": ["New", "Open", "In Progress", "On Hold"]}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_2025_07_16_0732_morning_check", "entity": "report", "entity_id": "rpt_2025_07_16_0732", "field": "morning_health_check", "rule": "reporting_policy", "details": "pre=snap_2025_07_16_0725; post=snap_2025_07_16_0735", "created_at": "2025-07-16T07:32:00+00:00"}),
         ],
-        outputs=["rpt_2025_07_16_0732"],
+        outputs=[]
     ),
 
     Task(
@@ -1248,7 +1248,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1105", "taken_at": "2025-07-16T11:05:00+00:00", "statuses_in_scope": ["New", "Open", "In Progress", "On Hold"]}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["rpt_2025_07_16_1102"],
+        outputs=[]
     ),
 
     Task(
@@ -1268,7 +1268,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1235", "taken_at": "2025-07-16T12:35:00+00:00", "statuses_in_scope": ["New", "Open", "In Progress", "On Hold"]}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["rpt_2025_07_16_1232"],
+        outputs=[]
     ),
 
     Task(
@@ -1287,7 +1287,7 @@ TASKS: List[Task] = [
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_2025_07_16_1502_sla_oversight", "entity": "report", "entity_id": "rpt_2025_07_16_1502", "field": "sla_oversight", "rule": "reporting_policy", "details": "pre=snap_2025_07_16_1455; post=snap_2025_07_16_1505", "created_at": "2025-07-16T15:02:00+00:00"}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["rpt_2025_07_16_1502"],
+        outputs=[]
     ),
 
     Task(
@@ -1309,7 +1309,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1605", "taken_at": "2025-07-16T16:05:00+00:00", "statuses_in_scope": ["New", "Open", "In Progress", "On Hold"]}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["rpt_2025_07_16_1602"],
+        outputs=[]
     ),
 
     Task(
@@ -1327,7 +1327,7 @@ TASKS: List[Task] = [
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1632", "started_at": "2025-07-16T16:30:00+00:00", "completed_at": "2025-07-16T16:32:00+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_1632.pdf"}),
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1635", "taken_at": "2025-07-16T16:35:00+00:00", "statuses_in_scope": ["New", "Open", "In Progress", "On Hold"]}),
         ],
-        outputs=["rpt_2025_07_16_1632"],
+        outputs=[]
     ),
 
     Task(
@@ -1346,7 +1346,7 @@ TASKS: List[Task] = [
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_2025_07_16_1702_on_hold_focus", "entity": "report", "entity_id": "rpt_2025_07_16_1702", "field": "on_hold_focus", "rule": "reporting_policy", "details": "pre=snap_2025_07_16_1655; post=snap_2025_07_16_1705", "created_at": "2025-07-16T17:05:00+00:00"}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["rpt_2025_07_16_1702"],
+        outputs=[]
     ),
 
     Task(
@@ -1364,7 +1364,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1805", "taken_at": "2025-07-16T18:05:00+00:00", "statuses_in_scope": ["New", "Open", "In Progress", "On Hold"]}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["rpt_2025_07_16_1802"],
+        outputs=[]
     ),
 
     Task(
@@ -1382,7 +1382,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1905", "taken_at": "2025-07-16T19:05:00+00:00", "statuses_in_scope": ["New", "Open", "In Progress", "On Hold"]}),
             Action(name="RecomputeDailyMetrics", kwargs={"date": "2025-07-16"}),
         ],
-        outputs=["rpt_2025_07_16_1902"],
+        outputs=[]
     ),
 
     Task(
@@ -1399,7 +1399,7 @@ TASKS: List[Task] = [
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_2002", "started_at": "2025-07-16T20:00:00+00:00", "completed_at": "2025-07-16T20:02:00+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_2002.pdf"}),
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_2005", "taken_at": "2025-07-16T20:05:00+00:00", "statuses_in_scope": ["New", "Open", "In Progress", "On Hold"]}),
         ],
-        outputs=["rpt_2025_07_16_2002"],
+        outputs=[]
     ),
 
     Task(
@@ -1419,7 +1419,7 @@ TASKS: List[Task] = [
             Action(name="GetBaselineForRole", kwargs={"department": "Marketing", "job_title": "Design Lead"}),
             Action(name="SetAccountGroups", kwargs={"account_id": "acc_43980f", "group_ids": ["grp_marketing_c05f", "grp_marketing_all"], "actor": "rbac_audit", "timestamp": "2025-07-16T10:01:00+00:00"}),
         ],
-        outputs=["acc_351bb4", "acc_43980f"],
+        outputs=[]
     ),
 
     Task(
@@ -1442,7 +1442,7 @@ TASKS: List[Task] = [
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_acc_dc71c8_2025_07_16_1007", "entity": "directory_accounts", "entity_id": "acc_dc71c8", "field": "group_ids", "rule": "rbac_baseline_alignment", "details": "groups=['grp_hr_82f8','grp_hr_all']", "created_at": "2025-07-16T10:07:00+00:00"}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_acc_88c4f4_2025_07_16_1007", "entity": "directory_accounts", "entity_id": "acc_88c4f4", "field": "group_ids", "rule": "rbac_baseline_alignment", "details": "groups=['grp_hr_a74e','grp_hr_all']", "created_at": "2025-07-16T10:07:30+00:00"}),
         ],
-        outputs=["vld_acc_dc71c8_2025_07_16_1007", "vld_acc_88c4f4_2025_07_16_1007"],
+        outputs=[]
     ),
 
     Task(
@@ -1469,7 +1469,7 @@ TASKS: List[Task] = [
             Action(name="GetMailbox", kwargs={"employee_id": "emp_0038"}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_acc_839501_2025_07_16_1011_posture", "entity": "directory_accounts", "entity_id": "acc_839501", "field": "posture", "rule": "support_baseline_verified", "details": "licenses=['lic_slack_ent','lic_m365_e3']; mailbox_retention=std_2y", "created_at": "2025-07-16T10:11:00+00:00"}),
         ],
-        outputs=["acc_bac647", "acc_839501", "vld_acc_bac647_2025_07_16_1010_posture", "vld_acc_839501_2025_07_16_1011_posture"],
+        outputs=[]
     ),
 
     Task(
@@ -1495,7 +1495,7 @@ TASKS: List[Task] = [
             Action(name="SetAccountGroups", kwargs={"account_id": "acc_54337a", "group_ids": ["grp_engineering_cbaf", "grp_engineering_all"], "actor": "rbac_audit", "timestamp": "2025-07-16T10:16:00+00:00"}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_acc_54337a_2025_07_16_1016", "entity": "directory_accounts", "entity_id": "acc_54337a", "field": "group_ids", "rule": "rbac_baseline_alignment", "details": "groups=['grp_engineering_cbaf','grp_engineering_all']", "created_at": "2025-07-16T10:16:30+00:00"}),
         ],
-        outputs=["acc_db017d", "acc_54337a", "vld_acc_db017d_2025_07_16_1015", "vld_acc_54337a_2025_07_16_1016"],
+        outputs=[]
     ),
 
     Task(
@@ -1523,7 +1523,7 @@ TASKS: List[Task] = [
             Action(name="SetAccountGroups", kwargs={"account_id": "acc_48efe8", "group_ids": ["grp_finance_5d50", "grp_finance_all"], "actor": "rbac_audit", "timestamp": "2025-07-16T10:21:00+00:00"}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_acc_48efe8_2025_07_16_1021", "entity": "directory_accounts", "entity_id": "acc_48efe8", "field": "group_ids", "rule": "rbac_baseline_alignment", "details": "groups=['grp_finance_5d50','grp_finance_all']", "created_at": "2025-07-16T10:21:00+00:00"}),
         ],
-        outputs=["acc_82aecf", "acc_48efe8", "vld_acc_82aecf_2025_07_16_1020", "vld_acc_48efe8_2025_07_16_1021"],
+        outputs=[]
     ),
 
     Task(
@@ -1550,7 +1550,7 @@ TASKS: List[Task] = [
             Action(name="SetAccountGroups", kwargs={"account_id": "acc_3818d8", "group_ids": ["grp_operations_dcb3", "grp_operations_all"], "actor": "rbac_audit", "timestamp": "2025-07-16T10:26:00+00:00"}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_acc_3818d8_2025_07_16_1026", "entity": "directory_accounts", "entity_id": "acc_3818d8", "field": "group_ids", "rule": "rbac_baseline_alignment", "details": "groups=['grp_operations_dcb3','grp_operations_all']", "created_at": "2025-07-16T10:26:30+00:00"}),
         ],
-        outputs=["acc_4d16c0", "acc_3818d8", "vld_acc_4d16c0_2025_07_16_1025", "vld_acc_3818d8_2025_07_16_1026"],
+        outputs=[]
     ),
 
     Task(
@@ -1583,7 +1583,7 @@ TASKS: List[Task] = [
             Action(name="SetAccountGroups", kwargs={"account_id": "acc_696506", "group_ids": ["grp_it_2990", "grp_it_all"], "actor": "rbac_audit", "timestamp": "2025-07-16T10:31:00+00:00"}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_acc_696506_2025_07_16_1031", "entity": "directory_accounts", "entity_id": "acc_696506", "field": "group_ids", "rule": "rbac_baseline_alignment", "details": "groups=['grp_it_2990','grp_it_all']; licenses=['lic_m365_e3','lic_github_ent','lic_slack_ent']; mailbox_retention=std_2y", "created_at": "2025-07-16T10:31:30+00:00"}),
         ],
-        outputs=["acc_38d007", "acc_696506", "vld_acc_38d007_2025_07_16_1030", "vld_acc_696506_2025_07_16_1031"],
+        outputs=[]
     ),
 
     Task(
@@ -1609,7 +1609,7 @@ TASKS: List[Task] = [
             Action(name="FindAssets", kwargs={"assigned_to": "emp_0028"}),
             Action(name="SetAccountGroups", kwargs={"account_id": "acc_81d8d5", "group_ids": ["grp_sales_4bcb", "grp_sales_all"], "actor": "rbac_audit", "timestamp": "2025-07-16T10:36:00+00:00"}),
         ],
-        outputs=["acc_78fb5c", "acc_81d8d5"],
+        outputs=[]
     ),
 
     Task(
@@ -1632,7 +1632,7 @@ TASKS: List[Task] = [
             Action(name="GetLicenseAssignments", kwargs={"account_id": "acc_baacc3"}),
             Action(name="SetAccountGroups", kwargs={"account_id": "acc_baacc3", "group_ids": ["grp_marketing_719b", "grp_marketing_all"], "actor": "rbac_audit", "timestamp": "2025-07-16T10:41:00+00:00"}),
         ],
-        outputs=["acc_287fb8", "acc_baacc3"],
+        outputs=[]
     ),
 
     Task(
@@ -1660,7 +1660,7 @@ TASKS: List[Task] = [
             Action(name="SetAccountGroups", kwargs={"account_id": "acc_f9a6bc", "group_ids": ["grp_engineering_4162", "grp_engineering_all"], "actor": "rbac_audit", "timestamp": "2025-07-16T10:46:00+00:00"}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_acc_f9a6bc_2025_07_16_1046", "entity": "directory_accounts", "entity_id": "acc_f9a6bc", "field": "group_ids", "rule": "rbac_baseline_alignment", "details": "groups=['grp_engineering_4162','grp_engineering_all']", "created_at": "2025-07-16T10:46:30+00:00"}),
         ],
-        outputs=["acc_f589dc", "acc_f9a6bc"],
+        outputs=[]
     ),
 
     Task(
@@ -1682,7 +1682,7 @@ TASKS: List[Task] = [
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_inc_email_2025_07_16_1100", "status": "blocked", "timestamp": "2025-07-16T11:01:00+00:00", "actor": "incident_coordinator"}),
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_110000", "started_at": "2025-07-16T11:00:00+00:00", "completed_at": "2025-07-16T11:00:30+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025_07_16_email.pdf"}),
         ],
-        outputs=["JIRA-incident-email-2025_07_16_1100", "lcq_inc_email_2025_07_16_1100"],
+        outputs=[]
     ),
 
     Task(
@@ -1704,7 +1704,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1107", "taken_at": "2025-07-16T11:07:00+00:00", "statuses_in_scope": ["On Hold", "In Progress", "New"]}),
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1108", "started_at": "2025-07-16T11:08:00+00:00", "completed_at": "2025-07-16T11:08:30+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_1108.pdf"}),
         ],
-        outputs=["ITSD-1014", "lcq_inc_0002"],
+        outputs=[]
     ),
 
     Task(
@@ -1724,7 +1724,7 @@ TASKS: List[Task] = [
             Action(name="UpdateTicketStatus", kwargs={"ticket_id": "T5013", "status": "On Hold"}),
             Action(name="UpdateTicketStatus", kwargs={"ticket_id": "T5053", "status": "On Hold"}),
         ],
-        outputs=["ITSD-1015", "lcq_inc_0003"],
+        outputs=[]
     ),
 
     Task(
@@ -1744,7 +1744,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1117", "taken_at": "2025-07-16T11:17:00+00:00", "statuses_in_scope": ["On Hold", "In Progress", "New"]}),
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1118", "started_at": "2025-07-16T11:18:00+00:00", "completed_at": "2025-07-16T11:18:30+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_1118.pdf"}),
         ],
-        outputs=["ITSD-1016", "lcq_inc_0004"],
+        outputs=[]
     ),
 
     Task(
@@ -1764,7 +1764,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1122", "taken_at": "2025-07-16T11:22:00+00:00", "statuses_in_scope": ["On Hold", "In Progress", "New"]}),
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1123", "started_at": "2025-07-16T11:23:00+00:00", "completed_at": "2025-07-16T11:23:30+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_1123.pdf"}),
         ],
-        outputs=["ITSD-1017", "lcq_inc_0005"],
+        outputs=[]
     ),
 
     Task(
@@ -1784,7 +1784,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1127", "taken_at": "2025-07-16T11:27:00+00:00", "statuses_in_scope": ["On Hold", "In Progress", "New"]}),
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1128", "started_at": "2025-07-16T11:28:00+00:00", "completed_at": "2025-07-16T11:28:30+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_1128.pdf"}),
         ],
-        outputs=["ITSD-1018", "lcq_inc_0006"],
+        outputs=[]
     ),
 
     Task(
@@ -1805,7 +1805,7 @@ TASKS: List[Task] = [
             Action(name="UpdateTicketStatus", kwargs={"ticket_id": "T5037", "status": "On Hold"}),
             Action(name="UpdateTicketStatus", kwargs={"ticket_id": "T5048", "status": "On Hold"}),
         ],
-        outputs=["ITSD-1019", "lcq_inc_0007"],
+        outputs=[]
     ),
 
     Task(
@@ -1825,7 +1825,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1137", "taken_at": "2025-07-16T11:37:00+00:00", "statuses_in_scope": ["On Hold", "In Progress", "New"]}),
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1138", "started_at": "2025-07-16T11:38:00+00:00", "completed_at": "2025-07-16T11:38:30+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_1138.pdf"}),
         ],
-        outputs=["ITSD-1020", "lcq_inc_0008"],
+        outputs=[]
     ),
 
     Task(
@@ -1849,7 +1849,7 @@ TASKS: List[Task] = [
             Action(name="TakeBacklogSnapshot", kwargs={"snapshot_id": "snap_2025_07_16_1142", "taken_at": "2025-07-16T11:42:00+00:00", "statuses_in_scope": ["On Hold", "In Progress", "New"]}),
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1143", "started_at": "2025-07-16T11:43:00+00:00", "completed_at": "2025-07-16T11:43:30+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_1143.pdf"}),
         ],
-        outputs=["ITSD-1021", "lcq_inc_0009"],
+        outputs=[]
     ),
 
     Task(
@@ -1870,7 +1870,7 @@ TASKS: List[Task] = [
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1148", "started_at": "2025-07-16T11:48:00+00:00", "completed_at": "2025-07-16T11:48:30+00:00", "source_ticket_window_days": 30, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_1148.pdf"}),
             Action(name="UpdateLifecycleStatus", kwargs={"lifecycle_id": "lcq_inc_0010", "status": "completed", "timestamp": "2025-07-16T11:48:30+00:00", "actor": "incident_mgr"}),
         ],
-        outputs=["ITSD-1022", "lcq_inc_0010"],
+        outputs=[]
     ),
 
     Task(
@@ -1890,7 +1890,7 @@ TASKS: List[Task] = [
             Action(name="GetLicenseAssignments", kwargs={"employee_id": "emp_0029"}),
             Action(name="ArchiveMailbox", kwargs={"archive_id": "arch_2025_07_16_emp_0029", "mailbox_id": "mbx_48efe8", "employee_id": "emp_0029", "archive_path": "s3://corp-archives/mail/emp_0029/2025-07-16", "retention_policy": "finance_7y", "created_at": "2025-07-16T12:02:00+00:00"}),
         ],
-        outputs=["arch_2025_07_16_emp_0017", "arch_2025_07_16_emp_0029"],
+        outputs=[]
     ),
 
     Task(
@@ -1915,7 +1915,7 @@ TASKS: List[Task] = [
             Action(name="ArchiveMailbox", kwargs={"archive_id": "arch_2025_07_16_emp_0008", "mailbox_id": "mbx_8abc91", "employee_id": "emp_0008", "archive_path": "s3://corp-archives/mail/emp_0008/2025-07-16", "retention_policy": "std_2y", "created_at": "2025-07-16T12:06:00+00:00"}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_arch_emp_0008_2025_07_16_120630", "entity": "data_archives", "entity_id": "arch_2025_07_16_emp_0008", "field": "retention_policy", "rule": "archive_recorded", "details": "mailbox=mbx_8abc91;policy=std_2y", "created_at": "2025-07-16T12:06:30+00:00"}),
         ],
-        outputs=["arch_2025_07_16_emp_0001", "arch_2025_07_16_emp_0008", "vld_arch_emp_0001_2025_07_16_120430", "vld_arch_emp_0008_2025_07_16_120630"],
+        outputs=[]
     ),
 
     Task(
@@ -1935,7 +1935,7 @@ TASKS: List[Task] = [
             Action(name="GetLicenseAssignments", kwargs={"employee_id": "emp_0032"}),
             Action(name="ArchiveMailbox", kwargs={"archive_id": "arch_2025_07_16_emp_0032", "mailbox_id": "mbx_f06213", "employee_id": "emp_0032", "archive_path": "s3://corp-archives/mail/emp_0032/2025-07-16", "retention_policy": "std_2y", "created_at": "2025-07-16T12:10:00+00:00"}),
         ],
-        outputs=["arch_2025_07_16_emp_0019", "arch_2025_07_16_emp_0032"],
+        outputs=[]
     ),
 
     Task(
@@ -1959,7 +1959,7 @@ TASKS: List[Task] = [
             Action(name="GetAppAccounts", kwargs={"employee_id": "emp_0030"}),
             Action(name="ArchiveMailbox", kwargs={"archive_id": "arch_2025_07_16_emp_0030", "mailbox_id": "mbx_db017d", "employee_id": "emp_0030", "archive_path": "s3://corp-archives/mail/emp_0030/2025-07-16", "retention_policy": "std_2y", "created_at": "2025-07-16T12:14:00+00:00"}),
         ],
-        outputs=["arch_2025_07_16_emp_0009", "arch_2025_07_16_emp_0030"],
+        outputs=[]
     ),
 
     Task(
@@ -1981,7 +1981,7 @@ TASKS: List[Task] = [
             Action(name="GetAppAccounts", kwargs={"employee_id": "emp_0038"}),
             Action(name="ArchiveMailbox", kwargs={"archive_id": "arch_2025_07_16_emp_0038", "mailbox_id": "mbx_839501", "employee_id": "emp_0038", "archive_path": "s3://corp-archives/mail/emp_0038/2025-07-16", "retention_policy": "std_2y", "created_at": "2025-07-16T12:18:00+00:00"}),
         ],
-        outputs=["arch_2025_07_16_emp_0011", "arch_2025_07_16_emp_0038"],
+        outputs=[]
     ),
 
     Task(
@@ -2006,7 +2006,7 @@ TASKS: List[Task] = [
             Action(name="GetAppAccounts", kwargs={"employee_id": "emp_0041"}),
             Action(name="ArchiveMailbox", kwargs={"archive_id": "arch_2025_07_16_emp_0041", "mailbox_id": "mbx_6f9008", "employee_id": "emp_0041", "archive_path": "s3://corp-archives/mail/emp_0041/2025-07-16", "retention_policy": "std_2y", "created_at": "2025-07-16T12:22:00+00:00"}),
         ],
-        outputs=["arch_2025_07_16_emp_0012", "arch_2025_07_16_emp_0041"],
+        outputs=[]
     ),
 
     Task(
@@ -2030,7 +2030,7 @@ TASKS: List[Task] = [
             Action(name="GetAppAccounts", kwargs={"employee_id": "emp_0004"}),
             Action(name="ArchiveMailbox", kwargs={"archive_id": "arch_2025_07_16_emp_0004", "mailbox_id": "mbx_38d007", "employee_id": "emp_0004", "archive_path": "s3://corp-archives/mail/emp_0004/2025-07-16", "retention_policy": "std_2y", "created_at": "2025-07-16T12:26:00+00:00"}),
         ],
-        outputs=["arch_2025_07_16_emp_0023", "arch_2025_07_16_emp_0004"],
+        outputs=[]
     ),
 
     Task(
@@ -2060,7 +2060,7 @@ TASKS: List[Task] = [
             Action(name="ArchiveMailbox", kwargs={"archive_id": "arch_2025_07_16_emp_0028", "mailbox_id": "mbx_81d8d5", "employee_id": "emp_0028", "archive_path": "s3://corp-archives/mail/emp_0028/2025-07-16", "retention_policy": "std_2y", "created_at": "2025-07-16T12:30:00+00:00"}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_arch_emp_0028_2025_07_16_123030", "entity": "data_archives", "entity_id": "arch_2025_07_16_emp_0028", "field": "retention_policy", "rule": "archive_recorded", "details": "mailbox=mbx_81d8d5;policy=std_2y", "created_at": "2025-07-16T12:30:30+00:00"}),
         ],
-        outputs=["arch_2025_07_16_emp_0013", "arch_2025_07_16_emp_0028", "vld_arch_emp_0013_2025_07_16_122830", "vld_arch_emp_0028_2025_07_16_123030"],
+        outputs=[]
     ),
 
     Task(
@@ -2084,7 +2084,7 @@ TASKS: List[Task] = [
             Action(name="GetAppAccounts", kwargs={"employee_id": "emp_0042"}),
             Action(name="ArchiveMailbox", kwargs={"archive_id": "arch_2025_07_16_emp_0042", "mailbox_id": "mbx_f76658", "employee_id": "emp_0042", "archive_path": "s3://corp-archives/mail/emp_0042/2025-07-16", "retention_policy": "std_2y", "created_at": "2025-07-16T12:34:00+00:00"}),
         ],
-        outputs=["arch_2025_07_16_emp_0035", "arch_2025_07_16_emp_0042"],
+        outputs=[]
     ),
 
     Task(
@@ -2113,7 +2113,7 @@ TASKS: List[Task] = [
             Action(name="ArchiveMailbox", kwargs={"archive_id": "arch_2025_07_16_emp_0020", "mailbox_id": "mbx_401a71", "employee_id": "emp_0020", "archive_path": "s3://corp-archives/mail/emp_0020/2025-07-16", "retention_policy": "std_2y", "created_at": "2025-07-16T12:38:00+00:00"}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "vld_arch_emp_0020_2025_07_16_123830", "entity": "data_archives", "entity_id": "arch_2025_07_16_emp_0020", "field": "retention_policy", "rule": "archive_recorded", "details": "mailbox=mbx_401a71;policy=std_2y", "created_at": "2025-07-16T12:38:30+00:00"}),
         ],
-        outputs=["arch_2025_07_16_emp_0040", "arch_2025_07_16_emp_0020", "vld_arch_emp_0040_2025_07_16_123630", "vld_arch_emp_0020_2025_07_16_123830"],
+        outputs=[]
     ),
 
     Task(
@@ -2140,7 +2140,7 @@ TASKS: List[Task] = [
             Action(name="GetAppAccounts", kwargs={"employee_id": "emp_0040", "app_id": "app_confluence"}),
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_2025_07_16_emp_0040_confluence", "employee_id": "emp_0040", "app_id": "app_confluence", "status": "active", "created_at": "2025-07-16T13:04:00+00:00"}),
         ],
-        outputs=["appacc_2025_07_16_emp_0037_jira", "appacc_2025_07_16_emp_0040_confluence"],
+        outputs=[]
     ),
 
     Task(
@@ -2169,7 +2169,7 @@ TASKS: List[Task] = [
             Action(name="GetAppAccounts", kwargs={"employee_id": "emp_0013", "app_id": "app_confluence"}),
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_emp_0013_confluence_2025_07_16_1307", "employee_id": "emp_0013", "app_id": "app_confluence", "status": "active", "created_at": "2025-07-16T13:07:00+00:00"}),
         ],
-        outputs=["lca_emp_0013_lic_salesforce_2025_07_16", "appacc_emp_0013_salesforce_2025_07_16_1306", "appacc_emp_0013_github_2025_07_16_130630", "appacc_emp_0013_confluence_2025_07_16_1307"],
+        outputs=[]
     ),
 
     Task(
@@ -2194,7 +2194,7 @@ TASKS: List[Task] = [
             Action(name="GetAppAccounts", kwargs={"employee_id": "emp_0011", "app_id": "app_jira"}),
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_2025_07_16_emp_0011_jira", "employee_id": "emp_0011", "app_id": "app_jira", "status": "active", "created_at": "2025-07-16T13:08:00+00:00"}),
         ],
-        outputs=["appacc_2025_07_16_emp_0011_jira"],
+        outputs=[]
     ),
 
     Task(
@@ -2221,7 +2221,7 @@ TASKS: List[Task] = [
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_salesforce"}),
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_2025_07_16_emp_0024_salesforce", "employee_id": "emp_0024", "app_id": "app_salesforce", "status": "active", "created_at": "2025-07-16T13:10:00+00:00"}),
         ],
-        outputs=["appacc_2025_07_16_emp_0024_salesforce"],
+        outputs=[]
     ),
 
     Task(
@@ -2246,7 +2246,7 @@ TASKS: List[Task] = [
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_slack_ent"}),
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_2025_07_16_emp_0010_slack", "employee_id": "emp_0010", "app_id": "app_slack", "status": "active", "created_at": "2025-07-16T13:12:00+00:00"}),
         ],
-        outputs=["appacc_2025_07_16_emp_0010_slack"],
+        outputs=[]
     ),
 
     Task(
@@ -2271,7 +2271,7 @@ TASKS: List[Task] = [
             Action(name="GetAppAccounts", kwargs={"employee_id": "emp_0029", "app_id": "app_jira"}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "val_2025_07_16_emp_0029_apps_present", "entity": "employee", "entity_id": "emp_0029", "field": "app_accounts", "rule": "no duplicate provisioning when target apps already present", "details": "TeamChat, WikiSpace, and TaskTrack already active (appacc_9a342b, appacc_71843b, appacc_78c078); no upsert performed.", "created_at": "2023-05-01T09:00:00+00:00"}),
         ],
-        outputs=["val_2025_07_16_emp_0029_apps_present"],
+        outputs=[]
     ),
 
     Task(
@@ -2296,7 +2296,7 @@ TASKS: List[Task] = [
             Action(name="AssignLicense", kwargs={"assignment_id": "lca_2025_07_16_emp_0020_github", "account_id": "acc_401a71", "employee_id": "emp_0020", "license_id": "lic_github_ent", "assigned_at": "2025-07-15T08:00:00+00:00"}),
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_2025_07_16_emp_0020_github", "employee_id": "emp_0020", "app_id": "app_github", "status": "active", "created_at": "2025-07-15T08:00:00+00:00"}),
         ],
-        outputs=["lca_2025_07_16_emp_0020_github", "appacc_2025_07_16_emp_0020_github"],
+        outputs=[]
     ),
 
     Task(
@@ -2324,7 +2324,7 @@ TASKS: List[Task] = [
             Action(name="SetAccountGroups", kwargs={"account_id": "acc_f63934", "group_ids": ["grp_marketing_c05f", "grp_marketing_all"], "actor": "rbac_alignment", "timestamp": "2025-07-15T08:00:00+00:00"}),
             Action(name="GenerateServiceDeskHealthReport", kwargs={"run_id": "rpt_2025_07_16_1321", "started_at": "2025-07-16T13:21:00+00:00", "completed_at": "2025-07-16T13:21:00+00:00", "source_ticket_window_days": 14, "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-16_1321.pdf"}),
         ],
-        outputs=["val_2025_07_16_emp_0018_not_design_lead", "val_2025_07_16_emp_0034_not_design_lead"],
+        outputs=[]
     ),
 
     Task(
@@ -2349,7 +2349,7 @@ TASKS: List[Task] = [
             Action(name="GetLicenseInventory", kwargs={"license_id": "lic_slack_ent"}),
             Action(name="RecordValidationIssue", kwargs={"issue_id": "val_2025_07_16_emp_0021_slack_present", "entity": "employee", "entity_id": "emp_0021", "field": "app_accounts", "rule": "no duplicate provisioning when TeamChat already present", "details": "TeamChat already active (appacc_0d93c2). Skipped provisioning per policy.", "created_at": "2025-07-16T13:22:05+00:00"}),
         ],
-        outputs=["val_2025_07_16_emp_0021_slack_present"],
+        outputs=[]
     ),
 
     Task(
@@ -2375,6 +2375,6 @@ TASKS: List[Task] = [
             Action(name="GetAppAccounts", kwargs={"employee_id": "emp_0001", "app_id": "app_jira"}),
             Action(name="UpsertAppAccount", kwargs={"app_account_id": "appacc_emp_0001_jira", "employee_id": "emp_0001", "app_id": "app_jira", "status": "active", "created_at": "2024-02-09T09:00:00+00:00"}),
         ],
-        outputs=["appacc_emp_0001_jira"],
+        outputs=[]
     ),
 ]

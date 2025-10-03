@@ -62,17 +62,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -126,19 +116,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "previous_release_id":"release_001",
-                "release_id":"rel-art_001-20240823-001",
-                "asset_id":"asset_en-002",
-                "export_id":"exp-art_001-20240823-png-001",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["released/2024-08-23"],
-                "run_id":"run_rl-001",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -190,15 +168,7 @@ TASKS = [
                 "request_id": "ax-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ax-001",
-                "message_id":"msg_ax-002",
-                "asset_id":"asset_en-002",
-                "tags":["a11y/needs-audit"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -250,15 +220,7 @@ TASKS = [
                 "request_id": "ds-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ds-001",
-                "message_id":"msg_ds-002",
-                "asset_id":"asset_ds-002",
-                "tags":["ds/triage-open"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -319,15 +281,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -396,17 +350,7 @@ TASKS = [
                 "request_id": "cr-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"CHANGES_REQUESTED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_cr-001",
-                "message_id":"msg_cr-002",
-                "tags":["needs-changes"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -467,15 +411,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -505,12 +441,7 @@ TASKS = [
                 "request_id": "up-003",
             }),
         ],
-        outputs=[
-            '"item_id":"item_017","status":"APPLIED"',
-            '"item_id":"item_018","status":"APPLIED"',
-            '"run_id":"run_up-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -535,13 +466,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_012"',
-            '"artifact_id":"art_001"',
-            '"report_asset_id":"asset_au-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -601,17 +526,7 @@ TASKS = [
                 "request_id": "rv-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_002-20240824-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-004",
-                "thread_id":"thr_em-004",
-                "message_id":"msg_em-005",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -670,19 +585,7 @@ TASKS = [
                 "request_id": "fp-007",
             }),
         ],
-        outputs=[
-            {
-                "plan_id":"plan_011",
-                "delivery_method":"COMMENTS",
-                "pending_count":6,
-                "ticket_ids":["tix-item_011","tix-item_012","tix-item_013","tix-item_014","tix-item_015","tix-item_016"],
-                "thread_id":"thr_fp-004",
-                "message_id":"msg_fp-005",
-                "tags":["fixplan/delivered"],
-                "run_id":"run_fp-007",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -707,13 +610,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_012"',
-            '"artifact_id":"art_001"',
-            '"report_asset_id":"asset_au-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -765,15 +662,7 @@ TASKS = [
                 "request_id": "ds-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ds-001",
-                "message_id":"msg_ds-002",
-                "asset_id":"asset_ds-002",
-                "tags":["ds/triage-open"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -834,15 +723,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -905,17 +786,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -969,19 +840,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "previous_release_id":"release_001",
-                "release_id":"rel-art_001-20240823-001",
-                "asset_id":"asset_en-002",
-                "export_id":"exp-art_001-20240823-png-001",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["released/2024-08-23"],
-                "run_id":"run_rl-001",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1041,17 +900,7 @@ TASKS = [
                 "request_id": "rv-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_002-20240824-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-004",
-                "thread_id":"thr_em-004",
-                "message_id":"msg_em-005",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1103,15 +952,7 @@ TASKS = [
                 "request_id": "ax-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ax-001",
-                "message_id":"msg_ax-002",
-                "asset_id":"asset_en-002",
-                "tags":["a11y/needs-audit"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1172,15 +1013,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1249,17 +1082,7 @@ TASKS = [
                 "request_id": "cr-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"CHANGES_REQUESTED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_cr-001",
-                "message_id":"msg_cr-002",
-                "tags":["needs-changes"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1320,15 +1143,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1358,12 +1173,7 @@ TASKS = [
                 "request_id": "up-003",
             }),
         ],
-        outputs=[
-            '"item_id":"item_017","status":"APPLIED"',
-            '"item_id":"item_019","status":"APPLIED"',
-            '"run_id":"run_up-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1426,17 +1236,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1490,19 +1290,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "previous_release_id":"release_001",
-                "release_id":"rel-art_001-20240823-001",
-                "asset_id":"asset_en-002",
-                "export_id":"exp-art_001-20240823-png-001",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["released/2024-08-23"],
-                "run_id":"run_rl-001",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1527,13 +1315,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_012"',
-            '"artifact_id":"art_001"',
-            '"report_asset_id":"asset_au-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1585,15 +1367,7 @@ TASKS = [
                 "request_id": "ax-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ax-001",
-                "message_id":"msg_ax-002",
-                "asset_id":"asset_en-002",
-                "tags":["a11y/needs-audit"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1662,17 +1436,7 @@ TASKS = [
                 "request_id": "cr-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"CHANGES_REQUESTED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_cr-001",
-                "message_id":"msg_cr-002",
-                "tags":["needs-changes"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1724,15 +1488,7 @@ TASKS = [
                 "request_id": "ds-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ds-001",
-                "message_id":"msg_ds-002",
-                "asset_id":"asset_ds-002",
-                "tags":["ds/triage-open"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1792,17 +1548,7 @@ TASKS = [
                 "request_id": "rv-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_002-20240824-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-004",
-                "thread_id":"thr_em-004",
-                "message_id":"msg_em-005",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1863,15 +1609,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1925,19 +1663,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "previous_release_id":"release_001",
-                "release_id":"rel-art_001-20240823-001",
-                "asset_id":"asset_en-002",
-                "export_id":"exp-art_001-20240823-png-001",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["released/2024-08-23"],
-                "run_id":"run_rl-001",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2006,17 +1732,7 @@ TASKS = [
                 "request_id": "cr-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"CHANGES_REQUESTED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_cr-001",
-                "message_id":"msg_cr-002",
-                "tags":["needs-changes"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2041,13 +1757,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_012"',
-            '"artifact_id":"art_001"',
-            '"report_asset_id":"asset_au-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2106,19 +1816,7 @@ TASKS = [
                 "request_id": "fp-007",
             }),
         ],
-        outputs=[
-            {
-                "plan_id":"plan_011",
-                "delivery_method":"COMMENTS",
-                "pending_count":6,
-                "ticket_ids":["tix-item_011","tix-item_012","tix-item_013","tix-item_014","tix-item_015","tix-item_016"],
-                "thread_id":"thr_fp-004",
-                "message_id":"msg_fp-005",
-                "tags":["fixplan/delivered"],
-                "run_id":"run_fp-007",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2179,15 +1877,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2239,15 +1929,7 @@ TASKS = [
                 "request_id": "ds-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ds-001",
-                "message_id":"msg_ds-002",
-                "asset_id":"asset_ds-002",
-                "tags":["ds/triage-open"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2277,12 +1959,7 @@ TASKS = [
                 "request_id": "up-003",
             }),
         ],
-        outputs=[
-            '"item_id":"item_017","status":"APPLIED"',
-            '"item_id":"item_020","status":"APPLIED"',
-            '"run_id":"run_up-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2343,15 +2020,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2414,17 +2083,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2476,15 +2135,7 @@ TASKS = [
                 "request_id": "ax-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ax-001",
-                "message_id":"msg_ax-002",
-                "asset_id":"asset_en-002",
-                "tags":["a11y/needs-audit"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2553,17 +2204,7 @@ TASKS = [
                 "request_id": "cr-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"CHANGES_REQUESTED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_cr-001",
-                "message_id":"msg_cr-002",
-                "tags":["needs-changes"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2615,15 +2256,7 @@ TASKS = [
                 "request_id": "ds-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ds-001",
-                "message_id":"msg_ds-002",
-                "asset_id":"asset_ds-002",
-                "tags":["ds/triage-open"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2684,15 +2317,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2753,15 +2378,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2813,15 +2430,7 @@ TASKS = [
                 "request_id": "ax-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ax-001",
-                "message_id":"msg_ax-002",
-                "asset_id":"asset_en-002",
-                "tags":["a11y/needs-audit"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2880,19 +2489,7 @@ TASKS = [
                 "request_id": "fp-007",
             }),
         ],
-        outputs=[
-            {
-                "plan_id":"plan_011",
-                "delivery_method":"COMMENTS",
-                "pending_count":6,
-                "ticket_ids":["tix-item_011","tix-item_012","tix-item_013","tix-item_014","tix-item_015","tix-item_016"],
-                "thread_id":"thr_fp-004",
-                "message_id":"msg_fp-005",
-                "tags":["fixplan/delivered"],
-                "run_id":"run_fp-007",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2955,17 +2552,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3019,19 +2606,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "previous_release_id":"release_001",
-                "release_id":"rel-art_001-20240823-001",
-                "asset_id":"asset_en-002",
-                "export_id":"exp-art_001-20240823-png-001",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["released/2024-08-23"],
-                "run_id":"run_rl-001",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3056,13 +2631,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_012"',
-            '"artifact_id":"art_001"',
-            '"report_asset_id":"asset_au-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3121,19 +2690,7 @@ TASKS = [
                 "request_id": "fp-007",
             }),
         ],
-        outputs=[
-            {
-                "plan_id":"plan_011",
-                "delivery_method":"COMMENTS",
-                "pending_count":6,
-                "ticket_ids":["tix-item_011","tix-item_012","tix-item_013","tix-item_014","tix-item_015","tix-item_016"],
-                "thread_id":"thr_fp-004",
-                "message_id":"msg_fp-005",
-                "tags":["fixplan/delivered"],
-                "run_id":"run_fp-007",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3185,15 +2742,7 @@ TASKS = [
                 "request_id": "ax-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ax-001",
-                "message_id":"msg_ax-002",
-                "asset_id":"asset_en-002",
-                "tags":["a11y/needs-audit"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3256,17 +2805,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3320,19 +2859,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "previous_release_id":"release_001",
-                "release_id":"rel-art_001-20240823-001",
-                "asset_id":"asset_en-002",
-                "export_id":"exp-art_001-20240823-png-001",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["released/2024-08-23"],
-                "run_id":"run_rl-001",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3392,17 +2919,7 @@ TASKS = [
                 "request_id": "rv-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_002-20240824-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-004",
-                "thread_id":"thr_em-004",
-                "message_id":"msg_em-005",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3432,12 +2949,7 @@ TASKS = [
                 "request_id": "up-003",
             }),
         ],
-        outputs=[
-            '"item_id":"item_018","status":"APPLIED"',
-            '"item_id":"item_019","status":"APPLIED"',
-            '"run_id":"run_up-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3498,15 +3010,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3558,15 +3062,7 @@ TASKS = [
                 "request_id": "ds-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ds-001",
-                "message_id":"msg_ds-002",
-                "asset_id":"asset_ds-002",
-                "tags":["ds/triage-open"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3627,15 +3123,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3704,17 +3192,7 @@ TASKS = [
                 "request_id": "cr-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"CHANGES_REQUESTED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_cr-001",
-                "message_id":"msg_cr-002",
-                "tags":["needs-changes"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3739,13 +3217,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_012"',
-            '"artifact_id":"art_001"',
-            '"report_asset_id":"asset_au-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3805,17 +3277,7 @@ TASKS = [
                 "request_id": "rv-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_002-20240824-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-004",
-                "thread_id":"thr_em-004",
-                "message_id":"msg_em-005",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3876,15 +3338,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3943,19 +3397,7 @@ TASKS = [
                 "request_id": "fp-007",
             }),
         ],
-        outputs=[
-            {
-                "plan_id":"plan_011",
-                "delivery_method":"COMMENTS",
-                "pending_count":6,
-                "ticket_ids":["tix-item_011","tix-item_012","tix-item_013","tix-item_014","tix-item_015","tix-item_016"],
-                "thread_id":"thr_fp-004",
-                "message_id":"msg_fp-005",
-                "tags":["fixplan/delivered"],
-                "run_id":"run_fp-007",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4018,17 +3460,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4082,19 +3514,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "previous_release_id":"release_001",
-                "release_id":"rel-art_001-20240823-001",
-                "asset_id":"asset_en-002",
-                "export_id":"exp-art_001-20240823-png-001",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["released/2024-08-23"],
-                "run_id":"run_rl-001",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4155,15 +3575,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4188,13 +3600,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_012"',
-            '"artifact_id":"art_001"',
-            '"report_asset_id":"asset_au-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4263,17 +3669,7 @@ TASKS = [
                 "request_id": "cr-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"CHANGES_REQUESTED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_cr-001",
-                "message_id":"msg_cr-002",
-                "tags":["needs-changes"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4325,15 +3721,7 @@ TASKS = [
                 "request_id": "ax-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ax-001",
-                "message_id":"msg_ax-002",
-                "asset_id":"asset_en-002",
-                "tags":["a11y/needs-audit"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4385,15 +3773,7 @@ TASKS = [
                 "request_id": "ds-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ds-001",
-                "message_id":"msg_ds-002",
-                "asset_id":"asset_ds-002",
-                "tags":["ds/triage-open"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4452,19 +3832,7 @@ TASKS = [
                 "request_id": "fp-007",
             }),
         ],
-        outputs=[
-            {
-                "plan_id":"plan_011",
-                "delivery_method":"COMMENTS",
-                "pending_count":6,
-                "ticket_ids":["tix-item_011","tix-item_012","tix-item_013","tix-item_014","tix-item_015","tix-item_016"],
-                "thread_id":"thr_fp-004",
-                "message_id":"msg_fp-005",
-                "tags":["fixplan/delivered"],
-                "run_id":"run_fp-007",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4525,15 +3893,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4563,12 +3923,7 @@ TASKS = [
                 "request_id": "up-003",
             }),
         ],
-        outputs=[
-            '"item_id":"item_018","status":"APPLIED"',
-            '"item_id":"item_020","status":"APPLIED"',
-            '"run_id":"run_up-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4620,15 +3975,7 @@ TASKS = [
                 "request_id": "ax-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ax-001",
-                "message_id":"msg_ax-002",
-                "asset_id":"asset_en-002",
-                "tags":["a11y/needs-audit"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4697,17 +4044,7 @@ TASKS = [
                 "request_id": "cr-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"CHANGES_REQUESTED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_cr-001",
-                "message_id":"msg_cr-002",
-                "tags":["needs-changes"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4732,13 +4069,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_012"',
-            '"artifact_id":"art_001"',
-            '"report_asset_id":"asset_au-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4799,15 +4130,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4870,17 +4193,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4932,15 +4245,7 @@ TASKS = [
                 "request_id": "ds-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ds-001",
-                "message_id":"msg_ds-002",
-                "asset_id":"asset_ds-002",
-                "tags":["ds/triage-open"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -4994,19 +4299,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "previous_release_id":"release_001",
-                "release_id":"rel-art_001-20240823-001",
-                "asset_id":"asset_en-002",
-                "export_id":"exp-art_001-20240823-png-001",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["released/2024-08-23"],
-                "run_id":"run_rl-001",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5067,15 +4360,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5100,13 +4385,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_012"',
-            '"artifact_id":"art_001"',
-            '"report_asset_id":"asset_au-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5175,17 +4454,7 @@ TASKS = [
                 "request_id": "cr-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"CHANGES_REQUESTED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_cr-001",
-                "message_id":"msg_cr-002",
-                "tags":["needs-changes"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5244,19 +4513,7 @@ TASKS = [
                 "request_id": "fp-007",
             }),
         ],
-        outputs=[
-            {
-                "plan_id":"plan_011",
-                "delivery_method":"COMMENTS",
-                "pending_count":6,
-                "ticket_ids":["tix-item_011","tix-item_012","tix-item_013","tix-item_014","tix-item_015","tix-item_016"],
-                "thread_id":"thr_fp-004",
-                "message_id":"msg_fp-005",
-                "tags":["fixplan/delivered"],
-                "run_id":"run_fp-007",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5308,15 +4565,7 @@ TASKS = [
                 "request_id": "ds-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ds-001",
-                "message_id":"msg_ds-002",
-                "asset_id":"asset_ds-002",
-                "tags":["ds/triage-open"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5379,17 +4628,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5441,15 +4680,7 @@ TASKS = [
                 "request_id": "ax-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ax-001",
-                "message_id":"msg_ax-002",
-                "asset_id":"asset_en-002",
-                "tags":["a11y/needs-audit"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5509,17 +4740,7 @@ TASKS = [
                 "request_id": "rv-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_002-20240824-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-004",
-                "thread_id":"thr_em-004",
-                "message_id":"msg_em-005",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5573,19 +4794,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "previous_release_id":"release_001",
-                "release_id":"rel-art_001-20240823-001",
-                "asset_id":"asset_en-002",
-                "export_id":"exp-art_001-20240823-png-001",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["released/2024-08-23"],
-                "run_id":"run_rl-001",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5646,15 +4855,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5706,15 +4907,7 @@ TASKS = [
                 "request_id": "ds-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ds-001",
-                "message_id":"msg_ds-002",
-                "asset_id":"asset_ds-002",
-                "tags":["ds/triage-open"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5766,15 +4959,7 @@ TASKS = [
                 "request_id": "ax-004",
             }),
         ],
-        outputs=[
-            {
-                "thread_id":"thr_ax-001",
-                "message_id":"msg_ax-002",
-                "asset_id":"asset_en-002",
-                "tags":["a11y/needs-audit"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5835,15 +5020,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5912,17 +5089,7 @@ TASKS = [
                 "request_id": "cr-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"CHANGES_REQUESTED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_cr-001",
-                "message_id":"msg_cr-002",
-                "tags":["needs-changes"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5982,17 +5149,7 @@ TASKS = [
                 "request_id": "rv-004",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_002-20240824-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-004",
-                "thread_id":"thr_em-004",
-                "message_id":"msg_em-005",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -6022,12 +5179,7 @@ TASKS = [
                 "request_id": "up-003",
             }),
         ],
-        outputs=[
-            '"item_id":"item_019","status":"APPLIED"',
-            '"item_id":"item_020","status":"APPLIED"',
-            '"run_id":"run_up-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -6081,19 +5233,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "previous_release_id":"release_001",
-                "release_id":"rel-art_001-20240823-001",
-                "asset_id":"asset_en-002",
-                "export_id":"exp-art_001-20240823-png-001",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["released/2024-08-23"],
-                "run_id":"run_rl-001",
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -6118,13 +5258,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_012"',
-            '"artifact_id":"art_001"',
-            '"report_asset_id":"asset_au-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -6185,15 +5319,7 @@ TASKS = [
                 "cycle_id": "rev-art_001-20240823-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"APPROVED",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-            }
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -6256,16 +5382,6 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            {
-                "cycle_id":"rev-art_001-20240823-001",
-                "cycle_status":"NEEDS_REVIEW",
-                "asset_id":"asset_en-002",
-                "thread_id":"thr_em-001",
-                "message_id":"msg_em-002",
-                "tags":["needs-review"],
-                "status":"completed",
-            }
-        ],
+        outputs=[]
     ),
 ]

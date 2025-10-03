@@ -76,17 +76,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-034",
-                "username": "jfairchild",
-                "email": "john.fairchild@sigmatech.com",
-                "department": "Engineering",
-                "status": "ACTIVE",
-                "roles": ["engineering-base", "engineering-code-commit"],
-                "manager_notified": "U-001"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -170,13 +160,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-007",
-                "final_status": "DISABLED",
-                "roles_revoked_count": 3
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -240,7 +224,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"original_request_remediated": "AR-003", "non_compliant_grant_revoked": "UR-052", "new_temporary_request_id": "AR-042", "access_expires_on": "2025-08-09 14:00:00+00:00"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -318,15 +302,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_investigated": "U-002",
-                "containment_actions": ["user_suspended", "all_roles_revoked"],
-                "revoked_roles": ["ROL-006", "ROL-035"],
-                "hubspot_ticket_created": True,
-                "notification_escalated": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -374,7 +350,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"request_id": "AR-034", "status": "REJECTED", "reason": "SOD_VIOLATION"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -424,7 +400,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"emergency_role_granted": "ROL-027", "user_id": "U-013", "access_request_id": "AR-042", "hubspot_ticket_created": True})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -477,14 +453,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_investigated": "U-009",
-                "remediation_steps": ["role_revoked", "user_suspended"],
-                "hubspot_ticket_created": True,
-                "revoked_user_role_id": "UR-023"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -550,14 +519,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-001",
-                "decision": "REJECTED",
-                "proactive_remediation": "ASSIGNED_BASE_ROLE",
-                "assigned_role_id": "ROL-001"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -605,15 +567,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_investigated": "U-011",
-                "user_status_confirmed": "DISABLED",
-                "alert_created": True,
-                "hubspot_ticket_created": True,
-                "ticket_category": "LEGAL_HR_INVESTIGATION"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -671,14 +625,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-018",
-                "final_status": "REJECTED",
-                "proactive_solution_provided": True,
-                "assigned_role_id": "ROL-029"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -726,14 +673,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-022",
-                "final_status": "REJECTED",
-                "rejection_reason": "The requested access is redundant. The user's existing roles already provide the necessary permissions.",
-                "notifications_sent": ["email", "slack"]
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -819,15 +759,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-008",
-                "previous_department": "Marketing",
-                "new_department": "Engineering",
-                "roles_revoked": ["ROL-006"],
-                "roles_granted": ["ROL-001"]
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -905,16 +837,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_investigated": "U-004",
-                "containment_actions": ["user_already_suspended", "all_roles_revoked"],
-                "revoked_roles": ["ROL-016", "ROL-037"],
-                "notification_sent_to": "Noah.Thompson@sigmatech.com",
-                "hubspot_ticket_id": "TI-054",
-                "investigation_complete": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -986,14 +909,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_remediated": "U-019",
-                "revoked_user_role_id": "UR-008",
-                "new_temporary_request_id": "AR-042",
-                "access_expires_on": "2025-08-09 14:00:00+00:00"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1048,14 +964,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_investigated": "U-009",
-                "containment_actions": ["user_suspended", "all_roles_revoked"],
-                "notification_escalated": True,
-                "hubspot_ticket_id": "TI-054"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1102,14 +1011,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-013",
-                "status": "PENDING",
-                "reason": "The reviewer is not the designated approver for the requested resource.",
-                "rerouted_to": "U-026"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1161,7 +1063,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"certification_id": "C-005", "status": "COMPLETED", "violations_found": 1, "remediated_users": ["U-003"]})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1246,17 +1148,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-034",
-                "username": "ogreen",
-                "email": "olivia.Allen@sigmatech.com",
-                "department": "Sales",
-                "status": "ACTIVE",
-                "roles": ["sales-base", "sales-crm-access"],
-                "manager_notified": "U-003" # The correct manager is notified
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1299,7 +1191,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"emergency_role_granted": "ROL-002", "user_role_id": "UR-063", "access_request_id": "AR-042", "hubspot_ticket_created": True})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1334,7 +1226,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"anomaly_detected": "ACTION_BY_INACTIVE_USER", "request_id": "AR-019", "escalated_to": "U-005", "hubspot_ticket_created": True})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1383,14 +1275,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-020",
-                "status": "PENDING",
-                "reason": "The reviewer is not the designated approver for the requested resource.",
-                "rerouted_to": "U-007"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1465,16 +1350,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-012",
-                "previous_department": "Finance",
-                "new_department": "Sales",
-                "roles_revoked": ["ROL-029", "ROL-031", "ROL-032"],
-                "roles_granted": ["ROL-011"],
-                "manager_notified": "U-003"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1556,15 +1432,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_investigated": "U-018",
-                "investigation_steps_logged": ["session_check", "role_check"],
-                "containment_actions": ["user_suspended", "all_roles_revoked"],
-                "revoked_roles": ["ROL-029", "ROL-033"],
-                "hubspot_ticket_created": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1632,15 +1500,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_investigated": "U-029",
-                "policy_violation": "Permanent assignment of temporary role",
-                "remediation_action": "revoked_user_role_id",
-                "revoked_user_role_id": "UR-045",
-                "hubspot_ticket_created": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1759,19 +1619,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-017",
-                "previous_department": "Operations",
-                "new_department": "Engineering",
-                "roles_revoked": ["ROL-021", "ROL-024", "ROL-022"],
-                "roles_granted": ["ROL-001"],
-                "retained_role_details": {
-                    "role_id": "ROL-022",
-                    "access_expires_on": "2025-08-16 10:00:00+00:00"
-                }
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1820,14 +1668,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-024",
-                "final_status": "REJECTED",
-                "rejection_reason": "Resource owner disabled.",
-                "next_action": "Rerouted to department lead @drodriguez."
-            })
-        ],
+        outputs=[]
     ),
         Task(
         annotator="2",
@@ -1871,14 +1712,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-007",
-                "final_status": "APPROVED",
-                "is_temporary": True,
-                "access_expires_on": "2025-08-09 14:00:00+00:00"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -1942,15 +1776,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-007",
-                "final_status": "APPROVED",
-                "is_temporary": True,
-                "access_expires_on": "2025-08-09 14:00:00+00:00",
-                "audit_trail_complete": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2002,7 +1828,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"ticket_investigated": "TI-053", "user_investigated": "U-004", "containment_actions": ["user_already_suspended", "all_roles_revoked"], "revoked_roles": ["ROL-016", "ROL-037"], "ticket_final_status": "CLOSED"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2049,15 +1875,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "audited_entity_type": "PolicyException",
-                "audited_entity_id": "PE-010",
-                "policy_violation": "Active exception for suspended user",
-                "remediation_action": "Exception revoked",
-                "hubspot_ticket_created": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2102,15 +1920,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "certification_id": "C-016",
-                "final_status": "COMPLETED",
-                "users_reviewed": 0,
-                "revocations_made": 0,
-                "notification_sent_to": "Noah.Johnson@sigmatech.com"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2154,15 +1964,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-007",
-                "final_status": "APPROVED",
-                "is_temporary": True,
-                "access_expires_on": "2025-08-09 14:00:00+00:00",
-                "notification_sent_to": "oliver.lewis@sigmatech.com"
-            })
-        ],
+        outputs=[]
     ),
      Task(
         annotator="2",
@@ -2213,14 +2015,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_investigated": "U-009",
-                "investigation_finding": "Inappropriate manager-level role assignment",
-                "remediation_actions": ["role_revoked", "user_suspended"],
-                "hubspot_ticket_id": "TI-054"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2267,7 +2062,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"request_id": "AR-020", "status": "REJECTED", "reason": "PREREQUISITE_NOT_MET"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2314,15 +2109,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "audited_entity_type": "PolicyException",
-                "audited_entity_id": "PE-010",
-                "policy_violation": "Active exception for suspended user",
-                "remediation_action": "Exception revoked",
-                "hubspot_ticket_created": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2420,19 +2207,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-013",
-                "previous_department": "Engineering",
-                "new_department": "Operations",
-                "roles_revoked": ["ROL-001"],
-                "roles_granted": ["ROL-021"],
-                "retained_role_details": {
-                    "role_id": "ROL-004",
-                    "access_expires_on": "2025-08-16 10:00:00+00:00"
-                }
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2486,15 +2261,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-007",
-                "final_status": "APPROVED",
-                "is_temporary": True,
-                "access_expires_on": "2025-08-09 14:00:00+00:00",
-                "notification_sent_to": "oliver.lewis@sigmatech.com"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2552,15 +2319,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_investigated": "U-021",
-                "policy_violation": "Permanent assignment of a role required to be temporary",
-                "remediation_action": "revoked_user_role_id",
-                "revoked_user_role_id": "UR-027",
-                "hubspot_ticket_created": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2607,7 +2366,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"request_id": "AR-020", "status": "REJECTED", "reason": "PREREQUISITE_NOT_MET"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2660,15 +2419,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "certification_id": "C-008",
-                "final_status": "COMPLETED",
-                "users_reviewed": 5,
-                "revocations_made": 0,
-                "notification_sent_to": "Noah.Thompson@sigmatech.com"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2712,16 +2463,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "resource_audited": "RES-005",
-                "violation_found": "Ownership inconsistent with user roles",
-                "remediation_action": "Resource ownership reassigned",
-                "old_owner": "U-019",
-                "new_owner": "U-001",
-                "hubspot_ticket_id": "TI-054"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2775,16 +2517,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_investigated": "AR-030",
-                "issue_found": "APPROVER_UNAVAILABLE",
-                "unavailable_approver": "U-004",
-                "escalation_path_followed": ["U-004", "U-005"],
-                "escalation_action_taken": "Rerouted to U-005",
-                "hubspot_ticket_created": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2830,16 +2563,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_investigated": "AR-025",
-                "system_failure_found": "PHANTOM_ROLE_GRANT",
-                "approved_role_missing": "ROL-007",
-                "affected_user": "U-020",
-                "escalation_contact": "U-005",
-                "hubspot_ticket_created": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2921,17 +2645,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-034",
-                "username": "pgriffin",
-                "email": "peter.griffin@sigmatech.com",
-                "department": "Marketing",
-                "status": "ACTIVE",
-                "roles": ["marketing-base", "marketing-analytics-read"],
-                "manager_notified": "U-002"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -2996,16 +2710,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "alert_investigated": "ALRT-011",
-                "violation_found": "Cross-department access attempt with a history of similar requests.",
-                "containment_actions": ["user_suspended", "all_roles_revoked"],
-                "revoked_roles": ["ROL-001", "ROL-002", "ROL-003"],
-                "notification_escalated": True,
-                "hubspot_ticket_id": "TI-054"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3053,13 +2758,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-034",
-                "status": "APPROVED",
-                "reason": "No active Separation of Duties violation found; conflicting role was expired."
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3168,17 +2867,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-017",
-                "old_department": "Operations",
-                "new_department": "Finance",
-                "roles_revoked": ["ROL-021", "ROL-022", "ROL-024"],
-                "roles_assigned": ["ROL-029"],
-                "transfer_completed": True,
-                "hubspot_ticket_id": "TI-054"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3237,14 +2926,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-027",
-                "final_status": "REJECTED",
-                "rejection_reason": "Redundant access request.",
-                "notifications_sent": ["email", "slack"]
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3322,16 +3004,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-012",
-                "previous_department": "Finance",
-                "new_department": "Sales",
-                "roles_revoked": ["ROL-029", "ROL-031", "ROL-032"],
-                "roles_granted": ["ROL-011"],
-                "manager_notified": "U-003"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3377,14 +3050,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-022",
-                "status": "PENDING",
-                "reason": "The reviewer is not the designated approver for the requested resource.",
-                "rerouted_to": "U-021"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3442,13 +3108,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-021",
-                "final_status": "DISABLED",
-                "roles_revoked_count": 3
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3512,15 +3172,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-030",
-                "final_status": "PENDING",
-                "escalation_path_followed": ["U-004", "U-005"],
-                "rerouted_to": "U-005",
-                "notifications_sent": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3578,13 +3230,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-027",
-                "final_status": "REJECTED",
-                "rejection_reason": "The requested access is redundant. The user's existing roles already provide the necessary permissions."
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3680,15 +3326,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-009",
-                "previous_department": "Sales",
-                "new_department": "Marketing",
-                "roles_revoked": ["ROL-011", "ROL-012", "ROL-013"],
-                "roles_granted": ["ROL-006"]
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3737,14 +3375,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-031",
-                "final_status": "REJECTED",
-                "rejection_reason": "The reviewer is not the designated approver for the requested resource.",
-                "next_action": "Rerouted to correct approver @wthompson."
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3792,15 +3423,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_audited": "U-007",
-                "compliance_violations_found": 1,
-                "roles_revoked": ["ROL-003"],
-                "roles_retained": ["ROL-001", "ROL-002"],
-                "hubspot_ticket_id": "TI-054"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3864,17 +3487,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-034",
-                "username": "pking",
-                "email": "peter.Young@sigmatech.com",
-                "department": "Finance",
-                "status": "ACTIVE",
-                "roles": ["finance-base", "finance-read"],
-                "manager_notified": "U-006"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -3925,17 +3538,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "alert_investigated": "ALRT-010",
-                "user_suspended": "U-029",
-                "investigation_status": "closed",
-                "existing_ticket_found": "TI-051",
-                "sessions_checked": True,
-                "containment_actions": ["user_suspended", "role_revoked"],
-                "revoked_roles": ["ROL-021"]
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4015,16 +3618,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_audited": "U-012",
-                "compliance_violations_found": 2,
-                "roles_revoked": ["ROL-031", "ROL-032"],
-                "roles_retained": ["ROL-029"],
-                "notifications_sent": ["victoria.lee@sigmatech.com", "victoria.lee@sigmatech.com"],
-                "hubspot_ticket_id": "TI-054"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4094,16 +3688,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-017",
-                "final_status": "ACTIVE",
-                "department": "Operations",
-                "roles_revoked": ["ROL-022", "ROL-024"],
-                "roles_retained": ["ROL-021"],
-                "hubspot_ticket_id": "TI-054"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4163,16 +3748,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "procedure": "break-glass",
-                "approver_verified": True,
-                "policy_exception_id": "PE-021",
-                "user_id": "U-023",
-                "permission_granted": "P-064",
-                "ticket_id": "TI-054"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4245,14 +3821,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_id": "U-006",
-                "new_department": "Operations",
-                "roles_revoked": ["ROL-029", "ROL-039"],
-                "role_assigned": "ROL-021",
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4300,15 +3869,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "violation_type": "Active exception for suspended user",
-                "exception_id": "PE-010",
-                "affected_user": "U-008",
-                "remediation_taken": "Policy exception revoked",
-                "ticket_id": "TI-054"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4345,15 +3906,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "sod_violation_found": True,
-                "conflicting_roles": ["ROL-021", "ROL-022"],
-                "affected_user": "U-017",
-                "remediation_action": "Revoked role ROL-021",
-                "notification_sent": "lucas.thompson@sigmatech.com"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4429,16 +3982,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "alert_investigated": "ALRT-002",
-                "user_suspended": "U-014",
-                "containment_actions": ["user_suspended", "all_roles_revoked"],
-                "revoked_roles": ["ROL-006", "ROL-009"],
-                "manager_notified": "U-002",
-                "hubspot_ticket_created": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4499,14 +4043,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_terminated": "U-029",
-                "account_status": "DISABLED",
-                "roles_revoked": ["ROL-021"],
-                "security_alert_created": "ALRT-013"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4565,15 +4102,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-007",
-                "status": "APPROVED",
-                "access_type": "temporary",
-                "expires_on": "2025-08-09 14:00:00+00:00",
-                "notification_sent": "oliver.lewis@sigmatech.com"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4637,14 +4166,7 @@ TASKS = [
             ),
             
         ],
-        outputs=[
-            json.dumps({
-                "violation_remediated": True,
-                "affected_user": "U-006",
-                "revoked_role_assignment": "UR-047",
-                "notifications_sent": ["olivia.Lee@sigmatech.com", "Noah.Thompson@sigmatech.com"]
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4691,7 +4213,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"request_id": "AR-020", "status": "REJECTED", "reason": "PREREQUISITE_NOT_MET"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4768,16 +4290,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "alert_investigated": "ALRT-012",
-                "investigator": "U-005",
-                "finding": "Unauthorized access attempt was successfully blocked. User was already suspended.",
-                "containment_actions": ["all_roles_revoked"],
-                "revoked_roles": ["ROL-016", "ROL-037"],
-                "ticket_created": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4840,7 +4353,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"sod_violation_remediated": True, "affected_user": "U-012", "revoked_role": "ROL-032"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4888,7 +4401,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"user_offboarded": "U-008", "account_status": "DISABLED", "roles_revoked": ["ROL-006"], "exceptions_revoked": ["PE-010"]})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -4941,7 +4454,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"request_id": "AR-021", "status": "APPROVED", "approved_by": "U-002"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5001,7 +4514,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"investigation_subject": "U-027", "suspicious_session": "S-028", "siem_alert_created": "ALRT-013", "ticket_created": "TI-054", "manager_notified": "U-003"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5109,16 +4622,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "alert_investigated": "ALRT-001",
-                "user_suspended": "U-001",
-                "containment_actions": ["user_suspended", "all_roles_revoked"],
-                "revoked_roles": ["ROL-001", "ROL-034"],
-                "escalated_to": "U-005",
-                "hubspot_ticket_created": True
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5200,7 +4704,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"user_id": "U-006", "new_department": "Operations", "notifications_sent": ["olivia.Lee@sigmatech.com", "Noah.Thompson@sigmatech.com"]})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5267,7 +4771,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"certification_id": "C-005", "status": "COMPLETED", "violations_found": 2, "remediated_users": ["U-027", "U-003"]})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5315,7 +4819,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"alert_investigated": "ALRT-006", "user_suspended": "U-018", "manager_notified": "U-006"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5364,7 +4868,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"user_investigated": "U-027", "violation_found": True, "role_revoked": "ROL-011", "exception_revoked": "PE-011", "hubspot_ticket_created": True})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5427,7 +4931,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"alert_investigated": "ALRT-008", "preventative_action_taken": True, "revoked_role": "ROL-020", "notification_escalated": True})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5466,7 +4970,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"user_created": "U-034", "base_role_assigned": "ROL-001", "access_request_created": "AR-042", "approver_notified": "U-001"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5521,12 +5025,7 @@ TASKS = [
                 }
             ),
         ],
-        outputs=[json.dumps({
-            "request_id": "AR-030",
-            "status": "PENDING",
-            "reason": "Resource owner is disabled. Request is being rerouted to the appropriate department lead for review.",
-            "rerouted_to": "U-005"
-        })],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5570,7 +5069,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"request_id": "AR-021", "decision": "REJECTED", "rerouted_to": "U-014", "proactive_remediation": "Not required, user already has base role"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5633,7 +5132,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"alert_investigated": "ALRT-009", "finding": "Cross-department access violation", "containment_actions": ["user_suspended", "role_revoked"], "notifications_sent": True, "escalation_sent": True})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5677,7 +5176,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"user_department_updated": "U-026", "old_roles_revoked": ["ROL-006", "ROL-007", "ROL-010"], "new_role_assigned": "ROL-011", "manager_notified": "U-003"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5723,7 +5222,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"exception_created": "PE-021", "user_id": "U-025", "hubspot_ticket_created": True})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5778,7 +5277,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"user_offboarded": "U-026", "roles_revoked": 3, "resources_reassigned": 2, "hubspot_ticket_created": True})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5834,7 +5333,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"alert_investigated": "ALRT-007", "violation_found": "Cross-department access attempt", "containment_actions": ["user_suspended", "role_revoked"], "notification_escalated": True, "hubspot_ticket_created": True})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5883,14 +5382,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "request_id": "AR-030",
-                "decision": "APPROVED_TEMPORARY",
-                "final_approver": "U-005",
-                "access_expires_on": "2025-08-09 14:00:00+00:00"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -5951,7 +5443,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"stale_request_found": "AR-037", "escalation_required": True, "escalated_to": "U-005", "hubspot_ticket_id": "TI-054"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -6015,7 +5507,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"alert_investigated": "ALRT-003", "containment_actions": ["user_suspended", "all_roles_revoked"], "notification_escalated": True, "hubspot_ticket_created": True})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -6052,7 +5544,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"user_audited": "U-020", "violation": "Active roles on suspended user", "roles_revoked": ["UR-014", "UR-015"], "hubspot_ticket_created": True})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -6105,7 +5597,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"user_offboarded": "U-025", "roles_revoked": 2, "exceptions_revoked": 1, "resources_reassigned": 0})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -6162,13 +5654,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({
-            "alert_investigated": "ALRT-011", 
-            "user_suspended": "U-007", 
-            "containment_actions": ["user_suspended", "all_roles_revoked"],
-            "revoked_roles": ["ROL-001", "ROL-002", "ROL-003"], 
-            "hubspot_ticket_created": True
-        })],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -6208,7 +5694,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"certification_id": "C-003", "status": "COMPLETED", "violations_found": 0, "remediated_users": []})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -6257,7 +5743,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"request_id": "AR-021", "status": "REROUTED", "new_approver_notified": "U-014"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -6317,15 +5803,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "alert_investigated": "ALRT-008",
-                "preventative_action_taken": True,
-                "revoked_role": "ROL-020",
-                "notification_escalated": True,
-                "hubspot_ticket_id": "TI-054"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -6370,7 +5848,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[json.dumps({"user_transferred": "U-029", "new_department": "Sales", "manager_notified": "U-003"})],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -6460,12 +5938,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            json.dumps({
-                "user_investigated": "U-009", "user_suspended": True, "containment_actions": ["user_suspended", "all_roles_revoked"],
-                "revoked_roles": ["ROL-011", "ROL-012", "ROL-013"], "hubspot_ticket_id": "TI-054", "escalation_notified": "U-005"
-            })
-        ],
+        outputs=[]
     ),
     Task(
         annotator="2",
@@ -6498,15 +5971,6 @@ TASKS = [
             
             Action(name="CreateHubspotTicket", kwargs={"timestamp": "2025-08-09 10:00:00+00:00", "category": "COMPLIANCE_AUDIT", "priority": "MEDIUM", "assignee_id": "U-031", "requester_id": "U-031", "subject": "AUDIT: Resource Access Review - invoicing-system", "description": "Scheduled access review completed for resource invoicing-system (RES-032). Total users reviewed: 5. Users with appropriate access: 4. Found 1 non-compliant user (U-030) whose access was revoked due to non-ACTIVE status."}),
         ],
-        outputs=[
-            json.dumps({
-                "resource_audited": "RES-032",
-                "users_reviewed": 5,
-                "compliant_users": ["U-006", "U-012", "U-018", "U-024"],
-                "violations_found": 1,
-                "remediated_users": ["U-030"],
-                "hubspot_ticket_id": "TI-054"
-            })
-        ],
+        outputs=[]
     ),
 ]    

@@ -22,12 +22,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "111", "old_budget": 1000.0, "new_budget": 800.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"underperforming_adsets_found": "3"',
-            '"budget_changes_logged": "3"',
-            '"strategy_changes_logged": "1"',
-            '"total_optimizations_logged": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -48,12 +43,7 @@ TASKS = [
             Action(name="UpdateAdsetBudget", kwargs={"adset_id": "102", "new_budget": 880.0}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "102", "old_budget": 590.0, "new_budget": 880.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"budget_headroom": "290.0"',
-            '"top_performer_id": "102"',
-            '"reinvestment_complete": "true"',
-            '"new_budget_for_102": "880.0"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -73,13 +63,7 @@ TASKS = [
             Action(name="CreateAd", kwargs={"adset_id": "114", "name": "MEGA Space Shuttle", "creative_type": "video"}),
             Action(name="UpdateCampaignStatus", kwargs={"campaign_id": "5", "status": "paused"})
         ],
-        outputs=[
-            '"new_campaign_id": "11"',
-            '"new_adsets_created": "2"',
-            '"ads_migrated": "2"',
-            '"original_campaign_paused": "true"',
-            '"consolidation_complete": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -98,13 +82,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "101", "old_budget": 920.0, "new_budget": 1150.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "101", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 32.0, "new_bid": 40.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"roas": "10.0"',
-            '"new_budget": "1150.0"',
-            '"new_bid": "40.0"',
-            '"max_bid_check_passed": "true"',
-            '"changes_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -128,11 +106,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "110", "old_budget": 1000.0, "new_budget": 1100.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "111", "old_budget": 1000.0, "new_budget": 1100.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"winning_category": "Mobile"',
-            '"adsets_rewarded": "2"',
-            '"budget_changes_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -160,13 +134,7 @@ TASKS = [
             Action(name="LogCreativeRotation", kwargs={"adset_id": "101", "old_ad_id": "1101", "new_ad_id": "1102", "rationale": "plan_2025-08-13"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "102", "old_ad_id": "1103", "new_ad_id": "1104", "rationale": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adsets_optimized": "2"',
-            '"budget_changes_logged": "2"',
-            '"strategy_changes_logged": "1"',
-            '"creative_changes_logged": "2"',
-            '"total_logs": "5"'
-        ]
+        outputs=[]
     ),    
     Task(
         annotator="0",
@@ -185,14 +153,7 @@ TASKS = [
             Action(name="UpdateAdsetBudget", kwargs={"adset_id": "108", "new_budget": 900.0}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "108", "old_budget": 780.0, "new_budget": 900.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"campaign_id": "6"',
-            '"active_adset_id": "108"',
-            '"adset_108_roas": "11.28"',
-            '"old_budget": "780.0"',
-            '"new_budget": "900.0"',
-            '"log_status": "success"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -209,12 +170,7 @@ TASKS = [
             Action(name="UpdateAdsetBudget", kwargs={"adset_id": "103", "new_budget": 940.0}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "103", "old_budget": 1180.0, "new_budget": 940.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_103_roas": "0.0"',
-            '"old_budget": "1180.0"',
-            '"new_budget": "940.0"',
-            '"budget_reduction_pct": "20"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -231,13 +187,7 @@ TASKS = [
             Action(name="UpdateAdsetBudget", kwargs={"adset_id": "104", "new_budget": 850.0}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "104", "old_budget": 740.0, "new_budget": 850.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_104_roas": "11.22"',
-            '"old_budget": "740.0"',
-            '"new_budget": "850.0"',
-            '"budget_increase_pct": "15"',
-            '"status": "completed"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -262,12 +212,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "110", "old_strategy": "lowest_cost", "new_strategy": "lowest_cost", "old_bid": None, "new_bid": None, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_110_roas": "0.5"',
-            '"adset_111_roas": "0.55"',
-            '"budget_reduction_pct": "20"',
-            '"strategy_changes_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -285,13 +230,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "104", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 20.0, "new_bid": 25.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_104_roas": "11.22"',
-            '"adset_111_roas": "0.55"',
-            '"adset_104_action": "bid_increase"',
-            '"adset_111_action": "strategy_switch"',
-            '"changes_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -307,13 +246,7 @@ TASKS = [
             Action(name="UpdateAdsetBidStrategy", kwargs={"adset_id": "111", "bid_strategy": "lowest_cost", "bid_amount": None}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_111_roas": "0.55"',
-            '"roas_threshold_met": "true"',
-            '"old_strategy": "cost_cap"',
-            '"new_strategy": "lowest_cost"',
-            '"log_status": "success"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -329,13 +262,7 @@ TASKS = [
             Action(name="UpdateAdsetBidStrategy", kwargs={"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 37.0}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "101", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 32.0, "new_bid": 37.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_101_roas": "10.0"',
-            '"old_bid": "32.0"',
-            '"new_bid": "37.0"',
-            '"max_bid_policy": "50"',
-            '"log_status": "success"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -354,13 +281,7 @@ TASKS = [
             Action(name="UpdateAdsetBidStrategy", kwargs={"adset_id": "104", "bid_strategy": "cost_cap", "bid_amount": 25.0}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "104", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 20.0, "new_bid": 25.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"eligible_adsets_found": "1"',
-            '"adset_104_roas": "11.22"',
-            '"adset_105_eligible": "false"',
-            '"adset_104_new_bid": "25.0"',
-            '"changes_logged": "1"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -379,13 +300,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "106", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 18.0, "new_bid": 23.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "108", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 42.0, "new_bid": 47.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_106_roas": "12.0"',
-            '"adset_108_roas": "11.28"',
-            '"adset_106_new_bid": "23.0"',
-            '"adset_108_new_bid": "47.0"',
-            '"total_adsets_updated": "2"'
-        ]
+        outputs=[]
     ),
         Task(
         annotator="0",
@@ -403,13 +318,7 @@ TASKS = [
             Action(name="UpdateAdsetBidStrategy", kwargs={"adset_id": "104", "bid_strategy": "cost_cap", "bid_amount": 25.0}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "104", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 20.0, "new_bid": 25.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"category_adsets_found": "3"',
-            '"eligible_adset_count": "1"',
-            '"updated_adset_id": "104"',
-            '"adset_104_new_bid": "25.0"',
-            '"log_status": "success"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -426,14 +335,7 @@ TASKS = [
             Action(name="UpdateAdsetBidStrategy", kwargs={"adset_id": "108", "bid_strategy": "cost_cap", "bid_amount": 47.0}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "108", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 42.0, "new_bid": 47.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_108_roas": "11.28"',
-            '"eligibility_confirmed": "true"',
-            '"old_bid": "42.0"',
-            '"new_bid": "47.0"',
-            '"max_bid_policy": "50"',
-            '"log_status": "success"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -449,13 +351,7 @@ TASKS = [
             Action(name="UpdateAdsetBidStrategy", kwargs={"adset_id": "106", "bid_strategy": "cost_cap", "bid_amount": 23.0}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "106", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 18.0, "new_bid": 23.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_106_roas": "12.0"',
-            '"adset_106_eligible": "true"',
-            '"old_bid": "18.0"',
-            '"new_bid": "23.0"',
-            '"log_status": "success"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -474,13 +370,7 @@ TASKS = [
             Action(name="UpdateAdsetBidStrategy", kwargs={"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 37.0}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "101", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 32.0, "new_bid": 37.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_101_roas": "10.0"',
-            '"adset_102_roas": "13.22"',
-            '"adset_101_eligible": "true"',
-            '"adset_102_eligible": "false"',
-            '"updated_adset_id": "101"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -499,13 +389,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "108", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 42.0, "new_bid": 47.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_108_roas": "11.28"',
-            '"adset_111_roas": "0.55"',
-            '"adset_108_action": "bid_increase"',
-            '"adset_111_action": "strategy_switch"',
-            '"total_changes_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -523,13 +407,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1112", "ad_id_to_pause": "1111"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "108", "old_ad_id": "1111", "new_ad_id": "1112", "rationale": "New creative launch"})
         ],
-        outputs=[
-            '"campaign_id": "6"',
-            '"adset_id": "108"',
-            '"ad_to_activate": "1112"',
-            '"ad_to_pause": "1111"',
-            '"log_status": "success"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -551,14 +429,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "104", "old_budget": 740.0, "new_budget": 850.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "105", "old_budget": 750.0, "new_budget": 860.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"campaign_id": "3"',
-            '"adset_104_roas": "11.22"',
-            '"adset_105_roas": "11.08"',
-            '"adset_104_new_budget": "850.0"',
-            '"adset_105_new_budget": "860.0"',
-            '"budget_changes_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -575,13 +446,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1104", "ad_id_to_pause": "1103"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "102", "old_ad_id": "1103", "new_ad_id": "1104", "rationale": "Aligning with plan_2025-08-13 creative strategy"})
         ],
-        outputs=[
-            '"plan_creative_type": "carousel"',
-            '"current_active_ad_type": "image"',
-            '"ad_to_activate": "1104"',
-            '"ad_to_pause": "1103"',
-            '"status": "completed"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -603,13 +468,7 @@ TASKS = [
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "104"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "104", "old_ad_id": "1106", "new_ad_id": "1106", "rationale": "plan_alignment_verified"})
         ],
-        outputs=[
-            '"plan_budget_applied": "true"',
-            '"performance_bonus_applied": "true"',
-            '"final_budget": "860.0"',
-            '"creative_alignment_verified": "true"',
-            '"total_logs": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -628,13 +487,7 @@ TASKS = [
             Action(name="LogCreativeRotation", kwargs={"adset_id": "101", "old_ad_id": "1101", "new_ad_id": "1102", "rationale": "plan_2025-08-13"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "102", "old_ad_id": "1103", "new_ad_id": "1104", "rationale": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_101_planned_creative": "video"',
-            '"adset_102_planned_creative": "carousel"',
-            '"rotations_executed": "2"',
-            '"logs_created": "2"',
-            '"status": "completed"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -651,14 +504,7 @@ TASKS = [
             Action(name="CreateAd", kwargs={"adset_id": "113", "name": "Student Laptop Video Ad", "creative_type": "video"}),
             Action(name="UpdateCampaignStatus", kwargs={"campaign_id": "6", "status": "paused"})
         ],
-        outputs=[
-            '"original_adset_cloned": "108"',
-            '"new_campaign_id": "11"',
-            '"new_adset_id": "113"',
-            '"ads_migrated": "2"',
-            '"original_campaign_paused": "true"',
-            '"migration_status": "complete"'
-        ]
+        outputs=[]
     ),    
     Task(
         annotator="0",
@@ -678,16 +524,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1107", "ad_id_to_pause": "1106"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "104", "old_ad_id": "1106", "new_ad_id": "1107", "rationale": "Policy-driven video prioritization"})
         ],
-        outputs=[
-            '"plan_creative_type": "image"',
-            '"policy_override_justification": "video_cpa_advantage_pct"',
-            '"creative_rotation_window_days": "7"',
-            '"last_rotation_date": "2025-08-14"',
-            '"adset_104_performance": "8300.0 revenue, 740.0 spend"',
-            '"ad_to_activate": "1107"',
-            '"ad_to_pause": "1106"',
-            '"rotation_logged": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -703,13 +540,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1104", "ad_id_to_pause": "1103"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "102", "old_ad_id": "1103", "new_ad_id": "1104", "rationale": "Plan compliance: activating carousel creative"})
         ],
-        outputs=[
-            '"plan_creative_type": "carousel"',
-            '"total_ads_in_adset": "3"',
-            '"archived_ad_ignored": "1118"',
-            '"ad_activated": "1104"',
-            '"log_status": "success"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -727,13 +558,7 @@ TASKS = [
             Action(name="UpdateAdsetBidStrategy", kwargs={"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 35.0}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "101", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 32.0, "new_bid": 35.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"plan_id": "plan_2025-08-13"',
-            '"adset_id": "101"',
-            '"budget_updated": "true"',
-            '"bid_strategy_updated": "true"',
-            '"changes_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -750,13 +575,7 @@ TASKS = [
             Action(name="UpdateAdsetBidStrategy", kwargs={"adset_id": "102", "bid_strategy": "lowest_cost", "bid_amount": None}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "102", "old_strategy": "lowest_cost", "new_strategy": "lowest_cost", "old_bid": None, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_id": "102"',
-            '"budget_change_required": "true"',
-            '"strategy_change_required": "false"',
-            '"new_budget": "600.0"',
-            '"status": "completed"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -775,14 +594,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "104", "old_budget": 740.0, "new_budget": 750.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "104", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 20.0, "new_bid": 22.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_id": "104"',
-            '"old_budget": "740.0"',
-            '"new_budget": "750.0"',
-            '"old_bid": "20.0"',
-            '"new_bid": "22.0"',
-            '"changes_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -799,14 +611,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "105", "old_budget": 750.0, "new_budget": 750.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "105", "old_strategy": "lowest_cost", "new_strategy": "lowest_cost", "old_bid": None, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"campaign_id": "3"',
-            '"adset_id": "105"',
-            '"plan_budget": "750.0"',
-            '"current_budget": "750.0"',
-            '"action": "no_change_required"',
-            '"logs_created": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -825,14 +630,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "111", "old_budget": 1000.0, "new_budget": 1000.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 2.5, "new_bid": 2.5, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"campaign_status": "active"',
-            '"pre_check_passed": "true"',
-            '"adset_id": "111"',
-            '"budget_change_required": "false"',
-            '"strategy_change_required": "false"',
-            '"logs_created": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -850,13 +648,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "108", "old_budget": 780.0, "new_budget": 800.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "108", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 42.0, "new_bid": 45.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_id": "108"',
-            '"planned_bid": "45.0"',
-            '"max_bid_policy": "50"',
-            '"policy_check_passed": "true"',
-            '"execution_status": "completed"'
-        ]
+        outputs=[]
     ),
      
     Task(
@@ -881,13 +673,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "111", "old_budget": 1000.0, "new_budget": 800.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"failed_runs_found": "1"',
-            '"underperforming_adsets": "[\\"103\\", \\"110\\", \\"111\\"]"',
-            '"budget_adjustments_made": "3"',
-            '"strategy_adjustments_made": "1"',
-            '"total_changes_logged": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -916,13 +702,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "104", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 20.0, "new_bid": 25.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"top_performers_optimized": "2"',
-            '"underperformers_optimized": "1"',
-            '"budget_changes_logged": "3"',
-            '"strategy_changes_logged": "3"',
-            '"total_optimizations_logged": "6"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -940,13 +720,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1119", "ad_id_to_pause": "1106"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "104", "old_ad_id": "1106", "new_ad_id": "1119", "rationale": "Capitalizing on high performance with new video creative"})
         ],
-        outputs=[
-            '"campaign_status": "active"',
-            '"adset_104_roas": "11.22"',
-            '"new_ad_created_id": "1119"',
-            '"creative_rotation_status": "success"',
-            '"log_status": "success"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -967,14 +741,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "101", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 32.0, "new_bid": 35.0, "reason": "plan_2025-08-13"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "101", "old_ad_id": "1101", "new_ad_id": "1102", "rationale": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"plan_id": "plan_2025-08-13"',
-            '"adset_id": "101"',
-            '"budget_updated": "true"',
-            '"bid_strategy_updated": "true"',
-            '"creative_rotated": "true"',
-            '"total_logs_created": "3"'
-        ]
+        outputs=[]
     ),
     Task(
        annotator="0",
@@ -996,14 +763,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "105", "old_budget": 750.0, "new_budget": 860.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "104", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 20.0, "new_bid": 25.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"campaign_id": "3"',
-            '"adsets_optimized": "2"',
-            '"adset_104_roas": "11.22"',
-            '"adset_105_roas": "11.08"',
-            '"budget_changes_logged": "2"',
-            '"strategy_changes_logged": "1"'
-        ]
+        outputs=[]
     ),
     Task(
        annotator="0",
@@ -1024,14 +784,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "110", "old_strategy": "lowest_cost", "new_strategy": "lowest_cost", "old_bid": None, "new_bid": None, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adsets_underperforming": "2"',
-            '"adset_110_roas": "0.5"',
-            '"adset_111_roas": "0.55"',
-            '"budget_reductions_made": "2"',
-            '"strategy_switches_made": "1"',
-            '"no_op_strategy_logs": "1"'
-        ]
+        outputs=[]
     ),
     Task(
        annotator="0",
@@ -1051,14 +804,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "106", "old_budget": 500.0, "new_budget": 580.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "106", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 18.0, "new_bid": 23.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"eligible_adset_id": "106"',
-            '"adset_106_roas": "12.0"',
-            '"adset_106_new_budget": "580.0"',
-            '"adset_106_new_bid": "23.0"',
-            '"max_bid_policy_ok": "true"',
-            '"optimizations_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1083,13 +829,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "111", "old_budget": 1000.0, "new_budget": 800.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"exceptional_performer_optimized": "102"',
-            '"strong_performer_optimized": "101"',
-            '"underperformer_optimized": "111"',
-            '"budget_changes_logged": "3"',
-            '"strategy_changes_logged": "1"'
-        ]
+        outputs=[]
     ),    
     Task(
        annotator="0",
@@ -1111,13 +851,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "106", "old_budget": 500.0, "new_budget": 580.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "106", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 18.0, "new_bid": 23.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adsets_optimized": "2"',
-            '"adset_108_roas": "11.28"',
-            '"adset_106_roas": "12.0"',
-            '"budget_changes_logged": "2"',
-            '"strategy_changes_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1138,13 +872,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "110", "old_budget": 1000.0, "new_budget": 800.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "111", "old_budget": 1000.0, "new_budget": 800.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"underperforming_adsets": "[\\"103\\", \\"110\\", \\"111\\"]"',
-            '"adset_103_roas": "0.0"',
-            '"adset_103_new_budget": "940.0"',
-            '"total_adsets_adjusted": "3"',
-            '"budget_changes_logged": "3"'
-        ]
+        outputs=[]
     ),    
     Task(
         annotator="0",
@@ -1162,13 +890,7 @@ TASKS = [
             Action(name="UpdateAdsetBudget", kwargs={"adset_id": "105", "new_budget": 860.0}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "105", "old_budget": 750.0, "new_budget": 860.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"plan_compliance_verified": "true"',
-            '"adset_105_roas": "11.08"',
-            '"performance_optimization_triggered": "true"',
-            '"new_budget": "860.0"',
-            '"total_logs_created": "3"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1187,13 +909,7 @@ TASKS = [
             Action(name="UpdateAdsetBudget", kwargs={"adset_id": "103", "new_budget": 940.0}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "103", "old_budget": 1180.0, "new_budget": 940.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"campaign_objective": "Awareness"',
-            '"adset_roas": "0.0"',
-            '"protocol_followed": "true"',
-            '"action_taken": "budget_reduction"',
-            '"new_budget": "940.0"'
-        ]
+        outputs=[]
     ),
     
     Task(
@@ -1218,14 +934,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "101", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 32.0, "new_bid": 37.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "108", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 42.0, "new_bid": 47.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_101_roas": "10.0"',
-            '"adset_108_roas": "11.28"',
-            '"adsets_optimized": "2"',
-            '"budget_changes_logged": "2"',
-            '"strategy_changes_logged": "2"',
-            '"total_changes_logged": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1248,13 +957,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "111", "old_budget": 1000.0, "new_budget": 800.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"failed_run_id": "AR-20250812-01"',
-            '"underperforming_adsets_found": "3"',
-            '"budget_reductions_made": "3"',
-            '"strategy_switches_made": "1"',
-            '"total_corrective_logs": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1279,13 +982,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "104", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 20.0, "new_bid": 22.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "105", "old_strategy": "lowest_cost", "new_strategy": "lowest_cost", "old_bid": None, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"campaign_id": "3"',
-            '"adsets_processed": "2"',
-            '"budget_updates_applied": "2"',
-            '"strategy_updates_applied": "2"',
-            '"total_logs_created": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1303,13 +1000,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1120", "ad_id_to_pause": "1119"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "113", "old_ad_id": "1119", "new_ad_id": "1120", "rationale": "Initial A/B test launch"})
         ],
-        outputs=[
-            '"new_campaign_id": "11"',
-            '"new_adset_id": "113"',
-            '"new_ad_ids": "[\\"1119\\", \\"1120\\"]"',
-            '"active_ad_for_test": "1120"',
-            '"rotation_logged": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1333,13 +1024,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1102", "ad_id_to_pause": "1101"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "101", "old_ad_id": "1101", "new_ad_id": "1102", "rationale": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"plan_applied": "true"',
-            '"performance_bonus_applied": "true"',
-            '"final_budget": "1090.0"',
-            '"creative_rotated": "true"',
-            '"total_logs": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1374,13 +1059,7 @@ TASKS = [
             Action(name="LogCreativeRotation", kwargs={"adset_id": "101", "old_ad_id": "1101", "new_ad_id": "1102", "rationale": "plan_2025-08-13"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "102", "old_ad_id": "1103", "new_ad_id": "1104", "rationale": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adsets_processed": "3"',
-            '"budget_changes_logged": "3"',
-            '"strategy_changes_logged": "3"',
-            '"creative_rotations_applied": "2"',
-            '"total_logs_created": "8"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1401,14 +1080,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "112", "old_budget": 700.0, "new_budget": 810.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "101", "old_budget": 920.0, "new_budget": 740.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"weekly_electronics_revenue": "455000"',
-            '"top_performer_id": "112"',
-            '"lowest_performer_id": "101"',
-            '"adset_112_new_budget": "810.0"',
-            '"adset_101_new_budget": "740.0"',
-            '"optimizations_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1428,13 +1100,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "110", "old_budget": 1000.0, "new_budget": 800.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "111", "old_budget": 1000.0, "new_budget": 800.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_110_roas": "0.5"',
-            '"adset_111_roas": "0.55"',
-            '"min_budget_policy": "100"',
-            '"new_budget_valid": "true"',
-            '"total_adsets_updated": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1453,13 +1119,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "108", "old_budget": 780.0, "new_budget": 800.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "108", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 42.0, "new_bid": 45.0, "reason": "Compliance check passed"})
         ],
-        outputs=[
-            '"planned_bid": "45.0"',
-            '"max_bid_policy": "50"',
-            '"campaign_status": "active"',
-            '"pre_checks_passed": "true"',
-            '"execution_completed": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1477,14 +1137,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "112", "old_budget": 700.0, "new_budget": 810.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "112", "old_strategy": "lowest_cost", "new_strategy": "lowest_cost", "old_bid": None, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"price_drop_confirmed": "true"',
-            '"old_price": "1599.99"',
-            '"new_price": "1499.99"',
-            '"adset_112_roas": "12.57"',
-            '"new_budget": "810.0"',
-            '"logs_created": "2"'
-        ]
+        outputs=[]
     ),
     
     Task(
@@ -1514,14 +1167,7 @@ TASKS = [
             Action(name="LogCreativeRotation", kwargs={"adset_id": "106", "old_ad_id": "1109", "new_ad_id": "1109", "rationale": "plan_alignment_verified"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "107", "old_ad_id": "1110", "new_ad_id": "1110", "rationale": "plan_alignment_verified"})
         ],
-        outputs=[
-            '"campaign_id": "5"',
-            '"adsets_processed": "2"',
-            '"budget_logs_created": "2"',
-            '"strategy_logs_created": "2"',
-            '"creative_logs_created": "2"',
-            '"full_alignment_confirmed": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1541,13 +1187,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1104", "ad_id_to_pause": "1103"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "102", "old_ad_id": "1103", "new_ad_id": "1104", "rationale": "Aligning with plan_2025-08-13 creative strategy"})
         ],
-        outputs=[
-            '"adset_102_roas": "13.22"',
-            '"budget_increased": "true"',
-            '"new_budget": "680.0"',
-            '"creative_aligned_to_plan": "true"',
-            '"total_logs_created": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1570,12 +1210,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "104", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 20.0, "new_bid": 25.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "108", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 42.0, "new_bid": 47.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"eligible_adsets_found": "3"',
-            '"bids_increased": "3"',
-            '"max_bid_policy_respected": "true"',
-            '"strategy_changes_logged": "3"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1594,13 +1229,7 @@ TASKS = [
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "103"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "103", "old_ad_id": "1105", "new_ad_id": "1105", "rationale": "verification:plan_sync_ok"})
         ],
-        outputs=[
-            '"campaign_objective": "Awareness"',
-            '"budget_reduction_applied": "true"',
-            '"creative_alignment_verified": "true"',
-            '"no_op_creative_log_created": "true"',
-            '"total_logs": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1621,16 +1250,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "106", "old_budget": 500.0, "new_budget": 580.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "107", "old_budget": 400.0, "new_budget": 460.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"campaign_id": "5"',
-            '"adset_106_roas": "12.0"',
-            '"adset_107_roas": "12.5"',
-            '"adset_106_new_budget": "580.0"',
-            '"adset_107_new_budget": "460.0"',
-            '"total_budget_increase": "140.0"',
-            '"budget_rounding_unit": "10"',
-            '"status": "completed"'
-        ]
+        outputs=[]
     ),    
     Task(
         annotator="0",
@@ -1652,13 +1272,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "106", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 18.0, "new_bid": 23.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"top_performer_optimized": "106"',
-            '"underperformer_optimized": "111"',
-            '"budget_changes_logged": "2"',
-            '"strategy_changes_logged": "2"',
-            '"total_adjustments_logged": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1682,12 +1296,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "104", "old_budget": 740.0, "new_budget": 850.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "105", "old_budget": 750.0, "new_budget": 860.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"weekly_apparel_revenue": "120000"',
-            '"eligible_adsets_found": "3"',
-            '"budgets_increased": "3"',
-            '"budget_changes_logged": "3"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1704,13 +1313,7 @@ TASKS = [
             Action(name="UpdateAdsetBudget", kwargs={"adset_id": "102", "new_budget": 680.0}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "102", "old_budget": 590.0, "new_budget": 680.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_102_roas": "13.22"',
-            '"old_budget": "590.0"',
-            '"new_budget": "680.0"',
-            '"budget_rounding_unit": "10"',
-            '"log_status": "success"'
-        ]
+        outputs=[]
     ),        
     Task(
         annotator="0",
@@ -1731,12 +1334,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "101", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 32.0, "new_bid": 35.0, "reason": "plan_2025-08-13"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "101", "old_ad_id": "1101", "new_ad_id": "1102", "rationale": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"performance_check_passed": "true"',
-            '"adset_101_roas": "10.0"',
-            '"plan_execution_status": "completed"',
-            '"total_changes_logged": "3"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1756,13 +1354,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "104", "old_budget": 740.0, "new_budget": 1240.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"reallocation_complete": "true"',
-            '"adset_111_new_budget": "500.0"',
-            '"adset_104_new_budget": "1240.0"',
-            '"adset_111_strategy_switched": "true"',
-            '"total_logs_created": "3"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1786,12 +1378,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "105", "old_budget": 750.0, "new_budget": 450.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "112", "old_budget": 700.0, "new_budget": 1000.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"source_adset_id": "105"',
-            '"destination_adset_id": "112"',
-            '"amount_reallocated": "300.0"',
-            '"budget_changes_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1808,13 +1395,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1112", "ad_id_to_pause": "1111"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "108", "old_ad_id": "1111", "new_ad_id": "1112", "rationale": "policy_override:video_cpa_advantage"})
         ],
-        outputs=[
-            '"plan_creative_type": "image"',
-            '"policy_value": "10"',
-            '"override_executed": "true"',
-            '"activated_ad_id": "1112"',
-            '"rotation_logged": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1832,13 +1413,7 @@ TASKS = [
             Action(name="UpdateAdStatus", kwargs={"ad_id": "1119", "status": "active"}),
             Action(name="UpdateAdStatus", kwargs={"ad_id": "1120", "status": "active"})
         ],
-        outputs=[
-            '"new_campaign_id": "11"',
-            '"adsets_created": "2"',
-            '"ads_created": "2"',
-            '"ads_activated": "2"',
-            '"setup_status": "complete"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1860,12 +1435,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "111", "old_budget": 1000.0, "new_budget": 800.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"underperforming_adsets_found": "3"',
-            '"budget_changes_logged": "3"',
-            '"strategy_changes_logged": "1"',
-            '"total_optimizations_logged": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1881,13 +1451,7 @@ TASKS = [
             Action(name="UpdateAdsetBudget", kwargs={"adset_id": "101", "new_budget": 740.0}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "101", "old_budget": 920.0, "new_budget": 740.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"recent_week_spend": "6140.0"',
-            '"prior_week_spend": "0.0"',
-            '"roas_for_2025_08_13": "10.0"',
-            '"conditions_met_for_action": "true"',
-            '"action_taken": "budget_reduction"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1902,13 +1466,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "102", "old_budget": 590.0, "new_budget": 590.0, "reason": "compliance_lookback_ok"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "102", "old_strategy": "lowest_cost", "new_strategy": "lowest_cost", "old_bid": None, "new_bid": None, "reason": "compliance_lookback_ok"})
         ],
-        outputs=[
-            '"current_budget": "590.0"',
-            '"plan_budget": "590.0"',
-            '"budget_match": "true"',
-            '"strategy_match": "true"',
-            '"logs_created": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1925,12 +1483,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "101", "old_budget": 920.0, "new_budget": 950.0, "reason": "reactivation_budget_adjustment"}),
             Action(name="UpdateAdStatus", kwargs={"ad_id": "1102", "status": "active"})
         ],
-        outputs=[
-            '"adset_budget_updated": "true"',
-            '"ad_to_activate": "1102"',
-            '"ad_status_updated": "true"',
-            '"reactivation_complete": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1952,13 +1505,7 @@ TASKS = [
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "104"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "104", "old_ad_id": "1106", "new_ad_id": "1106", "rationale": "plan_alignment_verified"})
         ],
-        outputs=[
-            '"plan_budget_applied": "true"',
-            '"performance_bonus_applied": "true"',
-            '"final_budget": "860.0"',
-            '"creative_alignment_verified": "true"',
-            '"total_logs": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1974,13 +1521,7 @@ TASKS = [
             Action(name="UpdateAdsetBudget", kwargs={"adset_id": "107", "new_budget": 480.0}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "107", "old_budget": 400.0, "new_budget": 480.0, "reason": "data_driven_increase"})
         ],
-        outputs=[
-            '"user_sessions": "6000"',
-            '"roas": "12.5"',
-            '"hypothesis_confirmed": "true"',
-            '"budget_increased": "true"',
-            '"budget_change_logged": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2002,13 +1543,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "102", "old_budget": 590.0, "new_budget": 680.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "101", "old_budget": 920.0, "new_budget": 870.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"top_performer": "102"',
-            '"lowest_performer": "101"',
-            '"budget_increase": "90.0"',
-            '"budget_decrease": "50.0"',
-            '"final_campaign_budget": "2250.0"'
-        ]
+        outputs=[]
     ),    
     Task(
         annotator="0",
@@ -2032,12 +1567,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "111", "old_budget": 1000.0, "new_budget": 800.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "102", "old_budget": 590.0, "new_budget": 1190.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"underperformers_identified": "3"',
-            '"top_performer_identified": "102"',
-            '"funds_reallocated": "600.0"',
-            '"budget_changes_logged": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2053,13 +1583,7 @@ TASKS = [
             Action(name="CreateAd", kwargs={"adset_id": "113", "name": "Webinar_Invite_Video", "creative_type": "video"}),
             Action(name="UpdateAdStatus", kwargs={"ad_id": "1119", "status": "active"})
         ],
-        outputs=[
-            '"new_campaign_id": "11"',
-            '"new_adset_id": "113"',
-            '"default_budget_used": "100.0"',
-            '"default_strategy_used": "lowest_cost"',
-            '"ad_activated": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2079,13 +1603,7 @@ TASKS = [
             Action(name="UpdateAdsetBudget", kwargs={"adset_id": "112", "new_budget": 810.0}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "112", "old_budget": 700.0, "new_budget": 810.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"winning_category": "Electronics"',
-            '"top_adset_in_category": "112"',
-            '"adset_112_roas": "12.57"',
-            '"budget_increase_applied": "true"',
-            '"log_status": "success"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2103,12 +1621,7 @@ TASKS = [
             Action(name="UpdateAdsetBidStrategy", kwargs={"adset_id": "108", "bid_strategy": "cost_cap", "bid_amount": 45.0}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "108", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 42.0, "new_bid": 45.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"budget_aligned": "true"',
-            '"strategy_aligned": "true"',
-            '"creative_already_aligned": "true"',
-            '"total_logs_created": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2129,12 +1642,7 @@ TASKS = [
             Action(name="UpdateAdsetBidStrategy", kwargs={"adset_id": "111", "bid_strategy": "lowest_cost", "bid_amount": None}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "111", "old_strategy": "cost_cap", "new_strategy": "lowest_cost", "old_bid": 2.5, "new_bid": None, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"crisis_conditions_verified": "true"',
-            '"ads_paused": "2"',
-            '"strategy_switched": "1"',
-            '"capital_preservation_complete": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2162,13 +1670,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1107", "ad_id_to_pause": "1106"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "104", "old_ad_id": "1106", "new_ad_id": "1107", "rationale": "plan_2025-08-12"})
         ],
-        outputs=[
-            '"failed_run_confirmed": "true"',
-            '"adsets_processed": "2"',
-            '"budget_logs": "2"',
-            '"strategy_logs": "2"',
-            '"creative_logs": "1"'
-        ]
+        outputs=[]
     ),    
     Task(
         annotator="0",
@@ -2191,13 +1693,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "101", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 32.0, "new_bid": 37.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "108", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 42.0, "new_bid": 47.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"price_drop_confirmed": "true"',
-            '"eligible_adsets_found": "2"',
-            '"budget_increases_logged": "2"',
-            '"bid_increases_logged": "2"',
-            '"total_actions_logged": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2224,14 +1720,7 @@ TASKS = [
             Action(name="LogStrategyChange", kwargs={"adset_id": "104", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 20.0, "new_bid": 20.0, "reason": "manual_override_plan_2025-08-12"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "104", "old_ad_id": "1106", "new_ad_id": "1107", "rationale": "manual_override_plan_2025-08-12"})
         ],
-        outputs=[
-            '"failed_run_id": "AR-20250812-01"',
-            '"corrective_action_status": "completed"',
-            '"adsets_processed": "2"',
-            '"budget_logs": "2"',
-            '"strategy_logs": "2"',
-            '"creative_logs": "1"'
-        ]
+        outputs=[]
     ),     
     Task(
         annotator="0",
@@ -2253,13 +1742,7 @@ TASKS = [
             Action(name="UpdateAdsetBidStrategy", kwargs={"adset_id": "104", "bid_strategy": "cost_cap", "bid_amount": 25.0}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "104", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 20.0, "new_bid": 25.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adset_105_optimized": "true"',
-            '"adset_104_optimized": "true"',
-            '"budget_changes_logged": "2"',
-            '"strategy_changes_logged": "1"',
-            '"total_optimizations": "3"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2279,13 +1762,7 @@ TASKS = [
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "102", "old_ad_id": "1103", "new_ad_id": "1103", "rationale": "performance_override_hold_creative"})
         ],
-        outputs=[
-            '"roas_check": "13.22"',
-            '"override_triggered": "true"',
-            '"budget_change_applied": "true"',
-            '"strategy_change_verified": "true"',
-            '"creative_rotation_skipped": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2304,13 +1781,7 @@ TASKS = [
             Action(name="UpdateAdsetBudget", kwargs={"adset_id": "102", "new_budget": 680.0}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "102", "old_budget": 590.0, "new_budget": 680.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"price_stable": "true"',
-            '"top_apparel_adset": "102"',
-            '"adset_strategy": "lowest_cost"',
-            '"action_taken": "budget_increase"',
-            '"change_logged": "true"'
-        ]
+        outputs=[]
     ),    
     Task(
         annotator="0",
@@ -2330,13 +1801,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "104", "old_budget": 740.0, "new_budget": 980.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "105", "old_budget": 750.0, "new_budget": 990.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"funds_sourced_amount": "470.0"',
-            '"funds_per_recipient": "235.0"',
-            '"adset_104_new_budget": "980.0"',
-            '"adset_105_new_budget": "990.0"',
-            '"reallocation_logged": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2365,13 +1830,7 @@ TASKS = [
             Action(name="LogCreativeRotation", kwargs={"adset_id": "101", "old_ad_id": "1101", "new_ad_id": "1102", "rationale": "plan_2025-08-13"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "102", "old_ad_id": "1103", "new_ad_id": "1104", "rationale": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"adsets_optimized": "2"',
-            '"budget_changes_logged": "2"',
-            '"strategy_changes_logged": "1"',
-            '"creative_changes_logged": "2"',
-            '"total_logs": "5"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2388,13 +1847,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1119", "ad_id_to_pause": "1103"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "102", "old_ad_id": "1103", "new_ad_id": "1119", "rationale": "ab_test_launch:new_image"})
         ],
-        outputs=[
-            '"performance_check_passed": "true"',
-            '"policy_check_passed": "true"',
-            '"new_ad_created_id": "1119"',
-            '"old_ad_paused_id": "1103"',
-            '"ab_test_launched": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2414,12 +1867,7 @@ TASKS = [
             Action(name="UpdateAdsetBudget", kwargs={"adset_id": "102", "new_budget": 880.0}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "102", "old_budget": 590.0, "new_budget": 880.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"budget_headroom": "290.0"',
-            '"top_performer_id": "102"',
-            '"reinvestment_complete": "true"',
-            '"new_budget_for_102": "880.0"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2435,12 +1883,7 @@ TASKS = [
             Action(name="CreateAdset", kwargs={"campaign_id": "11", "name": "Holiday - Toys", "category": "Toys", "daily_budget": 400.0, "bid_strategy": "lowest_cost", "bid_amount": None}),
             Action(name="UpdateCampaignStatus", kwargs={"campaign_id": "5", "status": "paused"})
         ],
-        outputs=[
-            '"new_campaign_id": "11"',
-            '"new_adsets_created": "2"',
-            '"original_campaign_paused": "true"',
-            '"consolidation_complete": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2459,13 +1902,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "101", "old_budget": 920.0, "new_budget": 1150.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "101", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 32.0, "new_bid": 40.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"roas": "10.0"',
-            '"new_budget": "1150.0"',
-            '"new_bid": "40.0"',
-            '"max_bid_check_passed": "true"',
-            '"changes_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2488,11 +1925,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "110", "old_budget": 1000.0, "new_budget": 1100.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "111", "old_budget": 1000.0, "new_budget": 1100.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"winning_category": "Mobile"',
-            '"adsets_rewarded": "2"',
-            '"budget_changes_logged": "2"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2509,12 +1942,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1101", "ad_id_to_pause": "1102"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "101", "old_ad_id": "1102", "new_ad_id": "1101", "rationale": "override:high_cpa_test"})
         ],
-        outputs=[
-            '"cost_per_purchase": "10.0"',
-            '"planned_creative": "video"',
-            '"override_action_taken": "true"',
-            '"new_active_ad": "1101"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2531,12 +1959,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "103", "old_budget": 1180.0, "new_budget": 710.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "104", "old_budget": 740.0, "new_budget": 1210.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"funds_sourced_amount": "470.0"',
-            '"adset_103_new_budget": "710.0"',
-            '"adset_104_new_budget": "1210.0"',
-            '"reallocation_logged": "true"'
-        ]
+        outputs=[]
     ),
      Task(
         annotator="0",
@@ -2563,13 +1986,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "104", "old_budget": 740.0, "new_budget": 940.0, "reason": "plan_2025-08-13"}),
             Action(name="LogBudgetChange", kwargs={"adset_id": "105", "old_budget": 750.0, "new_budget": 950.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"source_campaign_id": "7"',
-            '"destination_campaign_id": "3"',
-            '"total_funds_reallocated": "400.0"',
-            '"funds_per_recipient_adset": "200.0"',
-            '"budget_changes_logged": "4"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2589,14 +2006,7 @@ TASKS = [
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "102", "old_ad_id": "1103", "new_ad_id": "1103", "rationale": "performance_override_hold_creative"})
         ],
-        outputs=[
-            '"roas_check": "13.22"',
-            '"override_triggered": "true"',
-            '"budget_change_applied": "true"',
-            '"strategy_change_verified": "true"',
-            '"creative_rotation_skipped": "true"',
-            '"total_logs_created": "3"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2615,13 +2025,7 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={"ad_id_to_activate": "1119", "ad_id_to_pause": "1116"}),
             Action(name="LogCreativeRotation", kwargs={"adset_id": "112", "old_ad_id": "1116", "new_ad_id": "1119", "rationale": "ab_test_response_to_engagement_surge"})
         ],
-        outputs=[
-            '"engagement_surge_confirmed": "true"',
-            '"top_performing_adset_id": "112"',
-            '"new_ad_created_id": "1119"',
-            '"ad_paused_for_test_id": "1116"',
-            '"ab_test_launched": "true"'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2641,14 +2045,7 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "104", "old_budget": 740.0, "new_budget": 850.0, "reason": "plan_2025-08-13"}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "104", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 20.0, "new_bid": 25.0, "reason": "plan_2025-08-13"})
         ],
-        outputs=[
-            '"lookback_compliance_verified": "true"',
-            '"optimization_triggered": "true"',
-            '"adset_104_roas": "11.22"',
-            '"new_budget_applied": "850.0"',
-            '"new_bid_applied": "25.0"',
-            '"total_logs_created": "4"'
-        ]
+        outputs=[]
     ),  
 ]
 

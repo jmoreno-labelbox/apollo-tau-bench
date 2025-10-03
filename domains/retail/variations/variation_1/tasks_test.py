@@ -27,7 +27,7 @@ TASKS = [
                 kwargs={'user_id': 'olivia_johnson_8564', 'item_ids': ['5339029584', '2913673670', '1657832319'], 'payment_method_id': 'paypal_6228291'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -64,7 +64,7 @@ TASKS = [
                 kwargs={'database_name': 'users', 'filter_params': {'user_id': 'william_andersson_2031'}, 'update_params': {"payment_methods":{"gift_card_9136273":{'balance': 88-53.27}}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -93,7 +93,7 @@ TASKS = [
                 kwargs={'order_id': '#W2378156', 'item_ids': ['1151293680', '4983901480'], 'new_item_ids': ['2299424241', '7747408585'], 'payment_method_id': 'credit_card_9513926'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -122,7 +122,7 @@ TASKS = [
                 kwargs={'order_id': '#W2378156', 'item_ids': ['4602305039', '4202497723', '9408160950'], 'payment_method_id': 'credit_card_9513926'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -162,7 +162,7 @@ TASKS = [
                 kwargs={'order_id': '#W1348609', 'item_ids': ['5606522780', '9007697085', '6313971174', '7195021808'], 'courier_id': "#COU0010", 'delivery_option': 'standard'},
             ),
         ],
-        outputs=[{"name": "Notebook"}, {"name": "Perfume"}],
+        outputs=[]
     ),
 
     Task(
@@ -196,7 +196,7 @@ TASKS = [
                 kwargs={'database_name': 'users', 'filter_params': {'user_id': 'omar_jackson_3107'}, 'update_params': {"payment_methods":{"gift_card_3107":{'balance': 100+489.5}}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -253,7 +253,7 @@ TASKS = [
                 kwargs={'order_id': "#W9722559", 'item_ids': ['8964750292'], 'payment_method_id': 'paypal_8963303'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -284,7 +284,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -326,7 +326,7 @@ TASKS = [
                 kwargs={'database_name': 'users', 'filter_params': {'user_id': 'mia_garcia_4516'}, 'required_fields': ['payment_methods']},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -367,7 +367,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['6342039236', '7747408585'], 'courier_id': '#COU0001', 'delivery_option': 'expedited'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -408,7 +408,7 @@ TASKS = [
                 kwargs={'database_name': 'suppliers', 'filter_params': {"supplier_id": "#SUP0002"}, 'required_fields': ['item_stock']},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -437,7 +437,7 @@ TASKS = [
                 kwargs={'order_id': '#W5199551', 'item_ids': ['3613716226'], 'courier_id': '#COU0002', 'delivery_option': 'standard'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -470,7 +470,7 @@ TASKS = [
                 kwargs={'database_name': 'orders', 'filter_params': {'order_id': '#W6790887'}, 'update_params': {'status': 'processed'}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -507,7 +507,7 @@ TASKS = [
                 kwargs={'database_name': 'users', 'filter_params': {'user_id': 'chen_silva_7485'}, 'required_fields': ['name', 'payment_methods']},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -544,7 +544,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['3104857380'], 'courier_id': '#COU0004', 'delivery_option': 'standard'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -582,7 +582,7 @@ TASKS = [
                 kwargs={'database_name': 'orders', 'filter_params': {'order_id': '#W8495163'}, 'update_params': {'payment_history': {'transaction_type': 'partial_refund', 'amount': 150.0, 'payment_method_id': 'paypal_7478252'}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -615,7 +615,7 @@ TASKS = [
                 kwargs={'user_id': 'james_jackson_8519', 'payment_method_source': 'paypal'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -644,7 +644,7 @@ TASKS = [
                 kwargs={'user_id': 'sofia_li_8235', 'item_ids': ['5586947715', '8349903180'], 'payment_method_id': 'gift_card_3242199'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -673,7 +673,7 @@ TASKS = [
                 kwargs={'order_id': '#W3780282', 'item_ids': ['9862136885'], 'payment_method_id': 'credit_card_8058445'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -702,7 +702,7 @@ TASKS = [
                 kwargs={'database_name': 'orders', 'filter_params': {'order_id': '#W2624389'}, 'update_params': {'status': 'processed'}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -736,7 +736,7 @@ TASKS = [
                 kwargs={'user_id': 'ava_martin_2430', 'payment_method_source': 'credit_card', 'brand': 'mastercard', 'last_four': '5678'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -769,7 +769,7 @@ TASKS = [
                 kwargs={'user_id': 'yusuf_khan_7091', 'payment_method_source': 'gift_card', 'balance': 150.0},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -802,7 +802,7 @@ TASKS = [
                 kwargs={'user_id': 'amelia_kim_4338', 'item_ids': ['4153505238'], 'payment_method_id': 'paypal_1742092'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -827,7 +827,7 @@ TASKS = [
                 kwargs={'database_name': 'users', 'filter_params': {'user_id': 'harper_silva_8534'}, 'update_params': {'name': {'first_name': 'Harper', 'last_name': 'Silva-Johnson'}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -870,7 +870,7 @@ TASKS = [
                 kwargs={'database_name': 'orders', 'filter_params': {'order_id': '#W9711842'}, 'update_params': {'status': 'returned'}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -899,7 +899,7 @@ TASKS = [
                 kwargs={'user_id': 'ella_kovacs_6742', 'payment_method_source': 'gift_card', 'balance': 300},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -932,7 +932,7 @@ TASKS = [
                 kwargs={'user_id': 'ahmad_khan_7091', 'item_ids': ['5339029584'], 'payment_method_id': 'gift_card_7091'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -974,7 +974,7 @@ TASKS = [
                 kwargs={'order_id': '#W1508165', 'item_ids': ['2554056026'], 'payment_method_id': 'paypal_4191414'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1003,7 +1003,7 @@ TASKS = [
                 kwargs={'user_id': 'lei_patel_3139', 'item_ids': ['5992316252'], 'payment_method_id': 'credit_card_4589919'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1036,7 +1036,7 @@ TASKS = [
                 kwargs={'database_name': 'users', 'filter_params': {'user_id': 'luna_kovacs_7861'}, 'update_params': {'address': {'address1': '789 Harbor Street', 'address2': 'Suite 4', 'city': 'Boston', 'state': 'MA', 'zip': '02101'}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1065,7 +1065,7 @@ TASKS = [
                 kwargs={'database_name': 'orders', 'filter_params': {'order_id': '#W8665881'}, 'update_params': {'status': 'processed'}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1090,7 +1090,7 @@ TASKS = [
                 kwargs={'user_id': 'aarav_white_8794', 'payment_method_source': 'credit_card', 'last_four': '1955', 'brand': 'visa'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1119,7 +1119,7 @@ TASKS = [
                 kwargs={'user_id': 'amelia_lopez_2068', 'payment_method_source': 'gift_card', 'balance': 250.0},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1144,7 +1144,7 @@ TASKS = [
                 kwargs={'database_name': 'users', 'filter_params': {'user_id': 'raj_lopez_2970'}, 'update_params': {'name': {'first_name': 'Raj', 'last_name': 'Sanchez-Kumar'}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1169,7 +1169,7 @@ TASKS = [
                 kwargs={'order_id': '#W3657213', 'item_ids': ['6700049080'], 'payment_method_id': 'gift_card_7794233'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1206,7 +1206,7 @@ TASKS = [
                 kwargs={'user_id': 'sophia_garcia_1101', 'gift_card_id': 'gift_card_9450778', 'payment_method_id': 'credit_card_1101', 'amount': 400.0},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 037: Lucas Rodriguez wants to return wireless earbuds - defective sound quality
@@ -1235,7 +1235,7 @@ TASKS = [
                 kwargs={'order_id': '#W6893533', 'item_ids': ['1646531091'], 'payment_method_id': 'gift_card_6635'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 038: Anya Garcia wants to track her cancelled order and check gift card balance
@@ -1261,7 +1261,7 @@ TASKS = [
                 kwargs={'user_id': 'mia_martinez_3271', 'item_ids': ['7445824652'], 'payment_method_id': 'gift_card_4374071'},
             )
         ],
-        outputs=[{"balance": 51}],
+        outputs=[]
     ),
 
     # Task 039: Yara Sanchez wants to exchange mechanical keyboard for different switch type
@@ -1294,7 +1294,7 @@ TASKS = [
                 kwargs={'order_id': '#W6015009', 'item_ids': ['9025753381'], 'new_item_ids': ['3616838507'], 'payment_method_id': 'gift_card_1902'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 004: Ivan Santos needs to update his address for future deliveries
@@ -1338,7 +1338,7 @@ TASKS = [
                 kwargs={'database_name': 'orders', 'filter_params': {'user_id': 'lucas_rodriguez_6635', 'status': 'pending'}, 'update_params': {'address': {'address1': '825 Main Street', 'address2': 'Apt 12B', 'city': 'Houston', 'state': 'NM', 'zip': '78701', 'country': 'USA'}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 041: Noah Brown wants to add a new payment method and place an order
@@ -1376,7 +1376,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['1775591963'], 'courier_id': '#COU0002', 'delivery_option': 'express'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 042: Anya Garcia wants to check product availability and stock levels
@@ -1409,7 +1409,7 @@ TASKS = [
                 kwargs={'user_id': 'mia_martinez_3271', 'item_ids': ['3265035808'], 'payment_method_id': 'gift_card_4374071'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 043: Yara Sanchez wants to modify an existing order before shipment
@@ -1440,7 +1440,7 @@ TASKS = [
                 kwargs={'order_id': '#W5267498', 'transaction_type': 'payment', 'payment_info_to_update': {'amount': 466.75+92.53, 'payment_method_id': 'gift_card_4220746'}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 044: Ivan Santos reports a delivery issue and needs tracking information
@@ -1496,7 +1496,7 @@ TASKS = [
                 kwargs={'database_name': 'users', 'filter_params': {'user_id': 'lucas_rodriguez_6635'}, 'required_fields': ['payment_methods']},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 045: Multiple users - Noah Brown wants to gift an item to Anya Garcia
@@ -1536,7 +1536,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['7747408585'], 'courier_id': '#COU0002', 'delivery_option': 'next-day'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 010: Yara Sanchez wants to return multiple items and process partial refund
@@ -1562,7 +1562,7 @@ TASKS = [
                 kwargs={'order_id': '#W6015009', 'item_ids': ['3877188862', '7597543861'], 'payment_method_id': 'credit_card_5884162'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 011: Olivia Jackson wants to cancel a pending order and get full refund
@@ -1588,7 +1588,7 @@ TASKS = [
                 kwargs={'order_id': '#W3168895', 'item_ids': ['2648909398', '5796612084'], 'payment_method_id': 'paypal_3999493'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 012: Ava Nguyen needs help finding her user account using email
@@ -1616,7 +1616,7 @@ TASKS = [
                 kwargs={'user_id': 'charlotte_simpson_2175', 'gift_card_id': 'gift_card_3324938', 'payment_method_id': 'paypal_6262583', 'amount': 1000.0},
             ),
         ],
-        outputs=[{'user_id': 'charlotte_simpson_2175'}],
+        outputs=[]
     ),
 
     # Task 049: Sofia Li wants to exchange laptop for different RAM configuration
@@ -1650,7 +1650,7 @@ TASKS = [
                 kwargs={'order_id': '#W2959713', 'item_ids': ['3265035808'], 'new_item_ids': ['1684786391'], 'payment_method_id': 'gift_card_5328393'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 014: Emma Brown wants to add gift card and purchase multiple items
@@ -1680,7 +1680,7 @@ TASKS = [
                 kwargs={'user_id': 'olivia_wilson_8847', 'item_ids': ['1349017811', '5758737025'], 'payment_method_id': 'gift_card_8847'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 015: Yusuf Khan reports damaged smartphone and needs replacement
@@ -1706,7 +1706,7 @@ TASKS = [
                 kwargs={'user_id': 'ahmad_khan_7091', 'item_ids': ['2216662955'], 'payment_method_id': 'paypal_5796936'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 052: Amelia Kim wants to purchase items as gifts with different shipping addresses
@@ -1744,7 +1744,7 @@ TASKS = [
                 kwargs={'database_name': 'orders', 'filter_params': {'order_id': '#W0001002'}, 'update_params': {'address': {'address2': 'Suite 523'}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 017: Raj Sanchez wants to check product availability before ordering
@@ -1778,7 +1778,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['5320792178', '9799386954'], 'courier_id': '#COU0006', 'delivery_option': 'standard'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 054: Chen Silva needs to update shipping address for pending order
@@ -1796,7 +1796,7 @@ TASKS = [
                 kwargs={'database_name': 'orders', 'filter_params': {'order_id': '#W2575533'}, 'update_params': {'address': {'address1': '456 New Street', 'address2': 'Apt 789', 'city': 'Portland', 'state': 'OR', 'zip': '97201', 'country': 'USA'}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 019: Aarav Anderson wants to return multiple items and add money to gift card
@@ -1826,7 +1826,7 @@ TASKS = [
                 kwargs={'database_name': 'users', 'filter_params': {'user_id': 'aarav_white_8794'}, 'update_params': {"payment_methods": {"gift_card_7245904": {'balance': 17 + 549.84 + 54.04}}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 056: Isabella Sanchez wants to create supply order for low stock items
@@ -1874,7 +1874,7 @@ TASKS = [
                 kwargs={'user_id': 'amelia_lopez_2068', 'item_ids': ['9791469541'], 'payment_method_id': 'paypal_8516781'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 057: Yara Li wants to exchange defective electric toothbrush
@@ -1900,7 +1900,7 @@ TASKS = [
                 kwargs={'order_id': '#W7619352', 'item_ids': ['8798690242'], 'new_item_ids': ['8798690242'], 'payment_method_id': 'paypal_5334408'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 058: Omar Lopez wants to find his account using name and zip code
@@ -1926,7 +1926,7 @@ TASKS = [
                 kwargs={'user_id': 'omar_jackson_3107', 'item_ids': ['1775591963'], 'payment_method_id': 'credit_card_3107'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 023: Multiple customers - Noah Brown wants to buy gift for Anya Garcia's birthday
@@ -1970,7 +1970,7 @@ TASKS = [
                 "zip": "19036"}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 060: Ivan Santos wants to upgrade his PayPal to credit card for better rewards
@@ -2004,7 +2004,7 @@ TASKS = [
                 kwargs={'order_id': '#W3913498', 'transaction_type': 'payment', 'payment_info_to_update': {'payment_method_id': 'credit_card_6635'}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 061: Yara Sanchez wants to batch return items from multiple orders
@@ -2038,7 +2038,7 @@ TASKS = [
                 kwargs={'order_id': '#W9102482', 'item_ids': ['4716977452'], 'payment_method_id': 'gift_card_9145'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 026: Sofia Li wants to schedule recurring monthly coffee maker filter orders
@@ -2068,7 +2068,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001002', 'transaction_type': 'payment', 'payment_info_to_update': {'amount': 0.0}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 027: Emma Brown reports package theft and needs replacement
@@ -2090,7 +2090,7 @@ TASKS = [
                 kwargs={'database_name': 'orders', 'filter_params': {'order_id': '#W0001001'}, 'update_params': {'address': {'address1': '123 Office Park', 'address2': 'Suite 100', 'city': 'San Francisco', 'state': 'NV', 'zip': '94105', 'country': 'USA'}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 064: Yusuf Khan wants to bulk purchase office supplies for his company
@@ -2124,7 +2124,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['9799386954', '5320792178', '1349017811'], 'courier_id': '#COU0003', 'delivery_option': 'corporate-shipping'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 065: Evelyn Dean wants to check if damaged item is still under warranty
@@ -2155,7 +2155,7 @@ TASKS = [
                 kwargs={'order_id': '#W5490111', 'item_ids': ['1421289881'], 'new_item_ids': ['2880340443'], 'payment_method_id': 'paypal_9497703'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 066: Complex supplier relationship management and inventory tracking
@@ -2193,7 +2193,7 @@ TASKS = [
                 kwargs={'database_name': 'suppliers', 'filter_params': {'supplier_id': '#SUP0011'}, 'update_params': {'item_stock': {'8941974610': 90}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 067: Multi-user order processing with payment method validation
@@ -2239,7 +2239,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001002', 'item_ids': ['9791469541', '5758737025'], 'courier_id': '#COU0004', 'delivery_option': 'standard'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 068: Complex return and exchange workflow with payment adjustments
@@ -2277,7 +2277,7 @@ TASKS = [
                 kwargs={'user_id': 'ivan_santos_6635', 'gift_card_id': 'gift_card_6635', 'payment_method_id': 'paypal_6151711', 'amount': 200.0},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 069: Customer order for electronics with tracking
@@ -2311,7 +2311,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['5339029584', '2106335193'], 'courier_id': '#COU0002', 'delivery_option': 'standard'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 070: Supply order and inventory management
@@ -2337,7 +2337,7 @@ TASKS = [
                 kwargs={'database_name': 'suppliers', 'filter_params': {'supplier_id': '#SUP0009'}, 'update_params': {'item_stock': {'1349017811': 6}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 071: Product return and exchange process
@@ -2371,7 +2371,7 @@ TASKS = [
                 kwargs={'order_id': '#W3913498', 'item_ids': ['5038485381'], 'new_item_ids': ['2880340443'], 'payment_method_id': 'paypal_6151711'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 072: Customer adding payment method and placing order
@@ -2397,7 +2397,7 @@ TASKS = [
                 kwargs={'user_id': 'ahmad_khan_2015', 'item_ids': ['5758737025', '5320792178'], 'payment_method_id': 'credit_card_2015'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 073: Gift card management and order creation
@@ -2427,7 +2427,7 @@ TASKS = [
                 kwargs={'user_id': 'isabella_wilson_4616', 'item_ids': ['9851293632', '9791469541'], 'payment_method_id': 'gift_card_4616'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 074: Multiple product supply order
@@ -2469,7 +2469,7 @@ TASKS = [
                 kwargs={'database_name': 'suppliers', 'filter_params': {'supplier_id': '#SUP0007'}, 'update_params': {'item_stock': {'4245201809': 142}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 075: Customer service with order tracking
@@ -2508,7 +2508,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['2407258246', '6700049080'],'courier_id': '#COU0001', 'delivery_option': 'express'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 076: Database update and user management
@@ -2534,7 +2534,7 @@ TASKS = [
                 kwargs={'user_id': 'lucas_johnson_2067', 'item_ids': ['6017636844', '7609274509'], 'payment_method_id': 'credit_card_3956549'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 077: Email-based customer lookup and order
@@ -2564,7 +2564,7 @@ TASKS = [
                 kwargs={'user_id': 'mei_kim_6875', 'item_ids': ['5586947715', '2635605237'], 'payment_method_id': 'paypal_6875'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 078: Multi-step order and supplier coordination
@@ -2598,7 +2598,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['8277474082', '5992316252'], 'courier_id': '#COU0004', 'delivery_option': 'standard'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 079: Customer order with international shipping
@@ -2637,7 +2637,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['2106335193', '8555936349'], 'courier_id': '#COU0001', 'delivery_option': 'standard'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 080: Bulk supply order management
@@ -2671,7 +2671,7 @@ TASKS = [
                 kwargs={'database_name': 'suppliers', 'filter_params': {'supplier_id': '#SUP0008'}, 'update_params': {'item_stock': {'8538875209': 94}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 081: Customer return with refund processing
@@ -2697,7 +2697,7 @@ TASKS = [
                 kwargs={'order_id': '#W2091016', 'item_ids': ['1270145486', '6546364613'], 'payment_method_id': 'paypal_2055565'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 082: New customer setup and first order
@@ -2723,7 +2723,7 @@ TASKS = [
                 kwargs={'user_id': 'mason_anderson_3178', 'item_ids': ['1178356107', '8470360507'], 'payment_method_id': 'credit_card_3178'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 083: Gift card reload and purchase
@@ -2753,7 +2753,7 @@ TASKS = [
                 kwargs={'user_id': 'amelia_jackson_6490', 'item_ids': ['9850781806', '9829827210'], 'payment_method_id': 'gift_card_8245350'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 084: Product exchange workflow
@@ -2783,7 +2783,7 @@ TASKS = [
                 kwargs={'order_id': '#W3263208', 'item_ids': ['6324294385','7867398203'], 'new_item_ids': ['3709608322','3616838507'], 'payment_method_id': 'credit_card_3337'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 085: Supplier coordination and order fulfillment
@@ -2817,7 +2817,7 @@ TASKS = [
                 kwargs={'user_id': 'anya_garcia_3271', 'item_ids': ['5586947715', '2635605237'], 'payment_method_id': 'credit_card_8955149'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 086: Customer service with tracking update
@@ -2844,7 +2844,7 @@ TASKS = [
                 kwargs={'database_name': 'tracking', 'filter_params': {'tracking_id': '360095850863'}, 'update_params': {'delivery_options': 'express', 'delivery_carrier': '#COU0004'}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 087: Multi-item order with payment method update
@@ -2870,7 +2870,7 @@ TASKS = [
                 kwargs={'user_id': 'chen_silva_7485', 'item_ids': ['6017636844', '2880340443', '9799386954'], 'payment_method_id': 'paypal_7485'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 088: Inventory management and customer fulfillment
@@ -2906,7 +2906,7 @@ TASKS = [
                 kwargs={'user_id': 'evelyn_kovacs_6742', 'item_ids': ['7617930199'], 'payment_method_id': 'paypal_7732922'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 089: Return and reorder workflow
@@ -2940,7 +2940,7 @@ TASKS = [
                 kwargs={'user_id': 'yara_sanchez_1902', 'item_ids': ['7866854614', '3877188862'], 'payment_method_id': 'credit_card_5884162'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 090: Email lookup and priority order
@@ -2975,7 +2975,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['4953074738', '1240311797'], 'courier_id': '#COU0005', 'delivery_option': 'priority'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 055: Supplier relationship and bulk ordering
@@ -3009,7 +3009,7 @@ TASKS = [
                 kwargs={'database_name': 'suppliers', 'filter_params': {'supplier_id': '#SUP0006'}, 'update_params': {'item_stock': {'9635758562': 35}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 056: Customer loyalty program and special order
@@ -3039,7 +3039,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['2407258246', '5992316252'], 'courier_id': '#COU0001', 'delivery_option': 'white_glove'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 057: Complex order with multiple operations
@@ -3085,7 +3085,7 @@ TASKS = [
                 kwargs={'supplier_id': '#SUP0008', 'item_id': '5753502325', 'quantity': 35, 'unit_cost': 15.00},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 058: Customer service escalation with multiple returns
@@ -3124,7 +3124,7 @@ TASKS = [
                 kwargs={'database_name': 'users', 'filter_params': {'user_id': 'raj_lopez_2970'}, 'update_params': {'payment_methods': {'gift_card_2259499': {'balance': 55.00}}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 059: Seasonal inventory preparation
@@ -3154,7 +3154,7 @@ TASKS = [
                 kwargs={'database_name': 'products', 'filter_params': {'name': ['Hiking Boots']}, 'update_params': {'variants':{'2658930189': {"price": 231.68}}}},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 060: Corporate customer bulk order
@@ -3188,7 +3188,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001','item_ids': ['6017636844', '9799386954', '5320792178'], 'courier_id': '#COU0002', 'delivery_option': 'business'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 097: Customer loyalty program enrollment
@@ -3214,7 +3214,7 @@ TASKS = [
                 kwargs={'user_id': 'lucas_russo_9776', 'item_ids': ['9791469541', '5758737025'], 'payment_method_id': 'credit_card_8621045'},
             ),
         ],
-        outputs=[{"email": "lucas.russo1946@example.com"}],
+        outputs=[]
     ),
 
     # Task 098: International order with customs handling
@@ -3252,7 +3252,7 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['7884173033'],'courier_id': '#COU0002', 'delivery_option': 'international_express'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     # Task 063: Supplier relationship management and quality control
@@ -3282,7 +3282,7 @@ TASKS = [
                 kwargs={'database_name': 'users', 'filter_params': {'user_id': ['emma_moore_8366','isabella_ahmed_6778','ahmad_hernandez_5411']}, 'required_fields': ['email']},
             ),
         ],
-        outputs=[{ "email": "emma.moore8091@example.com",}, { "email": "isabella.ahmed5620@example.com",}, { "email": "ahmad.hernandez9721@example.com",}],
+        outputs=[]
     ),
 
     # Task 100: Customer account management and order processing
@@ -3329,6 +3329,6 @@ TASKS = [
                 kwargs={'order_id': '#W0001001', 'item_ids': ['9829827210', '4953074738'], 'courier_id': '#COU0001', 'delivery_option': 'standard'},
             ),
         ],
-        outputs=[],
+        outputs=[]
     ),
 ]

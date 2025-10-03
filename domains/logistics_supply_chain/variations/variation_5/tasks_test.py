@@ -78,10 +78,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"incident_id": "INC-SHIP-0004-low"',
-            '"notification_status": "Sent"',
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -153,10 +150,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"supplier_performance_rating": 4.6',
-            '"total_chip_investment": 25250'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -183,10 +177,7 @@ TASKS = [
             Action(name="CalculateFinancialImpact", kwargs={"product_value": 36000, "liability_estimate": 1200})
         ],
 
-        outputs=[
-            '"supplier_performance_rating": 4.7',
-            '"total_quality_cost": 37200'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -320,11 +311,7 @@ TASKS = [
             )
         ],
 
-        outputs=[
-            '"emergency_order_status": "Created"',
-            '"variance_percentage": 0.75',
-            '"estimated_delivery_cost": 12500'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -350,8 +337,7 @@ TASKS = [
                 Action(name="CalculateFinancialImpact", kwargs={"product_value": 600000, "liability_estimate": 100000})
             ],
 
-            outputs=['"purchase_order_number": "PO-SUP-1021-PHRM-DRUG-S19-001"',
-                    '"total_financial_impact": 700000']
+            outputs=[]
     ),
 
     Task(
@@ -376,10 +362,7 @@ TASKS = [
             Action(name="CalculateFinancialImpact", kwargs={"product_value": 310000, "liability_estimate": 25000})
         ],
 
-        outputs=[
-            '"incident_id": "INC-SHIP-0006-high"',
-            '"total_financial_impact": 335000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -403,10 +386,7 @@ TASKS = [
             Action(name="CalculateFinancialImpact", kwargs={"product_value": 149995, "liability_estimate": 5000})
         ],
 
-        outputs=[
-            '"po_id": "PO-SUP-1009-TECH-SOLR-G7-001"',
-            '"current_incoming_inventory": 600'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -429,10 +409,7 @@ TASKS = [
             Action(name="NotifySupplier", kwargs={"supplier_id": "SUP-1012", "notification_type": "quality_incident"})
         ],
 
-        outputs=[
-            '"incident_id": "INC-ORD-0003-medium"',
-            '"quarantine_confirmation": "Quarantined"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -455,10 +432,7 @@ TASKS = [
             Action(name="CalculateFinancialImpact", kwargs={"product_value": 63000, "liability_estimate": 8000})
         ],
 
-        outputs=[
-            '"quarantine_status": "Quarantined"',
-            '"total_financial_impact": 71000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -481,10 +455,7 @@ TASKS = [
             Action(name="CalculateFinancialImpact", kwargs={"product_value": 60000, "liability_estimate": 1500})
         ],
 
-        outputs=[
-            '"adjustment_value": 3000',
-            '"updated_quantity": 380'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -515,10 +486,7 @@ TASKS = [
             Action(name="EscalateToQualityTeam", kwargs={"incident_id": "INC-SHIP-0006-critical", "priority": "critical"})
         ],
 
-        outputs=[
-            '"recall_id": "RCL-LOT202406A-precautionary"',
-            '"total_financial_impact": 360000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -547,10 +515,7 @@ TASKS = [
             Action(name="CalculateFinancialImpact", kwargs={"product_value": 95000, "liability_estimate": 3000})
         ],
 
-        outputs=[
-            '"customs_status": "Cleared"',
-            '"storage_compliance_status": "compliant"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -583,10 +548,7 @@ TASKS = [
             Action(name="GetApprovedSuppliers", kwargs={"sku": "ELEC-CHIP-A1"})
         ],
 
-        outputs=[
-            '"adjustment_value": 1250',
-            '"total_expected_stock": 17000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -655,10 +617,7 @@ TASKS = [
             )
         ],
 
-        outputs=[
-            '"adjustment_value": 440.00',
-            '"supplier_rating": 4.7'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -742,10 +701,7 @@ TASKS = [
             )
         ],
 
-        outputs=[
-            '"selected_carrier": "DFC"',
-            '"adjustment_value": 310.00'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -812,10 +768,7 @@ TASKS = [
             )
         ],
 
-        outputs=[
-            '"customer_name": "Gamma Construction Ltd."',
-            '"shipping_cost_estimate": 27900'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -910,10 +863,7 @@ TASKS = [
             )
         ],
 
-        outputs=[
-            '"customer_name": "Delta Pharma Inc."',
-            '"quarantine_confirmation": "Quarantined"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1043,11 +993,7 @@ TASKS = [
             )
         ],
 
-        outputs=[
-            '"customer_name": "Zeta Tech Solutions"',
-            '"incident_status": "Created"',
-            '"incident_id": "INC-INTL-SHIP-006-low"',
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1147,10 +1093,7 @@ TASKS = [
             )
         ],
 
-        outputs=[
-            '"quarantine_status": "Quarantined"',
-            '"selected_carrier": "GPLS"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1226,10 +1169,7 @@ TASKS = [
             )
         ],
 
-        outputs=[
-            '"supplier_rating": 4.5',
-            '"incident_status": "Created"'
-        ]
+        outputs=[]
     ),
 
 
@@ -1263,14 +1203,7 @@ TASKS = [
                         "destination_warehouse_id": "WH-01"}
             )
         ],
-        outputs=[
-            '"quantity_available": 12500',
-            '"quantity_inbound": 5000',
-            '"total_expected_stock": 17500',
-            '"status": "Created"',
-            '"total_cost": 45000',
-            '"priority": "High"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1311,9 +1244,7 @@ TASKS = [
                         "status": "Ready for Receipt"}
             )
         ],
-        outputs=[
-            '"duty_amount": 17500'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1382,24 +1313,7 @@ TASKS = [
                 kwargs={"supplier_id": "SUP-1004", "notification_type": "performance_review"}
             )
         ],
-        outputs=[
-            '"supplier_name": "Busan Textiles Co."',
-            '"performance_rating": 4.5',
-            '"on_time_delivery_percentage": 96.8',
-            '"relationship_status": "Active"',
-            '"pending_orders_count": 1',
-            '"tshirt_quantity_available": 22000',
-            '"system_count": 25000',
-            '"physical_count": 22000',
-            '"variance": -3000',
-            '"variance_percentage": 12',
-            '"alternative_supplier_1": "Cairo Cotton Co.."',
-            '"improvement_plan_created": true',
-            '"emergency_order_quantity": 1100',
-            '"emergency_order_created": true',
-            '"supplier_notification_sent": true',
-            '"supplier_status_recommendation": "maintain_active"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1446,15 +1360,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"optimal_carrier": "Desert Falcon Cargo"',
-            '"carrier_scac": "DFC"',
-            '"on_time_delivery_percentage": 98.1',
-            '"tracking_number":"DFC-ORD-0010"',
-            '"label_id": "LBL-DFC"',
-            '"order_status": "Shipped"',
-            '"estimated_delivery_date": "2024-06-18"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1495,11 +1401,7 @@ TASKS = [
                 kwargs={"id": "WH-10-CAPACITY-00", "incident_type": "for_monitoring", "severity": "low"}
             ),
         ],
-        outputs=[
-            '"remaining_capacity_cbm": 990.0',
-            '"utilization_percentage": 95.5',
-            '"plan_created": true'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1575,11 +1477,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"temperature_compliance": "non-compliant"',
-            '"quarantined_lot": "LOT202406B"',
-            '"total_financial_impact": 195000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1643,13 +1541,7 @@ TASKS = [
                 kwargs={"incident_id": f"INC-SHIP-0006-critical", "priority": "critical"}
             )
         ],
-        outputs=[
-            '"quarantined_lot": "LOT202406A"',
-            '"incident_id": f"INC-SHIP-0006-critical"',
-            '"recall_id": "RCL-LOT202406A-precautionary"',
-            '"temperature_excursion_detected": false',
-            '"total_financial_impact": 500000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1698,11 +1590,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"quantity_available": 380',
-            '"performance_rating": 4.8',
-            '"status": "Created"'
-        ]
+        outputs=[]
     ),
 
 
@@ -1753,11 +1641,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"carrier": "DFC"',
-            '"tracking_number": "DFC-ORD-0005"',
-            '"estimated_delivery_date": "2024-06-09"'
-        ]
+        outputs=[]
     ),
 
 
@@ -1843,16 +1727,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"duty_amount": 17500',
-            '"total_financial_impact": 375000',
-            '"documentation_complete": false',
-            '"incident_created": true',
-            '"shipment_status": Ready for Receipt',
-            '"supplier_performance_rating": 4.6',
-            '"customs_status": Cleared'
-
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1907,11 +1782,7 @@ TASKS = [
                 kwargs={"incident_id": "INC-SHIP-0006-critical", "priority": "critical"}
             )
         ],
-        outputs=[
-            '"excursions_detected": true',
-            '"incident_id": "INC-SHIP-0006-critical"',
-            '"total_financial_impact": 500000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1991,15 +1862,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"performance_rating": 4.2',
-            '"current_inventory": 40',
-            '"adjustment_value": 11000',
-            '"total_financial_impact": 13000',
-            '"alternative_suppliers_available": 1',
-            '"improvement_plan_id": "SIP-SUP-1028"',
-            '"supplier_status_recommendation": "conditional_approval"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2078,14 +1941,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"variance_units": -3',
-            '"variance_percentage": 0.6',
-            '"quarantine_id": "QTN-LOT202403E-WH-07"',
-            '"total_financial_impact": 1400',
-            '"incident_id": "INC-SHIP-0014-medium"',
-            '"supplier_notified": true'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2153,16 +2009,7 @@ TASKS = [
                 kwargs={"shipment_id": "SHIP-0014", "status": "Inspection Required"}
             )
         ],
-        outputs=[
-            '"supplier_rating": 4.9',
-            '"customs_status": "Pending"',
-            '"warehouse_utilization": 60.0',
-            '"incident_id": "INC-SHIP-0014-medium"',
-            '"total_financial_impact": 55450',
-            '"return_shipping_cost": 48',
-            '"improvement_plan_created": true',
-            '"shipment_status": "Inspection Required"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2213,12 +2060,7 @@ TASKS = [
                 kwargs={"order_id": "ORD-0006", "new_status": "Shipped"}
             ),
         ],
-        outputs=[
-            '"selected_carrier": "NSTS"',
-            '"tracking_number": "NSTS-ORD-0006"',
-            '"current_status": "Shipped"',
-            '"estimated_delivery_date": "2024-06-15"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2253,13 +2095,7 @@ TASKS = [
                 kwargs={"warehouse_id": "WH-09"}
             )
         ],
-        outputs=[
-            '"quantity_before_adjustment": 1200',
-            '"quantity_after_adjustment": 1700',
-            '"performance_rating": 4.5',
-            '"adjustment_value": 90000',
-            '"accuracy_updated": true'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2296,10 +2132,7 @@ TASKS = [
                 kwargs={"shipment_id": "SHIP-0030", "status": "Ready for Receipt"}
             )
         ],
-            outputs=[
-            '"duty_amount": 13300',
-            '"customs_entry_number": "US-SHIP-0030"'
-        ]
+            outputs=[]
     ),
 
     Task(
@@ -2343,10 +2176,7 @@ TASKS = [
                 kwargs={"lot_number": "LOT202405E", "recall_type": "precautionary"}
             )
         ],
-        outputs=[
-            '"temperature_compliance": "compliant"',
-            '"recall_initiated": true'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2419,17 +2249,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"recommended_carrier": "EWDL"',
-            '"maeu_on_time_percentage": 94.5',
-            '"npex_on_time_percentage": 96.2',
-            '"dhlg_on_time_percentage": 97.9',
-            '"maeu_estimated_cost": 7000',
-            '"npex_estimated_cost": 8400',
-            '"dhlg_estimated_cost": 8400',
-            '"tracking_number": "EWDL-ORD-0006"',
-            '"order_status": "Shipped"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2479,10 +2299,7 @@ TASKS = [
                 kwargs={"warehouse_id": "WH-07"}
             )
         ],
-        outputs=[
-            '"variance_percentage": 0.6',
-            '"inventory_accuracy_percentage": 100.0'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2529,14 +2346,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"quantity_available": 12500',
-            '"quantity_inbound": 5000',
-            '"total_expected_stock": 17500',
-            '"status": "Created"',
-            '"total_cost": 45000',
-            '"priority": "High"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2577,9 +2387,7 @@ TASKS = [
                 kwargs={"shipment_id": "SHIP-0001", "status": "Ready for Receipt"}
             )
         ],
-        outputs=[
-            '"duty_amount": 17500'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2628,13 +2436,7 @@ TASKS = [
                 kwargs={"warehouse_id": "WH-11"}
             )
         ],
-        outputs=[
-            '"performance_rating": 4.2',
-            '"on_time_delivery_percentage": 92.5',
-            '"supplier_status_recommendation": "maintain_active"',
-            '"warehouse_utilization": 55.8',
-            '"total_capacity_cbm": 120000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2682,14 +2484,7 @@ TASKS = [
                 kwargs={"warehouse_id": "WH-10"}
             )
         ],
-        outputs=[
-            '"quantity_available": 2400',
-            '"current_inbound": 1000',
-            '"total_capacity_cbm": 22000',
-            '"current_utilization_percentage": 95.5',
-            '"performance_rating": 4.9',
-            '"po_created": "PO-SUP-1010-FOOD-FISH-H8-001"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2746,14 +2541,7 @@ TASKS = [
                 kwargs={"supplier_id": "SUP-1006", "status": "Pending"}
             )
         ],
-        outputs=[
-            '"vaccine_quantity_available": 18000',
-            '"warehouse_utilization": 81.2',
-            '"physical_count": 19850',
-            '"variance_percentage": 0.75',
-            '"total_adjustment_value": 2325.00',
-            '"supplier_performance_rating": 4.9',
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2817,12 +2605,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"total_financial_impact": 240000',
-            '"recall_initiated": true',
-            '"supplier_performance_rating": 4.5',
-            '"customs_documentation_complete": false'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2874,12 +2657,7 @@ TASKS = [
                 kwargs={"shipment_id": "SHIP-0011", "status": "Ready for Receipt"}
             )
         ],
-        outputs=[
-            '"duty_amount": 42000',
-            '"total_capacity_cbm": 120000',
-            '"supplier_performance_rating": 4.3',
-            '"customs_entry_number": "US-SHIP-0011"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -2959,17 +2737,7 @@ TASKS = [
                 kwargs={"warehouse_id": "WH-15"}
             )
         ],
-        outputs=[
-            '"utilization_percentage": 82.0',
-            '"remaining_capacity_cbm": 5400',
-            '"delayed_shipment_value": 75000',
-            '"supplier_rating": 4.6',
-            '"overflow_warehouse": "WH-01"',
-            '"wine_inventory_available": 4500',
-            '"cork_inventory_available": 450000',
-            '"optimization_plan_id": "CAP-WH-15"',
-            '"transfer_units": 300'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3011,10 +2779,7 @@ TASKS = [
                 kwargs={"product_value": 250000}
             )
         ],
-        outputs=[
-            '"total_financial_impact": 250000',
-            '"carrier_rating": 4.4'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3141,20 +2906,7 @@ TASKS = [
                 kwargs={"warehouse_id": "WH-03", "optimization_strategy": "automotive_consolidation"}
             )
         ],
-        outputs=[
-            '"recommended_carrier": "DLOG"',
-            '"estimated_cost": 7560',
-            '"delivery_reliability": 95.8',
-            '"current_inventory": 200',
-            '"physical_count": 196',
-            '"variance_percentage": 2.0',
-            '"adjustment_id": "ADJ-WH-03"',
-            '"purchase_order_id": "PO-SUP-1023-AUTO-GLAS-U21-001"',
-            '"tracking_number": "DLOG-ORD-0003"',
-            '"warehouse_utilization": 65.0',
-            '"overflow_warehouse": "WH-01"',
-            '"capacity_plan_id": "CAP-WH-03"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3192,10 +2944,7 @@ TASKS = [
                 kwargs={"warehouse_id": "WH-12"}
             )
         ],
-        outputs=[
-            '"variance_percentage": 0.75',
-            '"total_adjustment_value": 472.50'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3317,11 +3066,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"temperature_excursion_detected": true',
-            '"total_financial_impact": 1100000',
-            '"affected_shipments": 2'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3372,11 +3117,7 @@ TASKS = [
                 kwargs={"shipment_id": "SHIP-0026"}
             )
         ],
-        outputs=[
-            '"performance_rating": 4.5',
-            '"on_time_delivery_percentage": 96.0',
-            '"supplier_status_recommendation": "enhanced_monitoring"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3430,11 +3171,7 @@ TASKS = [
                 kwargs={"order_id": "ORD-0002", "new_status": "Shipped"}
             )
         ],
-        outputs=[
-            '"tracking_number": "EWDL-ORD-0002"',
-            '"estimated_delivery_date": "2024-06-05"',
-            '"status": "Shipped"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3507,11 +3244,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"cold_chain_integrity": "maintained"',
-            '"total_financial_impact": 250000',
-            '"incident_id": "INC-SHIP-0019-high"'
-        ]
+        outputs=[]
     ),
 
 
@@ -3557,10 +3290,7 @@ TASKS = [
                 kwargs={"shipment_id": "SHIP-0012", "status": "Ready for Receipt"}
             )
         ],
-        outputs=[
-            '"duty_amount": 7700',
-            '"customs_status": "Cleared"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3637,11 +3367,7 @@ TASKS = [
                 kwargs={"warehouse_id": "WH-04"}
             )
         ],
-        outputs=[
-            '"performance_rating": 4.5',
-            '"variance_percentage": 0.48',
-            '"total_adjustment_value": 960.00'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3716,15 +3442,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"shipment_value": 550000',
-            '"temperature_compliance": "non-compliant"',
-            '"cold_chain_integrity": "maintained"',
-            '"quarantine_status": "Quarantined"',
-            '"incident_id": "INC-SHIP-0021-high"',
-            '"total_financial_impact": 650000',
-            '"escalation_priority": "critical"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3809,18 +3527,7 @@ TASKS = [
             )
         ],
 
-        outputs=[
-            '"current_utilization_percentage": 95.5',
-            '"remaining_capacity_cbm": 990',
-            '"shipment_value": 180000',
-            '"supplier_rating": 4.9',
-            '"overflow_options_found": 2',
-            '"system_count": 2500',
-            '"physical_count": 2400',
-            '"variance_percentage": 4.0',
-            '"adjustment_amount": -100',
-            '"plan_id": "CAP-WH-10"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -3932,21 +3639,7 @@ TASKS = [
                 kwargs={"warehouse_id": "WH-02"}
             )
         ],
-        outputs=[
-            '"quantity_available": 3500',
-            '"delayed_shipment_value": 125000',
-            '"supplier_rating": 4.9',
-            '"primary_supplier_found": "SUP-1002"',
-            '"po_id": "PO-SUP-1002-ELEC-SMART-W23-001"',
-            '"carrier_performance": 96.2',
-            '"shipping_quote": 2400',
-            '"total_financial_impact": 2148000',
-            '"physical_count": 3450',
-            '"variance_percentage": 1.43',
-            '"adjustment_created": true',
-            '"pending_orders_count": 0',
-            '"optimization_plan_id": "CAP-WH-02"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -4052,20 +3745,7 @@ TASKS = [
                 }
             )
         ],
-        outputs=[
-            '"shipment_value": 600000',
-            '"temperature_compliance": "compliant"',
-            '"cold_chain_integrity": "maintained"',
-            '"quarantine_status": "active"',
-            '"supplier_rating": 4.8',
-            '"calculated_duty": 21000',
-            '"duty_paid": 21000',
-            '"customs_status": "Cleared"',
-            '"incident_id": "INC-SHIP-0013-high"',
-            '"total_financial_impact": 675000',
-            '"pending_orders_found": 0',
-            '"escalation_priority": "critical"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -4166,17 +3846,7 @@ Lastly, escalate this safety concern to the quality team using incident ID INC-S
                 }
             )
         ],
-        outputs=[
-            '"shipment_value": 200000',
-            '"temperature_compliance": "compliant"',
-            '"quarantine_status": "active"',
-            '"supplier_rating": 4.8',
-            '"incident_id": "INC-SHIP-0019-high"',
-            '"total_financial_impact": 225000',
-            '"physical_count": 1485',
-            '"variance_percentage": 1.0',
-            '"adjustment_amount": -15'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -4276,18 +3946,7 @@ Lastly, escalate this safety concern to the quality team using incident ID INC-S
                 }
             )
         ],
-        outputs=[
-            '"shipment_value": 250000',
-            '"supplier_rating": 4.4',
-            '"improvement_plan_created": true',
-            '"carrier_performance": 93.5',
-            '"quantity_available": 520',
-            '"physical_count": 515',
-            '"variance_percentage": 0.96',
-            '"adjustment_amount": -5',
-            '"shipping_quote": 57000',
-            '"total_cost": 265000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -4400,18 +4059,7 @@ Lastly, calculate the total financial impact, considering the product value of 2
                 }
             )
         ],
-        outputs=[
-            '"shipment_value": 210000',
-            '"supplier_rating": 4.5',
-            '"quarantine_status": "active"',
-            '"temperature_compliance": "compliant"',
-            '"quantity_on_hand": 200',
-            '"physical_count": 198',
-            '"variance_percentage": 1.0',
-            '"duty_amount": 7350',
-            '"customs_status": "Cleared"',
-            '"total_financial_impact": 222000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -4525,14 +4173,7 @@ Lastly, calculate the total financial impact, considering the product value of 2
                 }
             )
         ],
-        outputs=[
-            '"shipment_value": 550000',
-            '"supplier_rating": 4.9',
-            '"excursions_detected": true',
-            '"variance_percentage": 20.4',
-            '"quarantine_status": "active"',
-            '"total_financial_impact": 575000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -4633,16 +4274,7 @@ Lastly, calculate the total financial impact, considering the product value of 2
                 }
             )
         ],
-        outputs=[
-            '"quantity_available": 3500',
-            '"current_utilization_percentage": 92.1',
-            '"supplier_rating": 4.7',
-            '"utilization_percentage": 85.0',
-            '"total_cost": 1498500',
-            '"primary_supplier_verified": "SUP-1030"',
-            '"estimated_cost": 4500',
-            '"on_time_delivery_percentage": 98.1'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -4761,15 +4393,7 @@ the system count of 18000 and physical count of 17950.
                 }
             )
         ],
-        outputs=[
-            '"number_of_packages": 150',
-            '"supplier_rating": 4.9',
-            '"temperature_compliance": "compliant"',
-            '"quantity_available": 18000',
-            '"variance_percentage": 0.28',
-            '"duty_amount": 15750',
-            '"total_financial_impact": 458000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -4886,15 +4510,7 @@ the system count of 18000 and physical count of 17950.
                 }
             )
         ],
-        outputs=[
-            '"hazmat_class": "3"',
-            '"supplier_rating": 4.8',
-            '"quantity_available": 378',
-            '"utilization_percentage": 70.0',
-            '"variance_percentage": 0.53',
-            '"duty_amount": 21000',
-            '"total_financial_impact": 615000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -4944,12 +4560,7 @@ the system count of 18000 and physical count of 17950.
                 kwargs={"warehouse_id": "WH-09"}
             )
         ],
-        outputs=[
-            '"quantity_available": 1100',
-            '"supplier_rating": 4.5',
-            '"current_inbound": 600',
-            '"total_cost": 179994'
-        ]
+        outputs=[]
     ),
 
      Task(
@@ -5012,12 +4623,7 @@ the system count of 18000 and physical count of 17950.
                 kwargs={"carrier_scac": "SWDL"}
             )
         ],
-        outputs=[
-            '"number_of_packages": 12',
-            '"supplier_rating": 4.7',
-            '"quantity_available": 120',
-            '"on_time_delivery_percentage": 97.5'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5073,13 +4679,7 @@ the system count of 18000 and physical count of 17950.
                 }
             )
         ],
-        outputs=[
-            '"customer_name": "Epsilon Fashion Co."',
-            '"allocation_status": "fully_allocated"',
-            '"quantity_available": 22000',
-            '"selected_carrier": "GPLS"',
-            '"estimated_cost": 2400'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5145,10 +4745,7 @@ the system count of 18000 and physical count of 17950.
             )
         ],
 
-        outputs=[
-            '"customs_clearance_status": "Cleared"',
-            '"estimated_cost": 40000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5226,12 +4823,7 @@ the system count of 18000 and physical count of 17950.
                 }
             ),
         ],
-        outputs=[
-            '"total_adjustment_value": 17600',
-            '"improvement_plan_status": "Created"',
-            '"po_id": "PO-SUP-1011-HEVY-DRIL-I9-001"',
-            '"total_cost": 87500'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5299,10 +4891,7 @@ the system count of 18000 and physical count of 17950.
             )
         ],
 
-        outputs=[
-            '"temperature_compliance": "maintained"',
-            '"total_financial_exposure": 150000',
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5360,10 +4949,7 @@ the system count of 18000 and physical count of 17950.
             )
         ],
 
-        outputs=[
-            '"customs_clearance_status": "Cleared"',
-            '"supplier_rating": 4.7',
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5435,12 +5021,7 @@ the system count of 18000 and physical count of 17950.
             )
         ],
 
-        outputs=[
-            '"selected_carrier": "DLOG"',
-            '"estimated_cost": 1764',
-            '"ontime_delivery_percentage_maeu": 94.5',
-            '"ontime_delivery_percentage_dbsg": 95.8',
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5506,9 +5087,7 @@ the system count of 18000 and physical count of 17950.
             )
         ],
 
-        outputs=[
-            '"adjustment_value": 27000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5567,10 +5146,7 @@ the system count of 18000 and physical count of 17950.
             )
         ],
 
-        outputs=[
-            '"quarantine_status": "Quarantined"',
-            '"improvement_plan_id": "SIP-SUP-1012"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5625,10 +5201,7 @@ the system count of 18000 and physical count of 17950.
             )
         ],
 
-        outputs=[
-            '"emergency_order_status": "Created"',
-            '"selected_carrier": "GPLS"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5682,10 +5255,7 @@ Provide a report on the incident ID and quarantine confirmation.
             )
         ],
 
-        outputs=[
-            '"incident_id": "INC-ORD-0003-medium"',
-            '"quarantine_confirmation": "Quarantined"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5756,10 +5326,7 @@ Provide a report on the incident ID and quarantine confirmation.
             )
         ],
 
-        outputs=[
-            '"temperature_compliance": "maintained"',
-            '"selected_carrier": "DFC"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5821,10 +5388,7 @@ Provide a report on the incident ID and quarantine confirmation.
             )
         ],
 
-        outputs=[
-            '"quarantine_status": "Quarantined"',
-            '"total_financial_exposure": 125000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5898,10 +5462,7 @@ Provide a report on the incident ID and quarantine confirmation.
             )
         ],
 
-        outputs=[
-            '"selected_carrier": "GPLS"',
-            '"incident_id": "INC-ORD-0001-medium"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -5965,10 +5526,7 @@ Provide a report on the incident ID and quarantine confirmation.
             )
         ],
 
-        outputs=[
-            '"improvement_plan_id": "SIP-SUP-1020"',
-            '"total_financial_exposure": 650000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6025,10 +5583,7 @@ Provide a report on the incident ID and quarantine confirmation.
             )
         ],
 
-        outputs=[
-            '"incident_status": "Created"',
-            '"escalation_id": "ESC-INC-SHIP-0013-critical"'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6092,11 +5647,7 @@ Provide a report on the incident ID and quarantine confirmation.
             )
         ],
 
-        outputs=[
-            '"adjustment_value": 750',
-            '"purchase_order_status": "Created"',
-            '"total_cost": 12500'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6168,10 +5719,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"tracking_number": "GPLS-ORD-0005"',
-            '"total_financial_cost": 122500'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6225,10 +5773,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"temperature_compliance": "compliant"',
-            '"total_monitoring_cost": 185000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6302,10 +5847,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"selected_carrier": "NSTS"',
-            '"total_shipment_value": 182800'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6367,10 +5909,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"inventory_accuracy": 100',
-            '"total_audit_cost": 68500'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6435,10 +5974,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 kwargs={"warehouse_id": "WH-05"}
             )
         ],
-        outputs=[
-            '"incident_id": INC-FOOD-COFF-C3-medium',
-            '"warehouse_utilization": 75.0'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6495,10 +6031,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"incident_id": "INC-SHIP-0004-medium"',
-            '"total_delay_impact": 100000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6561,10 +6094,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"delivery_date": "2024-06-15"',
-            '"total_shipment_value": 212000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6623,10 +6153,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"incident_id": "INC-SHIP-0014-low"',
-            '"total_luxury_value": 55500'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6689,10 +6216,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"physical_count": "596"',
-            '"utilization_percentage": 88.9'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6760,10 +6284,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"expected_arrival_date": "2024-06-20"',
-            '"total_import_cost": 378000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6831,11 +6352,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"temperature_compliance": "non-compliant"',
-            '"incident_id": "INC-SHIP-0027-low"',
-            '"total_seafood_investment": 189500'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6898,11 +6415,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"incident_id": "INC-ORD-0015-low"',
-            '"incident_status": "Created"',
-            '"total_financial_impact": 47200'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -6974,10 +6487,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"supplier_performance": "4.8"',
-            '"total_commodity_investment": 270800'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -7051,11 +6561,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"count": "3970"',
-            '"utilization_percentage": 92.1',
-            '"total_investigation_cost": 2612000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -7125,11 +6631,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"safety_compliance_status": "non_compliant"',
-            '"incident_id": "INC-TECH-BATT-Q17-low"',
-            '"total_battery_compliance_cost": 88000'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -7198,10 +6700,7 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"quarantine_id": "QTN-LOT202404A-WH-12"',
-            '"total_construction_cost": 232800'
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -7276,9 +6775,6 @@ Provide a report on the incident ID and quarantine confirmation.
                 }
             )
         ],
-        outputs=[
-            '"purchase_order_id": "PO-SUP-1003-AUTO-PAD-B2-001"',
-            '"total_automotive_cost": 188500'
-        ]
+        outputs=[]
     ),
 ]

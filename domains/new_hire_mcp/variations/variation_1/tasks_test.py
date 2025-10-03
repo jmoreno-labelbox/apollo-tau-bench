@@ -14,7 +14,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -29,7 +29,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -44,7 +44,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -59,7 +59,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -74,7 +74,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -89,7 +89,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -104,7 +104,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -119,7 +119,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -134,7 +134,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -149,7 +149,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -166,7 +166,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -179,7 +179,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_6'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_6'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -192,7 +192,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_6'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_6'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -207,7 +207,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_4'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_4'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -222,7 +222,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_3'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_3'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -237,7 +237,7 @@ TASKS = [
             Action(name="GetAvailableEmailTypes", kwargs={}),
             Action(name="CheckEmailCommunicationGaps", kwargs={'expected_email_types': ['orientation invitation']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -251,7 +251,7 @@ TASKS = [
             Action(name="GetAvailableEmailTypes", kwargs={}),
             Action(name="CheckEmailCommunicationGaps", kwargs={'expected_email_types': ['orientation invitation']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -268,7 +268,7 @@ TASKS = [
             Action(name="CheckEmailCommunicationGaps", kwargs={'expected_email_types': ['orientation invitation']}),
             Action(name="GetPendingAssetRequests", kwargs={'status_filter': 'Pending'}),
         ],
-        outputs=[{"full_name": "Raj Patel"}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -282,7 +282,7 @@ TASKS = [
             Action(name="GetAvailableEmailTypes", kwargs={}),
             Action(name="CheckEmailCommunicationGaps", kwargs={'expected_email_types': ['orientation invitation']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -296,7 +296,7 @@ TASKS = [
             Action(name="GetAvailableEmailTypes", kwargs={}),
             Action(name="CheckEmailCommunicationGaps", kwargs={'expected_email_types': ['orientation invitation']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -313,7 +313,7 @@ TASKS = [
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_4'}),
             Action(name="GetPendingAssetRequests", kwargs={'status_filter': 'Pending'}),
         ],
-        outputs=[{"full_name": "Raj Patel"}],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -327,7 +327,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_3'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_3'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -344,7 +344,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_4'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_4'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -358,7 +358,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_1'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_1'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -373,7 +373,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_4'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_4'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -388,7 +388,7 @@ TASKS = [
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_7'}),
             Action(name="SendEmailWithAttachments", kwargs={'candidate_id': 'cand_7', 'template_name': 'asset_fulfillment_notification', 'to_emails': ['robert.singh@example.com'], 'cc_emails': ['sarah.wilson@example.com'], 'template_context': {'asset_name': 'MacBook Pro 16-inch M3, 32GB RAM, 1TB SSD', 'asset_tag': 'LT-MBP-001'}}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -404,7 +404,7 @@ TASKS = [
             Action(name="SendEmailWithAttachments", kwargs={'candidate_id': 'cand_7', 'template_name': 'asset_fulfillment_notification', 'to_emails': ['robert.singh@example.com'], 'cc_emails': ['sarah.wilson@example.com'], 'template_context': {'asset_name': 'MacBook Pro 16-inch M3, 32GB RAM, 1TB SSD', 'asset_tag': 'LT-MBP-001'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_1'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -418,7 +418,7 @@ TASKS = [
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_2'}),
             Action(name="SendEmailWithAttachments", kwargs={'candidate_id': 'cand_2', 'template_name': 'asset_fulfillment_notification', 'to_emails': ['jane.smith@example.com'], 'cc_emails': ['mike.chen@example.com'], 'template_context': {'asset_name': 'MacBook Pro 16-inch M3, 32GB RAM, 1TB SSD', 'asset_tag': 'LT-MBP-001'}}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -432,7 +432,7 @@ TASKS = [
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_6'}),
             Action(name="SendEmailWithAttachments", kwargs={'candidate_id': 'cand_6', 'template_name': 'asset_fulfillment_notification', 'to_emails': ['emily.chen@example.com'], 'cc_emails': ['jennifer.davis@example.com'], 'template_context': {'asset_name': 'Logitech MX Keys Advanced Wireless', 'asset_tag': 'KB-LOGI-001'}}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -446,7 +446,7 @@ TASKS = [
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_6'}),
             Action(name="SendEmailWithAttachments", kwargs={'candidate_id': 'cand_6', 'template_name': 'asset_fulfillment_notification', 'to_emails': ['emily.chen@example.com'], 'cc_emails': ['jennifer.davis@example.com'], 'template_context': {'asset_name': 'Logitech MX Keys Advanced Wireless', 'asset_tag': 'KB-LOGI-001'}}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -461,7 +461,7 @@ TASKS = [
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_5'}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_7'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -475,7 +475,7 @@ TASKS = [
             Action(name="SendEmailWithAttachments", kwargs={'candidate_id': 'cand_1', 'template_name': 'welcome', 'to_emails': ['john.doe@example.com'], 'cc_emails': ['sarah.wilson@example.com']}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'cand_1', 'new_status': 'Packet Sent'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -489,7 +489,7 @@ TASKS = [
             Action(name="SendEmailWithAttachments", kwargs={'candidate_id': 'cand_2', 'template_name': 'welcome', 'to_emails': ['jane.smith@example.com'], 'cc_emails': ['mike.chen@example.com']}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'cand_2', 'new_status': 'Packet Sent'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -502,7 +502,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_5', 'cand_2', 'cand_1', 'cand_7'], 'fields_to_update': {'orientation_invite_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="CheckEmailCommunicationGaps", kwargs={'expected_email_types': ['orientation invitation']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -517,7 +517,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -532,7 +532,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -547,7 +547,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -562,7 +562,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -577,7 +577,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -592,7 +592,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -607,7 +607,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -622,7 +622,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -637,7 +637,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -652,7 +652,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -667,7 +667,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -685,7 +685,7 @@ TASKS = [
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_6'}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_7'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -701,7 +701,7 @@ TASKS = [
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_3'}),
             Action(name="GetPendingAssetRequests", kwargs={'status_filter': 'Pending'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -716,7 +716,7 @@ TASKS = [
             Action(name="SendEmailWithAttachments", kwargs={'candidate_id': 'cand_6', 'template_name': 'welcome', 'to_emails': ['emily.chen@example.com'], 'cc_emails': ['jennifer.davis@example.com']}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['cand_1', 'cand_6'], 'new_status': 'Packet Sent'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -730,7 +730,7 @@ TASKS = [
             Action(name="GetAvailableEmailTypes", kwargs={}),
             Action(name="CheckEmailCommunicationGaps", kwargs={'expected_email_types': ['orientation invitation']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -746,7 +746,7 @@ TASKS = [
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_7'}),
             Action(name="GetPendingAssetRequests", kwargs={'status_filter': 'Pending'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -761,7 +761,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -776,7 +776,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -791,7 +791,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -806,7 +806,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -821,7 +821,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -836,7 +836,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
         Task(
         annotator="faris",
@@ -852,7 +852,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -868,7 +868,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -884,7 +884,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -900,7 +900,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -916,7 +916,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -932,7 +932,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -948,7 +948,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -964,7 +964,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -980,7 +980,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -996,7 +996,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1009,7 +1009,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_6'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_6'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1024,7 +1024,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_4'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_4'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1039,7 +1039,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_3'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_3'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1053,7 +1053,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_3'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_3'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1067,7 +1067,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_1'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_1'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1082,7 +1082,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_4'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_4'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1098,7 +1098,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1112,7 +1112,7 @@ TASKS = [
             Action(name="GetAvailableEmailTypes", kwargs={}),
             Action(name="CheckEmailCommunicationGaps", kwargs={'expected_email_types': ['orientation invitation']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1126,7 +1126,7 @@ TASKS = [
             Action(name="GetAvailableEmailTypes", kwargs={}),
             Action(name="CheckEmailCommunicationGaps", kwargs={'expected_email_types': ['orientation invitation']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1143,7 +1143,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_4'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_4'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1160,7 +1160,7 @@ TASKS = [
             Action(name="UpdateCandidatesRecord", kwargs={'candidate_ids': ['cand_4'], 'fields_to_update': {'checklist_follow_up_ts_nullable': '2024-08-15T12:00:00Z'}}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_4'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1178,7 +1178,7 @@ TASKS = [
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_6'}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_7'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1194,7 +1194,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1212,7 +1212,7 @@ TASKS = [
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_6'}),
             Action(name="GetCandidateWithFullContext", kwargs={'candidate_id': 'cand_7'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1228,7 +1228,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1244,7 +1244,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1259,7 +1259,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1274,7 +1274,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1289,7 +1289,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1304,7 +1304,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1319,7 +1319,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1334,7 +1334,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'CAND-001', 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_id': 'CAND-001'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1349,7 +1349,7 @@ TASKS = [
             Action(name="UpdateAccessCheckStatus", kwargs={'candidate_id': 'cand_3', 'system_name': 'GitHub', 'new_status': 'Success', 'note': 'Resolved by IT.'}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'cand_3', 'new_status': 'Onboarded'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1361,7 +1361,7 @@ TASKS = [
             Action(name="UpdateTaskCompletionStatus", kwargs={'item_ids': ['item_13', 'item_14']}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'cand_5', 'new_status': 'Onboarded'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1376,7 +1376,7 @@ TASKS = [
             Action(name="UpdateAccessCheckStatus", kwargs={'candidate_id': 'cand_1', 'system_name': 'Email', 'new_status': 'Success', 'note': 'Resolved by IT.'}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'cand_1', 'new_status': 'Onboarded'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1390,7 +1390,7 @@ TASKS = [
             Action(name="UpdateTaskCompletionStatus", kwargs={'item_ids': ['item_4', 'item_5', 'item_6', 'item_7']}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'cand_2', 'new_status': 'Onboarded'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1405,7 +1405,7 @@ TASKS = [
             Action(name="UpdateAccessCheckStatus", kwargs={'candidate_id': 'cand_3', 'system_name': 'GitHub', 'new_status': 'Success', 'note': 'Resolved by IT.'}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'cand_3', 'new_status': 'Onboarded'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1420,7 +1420,7 @@ TASKS = [
             Action(name="ResolveSsoAccessIssue", kwargs={'candidate_id': 'cand_4'}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'cand_4', 'new_status': 'Onboarded'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1436,7 +1436,7 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 
     Task(
@@ -1452,7 +1452,7 @@ TASKS = [
             Action(name="UpdateTaskCompletionStatus", kwargs={'item_ids': ['item_17']}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'cand_6', 'new_status': 'Onboarded'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1466,7 +1466,7 @@ TASKS = [
             Action(name="SendEmailWithAttachments", kwargs={'candidate_id': 'cand_7', 'template_name': 'asset_fulfillment_notification', 'to_emails': ['robert.singh@example.com'], 'cc_emails': ['sarah.wilson@example.com'], 'template_context': {'asset_name': 'MacBook Pro 16-inch M3, 32GB RAM, 1TB SSD', 'asset_tag': 'LT-MBP-001'}}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'cand_7', 'new_status': 'Onboarded'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1481,7 +1481,7 @@ TASKS = [
             Action(name="UpdateAccessCheckStatus", kwargs={'candidate_id': 'cand_1', 'system_name': 'Email', 'new_status': 'Success', 'note': 'Resolved by IT.'}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'cand_1', 'new_status': 'Onboarded'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1495,7 +1495,7 @@ TASKS = [
             Action(name="UpdateTaskCompletionStatus", kwargs={'item_ids': ['item_4', 'item_5', 'item_6', 'item_7']}),
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_id': 'cand_2', 'new_status': 'Onboarded'}),
         ],
-        outputs=[],
+        outputs=[]
     ),
     Task(
         annotator="faris",
@@ -1511,6 +1511,6 @@ TASKS = [
             Action(name="UpdateCandidateOnboardingStatus", kwargs={'candidate_ids': ['CAND-001', 'CAND-002'], 'new_status': 'Packet Sent'}),
             Action(name="RunAndRecordSystemAccessChecks", kwargs={'candidate_ids': ['CAND-001', 'CAND-002']}),
         ],
-        outputs=[],
+        outputs=[]
     ),
 ]

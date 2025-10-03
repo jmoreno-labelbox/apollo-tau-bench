@@ -17,7 +17,7 @@ TASKS = [
         Action(name="SendEmail", kwargs={"client_id": 1, "broker_id": 1, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 1, "broker_id": 1, "title": "Client onboarding session", "start_at": "2025-09-20T09:00:00Z", "end_at": "2025-09-20T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["1684647.00"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -35,7 +35,7 @@ TASKS = [
         Action(name="SendEmail", kwargs={"client_id": 2, "broker_id": 1, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 2, "broker_id": 1, "title": "Client onboarding session", "start_at": "2025-09-21T09:00:00Z", "end_at": "2025-09-21T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["4971305.22"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -53,7 +53,7 @@ TASKS = [
         Action(name="SendEmail", kwargs={"client_id": 3, "broker_id": 1, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 3, "broker_id": 1, "title": "Client onboarding session", "start_at": "2025-09-22T09:00:00Z", "end_at": "2025-09-22T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["673000.07"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -71,7 +71,7 @@ TASKS = [
         Action(name="SendEmail", kwargs={"client_id": 4, "broker_id": 1, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 4, "broker_id": 1, "title": "Client onboarding session", "start_at": "2025-09-23T09:00:00Z", "end_at": "2025-09-23T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["792794.88"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -89,7 +89,7 @@ TASKS = [
         Action(name="SendEmail", kwargs={"client_id": 5, "broker_id": 1, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 5, "broker_id": 1, "title": "Client onboarding session", "start_at": "2025-09-24T09:00:00Z", "end_at": "2025-09-24T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["844058.84"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -107,7 +107,7 @@ TASKS = [
         Action(name="SendEmail", kwargs={"client_id": 6, "broker_id": 2, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 6, "broker_id": 2, "title": "Client onboarding session", "start_at": "2025-09-25T09:00:00Z", "end_at": "2025-09-25T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["257015.43"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -125,7 +125,7 @@ TASKS = [
         Action(name="SendEmail", kwargs={"client_id": 7, "broker_id": 2, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 7, "broker_id": 2, "title": "Client onboarding session", "start_at": "2025-09-26T09:00:00Z", "end_at": "2025-09-26T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["1673416.02"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -143,7 +143,7 @@ TASKS = [
         Action(name="SendEmail", kwargs={"client_id": 8, "broker_id": 2, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 8, "broker_id": 2, "title": "Client onboarding session", "start_at": "2025-09-27T09:00:00Z", "end_at": "2025-09-27T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["412712.13"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -161,7 +161,7 @@ TASKS = [
         Action(name="SendEmail", kwargs={"client_id": 9, "broker_id": 2, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 9, "broker_id": 2, "title": "Client onboarding session", "start_at": "2025-09-28T09:00:00Z", "end_at": "2025-09-28T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["563680.26"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -179,7 +179,7 @@ TASKS = [
         Action(name="SendEmail", kwargs={"client_id": 10, "broker_id": 2, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 10, "broker_id": 2, "title": "Client onboarding session", "start_at": "2025-09-29T09:00:00Z", "end_at": "2025-09-29T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["514940.43"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -197,7 +197,7 @@ TASKS = [
         Action(name="SendEmail", kwargs={"client_id": 11, "broker_id": 3, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 11, "broker_id": 3, "title": "Client onboarding session", "start_at": "2025-09-21T09:00:00Z", "end_at": "2025-09-21T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["999967.53"],
+    outputs=[]
 ),
  Task(
         annotator="Irfan",
@@ -214,7 +214,7 @@ TASKS = [
             Action(name="GenerateBriefingDoc", kwargs={"client_id": 14, "broker_id": 3, "property_id": "HTX002", "doc_type": "evaluation_report"}),
             Action(name="SendEmail", kwargs={"client_id": 14, "broker_id": 3, "subject": "Comprehensive Market Overview", "template_code": "property_evaluation", "campaign_id": 101})
         ],
-        outputs=["5354049.44"]
+        outputs=[]
     ),
 Task(
     annotator="Irfan",
@@ -232,7 +232,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 13, "broker_id": 3, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 13,"broker_id": 3,"title": "Client onboarding session","start_at": "2025-09-23T09:00:00Z","end_at": "2025-09-23T10:00:00Z","location": "Office","notes": "Client onboarding session"})
     ],
-    outputs=["796036.03"],
+    outputs=[]
 ),
 Task(
     annotator="Irfan",
@@ -250,7 +250,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 14, "broker_id": 3, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 14, "broker_id": 3, "title": "Client onboarding session", "start_at": "2025-09-24T09:00:00Z", "end_at": "2025-09-24T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["1054277.28"],
+    outputs=[]
 ),
 Task(
     annotator="Irfan",
@@ -268,7 +268,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 15, "broker_id": 3, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 15, "broker_id": 3, "title": "Client onboarding session", "start_at": "2025-09-25T09:00:00Z", "end_at": "2025-09-25T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["1630582.09"],
+    outputs=[]
 ),
 Task(
     annotator="Irfan",
@@ -286,7 +286,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 16, "broker_id": 4, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 16, "broker_id": 4, "title": "Client onboarding session", "start_at": "2025-10-04T09:00:00Z", "end_at": "2025-10-04T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["1335186.79"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -304,7 +304,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 17, "broker_id": 4, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 17, "broker_id": 4, "title": "Client onboarding session", "start_at": "2025-10-05T09:00:00Z", "end_at": "2025-10-05T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["1940717.23"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -322,7 +322,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 18, "broker_id": 4, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 18, "broker_id": 4, "title": "Client onboarding session", "start_at": "2025-10-06T09:00:00Z", "end_at": "2025-10-06T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["1913167.33"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -340,7 +340,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 19, "broker_id": 4, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 19, "broker_id": 4, "title": "Client onboarding session", "start_at": "2025-10-07T09:00:00Z", "end_at": "2025-10-07T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["1095343.61"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -358,7 +358,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 20, "broker_id": 4, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 20, "broker_id": 4, "title": "Client onboarding session", "start_at": "2025-10-08T09:00:00Z", "end_at": "2025-10-08T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["796036.03"]
+    outputs=[]
 ),
  Task(
         annotator="Irfan",
@@ -376,7 +376,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 11, "broker_id": 3, "subject": "Comprehensive Market Intelligence", "template_code": "market_intelligence", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 11, "broker_id": 3, "title": "Market intelligence briefing", "start_at": "2025-10-30T16:00:00Z", "end_at": "2025-10-30T17:00:00Z", "location": "Office", "notes": "Market intelligence briefing"})
         ],
-        outputs=["987222.14"]
+        outputs=[]
     ),
 
 Task(
@@ -400,7 +400,7 @@ Task(
             "campaign_id": 101
         }),
     ],
-    outputs=["860797.75"],
+    outputs=[]
 ),
 
 Task(
@@ -427,7 +427,7 @@ Task(
             "notes": "Purchase consultation"
         }),
     ],
-    outputs=["1140225.88"],
+    outputs=[]
 ),
 
 Task(
@@ -454,7 +454,7 @@ Task(
             "notes": "Purchase consultation"
         }),
     ],
-    outputs=["867058.41"],
+    outputs=[]
 ),
 
 Task(
@@ -478,7 +478,7 @@ Task(
             "campaign_id": 101
         }),
     ],
-    outputs=["860797.75"],
+    outputs=[]
 ),
 Task(
     annotator="Irfan", 
@@ -496,7 +496,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 6, "broker_id": 2, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 6, "broker_id": 2, "title": "Client onboarding session", "start_at": "2025-09-26T09:00:00Z", "end_at": "2025-09-26T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["2050651.12"],
+    outputs=[]
 ),
 Task(
     annotator="Irfan", 
@@ -514,7 +514,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 7, "broker_id": 2, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 7, "broker_id": 2, "title": "Client onboarding session", "start_at": "2025-09-27T09:00:00Z", "end_at": "2025-09-27T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["2006926.71"],
+    outputs=[]
 ),
 Task(
     annotator="Irfan", 
@@ -532,7 +532,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 8, "broker_id": 2, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 8, "broker_id": 2, "title": "Client onboarding session", "start_at": "2025-09-28T09:00:00Z", "end_at": "2025-09-28T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["2072597.94"],
+    outputs=[]
 ),
 Task(
     annotator="Irfan", 
@@ -550,7 +550,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 9, "broker_id": 2, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 9, "broker_id": 2, "title": "Client onboarding session", "start_at": "2025-09-29T09:00:00Z", "end_at": "2025-09-29T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["1818840.44"],
+    outputs=[]
 ),
 Task(
     annotator="Irfan", 
@@ -568,7 +568,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 10, "broker_id": 2, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 10, "broker_id": 2, "title": "Client onboarding session", "start_at": "2025-09-30T09:00:00Z", "end_at": "2025-09-30T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["1713285.93"],
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -585,7 +585,7 @@ Task(
         Action(name="CreateCampaign", kwargs={"name": "Property Analysis for property_evaluation", "type": "property_evaluation", "created_by": 3}),
         Action(name="SendEmail", kwargs={"client_id": 11, "broker_id": 3, "subject": "Property Analysis Update", "template_code": "property_evaluation", "campaign_id": 101})
     ],
-    outputs=["9481.02"]
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -600,7 +600,7 @@ Task(
             Action(name="CreateCampaign", kwargs={"name": "Property Showings", "type": "property_showing", "created_by": 3}),
             Action(name="SendEmail", kwargs={"client_id": 14, "broker_id": 3, "subject": "Property Showing Invitation", "template_code": "showing_invitation", "campaign_id": 101})
         ],
-        outputs=["838815.20"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -618,7 +618,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 17, "broker_id": 4, "subject": "First-Time Buyer Support", "template_code": "first_time_buyer", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 17, "broker_id": 4, "title": "First-time buyer education session", "start_at": "2025-03-10T14:00:00Z", "end_at": "2025-03-10T15:00:00Z", "location": "Office", "notes": "First-time buyer education session"})
         ],
-        outputs=["1583943.51"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -633,7 +633,7 @@ Task(
             Action(name="CreateCampaign", kwargs={"name": "Luxury Collection", "type": "luxury_marketing", "created_by": 4}),
             Action(name="SendEmail", kwargs={"client_id": 20, "broker_id": 4, "subject": "Exclusive Luxury Collection", "template_code": "luxury_marketing", "campaign_id": 101})
         ],
-        outputs=["24604.17"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -650,7 +650,7 @@ Task(
             Action(name="GenerateBriefingDoc", kwargs={"client_id": 3, "broker_id": 1, "property_id": "HTX004", "doc_type": "investment_analysis"}),
             Action(name="SendEmail", kwargs={"client_id": 3, "broker_id": 1, "subject": "Investment Opportunity Brief", "template_code": "investor_outreach", "campaign_id": 101})
         ],
-                outputs=["1019063.75"]
+                outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -665,7 +665,7 @@ Task(
             Action(name="CreateCampaign", kwargs={"name": "First Home Purchase", "type": "first_time_buyer", "created_by": 1}),
             Action(name="SendEmail", kwargs={"client_id": 5, "broker_id": 1, "subject": "Welcome Package", "template_code": "first_time_buyer", "campaign_id": 101})
         ],
-        outputs=["26179.36"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -682,7 +682,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 8, "broker_id": 2, "subject": "Exclusive Property Showing", "template_code": "showing_invitation", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 8, "broker_id": 2, "title": "Private property showing", "start_at": "2025-03-15T15:00:00Z", "end_at": "2025-03-15T16:00:00Z", "location": "HTX001", "notes": "Private property showing"})
         ],
-        outputs=["2092633.47"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -698,7 +698,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 13, "broker_id": 3, "subject": "Exclusive VIP Access", "template_code": "luxury_marketing", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 13, "broker_id": 3, "title": "VIP client consultation", "start_at": "2025-05-05T14:00:00Z", "end_at": "2025-05-05T15:00:00Z", "location": "Office", "notes": "VIP client consultation"})
         ],
-        outputs=["4310.31"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -714,7 +714,7 @@ Task(
             Action(name="CreateCampaign", kwargs={"name": "Property Analysis", "type": "property_evaluation", "created_by": 4}),
             Action(name="SendEmail", kwargs={"client_id": 18, "broker_id": 4, "subject": "Property Evaluation Report", "template_code": "property_evaluation", "campaign_id": 101})
         ],
-        outputs=["1458620.71"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -730,7 +730,7 @@ Task(
             Action(name="CreateCampaign", kwargs={"name": "Investment Opportunities", "type": "investor_outreach", "created_by": 2}),
             Action(name="SendEmail", kwargs={"client_id": 6, "broker_id": 2, "subject": "Investment Opportunity Brief", "template_code": "investor_outreach", "campaign_id": 101})
         ],
-                outputs=["282536.06"]
+                outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -745,7 +745,7 @@ Task(
             Action(name="CreateCampaign", kwargs={"name": "Relocation Services", "type": "relocation", "created_by": 2}),
             Action(name="SendEmail", kwargs={"client_id": 9, "broker_id": 2, "subject": "Relocation Guide", "template_code": "relocation", "campaign_id": 101})
         ],
-        outputs=["9778.88"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -761,7 +761,7 @@ Task(
             Action(name="GenerateBriefingDoc", kwargs={"client_id": 14, "broker_id": 3, "property_id": "HTX002", "doc_type": "commercial_analysis"}),
             Action(name="SendEmail", kwargs={"client_id": 14, "broker_id": 3, "subject": "Commercial Investment Opportunity", "template_code": "commercial_sales", "campaign_id": 101})
         ],
-        outputs=["5641777.34"]
+        outputs=[]
     ),
     Task(
     annotator="Irfan",
@@ -776,7 +776,7 @@ Task(
         Action(name="CreateCampaign", kwargs={"name": "Estate Management", "type": "estate_management", "created_by": 4}),
         Action(name="SendEmail", kwargs={"client_id": 17, "broker_id": 4, "subject": "Luxury Estate Services", "template_code": "estate_management", "campaign_id": 101})
     ],
-    outputs=["1344787.93"]
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -792,7 +792,7 @@ Task(
             Action(name="CreateCampaign", kwargs={"name": "Investment Consulting", "type": "investment_consulting", "created_by": 3}),
             Action(name="SendEmail", kwargs={"client_id": 12, "broker_id": 3, "subject": "Investment Strategy", "template_code": "investment_consulting", "campaign_id": 101})
         ],
-        outputs=["984793.31"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -808,7 +808,7 @@ Task(
             Action(name="CreateCampaign", kwargs={"name": "Market Intelligence", "type": "market_analysis", "created_by": 2}),
             Action(name="SendEmail", kwargs={"client_id": 7, "broker_id": 2, "subject": "Market Insights", "template_code": "market_analysis", "campaign_id": 101})
         ],
-                outputs=["4444.89"]
+                outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -824,7 +824,7 @@ Task(
             Action(name="CreateCampaign", kwargs={"name": "Portfolio Review", "type": "portfolio_review", "created_by": 3}),
             Action(name="SendEmail", kwargs={"client_id": 15, "broker_id": 3, "subject": "Comprehensive Portfolio Assessment", "template_code": "portfolio_review", "campaign_id": 101})
         ],
-        outputs=["5738459.28"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -841,7 +841,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 2, "broker_id": 1, "subject": "Premium Luxury Marketing", "template_code": "luxury_marketing", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 2, "broker_id": 1, "title": "Luxury property consultation", "start_at": "2025-09-25T14:00:00Z", "end_at": "2025-09-25T15:00:00Z", "location": "Office", "notes": "Luxury property consultation"})
         ],
-        outputs=["26713.27"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -857,7 +857,7 @@ Task(
             Action(name="CreateCampaign", kwargs={"name": "Client Onboarding", "type": "client_onboarding", "created_by": 1}),
             Action(name="SendEmail", kwargs={"client_id": 4, "broker_id": 1, "subject": "Welcome Package", "template_code": "client_onboarding", "campaign_id": 101})
         ],
-        outputs=["1622985.33"]
+        outputs=[]
     ),
     Task(
     annotator="Irfan",
@@ -873,7 +873,7 @@ Task(
         Action(name="CreateCampaign", kwargs={"name": "Purchase Support", "type": "purchase_support", "created_by": 4}),
         Action(name="SendEmail", kwargs={"client_id": 16, "broker_id": 4, "subject": "Comprehensive Purchase Analysis", "template_code": "purchase_support", "campaign_id": 101})
     ],
-    outputs=["1007333.66"]
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -888,7 +888,7 @@ Task(
             Action(name="CreateCampaign", kwargs={"name": "First Home Purchase", "type": "first_time_buyer", "created_by": 1}),
             Action(name="SendEmail", kwargs={"client_id": 1, "broker_id": 1, "subject": "Welcome Package", "template_code": "first_time_buyer", "campaign_id": 101})
         ],
-        outputs=["1397.02"]
+        outputs=[]
     ),
     Task(
     annotator="Irfan",
@@ -905,7 +905,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 7, "broker_id": 2, "subject": "Comprehensive Market Intelligence", "template_code": "market_intelligence", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 7, "broker_id": 2, "title": "Market intelligence consultation", "start_at": "2025-04-20T10:00:00Z", "end_at": "2025-04-20T11:00:00Z", "location": "Office", "notes": "Market intelligence consultation"})
     ],
-    outputs=["9879.0"]
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -921,7 +921,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 18, "broker_id": 4, "subject": "Exclusive Property Showing", "template_code": "showing_invitation", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 18, "broker_id": 4, "title": "Private property showing", "start_at": "2025-04-15T14:00:00Z", "end_at": "2025-04-15T15:00:00Z", "location": "HTX004", "notes": "Private property showing"})
         ],
-        outputs=["1001894.5"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -937,7 +937,7 @@ Task(
             Action(name="CreateCampaign", kwargs={"name": "Investment Consulting", "type": "investment_consulting", "created_by": 2}),
             Action(name="SendEmail", kwargs={"client_id": 9, "broker_id": 2, "subject": "Investment Strategy Analysis", "template_code": "investment_consulting", "campaign_id": 101})
         ],
-        outputs=["1567793.19"]
+        outputs=[]
     ),
  Task(
     annotator="Irfan",
@@ -955,7 +955,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 14, "broker_id": 3, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 14, "broker_id": 3, "title": "Client onboarding session", "start_at": "2025-09-24T09:00:00Z", "end_at": "2025-09-24T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["1054277.28"],
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -971,7 +971,7 @@ Task(
             Action(name="GenerateBriefingDoc", kwargs={"client_id": 20, "broker_id": 4, "property_id": "HTX003", "doc_type": "commercial_analysis"}),
             Action(name="SendEmail", kwargs={"client_id": 20, "broker_id": 4, "subject": "Commercial Investment Opportunity", "template_code": "commercial_sales", "campaign_id": 101})
         ],
-        outputs=["4051.72"]
+        outputs=[]
     ),
     Task(
     annotator="Irfan",
@@ -988,7 +988,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 3, "broker_id": 1, "subject": "Comprehensive Relocation Services", "template_code": "relocation", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 3, "broker_id": 1, "title": "Executive relocation planning", "start_at": "2025-05-01T09:00:00Z", "end_at": "2025-05-01T10:00:00Z", "location": "Office", "notes": "Executive relocation planning"})
     ],
-    outputs=["974310.99"]
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -1005,7 +1005,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 10, "broker_id": 2, "subject": "Premium Luxury Marketing", "template_code": "luxury_marketing", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 10, "broker_id": 2, "title": "Luxury property consultation", "start_at": "2025-05-05T15:00:00Z", "end_at": "2025-05-05T16:00:00Z", "location": "Office", "notes": "Luxury property consultation"})
         ],
-        outputs=["25914.03"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1023,7 +1023,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 16, "broker_id": 4, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 16, "broker_id": 4, "title": "New client onboarding session", "start_at": "2025-05-10T11:00:00Z", "end_at": "2025-05-10T12:00:00Z", "location": "Office", "notes": "New client onboarding session"})
         ],
-        outputs=["1358810.50"]
+        outputs=[]
     ),
     Task(
     annotator="Irfan",
@@ -1048,7 +1048,7 @@ Task(
             "notes": "First-time buyer guidance"
         }),
     ],
-    outputs=["314871.58"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -1065,7 +1065,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 19, "broker_id": 4, "subject": "Investment Opportunities", "template_code": "investor_outreach", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 19, "broker_id": 4, "title": "Investment opportunity consultation", "start_at": "2025-05-20T10:00:00Z", "end_at": "2025-05-20T11:00:00Z", "location": "Office", "notes": "Investment opportunity consultation"})
     ],
-    outputs=["9481.02"]
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -1083,7 +1083,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 5, "broker_id": 1, "subject": "Comprehensive Purchase Analysis", "template_code": "purchase_support", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 5, "broker_id": 1, "title": "Purchase strategy consultation", "start_at": "2025-06-01T10:00:00Z", "end_at": "2025-06-01T11:00:00Z", "location": "Office", "notes": "Purchase strategy consultation"})
         ],
-        outputs=["1842453.06"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1100,7 +1100,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 12, "broker_id": 3, "subject": "Exclusive Property Showing", "template_code": "showing_invitation", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 12, "broker_id": 3, "title": "Exclusive property viewing", "start_at": "2025-06-05T15:00:00Z", "end_at": "2025-06-05T16:00:00Z", "location": "HTX005", "notes": "Exclusive property viewing"})
         ],
-        outputs=["4719.00"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1117,7 +1117,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 8, "broker_id": 2, "subject": "VIP Client Services", "template_code": "vip_client", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 8, "broker_id": 2, "title": "VIP client consultation", "start_at": "2025-06-10T14:30:00Z", "end_at": "2025-06-10T15:30:00Z", "location": "Office", "notes": "VIP client consultation"})
         ],
-        outputs=["529702.25"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1134,7 +1134,7 @@ Task(
             Action(name="GenerateBriefingDoc", kwargs={"client_id": 17, "broker_id": 4, "property_id": "HTX004", "doc_type": "evaluation_report"}),
             Action(name="SendEmail", kwargs={"client_id": 17, "broker_id": 4, "subject": "Comprehensive Market Overview", "template_code": "property_evaluation", "campaign_id": 101})
         ],
-        outputs=["967761.00"]
+        outputs=[]
     ),
     Task(
     annotator="Irfan",
@@ -1151,7 +1151,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 1, "broker_id": 1, "subject": "Commercial Property Transaction", "template_code": "commercial_sales", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 1,"broker_id": 1,"title": "Commercial investment strategy","start_at": "2025-06-15T09:00:00Z","end_at": "2025-06-15T10:00:00Z","location": "Office","notes": "Commercial investment strategy"})
     ],
-    outputs=["26445.77"]
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -1169,7 +1169,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 12, "broker_id": 3, "subject": "First-Time Buyer Support", "template_code": "first_time_buyer", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 12, "broker_id": 3, "title": "First-time buyer education", "start_at": "2025-10-25T10:30:00Z", "end_at": "2025-10-25T11:30:00Z", "location": "Office", "notes": "First-time buyer education"})
         ],
-        outputs=["2107.57"]
+        outputs=[]
     ),
     Task(
     annotator="Irfan",
@@ -1186,7 +1186,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 15, "broker_id": 3, "subject": "Comprehensive Market Intelligence", "template_code": "market_intelligence", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 15, "broker_id": 3, "title": "Market analysis review", "start_at": "2025-06-25T11:00:00Z", "end_at": "2025-06-25T12:00:00Z", "location": "Office", "notes": "Market analysis review"})
     ],
-    outputs=["2690.08"]
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -1204,7 +1204,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 3, "broker_id": 1, "subject": "Comprehensive Relocation Services", "template_code": "relocation", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 3, "broker_id": 1, "title": "Relocation strategy session", "start_at": "2025-06-30T16:00:00Z", "end_at": "2025-06-30T17:00:00Z", "location": "Office", "notes": "Relocation strategy session"})
         ],
-        outputs=["1686825.92"]
+        outputs=[]
     ),
     Task(
     annotator="Irfan",
@@ -1222,7 +1222,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 9, "broker_id": 2, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 9, "broker_id": 2, "title": "Client onboarding session", "start_at": "2025-09-28T09:00:00Z", "end_at": "2025-09-28T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
     ],
-    outputs=["563680.26"]
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -1239,7 +1239,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 6, "broker_id": 2, "subject": "Premium Luxury Marketing", "template_code": "luxury_marketing", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 6, "broker_id": 2, "title": "Luxury property strategy", "start_at": "2025-07-10T14:00:00Z", "end_at": "2025-07-10T15:00:00Z", "location": "Office", "notes": "Luxury property strategy"})
         ],
-        outputs=["6552639.47"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1257,7 +1257,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 11, "broker_id": 3, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 11, "broker_id": 3, "title": "Client onboarding session", "start_at": "2025-07-15T09:30:00Z", "end_at": "2025-07-15T10:30:00Z", "location": "Office", "notes": "Client onboarding session"})
         ],
-        outputs=["9382.59"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1274,7 +1274,7 @@ Task(
             Action(name="GenerateBriefingDoc", kwargs={"client_id": 14, "broker_id": 3, "property_id": "HTX002", "doc_type": "evaluation_report"}),
             Action(name="SendEmail", kwargs={"client_id": 14, "broker_id": 3, "subject": "Comprehensive Market Overview", "template_code": "property_evaluation", "campaign_id": 101})
         ],
-        outputs=["5354049.44"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1291,7 +1291,7 @@ Task(
             Action(name="GenerateBriefingDoc", kwargs={"client_id": 19, "broker_id": 4, "property_id": "HTX003", "doc_type": "investment_analysis"}),
             Action(name="SendEmail", kwargs={"client_id": 19, "broker_id": 4, "subject": "Strategic Investment Guidance", "template_code": "investment_consulting", "campaign_id": 101})
         ],
-        outputs=["2210637.17"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1308,7 +1308,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 2, "broker_id": 1, "subject": "Commercial Investment Analysis", "template_code": "commercial_sales", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 2, "broker_id": 1, "title": "Commercial sales strategy", "start_at": "2025-07-20T11:00:00Z", "end_at": "2025-07-20T12:00:00Z", "location": "Office", "notes": "Commercial sales strategy"})
         ],
-        outputs=["4887.51"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1325,7 +1325,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 7, "broker_id": 2, "subject": "VIP Client Services", "template_code": "vip_client", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 7, "broker_id": 2, "title": "VIP client strategy session", "start_at": "2025-07-25T15:30:00Z", "end_at": "2025-07-25T16:30:00Z", "location": "Office", "notes": "VIP client strategy session"})
         ],
-        outputs=["925261.23"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1343,7 +1343,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 13, "broker_id": 3, "subject": "Comprehensive Portfolio Assessment", "template_code": "portfolio_review", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 13, "broker_id": 3, "title": "Portfolio strategy review", "start_at": "2025-07-30T09:00:00Z", "end_at": "2025-07-30T10:00:00Z", "location": "Office", "notes": "Portfolio strategy review"})
         ],
-        outputs=["9187.03"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1360,7 +1360,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 4, "broker_id": 1, "subject": "Luxury Estate Services", "template_code": "estate_management", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 4, "broker_id": 1, "title": "Estate management strategy", "start_at": "2025-08-05T14:00:00Z", "end_at": "2025-08-05T15:00:00Z", "location": "Office", "notes": "Estate management strategy"})
         ],
-        outputs=["5164207.69"]
+        outputs=[]
     ),
     Task(
     annotator="Irfan",
@@ -1377,7 +1377,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 16, "broker_id": 4, "subject": "Comprehensive Market Intelligence", "template_code": "market_intelligence", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 16, "broker_id": 4, "title": "Market intelligence consultation", "start_at": "2025-08-10T11:30:00Z", "end_at": "2025-08-10T12:30:00Z", "location": "Office", "notes": "Market intelligence consultation"})
     ],
-    outputs=["1742200.27"]
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -1395,7 +1395,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 10, "broker_id": 2, "subject": "Comprehensive Purchase Analysis", "template_code": "purchase_support", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 10, "broker_id": 2, "title": "Purchase strategy consultation", "start_at": "2025-08-15T10:00:00Z", "end_at": "2025-08-15T11:00:00Z", "location": "Office", "notes": "Purchase strategy consultation"})
         ],
-        outputs=["3852.88"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1412,7 +1412,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 7, "broker_id": 2, "subject": "Exclusive Property Showing", "template_code": "showing_invitation", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 7, "broker_id": 2, "title": "Private property viewing", "start_at": "2025-08-20T15:30:00Z", "end_at": "2025-08-20T16:30:00Z", "location": "HTX005", "notes": "Private property viewing"})
         ],
-        outputs=["957895.73"]
+        outputs=[]
     ),
     Task(
     annotator="Irfan",
@@ -1429,7 +1429,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 11, "broker_id": 3, "subject": "Comprehensive Relocation Services", "template_code": "relocation", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 11, "broker_id": 3, "title": "Relocation planning session", "start_at": "2025-08-25T10:30:00Z", "end_at": "2025-08-25T11:30:00Z", "location": "Office", "notes": "Relocation planning session"})
     ],
-    outputs=["535125.78"]
+    outputs=[]
 ),
     Task(
     annotator="Irfan",
@@ -1446,7 +1446,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 8, "broker_id": 2, "subject": "Premium Luxury Marketing", "template_code": "luxury_marketing", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 8, "broker_id": 2, "title": "Luxury property strategy", "start_at": "2025-08-30T14:30:00Z", "end_at": "2025-08-30T15:30:00Z", "location": "Office", "notes": "Luxury property strategy"})
     ],
-    outputs=["2662.15"]
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -1463,7 +1463,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 19, "broker_id": 4, "subject": "First-Time Buyer Support", "template_code": "first_time_buyer", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 19, "broker_id": 4, "title": "First-time buyer consultation", "start_at": "2025-09-05T09:30:00Z", "end_at": "2025-09-05T10:30:00Z", "location": "Office", "notes": "First-time buyer consultation"})
         ],
-        outputs=["1778738.45"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1481,7 +1481,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 2, "broker_id": 1, "subject": "Investment Opportunity Analysis", "template_code": "investor_outreach", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 2, "broker_id": 1, "title": "Investment opportunity review", "start_at": "2025-09-10T13:00:00Z", "end_at": "2025-09-10T14:00:00Z", "location": "Office", "notes": "Investment opportunity review"})
         ],
-        outputs=["1796106.05"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1499,7 +1499,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 15, "broker_id": 3, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 15, "broker_id": 3, "title": "Client onboarding session", "start_at": "2025-09-15T11:00:00Z", "end_at": "2025-09-15T12:00:00Z", "location": "Office", "notes": "Client onboarding session"})
         ],
-        outputs=["18013.94"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1516,7 +1516,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 17, "broker_id": 4, "subject": "VIP Client Services", "template_code": "vip_client", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 17, "broker_id": 4, "title": "VIP client consultation", "start_at": "2025-08-25T14:00:00Z", "end_at": "2025-08-25T15:00:00Z", "location": "Office", "notes": "VIP client consultation"})
         ],
-        outputs=["1397.02"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1533,7 +1533,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 14, "broker_id": 3, "subject": "Luxury Estate Services", "template_code": "estate_management", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 14, "broker_id": 3, "title": "Estate management strategy", "start_at": "2025-08-30T16:00:00Z", "end_at": "2025-08-30T17:00:00Z", "location": "Office", "notes": "Estate management strategy"})
         ],
-        outputs=["3532731.11"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1550,7 +1550,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 8, "broker_id": 2, "subject": "First-Time Buyer Support", "template_code": "first_time_buyer", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 8, "broker_id": 2, "title": "First-time buyer education", "start_at": "2025-09-05T10:30:00Z", "end_at": "2025-09-05T11:30:00Z", "location": "Office", "notes": "First-time buyer education"})
         ],
-        outputs=["460379.36"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1567,7 +1567,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 19, "broker_id": 4, "subject": "Premium Luxury Marketing", "template_code": "luxury_marketing", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 19, "broker_id": 4, "title": "Luxury property consultation", "start_at": "2025-09-10T13:00:00Z", "end_at": "2025-09-10T14:00:00Z", "location": "Office", "notes": "Luxury property consultation"})
         ],
-        outputs=["2502.02"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1585,7 +1585,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 15, "broker_id": 3, "subject": "Strategic Investment Guidance", "template_code": "investment_consulting", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 15, "broker_id": 3, "title": "Investment strategy consultation", "start_at": "2025-09-15T11:00:00Z", "end_at": "2025-09-15T12:00:00Z", "location": "Office", "notes": "Investment strategy consultation"})
         ],
-        outputs=["1065095.83"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1603,7 +1603,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 1, "broker_id": 1, "subject": "Comprehensive Client Onboarding", "template_code": "client_onboarding", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 1, "broker_id": 1, "title": "Client onboarding session", "start_at": "2025-09-20T09:00:00Z", "end_at": "2025-09-20T10:00:00Z", "location": "Office", "notes": "Client onboarding session"})
         ],
-        outputs=["1913167.33"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1620,7 +1620,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 2, "broker_id": 1, "subject": "Premium Luxury Marketing", "template_code": "luxury_marketing", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 2, "broker_id": 1, "title": "Luxury property consultation", "start_at": "2025-09-25T14:00:00Z", "end_at": "2025-09-25T15:00:00Z", "location": "Office", "notes": "Luxury property consultation"})
         ],
-        outputs=["26713.27"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1638,7 +1638,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 3, "broker_id": 1, "subject": "Comprehensive Market Overview", "template_code": "property_evaluation", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 3, "broker_id": 1, "title": "Property evaluation consultation", "start_at": "2025-09-30T11:00:00Z", "end_at": "2025-09-30T12:00:00Z", "location": "Office", "notes": "Property evaluation consultation"})
         ],
-        outputs=["1358810.5"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1655,7 +1655,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 18, "broker_id": 4, "subject": "Commercial Property Transaction", "template_code": "commercial_sales", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 18, "broker_id": 4, "title": "Commercial transaction consultation", "start_at": "2025-10-05T16:00:00Z", "end_at": "2025-10-05T17:00:00Z", "location": "Office", "notes": "Commercial transaction consultation"})
         ],
-        outputs=["1019063.75"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1672,7 +1672,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 5, "broker_id": 1, "subject": "Exclusive Property Showing", "template_code": "showing_invitation", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 5, "broker_id": 1, "title": "Private property viewing", "start_at": "2025-10-10T15:30:00Z", "end_at": "2025-10-10T16:30:00Z", "location": "HTX005", "notes": "Private property viewing"})
         ],
-        outputs=["4399.84"]
+        outputs=[]
     ),
     Task(
     annotator="Irfan",
@@ -1689,7 +1689,7 @@ Task(
         Action(name="SendEmail", kwargs={"client_id": 6, "broker_id": 2, "subject": "Comprehensive Relocation Services", "template_code": "relocation", "campaign_id": 101}),
         Action(name="CreateCalendarEvent", kwargs={"client_id": 6, "broker_id": 2, "title": "Relocation consultation", "start_at": "2025-10-15T09:00:00Z", "end_at": "2025-10-15T10:00:00Z", "location": "Office", "notes": "Relocation consultation"})
     ],
-    outputs=["540571.58"]
+    outputs=[]
 ),
     Task(
         annotator="Irfan",
@@ -1707,7 +1707,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 9, "broker_id": 2, "subject": "Comprehensive Portfolio Assessment", "template_code": "portfolio_review", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 9, "broker_id": 2, "title": "Portfolio strategy review", "start_at": "2025-10-20T14:00:00Z", "end_at": "2025-10-20T15:00:00Z", "location": "Office", "notes": "Portfolio strategy review"})
         ],
-        outputs=["1865213.7"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1725,7 +1725,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 12, "broker_id": 3, "subject": "First-Time Buyer Support", "template_code": "first_time_buyer", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 12, "broker_id": 3, "title": "First-time buyer education", "start_at": "2025-10-25T10:30:00Z", "end_at": "2025-10-25T11:30:00Z", "location": "Office", "notes": "First-time buyer education"})
         ],
-        outputs=["2107.57"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1743,7 +1743,7 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 11, "broker_id": 3, "subject": "Comprehensive Market Intelligence", "template_code": "market_intelligence", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 11, "broker_id": 3, "title": "Market intelligence briefing", "start_at": "2025-10-30T16:00:00Z", "end_at": "2025-10-30T17:00:00Z", "location": "Office", "notes": "Market intelligence briefing"})
         ],
-        outputs=["987222.14"]
+        outputs=[]
     ),
     Task(
         annotator="Irfan",
@@ -1761,6 +1761,6 @@ Task(
             Action(name="SendEmail", kwargs={"client_id": 20, "broker_id": 4, "subject": "Comprehensive Purchase Analysis", "template_code": "purchase_support", "campaign_id": 101}),
             Action(name="CreateCalendarEvent", kwargs={"client_id": 20, "broker_id": 4, "title": "Purchase strategy consultation", "start_at": "2025-11-05T11:00:00Z", "end_at": "2025-11-05T12:00:00Z", "location": "Office", "notes": "Purchase strategy consultation"})
         ],
-        outputs=["584791.48"]
+        outputs=[]
     )
 ]

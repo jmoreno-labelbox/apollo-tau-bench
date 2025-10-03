@@ -39,7 +39,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -81,7 +81,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -135,12 +135,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -182,13 +177,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -230,7 +219,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -274,14 +263,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_BOSTON_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -325,12 +307,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -376,14 +353,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_HOUSTON_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -425,7 +395,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -476,7 +446,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -514,7 +484,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -565,7 +535,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -616,7 +586,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -667,7 +637,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -716,7 +686,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -770,7 +740,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -812,13 +782,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -862,13 +826,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -914,7 +872,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -968,12 +926,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1027,12 +980,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1086,12 +1034,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1142,7 +1085,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1186,13 +1129,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1236,14 +1173,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_SEATTLE_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1289,7 +1219,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1331,7 +1261,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1385,12 +1315,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1438,7 +1363,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1473,7 +1398,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1527,12 +1452,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1581,17 +1501,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_C2_V1",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1636,14 +1546,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_CHICAGO_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1689,7 +1592,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1734,14 +1637,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_MIAMI_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1789,12 +1685,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1848,12 +1739,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1901,12 +1787,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -1950,12 +1831,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2001,7 +1877,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2047,7 +1923,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2096,7 +1972,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2138,7 +2014,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2179,7 +2055,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2233,12 +2109,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2282,12 +2153,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2327,7 +2193,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2375,7 +2241,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2424,17 +2290,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_C1_V1",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2477,14 +2333,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_BOSTON_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2529,14 +2378,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_SEATTLE_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2590,12 +2432,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2632,7 +2469,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2676,12 +2513,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2734,7 +2566,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2785,17 +2617,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_MIAMI_V1",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2837,7 +2659,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2875,7 +2697,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2919,12 +2741,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -2969,14 +2786,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_SEATTLE_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3021,14 +2831,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_NEW_YORK_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3074,7 +2877,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3123,7 +2926,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3167,12 +2970,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3215,14 +3013,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_MIAMI_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3270,12 +3061,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3319,12 +3105,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3373,7 +3154,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3416,14 +3197,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_MIAMI_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3466,13 +3240,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3520,7 +3288,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3562,7 +3330,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3606,12 +3374,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3652,14 +3415,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_SF_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3701,13 +3457,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3761,12 +3511,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3820,7 +3565,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3871,7 +3616,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3913,14 +3658,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_SF_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -3962,7 +3700,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4008,7 +3746,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4056,12 +3794,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4109,12 +3842,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4160,7 +3888,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4209,7 +3937,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4263,12 +3991,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4307,13 +4030,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4366,7 +4083,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4402,7 +4119,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4444,7 +4161,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4485,13 +4202,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4539,12 +4250,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "PROJ_DIR_001",
-            "STAKEHOLDER_OUTPUT_001",
-            "NOTION_PAGE_001",
-            "GMAIL_MSG_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4595,17 +4301,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_BOSTON_V1",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4651,7 +4347,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4699,7 +4395,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4748,17 +4444,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_SF_V1",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4801,14 +4487,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_BOSTON_V1",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4857,7 +4536,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4908,17 +4587,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            "CONFIG_001",
-            "PROJ_DIR_001",
-            "FEATURES_001",
-            "MODEL_CONFIG_001",
-            "SPLIT_001",
-            "MODEL_SEATTLE_V1",
-            "PRED_001",
-            "METRICS_001",
-            "STAKEHOLDER_OUTPUT_001",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="gokulsaireddy",
@@ -4972,6 +4641,6 @@ TASKS = [
                 },
             ),
         ],
-        outputs=["CONFIG_001", "ETL_001", "QC_FIG_001", "PROJ_DIR_001"],
+        outputs=[]
     ),
 ]

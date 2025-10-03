@@ -49,24 +49,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "position_id": "POS4002",
-                    "level_id": "L.4",
-                    "role_description": "Lead Compliance Officer",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-                },
-                {
-                    "employee_id": "E10002",
-                    "manager_id": "E10003"
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -134,21 +117,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "role_description": "Principal Engineer",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-                },
-                {
-                    "employee_id": "E10001"
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -225,26 +194,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10001"
-                },
-                {
-                    "employee_id": "E10003",
-                    "role_description": "Acting CTO",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-                },
-                {
-                    "department_id": "DEPT1001",
-                    "name": "Engineering",
-                    "budget": 7050000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -303,23 +253,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10005"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10006"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10005",
-                    "status": "Terminated",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR10000"]
-                },
-                {
-                    "employee_id": "E10006",
-                    "position_id": "POS3010",
-                    "role_description": "Senior Financial Analyst"
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -373,24 +307,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "position_id": "POS3005",
-                    "level_id": "L.4",
-                    "role_description": "Staff Engineer",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-                },
-                {
-                    "employee_id": "E10002",
-                    "position_id": "POS3006"
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -463,28 +380,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E99999",
-                    "benefit_plan_ids": ["BEN9999", "BEN4001"]
-                },
-                {
-                    "employee_id": "E10001",
-                    "position_id": "POS3002",
-                    "level_id": "L.A",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5001", "PR10000"]
-                },
-                {
-                    "department_id": "DEPT1001",
-                    "name": "Engineering",
-                    "budget": 7050000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -555,24 +451,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10000"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1003"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10000",
-                    "first_name": "Mary",
-                    "last_name": "Smith",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR10000"]
-                },
-                {
-                    "department_id": "DEPT1003",
-                    "name": "Human Resources",
-                    "budget": 920000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -630,18 +509,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            """
-            {
-                "employee_id": "E10003",
-                "department_id": "DEPT1001",
-                "position_id": "POS3009",
-                "level_id": "L.3",
-                "compensation_id": "COMP10000",
-                "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-            }
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -706,26 +574,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1005"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "benefit_plan_ids": ["BEN4001", "BEN4003", "BEN4004", "BEN4006"],
-                    "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-                },
-                {
-                    "employee_id": "E10002",
-                    "department_id": "DEPT1005",
-                    "benefit_plan_ids": ["BEN4001", "BEN4002", "BEN4006"]
-                },
-                {
-                    "department_id": "DEPT1005",
-                    "name": "Marketing"
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -795,25 +644,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-                },
-                {
-                    "employee_id": "E10004",
-                    "role_description": "Acting Team Lead"
-                },
-                {
-                    "department_id": "DEPT1001",
-                    "name": "Engineering",
-                    "budget": 7002500
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -887,23 +718,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1005"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10002",
-                    "department_id": "DEPT1005",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5002", "PR10000"]
-                },
-                {
-                    "department_id": "DEPT1005",
-                    "name": "Marketing",
-                    "budget": 1610000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -953,21 +768,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10001",
-                    "work_location": "Remote – Seattle",
-                    "performance_review_ids": ["PR5001", "PR10000"]
-                },
-                {
-                    "employee_id": "E10002",
-                    "manager_id": "E10001"
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1023,16 +824,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            """
-            {
-                "employee_id": "E10003",
-                "role_description": "Acting CTO",
-                "compensation_id": "COMP10000",
-                "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-            }
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1096,22 +888,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10006"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10002",
-                    "position_id": "POS3012",
-                    "level_id": "L.2",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5002", "PR10000"]
-                },
-                {
-                    "employee_id": "E10006"
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1177,25 +954,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10001",
-                    "benefit_plan_ids": ["BEN4001", "BEN4002", "BEN4003"],
-                    "performance_review_ids": ["PR5001", "PR10000"]
-                },
-                {
-                    "employee_id": "E10003"
-                },
-                {
-                    "department_id": "DEPT1001",
-                    "name": "Engineering",
-                    "budget": 7000500
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1261,21 +1020,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10002",
-                    "manager_id": "E10004"
-                },
-                {
-                    "employee_id": "E10004",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5004", "PR5009", "PR10000"]
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1341,25 +1086,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1002"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-                },
-                {
-                    "employee_id": "E10002"
-                },
-                {
-                    "department_id": "DEPT1002",
-                    "name": "Sales",
-                    "budget": 5015000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1417,16 +1144,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            """
-            {
-                "employee_id": "E10002",
-                "work_location": "Remote – Dallas",
-                "compensation_id": "COMP10000",
-                "performance_review_ids": ["PR5002", "PR10000"]
-            }
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1472,24 +1190,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "benefit_plan_ids": ["BEN4001", "BEN4003", "BEN4004", "BEN9999"]
-                },
-                {
-                    "employee_id": "E10002",
-                    "benefit_plan_ids": ["BEN4001", "BEN4002", "BEN9999"]
-                },
-                {
-                    "employee_id": "E10001",
-                    "performance_review_ids": ["PR5001", "PR10000"]
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1549,20 +1250,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10001",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5001", ""PR10000"]
-                },
-                {
-                    "employee_id": "E10003"
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1613,15 +1301,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            """
-            {
-                "employee_id": "E10003",
-                "compensation_id": "COMP10000",
-                "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-            }
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1663,19 +1343,7 @@ TASKS = [
             ),
             Action(name="GetCompensation", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            """
-            {
-                "compensation_id": "COMP10000",
-                "employee_id": "E10002",
-                "base_salary": 210000,
-                "currency": "USD",
-                "bonus_target_pct": 25,
-                "equity_grant": 50000,
-                "effective_date": "2026-01-15"
-            }
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1756,26 +1424,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-                },
-                {
-                    "employee_id": "E10002",
-                    "role_description": "Acting Manager"
-                },
-                {
-                    "department_id": "DEPT1001",
-                    "name": "Engineering",
-                    "budget": 7015000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1843,25 +1492,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1005"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-                },
-                {
-                    "employee_id": "E10004"
-                },
-                {
-                    "department_id": "DEPT1005",
-                    "name": "Marketing",
-                    "budget": 1610000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1917,50 +1548,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10004",
-                    "first_name": "Rahul",
-                    "last_name": "Singh",
-                    "preferred_name": "Rahul",
-                    "date_of_birth": "1988-05-02",
-                    "gender": "Male",
-                    "ethnicity_code": "A",
-                    "nationality": "IND",
-                    "marital_status": "Married",
-                    "hire_date": "2022-02-14",
-                    "termination_date": null,
-                    "status": "Active",
-                    "position_id": "POS3006",
-                    "department_id": "DEPT1001",
-                    "level_id": "L.3",
-                    "manager_id": "E10003",
-                    "work_location": "Remote – Mumbai",
-                    "work_email": "arjun.patel@example.com",
-                    "work_phone": "+91-80-5550-1122",
-                    "compensation_id": "COMP10000",
-                    "benefit_plan_ids": [
-                        "BEN4001",
-                        "BEN4003"
-                    ],
-                    "performance_review_ids": [
-                        "PR5004",
-                        "PR5009",
-                        "PR10000"
-                    ],
-                    "skills": [
-                        "Go",
-                        "Kubernetes",
-                        "CI/CD"
-                    ],
-                    "role_description": "Backend Engineer focusing on micro-services.",
-                    "notes": "Visa sponsored (H-1B)."
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2004,29 +1592,7 @@ TASKS = [
             ),
             Action(name="ListPerformanceReviews", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "review_id": "PR5002",
-                    "employee_id": "E10002",
-                    "period_start": "2024-01-01",
-                    "period_end": "2024-03-31",
-                    "rating": "Meets",
-                    "manager_id": "E10012",
-                    "summary": "On track to hit Q2 quota."
-                },
-                {
-                    "review_id": "PR10000",
-                    "employee_id": "E10002",
-                    "period_start": "2025-07-15",
-                    "period_end": "2025-07-15",
-                    "rating": null,
-                    "summary": null
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2104,28 +1670,7 @@ TASKS = [
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1002"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "department_id": "DEPT1001",
-                    "name": "Engineering",
-                    "head_id": "E10001",
-                    "location": "Seattle HQ",
-                    "budget": 6985000,
-                    "description": "Responsible for all product development and technical operations."
-                },
-                {
-                    "department_id": "DEPT1002",
-                    "name": "Sales",
-                    "head_id": "E10012",
-                    "location": "Boston Office",
-                    "budget": 5015000,
-                    "description": "Owns revenue generation and customer relationships."
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2182,24 +1727,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10005"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1005"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10005",
-                    "department_id": "DEPT1005",
-                    "manager_id": "E10006",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR10000"]
-                },
-                {
-                    "department_id": "DEPT1005",
-                    "name": "Marketing",
-                    "budget": 1610000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2272,22 +1800,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10004",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5004", "PR5009", "PR10000"]
-                },
-                {
-                    "department_id": "DEPT1001",
-                    "name": "Engineering",
-                    "budget": 7010000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2345,25 +1858,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10006",
-                    "role_description": "Senior Product Manager, Finance Liaison",
-                    "performance_review_ids": ["PR5011", "PR10000"]
-                },
-                {
-                    "employee_id": "E10001"
-                },
-                {
-                    "department_id": "DEPT1001",
-                    "name": "Engineering",
-                    "budget": 7001000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2414,47 +1909,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10005"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10005",
-                    "first_name": "Elena",
-                    "last_name": "Rodriguez",
-                    "preferred_name": "Elena",
-                    "date_of_birth": "1995-01-30",
-                    "gender": "Female",
-                    "ethnicity_code": "H",
-                    "nationality": "ESP",
-                    "marital_status": "Single",
-                    "hire_date": "2024-09-01",
-                    "termination_date": "2025-12-15",
-                    "status": "Terminated",
-                    "position_id": "POS3010",
-                    "department_id": "DEPT1004",
-                    "level_id": "L.1",
-                    "manager_id": "E10011",
-                    "work_location": "Barcelona Office",
-                    "work_email": "olivia.martinez@example.com",
-                    "work_phone": "+34-91-555-0200",
-                    "compensation_id": "COMP2005",
-                    "benefit_plan_ids": [
-                      "BEN9999"
-                    ],
-                    "performance_review_ids": [
-                     "PR5024"
-                    ],
-                    "skills": [
-                        "Financial Modeling",
-                        "SQL",
-                        "Excel"
-                    ],
-                    "role_description": "Junior Financial Analyst supporting quarterly forecasts.",
-                    "notes": "Recent graduate—ESADE Business School."
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2535,28 +1990,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10000",
-                    "first_name": "Sarah",
-                    "last_name": "Johnson",
-                    "compensation_id": "COMP10000"
-                },
-                {
-                    "employee_id": "E10004",
-                    "manager_id": "E10000",
-                    "performance_review_ids": ["PR5004", "PR5009", "PR10000"]
-                },
-                {
-                    "department_id": "DEPT1001",
-                    "name": "Engineering",
-                    "budget": 7175000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2624,29 +2058,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "position_id": "POS4001",
-                    "level_id": "L.5",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-                },
-                {
-                    "employee_id": "E10004",
-                    "position_id": "POS3006",
-                    "department_id": "DEPT1005"
-                },
-                {
-                    "department_id": "DEPT1001",
-                    "name": "Engineering",
-                    "budget": 7250000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2708,20 +2120,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "performance_review_ids": ["PR5003", "PR5010", "PR10000"]
-                },
-                {
-                    "employee_id": "E10002",
-                    "role_description": "Acting Team Lead"
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2784,30 +2183,7 @@ TASKS = [
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1005"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1004"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10006",
-                    "level_id": "L.5",
-                    "role_description": "Director",
-                    "compensation_id": "COMP10000",
-                    "performance_review_ids": ["PR5011", "PR10000"]
-                },
-                {
-                    "department_id": "DEPT1005",
-                    "name": "Marketing",
-                    "budget": 1450000
-                },
-                {
-                    "department_id": "DEPT1004",
-                    "name": "Finance",
-                    "head_id": "E10006",
-                    "budget": 1350000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2906,30 +2282,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E99999",
-                    "status": "Active",
-                    "position_id": "POS3009",
-                    "level_id": "L.3",
-                    "compensation_id": "COMP10000"
-                },
-                {
-                    "employee_id": "E10002",
-                    "manager_id": "E99999",
-                    "position_id": "POS3012",
-                    "performance_review_ids": ["PR5002", "PR10000"]
-                },
-                {
-                    "department_id": "DEPT1001",
-                    "name": "Engineering",
-                    "budget": 7150000
-                }
-            ]
-            """
-        ],
+        outputs=[]
     )
 ,
     Task(
@@ -2983,50 +2336,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10004",
-                    "first_name": "Rahul",
-                    "last_name": "Singh",
-                    "preferred_name": "Rahul",
-                    "date_of_birth": "1988-05-02",
-                    "gender": "Male",
-                    "ethnicity_code": "A",
-                    "nationality": "IND",
-                    "marital_status": "Married",
-                    "hire_date": "2022-02-14",
-                    "termination_date": null,
-                    "status": "Active",
-                    "position_id": "POS3007",
-                    "department_id": "DEPT1001",
-                    "level_id": "L.2",
-                    "manager_id": "E10003",
-                    "work_location": "Remote - Mumbai",
-                    "work_email": "arjun.patel@example.com",
-                    "work_phone": "+91-80-5550-1122",
-                    "compensation_id": "COMP2004",
-                    "benefit_plan_ids": [
-                        "BEN4001",
-                        "BEN4003"
-                    ],
-                    "performance_review_ids": [
-                        "PR5004",
-                        "PR5009",
-                        "PR10000"
-                    ],
-                    "skills": [
-                        "Go",
-                        "Kubernetes",
-                        "CI/CD"
-                    ],
-                    "role_description": "Backend Engineer focusing on micro-services.",
-                    "notes": "Visa sponsored (H-1B)."
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3081,51 +2391,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10003",
-                    "first_name": "Amelia",
-                    "last_name": "Garcia",
-                    "preferred_name": "Amy",
-                    "date_of_birth": "1990-11-22",
-                    "gender": "Female",
-                    "ethnicity_code": "H",
-                    "nationality": "USA",
-                    "marital_status": "Partnered",
-                    "hire_date": "2019-06-10",
-                    "termination_date": null,
-                    "status": "Active",
-                    "position_id": "POS3006",
-                    "department_id": "DEPT1005",
-                    "level_id": "L.3",
-                    "manager_id": "E10001",
-                    "work_location": "Remote – Dallas, TX",
-                    "work_email": "emma.rodriguez@example.com",
-                    "work_phone": "+1-737-555-0188",
-                    "compensation_id": "COMP2003",
-                    "benefit_plan_ids": [
-                        "BEN4001",
-                        "BEN4003",
-                        "BEN4004"
-                    ],
-                    "performance_review_ids": [
-                        "PR5003",
-                        "PR5010",
-                        "PR10000"
-                    ],
-                    "skills": [
-                        "TypeScript",
-                        "React",
-                        "Accessibility"
-                    ],
-                    "role_description": "Senior Front-end Engineer on the web platform team.",
-                    "notes": "On parental leave 2024-11-01 → 2025-02-01."
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3187,50 +2453,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10006"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "employee_id": "E10006",
-                    "first_name": "Marcus",
-                    "last_name": "Chen",
-                    "preferred_name": "Marcus",
-                    "date_of_birth": "1991-08-12",
-                    "gender": "Male",
-                    "ethnicity_code": "A",
-                    "nationality": "CAN",
-                    "marital_status": "Married",
-                    "hire_date": "2023-11-15",
-                    "termination_date": null,
-                    "status": "On Leave",
-                    "position_id": "POS3008",
-                    "department_id": "DEPT1004",
-                    "level_id": "L.4",
-                    "manager_id": "E10012",
-                    "work_location": "Barcelona Office",
-                    "work_email": "william.liu@example.com",
-                    "work_phone": "+1-604-555-0166",
-                    "compensation_id": "COMP2006",
-                    "benefit_plan_ids": [
-                        "BEN4001",
-                        "BEN4002",
-                        "BEN4003"
-                    ],
-                    "performance_review_ids": [
-                        "PR5011",
-                        "PR5032"
-                    ],
-                    "skills": [
-                        "Product Strategy",
-                        "User Research",
-                        "Data Analytics"
-                    ],
-                    "role_description": "Senior Product Manager leading the analytics platform initiatives.",
-                    "notes": "Previously led successful product launches at major tech companies."
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3273,20 +2496,6 @@ TASKS = [
             ),
             Action(name="GetCompensation", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            """
-            [
-                {
-                    "compensation_id": "COMP5008",
-                    "employee_id": "E10002",
-                    "base_salary": 210000,
-                    "currency": "USD",
-                    "bonus_target_pct": 25,
-                    "equity_grant": 45000,
-                    "effective_date": "2025-12-01"
-                }
-            ]
-            """
-        ],
+        outputs=[]
     ),
 ]

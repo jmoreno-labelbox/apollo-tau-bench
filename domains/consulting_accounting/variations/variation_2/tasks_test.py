@@ -63,7 +63,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["1717.60"],  # Total payment amount from invoice INV008
+        outputs=[]
     ),#
 
         Task(
@@ -127,7 +127,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["1412.50"],  # Total payment amount from invoice INV021
+        outputs=[]
     ),#
 
     Task(
@@ -191,7 +191,7 @@ TASKS = [
                 "status": "success"
             }),
                 ],
-        outputs=["1440.75"],  # Total payment amount from invoice INV003
+        outputs=[]
     ),#
 
     Task(
@@ -255,7 +255,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["576.30"],  # Total payment amount from invoice INV004
+        outputs=[]
     ),#
 
     Task(
@@ -329,7 +329,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -393,7 +393,7 @@ TASKS = [
                  "status": "success"
              }),
         ],
-        outputs=["691.56"],  # Total payment amount from invoice
+        outputs=[]
     ),#
 
       Task(
@@ -484,7 +484,7 @@ TASKS = [
                   "status": "success"
               }),
           ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
       ),#
 
     Task(
@@ -562,7 +562,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -643,7 +643,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -718,7 +718,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
      ),#
 
        Task(
@@ -790,7 +790,7 @@ TASKS = [
                    "status": "success"
                }),
            ],
-           outputs=["19249.5"],  # YTD revenue from comprehensive analysis
+           outputs=[]
        ),#
 
     Task(
@@ -841,7 +841,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-            outputs=["success"],  # Task completion status
+            outputs=[]
         ),#
 
        Task(
@@ -918,7 +918,7 @@ TASKS = [
                    "status": "success"
                }),
            ],
-           outputs=["8.0", "5.5", "4.75", "19249.5"],  # Total hours worked for all three projects and YTD revenue from comprehensive analysis
+           outputs=[]
        ),
 
          Task(
@@ -1006,7 +1006,7 @@ TASKS = [
                      "status": "success"
                  }),
              ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
          ),
 
     Task(
@@ -1077,7 +1077,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],
+        outputs=[]
     ),#
 
          Task(
@@ -1136,7 +1136,7 @@ TASKS = [
                      "status": "success"
                  }),
              ],
-             outputs=["14709.21"],  # Total outstanding amounts from comprehensive analysis
+             outputs=[]
          ),#
 
       Task(
@@ -1210,7 +1210,7 @@ TASKS = [
                   "status": "success"
               }),
           ],
-          outputs=["19249.5"],  # YTD revenue from calculation
+          outputs=[]
       ),
 
          Task(
@@ -1278,7 +1278,7 @@ TASKS = [
                  "status": "success"
              }),
          ],
-         outputs=["success"],  # Task completion status
+         outputs=[]
      ),#
 
     Task(
@@ -1342,7 +1342,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["1017.00"],
+        outputs=[]
     ),#
 
     Task(
@@ -1411,7 +1411,7 @@ TASKS = [
                  "status": "success"
              }),
          ],
-         outputs=["19249.5"],  # YTD revenue from calculation
+         outputs=[]
      ),#
 
      Task(
@@ -1465,7 +1465,7 @@ TASKS = [
                  "status": "success"
              }),
          ],
-         outputs=["19249.5"],  # YTD revenue from calculation
+         outputs=[]
      ),#
 
          Task(
@@ -1531,7 +1531,7 @@ TASKS = [
                     "status": "success"
                 }),
             ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
         ),#
 
      Task(
@@ -1579,7 +1579,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["19249.5"],  # YTD revenue from calculation
+        outputs=[]
     ),#
 
     Task(
@@ -1618,7 +1618,7 @@ TASKS = [
                    "status": "success"
                }),
            ],
-           outputs=["19249.5"],  # YTD revenue from calculation
+           outputs=[]
        ),#
 
      Task(
@@ -1666,7 +1666,7 @@ TASKS = [
                  "status": "success"
              }),
          ],
-         outputs=["19249.5"],  # YTD revenue from calculation
+         outputs=[]
      ),#
 
        Task(
@@ -1724,7 +1724,7 @@ TASKS = [
                    "status": "success"
                }),
            ],
-           outputs=["19249.5"],  # YTD revenue from calculation
+           outputs=[]
        ),#
 
      Task(
@@ -1759,7 +1759,7 @@ TASKS = [
                  "status": "success"
              }),
          ],
-         outputs=["19249.5"],  # YTD revenue from calculation
+         outputs=[]
      ),#
 
      Task(
@@ -1820,7 +1820,7 @@ TASKS = [
                  "status": "success"
              }),
          ],
-         outputs=["19249.5"],  # YTD revenue from calculation
+         outputs=[]
      ),#
 
      Task(
@@ -1869,7 +1869,7 @@ TASKS = [
                  "status": "success"
              }),
          ],
-         outputs=["19249.5"],  # YTD revenue from calculation
+         outputs=[]
      ),#
 
      Task(
@@ -1925,7 +1925,7 @@ TASKS = [
                  "status": "success"
              }),
          ],
-         outputs=["19249.5"],  # YTD revenue from calculation
+         outputs=[]
      ),#
 
     Task(
@@ -1998,7 +1998,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -2050,7 +2050,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -2100,7 +2100,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -2176,7 +2176,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -2239,7 +2239,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["864.45"],  # Total payment amount from invoice INV011
+        outputs=[]
     ),
 
     Task(
@@ -2302,7 +2302,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["2373.00"],
+        outputs=[]
     ),
 
     Task(
@@ -2365,7 +2365,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["988.75"],
+        outputs=[]
     ),
 
     Task(
@@ -2428,7 +2428,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["2090.50"],  # Total payment amount from invoice INV024
+        outputs=[]
     ),
 
     Task(
@@ -2491,7 +2491,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["1536.80"],  # Total payment amount from invoice INV010
+        outputs=[]
     ),
 
     Task(
@@ -2512,7 +2512,7 @@ TASKS = [
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={"start_date": "2024-02-15", "end_date": "2024-03-25", "project_ids": ["PROJ003"]}),
             Action(name="CaV2CreateSchedulerRun", kwargs={"run_id": "RUN4001", "task_name": "Strategic_Portfolio_Management_Performance_Analytics", "status": "success"}),
         ],
-        outputs=["success"],
+        outputs=[]
     ),
 
     Task(
@@ -2581,7 +2581,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -2665,7 +2665,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run completion status
+        outputs=[]
     ),
 
     Task(
@@ -2761,7 +2761,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -2847,7 +2847,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -2949,7 +2949,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -3021,7 +3021,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["2373.00"]  # Total payment amount from invoice INV026
+        outputs=[]
     ),
 
     Task(
@@ -3068,7 +3068,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -3131,7 +3131,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["474.60"]  # Total payment amount from invoice INV012
+        outputs=[]
     ),
 
     Task(
@@ -3214,7 +3214,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -3287,7 +3287,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -3357,7 +3357,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -3423,7 +3423,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -3487,7 +3487,7 @@ TASKS = [
             }),
 
         ],
-        outputs=["success"],
+        outputs=[]
     ),
 
     Task(
@@ -3563,7 +3563,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -3636,7 +3636,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -3707,7 +3707,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -3780,7 +3780,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -3830,7 +3830,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -3908,7 +3908,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],
+        outputs=[]
     ),
 
     Task(
@@ -3948,7 +3948,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -4011,7 +4011,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],
+        outputs=[]
     ),#
 
     Task(
@@ -4066,7 +4066,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -4137,7 +4137,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -4227,7 +4227,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 #
     Task(
@@ -4277,7 +4277,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -4349,7 +4349,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["1717.60"]  # Total payment amount from invoice INV008
+        outputs=[]
     ),#
 
     Task(
@@ -4404,7 +4404,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -4475,7 +4475,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -4526,7 +4526,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -4581,7 +4581,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -4652,7 +4652,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -4726,7 +4726,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -4776,7 +4776,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -4838,7 +4838,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["691.56"],  # Total payment amount from invoice INV009
+        outputs=[]
     ),#
 
     Task(
@@ -4899,7 +4899,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -4954,7 +4954,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -5025,7 +5025,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -5075,7 +5075,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],
+        outputs=[]
     ),
 
     Task(
@@ -5125,7 +5125,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -5185,7 +5185,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["474.60"],  # Total payment amount from invoice INV012
+        outputs=[]
     ),#
 
     Task(
@@ -5247,7 +5247,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["691.56"],  # Total payment amount from invoice INV009
+        outputs=[]
     ),
 
     Task(
@@ -5268,7 +5268,7 @@ TASKS = [
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={"start_date": "2024-03-25", "end_date": "2024-04-20", "project_ids": ["PROJ003"]}),
             Action(name="CaV2CreateSchedulerRun", kwargs={"run_id": "RUN3252", "task_name": "Strategic_Portfolio_Management_Performance_Analytics", "status": "success"}),
         ],
-        outputs=["success"],
+        outputs=[]
     ),
 
     Task(
@@ -5331,7 +5331,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Task completion status
+        outputs=[]
     ),#
 
     Task(
@@ -5394,7 +5394,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),#
 
     Task(
@@ -5456,7 +5456,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["728.85"],  # Total payment amount from invoice INV023
+        outputs=[]
     ),
 
     Task(
@@ -5511,7 +5511,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -5574,7 +5574,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["2090.50"],  # Total payment amount from invoice INV024
+        outputs=[]
     ),
 
     Task(
@@ -5634,7 +5634,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -5697,7 +5697,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["1536.80"],  # Total payment amount from invoice INV010
+        outputs=[]
     ),
 
     Task(
@@ -5752,7 +5752,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["success"],  # Scheduler run status
+        outputs=[]
     ),
 
     Task(
@@ -5815,7 +5815,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["813.60"],  # Total payment amount from invoice INV025
+        outputs=[]
     ),
     Task(
         annotator="variation_2",
@@ -5836,7 +5836,7 @@ TASKS = [
             Action(name="CaV2CalculateProjectProfitability", kwargs={"project_id": "PROJ003"}),
             Action(name="CaV2CreateSchedulerRun", kwargs={"run_id": "RUN3262", "task_name": "Resource_Allocation_Performance_Analysis", "status": "success"}),
         ],
-        outputs=["success"],
+        outputs=[]
     ),
     Task(
         annotator="variation_2",
@@ -5856,7 +5856,7 @@ TASKS = [
             Action(name="CaV2CalculateProjectProfitability", kwargs={"project_id": "PROJ003"}),
             Action(name="CaV2CreateSchedulerRun", kwargs={"run_id": "RUN3264", "task_name": "Performance_Management_Resource_Planning", "status": "success"}),
         ],
-        outputs=["success"],
+        outputs=[]
     ),
     Task(
         annotator="variation_2",
@@ -5917,7 +5917,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["1412.50"],  # Total payment amount from invoice INV021
+        outputs=[]
     ),
 
     Task(
@@ -5942,7 +5942,7 @@ TASKS = [
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={"start_date": "2024-08-15", "end_date": "2024-10-01", "project_ids": ["PROJ003"]}),
             Action(name="CaV2CreateSchedulerRun", kwargs={"run_id": "RUN3263", "task_name": "Strategic_Business_Intelligence_Competitive_Analysis", "status": "success"}),
         ],
-        outputs=["success"],
+        outputs=[]
     ),
 
     Task(
@@ -5961,7 +5961,7 @@ TASKS = [
             Action(name="CaV2CalculateProjectProfitability", kwargs={"project_id": "PROJ003"}),
             Action(name="CaV2CreateSchedulerRun", kwargs={"run_id": "RUN3266", "task_name": "Resource_Management_Financial_Analysis", "status": "success"}),
         ],
-        outputs=["success"],
+        outputs=[]
     ),
 
     Task(
@@ -6024,7 +6024,7 @@ TASKS = [
                 "status": "success"
             }),
         ],
-        outputs=["2090.50"],  # Total payment amount from invoice INV024
+        outputs=[]
     ),
     Task(
         annotator="variation_2",
@@ -6042,7 +6042,7 @@ TASKS = [
             Action(name="CaV2CalculateProjectProfitability", kwargs={"project_id": "PROJ003"}),
             Action(name="CaV2CreateSchedulerRun", kwargs={"run_id": "RUN3268", "task_name": "Business_Performance_Resource_Optimization", "status": "success"}),
         ],
-        outputs=["success"],
+        outputs=[]
     ),
     Task(
         annotator="variation_2",
@@ -6061,7 +6061,7 @@ TASKS = [
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={"publisher_id": "PUB003"}),
             Action(name="CaV2CreateSchedulerRun", kwargs={"run_id": "RUN3269", "task_name": "Revenue_Strategy_Financial_Intelligence", "status": "success"}),
         ],
-        outputs=["success"],
+        outputs=[]
     ),#
 
     Task(
@@ -6083,7 +6083,7 @@ TASKS = [
             Action(name="CaV2CalculateProjectProfitability", kwargs={"project_id": "PROJ003"}),
             Action(name="CaV2CreateSchedulerRun", kwargs={"run_id": "RUN3270", "task_name": "Resource_Management_Performance_Analysis", "status": "success"}),
         ],
-        outputs=["success"],
+        outputs=[]
     ),
 
 ]

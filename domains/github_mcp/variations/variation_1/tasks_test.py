@@ -22,20 +22,7 @@ TASKS = [
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-branch' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'CONTRIBUTING.md' to maya-w/acme-webapp@feature-branch.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@feature-branch.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Merged 'feature-branch' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Branch 'feature-branch' deleted from maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
     Task(
@@ -103,29 +90,7 @@ TASKS = [
         }),
         Action(name="ListAllTerminalMessage", kwargs={})
     ],
-    outputs=[
-        {
-            "success": "PR #101 merged for ryan-dev/utils-js.",
-            "repo": "ryan-dev/utils-js",
-            "pr_number": 101,
-            "state": "merged",
-            "merged": True,
-            "mergeable": True,
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-docs' created in ryan-dev/utils-js from 'master'.",
-            "2025-08-21T12:00:00Z : Added 'docs/USAGE.md' to ryan-dev/utils-js@feature-docs.",
-            "2025-08-21T12:00:00Z : Initial commit added to ryan-dev/utils-js@feature-docs.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for ryan-dev/utils-js.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for ryan-dev/utils-js.",
-            "2025-08-21T12:30:00Z : Merged 'feature-docs' into 'master' for ryan-dev/utils-js with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for ryan-dev/utils-js.",
-            "2025-08-21T12:30:00Z : Branch 'feature-docs' deleted from ryan-dev/utils-js."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -187,29 +152,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={})
     ],
-    outputs=[
-        {
-            "success": "PR #101 merged for ryan-dev/utils-js.",
-            "repo": "ryan-dev/utils-js",
-            "pr_number": 101,
-            "state": "merged",
-            "merged": True,
-            "mergeable": True,
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-                "2025-08-21T12:00:00Z : Branch 'feature-tel-input' created in ryan-dev/utils-js from 'master'.",
-                "2025-08-21T12:00:00Z : Added 'src/utils/phone.js' to ryan-dev/utils-js@feature-tel-input.",
-                "2025-08-21T12:00:00Z : Initial commit added to ryan-dev/utils-js@feature-tel-input.",
-                "2025-08-21T12:00:00Z : Pull request #101 created for ryan-dev/utils-js.",
-                "2025-08-21T12:30:00Z : PR #101 marked APPROVE for ryan-dev/utils-js.",
-                "2025-08-21T12:30:00Z : Merged 'feature-tel-input' into 'master' for ryan-dev/utils-js with SHA merge_sha_101.",
-                "2025-08-21T12:30:00Z : PR #101 merged for ryan-dev/utils-js.",
-                "2025-08-21T12:30:00Z : Branch 'feature-tel-input' deleted from ryan-dev/utils-js."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -240,60 +183,7 @@ Task(
             "repo_name": "payments-service"
         })
     ],
-    outputs=[
-        {
-            "owner": "server-main",
-            "repo_name": "payments-service",
-            "count": 2,
-            "issues": [
-            {
-                "number": 13,
-                "title": "3DS fallback not triggered",
-                "body": "On some cards, 3DS fallback is not invoked",
-                "state": "open",
-                "labels": [
-                "bug",
-                "payments"
-                ],
-                "assignees": [
-                "payments-lead",
-                "qa-erin"
-                ],
-                "comments": [
-                "Adding logs to reproduce",
-                "Added extra 3DS telemetry to reproduce; monitoring for failures."
-                ],
-                "comment_users": [
-                "server-main",
-                "server-main"
-                ],
-                "created_ts": "2023-12-03T13:00:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            },
-            {
-                "number": 15,
-                "title": "Timeout too aggressive",
-                "body": "Timeout should be 60s for long-running transactions",
-                "state": "closed",
-                "labels": [
-                "bug",
-                "priority-medium"
-                ],
-                "assignees": [
-                "server-main"
-                ],
-                "comments": [
-                "Proposed patch incoming"
-                ],
-                "comment_users": [
-                "server-main"
-                ],
-                "created_ts": "2023-12-03T13:30:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -325,24 +215,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "number": 2,
-            "severity": "medium",
-            "state": "dismissed",
-            "description": "Potential XSS in button label",
-            "ref": "refs/heads/main",
-            "created_ts": "2023-12-03T12:00:00Z",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:30:00Z : Alert #2 dismissed for design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -368,39 +241,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={})
     ],
-    outputs=[
-        {
-            "branch": "main",
-            "branch_files": [
-            "README.md",
-            "LICENSE",
-            ".gitignore",
-            "requirements.txt",
-            "src/main.py",
-            "src/app.py",
-            "src/utils.py",
-            "src/config.py",
-            "tests/test_app.py"
-            ],
-            "branch_contents": [
-            "# Acme Webapp\n\nFlask-based demo application.",
-            "MIT License\n\nCopyright (c) 2023",
-            "__pycache__/\n.env\n*.pyc\n",
-            "flask==2.3.2\nrequests==2.31.0\n",
-            "print('Hello, World!')\n",
-            "from flask import Flask\napp = Flask(__name__)\n@app.get('/')\ndef index():\n  return 'OK'\n",
-            "def helper(x: int) -> int:\n  return x * 2\n",
-            "DEBUG=True\nPORT=5000\n",
-            "from src.app import app\n\ndef test_index():\n  client = app.test_client()\n  assert client.get('/').status_code == 200\n"
-            ],
-            "branch_sha": "a1b2c3d4e5f60718293a4b5c6d7e8f9012345678"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:30:00Z : Deleted 'docs/ARCHITECTURE.md' from maya-w/acme-webapp@main."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -429,31 +270,7 @@ Task(
         Action(name="DeleteBranch", kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-alert"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Branch 'feature-alert' deleted from design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "deleted_branch": "feature-alert",
-            "removed_file_count": 11,
-            "remaining_branches": [
-            "main",
-            "release-1.0",
-            "feature-theme"
-            ]
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-alert' created in design-team/ui-kit from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'packages/alert/index.tsx' to design-team/ui-kit@feature-alert.",
-            "2025-08-21T12:00:00Z : Initial commit added to design-team/ui-kit@feature-alert.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Merged 'feature-alert' into 'main' for design-team/ui-kit with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Branch 'feature-alert' deleted from design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -520,29 +337,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={})
     ],
-    outputs=[
-        {
-            "success": "PR #101 merged for ryan-dev/utils-js.",
-            "repo": "ryan-dev/utils-js",
-            "pr_number": 101,
-            "state": "merged",
-            "merged": True,
-            "mergeable": True,
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-docs' created in ryan-dev/utils-js from 'master'.",
-            "2025-08-21T12:00:00Z : Added 'docs/USAGE.md' to ryan-dev/utils-js@feature-docs.",
-            "2025-08-21T12:00:00Z : Initial commit added to ryan-dev/utils-js@feature-docs.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for ryan-dev/utils-js.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for ryan-dev/utils-js.",
-            "2025-08-21T12:30:00Z : Merged 'feature-docs' into 'master' for ryan-dev/utils-js with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for ryan-dev/utils-js.",
-            "2025-08-21T12:30:00Z : Branch 'feature-docs' deleted from ryan-dev/utils-js."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -578,54 +373,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={})
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "description": "Reusable UI components",
-            "private": False,
-            "auto_init": True,
-            "default_branch": "main",
-            "file_paths": [
-            "README.md",
-            "LICENSE",
-            ".npmrc",
-            "package.json",
-            "packages/button/index.tsx",
-            "packages/card/index.tsx",
-            "docs/STYLEGUIDE.md",
-            "CHANGELOG.md"
-            ],
-            "file_contents": [
-            "# UI Kit\n\nComponent library.",
-            "MIT License\n",
-            "legacy-peer-deps=true\n",
-            "{\n  \"name\": \"ui-kit\",\n  \"version\": \"1.0.0\"\n}",
-            "export const Button = () => <button>Click</button>;\n",
-            "export const Card = () => <div className='card' />;\n",
-            "# Styleguide\n\nTypography, spacing, color.",
-            "# Changelog\n- Init\n"
-            ],
-            "branches": [
-            "main",
-            "feature-theme"
-            ],
-            "branch_shas": [
-            "merge_sha_101",
-            "abcdabcdabcdabcdabcdabcdabcdabcdabcdabcd"
-            ],
-            "created_ts": "2023-10-20T08:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-                "2025-08-21T12:30:00Z : PR #12 marked APPROVE for design-team/ui-kit.",
-                "2025-08-21T12:30:00Z : Merged 'release-1.0' into 'main' for design-team/ui-kit with SHA merge_sha_101.",
-                "2025-08-21T12:30:00Z : PR #12 merged for design-team/ui-kit.",
-                "2025-08-21T12:30:00Z : Branch 'release-1.0' deleted from design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -666,15 +414,7 @@ Task(
         # Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
         # Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Issue #101 closed for design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "issue_number": 101,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
     Task(
     annotator="0",
@@ -710,52 +450,7 @@ Task(
                 kwargs={"owner":"maya-w", "repo_name":"acme-webapp"},
             ),
     ],
-    outputs=[
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "description": "A sample demonstration repository",
-            "private": False,
-            "auto_init": True,
-            "default_branch": "main",
-            "file_paths": [
-            "README.md",
-            "LICENSE",
-            ".gitignore",
-            "requirements.txt",
-            "src/main.py",
-            "src/app.py",
-            "src/utils.py",
-            "src/config.py",
-            "tests/test_app.py",
-            "docs/ARCHITECTURE.md",
-            "examples/hello.txt"
-            ],
-            "file_contents": [
-            "# Acme Webapp\n\nFlask-based demo application.",
-            "MIT License\n\nCopyright (c) 2023",
-            "__pycache__/\n.env\n*.pyc\n",
-            "flask==2.3.2\nrequests==2.31.0\n",
-            "print('Hello, World!')\n",
-            "from flask import Flask\napp = Flask(__name__)\n@app.get('/')\ndef index():\n  return 'OK'\n",
-            "def helper(x: int) -> int:\n  return x * 2\n",
-            "DEBUG=True\nPORT=5000\n",
-            "from src.app import app\n\ndef test_index():\n  client = app.test_client()\n  assert client.get('/').status_code == 200\n",
-            "# Architecture\n\n- App layer\n- Utils layer\n- Config\n",
-            "hello"
-            ],
-            "branches": [
-            "main",
-            "feature-update"
-            ],
-            "branch_shas": [
-            "merge_sha_101",
-            "c3d4e5f6a7b8091a2b3c4d5e6f708192a3b4c5d6"
-            ],
-            "created_ts": "2023-12-01T10:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 
 
@@ -791,53 +486,7 @@ Task(
             kwargs={}
         ),
     ],
-    outputs=[
-        {
-            "success": "Branch 'feature-security-policy' created in maya-w/acme-webapp from 'main'.",
-            "repo": "maya-w/acme-webapp",
-            "created_branch": "feature-security-policy",
-            "base_branch": "main",
-            "branch_index": 2,
-            "branch_sha": "branch_sha_101",
-            "branch_file": [
-            "README.md",
-            "LICENSE",
-            ".gitignore",
-            "requirements.txt",
-            "src/main.py",
-            "src/app.py",
-            "src/utils.py",
-            "src/config.py",
-            "tests/test_app.py",
-            "docs/ARCHITECTURE.md"
-            ]
-        },
-        {
-            "success": "Pull request #101 created for maya-w/acme-webapp.",
-            "pull_request": {
-            "number": 101,
-            "title": "Add security policy",
-            "body": "Introduce SECURITY.md with coordinated disclosure instructions.",
-            "state": "open",
-            "base": "main",
-            "head": "feature-security-policy",
-            "head_sha": "commit_sha_101",
-            "files": [
-                "SECURITY.md"
-            ],
-            "created_ts": "2025-08-21T12:00:00Z",
-            "updated_ts": "2025-08-21T12:00:00Z"
-            }
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-security-policy' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'SECURITY.md' to maya-w/acme-webapp@feature-security-policy.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@feature-security-policy.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -871,82 +520,7 @@ Task(
             kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "pr_number": 5}
         ),
     ],
-    outputs=[
-        {
-            "number": 5,
-            "title": "Add authentication module",
-            "body": "This PR adds basic authentication functionality",
-            "state": "open",
-            "base_branch": "main",
-            "head_branch": "feature-auth",
-            "head_sha": "d1e2f3a4b5c6",
-            "mergeable": True,
-            "merged": False,
-            "files": [
-            [
-                "src/auth.py",
-                "tests/test_auth.py"
-            ]
-            ],
-            "comments": [
-            [
-                "Looks good overall",
-                "Please add more tests",
-                "Nice Job"
-            ]
-            ],
-            "comment_users": [
-            [
-                "dev-sue",
-                "qa-mike",
-                "nathan"
-            ]
-            ],
-            "reviewers": [
-            [
-                "dev-sue",
-                "qa-mike",
-                "nathan"
-            ]
-            ],
-            "review_states": [
-            [
-                [
-                "COMMENT",
-                "APPROVE"
-                ],
-                [
-                "REQUEST_CHANGES",
-                "APPROVE"
-                ],
-                [
-                "REQUESTED",
-                "COMMENT",
-                "APPROVE"
-                ]
-            ]
-            ],
-            "review_events": [
-            [
-                [
-                "COMMENT",
-                "APPROVE"
-                ],
-                [
-                "REQUEST_CHANGES",
-                "APPROVE"
-                ],
-                [
-                "REQUESTED",
-                "COMMENT",
-                "APPROVE"
-                ]
-            ]
-            ],
-            "created_ts": "2023-12-02T09:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -984,59 +558,7 @@ Task(
             kwargs={}
         ),
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "description": "Reusable UI components",
-            "private": False,
-            "auto_init": True,
-            "default_branch": "main",
-            "file_paths": [
-            "README.md",
-            "LICENSE",
-            ".npmrc",
-            "package.json",
-            "packages/button/index.tsx",
-            "packages/card/index.tsx",
-            "packages/theme/index.ts",
-            "docs/STYLEGUIDE.md",
-            "docs/CONTRIBUTING.md",
-            "CHANGELOG.md",
-            "examples/theme-preview.tsx"
-            ],
-            "file_contents": [
-            "# UI Kit\n\nComponent library.",
-            "MIT License\n",
-            "legacy-peer-deps=true\n",
-            "{\n  \"name\": \"ui-kit\",\n  \"version\": \"1.0.0\"\n}",
-            "export const Button = () => <button>Click</button>;\n",
-            "export const Card = () => <div className='card' />;\n",
-            "export const Theme = {};\n",
-            "# Styleguide\n\nTypography, spacing, color.",
-            "# Contributing\n\nPRs welcome. Follow conventional commits.",
-            "# Changelog\n- Init\n",
-            "export const Preview = () => <div />;\n"
-            ],
-            "branches": [
-            "main",
-            "release-1.0"
-            ],
-            "branch_shas": [
-            "merge_sha_101",
-            "0aaa999988887777666655554444333322221111"
-            ],
-            "created_ts": "2023-10-20T08:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-                "2025-08-21T12:30:00Z : Merged 'feature-theme' into 'main' for design-team/ui-kit with SHA merge_sha_101.",
-                "2025-08-21T12:30:00Z : PR #11 merged for design-team/ui-kit.",
-                "2025-08-21T12:30:00Z : Branch 'feature-theme' deleted from design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1073,24 +595,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "number": 2,
-            "severity": "medium",
-            "state": "dismissed",
-            "description": "Potential XSS in button label",
-            "ref": "refs/heads/main",
-            "created_ts": "2023-12-03T12:00:00Z",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:30:00Z : Alert #2 dismissed for design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1157,61 +662,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "description": "A sample demonstration repository",
-            "private": False,
-            "auto_init": True,
-            "default_branch": "main",
-            "file_paths": [
-            "README.md",
-            "LICENSE",
-            ".gitignore",
-            "requirements.txt",
-            "src/main.py",
-            "src/app.py",
-            "src/utils.py",
-            "src/config.py",
-            "tests/test_app.py",
-            "docs/ARCHITECTURE.md",
-            "cli/main.py"
-            ],
-            "file_contents": [
-            "# Acme Webapp\n\nFlask-based demo application.",
-            "MIT License\n\nCopyright (c) 2023",
-            "__pycache__/\n.env\n*.pyc\n",
-            "flask==2.3.2\nrequests==2.31.0\n",
-            "print('Hello, World!')\n",
-            "from flask import Flask\napp = Flask(__name__)\n@app.get('/')\ndef index():\n  return 'OK'\n",
-            "def helper(x: int) -> int:\n  return x * 2\n",
-            "DEBUG=True\nPORT=5000\n",
-            "from src.app import app\n\ndef test_index():\n  client = app.test_client()\n  assert client.get('/').status_code == 200\n",
-            "# Architecture\n\n- App layer\n- Utils layer\n- Config\n",
-            "print('Hello from CLI')"
-            ],
-            "branches": [
-            "main",
-            "feature-update"
-            ],
-            "branch_shas": [
-            "merge_sha_101",
-            "c3d4e5f6a7b8091a2b3c4d5e6f708192a3b4c5d6"
-            ],
-            "created_ts": "2023-12-01T10:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-                "2025-08-21T12:00:00Z : Branch 'feature-add-cli' created in maya-w/acme-webapp from 'main'.",
-                "2025-08-21T12:00:00Z : Added 'cli/main.py' to maya-w/acme-webapp@feature-add-cli.",
-                "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@feature-add-cli.",
-                "2025-08-21T12:30:00Z : Merged 'feature-add-cli' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-                "2025-08-21T12:30:00Z : Branch 'feature-add-cli' deleted from maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1234,20 +685,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-                                                                      "messages": [
-                                                                        "2025-08-21T12:00:00Z : Branch 'feature-branch' created in maya-w/acme-webapp from 'main'.",
-                                                                        "2025-08-21T12:00:00Z : Added 'CONTRIBUTING.md' to maya-w/acme-webapp@feature-branch.",
-                                                                        "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@feature-branch.",
-                                                                        "2025-08-21T12:00:00Z : Pull request #101 created for maya-w/acme-webapp.",
-                                                                        "2025-08-21T12:30:00Z : PR #101 marked APPROVE for maya-w/acme-webapp.",
-                                                                        "2025-08-21T12:30:00Z : Merged 'feature-branch' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-                                                                        "2025-08-21T12:30:00Z : PR #101 merged for maya-w/acme-webapp.",
-                                                                        "2025-08-21T12:30:00Z : Branch 'feature-branch' deleted from maya-w/acme-webapp."
-                                                                      ]
-                                                                    }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1283,52 +721,7 @@ Task(
                 kwargs={"owner":"maya-w", "repo_name":"acme-webapp"},
             ),
     ],
-    outputs=[
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "description": "A sample demonstration repository",
-            "private": False,
-            "auto_init": True,
-            "default_branch": "main",
-            "file_paths": [
-            "README.md",
-            "LICENSE",
-            ".gitignore",
-            "requirements.txt",
-            "src/main.py",
-            "src/app.py",
-            "src/utils.py",
-            "src/config.py",
-            "tests/test_app.py",
-            "docs/ARCHITECTURE.md",
-            "examples/hello.txt"
-            ],
-            "file_contents": [
-            "# Acme Webapp\n\nFlask-based demo application.",
-            "MIT License\n\nCopyright (c) 2023",
-            "__pycache__/\n.env\n*.pyc\n",
-            "flask==2.3.2\nrequests==2.31.0\n",
-            "print('Hello, World!')\n",
-            "from flask import Flask\napp = Flask(__name__)\n@app.get('/')\ndef index():\n  return 'OK'\n",
-            "def helper(x: int) -> int:\n  return x * 2\n",
-            "DEBUG=True\nPORT=5000\n",
-            "from src.app import app\n\ndef test_index():\n  client = app.test_client()\n  assert client.get('/').status_code == 200\n",
-            "# Architecture\n\n- App layer\n- Utils layer\n- Config\n",
-            "hello"
-            ],
-            "branches": [
-            "main",
-            "feature-update"
-            ],
-            "branch_shas": [
-            "merge_sha_101",
-            "c3d4e5f6a7b8091a2b3c4d5e6f708192a3b4c5d6"
-            ],
-            "created_ts": "2023-12-01T10:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1362,15 +755,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "success": "Alert #101 dismissed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "alert_number": 101,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1400,15 +785,7 @@ Task(
             kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "alert_number": 101}
         ),
     ],
-    outputs=[
-        {
-            "success": "Alert #101 dismissed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "alert_number": 101,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1431,29 +808,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "success": "PR #101 merged for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "pr_number": 101,
-            "state": "merged",
-            "merged": True,
-            "mergeable": True,
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'hotfix-typo' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:30:00Z : Updated 'README.md' in maya-w/acme-webapp@hotfix-typo.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@hotfix-typo.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Merged 'hotfix-typo' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Branch 'hotfix-typo' deleted from maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1486,21 +841,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'release-notes-1.1.0' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'docs/RELEASE_NOTES_1.1.0.md' to maya-w/acme-webapp@release-notes-1.1.0.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@release-notes-1.1.0.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Assigned reviewers to PR #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Merged 'release-notes-1.1.0' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Branch 'release-notes-1.1.0' deleted from maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1529,31 +870,7 @@ Task(
         Action(name="DeleteBranch", kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-alert"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Branch 'feature-alert' deleted from design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "deleted_branch": "feature-alert",
-            "removed_file_count": 11,
-            "remaining_branches": [
-            "main",
-            "release-1.0",
-            "feature-theme"
-            ]
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-alert' created in design-team/ui-kit from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'packages/alert/index.tsx' to design-team/ui-kit@feature-alert.",
-            "2025-08-21T12:00:00Z : Initial commit added to design-team/ui-kit@feature-alert.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Merged 'feature-alert' into 'main' for design-team/ui-kit with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Branch 'feature-alert' deleted from design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1593,16 +910,7 @@ Task(
         # Action(name="GetAllIssuesForRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Added issue #101 to existing bucket",
-            "2025-08-21T12:30:00Z : Comment added to issue #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Comment added to issue #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Issue #101 closed for maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1642,15 +950,7 @@ Task(
         # Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
         # Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Issue #101 closed for design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "issue_number": 101,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1677,33 +977,7 @@ Task(
             "owner": "maya-w", "repo_name": "acme-webapp"
         }),
     ],
-    outputs=[
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "count": 2,
-            "alerts": [
-            {
-                "number": 9,
-                "severity": "high",
-                "state": "open",
-                "description": "SQL injection vulnerability in user input handling",
-                "ref": "refs/heads/main",
-                "created_ts": "2023-12-02T14:30:00Z",
-                "dismissed_ts": None
-            },
-            {
-                "number": 101,
-                "severity": "high",
-                "state": "open",
-                "description": "SQL injection risk detected in src/db.py (user input concatenation).",
-                "ref": "refs/heads/main",
-                "created_ts": "2025-08-21T12:00:00Z",
-                "dismissed_ts": None
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1739,19 +1013,7 @@ Task(
             "alert_number": 101
         }),
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "number": 101,
-            "severity": "medium",
-            "state": "dismissed",
-            "description": "Unsafe innerHTML assignment detected in packages/card/index.tsx.",
-            "ref": "refs/heads/main",
-            "created_ts": "2025-08-21T12:00:00Z",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1787,28 +1049,7 @@ Task(
             "owner": "maya-w", "repo_name": "acme-webapp"
         }),
     ],
-    outputs=[
-        {
-            "success": "Alert #101 dismissed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "alert_number": 101,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "success": "Alert #9 dismissed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "alert_number": 9,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "count": 0,
-            "alerts": []
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1842,21 +1083,7 @@ Task(
             "repo_name": "acme-webapp"
         }),
     ],
-    outputs=[
-        {
-            "success": "Alert #9 dismissed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "alert_number": 9,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "count": 0,
-            "alerts": []
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1873,60 +1100,7 @@ Task(
         Action(name="CloseIssue", kwargs={"owner": "design-team", "repo_name": "ui-kit", "issue_number": 10}),
         Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "count": 2,
-            "issues": [
-            {
-                "number": 6,
-                "title": "Icon set is incomplete",
-                "body": "We are missing several common icons (email, phone)",
-                "state": "closed",
-                "labels": [
-                "design",
-                "help-wanted"
-                ],
-                "assignees": [
-                "design-lead"
-                ],
-                "comments": [
-                "Queued for next sprint",
-                "Icons added for email and phone."
-                ],
-                "comment_users": [
-                "prod-mgr",
-                "design-team"
-                ],
-                "created_ts": "2023-12-03T08:45:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            },
-            {
-                "number": 10,
-                "title": "Docs need a theming section",
-                "body": "Add a guide on ThemeProvider usage",
-                "state": "closed",
-                "labels": [
-                "documentation"
-                ],
-                "assignees": [
-                "ui-dev"
-                ],
-                "comments": [
-                "Will add examples",
-                "Added ThemeProvider guide."
-                ],
-                "comment_users": [
-                "ui-dev",
-                "ui-dev"
-                ],
-                "created_ts": "2023-12-04T10:00:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -1947,28 +1121,7 @@ Task(
             kwargs={}
         ),
     ],
-    outputs=[
-        {
-            "success": "Initial commit added to maya-w/acme-webapp@feature-batch-add.",
-            "commit": {
-            "sha": "commit_sha_101",
-            "message": "Add 4 files",
-            "author": "maya-w",
-            "timestamp": "2025-08-21T12:00:00Z"
-            },
-            "branch_commit_count": 1
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-batch-add' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'docs/CONTRIBUTING.md' to maya-w/acme-webapp@feature-batch-add.",
-            "2025-08-21T12:00:00Z : Added 'docs/CODE_OF_CONDUCT.md' to maya-w/acme-webapp@feature-batch-add.",
-            "2025-08-21T12:00:00Z : Added 'examples/usage.ts' to maya-w/acme-webapp@feature-batch-add.",
-            "2025-08-21T12:00:00Z : Added 'scripts/setup.sh' to maya-w/acme-webapp@feature-batch-add.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@feature-batch-add."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2018,27 +1171,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Updated 'docs/SETUP.md' in maya-w/acme-webapp@feature-setup.",
-            "repo": "maya-w/acme-webapp",
-            "branch": "feature-setup",
-            "file": {
-            "file_name": "docs/SETUP.md",
-            "previous_content": "Install dependencies and run",
-            "new_content": "Install dependencies and run. Start server"
-            }
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-setup' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'docs/SETUP.md' to maya-w/acme-webapp@feature-setup.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@feature-setup.",
-            "2025-08-21T12:30:00Z : Updated 'docs/SETUP.md' in maya-w/acme-webapp@feature-setup.",
-            "2025-08-21T12:30:00Z : Commit added to maya-w/acme-webapp@feature-setup."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -2094,29 +1227,7 @@ Task(
         }),
 
     ],
-    outputs=[
-        {
-            "success": "Issue #101 closed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "issue_number": 101,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "success": "Issue #102 closed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "issue_number": 102,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "success": "Issue #103 closed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "issue_number": 103,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2186,29 +1297,7 @@ Task(
             kwargs={},
         ),
     ],
-    outputs=[
-        {
-            "success": "PR #101 merged for server-main/payments-service.",
-            "repo": "server-main/payments-service",
-            "pr_number": 101,
-            "state": "merged",
-            "merged": True,
-            "mergeable": True,
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'hotfix-timeout-60s' created in server-main/payments-service from 'main'.",
-            "2025-08-21T12:30:00Z : Updated 'src/server.ts' in server-main/payments-service@hotfix-timeout-60s.",
-            "2025-08-21T12:00:00Z : Initial commit added to server-main/payments-service@hotfix-timeout-60s.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for server-main/payments-service.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for server-main/payments-service.",
-            "2025-08-21T12:30:00Z : Merged 'hotfix-timeout-60s' into 'main' for server-main/payments-service with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for server-main/payments-service.",
-            "2025-08-21T12:30:00Z : Branch 'hotfix-timeout-60s' deleted from server-main/payments-service."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2278,29 +1367,7 @@ Task(
             kwargs={},
         ),
     ],
-    outputs=[
-        {
-            "success": "PR #101 merged for design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "pr_number": 101,
-            "state": "merged",
-            "merged": True,
-            "mergeable": True,
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-a11y-docs' created in design-team/ui-kit from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'docs/ACCESSIBILITY.md' to design-team/ui-kit@feature-a11y-docs.",
-            "2025-08-21T12:00:00Z : Initial commit added to design-team/ui-kit@feature-a11y-docs.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Merged 'feature-a11y-docs' into 'main' for design-team/ui-kit with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Branch 'feature-a11y-docs' deleted from design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2335,15 +1402,7 @@ Task(
             "issue_number": 101
         }),
     ],
-    outputs=[
-        {
-            "success": "Issue #101 closed for server-main/payments-service.",
-            "repo": "server-main/payments-service",
-            "issue_number": 101,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2418,29 +1477,7 @@ Task(
             "issue_number": 103
         }),
     ],
-    outputs=[
-        {
-            "success": "Issue #101 closed for server-main/payments-service.",
-            "repo": "server-main/payments-service",
-            "issue_number": 101,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "success": "Issue #102 closed for server-main/payments-service.",
-            "repo": "server-main/payments-service",
-            "issue_number": 102,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "success": "Issue #103 closed for server-main/payments-service.",
-            "repo": "server-main/payments-service",
-            "issue_number": 103,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2468,21 +1505,7 @@ Task(
             "repo_name": "flutter-finance-app"
         }),
     ],
-    outputs=[
-        {
-            "success": "Alert #57 dismissed for app-developer/flutter-finance-app.",
-            "repo": "app-developer/flutter-finance-app",
-            "alert_number": 57,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "owner": "app-developer",
-            "repo_name": "flutter-finance-app",
-            "count": 0,
-            "alerts": []
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2519,31 +1542,7 @@ Task(
             "repo_name": "ml-pipeline"
         }),
     ],
-    outputs=[
-        {
-            "success": "Alert #101 dismissed for ml-engineer/ml-pipeline.",
-            "repo": "ml-engineer/ml-pipeline",
-            "alert_number": 101,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "owner": "ml-engineer",
-            "repo_name": "ml-pipeline",
-            "count": 1,
-            "alerts": [
-            {
-                "number": 36,
-                "severity": "medium",
-                "state": "open",
-                "description": "Pickle deserialization security risk",
-                "ref": "refs/heads/main",
-                "created_ts": "2023-11-20T10:45:00Z",
-                "dismissed_ts": None
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 
@@ -2578,28 +1577,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-    {
-        "success": "Alert #18 dismissed for security-group/security-scanner.",
-        "repo": "security-group/security-scanner",
-        "alert_number": 18,
-        "state": "dismissed",
-        "dismissed_ts": "2025-08-21T12:30:00Z"
-    },
-    {
-        "success": "Alert #21 dismissed for security-group/security-scanner.",
-        "repo": "security-group/security-scanner",
-        "alert_number": 21,
-        "state": "dismissed",
-        "dismissed_ts": "2025-08-21T12:30:00Z"
-    },
-    {
-    "messages": [
-            "2025-08-21T12:30:00Z : Alert #18 dismissed for security-group/security-scanner.",
-            "2025-08-21T12:30:00Z : Alert #21 dismissed for security-group/security-scanner."
-    ]
-    }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2644,60 +1622,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-    {
-        "owner": "design-team",
-        "repo_name": "ui-kit",
-        "description": "Reusable UI components",
-        "private": False,
-        "auto_init": True,
-        "default_branch": "main",
-        "file_paths": [
-        "README.md",
-        "LICENSE",
-        ".npmrc",
-        "package.json",
-        "packages/button/index.tsx",
-        "packages/card/index.tsx",
-        "packages/theme/index.ts",
-        "docs/STYLEGUIDE.md",
-        "docs/CONTRIBUTING.md",
-        "CHANGELOG.md",
-        "examples/theme-preview.tsx"
-        ],
-        "file_contents": [
-        "# UI Kit\n\nComponent library.",
-        "MIT License\n",
-        "legacy-peer-deps=true\n",
-        "{\n  \"name\": \"ui-kit\",\n  \"version\": \"1.0.0\"\n}",
-        "export const Button = () => <button>Click</button>;\n",
-        "export const Card = () => <div className='card' />;\n",
-        "export const Theme = {};\n",
-        "# Styleguide\n\nTypography, spacing, color.",
-        "# Contributing\n\nPRs welcome. Follow conventional commits.",
-        "# Changelog\n- Init\n",
-        "export const Preview = () => <div />;\n"
-        ],
-        "branches": [
-        "main",
-        "release-1.0"
-        ],
-        "branch_shas": [
-        "merge_sha_101",
-        "0aaa999988887777666655554444333322221111"
-        ],
-        "created_ts": "2023-10-20T08:00:00Z",
-        "updated_ts": "2025-08-21T12:30:00Z"
-    },
-    {
-    "messages": [
-        "2025-08-21T12:30:00Z : PR #11 marked APPROVE for design-team/ui-kit.",
-        "2025-08-21T12:30:00Z : Merged 'feature-theme' into 'main' for design-team/ui-kit with SHA merge_sha_101.",
-        "2025-08-21T12:30:00Z : PR #11 merged for design-team/ui-kit.",
-        "2025-08-21T12:30:00Z : Branch 'feature-theme' deleted from design-team/ui-kit."
-    ]
-    }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2737,15 +1662,7 @@ Task(
         # Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
         # Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Issue #101 closed for design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "issue_number": 101,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -2782,52 +1699,7 @@ Task(
                 kwargs={"owner":"maya-w", "repo_name":"acme-webapp"},
             ),
     ],
-    outputs=[
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "description": "A sample demonstration repository",
-            "private": False,
-            "auto_init": True,
-            "default_branch": "main",
-            "file_paths": [
-            "README.md",
-            "LICENSE",
-            ".gitignore",
-            "requirements.txt",
-            "src/main.py",
-            "src/app.py",
-            "src/utils.py",
-            "src/config.py",
-            "tests/test_app.py",
-            "docs/ARCHITECTURE.md",
-            "examples/hello.txt"
-            ],
-            "file_contents": [
-            "# Acme Webapp\n\nFlask-based demo application.",
-            "MIT License\n\nCopyright (c) 2023",
-            "__pycache__/\n.env\n*.pyc\n",
-            "flask==2.3.2\nrequests==2.31.0\n",
-            "print('Hello, World!')\n",
-            "from flask import Flask\napp = Flask(__name__)\n@app.get('/')\ndef index():\n  return 'OK'\n",
-            "def helper(x: int) -> int:\n  return x * 2\n",
-            "DEBUG=True\nPORT=5000\n",
-            "from src.app import app\n\ndef test_index():\n  client = app.test_client()\n  assert client.get('/').status_code == 200\n",
-            "# Architecture\n\n- App layer\n- Utils layer\n- Config\n",
-            "hello"
-            ],
-            "branches": [
-            "main",
-            "feature-update"
-            ],
-            "branch_shas": [
-            "merge_sha_101",
-            "c3d4e5f6a7b8091a2b3c4d5e6f708192a3b4c5d6"
-            ],
-            "created_ts": "2023-12-01T10:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 
 
@@ -2863,33 +1735,7 @@ Task(
             kwargs={}
         ),
     ],
-    outputs=[
-        {
-                                                                      "success": "Pull request #101 created for design-team/ui-kit.",
-                                                                      "pull_request": {
-                                                                        "number": 101,
-                                                                        "title": "Add security policy",
-                                                                        "body": "Introduce SECURITY.md with coordinated disclosure instructions.",
-                                                                        "state": "open",
-                                                                        "base": "main",
-                                                                        "head": "feature-security-policy",
-                                                                        "head_sha": "commit_sha_101",
-                                                                        "files": [
-                                                                          "SECURITY.md"
-                                                                        ],
-                                                                        "created_ts": "2025-08-21T12:00:00Z",
-                                                                        "updated_ts": "2025-08-21T12:00:00Z"
-                                                                      }
-                                                                    },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-security-policy' created in design-team/ui-kit from 'main'.",
-                                                                        "2025-08-21T12:00:00Z : Added 'SECURITY.md' to design-team/ui-kit@feature-security-policy.",
-                                                                        "2025-08-21T12:00:00Z : Initial commit added to design-team/ui-kit@feature-security-policy.",
-                                                                        "2025-08-21T12:00:00Z : Pull request #101 created for design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -2927,89 +1773,7 @@ Task(
             kwargs={},
         ),
     ],
-    outputs=[
-        {
-            "number": 5,
-            "title": "Add authentication module",
-            "body": "This PR adds basic authentication functionality",
-            "state": "open",
-            "base_branch": "main",
-            "head_branch": "feature-auth",
-            "head_sha": "d1e2f3a4b5c6",
-            "mergeable": True,
-            "merged": False,
-            "files": [
-            [
-                "src/auth.py",
-                "tests/test_auth.py"
-            ]
-            ],
-            "comments": [
-            [
-                "Looks good overall",
-                "Please add more tests",
-                "Nice Job"
-            ]
-            ],
-            "comment_users": [
-            [
-                "dev-sue",
-                "qa-mike",
-                "nathan"
-            ]
-            ],
-            "reviewers": [
-            [
-                "dev-sue",
-                "qa-mike",
-                "nathan"
-            ]
-            ],
-            "review_states": [
-            [
-                [
-                "COMMENT",
-                "APPROVE"
-                ],
-                [
-                "REQUEST_CHANGES",
-                "APPROVE"
-                ],
-                [
-                "REQUESTED",
-                "COMMENT",
-                "APPROVE"
-                ]
-            ]
-            ],
-            "review_events": [
-            [
-                [
-                "COMMENT",
-                "APPROVE"
-                ],
-                [
-                "REQUEST_CHANGES",
-                "APPROVE"
-                ],
-                [
-                "REQUESTED",
-                "COMMENT",
-                "APPROVE"
-                ]
-            ]
-            ],
-            "created_ts": "2023-12-02T09:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:30:00Z : Assigned reviewers to PR #5 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Comment added to PR #5 for maya-w/acme-webapp; review state/event appended.",
-            "2025-08-21T12:30:00Z : PR #5 marked APPROVE for maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -3057,61 +1821,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "description": "A sample demonstration repository",
-            "private": False,
-            "auto_init": True,
-            "default_branch": "main",
-            "file_paths": [
-            "README.md",
-            "LICENSE",
-            ".gitignore",
-            "requirements.txt",
-            "src/main.py",
-            "src/app.py",
-            "src/utils.py",
-            "src/config.py",
-            "tests/test_app.py",
-            "docs/ARCHITECTURE.md",
-            "cli/main.py"
-            ],
-            "file_contents": [
-            "# Acme Webapp\n\nFlask-based demo application.",
-            "MIT License\n\nCopyright (c) 2023",
-            "__pycache__/\n.env\n*.pyc\n",
-            "flask==2.3.2\nrequests==2.31.0\n",
-            "print('Hello, World!')\n",
-            "from flask import Flask\napp = Flask(__name__)\n@app.get('/')\ndef index():\n  return 'OK'\n",
-            "def helper(x: int) -> int:\n  return x * 2\n",
-            "DEBUG=True\nPORT=5000\n",
-            "from src.app import app\n\ndef test_index():\n  client = app.test_client()\n  assert client.get('/').status_code == 200\n",
-            "# Architecture\n\n- App layer\n- Utils layer\n- Config\n",
-            "print('Hello from CLI')"
-            ],
-            "branches": [
-            "main",
-            "feature-update"
-            ],
-            "branch_shas": [
-            "merge_sha_101",
-            "c3d4e5f6a7b8091a2b3c4d5e6f708192a3b4c5d6"
-            ],
-            "created_ts": "2023-12-01T10:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-                "2025-08-21T12:00:00Z : Branch 'feature-add-cli' created in maya-w/acme-webapp from 'main'.",
-                "2025-08-21T12:00:00Z : Added 'cli/main.py' to maya-w/acme-webapp@feature-add-cli.",
-                "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@feature-add-cli.",
-                "2025-08-21T12:30:00Z : Merged 'feature-add-cli' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-                "2025-08-21T12:30:00Z : Branch 'feature-add-cli' deleted from maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -3142,15 +1852,7 @@ Task(
             kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "alert_number": 101}
         ),
     ],
-    outputs=[
-        {
-            "success": "Alert #101 dismissed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "alert_number": 101,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -3184,21 +1886,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'release-notes-1.1.0' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'docs/RELEASE_NOTES_1.1.0.md' to maya-w/acme-webapp@release-notes-1.1.0.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@release-notes-1.1.0.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Assigned reviewers to PR #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Merged 'release-notes-1.1.0' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Branch 'release-notes-1.1.0' deleted from maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3227,31 +1915,7 @@ Task(
         Action(name="DeleteBranch", kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-alert"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Branch 'feature-alert' deleted from design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "deleted_branch": "feature-alert",
-            "removed_file_count": 11,
-            "remaining_branches": [
-            "main",
-            "release-1.0",
-            "feature-theme"
-            ]
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-alert' created in design-team/ui-kit from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'packages/alert/index.tsx' to design-team/ui-kit@feature-alert.",
-            "2025-08-21T12:00:00Z : Initial commit added to design-team/ui-kit@feature-alert.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Merged 'feature-alert' into 'main' for design-team/ui-kit with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Branch 'feature-alert' deleted from design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3291,16 +1955,7 @@ Task(
         # Action(name="GetAllIssuesForRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Added issue #101 to existing bucket",
-            "2025-08-21T12:30:00Z : Comment added to issue #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Comment added to issue #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Issue #101 closed for maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3340,15 +1995,7 @@ Task(
         # Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
         # Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Issue #101 closed for design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "issue_number": 101,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3423,29 +2070,7 @@ Task(
             "issue_number": 103
         }),
     ],
-    outputs=[
-        {
-            "success": "Issue #101 closed for server-main/payments-service.",
-            "repo": "server-main/payments-service",
-            "issue_number": 101,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "success": "Issue #102 closed for server-main/payments-service.",
-            "repo": "server-main/payments-service",
-            "issue_number": 102,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "success": "Issue #103 closed for server-main/payments-service.",
-            "repo": "server-main/payments-service",
-            "issue_number": 103,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3473,21 +2098,7 @@ Task(
             "repo_name": "flutter-finance-app"
         }),
     ],
-    outputs=[
-        {
-            "success": "Alert #57 dismissed for app-developer/flutter-finance-app.",
-            "repo": "app-developer/flutter-finance-app",
-            "alert_number": 57,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "owner": "app-developer",
-            "repo_name": "flutter-finance-app",
-            "count": 0,
-            "alerts": []
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3524,31 +2135,7 @@ Task(
             "repo_name": "ml-pipeline"
         }),
     ],
-    outputs=[
-        {
-            "success": "Alert #101 dismissed for ml-engineer/ml-pipeline.",
-            "repo": "ml-engineer/ml-pipeline",
-            "alert_number": 101,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "owner": "ml-engineer",
-            "repo_name": "ml-pipeline",
-            "count": 1,
-            "alerts": [
-            {
-                "number": 36,
-                "severity": "medium",
-                "state": "open",
-                "description": "Pickle deserialization security risk",
-                "ref": "refs/heads/main",
-                "created_ts": "2023-11-20T10:45:00Z",
-                "dismissed_ts": None
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -3582,28 +2169,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-    {
-        "success": "Alert #18 dismissed for security-group/security-scanner.",
-        "repo": "security-group/security-scanner",
-        "alert_number": 18,
-        "state": "dismissed",
-        "dismissed_ts": "2025-08-21T12:30:00Z"
-    },
-    {
-        "success": "Alert #21 dismissed for security-group/security-scanner.",
-        "repo": "security-group/security-scanner",
-        "alert_number": 21,
-        "state": "dismissed",
-        "dismissed_ts": "2025-08-21T12:30:00Z"
-    },
-    {
-    "messages": [
-            "2025-08-21T12:30:00Z : Alert #18 dismissed for security-group/security-scanner.",
-            "2025-08-21T12:30:00Z : Alert #21 dismissed for security-group/security-scanner."
-    ]
-    }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -3649,60 +2215,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-    {
-        "owner": "design-team",
-        "repo_name": "ui-kit",
-        "description": "Reusable UI components",
-        "private": False,
-        "auto_init": True,
-        "default_branch": "main",
-        "file_paths": [
-        "README.md",
-        "LICENSE",
-        ".npmrc",
-        "package.json",
-        "packages/button/index.tsx",
-        "packages/card/index.tsx",
-        "packages/theme/index.ts",
-        "docs/STYLEGUIDE.md",
-        "docs/CONTRIBUTING.md",
-        "CHANGELOG.md",
-        "examples/theme-preview.tsx"
-        ],
-        "file_contents": [
-        "# UI Kit\n\nComponent library.",
-        "MIT License\n",
-        "legacy-peer-deps=true\n",
-        "{\n  \"name\": \"ui-kit\",\n  \"version\": \"1.0.0\"\n}",
-        "export const Button = () => <button>Click</button>;\n",
-        "export const Card = () => <div className='card' />;\n",
-        "export const Theme = {};\n",
-        "# Styleguide\n\nTypography, spacing, color.",
-        "# Contributing\n\nPRs welcome. Follow conventional commits.",
-        "# Changelog\n- Init\n",
-        "export const Preview = () => <div />;\n"
-        ],
-        "branches": [
-        "main",
-        "release-1.0"
-        ],
-        "branch_shas": [
-        "merge_sha_101",
-        "0aaa999988887777666655554444333322221111"
-        ],
-        "created_ts": "2023-10-20T08:00:00Z",
-        "updated_ts": "2025-08-21T12:30:00Z"
-    },
-    {
-    "messages": [
-        "2025-08-21T12:30:00Z : PR #11 marked APPROVE for design-team/ui-kit.",
-        "2025-08-21T12:30:00Z : Merged 'feature-theme' into 'main' for design-team/ui-kit with SHA merge_sha_101.",
-        "2025-08-21T12:30:00Z : PR #11 merged for design-team/ui-kit.",
-        "2025-08-21T12:30:00Z : Branch 'feature-theme' deleted from design-team/ui-kit."
-    ]
-    }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3742,25 +2255,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "number": 101,
-            "severity": "medium",
-            "state": "dismissed",
-            "description": "Unsafe innerHTML assignment detected in packages/card/index.tsx.",
-            "ref": "refs/heads/main",
-            "created_ts": "2025-08-21T12:00:00Z",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Added alert #101 to existing bucket",
-            "2025-08-21T12:30:00Z : Alert #101 dismissed for design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3796,52 +2291,7 @@ Task(
                 kwargs={"owner":"maya-w", "repo_name":"acme-webapp"},
             ),
     ],
-    outputs=[
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "description": "A sample demonstration repository",
-            "private": False,
-            "auto_init": True,
-            "default_branch": "main",
-            "file_paths": [
-            "README.md",
-            "LICENSE",
-            ".gitignore",
-            "requirements.txt",
-            "src/main.py",
-            "src/app.py",
-            "src/utils.py",
-            "src/config.py",
-            "tests/test_app.py",
-            "docs/ARCHITECTURE.md",
-            "examples/hello.txt"
-            ],
-            "file_contents": [
-            "# Acme Webapp\n\nFlask-based demo application.",
-            "MIT License\n\nCopyright (c) 2023",
-            "__pycache__/\n.env\n*.pyc\n",
-            "flask==2.3.2\nrequests==2.31.0\n",
-            "print('Hello, World!')\n",
-            "from flask import Flask\napp = Flask(__name__)\n@app.get('/')\ndef index():\n  return 'OK'\n",
-            "def helper(x: int) -> int:\n  return x * 2\n",
-            "DEBUG=True\nPORT=5000\n",
-            "from src.app import app\n\ndef test_index():\n  client = app.test_client()\n  assert client.get('/').status_code == 200\n",
-            "# Architecture\n\n- App layer\n- Utils layer\n- Config\n",
-            "hello"
-            ],
-            "branches": [
-            "main",
-            "feature-update"
-            ],
-            "branch_shas": [
-            "merge_sha_101",
-            "c3d4e5f6a7b8091a2b3c4d5e6f708192a3b4c5d6"
-            ],
-            "created_ts": "2023-12-01T10:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3875,21 +2325,7 @@ Task(
             "repo_name": "acme-webapp"
         }),
     ],
-    outputs=[
-        {
-            "success": "Alert #9 dismissed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "alert_number": 9,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "count": 0,
-            "alerts": []
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3906,60 +2342,7 @@ Task(
         Action(name="CloseIssue", kwargs={"owner": "design-team", "repo_name": "ui-kit", "issue_number": 10}),
         Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "count": 2,
-            "issues": [
-            {
-                "number": 6,
-                "title": "Icon set is incomplete",
-                "body": "We are missing several common icons (email, phone)",
-                "state": "closed",
-                "labels": [
-                "design",
-                "help-wanted"
-                ],
-                "assignees": [
-                "design-lead"
-                ],
-                "comments": [
-                "Queued for next sprint",
-                "Icons added for email and phone."
-                ],
-                "comment_users": [
-                "prod-mgr",
-                "design-team"
-                ],
-                "created_ts": "2023-12-03T08:45:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            },
-            {
-                "number": 10,
-                "title": "Docs need a theming section",
-                "body": "Add a guide on ThemeProvider usage",
-                "state": "closed",
-                "labels": [
-                "documentation"
-                ],
-                "assignees": [
-                "ui-dev"
-                ],
-                "comments": [
-                "Will add examples",
-                "Added ThemeProvider guide."
-                ],
-                "comment_users": [
-                "ui-dev",
-                "ui-dev"
-                ],
-                "created_ts": "2023-12-04T10:00:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -3980,28 +2363,7 @@ Task(
             kwargs={}
         ),
     ],
-    outputs=[
-        {
-            "success": "Initial commit added to maya-w/acme-webapp@feature-batch-add.",
-            "commit": {
-            "sha": "commit_sha_101",
-            "message": "Add 4 files",
-            "author": "maya-w",
-            "timestamp": "2025-08-21T12:00:00Z"
-            },
-            "branch_commit_count": 1
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-batch-add' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'docs/CONTRIBUTING.md' to maya-w/acme-webapp@feature-batch-add.",
-            "2025-08-21T12:00:00Z : Added 'docs/CODE_OF_CONDUCT.md' to maya-w/acme-webapp@feature-batch-add.",
-            "2025-08-21T12:00:00Z : Added 'examples/usage.ts' to maya-w/acme-webapp@feature-batch-add.",
-            "2025-08-21T12:00:00Z : Added 'scripts/setup.sh' to maya-w/acme-webapp@feature-batch-add.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@feature-batch-add."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4038,31 +2400,7 @@ Task(
             "repo_name": "ml-pipeline"
         }),
     ],
-    outputs=[
-        {
-            "success": "Alert #101 dismissed for ml-engineer/ml-pipeline.",
-            "repo": "ml-engineer/ml-pipeline",
-            "alert_number": 101,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "owner": "ml-engineer",
-            "repo_name": "ml-pipeline",
-            "count": 1,
-            "alerts": [
-            {
-                "number": 36,
-                "severity": "medium",
-                "state": "open",
-                "description": "Pickle deserialization security risk",
-                "ref": "refs/heads/main",
-                "created_ts": "2023-11-20T10:45:00Z",
-                "dismissed_ts": None
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4129,29 +2467,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={})
     ],
-    outputs=[
-        {
-            "success": "PR #101 merged for ryan-dev/utils-js.",
-            "repo": "ryan-dev/utils-js",
-            "pr_number": 101,
-            "state": "merged",
-            "merged": True,
-            "mergeable": True,
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-docs' created in ryan-dev/utils-js from 'master'.",
-            "2025-08-21T12:00:00Z : Added 'docs/USAGE.md' to ryan-dev/utils-js@feature-docs.",
-            "2025-08-21T12:00:00Z : Initial commit added to ryan-dev/utils-js@feature-docs.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for ryan-dev/utils-js.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for ryan-dev/utils-js.",
-            "2025-08-21T12:30:00Z : Merged 'feature-docs' into 'master' for ryan-dev/utils-js with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for ryan-dev/utils-js.",
-            "2025-08-21T12:30:00Z : Branch 'feature-docs' deleted from ryan-dev/utils-js."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -4190,89 +2506,7 @@ Task(
             kwargs={},
         ),
     ],
-    outputs=[
-        {
-            "number": 5,
-            "title": "Add authentication module",
-            "body": "This PR adds basic authentication functionality",
-            "state": "open",
-            "base_branch": "main",
-            "head_branch": "feature-auth",
-            "head_sha": "d1e2f3a4b5c6",
-            "mergeable": True,
-            "merged": False,
-            "files": [
-            [
-                "src/auth.py",
-                "tests/test_auth.py"
-            ]
-            ],
-            "comments": [
-            [
-                "Looks good overall",
-                "Please add more tests",
-                "Nice Job"
-            ]
-            ],
-            "comment_users": [
-            [
-                "dev-sue",
-                "qa-mike",
-                "nathan"
-            ]
-            ],
-            "reviewers": [
-            [
-                "dev-sue",
-                "qa-mike",
-                "nathan"
-            ]
-            ],
-            "review_states": [
-            [
-                [
-                "COMMENT",
-                "APPROVE"
-                ],
-                [
-                "REQUEST_CHANGES",
-                "APPROVE"
-                ],
-                [
-                "REQUESTED",
-                "COMMENT",
-                "APPROVE"
-                ]
-            ]
-            ],
-            "review_events": [
-            [
-                [
-                "COMMENT",
-                "APPROVE"
-                ],
-                [
-                "REQUEST_CHANGES",
-                "APPROVE"
-                ],
-                [
-                "REQUESTED",
-                "COMMENT",
-                "APPROVE"
-                ]
-            ]
-            ],
-            "created_ts": "2023-12-02T09:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:30:00Z : Assigned reviewers to PR #5 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Comment added to PR #5 for maya-w/acme-webapp; review state/event appended.",
-            "2025-08-21T12:30:00Z : PR #5 marked APPROVE for maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -4304,60 +2538,7 @@ Task(
             "repo_name": "payments-service"
         })
     ],
-    outputs=[
-        {
-            "owner": "server-main",
-            "repo_name": "payments-service",
-            "count": 2,
-            "issues": [
-            {
-                "number": 13,
-                "title": "3DS fallback not triggered",
-                "body": "On some cards, 3DS fallback is not invoked",
-                "state": "open",
-                "labels": [
-                "bug",
-                "payments"
-                ],
-                "assignees": [
-                "payments-lead",
-                "qa-erin"
-                ],
-                "comments": [
-                "Adding logs to reproduce",
-                "Added extra 3DS telemetry to reproduce; monitoring for failures."
-                ],
-                "comment_users": [
-                "server-main",
-                "server-main"
-                ],
-                "created_ts": "2023-12-03T13:00:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            },
-            {
-                "number": 15,
-                "title": "Timeout too aggressive",
-                "body": "Timeout should be 60s for long-running transactions",
-                "state": "closed",
-                "labels": [
-                "bug",
-                "priority-medium"
-                ],
-                "assignees": [
-                "server-main"
-                ],
-                "comments": [
-                "Proposed patch incoming"
-                ],
-                "comment_users": [
-                "server-main"
-                ],
-                "created_ts": "2023-12-03T13:30:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4391,21 +2572,7 @@ Task(
             "repo_name": "acme-webapp"
         }),
     ],
-    outputs=[
-        {
-            "success": "Alert #9 dismissed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "alert_number": 9,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "count": 0,
-            "alerts": []
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4422,60 +2589,7 @@ Task(
         Action(name="CloseIssue", kwargs={"owner": "design-team", "repo_name": "ui-kit", "issue_number": 10}),
         Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "count": 2,
-            "issues": [
-            {
-                "number": 6,
-                "title": "Icon set is incomplete",
-                "body": "We are missing several common icons (email, phone)",
-                "state": "closed",
-                "labels": [
-                "design",
-                "help-wanted"
-                ],
-                "assignees": [
-                "design-lead"
-                ],
-                "comments": [
-                "Queued for next sprint",
-                "Icons added for email and phone."
-                ],
-                "comment_users": [
-                "prod-mgr",
-                "design-team"
-                ],
-                "created_ts": "2023-12-03T08:45:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            },
-            {
-                "number": 10,
-                "title": "Docs need a theming section",
-                "body": "Add a guide on ThemeProvider usage",
-                "state": "closed",
-                "labels": [
-                "documentation"
-                ],
-                "assignees": [
-                "ui-dev"
-                ],
-                "comments": [
-                "Will add examples",
-                "Added ThemeProvider guide."
-                ],
-                "comment_users": [
-                "ui-dev",
-                "ui-dev"
-                ],
-                "created_ts": "2023-12-04T10:00:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4496,28 +2610,7 @@ Task(
             kwargs={}
         ),
     ],
-    outputs=[
-        {
-            "success": "Initial commit added to maya-w/acme-webapp@feature-batch-add.",
-            "commit": {
-            "sha": "commit_sha_101",
-            "message": "Add 4 files",
-            "author": "maya-w",
-            "timestamp": "2025-08-21T12:00:00Z"
-            },
-            "branch_commit_count": 1
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-batch-add' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'docs/CONTRIBUTING.md' to maya-w/acme-webapp@feature-batch-add.",
-            "2025-08-21T12:00:00Z : Added 'docs/CODE_OF_CONDUCT.md' to maya-w/acme-webapp@feature-batch-add.",
-            "2025-08-21T12:00:00Z : Added 'examples/usage.ts' to maya-w/acme-webapp@feature-batch-add.",
-            "2025-08-21T12:00:00Z : Added 'scripts/setup.sh' to maya-w/acme-webapp@feature-batch-add.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@feature-batch-add."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4566,18 +2659,7 @@ Task(
             "commit_author": "maya-w"
         }),
     ],
-    outputs=[
-        {
-            "success": "Updated 'docs/SETUP.md' in maya-w/acme-webapp@feature-setup.",
-            "repo": "maya-w/acme-webapp",
-            "branch": "feature-setup",
-            "file": {
-            "file_name": "docs/SETUP.md",
-            "previous_content": "Install dependencies and run",
-            "new_content": "Install dependencies and run. Start server"
-            }
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4610,21 +2692,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'release-notes-1.1.0' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'docs/RELEASE_NOTES_1.1.0.md' to maya-w/acme-webapp@release-notes-1.1.0.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@release-notes-1.1.0.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Assigned reviewers to PR #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Merged 'release-notes-1.1.0' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Branch 'release-notes-1.1.0' deleted from maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4679,29 +2747,7 @@ Task(
         }),
 
     ],
-    outputs=[
-        {
-            "success": "Issue #101 closed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "issue_number": 101,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "success": "Issue #102 closed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "issue_number": 102,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "success": "Issue #103 closed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "issue_number": 103,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4748,61 +2794,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "description": "A sample demonstration repository",
-            "private": False,
-            "auto_init": True,
-            "default_branch": "main",
-            "file_paths": [
-            "README.md",
-            "LICENSE",
-            ".gitignore",
-            "requirements.txt",
-            "src/main.py",
-            "src/app.py",
-            "src/utils.py",
-            "src/config.py",
-            "tests/test_app.py",
-            "docs/ARCHITECTURE.md",
-            "cli/main.py"
-            ],
-            "file_contents": [
-            "# Acme Webapp\n\nFlask-based demo application.",
-            "MIT License\n\nCopyright (c) 2023",
-            "__pycache__/\n.env\n*.pyc\n",
-            "flask==2.3.2\nrequests==2.31.0\n",
-            "print('Hello, World!')\n",
-            "from flask import Flask\napp = Flask(__name__)\n@app.get('/')\ndef index():\n  return 'OK'\n",
-            "def helper(x: int) -> int:\n  return x * 2\n",
-            "DEBUG=True\nPORT=5000\n",
-            "from src.app import app\n\ndef test_index():\n  client = app.test_client()\n  assert client.get('/').status_code == 200\n",
-            "# Architecture\n\n- App layer\n- Utils layer\n- Config\n",
-            "print('Hello from CLI')"
-            ],
-            "branches": [
-            "main",
-            "feature-update"
-            ],
-            "branch_shas": [
-            "merge_sha_101",
-            "c3d4e5f6a7b8091a2b3c4d5e6f708192a3b4c5d6"
-            ],
-            "created_ts": "2023-12-01T10:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-                "2025-08-21T12:00:00Z : Branch 'feature-add-cli' created in maya-w/acme-webapp from 'main'.",
-                "2025-08-21T12:00:00Z : Added 'cli/main.py' to maya-w/acme-webapp@feature-add-cli.",
-                "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@feature-add-cli.",
-                "2025-08-21T12:30:00Z : Merged 'feature-add-cli' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-                "2025-08-21T12:30:00Z : Branch 'feature-add-cli' deleted from maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4825,20 +2817,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-                                                                      "messages": [
-                                                                        "2025-08-21T12:00:00Z : Branch 'feature-branch' created in maya-w/acme-webapp from 'main'.",
-                                                                        "2025-08-21T12:00:00Z : Added 'CONTRIBUTING.md' to maya-w/acme-webapp@feature-branch.",
-                                                                        "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@feature-branch.",
-                                                                        "2025-08-21T12:00:00Z : Pull request #101 created for maya-w/acme-webapp.",
-                                                                        "2025-08-21T12:30:00Z : PR #101 marked APPROVE for maya-w/acme-webapp.",
-                                                                        "2025-08-21T12:30:00Z : Merged 'feature-branch' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-                                                                        "2025-08-21T12:30:00Z : PR #101 merged for maya-w/acme-webapp.",
-                                                                        "2025-08-21T12:30:00Z : Branch 'feature-branch' deleted from maya-w/acme-webapp."
-                                                                      ]
-                                                                    }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -4899,29 +2878,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={})
     ],
-    outputs=[
-        {
-            "success": "PR #101 merged for ryan-dev/utils-js.",
-            "repo": "ryan-dev/utils-js",
-            "pr_number": 101,
-            "state": "merged",
-            "merged": True,
-            "mergeable": True,
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-                "2025-08-21T12:00:00Z : Branch 'feature-tel-input' created in ryan-dev/utils-js from 'master'.",
-                "2025-08-21T12:00:00Z : Added 'src/utils/phone.js' to ryan-dev/utils-js@feature-tel-input.",
-                "2025-08-21T12:00:00Z : Initial commit added to ryan-dev/utils-js@feature-tel-input.",
-                "2025-08-21T12:00:00Z : Pull request #101 created for ryan-dev/utils-js.",
-                "2025-08-21T12:30:00Z : PR #101 marked APPROVE for ryan-dev/utils-js.",
-                "2025-08-21T12:30:00Z : Merged 'feature-tel-input' into 'master' for ryan-dev/utils-js with SHA merge_sha_101.",
-                "2025-08-21T12:30:00Z : PR #101 merged for ryan-dev/utils-js.",
-                "2025-08-21T12:30:00Z : Branch 'feature-tel-input' deleted from ryan-dev/utils-js."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -4952,15 +2909,7 @@ Task(
             kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "alert_number": 101}
         ),
     ],
-    outputs=[
-        {
-            "success": "Alert #101 dismissed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "alert_number": 101,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -4994,21 +2943,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'release-notes-1.1.0' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'docs/RELEASE_NOTES_1.1.0.md' to maya-w/acme-webapp@release-notes-1.1.0.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@release-notes-1.1.0.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Assigned reviewers to PR #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Merged 'release-notes-1.1.0' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Branch 'release-notes-1.1.0' deleted from maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5037,31 +2972,7 @@ Task(
         Action(name="DeleteBranch", kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-alert"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Branch 'feature-alert' deleted from design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "deleted_branch": "feature-alert",
-            "removed_file_count": 11,
-            "remaining_branches": [
-            "main",
-            "release-1.0",
-            "feature-theme"
-            ]
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-alert' created in design-team/ui-kit from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'packages/alert/index.tsx' to design-team/ui-kit@feature-alert.",
-            "2025-08-21T12:00:00Z : Initial commit added to design-team/ui-kit@feature-alert.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Merged 'feature-alert' into 'main' for design-team/ui-kit with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Branch 'feature-alert' deleted from design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5101,16 +3012,7 @@ Task(
         # Action(name="GetAllIssuesForRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Added issue #101 to existing bucket",
-            "2025-08-21T12:30:00Z : Comment added to issue #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Comment added to issue #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Issue #101 closed for maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5150,15 +3052,7 @@ Task(
         # Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
         # Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Issue #101 closed for design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "issue_number": 101,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5192,85 +3086,7 @@ Task(
             kwargs={"owner": "maya-w", "repo_name": "acme-webapp"}
         ),
     ],
-    outputs=[
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "count": 3,
-            "issues": [
-            {
-                "number": 3,
-                "title": "Performance optimization needed",
-                "body": "The current algorithm is too slow for large datasets",
-                "state": "open",
-                "labels": [
-                "enhancement",
-                "performance"
-                ],
-                "assignees": [
-                "maya-w",
-                "perf-nathan"
-                ],
-                "comments": [
-                "I'll look into this",
-                "Agreed, we need better algorithms"
-                ],
-                "comment_users": [
-                "maya-w",
-                "tech-lead-tara"
-                ],
-                "created_ts": "2023-12-01T12:00:00Z",
-                "updated_ts": "2023-12-02T10:15:00Z"
-            },
-            {
-                "number": 8,
-                "title": "Documentation outdated",
-                "body": "README needs to be updated with new API changes",
-                "state": "closed",
-                "labels": [
-                "documentation",
-                "good-first-issue"
-                ],
-                "assignees": [
-                "docs-sophia"
-                ],
-                "comments": [
-                "Working on this now",
-                "Updated - please review"
-                ],
-                "comment_users": [
-                "docs-sophia",
-                "docs-sophia"
-                ],
-                "created_ts": "2023-11-30T08:30:00Z",
-                "updated_ts": "2023-12-01T16:45:00Z"
-            },
-            {
-                "number": 101,
-                "title": "Fix login redirect",
-                "body": "Users are redirected to /home instead of /dashboard",
-                "state": "closed",
-                "labels": [
-                "bug"
-                ],
-                "assignees": [
-                "frontend team",
-                "backend team"
-                ],
-                "comments": [
-                "Backend routing updated.",
-                "Frontend redirect fixed."
-                ],
-                "comment_users": [
-                "backend team",
-                "frontend team"
-                ],
-                "created_ts": "2025-08-21T12:00:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5304,15 +3120,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "success": "Alert #101 dismissed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "alert_number": 101,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5335,29 +3143,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "success": "PR #101 merged for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "pr_number": 101,
-            "state": "merged",
-            "merged": True,
-            "mergeable": True,
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'hotfix-typo' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:30:00Z : Updated 'README.md' in maya-w/acme-webapp@hotfix-typo.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@hotfix-typo.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Merged 'hotfix-typo' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Branch 'hotfix-typo' deleted from maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5390,21 +3176,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'release-notes-1.1.0' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'docs/RELEASE_NOTES_1.1.0.md' to maya-w/acme-webapp@release-notes-1.1.0.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@release-notes-1.1.0.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Assigned reviewers to PR #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Merged 'release-notes-1.1.0' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Branch 'release-notes-1.1.0' deleted from maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5433,31 +3205,7 @@ Task(
         Action(name="DeleteBranch", kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-alert"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Branch 'feature-alert' deleted from design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "deleted_branch": "feature-alert",
-            "removed_file_count": 11,
-            "remaining_branches": [
-            "main",
-            "release-1.0",
-            "feature-theme"
-            ]
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-alert' created in design-team/ui-kit from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'packages/alert/index.tsx' to design-team/ui-kit@feature-alert.",
-            "2025-08-21T12:00:00Z : Initial commit added to design-team/ui-kit@feature-alert.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Merged 'feature-alert' into 'main' for design-team/ui-kit with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Branch 'feature-alert' deleted from design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5497,16 +3245,7 @@ Task(
         # Action(name="GetAllIssuesForRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Added issue #101 to existing bucket",
-            "2025-08-21T12:30:00Z : Comment added to issue #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Comment added to issue #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Issue #101 closed for maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5546,15 +3285,7 @@ Task(
         # Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
         # Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Issue #101 closed for design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "issue_number": 101,
-            "state": "closed",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5581,33 +3312,7 @@ Task(
             "owner": "maya-w", "repo_name": "acme-webapp"
         }),
     ],
-    outputs=[
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "count": 2,
-            "alerts": [
-            {
-                "number": 9,
-                "severity": "high",
-                "state": "open",
-                "description": "SQL injection vulnerability in user input handling",
-                "ref": "refs/heads/main",
-                "created_ts": "2023-12-02T14:30:00Z",
-                "dismissed_ts": None
-            },
-            {
-                "number": 101,
-                "severity": "high",
-                "state": "open",
-                "description": "SQL injection risk detected in src/db.py (user input concatenation).",
-                "ref": "refs/heads/main",
-                "created_ts": "2025-08-21T12:00:00Z",
-                "dismissed_ts": None
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5644,31 +3349,7 @@ Task(
             "repo_name": "ml-pipeline"
         }),
     ],
-    outputs=[
-        {
-            "success": "Alert #101 dismissed for ml-engineer/ml-pipeline.",
-            "repo": "ml-engineer/ml-pipeline",
-            "alert_number": 101,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "owner": "ml-engineer",
-            "repo_name": "ml-pipeline",
-            "count": 1,
-            "alerts": [
-            {
-                "number": 36,
-                "severity": "medium",
-                "state": "open",
-                "description": "Pickle deserialization security risk",
-                "ref": "refs/heads/main",
-                "created_ts": "2023-11-20T10:45:00Z",
-                "dismissed_ts": None
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5699,60 +3380,7 @@ Task(
             "repo_name": "payments-service"
         })
     ],
-    outputs=[
-        {
-            "owner": "server-main",
-            "repo_name": "payments-service",
-            "count": 2,
-            "issues": [
-            {
-                "number": 13,
-                "title": "3DS fallback not triggered",
-                "body": "On some cards, 3DS fallback is not invoked",
-                "state": "open",
-                "labels": [
-                "bug",
-                "payments"
-                ],
-                "assignees": [
-                "payments-lead",
-                "qa-erin"
-                ],
-                "comments": [
-                "Adding logs to reproduce",
-                "Added extra 3DS telemetry to reproduce; monitoring for failures."
-                ],
-                "comment_users": [
-                "server-main",
-                "server-main"
-                ],
-                "created_ts": "2023-12-03T13:00:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            },
-            {
-                "number": 15,
-                "title": "Timeout too aggressive",
-                "body": "Timeout should be 60s for long-running transactions",
-                "state": "closed",
-                "labels": [
-                "bug",
-                "priority-medium"
-                ],
-                "assignees": [
-                "server-main"
-                ],
-                "comments": [
-                "Proposed patch incoming"
-                ],
-                "comment_users": [
-                "server-main"
-                ],
-                "created_ts": "2023-12-03T13:30:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5789,24 +3417,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "number": 2,
-            "severity": "medium",
-            "state": "dismissed",
-            "description": "Potential XSS in button label",
-            "ref": "refs/heads/main",
-            "created_ts": "2023-12-03T12:00:00Z",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-            "2025-08-21T12:30:00Z : Alert #2 dismissed for design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5842,54 +3453,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={})
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "description": "Reusable UI components",
-            "private": False,
-            "auto_init": True,
-            "default_branch": "main",
-            "file_paths": [
-            "README.md",
-            "LICENSE",
-            ".npmrc",
-            "package.json",
-            "packages/button/index.tsx",
-            "packages/card/index.tsx",
-            "docs/STYLEGUIDE.md",
-            "CHANGELOG.md"
-            ],
-            "file_contents": [
-            "# UI Kit\n\nComponent library.",
-            "MIT License\n",
-            "legacy-peer-deps=true\n",
-            "{\n  \"name\": \"ui-kit\",\n  \"version\": \"1.0.0\"\n}",
-            "export const Button = () => <button>Click</button>;\n",
-            "export const Card = () => <div className='card' />;\n",
-            "# Styleguide\n\nTypography, spacing, color.",
-            "# Changelog\n- Init\n"
-            ],
-            "branches": [
-            "main",
-            "feature-theme"
-            ],
-            "branch_shas": [
-            "merge_sha_101",
-            "abcdabcdabcdabcdabcdabcdabcdabcdabcdabcd"
-            ],
-            "created_ts": "2023-10-20T08:00:00Z",
-            "updated_ts": "2025-08-21T12:30:00Z"
-        },
-        {
-            "messages": [
-                "2025-08-21T12:30:00Z : PR #12 marked APPROVE for design-team/ui-kit.",
-                "2025-08-21T12:30:00Z : Merged 'release-1.0' into 'main' for design-team/ui-kit with SHA merge_sha_101.",
-                "2025-08-21T12:30:00Z : PR #12 merged for design-team/ui-kit.",
-                "2025-08-21T12:30:00Z : Branch 'release-1.0' deleted from design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5919,15 +3483,7 @@ Task(
             kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "alert_number": 101}
         ),
     ],
-    outputs=[
-        {
-            "success": "Alert #101 dismissed for maya-w/acme-webapp.",
-            "repo": "maya-w/acme-webapp",
-            "alert_number": 101,
-            "state": "dismissed",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        },
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -5961,28 +3517,7 @@ Task(
         }),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-    {
-        "success": "Alert #18 dismissed for security-group/security-scanner.",
-        "repo": "security-group/security-scanner",
-        "alert_number": 18,
-        "state": "dismissed",
-        "dismissed_ts": "2025-08-21T12:30:00Z"
-    },
-    {
-        "success": "Alert #21 dismissed for security-group/security-scanner.",
-        "repo": "security-group/security-scanner",
-        "alert_number": 21,
-        "state": "dismissed",
-        "dismissed_ts": "2025-08-21T12:30:00Z"
-    },
-    {
-    "messages": [
-            "2025-08-21T12:30:00Z : Alert #18 dismissed for security-group/security-scanner.",
-            "2025-08-21T12:30:00Z : Alert #21 dismissed for security-group/security-scanner."
-    ]
-    }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -5999,60 +3534,7 @@ Task(
         Action(name="CloseIssue", kwargs={"owner": "design-team", "repo_name": "ui-kit", "issue_number": 10}),
         Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "count": 2,
-            "issues": [
-            {
-                "number": 6,
-                "title": "Icon set is incomplete",
-                "body": "We are missing several common icons (email, phone)",
-                "state": "closed",
-                "labels": [
-                "design",
-                "help-wanted"
-                ],
-                "assignees": [
-                "design-lead"
-                ],
-                "comments": [
-                "Queued for next sprint",
-                "Icons added for email and phone."
-                ],
-                "comment_users": [
-                "prod-mgr",
-                "design-team"
-                ],
-                "created_ts": "2023-12-03T08:45:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            },
-            {
-                "number": 10,
-                "title": "Docs need a theming section",
-                "body": "Add a guide on ThemeProvider usage",
-                "state": "closed",
-                "labels": [
-                "documentation"
-                ],
-                "assignees": [
-                "ui-dev"
-                ],
-                "comments": [
-                "Will add examples",
-                "Added ThemeProvider guide."
-                ],
-                "comment_users": [
-                "ui-dev",
-                "ui-dev"
-                ],
-                "created_ts": "2023-12-04T10:00:00Z",
-                "updated_ts": "2025-08-21T12:30:00Z"
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 
@@ -6124,29 +3606,7 @@ Action(name="DeleteBranch", kwargs={
 }),
 Action(name="ListAllTerminalMessage", kwargs={}),
 ],
-outputs=[
-{
-    "success": "PR #101 merged for server-main/payments-service.",
-    "repo": "server-main/payments-service",
-    "pr_number": 101,
-    "state": "merged",
-    "merged": True,
-    "mergeable": True,
-    "updated_ts": "2025-08-21T12:30:00Z"
-},
-{
-"messages": [
-"2025-08-21T12:00:00Z : Branch 'feature-e2e-tests' created in server-main/payments-service from 'main'.",
-"2025-08-21T12:00:00Z : Added 'tests/e2e/payments_flow.test.ts' to server-main/payments-service@feature-e2e-tests.",
-"2025-08-21T12:00:00Z : Initial commit added to server-main/payments-service@feature-e2e-tests.",
-"2025-08-21T12:00:00Z : Pull request #101 created for server-main/payments-service.",
-"2025-08-21T12:30:00Z : PR #101 marked APPROVE for server-main/payments-service.",
-"2025-08-21T12:30:00Z : Merged 'feature-e2e-tests' into 'main' for server-main/payments-service with SHA merge_sha_101.",
-"2025-08-21T12:30:00Z : PR #101 merged for server-main/payments-service.",
-"2025-08-21T12:30:00Z : Branch 'feature-e2e-tests' deleted from server-main/payments-service."
-]
-}
-]
+outputs=[]
 ),
 
 Task(
@@ -6174,15 +3634,7 @@ Action(name="CloseIssue", kwargs={
 "issue_number": 15
 }),
 ],
-outputs=[
-{
-    "success": "Issue #15 closed for server-main/payments-service.",
-    "repo": "server-main/payments-service",
-    "issue_number": 15,
-    "state": "closed",
-    "updated_ts": "2025-08-21T12:30:00Z"
-}
-]
+outputs=[]
 ),
 Task(
     annotator="0",
@@ -6215,21 +3667,7 @@ Task(
                 kwargs={},
             ),
     ],
-    outputs=[
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'release-notes-1.1.0' created in maya-w/acme-webapp from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'docs/RELEASE_NOTES_1.1.0.md' to maya-w/acme-webapp@release-notes-1.1.0.",
-            "2025-08-21T12:00:00Z : Initial commit added to maya-w/acme-webapp@release-notes-1.1.0.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Assigned reviewers to PR #101 for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Merged 'release-notes-1.1.0' into 'main' for maya-w/acme-webapp with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for maya-w/acme-webapp.",
-            "2025-08-21T12:30:00Z : Branch 'release-notes-1.1.0' deleted from maya-w/acme-webapp."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6258,31 +3696,7 @@ Task(
         Action(name="DeleteBranch", kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-alert"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
-    outputs=[
-        {
-            "success": "Branch 'feature-alert' deleted from design-team/ui-kit.",
-            "repo": "design-team/ui-kit",
-            "deleted_branch": "feature-alert",
-            "removed_file_count": 11,
-            "remaining_branches": [
-            "main",
-            "release-1.0",
-            "feature-theme"
-            ]
-        },
-        {
-            "messages": [
-            "2025-08-21T12:00:00Z : Branch 'feature-alert' created in design-team/ui-kit from 'main'.",
-            "2025-08-21T12:00:00Z : Added 'packages/alert/index.tsx' to design-team/ui-kit@feature-alert.",
-            "2025-08-21T12:00:00Z : Initial commit added to design-team/ui-kit@feature-alert.",
-            "2025-08-21T12:00:00Z : Pull request #101 created for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : PR #101 marked APPROVE for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Merged 'feature-alert' into 'main' for design-team/ui-kit with SHA merge_sha_101.",
-            "2025-08-21T12:30:00Z : PR #101 merged for design-team/ui-kit.",
-            "2025-08-21T12:30:00Z : Branch 'feature-alert' deleted from design-team/ui-kit."
-            ]
-        }
-    ]
+    outputs=[]
 ),
 
 Task(
@@ -6310,33 +3724,7 @@ Task(
             "owner": "maya-w", "repo_name": "acme-webapp"
         }),
     ],
-    outputs=[
-        {
-            "owner": "maya-w",
-            "repo_name": "acme-webapp",
-            "count": 2,
-            "alerts": [
-            {
-                "number": 9,
-                "severity": "high",
-                "state": "open",
-                "description": "SQL injection vulnerability in user input handling",
-                "ref": "refs/heads/main",
-                "created_ts": "2023-12-02T14:30:00Z",
-                "dismissed_ts": None
-            },
-            {
-                "number": 101,
-                "severity": "high",
-                "state": "open",
-                "description": "SQL injection risk detected in src/db.py (user input concatenation).",
-                "ref": "refs/heads/main",
-                "created_ts": "2025-08-21T12:00:00Z",
-                "dismissed_ts": None
-            }
-            ]
-        }
-    ]
+    outputs=[]
 ),
 Task(
     annotator="0",
@@ -6372,19 +3760,7 @@ Task(
             "alert_number": 101
         }),
     ],
-    outputs=[
-        {
-            "owner": "design-team",
-            "repo_name": "ui-kit",
-            "number": 101,
-            "severity": "medium",
-            "state": "dismissed",
-            "description": "Unsafe innerHTML assignment detected in packages/card/index.tsx.",
-            "ref": "refs/heads/main",
-            "created_ts": "2025-08-21T12:00:00Z",
-            "dismissed_ts": "2025-08-21T12:30:00Z"
-        }
-    ]
+    outputs=[]
 ),
 
 

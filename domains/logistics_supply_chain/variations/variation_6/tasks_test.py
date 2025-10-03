@@ -34,7 +34,7 @@ TASKS = [
                 "tracking_number": "MED-PRIORITY-001"
             })
         ],
-        outputs=["ORD-0017"]
+        outputs=[]
     ),
 
     Task(
@@ -68,7 +68,7 @@ TASKS = [
                 "tracking_number": "SOLAR-RUSH-100"
             })
         ],
-        outputs=["ORD-0017"]
+        outputs=[]
     ),
 
     Task(
@@ -86,7 +86,7 @@ TASKS = [
             }),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-14", "sku": "FURN-CHAIR-M13"}),
         ],
-        outputs=['{"inventory_id": "INV-0013", "quantity_on_hand": 595, "reorder_point": 150}']
+        outputs=[]
     ),
 
     Task(
@@ -116,7 +116,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"})
         ],
-        outputs=['"shipment_id": "SHIP-0031", "supplier_id": "SUP-1002"']
+        outputs=[]
     ),
 
     Task(
@@ -146,7 +146,7 @@ TASKS = [
                 "tracking_number": "TECH-FAST-020"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -176,7 +176,7 @@ TASKS = [
                 "sku": "CHEM-SOLV-K11"
             })
         ],
-        outputs=['"inventory_id": "INV-0011", "sku": "CHEM-SOLV-K11", "warehouse_id": "WH-13"']
+        outputs=[]
     ),
 
     Task(
@@ -206,7 +206,7 @@ TASKS = [
                 "tracking_number": "AUTO-PAD-010"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -248,8 +248,7 @@ TASKS = [
                 "tracking_number": "CHIP-WEST-100"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"',
-                 '"order_id": "ORD-0018", "new_status": "Shipped"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -282,7 +281,7 @@ TASKS = [
                 "tracking_number": "INNOV-RAIL-001"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -303,7 +302,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"})
         ],
-        outputs=['"shipment_id": "SHIP-0031", "supplier_id": "SUP-1018", "destination_warehouse_id": "WH-15"']
+        outputs=[]
     ),
 
     Task(
@@ -334,7 +333,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"})
         ],
-        outputs=['"shipment_id": "SHIP-0031"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -380,8 +379,7 @@ TASKS = [
                 "tracking_number": "FASHION-AIR-002"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"',
-                 '"order_id": "ORD-0018", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -411,7 +409,7 @@ TASKS = [
                 "sku": "FURN-CHAIR-M13"
             })
         ],
-        outputs=['{"inventory_id": "INV-0013", "sku": "FURN-CHAIR-M13"}']
+        outputs=[]
     ),
 
     Task(
@@ -442,7 +440,7 @@ TASKS = [
                 "tracking_number": "GAMER-FAST-005"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -484,8 +482,7 @@ TASKS = [
                 "tracking_number": "DAILY-2-250"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"',
-                 '"order_id": "ORD-0018", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -552,8 +549,7 @@ TASKS = [
                 "tracking_number": "BUILD-TOOLS-013"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"',
-                 '"order_id": "ORD-0018", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -584,7 +580,7 @@ TASKS = [
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-06", "sku": "PHRM-VACC-D4"}),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-06", "sku": "PHRM-DRUG-S19"}),
         ],
-        outputs=['{"inventory_id": "INV-0004"}', '{"inventory_id": "INV-0019"}']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -613,7 +609,7 @@ TASKS = [
                 "sku": "APRL-TSHT-O15"
             })
         ],
-        outputs=['{"inventory_id": "INV-0015", "sku": "APRL-TSHT-O15", "warehouse_id": "WH-04"}']
+        outputs=[]
     ),
 
     Task(
@@ -643,7 +639,7 @@ TASKS = [
                 "sku": "FOOD-FLWR-X24"
             })
         ],
-        outputs=['{"inventory_id": "INV-0024", "sku": "FOOD-FLWR-X24", "warehouse_id": "WH-10"}']
+        outputs=[]
     ),
 
     Task(
@@ -670,7 +666,7 @@ TASKS = [
                 "tracking_number": "ART-AIR-100"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -704,7 +700,7 @@ TASKS = [
                 "tracking_number": "FRESH-COLD-150"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -733,7 +729,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"})
         ],
-        outputs=['"shipment_id": "SHIP-0031", "supplier_id": "Internal", "destination_warehouse_id": "WH-03"']
+        outputs=[]
     ),
 
     Task(
@@ -762,7 +758,7 @@ TASKS = [
                 "tracking_number": "BOOK-WORM-050"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -788,7 +784,7 @@ TASKS = [
                 "tracking_number": "EK-CARGO-457"
             })
         ],
-        outputs=['"order_id": "ORD-0010", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -818,7 +814,7 @@ TASKS = [
                 "sku": "BLDG-TILE-J10"
             })
         ],
-        outputs=['{"inventory_id": "INV-0010", "sku": "BLDG-TILE-J10", "warehouse_id": "WH-12"}']
+        outputs=[]
     ),
 
     Task(
@@ -849,7 +845,7 @@ TASKS = [
                 "tracking_number": "ONCO-DRUG-200"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -879,7 +875,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017", "status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -906,7 +902,7 @@ TASKS = [
                 "tracking_number": "TOY-EAST-1000"
             }),
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -936,7 +932,7 @@ TASKS = [
                 "tracking_number": "WINE-TEMP-100"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -962,7 +958,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"})
         ],
-        outputs=['"shipment_id": "SHIP-0031", "supplier_id": "SUP-1013", "destination_warehouse_id": "WH-13", "carrier_id": "CARR-012"']
+        outputs=[]
     ),
 
     Task(
@@ -998,7 +994,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=['"order_id": "ORD-0017", "status": "Shipped", "warehouse_id": "WH-07"']
+        outputs=[]
     ),
 
     Task(
@@ -1042,7 +1038,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"})
         ],
-        outputs=['"shipment_id": "SHIP-0031", "supplier_id": "SUP-1023", "destination_warehouse_id": "WH-01"']
+        outputs=[]
     ),
 
     Task(
@@ -1077,7 +1073,7 @@ TASKS = [
                 "sku": "ELEC-CHIP-A1"
             })
         ],
-        outputs=['"inventory_id": "INV-0001", "sku": "ELEC-CHIP-A1", "warehouse_id": "WH-01", "quantity_on_hand": 16200}']
+        outputs=[]
     ),
 
     Task(
@@ -1109,7 +1105,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017", "status": "Shipped"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1137,7 +1133,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=['"order_id": "ORD-0017", "status": "Shipped", "warehouse_id": "WH-07"']
+        outputs=[]
     ),
 
     Task(
@@ -1182,8 +1178,7 @@ TASKS = [
                 "tracking_number": "Global Parcel Service-TRUCK-101"
             })
         ],
-        outputs=['"order_id": "ORD-0017", "new_status": "Shipped"',
-                 '"order_id": "ORD-0018", "new_status": "Shipped"']
+        outputs=[]
     ),
 
     Task(
@@ -1205,7 +1200,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"}),
         ],
-        outputs=['"shipment_id": "SHIP-0031", "supplier_id": "SUP-1011", "destination_warehouse_id": "WH-11", "carrier_id": "CARR-008"']
+        outputs=[]
     ),
 
     Task(
@@ -1234,7 +1229,7 @@ TASKS = [
                 "sku": "BEVG-WINE-P16"
             }),
         ],
-        outputs=['"warehouse_id": "WH-15"']
+        outputs=[]
     ),
 
     Task(
@@ -1272,7 +1267,7 @@ TASKS = [
                 "tracking_number": "MED-CRITICAL-001"
             })
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
 
     Task(
@@ -1316,7 +1311,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
 
     Task(
@@ -1355,7 +1350,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
 
     Task(
@@ -1394,7 +1389,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
 
     Task(
@@ -1433,7 +1428,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
 
     Task(
@@ -1472,7 +1467,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
 
     Task(
@@ -1516,7 +1511,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"})
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
 
     Task(
@@ -1540,7 +1535,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"}),
         ],
-        outputs=['"shipment_id": "SHIP-0031"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1572,7 +1567,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1594,7 +1589,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"}),
         ],
-        outputs=['"shipment_id": "SHIP-0031"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1621,7 +1616,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"}),
         ],
-        outputs=['"shipment_id": "SHIP-0031"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1663,8 +1658,7 @@ TASKS = [
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0018"}),
         ],
-        outputs=['"order_id": "ORD-0017"',
-                 '"order_id": "ORD-0018"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1687,8 +1681,7 @@ TASKS = [
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-01", "sku": "ELEC-CHIP-A1"}),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-03", "sku": "ELEC-CHIP-A1"}),
         ],
-        outputs=['{"inventory_id": "INV-0001", "sku": "ELEC-CHIP-A1", "warehouse_id": "WH-01"}',
-                 '{"inventory_id": "INV-0025", "sku": "ELEC-CHIP-A1", "warehouse_id": "WH-03"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1712,7 +1705,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017", "status": "Shipped", "warehouse_id": "WH-01"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1735,7 +1728,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"}),
         ],
-        outputs=['"shipment_id": "SHIP-0031"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1765,7 +1758,7 @@ TASKS = [
                 "estimated_arrival_date": "2025-08-10"
             }),
         ],
-        outputs=['"shipment_id": "SHIP-0031", "supplier_id": "WH-04"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1793,8 +1786,7 @@ TASKS = [
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-07", "sku": "LUX-WATCH-L12"}),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-07", "sku": "APRL-BAG-E5"}), ],
-        outputs=['{"inventory_id": "INV-0012", "sku": "LUX-WATCH-L12", "warehouse_id": "WH-07"}',
-                 '{"inventory_id": "INV-0005", "sku": "APRL-BAG-E5", "warehouse_id": "WH-07"}']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1816,8 +1808,7 @@ TASKS = [
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-06", "sku": "PHRM-DRUG-S19"}),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-06", "sku": "PHRM-VACC-D4"}),
         ],
-        outputs=['{"inventory_id": "INV-0019", "sku": "PHRM-DRUG-S19", "warehouse_id": "WH-06"}',
-                 '{"inventory_id": "INV-0004", "sku": "PHRM-VACC-D4", "warehouse_id": "WH-06"}']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1847,8 +1838,7 @@ TASKS = [
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
             Action(name="GetWarehouseInfo", kwargs={"warehouse_id": "WH-04"}),
         ],
-        outputs=['"order_id": "ORD-0017", "status": "Shipped", "warehouse_id": "WH-04"',
-                 '"warehouse_id": "WH-04", "warehouse_name": "East Coast Fashion Center"']
+        outputs=[]
     ),
 
     Task(
@@ -1875,7 +1865,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1898,7 +1888,7 @@ TASKS = [
                 "tracking_number": "GILDED-FISH-001"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1922,7 +1912,7 @@ TASKS = [
                 "tracking_number": "DIG-RAIL-002"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1939,7 +1929,7 @@ TASKS = [
             }),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-07", "sku": "APRL-BAG-E5"}),
         ],
-        outputs=['{"inventory_id": "INV-0005", "sku": "APRL-BAG-E5", "quantity_available": 121}']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1965,7 +1955,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -1989,7 +1979,7 @@ TASKS = [
             }),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-03", "sku": "AUTO-GLAS-U21"}),
         ],
-        outputs=['{"inventory_id": "INV-0021", "quantity_on_hand": 150}']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2015,7 +2005,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2050,7 +2040,7 @@ TASKS = [
                 "tracking_number": "BIO-AUTO-001"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"', '"order_id": "ORD-0018"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2070,7 +2060,7 @@ TASKS = [
             }),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-04", "sku": "MATR-COTT-R18"}),
         ],
-        outputs=['{"inventory_id": "INV-0018", "quantity_on_hand": 1290}']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2105,7 +2095,7 @@ TASKS = [
                 "tracking_number": "STYLE-BAG-001"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"', '"order_id": "ORD-0018"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2139,7 +2129,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0010"}),
         ],
-        outputs=['"order_id": "ORD-0010", "status": "Shipped"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2166,7 +2156,7 @@ TASKS = [
             Action(name="UpdateOutboundOrderStatus", kwargs={"order_id": "ORD-0017", "new_status": "Shipped", "carrier_id": "CARR-014", "tracking_number": "DIY-BRAKES-01"}),
             Action(name="UpdateOutboundOrderStatus", kwargs={"order_id": "ORD-0018", "new_status": "Shipped", "carrier_id": "CARR-014", "tracking_number": "DIY-GLASS-02"}),
         ],
-        outputs=['"order_id": "ORD-0017"', '"order_id": "ORD-0018"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2191,7 +2181,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017", "status": "Shipped"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2217,7 +2207,7 @@ TASKS = [
                 "tracking_number": "ROBO-KIT-005"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2236,7 +2226,7 @@ TASKS = [
                 "estimated_arrival_date": "2025-07-30"
             }),
         ],
-        outputs=['"shipment_id": "SHIP-0031"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2262,7 +2252,7 @@ TASKS = [
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
             Action(name="GetWarehouseInfo", kwargs={"warehouse_id": "WH-09"}),
         ],
-        outputs=['"warehouse_id": "WH-09"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2291,7 +2281,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2313,7 +2303,7 @@ TASKS = [
                 "tracking_number": "ARCTIC-SOLAR-01"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2341,7 +2331,7 @@ TASKS = [
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0018"}),
         ],
-        outputs=['"order_id": "ORD-0017"', '"order_id": "ORD-0018"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2365,7 +2355,7 @@ TASKS = [
                 "tracking_number": "FTL-AUTO-Milwaukee-01"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2385,7 +2375,7 @@ TASKS = [
             }),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-12", "sku": "BLDG-TILE-J10"}),
         ],
-        outputs=['{"inventory_id": "INV-0010", "quantity_on_hand": 19000}']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2412,7 +2402,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2432,7 +2422,7 @@ TASKS = [
             Action(name="UpdateInboundShipment", kwargs={"shipment_id": "SHIP-0004", "status": "In Transit"}),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0004"}),
         ],
-        outputs=['{"shipment_id": "SHIP-0004", "carrier_id": "CARR-002", "status": "In Transit"}']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2459,7 +2449,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2484,7 +2474,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2518,7 +2508,7 @@ TASKS = [
                 "tracking_number": "MEGA-NY-2"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"', '"order_id": "ORD-0018"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2540,7 +2530,7 @@ TASKS = [
             }),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-03", "sku": "TECH-BATT-Q17"}),
         ],
-        outputs=['{"inventory_id": "INV-0017", "quantity_on_hand": 1500}']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2559,7 +2549,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"})
         ],
-        outputs=['"shipment_id": "SHIP-0031"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2581,7 +2571,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0009"}),
         ],
-        outputs=['{"shipment_id": "SHIP-0009", "destination_warehouse_id": "WH-11"}']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2612,7 +2602,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2638,7 +2628,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2667,7 +2657,7 @@ TASKS = [
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"}),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0032"}),
         ],
-        outputs=['"shipment_id": "SHIP-0031"', '"shipment_id": "SHIP-0032"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2689,7 +2679,7 @@ TASKS = [
                 "tracking_number": "ALASKA-FURN-01"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2716,7 +2706,7 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2766,7 +2756,7 @@ TASKS = [
                 "shipping_address": "789 DIY Garage, Detroit, MI"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2808,7 +2798,7 @@ TASKS = [
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0018"}),
         ],
-        outputs=['"order_id": "ORD-0017"', '"order_id": "ORD-0018"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2827,7 +2817,7 @@ TASKS = [
             }),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"}),
         ],
-        outputs=['"shipment_id": "SHIP-0031"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2853,7 +2843,7 @@ TASKS = [
                 "tracking_number": "TRADESHOW-LV-01"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2880,7 +2870,7 @@ TASKS = [
                 "items_received": [{"sku": "ELEC-CHIP-A1", "quantity": 200}],
             }),
         ],
-        outputs=['"shipment_id": "SHIP-0031", "status": "Received"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2907,7 +2897,7 @@ TASKS = [
                 "tracking_number": "BOOK-DEPOT-UPDATE-01"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2940,8 +2930,7 @@ TASKS = [
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0001"}),
             Action(name="GetInboundShipmentDetails", kwargs={"shipment_id": "SHIP-0031"}),
         ],
-        outputs=['"shipment_id": "SHIP-0001"',
-                 '"shipment_id": "SHIP-0031"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -2978,7 +2967,7 @@ TASKS = [
                 "tracking_number": "VINTAGE-PADS-09"
             }),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
     Task(
         annotator="samarthkulshrestha",
@@ -3004,6 +2993,6 @@ TASKS = [
             }),
             Action(name="GetOutboundOrderStatus", kwargs={"order_id": "ORD-0017"}),
         ],
-        outputs=['"order_id": "ORD-0017"']
+        outputs=[]
     ),
 ]

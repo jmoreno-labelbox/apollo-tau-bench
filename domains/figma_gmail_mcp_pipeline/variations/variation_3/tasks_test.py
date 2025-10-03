@@ -46,13 +46,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"export_id":"exp-art_001-20240823-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -113,14 +107,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            # '"release_id":"release_001"',
-            '"export_id":"exp-art_001-20240822-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -158,12 +145,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"aud-art_003-20240823-001"',
-            '"asset_id":"exp-art_003-20240823-pdf-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
 
     # Task 4 — DS fix plan via COMMENTS (no synthesized items if no findings)
@@ -207,13 +189,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"plan_id":"fp-art_003-20240823-001"',
-            # '"delivery_id":"deliver_up-001"',
-            '"method":"COMMENTS"',
-            '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -266,13 +242,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"export_id":"exp-art_001-20240823-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
 
     Task(
@@ -331,13 +301,7 @@ TASKS = [
                 "request_id": "rv-005",
             }),
         ],
-        outputs=[
-            '"export_id":"exp-art_001-20240823-png-001"',
-            '"thread_id":"thr_rv-003"',
-            '"message_id":"msg_rv-004"',
-            '"run_id":"run_rv-005"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -403,17 +367,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            ##'"previous_release_id":"release_001"',
-            # #'"release_id":"rel-art_001-20240822-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_001-20240822-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["responsive","released/2024-08-22","hero","landing-page","needs-review"]',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -461,14 +415,7 @@ TASKS = [
                 "request_id": "rv-002",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_001"',
-            # '"thread_id":"thread_001"',
-            '"labels":["Design/Escalation","design-review"]',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rv-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -509,13 +456,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_011"',
-            '"artifact_id":"art_011"',
-            '"comment_id":"comment_up-001"',
-            '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -571,12 +512,7 @@ TASKS = [
                 "request_id": "rv-004",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_001"',
-            '"cycle_status":"approved"',  # normalized lowercase per OUTPUT_RULE
-            '"run_id":"run_rv-004"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     , Task(
@@ -632,15 +568,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[
-            '"cycle_id":"rev-art_003-20240823-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_003-20240823-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["needs-review"]',
-            # '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     , Task(
@@ -698,16 +626,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            # #'"release_id":"rel-art_003-20240822-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_003-20240822-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":"["components","tokens","design-system","released/2024-08-23"]"',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     , Task(
         annotator="0",
@@ -776,16 +695,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"cycle_id":"rev-art_002-20240823-001"',
-            '"asset_id":"asset_en-002"',
-            '"export_id":"exp-art_002-20240823-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["needs-review"]',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     , Task(
         annotator="0",
@@ -826,12 +736,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"status":"completed"',
-            '"run_id":"run_rv-001"',
-        ],
+        outputs=[]
     )
     , Task(
         annotator="0",
@@ -888,16 +793,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[
-            '"cycle_id":"rev-art_001-20240824-001"',
-            # '"cycle_status":"needs_review"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_001-20240824-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["needs-review"]',
-            # '"status":"completed"',
-        ],
+        outputs=[]
     )
     , Task(
         annotator="0",
@@ -944,13 +840,7 @@ TASKS = [
                 "request_id": "rv-004",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_008"',
-            '"cycle_status":"approved"',
-            ##'"tags":["approved/2024-08-24"]',
-            '"run_id":"run_rv-004"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -1005,15 +895,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_001-20240823-png-001"',
-            # '"tags_art_001":["responsive","hero","needs-review","landing-page"]',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     , Task(
@@ -1058,14 +940,7 @@ TASKS = [
                 "request_id": "rv-002",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_005"',
-            '"thread_id":"thread_005"',
-            '"labels":["design-review","Design/Escalation"]',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rv-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     , Task(
         annotator="0",
@@ -1114,17 +989,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            # '"previous_release_id":"release_003"',
-            # #'"release_id":"rel-art_004-20240821-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_004-20240821-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            ##'"tags":["released/2024-08-23"]',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -1152,13 +1017,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_006"',
-            '"artifact_id":"art_003"',
-            '"comment_id":"comment_up-001"',
-            '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -1200,16 +1059,7 @@ TASKS = [
                 "timestamp": "2024-08-23T11:45:00Z", "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"labels":["design-review"]',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_001-20240823-png-001"',
-            ##'"tags":["hero","landing-page","responsive","needs-review"]',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     , Task(
         annotator="0",
@@ -1244,15 +1094,7 @@ TASKS = [
                 "timestamp": "2024-08-24T10:05:00Z", "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_003-20240824-png-001"',
-            ##'"tags":["needs-review"]',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     , Task(
         annotator="0",
@@ -1273,11 +1115,7 @@ TASKS = [
                 "timestamp": "2024-09-02T09:40:00Z", "request_id": "rv-002",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_012"',
-            '"run_id":"run_rv-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     , Task(
         annotator="0",
@@ -1326,15 +1164,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_001"',
-            '"message_id":"msg_em-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_001-20240823-png-001"',
-            # '"tags":["hero","landing-page","responsive","needs-review"]',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     , Task(
@@ -1397,17 +1227,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            # '"previous_release_id":"release_001"',
-            # #'"release_id":"rel-art_002-20240821-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_002-20240821-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["released/2024-08-21","header","navigation","global"]',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -1466,14 +1286,7 @@ TASKS = [
                 "request_id": "rv-003",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_011"',
-            '"thread_id":"thread_011"',
-            # '"message_id":"msg_em-002"',
-            '"labels":["Design/Escalation"]',
-            '"run_id":"run_rv-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     , Task(
@@ -1528,17 +1341,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            # '"previous_release_id":"release_004"',
-            ##'"release_id":"rel-art_009-20240821-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_009-20240821-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["data","component","released/2024-08-23","table"]',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     , Task(
@@ -1572,12 +1375,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_012"',
-            '"asset_id":"exp-art_012-20240902-pdf-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     , Task(
@@ -1647,14 +1445,7 @@ TASKS = [
                 "request_id": "rv-003",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_004"',
-            '"thread_id":"thread_004"',
-            # '"message_id":"msg_em-002"',
-            '"labels":["Design/Escalation"]',
-            '"run_id":"run_rv-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     , Task(
@@ -1685,14 +1476,7 @@ TASKS = [
                 "timestamp": "2024-08-24T11:35:00Z", "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"artifact_id":"art_002"',
-            # '"tags":["header","navigation","global"]',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1733,16 +1517,7 @@ TASKS = [
                 "timestamp": "2024-08-24T12:50:00Z", "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_006"',
-            '"message_id":"msg_em-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_003-20240824-png-001"',
-            '"comment_id":"comment_up-001"',
-            '"labels":["design-review"]',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
 
     )
 
@@ -1800,14 +1575,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_011"',
-            '"audit_status":"completed"',
-            '"report_asset_id":"exp-art_011-20240902-pdf-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"comment_id":"comment_up-001"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -1845,17 +1613,7 @@ TASKS = [
                 "timestamp": "2024-08-23T11:10:00Z", "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            # '"previous_release_id":"release_011"',
-            ##'"release_id":"rel-art_011-20240823-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_011-20240823-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["released/2024-08-23"]',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -1904,14 +1662,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_004"',
-            '"comment_id":"comment_up-001"',
-            '"message_id":"msg_em-001"',
-            '"labels":["synced-to-figma"]',
-            '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -1969,14 +1720,7 @@ TASKS = [
             #     "request_id": "up-004",
             # }),
         ],
-        outputs=[
-            '"plan_id":"fp-art_003-20240902-001"',
-            # '"item_count":0',
-            # '"delivery_asset_id":"fixplanpdf_up-002"',
-            '"comment_id":"comment_up-003"',
-            # '"run_id":"run_up-004"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2023,18 +1767,7 @@ TASKS = [
                 "timestamp": "2024-08-23T12:30:00Z", "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            # '"previous_release_id":"release_005"',
-            # '"release_id":"rel-art_010-20240823-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_010-20240823-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"labels":["release"]',
-            # '"tags":["released/2024-08-23"]',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
 
     )
     ,
@@ -2098,14 +1831,7 @@ TASKS = [
                 "request_id": "up-004",
             }),
         ],
-        outputs=[
-            '"plan_id":"fp-art_003-20240824-001"',
-            # '"item_count":0',
-            # '"email_thread_id":"thr_up-002"',
-            '"comment_id":"comment_up-003"',
-            '"run_id":"run_up-004"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2160,12 +1886,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
         ],
-        outputs=[
-            '"plan_id":"fp-art_012-20240902-001"',
-            # '"email_thread_id":"thr_em-001"',
-            '"run_id":"run_up-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2218,14 +1939,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_008"',
-            '"comment_id":"comment_up-001"',
-            '"message_id":"msg_em-001"',
-            '"labels":["synced-to-figma"]',
-            '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2275,16 +1989,7 @@ TASKS = [
                 "timestamp": "2024-09-02T14:30:00Z", "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_003-20240902-png-001"',
-            '"labels":["design-review"]',
-            # '"tags":["needs-review","components","tokens","design-system"]',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
 
     ),
     Task(
@@ -2319,14 +2024,7 @@ TASKS = [
                 "timestamp": "2024-09-02T09:05:00Z", "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"artifact_id":"art_011"',
-            # '"tags":["contact","component","form","approved"]',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2372,13 +2070,7 @@ TASKS = [
                 "timestamp": "2024-08-23T16:40:00Z", "request_id": "rv-003",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_003"',
-            '"thread_id":"thread_003"',
-            '"message_id":"msg_em-001"',
-            '"run_id":"run_rv-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -2418,17 +2110,7 @@ TASKS = [
                 "timestamp": "2024-08-21T12:40:00Z", "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            # '"previous_release_id":"release_005"',
-            # '"release_id":"rel-art_007-20240821-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_007-20240821-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["needs-review","released/20240821","pricing","conversion","cta"]',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -2469,16 +2151,7 @@ TASKS = [
                 "timestamp": "2024-09-02T11:25:00Z", "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"cycle_id":"rev-art_009-20240902-001"',
-            '"asset_id":"asset_en-002"',
-            '"export_id":"exp-art_009-20240902-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["component","table","data","needs-review"]',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -2519,13 +2192,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"asset_ids":["asset_en-001","asset_en-002"]',
-            '"export_ids":["exp-art_004-20240824-png-001","exp-art_005-20240824-png-001"]',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -2579,13 +2246,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[
-            '"cycle_id":"cycle_004"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"labels":["Design/Escalation"]',
-            '"status":"changes_requested"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2626,12 +2287,7 @@ TASKS = [
                 "timestamp": "2024-09-02T16:20:00Z", "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2659,12 +2315,7 @@ TASKS = [
                 "timestamp": "2024-08-24T10:30:00Z", "request_id": "au-003",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_001"',
-            '"asset_id":"exp-art_001-20240824-pdf-001"',
-            '"run_id":"run_au-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -2702,17 +2353,7 @@ TASKS = [
                 "timestamp": "2024-09-02T09:30:00Z", "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            # '"previous_release_id":"release_012"',
-            # #'"release_id":"rel-art_002-20240902-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_002-20240902-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["released/20240902"]',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -2780,16 +2421,7 @@ TASKS = [
                 "request_id": "em-003",
             }),
         ],
-        outputs=[
-            '"cycle_id":"rev-art_001-20240823-001"',
-            '"cycle_status":"IN_FLIGHT"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_001-20240823-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"labels":["design-review"]',
-            # '"tags":["needs-review", "responsive", "hero", "landing-page"]',
-        ],
+        outputs=[]
     ),
     # TASK_51 — Email-based design review kickoff (art_001)
     Task(
@@ -2847,16 +2479,7 @@ TASKS = [
                 "request_id": "rv-002",
             }),
         ],
-        outputs=[
-            '"cycle_id":"rev-art_001-20240902-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_001-20240902-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["needs-review"]',
-            '"run_id":"run_rv-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     # TASK_52 — A11Y report (invalid categories → fail cleanly per ERROR_RULE)
@@ -2906,14 +2529,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[
-            '"audit_id":"audit_002"',
-            '"report_asset_id":"exp-art_008-20240824-pdf-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"labels":["a11y-report"]',
-            '"status":"completed"',
-        ],
+        outputs=[]
 
     )
     ,
@@ -2972,15 +2588,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[
-            '"cycle_id":"rev-art_003-20240824-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_003-20240824-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"labels":["design-review"]',
-            # '"tags":["needs-review"]',
-        ],
+        outputs=[]
     )
     ,
     # TASK_54 — Sync latest message (thread_009 → art_009) — fail cleanly if no messages
@@ -3032,14 +2640,7 @@ TASKS = [
                 "request_id": "up-003",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_009"',
-            '"comment_id":"comment_up-001"',
-            '"message_id":"msg_em-001"',
-            '"labels":["synced-to-figma"]',
-            '"run_id":"run_up-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
 
     )
     ,
@@ -3087,13 +2688,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_012"',
-            '"thread_id":"thread_012"',
-            # Optionally:
-            # '"message_id":"msg_em-001"',
-            # '"labels":["Design","design-review"]',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3122,12 +2717,7 @@ TASKS = [
                 "request_id": "rv-002",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_007"',
-            '"approver":"emma.creative@company.com"',
-            '"run_id":"run_rv-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     # TASK_57 — Release handoff (art_008) with tagging
@@ -3177,17 +2767,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            # '"previous_release_id":"release_004"',
-            # #'"release_id":"rel-art_008-20240819-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_008-20240819-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["released/20240819"]',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     # TASK_58 — Governance update + note in day’s review thread (art_003)
@@ -3228,14 +2808,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"artifact_id":"art_003"',
-            # '"tags":["components","tokens"]',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     # TASK_59 — Email-based design review kickoff (art_010)
@@ -3294,16 +2867,7 @@ TASKS = [
                 "request_id": "rv-002",
             }),
         ],
-        outputs=[
-            '"cycle_id":"rev-art_010-20240902-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_010-20240902-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"tags":["needs-review"]',
-            '"run_id":"run_rv-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     # TASK_60 — Release handoff (art_005) with tagging
@@ -3353,14 +2917,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_005-20240820-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3410,14 +2967,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_010"',
-            '"comment_id":"comment_en-001"',
-            '"message_id":"msg_em-001"',
-            '"labels":["synced-to-figma"]',
-            '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3469,11 +3019,7 @@ TASKS = [
                 "request_id": "rv-002",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_003"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3524,15 +3070,7 @@ TASKS = [
                 "request_id": "up-003",
             }),
         ],
-        outputs=[
-            '"artifact_id":"art_001"',
-            # '"tags":["hero","landing-page","design-system","responsive"]',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"labels":["governance"]',
-            '"run_id":"run_up-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3577,15 +3115,7 @@ TASKS = [
                 "timestamp": "2024-09-02T10:40:00Z", "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"cycle_id":"rev-art_002-20240902-001"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_002-20240902-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"labels":["design-review"]',
-            # '"tags":["needs-review"]',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -3626,14 +3156,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"asset_ids":["asset_en-001","asset_en-002"]',
-            '"export_ids":["exp-art_009-20240902-png-001","exp-art_010-20240902-png-001"]',
-            '"labels":["design-review"]',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -3690,15 +3213,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_004-20240902-png-001"',
-            # '"tags":["needs-review"]',
-            '"labels":["design-review"]',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -3741,14 +3256,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"artifact_id":"art_005"',
-            '"thread_id":"thread_007"',
-            '"message_id":"msg_em-001"',
-            '"labels":["design-review"]',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3800,14 +3308,7 @@ TASKS = [
             #     "timestamp": "2024-09-02T09:20:00Z", "request_id": "up-002",
             # }),
         ],
-        outputs=[
-            '"audit_id":"audit_002"',
-            '"asset_id":"exp-art_008-20240902-pdf-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            # '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3849,16 +3350,7 @@ TASKS = [
                 "timestamp": "2024-09-02T11:05:00Z", "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"artifact_id":"art_010"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_010-20240902-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"labels":["design-review"]',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -3916,16 +3408,7 @@ TASKS = [
             #     "timestamp": "2024-09-02T13:05:00Z", "request_id": "rv-001",
             # }),
         ],
-        outputs=[
-            '"artifact_id":"art_012"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_012-20240902-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"labels":["design-review"]',
-            # '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
 
@@ -3977,15 +3460,7 @@ TASKS = [
                 "request_id": "up-003",
             }),
         ],
-        outputs=[
-            '"artifact_id":"art_003"',
-            # '"tags":["approved"]',
-            '"thread_id":"thr_em-002"',
-            '"message_id":"msg_em-003"',
-            '"labels":["governance"]',
-            '"run_id":"run_up-003"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4029,14 +3504,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"artifact_id":"art_001"',
-            '"thread_id":"thread_009"',
-            '"message_id":"msg_em-001"',
-            '"labels":["design-review"]',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4084,14 +3552,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"artifact_id":"art_002"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"labels":["design-review"]',
-            '"run_id":"run_rv-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4136,11 +3597,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_008"',
-            '"cycle_status":"approved"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4207,13 +3664,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_007"',
-            '"comment_id":"comment_en-001"',
-            '"labels":["synced-to-figma"]',
-            '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4275,13 +3726,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_011"',
-            '"comment_id":"comment_en-001"',
-            '"labels":["synced-to-figma"]',
-            '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4337,12 +3782,7 @@ TASKS = [
                 "request_id": "em-003",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_003"',
-            '"asset_id":"exp-art_003-20240824-pdf-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4383,12 +3823,7 @@ TASKS = [
                 "thread_id": "thr_em-001", "request_id": "em-003"
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_010"',
-            '"asset_id":"exp-art_010-20240824-pdf-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4431,13 +3866,7 @@ TASKS = [
                 "timestamp": "2024-09-02T11:20:00Z", "request_id": "em-003",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_012"',
-            '"asset_id":"exp-art_012-20240902-pdf-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -4483,13 +3912,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_009"',
-            '"asset_id":"exp-art_006-20240823-pdf-001"',
-            '"comment_id":"comment_en-001"',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4535,12 +3958,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_010"',
-            '"cycle_status":"approved"',  # judge expects lowercase in outputs even though status set is "APPROVED"
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4577,13 +3995,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_005"',
-            '"comment_id":"comment_en-001"',
-            '"labels":["synced-to-figma"]',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -4619,13 +4031,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_012"',
-            '"comment_id":"comment_en-001"',
-            '"labels":["synced-to-figma"]',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -4672,13 +4078,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_006-20240823-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rl-001"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4734,13 +4134,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_007-20240824-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rl-001"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4799,13 +4193,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_003"',
-            '"asset_id":"exp-art_003-20240823-pdf-001"',
-            '"comment_id":"comment_en-001"',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -4855,13 +4243,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_002"',
-            '"asset_id":"exp-art_008-20240824-pdf-001"',
-            '"comment_id":"comment_en-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4906,14 +4288,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_011"',
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_011-20240902-png-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -4953,13 +4328,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_004"',
-            '"asset_id":"exp-art_004-20240824-pdf-001"',
-            '"comment_id":"comment_en-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -5011,13 +4380,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_003"',
-            '"asset_id":"exp-art_003-20240824-pdf-001"',
-            '"comment_id":"comment_en-001"',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -5056,12 +4419,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
         ],
-        outputs=[
-            '"artifact_id":"art_012"',
-            '"comment_id":"comment_en-001"',
-            '"run_id":"run_up-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -5096,13 +4454,7 @@ TASKS = [
                 "timestamp": "2024-08-24T17:55:00Z", "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"thread_id":"thread_003"',
-            '"comment_id":"comment_en-001"',
-            '"labels":["synced-to-figma"]',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     # TASK_M1 — Review kickoff (new same-day thread; PNG 2x; needs-review label)
     Task(
@@ -5166,12 +4518,7 @@ TASKS = [
             }),
 
         ],
-        outputs=[
-            '"asset_id":"asset_en-001"',
-            '"export_id":"exp-art_001-20240820-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -5219,12 +4566,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
         ],
-        outputs=[
-            '"cycle_id":"cycle_012"',
-            '"thread_id":"thread_012"',
-            '"message_id":"msg_em-001"',
-            '"run_id":"run_rv-001"',
-        ],
+        outputs=[]
     )
 
     ,
@@ -5280,13 +4622,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_006"',
-            '"asset_id":"exp-art_009-20240824-pdf-001"',
-            '"comment_id":"comment_en-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
     ,
     Task(
@@ -5333,13 +4669,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"export_id":"exp-art_001-20240823-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5395,13 +4725,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"export_id":"exp-art_001-20240822-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5434,12 +4758,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
         ],
-        outputs=[
-            '"audit_id":"audit_003"',
-            '"asset_id":"exp-art_003-20240823-pdf-001"',
-            '"run_id":"run_au-002"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5489,13 +4808,7 @@ TASKS = [
                 "request_id": "rl-005",
             }),
         ],
-        outputs=[
-            '"export_id":"exp-art_001-20240823-png-001"',
-            '"thread_id":"thr_rl-003"',
-            '"message_id":"msg_rl-004"',
-            '"run_id":"run_rl-005"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -5541,13 +4854,7 @@ TASKS = [
                 "request_id": "rl-001",
             }),
         ],
-        outputs=[
-            '"export_id":"exp-art_003-20240824-png-001"',
-            '"thread_id":"thr_em-001"',
-            '"message_id":"msg_em-002"',
-            '"run_id":"run_rl-001"',
-            '"status":"completed"',
-        ],
+        outputs=[]
     )
 
 ]

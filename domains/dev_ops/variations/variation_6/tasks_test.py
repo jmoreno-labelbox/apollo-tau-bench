@@ -74,16 +74,7 @@ actions=[
   }),
 ],
 
-        outputs=[
-        "tms_job created",
-        "es/it translations recorded",
-        "es passed",
-        "it passed",
-        "work_055→work_140 linked",
-        "label_002 applied",
-        "localization workflow completed",
-        "notifications sent"
-        ]
+        outputs=[]
 
     ),
 
@@ -143,14 +134,7 @@ Task(
     }),
   ],
 
-  outputs=[
-    "context captured (de)",
-    "tms_job created",
-    "de translation recorded",
-    "de passed",
-    "localization workflow completed",
-    "notifications sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -190,12 +174,7 @@ Task(
       "status": "completed"
     }),
   ],
-  outputs=[
-    "de validation failed with overflow",
-    "tms_job created",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -259,14 +238,7 @@ Task(
     }),
   ],
 
-  outputs=[
-    "CI context captured",
-    "tms_job created",
-    "es translation recorded",
-    "es passed",
-    "localization workflow completed",
-    "notifications sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -341,16 +313,7 @@ Task(
     }),
   ],
 
-  outputs=[
-    "context consulted (run_001)",
-    "tms_job created",
-    "ja translation recorded",
-    "ja passed",
-    "work_045→work_120 linked",
-    "work_120 tagged",
-    "localization workflow completed",
-    "notifications sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -410,14 +373,7 @@ Task(
     }),
   ],
 
-  outputs=[
-    "tms_job created",
-    "de translation recorded",
-    "de passed",
-    "work_045→work_130 linked",
-    "localization workflow completed",
-    "notifications sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -479,14 +435,7 @@ Task(
     }),
   ],
 
-  outputs=[
-    "context consulted (run_003, de string read)",
-    "de passed",
-    "tms_job created",
-    "localization workflow completed",
-    "notification sent",
-    "label applied"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -534,13 +483,7 @@ Task(
     }),
   ],
 
-  outputs=[
-    "de validation failed (overflow)",
-    "tms_job created",
-    "de translation recorded",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -591,14 +534,7 @@ Task(
     }),
   ],
 
-  outputs=[
-    "context consulted (es)",
-    "tms_job created",
-    "es translation recorded",
-    "es validation passed",
-    "localization workflow completed",
-    "notifications sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -636,11 +572,7 @@ Task(
     Action(name="linkWorkItems", kwargs={"parent_id": "work_045", "child_id": "work_130", "link_type": "relates_to"}),
     Action(name="tagWorkItemWithLabel", kwargs={"work_item_id": "work_130", "label_name": "localization"}),
   ],
-  outputs=[
-    "tms_job created", "de translation recorded", "de passed",
-    "localization workflow completed", "notifications sent",
-    "work_045→work_130 linked", "work_130 tagged"
-  ]
+  outputs=[]
 ),
 
 
@@ -669,10 +601,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "label applied", "tms_job created", "ja translation recorded",
-    "ja validation passed", "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -700,10 +629,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "label applied", "tms_job created", "es translation recorded",
-    "es validation passed", "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -738,15 +664,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (ja)",
-    "tms_job created",
-    "ja translation recorded",
-    "ja validation passed",
-    "localization workflow completed",
-    "validation update notification sent",
-    "readiness info notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -776,10 +694,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context captured", "tms_job created", "es translation recorded",
-    "es validation passed", "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -822,14 +737,7 @@ Task(
     }),
   ],
 
-  outputs=[
-    "CI context consulted (run_003, abc123def456789)",
-    "baseline ja value consulted",
-    "tms_job created",
-    "localization workflow completed",
-    "work_045→work_140 linked",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -883,11 +791,7 @@ Task(
       }
     }),
   ],
-  outputs=[
-    "context consulted (build, commit, test, ownership, de string)",
-    "tms_job created", "de validation passed", "de translation recorded",
-    "notification sent", "localization workflow completed"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -917,11 +821,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context captured (ja)", "ja translation recorded", "ja validation passed",
-    "tms_job created", "work_045→work_150 linked", "label applied",
-    "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -950,11 +850,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted", "tms_job created", "label applied",
-    "es validation passed", "es translation recorded",
-    "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1005,16 +901,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (run_001, abc123def456789, es read)",
-    "tms_job created",
-    "es translation recorded",
-    "es validation passed",
-    "work_045→work_150 linked",
-    "work_150 tagged",
-    "localization workflow completed",
-    "notifications sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -1039,10 +926,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "es validation passed", "tms_job created",
-    "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1072,10 +956,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "it string consulted", "it translation recorded", "it validation passed",
-    "tms_job created", "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -1106,10 +987,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "de translation recorded", "de validation passed",
-    "tms_job created", "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1140,10 +1018,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "es validation failed (overflow)", "tms_job created",
-    "es translation recorded", "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -1170,10 +1045,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "ja validation passed", "tms_job created",
-    "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1221,11 +1093,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "es/it translations recorded", "es passed", "it passed",
-    "tms_job created", "localization workflow completed",
-    "work_045→work_160 linked", "work_160 tagged", "notifications sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1270,14 +1138,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (es)",
-    "work_045→work_150 linked",
-    "tms_job created",
-    "es validation passed",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1320,16 +1181,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (run_001, abc123def456789)",
-    "fr translation recorded",
-    "fr validation passed",
-    "work_120 tagged",
-    "work_140 tagged",
-    "tms_job created",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -1362,13 +1214,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (zh)",
-    "zh validation passed",
-    "tms_job created",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -1398,10 +1244,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "tms_job created", "zh translation recorded",
-    "zh validation passed", "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1424,9 +1267,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "de validation passed", "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1458,10 +1299,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (es)", "tms_job created", "es translation recorded",
-    "work_045→work_140 linked", "es validation passed", "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1509,15 +1347,7 @@ Task(
       "metadata": {"component": "ui", "subcomponent": "main_menu"}
     }),
   ],
-  outputs=[
-    "context consulted (de)",
-    "de failed",
-    "tms_job created",
-    "notification sent",
-    "de translation recorded",
-    "de passed",
-    "localization workflow completed"
-  ]
+  outputs=[]
 ),
 
 
@@ -1550,10 +1380,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (fr)", "tms_job created", "fr translation recorded",
-    "fr validation passed", "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1596,14 +1423,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "work_045→work_150 linked",
-    "work_150 tagged",
-    "tms_job created",
-    "ja translation recorded",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -1636,10 +1456,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (run_001)", "subtitle_001 retimed", "tms_job created",
-    "work_045→work_160 linked", "work_160 tagged", "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -1695,16 +1512,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (run_003, abc123def456789)",
-    "tms_job created",
-    "es translation recorded",
-    "es validation passed",
-    "work_045→work_170 linked",
-    "work_170 tagged",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -1753,15 +1561,7 @@ Task(
       "pr_number": 1027, "changed_keys": ["ui.main_menu.start_game"], "locales_processed": ["fr"], "status": "completed"
     }),
   ],
-  outputs=[
-    "context consulted (fr)",
-    "fr failed",
-    "tms_job created",
-    "notifications sent",
-    "fr translation recorded",
-    "fr passed",
-    "localization workflow completed"
-  ]
+  outputs=[]
 ),
 
 
@@ -1789,14 +1589,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "work_130 tagged",
-    "work_045→work_150 linked",
-    "context consulted (es)",
-    "tms_job created",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1831,12 +1624,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (zh/ja)",
-    "tms_job created",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1873,14 +1661,7 @@ Task(
     }),
   ],
 
-  outputs=[
-    "tms_job created",
-    "zh translation recorded",
-    "zh validation passed",
-    "work_050→work_150 linked",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1931,14 +1712,7 @@ Task(
     }),
   ],
 
-  outputs=[
-    "context consulted (fr,de)",
-    "tms_job created",
-    "fr/de translations recorded",
-    "fr/de validation passed",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -1985,14 +1759,7 @@ Task(
     }),
   ],
 
-  outputs=[
-    "context consulted (run_001, abc123def456789)",
-    "tms_job created",
-    "FR/ES translations recorded",
-    "FR validation passed",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2040,14 +1807,7 @@ Task(
     }),
   ],
 
-  outputs=[
-    "context consulted (de)",
-    "de failed",
-    "tms_job created",
-    "de passed",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2089,15 +1849,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (es)",
-    "tms_job created",
-    "work_045→work_130 linked",
-    "work_130 tagged",
-    "es translation recorded",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2130,12 +1882,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "tms_job created",
-    "work items linked",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -2172,11 +1919,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (zh)", "tms_job created",
-    "zh translation recorded", "zh validation passed",
-    "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2217,13 +1960,7 @@ Task(
       "status": "completed"
     }),
   ],
-  outputs=[
-    "de failed",
-    "notification sent",
-    "tms_job created",
-    "de passed",
-    "localization workflow completed"
-  ]
+  outputs=[]
 ),
 
 
@@ -2268,14 +2005,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (ja)",
-    "tms_job created",
-    "link created",
-    "label applied",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2310,11 +2040,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (es)", "es translation recorded",
-    "es validation passed", "tms_job created",
-    "localization workflow completed", "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -2349,12 +2075,7 @@ Task(
       "label_name": "localization"
     }),
   ],
-  outputs=[
-    "tms_job created",
-    "localization workflow completed",
-    "notification sent",
-    "label applied"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2390,13 +2111,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (run_001, test_result_001, ja string read)",
-    "tms_job created",
-    "ja translation recorded",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2441,15 +2156,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "tms_job created",
-    "context consulted (it, pt)",
-    "it/pt translations recorded",
-    "it passed",
-    "pt passed",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2494,15 +2201,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "tms_job created",
-    "context consulted (ru, pl)",
-    "ru/pl translations recorded",
-    "ru passed",
-    "pl passed",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2549,14 +2248,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (fr)",
-    "fr failed",
-    "fr passed",
-    "tms_job created",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2594,13 +2286,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "tms_job created",
-    "work items linked",
-    "work item tagged",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2638,12 +2324,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "subtitle_001 updated",
-    "tms_job created",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2688,13 +2369,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "tms_job created",
-    "ko translation recorded",
-    "ko validation passed",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2739,15 +2414,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (run_001, abc123def456789)",
-    "it/pt/fr translations recorded",
-    "it/pt/fr validation passed",
-    "tms_job created",
-    "work_045→work_130 linked and labeled",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -2792,13 +2459,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "CI context consulted (run_003, abc123def456789, test_result_001)",
-    "remediation tms_job created",
-    "work items linked",
-    "workflow started (in_progress)",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2843,13 +2504,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "ja translation recorded",
-    "ja validation passed",
-    "tms_job created",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2889,16 +2544,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (run_001)",
-    "fr/es translations recorded",
-    "fr/es validation passed",
-    "tms_job created",
-    "work_045→work_130 linked",
-    "work_130 labeled",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2937,16 +2583,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (run_001, it string read)",
-    "it translation recorded",
-    "it validation passed",
-    "tms_job created",
-    "work_045→work_140 linked",
-    "work_140 labeled",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -2981,13 +2618,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "tms_job created",
-    "translations recorded",
-    "work items linked",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -3042,15 +2673,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (run_001, de string read)",
-    "de failed then passed",
-    "tms_job created",
-    "de translation recorded",
-    "work_045→work_130 linked and labeled",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -3091,13 +2714,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (it,pt)",
-    "pt/it translations recorded",
-    "tms_job created",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -3136,14 +2753,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted (fr)",
-    "tms_job created",
-    "translation recorded and validated",
-    "work items linked and labeled",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -3167,7 +2777,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=["subtitle_001 updated", "tms_job created", "localization workflow completed", "notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3197,7 +2807,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=["context consulted", "tms_job created", "zh translation recorded", "zh validation passed", "localization workflow completed", "notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3225,7 +2835,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=["tms_job created", "translation recorded", "work items linked", "localization workflow completed", "notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3263,14 +2873,7 @@ Task(
       "channel": "slack"
     }),
   ],
-  outputs=[
-    "context consulted",
-    "tms_job created",
-    "fr/de translations recorded",
-    "fr/de validation passed",
-    "localization workflow completed",
-    "notification sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -3301,7 +2904,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["tms_job created","ru translation recorded","ru validation passed","localization workflow completed","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3350,10 +2953,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=[
-    "tms_job created","fr/de translations recorded","fr failed then passed","de passed",
-    "work_045→work_230 linked","label applied","workflow completed","notifications sent"
-  ]
+  outputs=[]
 ),
 
 Task(
@@ -3404,16 +3004,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=[
-    "tms_job created",
-    "fr/es/ja translations recorded",
-    "fr/es passed",
-    "ja failed then passed",
-    "work_045→work_150 linked",
-    "label applied",
-    "workflow completed",
-    "notifications sent"
-  ]
+  outputs=[]
 ),
 
 
@@ -3445,7 +3036,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["subtitle_001 updated","work_045→work_160 linked","label applied","workflow completed","notifications sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3476,7 +3067,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["tms_job created","translation recorded","de validation passed","work items linked and tagged","workflow completed","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3510,7 +3101,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["tms_job created","4 translations recorded","work items linked","localization workflow completed","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3538,7 +3129,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["work item labeled","tms_job created","workflow completed with timing metadata","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3564,7 +3155,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["tms_job created","translation recorded","work_081→work_182 linked","work_182 labeled","localization workflow completed","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3591,7 +3182,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["file ownership consulted","investigation job created","work items linked","workflow created (in_progress)","notification sent"]
+  outputs=[]
 ),
 
 
@@ -3621,7 +3212,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["tms_job created","translation recorded","work items linked and tagged","localization workflow completed","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3651,7 +3242,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["work items linked","tms_job created","translation recorded","workflow created","notification sent"]
+  outputs=[]
 ),
 
 
@@ -3679,7 +3270,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["tms_job created","placeholder recorded","work_090→work_190 linked","work_190 labeled","workflow completed","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3706,7 +3297,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["context captured for ES/DE/FR","validation passed for ES/DE/FR","workflow created","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3735,7 +3326,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["tms_job created","translation recorded","work items linked","workflow created","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3765,7 +3356,7 @@ Task(
       "channel":"slack"
     }),
   ],
-  outputs=["tms_job created","translation recorded","work items linked and tagged","workflow created","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3792,7 +3383,7 @@ Task(
       "recipient_id":"user_012","channel":"slack"
     }),
   ],
-  outputs=["work items linked","work item tagged","tms_job created","workflow created","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3819,7 +3410,7 @@ Task(
       "recipient_id":"user_013","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","translation updated","workflow created","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3848,7 +3439,7 @@ Task(
       "recipient_id":"user_014","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","placeholder recorded","work items linked and tagged","workflow created","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3878,7 +3469,7 @@ Task(
       "recipient_id":"user_015","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","3 translations recorded","workflow created","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3903,7 +3494,7 @@ Task(
       "recipient_id":"user_001","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","translation recorded","work items linked","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3935,7 +3526,7 @@ Task(
       "recipient_id":"user_012","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","it/pt translations recorded","work items linked and tagged","workflow created","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3960,7 +3551,7 @@ Task(
       "recipient_id":"user_003","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","work items linked","workflow created","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -3987,7 +3578,7 @@ Task(
       "recipient_id":"user_004","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","FR/ES translations recorded","workflow created","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -4014,7 +3605,7 @@ Task(
       "recipient_id":"user_005","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","translation corrected","workflow created","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -4037,7 +3628,7 @@ Task(
       "recipient_id":"user_006","channel":"slack"
     }),
   ],
-  outputs=["work items linked","work item tagged","tms_job created","workflow created","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -4065,7 +3656,7 @@ Task(
       "recipient_id":"user_007","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","legal text recorded","localization workflow completed","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -4093,7 +3684,7 @@ Task(
       "recipient_id":"user_008","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","translation recorded","localization workflow completed with timing metadata","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -4124,7 +3715,7 @@ Task(
       "recipient_id":"user_009","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","3 translations recorded","work_099→work_199 linked","localization workflow completed","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -4149,7 +3740,7 @@ Task(
       "recipient_id":"user_010","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","translation recorded","work_201 tagged","localization workflow completed","notification sent"]
+  outputs=[]
 ),
 
 Task(
@@ -4178,7 +3769,7 @@ Task(
       "recipient_id":"user_011","channel":"slack"
     }),
   ],
-  outputs=["tms_job created","JA translation recorded","work_100→work_200 linked and tagged","localization workflow completed","notification sent"]
+  outputs=[]
 )
 
 ]

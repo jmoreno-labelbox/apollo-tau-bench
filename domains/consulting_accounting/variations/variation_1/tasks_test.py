@@ -19,7 +19,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV009", "event_type": "second_notice", "notes": "Overdue >60 days"}),
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV021", "event_type": "second_notice", "notes": "Overdue >60 days"})
         ],
-        outputs=[["INV009", "INV021"], ["INV009", "INV021"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -35,7 +35,7 @@ TASKS = [
             Action(name="GenerateExpenseDashboard", kwargs={"quarter":"2024-Q3","included_expenses":["EXP012","EXP022","EXP023"]}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-09-30","artifact_name":"Q3_Mixed_Compliance_2024-09-30","sections":["ExpenseMix","Deductibility"]}),
         ],
-        outputs=["/dashboards/ExpenseDashboards/2024-Q3/expense_dashboard_2024-Q3.pdf"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -55,7 +55,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV013", "event_type": "second_notice", "notes": "Overdue >60 days"}),
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV008", "event_type": "second_notice", "notes": "Overdue >60 days"})
         ],
-        outputs=[["INV013", "INV008"], ["INV013", "INV008"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -70,7 +70,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV026","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB005_Wrap_Memo_2024-11-30","sections":["Collections"]}),
         ],
-        outputs=[["INV022","INV026"],["INV022","INV026"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -90,7 +90,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV008", "event_type": "second_notice", "notes": "Overdue >60 days"}),
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV009", "event_type": "second_notice", "notes": "Overdue >60 days"})
         ],
-        outputs=[["INV008", "INV009"], ["INV008", "INV009"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -111,7 +111,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV021", "event_type": "second_notice", "notes": "Overdue >60 days"}),
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV026", "event_type": "second_notice", "notes": "Overdue >60 days"})
         ],
-        outputs=[["INV009", "INV021", "INV026"], ["INV009", "INV021", "INV026"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -129,7 +129,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV008", "event_type": "second_notice", "notes": "system"}),
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV009", "event_type": "second_notice", "notes": "system"})
         ],
-        outputs=[["INV008", "INV009"], ["INV008", "INV009"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -147,7 +147,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV012","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"})
         ],
-        outputs=[["INV012","INV023"],["INV012","INV023"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -167,7 +167,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV022", "event_type": "second_notice", "notes": "Overdue >60 days"}),
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV026", "event_type": "second_notice", "notes": "Overdue >60 days"}),
         ],
-        outputs=[["INV022", "INV026"], ["INV022", "INV026"]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -184,7 +184,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV009", "event_type": "second_notice", "notes": "Overdue >60 days"}),
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV021", "event_type": "second_notice", "notes": "Overdue >60 days"}),
         ],
-        outputs=[["INV008", "INV009", "INV021"], ["INV008", "INV009", "INV021"]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -205,7 +205,7 @@ TASKS = [
                 "artifact_name":"PUB002_Collections_2024-11-30"
             })
         ],
-        outputs=[["INV012","INV023"],["INV012","INV023"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -223,7 +223,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB002_Collections_Snapshot_2024-11-30"}),
         ],
-        outputs=[["INV012","INV023"],["INV012","INV023"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -244,7 +244,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV-AUTO-2024-404","event_type":"generated","notes":"Invoice generated"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB001_Shell_Close_2024-11","sections":["Issuance"]}),
         ],
-        outputs=["INV-2024-404"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -259,7 +259,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV022","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB003_Risk_Overview_2024-11-30"}),
         ],
-        outputs=["/reports/kpi/PUB003_Risk_Overview_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -273,7 +273,7 @@ TASKS = [
             Action(name="PostJournalEntry", kwargs={"date":"2024-06-30","account":"Governance Memo","amount_ref":{"adjustment":0.00},"memo":"Q2 meals scan – no exceptions"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-06-30","artifact_name":"Q2_Meals_Controls_2024-06-30","sections":["Deductibility"]}),
         ],
-        outputs=["/reports/kpi/Q2_Meals_Controls_2024-06-30.pdf"]
+        outputs=[]
     ),
     Task(
     annotator="0",
@@ -288,7 +288,7 @@ TASKS = [
         Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
         Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB002_Collections_Snapshot_2024-11-30"}),
     ],
-    outputs=[["INV012","INV023"],[]],
+    outputs=[]
   ),
   Task(
     annotator="0",
@@ -303,7 +303,7 @@ TASKS = [
         Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
         Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging"],"artifact_name":"PUB002_AR_Health_2024-11-30"}),
     ],
-    outputs=[["INV012","INV023"],[]],
+    outputs=[]
   ),
   Task(
       annotator="0",
@@ -318,7 +318,7 @@ TASKS = [
           Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV022","event_type":"second_notice","notes":"Overdue >60 days"}),
           Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging"],"artifact_name":"PUB003_Followup_Memo_2024-11-30"}),
       ],
-      outputs=[["INV008","INV022"],[]],
+      outputs=[]
   ),
   Task(
         annotator="0",
@@ -333,7 +333,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV026","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB005_Escalation_Audit_2024-11-30"}),
         ],
-        outputs=[["INV022","INV026"],[]],
+        outputs=[]
     ),
     
     Task(
@@ -350,7 +350,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV012","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging"],"artifact_name":"Mixed_Aging_Digest_2024-11-30"}),
         ],
-        outputs=[["INV009","INV012"],[]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -364,7 +364,7 @@ TASKS = [
             Action(name="PostJournalEntry", kwargs={"date":"2024-06-30","account":"Governance Memo","amount":0.00,"memo":"High-value meals scan completed (threshold=150.0)"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-06-30","sections":["Deductibility"],"artifact_name":"Q2_Meals_Flag_2024-06-30"}),
         ],
-        outputs=["/reports/kpi/Q2_Meals_Flag_2024-06-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -379,7 +379,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV022","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB003_Risk_Overview_2024-11-30"}),
         ],
-        outputs=["/reports/kpi/PUB003_Risk_Overview_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -391,7 +391,7 @@ TASKS = [
             Action(name="ForecastInflows", kwargs={"invoices":["INV008","INV013","INV022"],"probability_rule":"overdue_60=0.3"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB003_Collections_Digest_2024-11-30"}),
         ],
-        outputs=["/reports/kpi/PUB003_Collections_Digest_2024-11-30.pdf"],
+        outputs=[]
     ),
     
     Task(
@@ -407,7 +407,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV022","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging","Collections"],"artifact_name":"PUB003_AR_Bundle_2024-11-30"}),
         ],
-        outputs=[["INV008","INV022"],[]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -422,7 +422,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB002_Collections_Snapshot_2024-11-30"}),
         ],
-        outputs=[["INV012","INV023"],[]],
+        outputs=[]
     ),
     
     Task(
@@ -437,7 +437,7 @@ TASKS = [
             Action(name="ApplyDeductibilityRules", kwargs={"expense_id":"EXP019"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-06-30","sections":["Deductibility"],"artifact_name":"Q2_Expense_Audit_2024-06-30"}),
         ],
-        outputs=["/reports/kpi/Q2_Expense_Audit_2024-06-30.pdf"],
+        outputs=[]
     ),
     
     Task(
@@ -453,7 +453,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB002_LateStage_2024-11-30"}),
         ],
-        outputs=[["INV012","INV023"],[]],
+        outputs=[]
     ),
     
     Task(
@@ -468,7 +468,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV-AUTO-2024-034","event_type":"generated","notes":"Invoice generated"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Issuance"],"artifact_name":"PUB001_Shell_Issue_2024-11"}),
         ],
-        outputs=["INV-2024-034"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -494,7 +494,7 @@ TASKS = [
             }),
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV-AUTO-2024-601", "event_type": "generated", "notes": "Invoice generated"})
         ],
-        outputs=["INV-2024-601"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -506,7 +506,7 @@ TASKS = [
             Action(name="ForecastInflows", kwargs={"invoices":["INV008","INV013","INV022"],"probability_rule":"overdue_60=0.3"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB003_Collections_Outlook_2024-11-30"}),
         ],
-        outputs=["/reports/kpi/PUB003_Collections_Outlook_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -518,7 +518,7 @@ TASKS = [
             Action(name="ForecastInflows", kwargs={"invoices":["INV008","INV013","INV022"],"probability_rule":"overdue_60=0.3"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB003_Collections_Digest_2024-11-30"}),
         ],
-        outputs=["/reports/kpi/PUB003_Collections_Digest_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -533,7 +533,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV022","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging","Collections"],"artifact_name":"PUB003_AR_Followups_2024-11-30"}),
         ],
-        outputs=[["INV008","INV022"],["INV008","INV022"]],
+        outputs=[]
     ),
     
     Task(
@@ -548,7 +548,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV009","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging"],"artifact_name":"PUB001_Spot_2024-11-30"}),
         ],
-        outputs=[["INV009"],[]],
+        outputs=[]
     ),
     
     Task(
@@ -561,7 +561,7 @@ TASKS = [
             Action(name="ForecastInflows", kwargs={"invoices":["INV008","INV013","INV022"],"probability_rule":"overdue_60=0.3"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB003_Collections_Prob_2024-11-30"}),
         ],
-        outputs=["/reports/kpi/PUB003_Collections_Prob_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -576,7 +576,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV022","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging","Collections"],"artifact_name":"PUB003_Enforcement_2024-11-30"}),
         ],
-        outputs=[["INV008","INV022"],["INV008","INV022"]],
+        outputs=[]
     ),
     
     Task(
@@ -593,7 +593,7 @@ TASKS = [
             Action(name="GenerateExpenseDashboard", kwargs={"quarter": "2024-Q3", "included_expenses": ["EXP012", "EXP022", "EXP023"]}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-09-30", "artifact_name": "Q3_Mixed_Pack_2024-09-30", "sections": ["ExpenseMix", "Deductibility"]})
         ],
-        outputs=["/dashboards/ExpenseDashboards/2024-Q3/expense_dashboard_2024-Q3.pdf"]
+        outputs=[]
     ),
     
     Task(
@@ -610,7 +610,7 @@ TASKS = [
             Action(name="PostJournalEntry", kwargs={"date": "2024-11-30", "account": "Tax Reserve", "amount_ref": {"adjustment": 157.87}, "memo": "YTD tax reserve true-up"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["TaxReserve"], "artifact_name": "TaxReserve_Alignment_2024-11"}),
         ],
-        outputs=["157.87"],
+        outputs=[]
     ),
     
     Task(
@@ -627,7 +627,7 @@ TASKS = [
             Action(name="PostJournalEntry", kwargs={"date": "2024-11-30", "account": "Tax Reserve", "amount_ref": {"adjustment": 157.87}, "memo": "YTD tax reserve true-up"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["TaxReserve"], "artifact_name": "TaxReserve_Verify_2024-11"}),
         ],
-        outputs=["157.87"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -645,7 +645,7 @@ TASKS = [
         Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
         Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB002_Collections_2024-11-30"})
         ],
-        outputs=[["INV012","INV023"],["INV012","INV023"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -662,7 +662,7 @@ TASKS = [
         Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV023", "event_type": "escalated", "notes": "Overdue 90+ days"}),
         Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "artifact_name": "PUB002_LateStage_2024-11-30"}),
         ],
-        outputs=[["INV012", "INV023"], ["INV012", "INV023"]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -679,7 +679,7 @@ TASKS = [
         Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV022", "event_type": "escalated", "notes": "Overdue 90+ days"}),
         Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "artifact_name": "PUB003_Followup_Memo_2024-11-30"}),
         ],
-        outputs=[["INV008", "INV022"], ["INV008", "INV022"]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -696,7 +696,7 @@ TASKS = [
         Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV023", "event_type": "escalated", "notes": "Overdue 90+ days"}),
         Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "artifact_name": "PUB002_LateStage_Memo_2024-11-30"}),
         ],
-        outputs=[["INV012", "INV023"], ["INV012", "INV023"]],
+        outputs=[]
     ),
     
     Task(
@@ -713,7 +713,7 @@ TASKS = [
         Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
         Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB002_Collections_Validate_2024-11-30"}),
         ],
-        outputs=[["INV012","INV023"],["INV012","INV023"]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -730,7 +730,7 @@ TASKS = [
         Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV026","event_type":"second_notice","notes":"Overdue >60 days"}),
         Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB001_Followups_2024-11-30"}),
         ],
-        outputs=[["INV009","INV021","INV026"],["INV009","INV021","INV026"]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -746,7 +746,7 @@ TASKS = [
         Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV026","event_type":"second_notice","notes":"Overdue >60 days"}),
         Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB005_Followups_2024-11-30"}),
         ],
-        outputs=[["INV022","INV026"],["INV022","INV026"]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -763,7 +763,7 @@ TASKS = [
         Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV026","event_type":"second_notice","notes":"Overdue >60 days"}),
         Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB001_AR_Bundle_2024-11-30"}),
         ],
-        outputs=[["INV009","INV021","INV026"],["INV009","INV021","INV026"]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -782,7 +782,7 @@ TASKS = [
         Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV026","event_type":"second_notice","notes":"Overdue >60 days"}),
         Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB005_AR_Wrap_2024-11-30"}),
         ],
-        outputs=[["INV022","INV026"],["INV022","INV026"]],
+        outputs=[]
     ),
     
     Task(
@@ -800,9 +800,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV022", "event_type": "second_notice", "notes": "Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["Collections"], "artifact_name": "PUB003_AR_Review_2024-11-30"})
         ],
-        outputs=[
-            "/reports/kpi/PUB003_AR_Review_2024-11-30.pdf"
-        ],
+        outputs=[]
     ),
     Task(
         annotator="A",
@@ -823,9 +821,7 @@ TASKS = [
                 "artifact_name": "PUB003_AR_Review_2024-11-30"
             }),
         ],
-        outputs=[
-            "/reports/kpi/PUB003_AR_Review_2024-11-30.pdf"
-        ],
+        outputs=[]
     ),
     
     Task(
@@ -845,9 +841,7 @@ TASKS = [
                 "artifact_name": "PUB003_MonthEnd_Collections_2024-11-30"
             }),
         ],
-        outputs=[
-            "/reports/kpi/PUB003_MonthEnd_Collections_2024-11-30.pdf"
-        ],
+        outputs=[]
     ),
     
     Task(
@@ -865,7 +859,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV022", "event_type": "second_notice", "notes": "Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["Collections"], "artifact_name": "PUB003_AR_Review_2024-11-30"})
         ],
-        outputs=["/reports/kpi/PUB003_AR_Review_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -882,7 +876,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV026", "event_type": "second_notice", "notes": "Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["Collections"], "artifact_name": "PUB001_Collections_2024-11-30"})
         ],
-        outputs=["/reports/kpi/PUB001_Collections_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -899,7 +893,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV009", "event_type": "second_notice", "notes": "Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["Collections"], "artifact_name": "Cross_AR_Sweep_2024-11-30"})
         ],
-        outputs=["/reports/kpi/Cross_AR_Sweep_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -914,7 +908,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB002_Collections_2024-11-30"})
         ],
-        outputs=["/reports/kpi/PUB002_Collections_2024-11-30.pdf"],
+        outputs=[]
     ),
     
     Task(
@@ -932,7 +926,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging"],"artifact_name":"PUB002_Aging_2024-11-30"})
         ],
-        outputs=["/reports/kpi/PUB002_Aging_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
       annotator="A",
@@ -949,7 +943,7 @@ TASKS = [
           Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV021", "event_type": "second_notice", "notes": "Overdue >60 days"}),
           Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["Aging", "Collections"], "artifact_name": "PUB001_Enforcement_2024-11-30"}),
       ],
-      outputs=["/reports/kpi/PUB001_Enforcement_2024-11-30.pdf"],
+      outputs=[]
     ),
     Task(
         annotator="0",
@@ -963,7 +957,7 @@ TASKS = [
             Action(name="PostJournalEntry", kwargs={"date":"2024-09-30","account":"Governance Memo","amount":0.00,"memo":"OFFICE_SUPPLIES Q3 checked (EXP012)"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-09-30","artifact_name":"Q3_OfficeSupplies_Check_2024-09-30"}),
         ],
-        outputs=["/reports/kpi/Q3_OfficeSupplies_Check_2024-09-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -978,7 +972,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB002_LateStage_2024-11-30"}),
         ],
-        outputs=[["INV012","INV023"],[]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -994,7 +988,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV021","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB001_Aging_Controls_2024-11-30"}),
         ],
-        outputs=[["INV009","INV021"],[]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1013,7 +1007,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV021","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB001_Aging_Pass_2024-11-30"}),
         ],
-        outputs=[["INV009","INV021"],["INV009","INV021"]],
+        outputs=[]
     ),
 
     Task(
@@ -1031,7 +1025,7 @@ TASKS = [
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"Cashflow_Outlook_2024-11-30"}),
             Action(name="PostJournalEntry", kwargs={"date":"2024-11-30","account":"Liquidity Review Memo","amount":0.00}),
         ],
-        outputs=["/reports/kpi/Cashflow_Outlook_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1047,7 +1041,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV026","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB005_Wrap_2024-11-30"}),
         ],
-        outputs=[["INV022","INV026"],["INV022","INV026"]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1060,7 +1054,7 @@ TASKS = [
             Action(name="GenerateExpenseDashboard", kwargs={"quarter":"2024-Q3","included_expenses":["EXP012","EXP022","EXP023"],"as_of":"2024-09-30","artifact_name":"Q3_Mixed_Integrity_2024-09-30"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-09-30","artifact_name":"Q3_Mixed_Integrity_2024-09-30"}),
         ],
-        outputs=["/dashboards/ExpenseDashboards/2024-Q3/expense_dashboard_2024-Q3.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1075,7 +1069,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV021", "event_type": "second_notice", "notes": "Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "artifact_name": "PUB001_Followups_2024-11-30", "sections": ["Collections"]})
         ],
-        outputs=[["INV009", "INV021"], ["INV009", "INV021"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1101,7 +1095,7 @@ TASKS = [
             }),
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV-AUTO-2024-604", "event_type": "generated", "notes": "Invoice generated"})
         ],
-        outputs=["INV-2024-604"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1115,7 +1109,7 @@ TASKS = [
             Action(name="PostJournalEntry", kwargs={"date":"2024-06-30","account":"Governance Memo","amount":0.00,"memo":"Q2 meals scan – no exceptions"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-06-30","artifact_name":"Q2_Meals_Scan_2024-06-30"}),
         ],
-        outputs=["/reports/kpi/Q2_Meals_Scan_2024-06-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="1",
@@ -1134,7 +1128,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"Cross_Action_Memo_2024-11-30"}),
         ],
-        outputs=["/reports/kpi/Cross_Action_Memo_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1150,7 +1144,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV021","event_type":"second_notice"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB001_Aging_2024-11-30"}),
         ],
-        outputs=[["INV009","INV021"],["INV009","INV021"]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1166,7 +1160,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB002_AR_Health_2024-11-30"}),
         ],
-        outputs=[["INV012","INV023"],["INV012","INV023"]],
+        outputs=[]
     ),
 
     Task(
@@ -1182,7 +1176,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV022","event_type":"second_notice"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB003_AR_Followups_2024-11-30"}),
         ],
-        outputs=[["INV008","INV022"],["INV008","INV022"]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1201,7 +1195,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV021","event_type":"second_notice"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB001_SpotSweep_2024-11-30"}),
         ],
-        outputs=[["INV009","INV021"],["INV009","INV021"]],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1217,7 +1211,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV021","event_type":"second_notice"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB001_Enforcement_2024-11-30"}),
         ],
-        outputs=[["INV009","INV021"],["INV009","INV021"]],
+        outputs=[]
     ),
 
     Task(
@@ -1234,7 +1228,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV026","event_type":"second_notice"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB005_AR_Summary_2024-11-30"}),
         ],
-        outputs=[["INV022","INV026"],["INV022","INV026"]],
+        outputs=[]
     ),
 
     Task(
@@ -1252,7 +1246,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV022","event_type":"second_notice"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB003_AR_Close_2024-11-30"}),
         ],
-        outputs=[["INV008","INV022"],["INV008","INV022"]],
+        outputs=[]
     ),
     Task(
         annotator="new",
@@ -1267,7 +1261,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV021","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB001_Targeted_2024-11-30"})
         ],
-        outputs=["/reports/kpi/PUB001_Targeted_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="new",
@@ -1282,7 +1276,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging"],"artifact_name":"PUB002_LateStage_2024-11-30"})
         ],
-        outputs=["/reports/kpi/PUB002_LateStage_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="new",
@@ -1298,7 +1292,7 @@ TASKS = [
             Action(name="PostJournalEntry", kwargs={"date":"2024-11-30","account":"Tax Reserve","amount_ref":{"adjustment":157.87},"memo":"YTD tax reserve true-up"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["TaxReserve"],"artifact_name":"TaxReserve_NovTrueUp_2024-11"})
         ],
-        outputs=["157.87"],
+        outputs=[]
     ),
     Task(
         annotator="new",
@@ -1315,7 +1309,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV026","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging"],"artifact_name":"PUB001_CrossCheck_2024-11-30"})
         ],
-        outputs=["/reports/kpi/PUB001_CrossCheck_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="new",
@@ -1331,7 +1325,7 @@ TASKS = [
             Action(name="GenerateExpenseDashboard", kwargs={"quarter":"2024-Q3","included_expenses":["EXP012","EXP022","EXP023"]}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-09-30","sections":["ExpenseMix","Deductibility"],"artifact_name":"Q3_Mixed_Snapshot_2024-09-30"})
         ],
-        outputs=["/dashboards/ExpenseDashboards/2024-Q3/expense_dashboard_2024-Q3.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="new",
@@ -1346,7 +1340,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV026","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB005_Collections_2024-11-30"})
         ],
-        outputs=["/reports/kpi/PUB005_Collections_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="new",
@@ -1363,7 +1357,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV008","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging"],"artifact_name":"Joint_Action_Log_2024-11-30"})
         ],
-        outputs=["/reports/kpi/Joint_Action_Log_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="new",
@@ -1378,7 +1372,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV022","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging"],"artifact_name":"PUB003_Escalation_2024-11-30"})
         ],
-        outputs=["/reports/kpi/PUB003_Escalation_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="new",
@@ -1395,7 +1389,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV026","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"PUB3_5_Cross_Brief_2024-11-30"})
         ],
-        outputs=["/reports/kpi/PUB3_5_Cross_Brief_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="new",
@@ -1412,7 +1406,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV022","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Aging"],"artifact_name":"PUB003_AR_Close_2024-11-30"})
         ],
-        outputs=["/reports/kpi/PUB003_AR_Close_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="new",
@@ -1429,7 +1423,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV026","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","sections":["Collections"],"artifact_name":"Consolidated_Actions_2024-11-30"})
         ],
-        outputs=["/reports/kpi/Consolidated_Actions_2024-11-30.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1445,7 +1439,7 @@ TASKS = [
             Action(name="GenerateExpenseDashboard", kwargs={"quarter":"2024-Q3","included_expenses":["EXP012","EXP022","EXP023"],"as_of":"2024-09-30","artifact_name":"Q3_Expense_Governance_2024-09-30"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-09-30","artifact_name":"Q3_Expense_Governance_2024-09-30"}),
         ],
-        outputs=["/dashboards/ExpenseDashboards/2024-Q3/expense_dashboard_2024-Q3.pdf"],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1462,7 +1456,7 @@ TASKS = [
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["TaxReserve"], "artifact_name": "TaxReserve_Nov_Recon_2024-11"}),
             Action(name="CreateDashboardSnapshot", kwargs={"snapshot_date": "2024-11-30", "ytd_revenue": 10909.5, "ytd_tax_reserve": 2891.02, "pdf_path": "/reports/kpi/TaxReserve_Nov_Recon_2024-11.pdf"})
         ],
-        outputs=["157.87"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1478,7 +1472,7 @@ TASKS = [
             Action(name="ForecastInflows", kwargs={"invoices": ["INV009", "INV021", "INV008", "INV022"], "probability_rule": "overdue_60=0.3"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["Collections", "Behavior"], "artifact_name": "Cross_PUB001_PUB003_2024-11-30"})
         ],
-        outputs=["/reports/kpi/Cross_PUB001_PUB003_2024-11-30.pdf"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1495,7 +1489,7 @@ TASKS = [
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["TaxReserve"], "artifact_name": "TaxReserve_Close_2024-11"}),
             Action(name="CreateDashboardSnapshot", kwargs={"snapshot_date": "2024-11-30", "ytd_revenue": 10909.5, "ytd_tax_reserve": 2891.02, "pdf_path": "/reports/kpi/TaxReserve_Close_2024-11.pdf"})
         ],
-        outputs=["157.87"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1512,7 +1506,7 @@ TASKS = [
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["Cashflow"], "artifact_name": "Cashflow_4M_Outlook_2024-11-30"}),
             Action(name="PostJournalEntry", kwargs={"date": "2024-11-30", "account": "Liquidity Review Memo", "amount_ref": {"adjustment": 0.00}, "memo": "4-month cashflow outlook archived"})
         ],
-        outputs=["/reports/kpi/Cashflow_4M_Outlook_2024-11-30.pdf"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1528,7 +1522,7 @@ TASKS = [
             Action(name="PostJournalEntry", kwargs={"date": "2024-11-30", "account": "Tax Reserve", "amount_ref": {"adjustment": 157.87}, "memo": "YTD tax reserve true-up"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["TaxReserve"], "artifact_name": "TaxReserve_Verification_2024-11"})
         ],
-        outputs=["157.87"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1544,7 +1538,7 @@ TASKS = [
             Action(name="ForecastInflows", kwargs={"invoices": ["INV012", "INV023", "INV022", "INV026"], "probability_rule": "overdue_60=0.3"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "sections": ["Collections", "Behavior"], "artifact_name": "PUB002_PUB005_Collections_2024-11-30"})
         ],
-        outputs=["/reports/kpi/PUB002_PUB005_Collections_2024-11-30.pdf"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1561,7 +1555,7 @@ TASKS = [
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "artifact_name": "Cashflow_5M_Outlook_2024-11-30", "sections": ["Cashflow"]}),
             Action(name="PostJournalEntry", kwargs={"date": "2024-11-30", "account": "Liquidity Review Memo", "amount_ref": {"adjustment": 0.00}, "memo": "5-month cashflow outlook archived"})
         ],
-        outputs=["/reports/kpi/Cashflow_5M_Outlook_2024-11-30.pdf"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1587,7 +1581,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV-AUTO-2024-302", "event_type": "generated", "notes": "Invoice generated"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "artifact_name": "PUB003_Shell_Issue_2024-11", "sections": []})
         ],
-        outputs=["INV-2024-302"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1603,7 +1597,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id": "INV023", "event_type": "second_notice", "notes": "Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-11-30", "artifact_name": "PUB002_Actions_2024-11-30", "sections": []})
         ],
-        outputs=[["INV012", "INV023"], ["INV012", "INV023"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1617,7 +1611,7 @@ TASKS = [
             Action(name="PostJournalEntry", kwargs={"date": "2024-06-30", "account": "Governance Memo", "amount_ref": {"adjustment": 0.00}, "memo": "Q2 meals scan – no exceptions"}),
             Action(name="BuildKpiReport", kwargs={"as_of": "2024-06-30", "artifact_name": "Q2_Meals_Scan_2024-06-30", "sections": []})
         ],
-        outputs=["/reports/kpi/Q2_Meals_Scan_2024-06-30.pdf"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1633,7 +1627,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV021","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB001_Enforcement_2024-11-30","sections":["Collections"]}),
         ],
-        outputs=[["INV009","INV021"],["INV009","INV021"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1649,7 +1643,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV023","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB002_Collections_Memo_2024-11-30","sections":["Collections"]}),
         ],
-        outputs=[["INV012","INV023"],["INV012","INV023"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1664,7 +1658,7 @@ TASKS = [
             Action(name="CreateAuditEntry", kwargs={"invoice_id":"INV022","event_type":"second_notice","notes":"Overdue >60 days"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"PUB003_Enforcement_Update_2024-11-30","sections":["Aging","Collections"]}),
         ],
-        outputs=[["INV008","INV022"],["INV008","INV022"]]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1680,7 +1674,7 @@ TASKS = [
             Action(name="PostJournalEntry", kwargs={"date":"2024-11-30","account":"Tax Reserve","amount_ref":{"adjustment":157.87},"memo":"YTD tax reserve true-up"}),
             Action(name="BuildKpiReport", kwargs={"as_of":"2024-11-30","artifact_name":"TaxReserve_Confirm_2024-11","sections":["TaxReserve"]}),
         ],
-        outputs=["157.87"]
+        outputs=[]
     ),
     
 ]

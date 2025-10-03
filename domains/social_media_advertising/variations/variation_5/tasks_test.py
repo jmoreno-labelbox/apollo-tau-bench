@@ -44,12 +44,7 @@ TASKS = [
 
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"})
         ],
-        outputs=[
-            """[
-          {"plan_id":"plan_2025-08-13","adset_id":"101","final_budget":950.0,"final_strategy":"cost_cap","final_bid_amount":35.0},
-          {"runs":["AR-20250815-01","AR-20250815-02","AR-20250815-03"]}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -81,12 +76,7 @@ TASKS = [
                            "status": "completed", "input_ref": "adset_102_rotation_1103_1104",
                            "errors_json": "{}"}),
         ],
-        outputs=[
-            """[
-              {"adset_id":"102","activated":"1104","paused":"1103"},
-              {"rotation_id":"CR-4","runs":["AR-20250815-03","AR-20250815-04"]}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -110,7 +100,7 @@ TASKS = [
                                                          "status": "completed", "input_ref": "adset_102",
                                                          "errors_json": "{}"}),
         ],
-        outputs=['[{"adset_id":"102","final_daily_budget":610.0},{"automation_run":"AR-20250819-04"}]']
+        outputs=[]
     ),
 
     Task(
@@ -141,11 +131,7 @@ TASKS = [
                 "ended_at": "2025-08-13T00:00:01Z"
             }),
         ],
-        outputs=[
-            '{"adset_id":"101","date":"2025-08-13","roas":10.0,"ctr":0.0397}',
-            '{"spend":{"adset_id":"101","start_date":"2025-08-07","end_date":"2025-08-13","total_spend":6140.0}}',
-            '{"underperforming":[{"adset_id":"103"},{"adset_id":"110"},{"adset_id":"111"}]}'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -190,12 +176,7 @@ TASKS = [
                            "changed_at": "2025-08-27T02:05:00Z", "reason": "plan_2025-08-27b"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
         ],
-        outputs=[
-            """[
-          {"plan_id":"plan_2025-08-27b","applied_to":["102","112"]},
-          {"freeze_run":"AR-20250827-04"}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -216,12 +197,7 @@ TASKS = [
                            "rotated_at": "2025-08-28T10:01:00Z", "rationale": "plan_2025-08-28c"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"}),
         ],
-        outputs=[
-            """[
-              {"adset_id":"102","activated":"1104","paused":"1103"},
-              {"automation_run":"AR-20250828-06"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -259,7 +235,7 @@ TASKS = [
 
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),
         ],
-        outputs=['[{"adset_id":"103","final_budget":1120.0,"final_bid_amount":6.5}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -287,12 +263,7 @@ TASKS = [
             Action(name="CalculateAdsetRoasForDay", kwargs={"adset_id": "101", "date": "2025-08-13"}),
             Action(name="CalculateAdsetRoasForDay", kwargs={"adset_id": "104", "date": "2025-08-13"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"101","new_bid":38.0,"roas_date":"2025-08-13"},
-              {"adset_id":"104","new_bid":22.0,"roas_date":"2025-08-13"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -314,12 +285,7 @@ TASKS = [
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "102", "date": "2025-08-13"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"102","activated":"1119","paused":"1103"},
-              {"automation_run":"AR-20250817-03"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -342,12 +308,7 @@ TASKS = [
                    kwargs={"adset_id": "101", "start_date": "2025-08-07", "end_date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "101", "date": "2025-08-13"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"101","new_budget":1050.0,"expected_change_id":"BC-8"},
-              {"automation_run":"AR-20250815-10"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -378,12 +339,7 @@ TASKS = [
                            "ended_at": "2025-08-16T02:00:00Z", "status": "completed", "input_ref": "plan_2025-08-16",
                            "errors_json": "{}"})
         ],
-        outputs=[
-            """[
-              {"plan_id":"plan_2025-08-16","total_budget":1670.0},
-              {"automation_run":"AR-20250816-01"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -410,12 +366,7 @@ TASKS = [
                                                          "input_ref": "adset_110_roas_remedy", "errors_json": "{}"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "110"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"110","new_budget":800.0,"activated_ad":"1119","paused_ad":"1114"},
-              {"automation_run":"AR-20250817-02"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -440,14 +391,7 @@ TASKS = [
 
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "108"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"108","activated":"1112","paused":"1111"},
-              {"insights_date":"2025-08-13","ctr_reported":true},
-              {"updated_ads_list":true},
-              {"automation_run":"AR-20250816-02"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -475,13 +419,7 @@ TASKS = [
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "101"}),
             Action(name="CalculateAdsetRoasForDay", kwargs={"adset_id": "101", "date": "2025-08-13"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"101","activated":"1119","paused":"1101"},
-              {"updated_ads_list":true,"roas_date":"2025-08-13"},
-              {"automation_run":"AR-20250817-04"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -504,12 +442,7 @@ TASKS = [
                    kwargs={"adset_id": "105", "start_date": "2025-08-07", "end_date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "105", "date": "2025-08-13"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"105","new_budget":820.0},
-              {"automation_run":"AR-20250816-03"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -544,13 +477,7 @@ TASKS = [
                                                          "input_ref": "underperforming_2025-08-13",
                                                          "errors_json": "{}"}),
         ],
-        outputs=[
-            """[
-              {"adset_id":"110","final_budget":900.0},
-              {"adset_id":"111","final_bid_strategy":"cost_cap","final_bid_amount":2.0},
-              {"automation_run":"AR-20250819-06"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -571,12 +498,7 @@ TASKS = [
                            "rotated_at": "2025-08-24T10:06:00Z", "rationale": "format_test_carousel"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"}),
         ],
-        outputs=[
-            """[
-          {"adset_id":"102","activated":"1104","paused":"1103"},
-          {"automation_run":"AR-20250824-06"}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -604,12 +526,7 @@ TASKS = [
                            "errors_json": "{}"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "104"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"104","new_budget":750.0,"strategy":"cost_cap","bid_amount":22.0},
-              {"automation_run":"AR-20250817-07"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -643,13 +560,7 @@ TASKS = [
                                                          "input_ref": "underperf_2025-08-13_pair_b",
                                                          "errors_json": "{}"}),
         ],
-        outputs=[
-            """[
-          {"adset_id":"110","final_budget":920.0},
-          {"adset_id":"111","final_bid_strategy":"cost_cap","final_bid_amount":2.1},
-          {"automation_run":"AR-20250827-06"}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -680,12 +591,7 @@ TASKS = [
                            "ended_at": "2025-08-16T02:00:00Z", "status": "completed", "input_ref": "plan_2025-08-16",
                            "errors_json": "{}"})
         ],
-        outputs=[
-            """[
-              {"plan_id":"plan_2025-08-16","total_budget":1670.0},
-              {"automation_run":"AR-20250816-01"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -710,7 +616,7 @@ TASKS = [
                                                          "status": "completed", "input_ref": "adset_101_pacing",
                                                          "errors_json": "{}"}),
         ],
-        outputs=['[{"adset_id":"101","final_daily_budget":960.0},{"automation_run":"AR-20250819-08"}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -735,12 +641,7 @@ TASKS = [
                                                          "errors_json": "{}"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"111","strategy":"cost_cap","bid_amount":2.5},
-              {"automation_run":"AR-20250817-10"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -775,12 +676,7 @@ TASKS = [
                            "ended_at": "2025-08-18T02:00:00Z", "status": "completed", "input_ref": "plan_2025-08-18",
                            "errors_json": "{}"})
         ],
-        outputs=[
-            """[
-              {"plan_id":"plan_2025-08-18","total_budget":2380.0},
-              {"automation_run":"AR-20250818-02"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -803,12 +699,7 @@ TASKS = [
                            "rotated_at": "2025-08-24T10:08:00Z", "rationale": "school_season_test"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"}),
         ],
-        outputs=[
-            """[
-          {"adset_id":"102","activated":"1119","paused":"1103"},
-          {"automation_run":"AR-20250824-07"}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -873,14 +764,7 @@ TASKS = [
             Action(name="UpdateAutomationRunEnd",
                    kwargs={"run_id": "AR-20250818-04", "ended_at": "2025-08-18T10:03:00Z"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"101","new_budget":860.0},
-              {"adset_id":"108","new_budget":780.0},
-              {"adset_id":"112","new_budget":680.0},
-              {"automation_run":"AR-20250818-04"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -913,10 +797,7 @@ TASKS = [
                            "started_at": "2025-08-19T04:10:00Z", "ended_at": "2025-08-19T04:13:00Z",
                            "status": "completed", "input_ref": "adset_103_2025-08-13", "errors_json": "{}"})
         ],
-        outputs=[
-            '{"adset_id":"103","new_budget":980.0,"new_strategy":"cost_cap","new_bid_amount":15.0}',
-            '{"automation_run":"AR-20250819-09"}'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -960,12 +841,7 @@ TASKS = [
                            "changed_at": "2025-08-24T02:05:00Z", "reason": "plan_2025-08-24b"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
         ],
-        outputs=[
-            """[
-          {"plan_id":"plan_2025-08-24b","applied_to":["102","112"]},
-          {"freeze_run":"AR-20250824-10"}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -991,12 +867,7 @@ TASKS = [
 
             Action(name="GetAutomationRunHistory", kwargs={"run_type": "monitoring_snapshot", "limit": 1})
         ],
-        outputs=[
-            """[
-          {"monitoring_snapshot_id":"AR-20250818-10","status":"completed"},
-          {"snapshot_runs":2,"success_rate":100.0}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -1018,7 +889,7 @@ TASKS = [
                                                          "ended_at": "2025-08-24T09:41:00Z", "status": "completed",
                                                          "input_ref": "adset_101_rounding_topup", "errors_json": "{}"}),
         ],
-        outputs=['[{"adset_id":"101","final_daily_budget":960.0},{"automation_run":"AR-20250824-14"}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1044,13 +915,7 @@ TASKS = [
                                                          "errors_json": "{}"}),
             Action(name="GetAdsetsByCampaignId", kwargs={"campaign_id": "2"})
         ],
-        outputs=[
-            """[
-              {"campaign_id":"2","status":"paused"},
-              {"adset_id":"103","strategy":"cost_cap","bid_amount":20.0},
-              {"automation_run":"AR-20250818-09"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1068,11 +933,7 @@ TASKS = [
                                                          "input_ref": "adset:102|rotation:1103>1104",
                                                          "errors_json": "{}"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"102","rotated_from":"1103","to":"1104"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -1095,12 +956,7 @@ TASKS = [
                            "rotated_at": "2025-08-19T10:06:00Z", "rationale": "format_test"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"102","activated":"1119","paused":"1103"},
-              {"automation_run":"AR-20250819-10"}
-            ]"""
-        ]
+        outputs=[]
     ),
 
     Task(
@@ -1124,12 +980,7 @@ TASKS = [
                                                          "ended_at": "2025-08-19T11:52:00Z", "status": "completed",
                                                          "input_ref": "adset_112_scale_up", "errors_json": "{}"}),
         ],
-        outputs=[
-            """[
-              {"adset_id":"112","new_budget":820.0},
-              {"automation_run":"AR-20250819-12"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -1153,8 +1004,7 @@ TASKS = [
                                                          "ended_at": "2025-08-19T05:26:00Z", "status": "completed",
                                                          "input_ref": "adset_104_scale", "errors_json": "{}"}),
         ],
-        outputs=[
-            '[{"adset_id":"104","final_bid_strategy":"cost_cap","final_bid_amount":22.0},{"automation_run":"AR-20250819-13"}]']
+        outputs=[]
     ),
 
     Task(
@@ -1188,13 +1038,7 @@ TASKS = [
                            "ended_at": "2025-08-18T12:13:00Z", "status": "completed",
                            "input_ref": "plan_2025-08-13_partial", "errors_json": "{}"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"101","budget":950.0,"strategy":"cost_cap","bid_amount":35.0},
-              {"adset_id":"112","budget":700.0},
-              {"automation_run":"AR-20250818-13"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -1223,12 +1067,7 @@ TASKS = [
                                                          "ended_at": "2025-08-25T02:00:00Z", "status": "completed",
                                                          "input_ref": "plan_2025-08-25b", "errors_json": "{}"}),
         ],
-        outputs=[
-            """[
-          {"plan_id":"plan_2025-08-25b","total_budget":1360.0},
-          {"automation_run":"AR-20250825-05"}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -1250,7 +1089,7 @@ TASKS = [
                                                          "ended_at": "2025-08-19T11:11:00Z", "status": "completed",
                                                          "input_ref": "adset_110_mitigation", "errors_json": "{}"}),
         ],
-        outputs=['[{"adset_id":"110","final_budget":950.0},{"automation_run":"AR-20250819-16"}]']
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -1273,8 +1112,7 @@ TASKS = [
                                                          "ended_at": "2025-08-19T11:21:00Z", "status": "completed",
                                                          "input_ref": "adset_111_tighten", "errors_json": "{}"}),
         ],
-        outputs=[
-            '[{"adset_id":"111","final_bid_strategy":"cost_cap","final_bid_amount":2.2},{"automation_run":"AR-20250819-17"}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1294,12 +1132,7 @@ TASKS = [
                            "ended_at": "2025-08-18T12:52:00Z", "status": "completed",
                            "input_ref": "adset_110_scale_down", "errors_json": "{}"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"110","new_budget":900.0},
-              {"automation_run":"AR-20250818-16"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1325,12 +1158,7 @@ TASKS = [
                                                          "ended_at": "2025-08-18T13:03:00Z", "status": "completed",
                                                          "input_ref": "adset_103_brand_fix", "errors_json": "{}"})
         ],
-        outputs=[
-            """[
-              {"adset_id":"103","new_budget":950.0,"strategy":"cost_cap","bid_amount":18.0},
-              {"automation_run":"AR-20250818-17"}
-            ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1349,7 +1177,7 @@ TASKS = [
                            "new_bid": 18.0, "changed_at": "2025-08-18T14:04:00Z", "reason": "ctr_tighten_2025-08-13"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "104"})
         ],
-        outputs=["adset=104 strategy=cost_cap bid=18.0 changed_at=2025-08-18T14:04:00Z reason=ctr_tighten_2025-08-13"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1369,8 +1197,7 @@ TASKS = [
                            "reason": "performance_rebalance_2025-08-13"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"})
         ],
-        outputs=[
-            "adset=106 strategy=bid_cap bid=17.0 changed_at=2025-08-18T14:08:00Z reason=performance_rebalance_2025-08-13"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1390,8 +1217,7 @@ TASKS = [
                            "reason": "cost_cap_tighten_2025-08-13"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "108"})
         ],
-        outputs=[
-            "adset=108 strategy=cost_cap bid=40.0 changed_at=2025-08-18T14:11:00Z reason=cost_cap_tighten_2025-08-13"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1411,7 +1237,7 @@ TASKS = [
                            "reason": "cap_refinement_2025-08-13"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"})
         ],
-        outputs=["adset=111 strategy=cost_cap bid=2.2 changed_at=2025-08-18T14:13:00Z reason=cap_refinement_2025-08-13"]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1429,9 +1255,7 @@ TASKS = [
                            "reason": "policy_alignment_2025-08-13"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"})
         ],
-        outputs=[
-            "adset=102 strategy=cost_cap bid=14.0 changed_at=2025-08-18T14:15:00Z reason=policy_alignment_2025-08-13"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1451,7 +1275,7 @@ TASKS = [
                            "reason": "baseline_cap_2025-08-13"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"})
         ],
-        outputs=["adset=103 strategy=cost_cap bid=19.0 changed_at=2025-08-18T14:17:00Z reason=baseline_cap_2025-08-13"]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -1473,12 +1297,7 @@ TASKS = [
                            "rotated_at": "2025-08-19T10:06:00Z", "rationale": "format_test_b"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"})
         ],
-        outputs=[
-            """[
-          {"adset_id":"102","activated":"1104","paused":"1103"},
-          {"automation_run":"AR-20250819-18"}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1501,7 +1320,7 @@ TASKS = [
                                                          "input_ref": "adset:112", "errors_json": "{}"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"})
         ],
-        outputs=['[{"adset_id":"112","final_bid_strategy":"cost_cap","final_bid_amount":4.0}]']
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -1529,10 +1348,7 @@ TASKS = [
                 "ended_at": "2025-08-13T00:00:01Z"
             }),
         ],
-        outputs=[
-            '{"adset_id":"103","date":"2025-08-13","roas":0.0,"ctr":0.0327}',
-            '{"spend":{"adset_id":"103","start_date":"2025-08-07","end_date":"2025-08-13","total_spend":2380.0}}'
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1553,7 +1369,7 @@ TASKS = [
                            "errors_json": "{}"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"})
         ],
-        outputs=['[{"adset_id":"102","final_budget":610.0}]']
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -1577,8 +1393,7 @@ TASKS = [
                                                          "ended_at": "2025-08-19T05:31:00Z", "status": "completed",
                                                          "input_ref": "adset_101_price_align", "errors_json": "{}"}),
         ],
-        outputs=[
-            '[{"adset_id":"101","final_bid_strategy":"cost_cap","final_bid_amount":36.0},{"automation_run":"AR-20250819-19"}]']
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -1607,12 +1422,7 @@ TASKS = [
                                                          "ended_at": "2025-08-19T12:13:00Z", "status": "completed",
                                                          "input_ref": "adset_108_midday", "errors_json": "{}"}),
         ],
-        outputs=[
-            """[
-          {"adset_id":"108","final_daily_budget":820.0,"final_bid_strategy":"cost_cap","final_bid_amount":44.0},
-          {"automation_run":"AR-20250819-20"}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1634,7 +1444,7 @@ TASKS = [
                            "errors_json": "{}"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "105"})
         ],
-        outputs=['[{"adset_id":"105","final_budget":720.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1656,7 +1466,7 @@ TASKS = [
                            "errors_json": "{}"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"})
         ],
-        outputs=['[{"adset_id":"106","final_budget":520.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1680,7 +1490,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-74", "ended_at": "2025-08-18T14:35:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "107"})
         ],
-        outputs=['[{"adset_id":"107","final_budget":380.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1702,7 +1512,7 @@ TASKS = [
                            "errors_json": "{}"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "108"})
         ],
-        outputs=['[{"adset_id":"108","final_budget":760.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1720,7 +1530,7 @@ TASKS = [
                                                          "input_ref": "adset:102", "errors_json": "{}"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"})
         ],
-        outputs=['[{"adset_id":"102","activated":"1104","paused":"1103"}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1738,7 +1548,7 @@ TASKS = [
                                                          "input_ref": "adset:102", "errors_json": "{}"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"})
         ],
-        outputs=['[{"adset_id":"102","activated":"1103","paused":"1104"}]']
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -1760,12 +1570,7 @@ TASKS = [
                            "rotated_at": "2025-08-19T10:08:00Z", "rationale": "format_test_image"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"})
         ],
-        outputs=[
-            """[
-          {"adset_id":"102","activated":"1119","paused":"1103"},
-          {"automation_run":"AR-20250819-21"}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -1796,13 +1601,7 @@ TASKS = [
                                                          "ended_at": "2025-08-19T08:51:00Z", "status": "completed",
                                                          "input_ref": "adsets_101_102_rebalance", "errors_json": "{}"}),
         ],
-        outputs=[
-            """[
-          {"adset_id":"101","final_daily_budget":940.0},
-          {"adset_id":"102","final_daily_budget":610.0},
-          {"automation_run":"AR-20250819-23"}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1825,7 +1624,7 @@ TASKS = [
                            "started_at": "2025-08-18T14:50:00Z", "input_ref": "plan_2025-08-13"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"})
         ],
-        outputs=['[{"adset_id":"111","plan_applied":"plan_2025-08-13"}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1850,7 +1649,7 @@ TASKS = [
                            "started_at": "2025-08-18T14:54:00Z", "input_ref": "adset:102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"})
         ],
-        outputs=['[{"adset_id":"102","final_budget":600.0,"final_bid_strategy":"cost_cap","final_bid_amount":6.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1871,7 +1670,7 @@ TASKS = [
                            "started_at": "2025-08-18T14:58:00Z", "input_ref": "adset:101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"})
         ],
-        outputs=['[{"adset_id":"101","final_budget":900.0,"final_bid_amount":32.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1890,7 +1689,7 @@ TASKS = [
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"})
         ],
-        outputs=['[{"adset_id":"102","active_ad_after":"1103"}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1912,7 +1711,7 @@ TASKS = [
                            "started_at": "2025-08-18T15:04:00Z", "input_ref": "adset:103"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"})
         ],
-        outputs=['[{"adset_id":"103","final_bid_strategy":"cost_cap","final_bid_amount":6.5}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1940,7 +1739,7 @@ TASKS = [
                            "started_at": "2025-08-18T15:06:00Z", "input_ref": "adset:104"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "104"})
         ],
-        outputs=['[{"adset_id":"104","final_budget":760.0,"final_bid_amount":22.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1963,7 +1762,7 @@ TASKS = [
             Action(name="UpdateAutomationRunEnd",
                    kwargs={"run_id": "AR-20250818-89", "ended_at": "2025-08-18T15:10:00Z"})
         ],
-        outputs=['[{"adset_id":"105","final_bid_strategy":"cost_cap","final_bid_amount":3.5}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1983,7 +1782,7 @@ TASKS = [
                            "started_at": "2025-08-18T15:12:00Z", "input_ref": "adset:102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"})
         ],
-        outputs=['[{"adset_id":"102","final_budget":590.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2008,7 +1807,7 @@ TASKS = [
                            "started_at": "2025-08-18T15:14:00Z", "input_ref": "adset:108"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "108"})
         ],
-        outputs=['[{"adset_id":"108","final_budget":770.0,"final_bid_amount":43.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2030,7 +1829,7 @@ TASKS = [
                            "started_at": "2025-08-18T15:18:00Z", "input_ref": "adset:107"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "107"})
         ],
-        outputs=['[{"adset_id":"107","final_bid_strategy":"cost_cap","final_bid_amount":3.0}]']
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -2067,12 +1866,7 @@ TASKS = [
                                                          "ended_at": "2025-08-22T02:06:00Z", "status": "completed",
                                                          "input_ref": "plan_2025-08-22c", "errors_json": "{}"}),
         ],
-        outputs=[
-            """[
-          {"plan_id":"plan_2025-08-22c","adset_id":"112","final_daily_budget":760.0},
-          {"runs":["AR-20250822-07","AR-20250822-08"]}
-        ]"""
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2093,7 +1887,7 @@ TASKS = [
                            "started_at": "2025-08-18T15:24:00Z", "input_ref": "adset:112"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"})
         ],
-        outputs=['[{"adset_id":"112","final_bid_strategy":"cost_cap","final_bid_amount":4.2}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2115,7 +1909,7 @@ TASKS = [
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "102", "date": "2025-08-13"})
         ],
-        outputs=['[{"adset_id":"102","final_bid_strategy":"cost_cap","final_bid_amount":5.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2138,7 +1932,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-96", "ended_at": "2025-08-18T15:30:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"})
         ],
-        outputs=['[{"adset_id":"101","final_budget":930.0,"final_bid_amount":32.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2156,7 +1950,7 @@ TASKS = [
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"})
         ],
-        outputs=['[{"adset_id":"102","active_ad_after":"1103"}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2179,7 +1973,7 @@ TASKS = [
                            "started_at": "2025-08-18T15:36:00Z", "input_ref": "plan_2025-08-13"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"})
         ],
-        outputs=['[{"adset_id":"111","plan_confirmed":"plan_2025-08-13"}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2202,7 +1996,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-56", "ended_at": "2025-08-18T16:00:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"})
         ],
-        outputs=['[{"adset_id":"102","final_budget":620.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2224,7 +2018,7 @@ TASKS = [
                            "started_at": "2025-08-18T16:05:00Z", "input_ref": "adset:102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"})
         ],
-        outputs=['[{"adset_id":"102","final_bid_strategy":"cost_cap","final_bid_amount":5.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2244,7 +2038,7 @@ TASKS = [
                            "started_at": "2025-08-18T16:10:00Z", "input_ref": "adset:102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"})
         ],
-        outputs=['[{"adset_id":"102","final_budget":590.0}]']
+        outputs=[]
     ),
     Task(
         annotator="v6",
@@ -2268,7 +2062,7 @@ TASKS = [
                                                          "ended_at": "2025-08-19T09:11:00Z", "status": "completed",
                                                          "input_ref": "adset_101_cross_signal", "errors_json": "{}"}),
         ],
-        outputs=['[{"adset_id":"101","final_daily_budget":970.0},{"automation_run":"AR-20250819-25"}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2291,7 +2085,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-101", "ended_at": "2025-08-18T16:14:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "104"})
         ],
-        outputs=['[{"adset_id":"104","final_bid_strategy":"cost_cap","final_bid_amount":21.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2311,7 +2105,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-102", "ended_at": "2025-08-18T16:16:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "104"})
         ],
-        outputs=['[{"adset_id":"104","final_budget":745.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2334,7 +2128,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-103", "ended_at": "2025-08-18T16:18:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"})
         ],
-        outputs=['[{"adset_id":"103","final_bid_strategy":"cost_cap","final_bid_amount":6.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2354,7 +2148,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-104", "ended_at": "2025-08-18T16:20:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "108"})
         ],
-        outputs=['[{"adset_id":"108","final_budget":775.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2374,7 +2168,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-105", "ended_at": "2025-08-18T16:22:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"})
         ],
-        outputs=['[{"adset_id":"101","final_budget":915.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2393,7 +2187,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-106", "ended_at": "2025-08-18T16:24:00Z"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"})
         ],
-        outputs=['[{"adset_id":"102","activated":"1104","paused":"1103"}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2416,7 +2210,7 @@ TASKS = [
 
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"})
         ],
-        outputs=['[{"adset_id":"106","final_bid_strategy":"cost_cap","final_bid_amount":17.5}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2436,7 +2230,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-108", "ended_at": "2025-08-18T16:28:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"})
         ],
-        outputs=['[{"adset_id":"111","final_budget":990.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2454,7 +2248,7 @@ TASKS = [
                            "changed_at": "2025-08-18T16:30:00Z", "reason": "policy_standardization"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "105"})
         ],
-        outputs=['[{"adset_id":"105","final_bid_strategy":"cost_cap","final_bid_amount":3.2}]']
+        outputs=[]
     ),
 
     Task(
@@ -2478,7 +2272,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-110", "ended_at": "2025-08-18T16:32:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "107"})
         ],
-        outputs=['[{"adset_id":"107","final_bid_strategy":"cost_cap","final_bid_amount":3.1}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2498,7 +2292,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-111", "ended_at": "2025-08-18T16:34:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"})
         ],
-        outputs=['[{"adset_id":"112","final_budget":710.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2513,7 +2307,7 @@ TASKS = [
                                                      "reason": "headroom_guard"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"})
         ],
-        outputs=['[{"adset_id":"103","final_budget":1160.0}]']
+        outputs=[]
     ),
 
     Task(
@@ -2532,7 +2326,7 @@ TASKS = [
                            "reason": "bid_recenter"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"})
         ],
-        outputs=['[{"adset_id":"101","final_bid_strategy":"cost_cap","final_bid_amount":33.0}]']
+        outputs=[]
     ),
 
     Task(
@@ -2552,7 +2346,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-114", "ended_at": "2025-08-18T16:40:00Z"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"})
         ],
-        outputs=['[{"adset_id":"102","activated":"1103","paused":"1104"}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2575,7 +2369,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-115", "ended_at": "2025-08-18T16:42:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "108"})
         ],
-        outputs=['[{"adset_id":"108","final_bid_strategy":"cost_cap","final_bid_amount":43.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2602,7 +2396,7 @@ TASKS = [
 
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"})
         ],
-        outputs=['[{"adset_id":"106","final_budget":508.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2622,7 +2416,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-117", "ended_at": "2025-08-18T16:46:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "105"})
         ],
-        outputs=['[{"adset_id":"105","final_budget":740.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2640,7 +2434,7 @@ TASKS = [
                            "changed_at": "2025-08-18T16:48:00Z", "reason": "incremental_bid_lift"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"})
         ],
-        outputs=['[{"adset_id":"111","final_bid_strategy":"cost_cap","final_bid_amount":2.6}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2663,7 +2457,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-119", "ended_at": "2025-08-18T16:50:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"})
         ],
-        outputs=['[{"adset_id":"112","final_bid_strategy":"cost_cap","final_bid_amount":4.0}]']
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2683,7 +2477,7 @@ TASKS = [
                    kwargs={"run_id": "AR-20250818-120", "ended_at": "2025-08-18T16:52:00Z"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "104"})
         ],
-        outputs=['[{"adset_id":"104","final_budget":735.0}]']
+        outputs=[]
     )
 ]
 

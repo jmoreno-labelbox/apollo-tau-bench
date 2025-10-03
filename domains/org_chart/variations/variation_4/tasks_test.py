@@ -29,9 +29,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            "Isabella Chen's compensation was audited on 2025-01-01; no changes were needed. The audit note and review are stored."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -80,9 +78,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            "Michael Park is now IND Engineering (Munich Office) under Isabella Chen. Relocation leave LV2002 and review PR2002 are recorded."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -127,9 +123,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            "Emma Rodriguez is now Project Lead for the Accessibility Initiative with updated compensation (COMP5001) and review PR5001."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -177,9 +171,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10006"}),
         ],
-        outputs=[
-            "William Liu has been set to Offboarding status with transition leave LV3006 and final review PR3006. COBRA benefits applied and HR/IT confirmation noted."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -228,9 +220,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            "Succession planning for Isabella Chen is IND place: sabbatical leave LV6002, review PR6002, benefit update, and succession note recorded."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -286,9 +276,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            "Formal warning, improvement plan, and acknowledgment for Michael Park recorded with reviews PR7002 and PR7002F."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -364,9 +352,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            "Emma Rodriguez assigned to Green Initiative with compensation COMP8002, reviews PR8002/PR8002R, training leave LV8002, and updated benefits."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -443,9 +429,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10005"}),
         ],
-        outputs=[
-            "Olivia Martinez retention incentives applied: compensation COMP9003, reviews PR9003/PR9003R, training leave LV9003, and updated benefits."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -507,9 +491,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
         ],
-        outputs=[
-            "Emergency response for Arjun Patel recorded with leave LV10003, reviews PR10003/PR10003R, updated benefits, and status 'On Leave'."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -573,9 +555,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            "Isabella Chen's GBR assignment recorded with compensation COMP11001, leave LV11001, compliance review PR11001, updated benefits, and notes appended."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -598,9 +578,7 @@ TASKS = [
             ),
             Action(name="GetLeaveRecords", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            "Parental leave LV8001 captured for Emma Rodriguez; her updated leave list is returned."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -619,9 +597,7 @@ TASKS = [
             Action(name="GetCompensationRecords", kwargs={"employee_id": "E10005"}),
             Action(name="GetPerformanceReviews", kwargs={"employee_id": "E10005"}),
         ],
-        outputs=[
-            "Audit note added for Olivia Martinez; refreshed employee, compensation, and review data returned."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -644,9 +620,7 @@ TASKS = [
             ),
             Action(name="GetLeaveRecords", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            "Personal leave LV8002 logged for Isabella Chen and full leave list returned."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -692,9 +666,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
             Action(name="GetCompensationRecords", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            "Michael Park's comp update (COMP3002) and review PR6002 saved; employee record returned."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -729,9 +701,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10005"}),
             Action(name="GetCompensationRecords", kwargs={"employee_id": "E10005"}),
         ],
-        outputs=[
-            "Olivia Martinez is now fully set up IND Finance with starting package COMP9001."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -780,9 +750,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10006"}),
         ],
-        outputs=[
-            "William Liu's 2026 audit recorded with comp COMP3006 and review PR6004. Record returned."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -841,9 +809,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10006"}),
         ],
-        outputs=[
-            "William Liu welcomed to Finance with comp COMP3007 and review PR9002. Updated profile returned."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -883,9 +849,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            "Wellness plan BEN4010 recorded for Isabella Chen with review PR8005. Updated profile returned."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -929,9 +893,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            "Onboarding tracked for Emma Rodriguez with review PR8006. Updated record returned."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -964,9 +926,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            "Q2 2026 review PR8007 added for Isabella Chen and note appended; updated record returned."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1004,9 +964,7 @@ TASKS = [
                 kwargs={"employee_id": "E10002"},
             ),
         ],
-        outputs=[
-            "Parental Leave benefit BEN4004 added for Michael Park with stipend COMP9002; updated profile returned."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1053,9 +1011,7 @@ TASKS = [
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
-        outputs=[
-            "Emma Rodriguez promoted with comp COMP4003 and review PR7003; Engineering department head confirmed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1095,9 +1051,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
         ],
-        outputs=[
-            "Arjun Patel assigned to Finance project with review PR8008 and leave LV9004; profile returned."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1116,7 +1070,7 @@ TASKS = [
             Action(name="GetCompensationRecords", kwargs={"employee_id":"E10005"}),
             Action(name="GetPerformanceReviews", kwargs={"employee_id":"E10005"}),
         ],
-        outputs=["Data audit note added; Elena's records returned."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1157,7 +1111,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id":"E10006"}),
         ],
-        outputs=["Marketing transfer logged for William Liu with review PR7006 and leave LV9005; profile returned."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1190,49 +1144,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            """
-            {
-                "employee_id": "E10001",
-                "first_name": "Sophia",
-                "last_name": "Nguyen",
-                "preferred_name": "Sophia",
-                "date_of_birth": "1978-02-16",
-                "gender": "Female",
-                "ethnicity_code": "W",
-                "nationality": "USA",
-                "marital_status": "Married",
-                "hire_date": "2010-08-02",
-                "termination_date": null,
-                "status": "Active",
-                "position_id": "POS3001",
-                "department_id": "DEPT1001",
-                "level_id": "L.C",
-                "manager_id": null,
-                "work_location": "Seattle HQ",
-                "work_email": "isabella.chen@example.com",
-                "work_phone": "+1-415-555-0100",
-                "compensation_id": "COMP2001",
-                "benefit_plan_ids": [
-                    "BEN4001",
-                    "BEN4002",
-                    "BEN4003"
-                ],
-                "performance_review_ids": [
-                    "PR5001",
-                    "PR5009",
-                    "PR8010"
-                ],
-                "skills": [
-                    "Leadership",
-                    "Cloud Architecture",
-                    "Python"
-                ],
-                "role_description": "Chief Technology Officer overseeing all engineering functions.",
-                "notes": "Founder-level equity grant. Diversity initiative participation: Active lead."
-            }
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1262,9 +1174,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            "Michael Park's compliance training, leave balance, and completion records are updated and confirmed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1286,9 +1196,7 @@ TASKS = [
             Action(name="UpdateEmployee", kwargs={"employee_id": "E10004", "updates": {"notes": "Cybersecurity training assigned", "performance_review_ids": ["PR5004", "PR5009", "PR13003"]}}),
             Action(name="GetDepartment", kwargs={"department_id": "DEPT1001"}),
         ],
-        outputs=[
-            "all engineering members, IND DEPT1001, now have a cybersecurity training assigned"
-        ]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1321,48 +1229,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
         ],
-        outputs=[
-            """
-            {
-                "employee_id": "E10004",
-                "first_name": "Rahul",
-                "last_name": "Singh",
-                "preferred_name": "Rahul",
-                "date_of_birth": "1988-05-02",
-                "gender": "Male",
-                "ethnicity_code": "A",
-                "nationality": "IND",
-                "marital_status": "Married",
-                "hire_date": "2022-02-14",
-                "termination_date": null,
-                "status": "Active",
-                "position_id": "POS3007",
-                "department_id": "DEPT1001",
-                "level_id": "L.2",
-                "manager_id": "E10003",
-                "work_location": "Remote – Mumbai",
-                "work_email": "arjun.patel@example.com",
-                "work_phone": "+91-80-5550-1122",
-                "compensation_id": "COMP2004",
-                "benefit_plan_ids": [
-                    "BEN4001",
-                    "BEN4003"
-                ],
-                "performance_review_ids": [
-                    "PR5004",
-                    "PR5009",
-                    "PR8012"
-                ],
-                "skills": [
-                    "Go",
-                    "Kubernetes",
-                    "CI/CD"
-                ],
-                "role_description": "Backend Engineer focusing on micro-services.",
-                "notes": "Visa sponsored (H-1B). Emergency contact updated: Priya Singh, +1-555-123-4567"
-            }
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1447,7 +1314,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10006"}),
         ],
-        outputs=["Marketing transfer logged for William Liu with comp COMP8013, review PR8013 and leave LV8013; profile returned."]
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1516,9 +1383,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10005"}),
             Action(name="GetCompensationRecords", kwargs={"employee_id": "E10005"}),
         ],
-        outputs=[
-            "Benefits upgraded, retention compensation COMP10002 granted, review PR10002 logged, and medical leave LV10002 scheduled for Olivia Martinez. Updated record returned.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1586,9 +1451,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10005"}),
         ],
-        outputs=[
-            "Retention package COMP8014, review PR8014, and medical leave LV8015 recorded for Olivia Martinez. Updated profile returned.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1659,9 +1522,7 @@ TASKS = [
             Action(name="GetCompensationRecords", kwargs={"employee_id": "E10001"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            "Isabella Chen is on sabbatical. Succession, compensation, and reporting details are confirmed."
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1742,47 +1603,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10002"}),
         ],
-        outputs=[
-            """
-            {
-                "employee_id": "E10002",
-                "first_name": "Daniel",
-                "last_name": "Kim",
-                "preferred_name": "Dan",
-                "date_of_birth": "1982-09-04",
-                "gender": "Male",
-                "ethnicity_code": "A",
-                "nationality": "USA",
-                "marital_status": "Single",
-                "hire_date": "2015-03-17",
-                "termination_date": null,
-                "status": "Active",
-                "position_id": "POS4003",
-                "department_id": "DEPT1001",
-                "level_id": "L.5",
-                "manager_id": "E10004",
-                "work_location": "Boston Office",
-                "work_email": "michael.park@example.com",
-                "work_phone": "+1-212-555-0144",
-                "compensation_id": "COMP2002",
-                "benefit_plan_ids": [
-                    "BEN4001",
-                    "BEN4002"
-                ],
-                "performance_review_ids": [
-                    "PR5002",
-                    "PR8015"
-                ],
-                "skills": [
-                    "Sales Strategy",
-                    "CRM",
-                    "Negotiation"
-                ],
-                "role_description": "Regional VP of Sales for the Eastern territory.",
-                "notes": "High performer—President's Club 2023. Multi-country assignment 2027-04-01"
-            }
-            """
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1865,9 +1686,7 @@ TASKS = [
                 kwargs={"employee_id": "E10006", "updates": {"notes": "Code of Conduct 2025 assigned; department head notified"}},
             ),
         ],
-        outputs=[
-            "Compliance reviews (PR12001-PR12006) and signature deadline leaves (LV12001-LV12006) scheduled. All employee records updated for Code of Conduct 2025 rollout.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1914,9 +1733,7 @@ TASKS = [
             ),
             Action(name="GetEmployee", kwargs={"employee_id": "E10005"}),
         ],
-        outputs=[
-            "Dual-role promotion recorded — position POS4002, compensation COMP8017, leave LV8018 and review PR8017 are now linked to Olivia Martinez's file.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1932,9 +1749,7 @@ TASKS = [
             Action(name="UpdateEmployee", kwargs={"employee_id": "E10005", "updates": {"performance_review_ids": ["PR15002", "PR15003"]}}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10005"}),
         ],
-        outputs=[
-            "Mentorship between Isabella Chen and Olivia Martinez documented with reviews PR15002 and PR15003; records updated.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2000,9 +1815,7 @@ TASKS = [
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10001"}),
         ],
-        outputs=[
-            "Executive bonus COMP10009, review PR10009 and retreat leave LV10009 added for Isabella Chen; profile and comp history returned.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2017,9 +1830,7 @@ TASKS = [
             Action(name="UpdateEmployee", kwargs={"employee_id": "E10004", "updates": {"compensation_id": "COMP8018", "performance_review_ids": ["PR5004", "PR5009", "PR8019"], "notes": "Department transfer recorded 2027-11-01."}}),
             Action(name="GetEmployee", kwargs={"employee_id": "E10004"}),
         ],
-        outputs=[
-            "Sales transfer complete — compensation COMP8018, leave LV8020, and review PR8019 linked to Arjun Patel's profile.",
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2057,8 +1868,6 @@ TASKS = [
             Action(name="AddLeaveRecord", kwargs={"leave_record": {"leave_id": "LV14006", "employee_id": "E10006", "leave_type": "Policy Reminder", "start_date": "2026-07-15", "end_date": "2026-07-15", "status": "Scheduled"}}),
             Action(name="UpdateEmployee", kwargs={"employee_id": "E10006", "updates": {"notes": "Remote Work Policy 101 pending acknowledgment."}}),
         ],
-        outputs=[
-            "Remote-Work Policy reminder scheduled — reviews PR14001-PR14006 and leaves LV14001-LV14006 created; notes updated for all flagged employees.",
-        ],
+        outputs=[]
     ),
 ]

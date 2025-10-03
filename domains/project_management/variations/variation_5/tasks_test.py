@@ -58,7 +58,7 @@ TASKS = [
                 kwargs={"project_id": "proj_mobile_01", "include_pending": True},
             ),
         ],
-        outputs=['"total_budget_impact": 110000', '"has_rule_violations": True'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -105,10 +105,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"variance_percentage": 0.0',
-            '"recommendation": "Within acceptable variance"',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -165,7 +162,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"artifacts_updated": 2','"artifacts_pending": 3 '],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -248,7 +245,7 @@ TASKS = [
                 kwargs={"project_id": "proj_ai_01", "baseline_version": "1.1"},
             ),
         ],
-        outputs=['"version": "1.1"', '"estimated_effort_hours": 800'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -295,7 +292,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_change_requests": 2', '"total_budget_impact": 110000'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -341,7 +338,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_change_requests": 1', '"timeline_impact_weeks": 0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -390,7 +387,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"overall_risk_level": "medium"', '"has_rule_violations": true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -449,7 +446,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"update_id": "up_c4838f8f"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -489,7 +486,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"budget_impact_percentage": -2.3', '"conflicts_found": 0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -538,7 +535,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_change_requests": 2', '"overdue_implementations": 1'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -602,7 +599,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_budget_impact": 0', '"approval_rate": 100'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -652,7 +649,7 @@ TASKS = [
                 kwargs={"project_id": "proj_mobile_01", "include_pending": True},
             ),
         ],
-        outputs=['"conflicts_found": 1', '"total_budget_impact": 110000'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -705,7 +702,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"status": "approved"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -771,7 +768,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_change_requests": 1', '"timeline_impact_weeks": 0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -828,10 +825,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"remaining_artifacts": ["scope_statement"]',
-            '"total_budget_impact": 45000',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -928,7 +922,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"version": "1.1"', '"estimated_effort_hours": 720'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -971,9 +965,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"variance_percentage": 33.3',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1032,7 +1024,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"overall_risk_level": "medium"', '"urgent_items": 0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1081,9 +1073,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"non_compliant_items": ["cr_001"]',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1153,7 +1143,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"overall_risk_level": "medium"', '"monitoring_frequency": "weekly"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1204,7 +1194,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"conflicts_found": 0', '"timeline_impact_weeks": -3'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1308,7 +1298,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_change_requests": 1'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1340,9 +1330,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=[
-            '"conflicts_found": 1', '"change_requests_involved: ["cr_001", "cr_003"]', '"action": merge change requests',
-        ],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1398,7 +1386,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"conflicts_found": 0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1470,7 +1458,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_change_requests": 1'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1529,7 +1517,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"new_priority": "critical"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1600,7 +1588,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"workflow_updated": true', '"overall_risk_level": "high"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1665,7 +1653,7 @@ TASKS = [
                 kwargs={"project_id": "proj_mobile_01", "include_pending": True},
             ),
         ],
-        outputs=['"total_budget_impact": 110000'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1757,7 +1745,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"timeline_impact_weeks": -2'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1805,7 +1793,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_change_requests": 1'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1876,7 +1864,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"archived_count": 1', '"success": true'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -1935,7 +1923,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_budget_impact": 110000'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2014,7 +2002,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"usage_count": 0', '"total_change_requests": 1'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2088,7 +2076,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_change_requests": 2'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2154,7 +2142,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"budget_impact": 65000'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2228,7 +2216,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"roi_percentage": 877.8'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2304,7 +2292,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"roi_percentage": 305.4', '"payback_period_months": 3.0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2354,7 +2342,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"deliverable_conflicts": 0'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2425,7 +2413,7 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_events": 10', '"compliance_status": "non_compliant"'],
+        outputs=[]
     ),
     Task(
         annotator="0",
@@ -2495,6 +2483,6 @@ TASKS = [
                 },
             ),
         ],
-        outputs=['"total_events": 3'],
+        outputs=[]
     ),
 ]

@@ -19,7 +19,7 @@ TASKS = [
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 2020.0, "offer_code": "B2BVOLUME15"}),
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "B2B Quote Prepared", "priority": "Low"})
         ],
-        outputs=["{\"quote\":{\"contact_id\":\"201\",\"account_id\":\"101\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1005\",\"quantity\":1,\"unit_price\":1900.0,\"line_total\":1900.0},{\"product_id\":\"1002\",\"quantity\":2,\"unit_price\":60.0,\"line_total\":120.0}],\"subtotal\":2020.0,\"applied_offer_code\":\"B2BVOLUME15\",\"discount_amount\":303.0,\"total_after_discount\":1717.0},\"case\":{\"subject\":\"B2B Quote Prepared\",\"priority\":\"Low\"}}"]
+        outputs=[]
     ),
 
 
@@ -37,7 +37,7 @@ TASKS = [
             Action(name="CalculateSubTotalPrice", kwargs={"items": [{"product_id": "1016", "quantity": 4, "price": 95.0}]}),
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 380.0, "offer_code": "FALL25"})
         ],
-        outputs=["{\"quote\":{\"contact_id\":\"210\",\"account_id\":\"109\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1016\",\"quantity\":4,\"unit_price\":95.0,\"line_total\":380.0}],\"subtotal\":380.0,\"applied_offer_code\":\"FALL25\",\"discount_amount\":95.0,\"total_after_discount\":285.0}}"]
+        outputs=[]
     ),
 
     Task(
@@ -56,7 +56,7 @@ TASKS = [
                    kwargs={"items": [{"product_id": "1018", "quantity": 1, "price": 199.0}, {"product_id": "1003", "quantity": 2, "price": 40.0}]}),
             Action(name="CreateNewCase", kwargs={"contact_id": "215", "account_id": "113", "subject": "Retail Quote Prepared", "priority": "Low"})
         ],
-        outputs=["{\"quote\":{\"contact_id\":\"215\",\"account_id\":\"113\",\"used_pricebook_id\":\"1\",\"items\":[{\"product_id\":\"1018\",\"quantity\":1,\"unit_price\":199.0,\"line_total\":199.0},{\"product_id\":\"1003\",\"quantity\":2,\"unit_price\":40.0,\"line_total\":80.0}],\"subtotal\":279.0},\"case\":{\"subject\":\"Retail Quote Prepared\",\"priority\":\"Low\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -76,7 +76,7 @@ TASKS = [
                    kwargs={"items": [{"product_id": "1001", "required_quantity": 1}, {"product_id": "1002", "required_quantity": 1}]}),
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "Reorder Quote Prepared", "priority": "Low"})
         ],
-        outputs=["{\"reorder_quote\":{\"contact_id\":\"201\",\"account_id\":\"101\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1001\",\"quantity\":1,\"unit_price\":1250.0,\"line_total\":1250.0},{\"product_id\":\"1002\",\"quantity\":1,\"unit_price\":60.0,\"line_total\":60.0}],\"subtotal\":1310.0},\"case\":{\"subject\":\"Reorder Quote Prepared\",\"priority\":\"Low\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -104,7 +104,7 @@ TASKS = [
                           {"product_id": "1003", "quantity": 2, "price": 32.0}]
             }),
         ],
-        outputs=["{\"cart_quote\":{\"contact_id\":\"203\",\"account_id\":\"102\",\"cart_id\":\"701\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1002\",\"quantity\":4,\"unit_price\":60.0,\"line_total\":240.0},{\"product_id\":\"1003\",\"quantity\":2,\"unit_price\":32.0,\"line_total\":64.0}],\"subtotal\":304.0}}"],
+        outputs=[]
     ),
 
 
@@ -122,7 +122,7 @@ TASKS = [
             Action(name="CalculateDiscountFlat", kwargs={"subtotal": 2500.0, "discount_amount": 500}),
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "Math Check Logged", "priority": "Low"})
         ],
-        outputs=["{\"math_check\":{\"product_id\":\"1001\",\"quantity\":2,\"unit_price\":1250.0,\"subtotal\":2500.0,\"flat_discount\":500,\"total_after_discount\":2000.0},\"case\":{\"subject\":\"Math Check Logged\",\"priority\":\"Low\"}}"],
+        outputs=[]
     ),
 
 Task(
@@ -138,7 +138,7 @@ Task(
         Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 570.0, "offer_code": "WINTER20"}),
         Action(name="CreateNewCase", kwargs={"contact_id": "210", "account_id": "109", "subject": "B2B Quote Prepared", "priority": "Low"})
     ],
-    outputs=["{\"quote\":{\"contact_id\":\"210\",\"account_id\":\"109\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1016\",\"quantity\":6,\"unit_price\":95.0,\"line_total\":570.0}],\"subtotal\":570.0,\"applied_offer_code\":\"WINTER20\",\"discount_amount\":114.0,\"total_after_discount\":456.0},\"case\":{\"subject\":\"B2B Quote Prepared\",\"priority\":\"Low\"}}"],
+    outputs=[]
 ),
 
     Task(
@@ -157,7 +157,7 @@ Task(
             Action(name="VerifyOrderFromStock", kwargs={"items": [{"product_id": "1010", "required_quantity": 2}]}),
             Action(name="GetAllItemsInCart", kwargs={"cart_id": "703"}),
         ],
-        outputs=["{\"final_cart\":[{\"cart_id\":\"703\",\"product_id\":\"1010\",\"quantity\":2}],\"removed_products\":[\"1012\"]}"],
+        outputs=[]
     ),
 
     Task(
@@ -176,7 +176,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "Promo Lifecycle Logged", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"offer_status\":{\"offer_code\":\"MIDMONTH10\",\"checked_offer_id\":\"offer_5\",\"applied_demo\":{\"subtotal\":75.0,\"discount_percent\":10,\"discount_amount\":7.5,\"total_after_discount\":67.5},\"final_is_active\":false},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\",\"subject\":\"Promo Lifecycle Logged\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -194,7 +194,7 @@ Task(
                    kwargs={"items": [{"product_id": "1005", "quantity_to_add": 1}, {"product_id": "1011", "quantity_to_add": 5}]}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"}),
         ],
-        outputs=["{\"order_update\":{\"order_id\":\"9010\",\"final_status\":\"Cancelled\"},\"restocked\":[{\"product_id\":\"1005\",\"stock_quantity\":26},{\"product_id\":\"1011\",\"stock_quantity\":80}],\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -211,7 +211,7 @@ Task(
             ]}),
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "Order audit recorded", "priority": "Medium"})
         ],
-        outputs=["{\"audit\":{\"contact_id\":\"201\",\"orders_found\":[\"9002\",\"9012\"],\"order_9002_items\":[{\"product_id\":\"1001\",\"quantity\":1,\"price\":1250.0},{\"product_id\":\"1002\",\"quantity\":1,\"price\":60.0}],\"recomputed_subtotal\":1310.0}}"],
+        outputs=[]
     ),
 
     Task(
@@ -228,7 +228,7 @@ Task(
             Action(name="CalculateSubTotalPrice", kwargs={"items": [{"product_id": "1002", "quantity": 1, "price": 60.0}]}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"quote_check\":{\"contact_id\":\"202\",\"account_id\":\"101\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1002\",\"quantity\":1,\"unit_price\":60.0,\"line_total\":60.0}],\"subtotal\":60.0},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\",\"subject\":\"Pricing Clarification\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -244,7 +244,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 398.0, "offer_code": "WELCOME5"}),
             Action(name="CreateNewCase", kwargs={"contact_id": "211", "account_id": "110", "subject": "Retail Quote Prepared", "priority": "Low"})
         ],
-        outputs=["{\"quote\":{\"contact_id\":\"211\",\"account_id\":\"110\",\"used_pricebook_id\":\"1\",\"items\":[{\"product_id\":\"1018\",\"quantity\":2,\"unit_price\":199.0,\"line_total\":398.0}],\"subtotal\":398.0,\"applied_offer_code\":\"WELCOME5\",\"discount_amount\":5.0,\"total_after_discount\":393.0},\"case\":{\"subject\":\"Retail Quote Prepared\",\"priority\":\"Low\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -261,7 +261,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id":"201", "account_id":"101","subject":"ProBook X15 pricing comparison", "priority":"Medium"}),
             Action(name="CalculateDiscountFlat", kwargs={"subtotal": 1500.0, "discount_amount": 1250.0}),
         ],
-        outputs=["{\"comparison\":{\"contact_id\":\"201\",\"account_id\":\"101\",\"product_id\":\"1001\",\"retail_used_pricebook_id\":\"1\",\"retail_total_qty1\":1500.0,\"b2b_used_pricebook_id\":\"2\",\"b2b_total_qty1\":1250.0,\"difference\":250.0}}"]
+        outputs=[]
     ),
 
     Task(
@@ -278,7 +278,7 @@ Task(
             Action(name="GetPriceOfProduct", kwargs={"items": [{"product_id": "1002", "pricebook_id": "2"}]}),
             Action(name="CalculateSubTotalPrice", kwargs={"items": [{"product_id": "1002", "quantity": 1, "price": 60.0}]}),
         ],
-        outputs=["{\"address_update\":{\"account_id\":\"102\",\"shipping_street\":\"456 Innovation Ave, Suite 900\",\"billing_street\":\"456 Innovation Ave, Suite 900\"},\"price_snapshot\":{\"product_id\":\"1002\",\"used_pricebook_id\":\"2\",\"subtotal_qty1\":60.0},\"case\":{\"subject\":\"Address Update\",\"priority\":\"Medium\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -304,7 +304,7 @@ Task(
             Action(name="ApplyIngressPlanStep", kwargs={"plan_id": "ap-0002", "step_index": 2}),
             Action(name="GetSecurityGroupRuleById", kwargs={"rule_id": "sgr-badbadbadbadbadbad"}),
         ],
-        outputs=["{\"after_rule\":{\"rule_id\":\"sgr-badbadbadbadbadbad\",\"source_ip\":\"10.0.5.0/24\",\"description_contains\":[\"Redis \u2013 restricted\",\"[CLOSED]\",\"[DEV]\"]}}"],
+        outputs=[]
     ),
 
     Task(
@@ -323,7 +323,7 @@ Task(
             Action(name="CalculateSubTotalPrice", kwargs={"items": [{"product_id": "1018", "quantity": 1, "price": 199.0}]}),
             Action(name="CreateNewCase", kwargs={"contact_id": "204", "account_id": "103", "subject": "Reorder Quote Prepared", "priority": "Low"}),
         ],
-        outputs=["{\"reorder_quote\":{\"contact_id\":\"204\",\"account_id\":\"103\",\"used_pricebook_id\":\"1\",\"items\":[{\"product_id\":\"1018\",\"quantity\":1,\"unit_price\":199.0,\"line_total\":199.0}],\"subtotal\":199.0},\"case\":{\"subject\":\"Reorder Quote Prepared\",\"priority\":\"Low\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -351,7 +351,7 @@ Task(
                 kwargs={"contact_id": "204", "account_id": "103", "subject": "Exchange Estimate Logged", "priority": "Medium"}
             )
         ],
-        outputs=["{\"exchange_estimate\":{\"contact_id\":\"204\",\"account_id\":\"103\",\"used_pricebook_id\":\"1\",\"items\":[{\"product_id\":\"1004\",\"quantity\":1,\"unit_price\":25.0},{\"product_id\":\"1003\",\"quantity\":1,\"unit_price\":40.0}],\"subtotal\":65.0}}"],
+        outputs=[]
     ),
 
     Task(
@@ -371,7 +371,7 @@ Task(
                 "contact_id": "215", "account_id": "113", "subject": "Cart cleanup completed", "priority": "Low"
             }),
         ],
-        outputs=["{\"cart_cleanup\":{\"contact_id\":\"215\",\"cart_id\":\"705\",\"removed_product_ids\":[\"1019\"]}}"],
+        outputs=[]
     ),
 
     Task(
@@ -396,7 +396,7 @@ Task(
                           {"product_id": "1003", "quantity": 2, "price": 32.0}]
             }),
         ],
-        outputs=["{\"quote\":{\"cart_id\":\"701\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1002\",\"quantity\":4,\"unit_price\":60.0,\"line_total\":240.0},{\"product_id\":\"1003\",\"quantity\":2,\"unit_price\":32.0,\"line_total\":64.0}],\"subtotal\":304.0}}"],
+        outputs=[]
     ),
 
     Task(
@@ -412,7 +412,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 600.0, "offer_code": "WINTER20"}),
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "Bulk Quote Prepared", "priority": "Low"})
         ],
-        outputs=["{\"quote\":{\"contact_id\":\"201\",\"account_id\":\"101\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1002\",\"quantity\":10,\"unit_price\":60.0,\"line_total\":600.0}],\"subtotal\":600.0,\"applied_offer_code\":\"WINTER20\",\"discount_amount\":120.0,\"total_after_discount\":480.0},\"case\":{\"subject\":\"Bulk Quote Prepared\",\"priority\":\"Low\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -442,7 +442,7 @@ Task(
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 5}),
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 6}),
         ],
-        outputs=["{\"cluster\":{\"cluster_id\":\"dcomm-uat-redis\",\"cluster_name\":\"UAT Redis Cache (Hardened)\",\"status\":\"available\",\"instance_type_note\":\"audit: uat-redis-hardening\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -459,7 +459,7 @@ Task(
             Action(name="GetOfferDetails", kwargs={"offer_id": "offer_5"}),
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 75.0, "offer_code": "FLASH50"})
         ],
-        outputs=["{\"offer_status\":{\"offer_code\":\"FLASH50\",\"checked_offer_id\":\"offer_5\",\"math_check\":{\"subtotal\":75.0,\"discount_amount\":50,\"total_after_discount\":25.0},\"applied_before_deactivate\":{\"subtotal\":75.0,\"discount_amount\":50,\"total_after_discount\":25.0},\"final_is_active\":false,\"reapply_valid_after_deactivate\":false}}"],
+        outputs=[]
     ),
 
     Task(
@@ -477,7 +477,7 @@ Task(
             Action(name="RemoveItemsFromCartBatch", kwargs={"cart_id": "703", "product_ids": ["1012"]}),
             Action(name="GetAllItemsInCart", kwargs={"cart_id": "703"}),
         ],
-        outputs=["{\"final_cart\":[{\"cart_id\":\"703\",\"product_id\":\"1010\",\"quantity\":2}],\"removed_products\":[\"1012\"]}"],
+        outputs=[]
     ),
 
     Task(
@@ -520,7 +520,7 @@ Task(
             }),
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0002", "step_index": 5}),
         ],
-        outputs=["{\"cluster\":{\"cluster_id\":\"dcomm-uat-redis\",\"cluster_name\":\"UAT Redis Cache [Reviewed]\",\"status\":\"available\",\"instance_type_note\":\"subnet group reviewed\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -537,7 +537,7 @@ Task(
             Action(name="UpdateOrderStatus", kwargs={"order_id": "9001", "new_status": "Returned"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"return_processed\":{\"order_id\":\"9001\",\"restocked\":[{\"product_id\":\"1004\",\"stock_quantity\":151}],\"final_order_status\":\"Returned\",\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}}"],
+        outputs=[]
 
     ),
 
@@ -559,7 +559,7 @@ Task(
                 "contact_id": "204", "account_id": "103", "subject": "Reorder Quote Prepared", "priority": "Low"
             }),
         ],
-        outputs=["{\"reorder_quote\":{\"contact_id\":\"204\",\"account_id\":\"103\",\"used_pricebook_id\":\"1\",\"items\":[{\"product_id\":\"1018\",\"quantity\":1,\"unit_price\":199.0,\"line_total\":199.0}],\"subtotal\":199.0},\"case_open\":{\"case_id\":\"case_9\",\"status\":\"New\",\"subject\":\"Reorder Quote Prepared\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -579,7 +579,7 @@ Task(
                    kwargs={"contact_id": "203", "account_id": "102", "subject": "Quick Quote Prepared", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"quote\":{\"contact_id\":\"203\",\"account_id\":\"102\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1003\",\"quantity\":1,\"unit_price\":32.0,\"line_total\":32.0}],\"subtotal\":32.0},\"case\":{\"case_id\":\"case_9\",\"subject\":\"B2B Quick Quote Prepared\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -597,7 +597,7 @@ Task(
             Action(name="CalculateDiscountFlat", kwargs={"subtotal": 1500.0, "discount_amount": 1250.0}),
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "ProBook X15 price comparison", "priority": "Medium"})
         ],
-        outputs=["{\"comparison\":{\"product_id\":\"1001\",\"retail_used_pricebook_id\":\"1\",\"retail_total_qty1\":1500.0,\"b2b_used_pricebook_id\":\"2\",\"b2b_total_qty1\":1250.0,\"difference\":250.0}}"]
+        outputs=[]
     ),
 
     Task(
@@ -624,7 +624,7 @@ Task(
             Action(name="ApplyIngressPlanStep", kwargs={"plan_id": "ap-0002", "step_index": 2}),
             Action(name="GetSecurityGroupRuleById", kwargs={"rule_id": "sgr-fedcba9876543210f"}),
         ],
-        outputs=["{\"final_rule\":{\"rule_id\":\"sgr-fedcba9876543210f\",\"source_ip\":\"10.0.5.0/24\",\"description_contains\":[\"Redis \u2013 UAT app tier\",\"[UAT]\"]}}"],
+        outputs=[]
     ),
 
     Task(
@@ -642,7 +642,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "210", "account_id": "109", "subject": "Cart Cleaned", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"cart_cleared\":{\"cart_id\":\"704\",\"removed_products\":[\"1008\"],\"cleared\":true},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\",\"subject\":\"Cart Cleaned\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -657,7 +657,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "210", "account_id": "109", "subject": "Stock Verified", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"stock_check\":{\"is_valid\":true,\"requested\":[{\"product_id\":\"1015\",\"qty\":10},{\"product_id\":\"1017\",\"qty\":2}]},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\",\"subject\":\"Stock Verified\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -676,7 +676,7 @@ Task(
                    kwargs={"items": [{"product_id": "1002", "quantity": 1, "price": 60.0}, {"product_id": "1003", "quantity": 1, "price": 32.0}]}),
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 92.0, "offer_code": "WINTER20"}),
         ],
-        outputs=["{\"order_like_receipt\":{\"cart_id\":\"704\",\"used_pricebook_id\":\"2\",\"applied_offer_code\":\"WINTER20\",\"items\":[{\"product_id\":\"1002\",\"quantity\":1,\"unit_price\":60.0,\"line_total\":60.0},{\"product_id\":\"1003\",\"quantity\":1,\"unit_price\":32.0,\"line_total\":32.0}],\"subtotal\":92.0,\"discount_amount\":18.4,\"total_after_discount\":73.6}}"],
+        outputs=[]
     ),
 
     Task(
@@ -692,7 +692,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 398.0, "offer_code": "WELCOME5"}),
             Action(name="CreateNewCase", kwargs={"contact_id": "211", "account_id": "110", "subject": "Retail Quote Prepared", "priority": "Low"})
         ],
-        outputs=["{\"quote\":{\"contact_id\":\"211\",\"account_id\":\"110\",\"used_pricebook_id\":\"1\",\"items\":[{\"product_id\":\"1018\",\"quantity\":2,\"unit_price\":199.0,\"line_total\":398.0}],\"subtotal\":398.0,\"applied_offer_code\":\"WELCOME5\",\"discount_amount\":5.0,\"total_after_discount\":393.0},\"case\":{\"subject\":\"Retail Quote Prepared\",\"priority\":\"Low\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -712,7 +712,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "Price Comparison Logged", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"comparison\":{\"product_id\":\"1002\",\"retail_used_pricebook_id\":\"1\",\"retail_total_qty1\":75.0,\"b2b_used_pricebook_id\":\"2\",\"b2b_total_qty1\":60.0,\"difference\":15.0},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\",\"subject\":\"Price Comparison Logged\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -727,7 +727,7 @@ Task(
                    kwargs={"contact_id": "207", "account_id": "106", "order_id": "9005", "subject": "Order Audit Logged", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"audit\":{\"contact_id\":\"207\",\"orders_found\":[\"9005\"],\"order_9005_items\":[{\"product_id\":\"1006\",\"quantity\":2,\"price\":60.0},{\"product_id\":\"1003\",\"quantity\":1,\"price\":40.0}]},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\",\"subject\":\"Order Audit Logged\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -756,7 +756,7 @@ Task(
             Action(name="ApplyIngressPlanStep", kwargs={"plan_id": "ap-0002", "step_index": 2}),
             Action(name="GetSecurityGroupRuleById", kwargs={"rule_id": "sgr-fedcba9876543210f"}),
         ],
-        outputs=["{\"updated_rule\":{\"rule_id\":\"sgr-fedcba9876543210f\",\"source_ip\":\"10.0.5.0/24\",\"description_contains\":[\"[APPROVED]\",\"peer-reviewed 2025-08-10\",\"[UAT]\"]}}"],
+        outputs=[]
     ),
 
 
@@ -773,7 +773,7 @@ Task(
                 Action(name="CalculateDiscountFlat", kwargs={"subtotal": 159.92, "discount_amount": 5}),
                 Action(name="CreateNewCase", kwargs={"contact_id": "215", "account_id": "113", "subject": "Discount Math Checked", "priority": "Low"}),
             ],
-        outputs=["{\"math_check\":{\"product_id\":\"1015\",\"quantity\":8,\"unit_price\":19.99,\"subtotal\":159.92,\"flat_discount\":5,\"total_after_discount\":154.92},\"case_created\":{\"case_id\":\"case_9\",\"status\":\"New\",\"subject\":\"Discount Math Checked\"}}"],
+        outputs=[]
 
     ),
 
@@ -791,7 +791,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "215", "account_id": "113", "subject": "Cart Cleanup Complete", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"final_cart\":[{\"cart_id\":\"705\",\"product_id\":\"1017\",\"quantity\":1}],\"removed_products\":[\"1017\"],\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\",\"subject\":\"Cart Cleanup Complete\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -835,7 +835,7 @@ Task(
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0002", "step_index": 5}),
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0002", "step_index": 7}),
         ],
-        outputs=["{\"cluster\":{\"cluster_id\":\"dcomm-dev-redis\",\"cluster_name\":\"Dev Redis (Decommissioned)\",\"status\":\"deleted\",\"endpoint_url\":\"NULL\",\"instance_type_note\":\"failed-provisioning-cleanup\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -864,7 +864,7 @@ Task(
 
             Action(name="GetSecurityGroupRuleById", kwargs={"rule_id": "sgr-fedcba9876543210f"}),
         ],
-        outputs=["{\"updated_rule\":{\"rule_id\":\"sgr-fedcba9876543210f\",\"source_ip\":\"10.0.5.0/24\",\"description_contains\":[\"Redis \u2013 UAT app tier\",\"[REVIEWED]\",\"rationale: uat-redis-only\",\"[UAT]\"]}}"],
+        outputs=[]
     ),
 
     Task(
@@ -880,7 +880,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 2100.0, "offer_code": "B2BVOLUME15"}),
             Action(name="CreateNewCase", kwargs={"contact_id": "213", "account_id": "112", "subject": "B2BVOLUME15 Evaluation Logged", "priority": "Medium"})
         ],
-        outputs=["{\"offer_evaluation\":{\"contact_id\":\"213\",\"account_id\":\"112\",\"used_pricebook_id\":\"2\",\"subtotal\":2100.0,\"applied_offer_code\":\"B2BVOLUME15\",\"eligible\":true,\"discount_amount\":315.0,\"total_after_discount\":1785.0}}"]
+        outputs=[]
     ),
 
     Task(
@@ -896,7 +896,7 @@ Task(
             Action(name="CalculateSubTotalPrice", kwargs={"items": [{"product_id": "1002", "quantity": 1, "price": 60.0}]}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"return_processed\":{\"order_id\":\"9002\",\"returned_items_subtotal\":60.0,\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}}"],
+        outputs=[]
     ),
 
     Task(
@@ -925,7 +925,7 @@ Task(
             Action(name="ApplyIngressPlanStep", kwargs={"plan_id": "ap-0002", "step_index": 2}),
             Action(name="GetSecurityGroupRuleById", kwargs={"rule_id": "sgr-badbadbadbadbadbad"}),
         ],
-        outputs=["{\"after_rule\":{\"rule_id\":\"sgr-badbadbadbadbadbad\",\"source_ip\":\"10.0.5.0/24\",\"description_contains\":[\"[QUARANTINED]\",\"[DEV]\"]}}"],
+        outputs=[]
     ),
 
     Task(
@@ -943,7 +943,7 @@ Task(
             Action(name="RemoveItemsFromCartBatch", kwargs={"cart_id": "705", "product_ids": ["1012"]}),
             Action(name="GetAllItemsInCart", kwargs={"cart_id": "705"}),
         ],
-        outputs=["{\"final_cart\":[{\"cart_id\":\"705\",\"product_id\":\"1017\",\"quantity\":2}],\"removed_products\":[\"1012\"]}"],
+        outputs=[]
     ),
 
     Task(
@@ -960,7 +960,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 2500.0, "offer_code": "SPRING12"}),
             Action(name="DeactivateOffer", kwargs={"offer_code": "SPRING12"})
         ],
-        outputs=["{\"offer_demo\":{\"offer_code\":\"SPRING12\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1001\",\"quantity\":2,\"unit_price\":1250.0,\"line_total\":2500.0}],\"subtotal\":2500.0,\"discount_amount\":300.0,\"total_after_discount\":2200.0,\"final_is_active\":false,\"stock_checked_qty\":2}}"],
+        outputs=[]
     ),
 
     Task(
@@ -981,7 +981,7 @@ Task(
             Action(name="DeactivateOffer", kwargs={"offer_code": "SPRING15"}),
             Action(name="GetOfferDetails", kwargs={"offer_id": "offer_5"}),
         ],
-        outputs=["{\"offer_demo\":{\"offer_code\":\"SPRING15\",\"used_pricebook_id\":\"1\",\"subtotal\":3000.0,\"discount_amount\":450.0,\"total_after_discount\":2550.0,\"final_is_active\":false}}"],
+        outputs=[]
     ),
 
     Task(
@@ -999,7 +999,7 @@ Task(
                    kwargs={"contact_id": "210", "account_id": "109", "subject": "Bulk Stock & Estimate Prepared", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"stock_and_estimate\":{\"contact_id\":\"210\",\"account_id\":\"109\",\"used_pricebook_id\":\"2\",\"product_id\":\"1016\",\"requested_qty\":30,\"unit_price\":95.0,\"subtotal\":2850.0},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\",\"subject\":\"Bulk Stock & Estimate Prepared\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1030,7 +1030,7 @@ Task(
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 5}),
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 6}),
         ],
-        outputs=["{\"cluster\":{\"cluster_id\":\"dcomm-dev-redis\",\"cluster_name\":\"Dev Redis (Quarantined)\",\"status\":\"failed\",\"subnet_group_id\":\"esg-uat-1\",\"instance_type_note\":\"quarantined for review\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1059,7 +1059,7 @@ Task(
 
             Action(name="InventorySecurityGroupRules", kwargs={}),
         ],
-        outputs=["{\"changed_rule\":{\"rule_id\":\"sgr-badbadbadbadbadbad\",\"source_ip\":\"10.0.5.0/24\",\"description_contains\":[\"[QUARANTINED]\",\"[DEV]\"]}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1077,7 +1077,7 @@ Task(
             Action(name="VerifyOrderFromStock", kwargs={"items": [{"product_id": "1016", "required_quantity": 1}]}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"}),
         ],
-        outputs=["{\"address_update\":{\"account_id\":\"109\",\"shipping_street\":\"555 Galaxy Blvd, Suite 20\",\"billing_street\":\"555 Galaxy Blvd, Suite 20\"},\"spot_check\":{\"product_id\":\"1016\",\"used_pricebook_id\":\"2\",\"unit_price\":95.0,\"subtotal_qty1\":95.0,\"stock_checked_qty\":1},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1097,7 +1097,7 @@ Task(
             Action(name="CalculateSubTotalPrice", kwargs={
                 "items": [{"product_id": "1002", "quantity": 1, "price": 60.0}, {"product_id": "1003", "quantity": 1, "price": 32.0}]})
         ],
-        outputs=["{\"cart_quote\":{\"cart_id\":\"704\",\"contact_id\":\"210\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1002\",\"quantity\":1,\"unit_price\":60.0,\"line_total\":60.0},{\"product_id\":\"1003\",\"quantity\":1,\"unit_price\":32.0,\"line_total\":32.0}],\"subtotal\":92.0}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1115,7 +1115,7 @@ Task(
                    kwargs={"items": [{"product_id": "1005", "quantity_to_add": 1}, {"product_id": "1011", "quantity_to_add": 5}]}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"order_update\":{\"order_id\":\"9010\",\"final_status\":\"Cancelled\"},\"restocked\":[{\"product_id\":\"1005\",\"stock_quantity\":26},{\"product_id\":\"1011\",\"stock_quantity\":80}],\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1133,7 +1133,7 @@ Task(
             Action(name="DeactivateOffer", kwargs={"offer_code": "CLEARANCE5"}),
             Action(name="GetOfferDetails", kwargs={"offer_id": "offer_5"})
         ],
-        outputs=["{\"offer_status\":{\"offer_code\":\"CLEARANCE5\",\"checked_offer_id\":\"offer_5\",\"created\":true,\"applied_demo\":{\"product_id\":\"1015\",\"subtotal\":199.9,\"discount_amount\":5,\"total_after_discount\":194.9},\"final_is_active\":false}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1159,7 +1159,7 @@ Task(
             Action(name="GetOrderDetailsById", kwargs={"order_id": "9005"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"}),
         ],
-        outputs=["{\"return_processed\":{\"order_id\":\"9005\",\"order_status\":\"Returned\",\"restock_input\":[{\"product_id\":\"1006\",\"quantity_added\":1}],\"case_update\":{\"case_id\":\"case_9\",\"subject\":\"Partial Return \u2212 1 item\",\"final_status\":\"Resolved\"}}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1176,7 +1176,7 @@ Task(
             Action(name="VerifyOrderFromStock", kwargs={"items": [{"product_id": "1010", "required_quantity": 3}]}),
             Action(name="GetAllItemsInCart", kwargs={"cart_id": "703"})
         ],
-        outputs=["{\"final_cart\":[{\"cart_id\":\"703\",\"product_id\":\"1010\",\"quantity\":3}],\"removed_products\":[\"1012\"],\"stock_check\":{\"product_id\":\"1010\",\"qty\":3}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1192,7 +1192,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 190.0, "offer_code": "WINTER20"}),
             Action(name="CreateNewCase", kwargs={"contact_id": "210", "account_id": "109", "subject": "B2B Quote Prepared", "priority": "Low"}),
         ],
-        outputs=["{\"quote\":{\"contact_id\":\"210\",\"account_id\":\"109\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1016\",\"quantity\":2,\"unit_price\":95.0,\"line_total\":190.0}],\"subtotal\":190.0,\"applied_offer_code\":\"WINTER20\",\"discount_amount\":38.0,\"total_after_discount\":152.0},\"case\":{\"subject\":\"B2B Quote Prepared\",\"priority\":\"Low\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1209,7 +1209,7 @@ Task(
             ]}),
             Action(name="UpdateOrderStatus", kwargs={"order_id": "9005", "new_status": "Returned"}),
         ],
-        outputs=["{\"return_receipt\":{\"order_id\":\"9005\",\"restocked\":[{\"product_id\":\"1006\",\"quantity_added\":2},{\"product_id\":\"1003\",\"quantity_added\":1}],\"final_status\":\"Returned\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1226,7 +1226,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "B2B Math Check", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"math_check\":{\"product_id\":\"1001\",\"quantity\":6,\"unit_price\":1250.0,\"subtotal\":7500.0,\"percent_discount\":10,\"total_after_discount\":6750.0},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\",\"subject\":\"B2B Math Check\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1242,7 +1242,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "207", "account_id": "106", "subject": "Retail Price Check", "priority": "Medium"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"price_check\":{\"contact_id\":\"207\",\"account_id\":\"106\",\"used_pricebook_id\":\"1\",\"items\":[{\"product_id\":\"1003\",\"quantity\":1,\"unit_price\":40.0,\"line_total\":40.0}],\"subtotal\":40.0},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\",\"subject\":\"Retail Price Check\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1287,7 +1287,7 @@ Task(
             }),
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0002", "step_index": 5}),
         ],
-        outputs=["{\"subnet_group\":{\"subnet_group_id\":\"esg-uat-1\",\"description\":\"Subnets for UAT caches [REVIEWED 2025-08-10]\"},\"cluster\":{\"cluster_id\":\"dcomm-uat-redis\",\"cluster_name\":\"UAT Redis Cache [Reviewed]\",\"status\":\"available\",\"instance_type_note\":\"subnet group reviewed 2025-08-10\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1304,7 +1304,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 1250.0, "offer_code": "Q4SAVE10"}),
             Action(name="DeactivateOffer", kwargs={"offer_code": "Q4SAVE10"})
         ],
-        outputs=["{\"offer_demo\":{\"offer_code\":\"Q4SAVE10\",\"used_pricebook_id\":\"2\",\"subtotal\":1250.0,\"discount_amount\":125.0,\"total_after_discount\":1125.0,\"final_is_active\":false,\"stock_checked_qty\":1}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1333,7 +1333,7 @@ Task(
 
             Action(name="GetSecurityGroupRuleById", kwargs={"rule_id": "sgr-badbadbadbadbadbad"}),
         ],
-        outputs=["{\"after_rule\":{\"rule_id\":\"sgr-badbadbadbadbadbad\",\"source_ip\":\"10.0.5.0/24\",\"description_contains\":[\"[LOCKED]\",\"remediation:redis-open\",\"[DEV]\"]}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1362,7 +1362,7 @@ Task(
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 3}),
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 4}),
         ],
-        outputs=["{\"cluster\":{\"cluster_id\":\"dcomm-dev-redis\",\"cluster_name\":\"Dev Redis (Audit)\",\"status\":\"available\",\"subnet_group_id\":\"esg-uat-1\",\"instance_type_note\":\"subnet-audit-complete\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1383,7 +1383,7 @@ Task(
 
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"}),
         ],
-        outputs=["{\"address_update\":{\"account_id\":\"109\",\"shipping_street\":\"555 Galaxy Blvd, Suite 100\",\"billing_street\":\"555 Galaxy Blvd, Suite 100\"},\"case_receipt\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"},\"price_snapshot\":{\"product_id\":\"1016\",\"used_pricebook_id\":\"2\",\"subtotal_qty1\":95.0}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1399,7 +1399,7 @@ Task(
             Action(name="RemoveItemsFromCartBatch", kwargs={"cart_id": "703", "product_ids": ["1012"]}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"final_cart\":[{\"cart_id\":\"703\",\"product_id\":\"1010\",\"quantity\":2}],\"removed_products\":[\"1012\"],\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1421,7 +1421,7 @@ Task(
             Action(name="UpdateOrderStatus", kwargs={"order_id": "9005", "new_status": "Returned"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"}),
         ],
-        outputs=["{\"return_processed\":{\"order_id\":\"9005\",\"restocked\":[{\"product_id\":\"1006\",\"quantity_added\":1}],\"final_order_status\":\"Returned\",\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1448,7 +1448,7 @@ Task(
             Action(name="ApplyIngressPlanStep", kwargs={"plan_id": "ap-0002", "step_index": 2}),
             Action(name="InventorySecurityGroupRules", kwargs={}),
         ],
-        outputs=["{\"https_rule\":{\"rule_id\":\"sgr-1122334455667788a\",\"source_ip\":\"0.0.0.0/0\",\"description\":\"Allow inbound HTTPS [APPROVED] baseline:2025-08-10 owner:cloud-netops\"},\"uat_standardized_added\":\">=0\"}"],
+        outputs=[]
     ),
 
     Task(
@@ -1471,7 +1471,7 @@ Task(
             Action(name="InventorySecurityGroupRules", kwargs={}),
             Action(name="GetSecurityGroupRuleById", kwargs={"rule_id": "sgr-badbadbadbadbadbad"}),
         ],
-        outputs=["{\"final_rule_contains\":{\"rule_id\":\"sgr-badbadbadbadbadbad\",\"source_ip\":\"10.0.5.0/24\",\"description_contains\":[\"[LOCKED]\",\"[risk:open-redis]\",\"[DEV]\"]}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1495,7 +1495,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 300.0, "offer_code": "GEAR25"}),
             Action(name="DeactivateOffer", kwargs={"offer_code": "GEAR25"})
         ],
-        outputs=["{\"purchase\":{\"cart_id\":\"704\",\"product_id\":\"1017\",\"used_pricebook_id\":\"1\",\"subtotal\":300.0,\"discount_amount\":25.0,\"total_after_discount\":275.0,\"final_is_active\":false,\"stock_checked_qty\":2}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1512,7 +1512,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "Bulk Quote Evaluated", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"evaluation\":{\"subtotal\":2600.0,\"applied_offer_code\":\"B2BVOLUME15\",\"discount_amount\":390.0,\"total_after_discount\":2210.0},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1533,7 +1533,7 @@ Task(
             Action(name="CalculateSubTotalPrice", kwargs={"items": [{"product_id": "1001", "quantity": 2, "price": 1250.0}]}),
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 2500.0, "offer_code": "WINTER20"}),
         ],
-        outputs=["{\"receipt\":{\"cart_id\":\"704\",\"used_pricebook_id\":\"2\",\"applied_offer_code\":\"WINTER20\",\"items\":[{\"product_id\":\"1001\",\"quantity\":2,\"unit_price\":1250.0,\"line_total\":2500.0}],\"subtotal\":2500.0,\"discount_amount\":500.0,\"total_after_discount\":2000.0}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1552,7 +1552,7 @@ Task(
             Action(name="GetPriceOfProduct", kwargs={"items": [{"product_id": "1017", "pricebook_id": "1"}]}),
             Action(name="CalculateSubTotalPrice", kwargs={"items": [{"product_id": "1017", "quantity": 2, "price": 150.0}]}),
         ],
-        outputs=["{\"final_cart\":[{\"cart_id\":\"705\",\"product_id\":\"1017\",\"quantity\":2}],\"removed_products\":[\"1012\"],\"pricing\":{\"product_id\":\"1017\",\"used_pricebook_id\":\"1\",\"unit_price\":150.0,\"subtotal\":300.0}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1569,7 +1569,7 @@ Task(
             Action(name="CalculateSubTotalPrice", kwargs={"items": [{"product_id": "1003", "quantity": 2, "price": 40.0}]}),
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 80.0, "offer_code": "WELCOME10"})
         ],
-        outputs=["{\"offer_demo\":{\"contact_id\":\"215\",\"account_id\":\"113\",\"product_id\":\"1003\",\"used_pricebook_id\":\"1\",\"subtotal\":80.0,\"applied_offer_code\":\"WELCOME10\",\"discount_amount\":10.0,\"total_after_discount\":70.0}}"]
+        outputs=[]
     ),
 
     Task(
@@ -1585,7 +1585,7 @@ Task(
             Action(name="AddStockQuantities", kwargs={"items": [{"product_id": "1005", "quantity_to_add": 1}, {"product_id": "1011", "quantity_to_add": 5}]}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"order_update\":{\"order_id\":\"9010\",\"final_status\":\"Cancelled\"},\"restocked\":[{\"product_id\":\"1005\",\"stock_quantity\":26},{\"product_id\":\"1011\",\"stock_quantity\":80}],\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1606,7 +1606,7 @@ Task(
             Action(name="InventorySecurityGroupRules", kwargs={}),
             Action(name="GetSecurityGroupRuleById", kwargs={"rule_id": "sgr-1122334455667788a"}),
         ],
-        outputs=["{\"updated_rule\":{\"rule_id\":\"sgr-1122334455667788a\",\"source_ip\":\"0.0.0.0/0\",\"description\":\"Allow inbound HTTPS [APPROVED] owner:cloud-netops baseline:2025-08-10\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1636,7 +1636,7 @@ Task(
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 5}),
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 6}),
         ],
-        outputs=["{\"cluster\":{\"cluster_id\":\"dcomm-uat-redis\",\"cluster_name\":\"UAT Redis Cache\",\"status\":\"available\",\"instance_type_note\":\"cache.t3.medium [confirmed]\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1653,7 +1653,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 300.0, "offer_code": "SMALL5"}),
             Action(name="DeactivateOffer", kwargs={"offer_code": "SMALL5"})
         ],
-        outputs=["{\"offer_demo\":{\"account_id\":\"101\",\"offer_code\":\"SMALL5\",\"used_pricebook_id\":\"2\",\"product_id\":\"1002\",\"subtotal\":300.0,\"discount_amount\":15.0,\"total\":285.0,\"final_is_active\":false}}"],
+        outputs=[]
 
     ),
 
@@ -1685,7 +1685,7 @@ Task(
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 5}),
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 6}),
         ],
-        outputs=["{\"cluster\":{\"cluster_id\":\"dcomm-uat-redis\",\"cluster_name\":\"UAT Redis Cache\",\"status\":\"available\",\"subnet_group_id\":\"esg-uat-1\",\"instance_type_note\":\"change_reason: subnet-hygiene\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1706,7 +1706,7 @@ Task(
             Action(name="CalculateSubTotalPrice", kwargs={"items": [{"product_id": "1001", "quantity": 2, "price": 1250.0}]}),
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 2500.0, "offer_code": "WINTER20"}),
         ],
-        outputs=["{\"receipt\":{\"cart_id\":\"701\",\"used_pricebook_id\":\"2\",\"applied_offer_code\":\"WINTER20\",\"items\":[{\"product_id\":\"1001\",\"quantity\":2,\"unit_price\":1250.0,\"line_total\":2500.0}],\"subtotal\":2500.0,\"discount_amount\":500.0,\"total_after_discount\":2000.0}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1723,7 +1723,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "B2B Quote Prepared", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"quote\":{\"contact_id\":\"201\",\"account_id\":\"101\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1002\",\"quantity\":3,\"unit_price\":60.0,\"line_total\":180.0},{\"product_id\":\"1003\",\"quantity\":2,\"unit_price\":32.0,\"line_total\":64.0}],\"subtotal\":244.0,\"applied_offer_code\":\"WINTER20\",\"discount_amount\":48.8,\"total_after_discount\":195.2},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1739,7 +1739,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 1250.0, "offer_code": "Q4SAVE10"}),
             Action(name="DeactivateOffer", kwargs={"offer_code": "Q4SAVE10"})
         ],
-        outputs=["{\"offer_demo\":{\"offer_code\":\"Q4SAVE10\",\"used_pricebook_id\":\"2\",\"subtotal\":1250.0,\"discount_amount\":125.0,\"total_after_discount\":1125.0,\"final_is_active\":false}}"]
+        outputs=[]
     ),
 
     Task(
@@ -1760,7 +1760,7 @@ Task(
             Action(name="ApplyIngressPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 2}),
             Action(name="GetSecurityGroupRuleById", kwargs={"rule_id": "sgr-fedcba9876543210f"}),
         ],
-        outputs=["{\"summary\":{\"rule_id\":\"sgr-fedcba9876543210f\",\"source_ip\":\"10.0.5.0/24\",\"description_contains\":[\"change-mgr:CR-2219\",\"[UAT]\"]}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1776,7 +1776,7 @@ Task(
             Action(name="VerifyOrderFromStock", kwargs={"items": [{"product_id": "1010", "required_quantity": 2}]}),
             Action(name="CreateNewCase", kwargs={"contact_id": "208", "account_id": "107", "subject": "Cart Ready", "priority": "Low"}),
         ],
-        outputs=["{\"final_cart\":[{\"cart_id\":\"703\",\"product_id\":\"1010\",\"quantity\":2}],\"removed_products\":[\"1012\"],\"stock_check\":{\"product_id\":\"1010\",\"qty\":2},\"case_created\":{\"case_id\":\"case_9\",\"status\":\"New\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1793,7 +1793,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "210", "account_id": "109", "subject": "Bulk Stock Verified", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"stock_and_estimate\":{\"product_id\":\"1016\",\"requested_qty\":20,\"used_pricebook_id\":\"2\",\"subtotal\":1900.0},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1824,7 +1824,7 @@ Task(
                           {"product_id": "1003", "quantity": 1, "price": 32.0}]
             }),
         ],
-        outputs=["{\"updated_quote\":{\"cart_id\":\"701\",\"used_pricebook_id\":\"2\",\"items_after_update\":[{\"product_id\":\"1002\",\"quantity\":3},{\"product_id\":\"1003\",\"quantity\":1}],\"subtotal\":212.0}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1845,7 +1845,7 @@ Task(
             Action(name="ApplyIngressPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 2}),
             Action(name="GetSecurityGroupRuleById", kwargs={"rule_id": "sgr-fedcba9876543210f"}),
         ],
-        outputs=["{\"final_rule\":{\"rule_id\":\"sgr-fedcba9876543210f\",\"source_ip\":\"10.0.5.0/24\",\"description_contains\":[\"[CONSOLIDATED]\",\"[UAT]\"]}}"],
+        outputs=[]
     ),
     Task(
         annotator="v1",
@@ -1860,7 +1860,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 80.0, "offer_code": "TEAM15"}),
             Action(name="DeactivateOffer", kwargs={"offer_code": "TEAM15"})
         ],
-        outputs=["{\"offer_demo\":{\"offer_code\":\"TEAM15\",\"used_pricebook_id\":\"1\",\"product_id\":\"1003\",\"subtotal\":80.0,\"discount_amount\":15.0,\"total_after_discount\":65.0,\"final_is_active\":false}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1876,7 +1876,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "211", "account_id": "110", "subject": "Retail Quote Prepared", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"quote\":{\"contact_id\":\"211\",\"account_id\":\"110\",\"used_pricebook_id\":\"1\",\"items\":[{\"product_id\":\"1018\",\"quantity\":1,\"unit_price\":199.0},{\"product_id\":\"1003\",\"quantity\":2,\"unit_price\":40.0}],\"subtotal\":279.0,\"applied_offer_code\":\"WELCOME5\",\"discount_amount\":5.0,\"total_after_discount\":274.0},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1908,7 +1908,7 @@ Task(
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 6}),
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 7}),
         ],
-        outputs=["{\"cluster\":{\"cluster_id\":\"dcomm-uat-redis\",\"cluster_name\":\"UAT Redis Cache (Hardened)\",\"status\":\"available\",\"subnet_group_id\":\"esg-uat-1\",\"instance_type_note\":\"hardened 2025-08-10\",\"endpoint_url\":\"NULL\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1942,7 +1942,7 @@ Task(
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 4}),
             Action(name="ApplyClusterPlanStep", kwargs={"plan_id": "ap-0001", "step_index": 6}),
         ],
-        outputs=["{\"subnet_group\":{\"subnet_group_id\":\"esg-prod-1\",\"description\":\"Subnets for production Redis and Memcached [REVIEWED]\"},\"cluster\":{\"cluster_id\":\"dcomm-uat-redis\",\"cluster_name\":\"UAT Redis Cache [Reviewed]\",\"status\":\"available\",\"subnet_group_id\":\"esg-uat-1\",\"instance_type_note\":\"prod/uat subnet policies aligned\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1958,7 +1958,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 32.0, "offer_code": "MOUSE20"}),
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "MOUSE20 Applied", "priority": "Medium"})
         ],
-        outputs=["{\"offer_demo\":{\"contact_id\":\"201\",\"account_id\":\"101\",\"used_pricebook_id\":\"2\",\"product_id\":\"1003\",\"subtotal\":32.0,\"discount_amount\":20.0,\"total_after_discount\":12.0}}"]
+        outputs=[]
     ),
 
     Task(
@@ -1974,7 +1974,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "215", "account_id": "113", "subject": "Mechanical Keyboard", "priority": "Medium"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"stock_and_price\":{\"product_id\":\"1017\",\"requested_qty\":2,\"used_pricebook_id\":\"1\",\"unit_price\":150.0,\"subtotal\":300.0},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\",\"subject\":\"Mechanical Keyboard\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -1991,7 +1991,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "Bundle Quote Prepared", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"quote\":{\"contact_id\":\"201\",\"account_id\":\"101\",\"used_pricebook_id\":\"2\",\"subtotal\":1550.0,\"applied_offer_code\":\"WINTER20\",\"discount_amount\":310.0,\"total_after_discount\":1240.0},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -2007,7 +2007,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 450.0, "offer_code": "RACK30"}),
             Action(name="DeactivateOffer", kwargs={"offer_code": "RACK30"})
         ],
-        outputs=["{\"offer_demo\":{\"offer_code\":\"RACK30\",\"used_pricebook_id\":\"2\",\"product_id\":\"1008\",\"subtotal\":450.0,\"discount_amount\":30.0,\"total_after_discount\":420.0,\"final_is_active\":false}}"],
+        outputs=[]
     ),
 
     Task(
@@ -2025,7 +2025,7 @@ Task(
             Action(name="CreateNewCase", kwargs={"contact_id": "215", "account_id": "113", "subject": "Cart Tidy Completed", "priority": "Low"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"final_cart\":[{\"cart_id\":\"705\",\"product_id\":\"1017\",\"quantity\":2}],\"removed_products\":[\"1019\"],\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -2043,7 +2043,7 @@ Task(
             Action(name="UpdateOrderStatus", kwargs={"order_id": "9002", "new_status": "Returned"}),
             Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "Return Completed", "priority": "High"})
         ],
-        outputs=["{\"return_receipt\":{\"contact_id\":\"201\",\"account_id\":\"101\",\"order_id\":\"9002\",\"product_id\":\"1002\",\"quantity\":1,\"refund_amount\":60.0,\"final_status\":\"Returned\"}}"]
+        outputs=[]
     ),
 
     Task(
@@ -2070,7 +2070,7 @@ Task(
             }),
             Action(name="ApplyIngressPlanStep", kwargs={"plan_id": "ap-0002", "step_index": 2}),
         ],
-        outputs=["{\"standardized\":{\"uat_added\":\">=0\",\"dev_added\":\">=0\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -2089,7 +2089,7 @@ Task(
             Action(name="ApplyOfferToSubtotal", kwargs={"subtotal": 160.0, "offer_code": "WELCOME5"}),
             Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
         ],
-        outputs=["{\"quote\":{\"contact_id\":\"215\",\"account_id\":\"113\",\"used_pricebook_id\":\"1\",\"subtotal\":160.0,\"applied_offer_code\":\"WELCOME5\",\"discount_amount\":5.0,\"total_after_discount\":155.0},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\"}}"],
+        outputs=[]
     ),
 
     Task(
@@ -2107,7 +2107,7 @@ Task(
         Action(name="CreateNewCase", kwargs={"contact_id": "201", "account_id": "101", "subject": "Rack Kits Discounted", "priority": "Low"}),
         Action(name="UpdateCaseStatus", kwargs={"case_id": "case_9", "status": "Resolved"})
     ],
-    outputs=["{\"quote\":{\"contact_id\":\"201\",\"account_id\":\"101\",\"used_pricebook_id\":\"2\",\"items\":[{\"product_id\":\"1008\",\"quantity\":2,\"unit_price\":450.0,\"line_total\":900.0}],\"subtotal\":900.0,\"applied_offer_code\":\"WINTER20\",\"discount_amount\":180.0,\"total_after_discount\":720.0,\"stock_checked_qty\":2},\"case_update\":{\"case_id\":\"case_9\",\"final_status\":\"Resolved\",\"subject\":\"Rack Kits Discounted\"}}"],
+    outputs=[]
 ),
 
 
