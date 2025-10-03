@@ -1,5 +1,5 @@
-[
-  {
+{
+  "recovery_001": {
     "plan_id": "recovery_001",
     "milestone_id": "ms_002",
     "milestone_name": "Phase 1 Gate Review",
@@ -33,7 +33,7 @@
     "status": "pending_approval",
     "created_within_48hrs": true
   },
-  {
+  "recovery_002": {
     "plan_id": "recovery_002",
     "milestone_id": "ms_007",
     "milestone_name": "Infrastructure Migration Phase 1",
@@ -66,7 +66,7 @@
     "status": "approved",
     "created_within_48hrs": true
   },
-  {
+  "recovery_003": {
     "plan_id": "recovery_003",
     "milestone_id": "ms_003",
     "milestone_name": "ML Model Training Complete",
@@ -100,7 +100,7 @@
     "status": "in_progress",
     "created_within_48hrs": false
   },
-  {
+  "recovery_004": {
     "plan_id": "recovery_004",
     "milestone_id": "ms_001",
     "milestone_name": "Authentication Module Complete",
@@ -130,4 +130,4 @@
     "status": "completed",
     "created_within_48hrs": true
   }
-]
+}

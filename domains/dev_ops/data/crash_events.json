@@ -1,5 +1,5 @@
-[
-  {
+{
+  "crash_001": {
     "id": "crash_001",
     "crash_fingerprint": "renderer_character_load_access_violation_xyz",
     "issue_signature": "Access violation in GameEngine.dll at 0x00007FF6A1B2C456",
@@ -115,7 +115,7 @@
       "crash_category": "texture_loading"
     }
   },
-  {
+  "crash_002": {
     "id": "crash_002",
     "crash_fingerprint": "renderer_character_load_access_violation_xyz",
     "issue_signature": "Access violation in GameEngine.dll at 0x00007FF6A1B2C456",
@@ -231,7 +231,7 @@
       "crash_category": "texture_loading"
     }
   },
-  {
+  "crash_003": {
     "id": "crash_003",
     "crash_fingerprint": "network_connection_timeout_30s_xyz",
     "issue_signature": "Connection timeout: No response from server for 30 seconds",
@@ -338,7 +338,7 @@
       "crash_category": "network_timeout"
     }
   },
-  {
+  "crash_004": {
     "id": "crash_004",
     "crash_fingerprint": "network_connection_timeout_30s_xyz",
     "issue_signature": "Connection timeout: No response from server for 30 seconds",
@@ -445,7 +445,7 @@
       "crash_category": "network_timeout"
     }
   },
-  {
+  "crash_005": {
     "id": "crash_005",
     "crash_fingerprint": "build_compilation_missing_declaration_xyz",
     "issue_signature": "issue: 'TextureManager::loadTexture' was not declared in this scope",
@@ -530,7 +530,7 @@
       "crash_category": "compilation_issue"
     }
   },
-  {
+  "crash_006": {
     "id": "crash_006",
     "crash_fingerprint": "k8s_resource_allocation_insufficient_memory_xyz",
     "issue_signature": "Kubernetes resource allocation failed: insufficient memory",
@@ -617,7 +617,7 @@
       "crash_category": "resource_allocation"
     }
   },
-  {
+  "crash_007": {
     "id": "crash_007",
     "crash_fingerprint": "asset_validation_texture_size_exceeded_xyz",
     "issue_signature": "Asset validation failed: Texture size 4096x4096 exceeds maximum 2048x2048",
@@ -704,4 +704,4 @@
       "crash_category": "asset_validation"
     }
   }
-]
+}

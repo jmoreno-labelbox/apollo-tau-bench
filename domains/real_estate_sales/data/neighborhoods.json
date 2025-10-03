@@ -1,5 +1,5 @@
-[
-  {
+{
+  "1": {
     "neighborhood_id": 1,
     "name": "Central City",
     "city": "Phoenix",
@@ -10,7 +10,7 @@
       2
     ]
   },
-  {
+  "2": {
     "neighborhood_id": 2,
     "name": "Uptown",
     "city": "Phoenix",
@@ -22,7 +22,7 @@
       3
     ]
   },
-  {
+  "3": {
     "neighborhood_id": 3,
     "name": "Arcadia",
     "city": "Phoenix",
@@ -34,7 +34,7 @@
       4
     ]
   },
-  {
+  "4": {
     "neighborhood_id": 4,
     "name": "The Hills",
     "city": "Phoenix",
@@ -46,7 +46,7 @@
       5
     ]
   },
-  {
+  "5": {
     "neighborhood_id": 5,
     "name": "Desert Ridge",
     "city": "Phoenix",
@@ -58,7 +58,7 @@
       6
     ]
   },
-  {
+  "6": {
     "neighborhood_id": 6,
     "name": "Arts Quarter",
     "city": "Phoenix",
@@ -70,7 +70,7 @@
       7
     ]
   },
-  {
+  "7": {
     "neighborhood_id": 7,
     "name": "East College",
     "city": "Phoenix",
@@ -82,7 +82,7 @@
       8
     ]
   },
-  {
+  "8": {
     "neighborhood_id": 8,
     "name": "Fashion/Metro",
     "city": "Phoenix",
@@ -94,7 +94,7 @@
       9
     ]
   },
-  {
+  "9": {
     "neighborhood_id": 9,
     "name": "SoDo",
     "city": "Phoenix",
@@ -106,7 +106,7 @@
       10
     ]
   },
-  {
+  "10": {
     "neighborhood_id": 10,
     "name": "Pine Grove/Willow Gardens",
     "city": "Phoenix",
@@ -118,7 +118,7 @@
       11
     ]
   },
-  {
+  "11": {
     "neighborhood_id": 11,
     "name": "Autumn Creek",
     "city": "Phoenix",
@@ -130,7 +130,7 @@
       12
     ]
   },
-  {
+  "12": {
     "neighborhood_id": 12,
     "name": "Scottsdale",
     "city": "Phoenix",
@@ -142,7 +142,7 @@
       13
     ]
   },
-  {
+  "13": {
     "neighborhood_id": 13,
     "name": "Chandler",
     "city": "Phoenix",
@@ -154,7 +154,7 @@
       14
     ]
   },
-  {
+  "14": {
     "neighborhood_id": 14,
     "name": "Mesquite",
     "city": "Phoenix",
@@ -166,7 +166,7 @@
       15
     ]
   },
-  {
+  "15": {
     "neighborhood_id": 15,
     "name": "Wheat Veterans",
     "city": "Phoenix",
@@ -177,4 +177,4 @@
       14
     ]
   }
-]
+}

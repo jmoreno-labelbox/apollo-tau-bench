@@ -1,5 +1,5 @@
-[
-  {
+{
+  "forecast_001": {
     "forecast_id": "forecast_001",
     "project_id": "proj_mobile_01",
     "forecast_months": 3,
@@ -32,7 +32,7 @@
     "includes_contingency": true,
     "created_date": "2024-03-15T10:00:00Z"
   },
-  {
+  "forecast_002": {
     "forecast_id": "forecast_002",
     "project_id": "proj_ai_01",
     "forecast_months": 6,
@@ -86,7 +86,7 @@
     "includes_contingency": true,
     "created_date": "2024-03-10T14:00:00Z"
   },
-  {
+  "forecast_003": {
     "forecast_id": "forecast_003",
     "project_id": "proj_enterprise_01",
     "forecast_months": 4,
@@ -126,4 +126,4 @@
     "includes_contingency": false,
     "created_date": "2024-03-05T11:00:00Z"
   }
-]
+}

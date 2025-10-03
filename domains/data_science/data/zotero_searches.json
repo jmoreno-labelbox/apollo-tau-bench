@@ -1,58 +1,93 @@
-[
-  {
+{
+  "coastal flood prediction machine learning deep learning": {
     "query": "coastal flood prediction machine learning deep learning",
     "year_from": 2020,
     "year_to": 2024,
     "limit": 25,
     "result_item_ids": [
-      "zot_001", "zot_002", "zot_003", "zot_004", "zot_005", "zot_006", "zot_007", "zot_008",
-      "zot_009", "zot_010", "zot_011", "zot_012", "zot_013", "zot_014", "zot_015"
+      "zot_001",
+      "zot_002",
+      "zot_003",
+      "zot_004",
+      "zot_005",
+      "zot_006",
+      "zot_007",
+      "zot_008",
+      "zot_009",
+      "zot_010",
+      "zot_011",
+      "zot_012",
+      "zot_013",
+      "zot_014",
+      "zot_015"
     ],
     "saved_path_nullable": "/literature/flood_prediction_ml_search_20240115.json",
     "search_ts": "2024-01-15T14:30:00Z"
   },
-  {
+  "NOAA tide data analysis harmonic analysis": {
     "query": "NOAA tide data analysis harmonic analysis",
     "year_from": 2018,
     "year_to": 2024,
     "limit": 20,
     "result_item_ids": [
-      "zot_011", "zot_012", "zot_013", "zot_014", "zot_015", "zot_016", "zot_017", "zot_018"
+      "zot_011",
+      "zot_012",
+      "zot_013",
+      "zot_014",
+      "zot_015",
+      "zot_016",
+      "zot_017",
+      "zot_018"
     ],
     "saved_path_nullable": "/literature/noaa_tide_analysis_20240201.json",
     "search_ts": "2024-02-01T10:15:00Z"
   },
-  {
+  "logistic regression climate risk assessment statistical methods": {
     "query": "logistic regression climate risk assessment statistical methods",
     "year_from": 2019,
     "year_to": 2024,
     "limit": 15,
     "result_item_ids": [
-      "zot_004", "zot_016", "zot_017", "zot_018", "zot_019", "zot_020"
+      "zot_004",
+      "zot_016",
+      "zot_017",
+      "zot_018",
+      "zot_019",
+      "zot_020"
     ],
     "saved_path_nullable": "/literature/climate_risk_statistical_20240305.json",
     "search_ts": "2024-03-05T09:45:00Z"
   },
-  {
+  "ice formation harbor flood prediction cold weather maritime": {
     "query": "ice formation harbor flood prediction cold weather maritime",
     "year_from": 2015,
     "year_to": 2024,
     "limit": 18,
     "result_item_ids": [
-      "zot_019", "zot_020", "zot_021", "zot_022", "zot_023", "zot_024", "zot_025"
+      "zot_019",
+      "zot_020",
+      "zot_021",
+      "zot_022",
+      "zot_023",
+      "zot_024",
+      "zot_025"
     ],
     "saved_path_nullable": "/literature/ice_harbor_flood_20240301.json",
     "search_ts": "2024-03-01T11:00:00Z"
   },
-  {
+  "Puget Sound wave modeling rainfall storm surge Pacific Northwest": {
     "query": "Puget Sound wave modeling rainfall storm surge Pacific Northwest",
     "year_from": 2018,
     "year_to": 2024,
     "limit": 12,
     "result_item_ids": [
-      "zot_023", "zot_024", "zot_025", "zot_026", "zot_027"
+      "zot_023",
+      "zot_024",
+      "zot_025",
+      "zot_026",
+      "zot_027"
     ],
     "saved_path_nullable": "/literature/puget_sound_waves_20240201.json",
     "search_ts": "2024-02-01T13:15:00Z"
   }
-]
+}

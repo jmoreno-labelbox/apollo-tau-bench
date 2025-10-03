@@ -1,5 +1,5 @@
-[
-  {
+{
+  "ms_arch_001": {
     "milestone_id": "ms_arch_001",
     "project_id": "proj_web_01",
     "milestone_name": "Initial Design Complete",
@@ -16,7 +16,7 @@
     "archived_date": "2024-03-01T00:00:00Z",
     "archive_reason": "routine_cleanup"
   },
-  {
+  "ms_arch_002": {
     "milestone_id": "ms_arch_002",
     "project_id": "proj_banking_01",
     "milestone_name": "Security Framework Setup",
@@ -33,7 +33,7 @@
     "archived_date": "2024-03-15T00:00:00Z",
     "archive_reason": "routine_cleanup"
   },
-  {
+  "ms_arch_003": {
     "milestone_id": "ms_arch_003",
     "project_id": "proj_reporting_01",
     "milestone_name": "Data Model Design",
@@ -50,7 +50,7 @@
     "archived_date": "2024-03-10T00:00:00Z",
     "archive_reason": "routine_cleanup"
   },
-  {
+  "ms_arch_004": {
     "milestone_id": "ms_arch_004",
     "project_id": "proj_platform_02",
     "milestone_name": "Infrastructure Assessment",
@@ -67,7 +67,7 @@
     "archived_date": "2024-03-18T00:00:00Z",
     "archive_reason": "routine_cleanup"
   },
-  {
+  "ms_arch_005": {
     "milestone_id": "ms_arch_005",
     "project_id": "proj_alpha_01",
     "milestone_name": "Alpha Module POC",
@@ -84,4 +84,4 @@
     "archived_date": "2024-03-05T00:00:00Z",
     "archive_reason": "routine_cleanup"
   }
-]
+}

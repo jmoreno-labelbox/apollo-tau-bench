@@ -1,21 +1,5 @@
-[
-  {
-    "user_id": "U301",
-    "course_id": "C1001",
-    "status": "Completed",
-    "start_date": "2024-01-15",
-    "completion_date": "2024-03-15",
-    "skills_gained_upon_completion": [
-      { "skill": "Python (core)", "proficiency_level": "Advanced" },
-      { "skill": "Object-Oriented Design", "proficiency_level": "Intermediate" },
-      { "skill": "AsyncIO & Concurrency", "proficiency_level": "Beginner" },
-      { "skill": "Unit Testing", "proficiency_level": "Beginner" }
-    ],
-    "final_grade": "A",
-    "certification_earned": "Advanced Python Certificate",
-    "mentor_id": "M102"
-  },
-  {
+{
+  "U301": {
     "user_id": "U301",
     "course_id": "C1005",
     "status": "In Progress",
@@ -25,7 +9,7 @@
     "current_progress_percent": 45,
     "mentor_id": "M102"
   },
-  {
+  "U302": {
     "user_id": "U302",
     "course_id": "C1001",
     "status": "Enrolled",
@@ -35,37 +19,55 @@
     "current_progress_percent": 0,
     "mentor_id": null
   },
-  {
+  "U303": {
     "user_id": "U303",
     "course_id": "C1007",
     "status": "Completed",
     "start_date": "2023-09-01",
     "completion_date": "2024-02-01",
     "skills_gained_upon_completion": [
-      { "skill": "Climate Science Fundamentals", "proficiency_level": "Beginner" },
-      { "skill": "Policy Writing", "proficiency_level": "Intermediate" },
-      { "skill": "Regulatory Analysis", "proficiency_level": "Beginner" }
+      {
+        "skill": "Climate Science Fundamentals",
+        "proficiency_level": "Beginner"
+      },
+      {
+        "skill": "Policy Writing",
+        "proficiency_level": "Intermediate"
+      },
+      {
+        "skill": "Regulatory Analysis",
+        "proficiency_level": "Beginner"
+      }
     ],
     "final_grade": "B+",
     "certification_earned": "Climate Science & Policy Certificate",
     "mentor_id": "M102"
   },
-  {
+  "U304": {
     "user_id": "U304",
     "course_id": "C1002",
     "status": "Completed",
     "start_date": "2023-06-01",
     "completion_date": "2023-10-01",
     "skills_gained_upon_completion": [
-      { "skill": "Figma", "proficiency_level": "Beginner" },
-      { "skill": "Design Thinking", "proficiency_level": "Beginner" },
-      { "skill": "User Research", "proficiency_level": "Beginner" }
+      {
+        "skill": "Figma",
+        "proficiency_level": "Beginner"
+      },
+      {
+        "skill": "Design Thinking",
+        "proficiency_level": "Beginner"
+      },
+      {
+        "skill": "User Research",
+        "proficiency_level": "Beginner"
+      }
     ],
     "final_grade": "A-",
     "certification_earned": "UX Design Fundamentals Certificate",
     "mentor_id": "M100"
   },
-  {
+  "U305": {
     "user_id": "U305",
     "course_id": "C1006",
     "status": "In Progress",
@@ -75,37 +77,55 @@
     "current_progress_percent": 60,
     "mentor_id": "M103"
   },
-  {
+  "U306": {
     "user_id": "U306",
     "course_id": "C1004",
     "status": "Completed",
     "start_date": "2023-11-01",
     "completion_date": "2024-04-01",
     "skills_gained_upon_completion": [
-      { "skill": "Project Management", "proficiency_level": "Advanced" },
-      { "skill": "Risk Management", "proficiency_level": "Intermediate" },
-      { "skill": "Stakeholder Management", "proficiency_level": "Intermediate" }
+      {
+        "skill": "Project Management",
+        "proficiency_level": "Advanced"
+      },
+      {
+        "skill": "Risk Management",
+        "proficiency_level": "Intermediate"
+      },
+      {
+        "skill": "Stakeholder Management",
+        "proficiency_level": "Intermediate"
+      }
     ],
     "final_grade": "A",
     "certification_earned": "PMP Certification",
     "mentor_id": "M101"
   },
-  {
+  "U307": {
     "user_id": "U307",
     "course_id": "C1002",
     "status": "Completed",
     "start_date": "2022-08-01",
     "completion_date": "2022-12-01",
     "skills_gained_upon_completion": [
-      { "skill": "Figma", "proficiency_level": "Beginner" },
-      { "skill": "Design Thinking", "proficiency_level": "Beginner" },
-      { "skill": "User Research", "proficiency_level": "Beginner" }
+      {
+        "skill": "Figma",
+        "proficiency_level": "Beginner"
+      },
+      {
+        "skill": "Design Thinking",
+        "proficiency_level": "Beginner"
+      },
+      {
+        "skill": "User Research",
+        "proficiency_level": "Beginner"
+      }
     ],
     "final_grade": "A",
     "certification_earned": "UX Design Fundamentals Certificate",
     "mentor_id": "M100"
   },
-  {
+  "U308": {
     "user_id": "U308",
     "course_id": "C1003",
     "status": "In Progress",
@@ -115,7 +135,7 @@
     "current_progress_percent": 75,
     "mentor_id": null
   },
-  {
+  "U309": {
     "user_id": "U309",
     "course_id": "C1004",
     "status": "Enrolled",
@@ -125,49 +145,76 @@
     "current_progress_percent": 0,
     "mentor_id": null
   },
-  {
+  "U310": {
     "user_id": "U310",
     "course_id": "C1003",
     "status": "Completed",
     "start_date": "2023-12-01",
     "completion_date": "2024-03-01",
     "skills_gained_upon_completion": [
-      { "skill": "Tableau", "proficiency_level": "Intermediate" },
-      { "skill": "Data-Viz Best Practices", "proficiency_level": "Beginner" }
+      {
+        "skill": "Tableau",
+        "proficiency_level": "Intermediate"
+      },
+      {
+        "skill": "Data-Viz Best Practices",
+        "proficiency_level": "Beginner"
+      }
     ],
     "final_grade": "B+",
     "certification_earned": "Data Visualization with Tableau Certificate",
     "mentor_id": null
   },
-  {
+  "U311": {
     "user_id": "U311",
     "course_id": "C1002",
     "status": "Completed",
     "start_date": "2023-03-01",
     "completion_date": "2023-07-01",
     "skills_gained_upon_completion": [
-      { "skill": "Figma", "proficiency_level": "Beginner" },
-      { "skill": "Design Thinking", "proficiency_level": "Beginner" },
-      { "skill": "User Research", "proficiency_level": "Beginner" }
+      {
+        "skill": "Figma",
+        "proficiency_level": "Beginner"
+      },
+      {
+        "skill": "Design Thinking",
+        "proficiency_level": "Beginner"
+      },
+      {
+        "skill": "User Research",
+        "proficiency_level": "Beginner"
+      }
     ],
     "final_grade": "A-",
     "certification_earned": "UX Design Fundamentals Certificate",
     "mentor_id": null
   },
-  {
+  "U312": {
     "user_id": "U312",
     "course_id": "C1001",
     "status": "Completed",
     "start_date": "2023-05-01",
     "completion_date": "2023-08-01",
     "skills_gained_upon_completion": [
-      { "skill": "Python (core)", "proficiency_level": "Advanced" },
-      { "skill": "Object-Oriented Design", "proficiency_level": "Intermediate" },
-      { "skill": "AsyncIO & Concurrency", "proficiency_level": "Beginner" },
-      { "skill": "Unit Testing", "proficiency_level": "Beginner" }
+      {
+        "skill": "Python (core)",
+        "proficiency_level": "Advanced"
+      },
+      {
+        "skill": "Object-Oriented Design",
+        "proficiency_level": "Intermediate"
+      },
+      {
+        "skill": "AsyncIO & Concurrency",
+        "proficiency_level": "Beginner"
+      },
+      {
+        "skill": "Unit Testing",
+        "proficiency_level": "Beginner"
+      }
     ],
     "final_grade": "A",
     "certification_earned": "Advanced Python Certificate",
     "mentor_id": "M101"
   }
-]
+}

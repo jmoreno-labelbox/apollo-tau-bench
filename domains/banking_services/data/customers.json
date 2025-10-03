@@ -1,5 +1,5 @@
-[
-  {
+{
+  "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e": {
     "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
     "personal_info": {
       "first_name": "Kenji",
@@ -71,7 +71,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "a1b2c3d4-e5f6-7890-1234-567890abcdef": {
     "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
     "personal_info": {
       "first_name": "Elena",
@@ -137,7 +137,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a": {
     "customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
     "personal_info": {
       "first_name": "Zoltan",
@@ -203,7 +203,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9": {
     "customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9",
     "personal_info": {
       "first_name": "Noah",
@@ -268,7 +268,7 @@
       "aml_risk_level": "Medium"
     }
   },
-  {
+  "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4": {
     "customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4",
     "personal_info": {
       "first_name": "Liam",
@@ -334,7 +334,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5": {
     "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5",
     "personal_info": {
       "first_name": "Maria",
@@ -399,7 +399,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6": {
     "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6",
     "personal_info": {
       "first_name": "Oliver",
@@ -465,7 +465,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1": {
     "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1",
     "personal_info": {
       "first_name": "Chloe",
@@ -488,14 +488,14 @@
         }
       ],
       "mailing_address": {
-        "street_address": "Hauptstra\u00dfe 10",
+        "street_address": "Hauptstraße 10",
         "city": "Berlin",
         "state": "",
         "postal_code": "10115",
         "country": "Germany"
       },
       "residential_address": {
-        "street_address": "Hauptstra\u00dfe 10",
+        "street_address": "Hauptstraße 10",
         "city": "Berlin",
         "state": "",
         "postal_code": "10115",
@@ -531,7 +531,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2": {
     "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",
     "personal_info": {
       "first_name": "Olivia",
@@ -542,7 +542,7 @@
       "nationality": "French",
       "marital_status": "Single",
       "occupation": "Pastry Chef",
-      "employer": "Le Croissant Dor\u00e9"
+      "employer": "Le Croissant Doré"
     },
     "contact_info": {
       "email_address": "olivia.jones@example.com",
@@ -597,7 +597,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3": {
     "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3",
     "personal_info": {
       "first_name": "Mei",
@@ -663,7 +663,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "a1b2c3d4-e5f6-7890-1234-567890abcdef-10": {
     "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef-10",
     "personal_info": {
       "first_name": "Anja",
@@ -728,7 +728,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11": {
     "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11",
     "personal_info": {
       "first_name": "Alex",
@@ -794,7 +794,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-12": {
     "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-12",
     "personal_info": {
       "first_name": "Gabriel",
@@ -859,7 +859,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13": {
     "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13",
     "personal_info": {
       "first_name": "David",
@@ -925,12 +925,12 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-14": {
     "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-14",
     "personal_info": {
       "first_name": "Hans",
-      "last_name": "M\u00fcller",
-      "middle_name": "J\u00fcrgen",
+      "last_name": "Müller",
+      "middle_name": "Jürgen",
       "date_of_birth": "1996-08-19",
       "ssn_last_4": "6543",
       "nationality": "Swedish",
@@ -939,7 +939,7 @@
       "employer": "Creative Tech"
     },
     "contact_info": {
-      "email_address": "hans.m\u00fcller@example.com",
+      "email_address": "hans.müller@example.com",
       "phone_numbers": [
         {
           "type": "Mobile",
@@ -990,7 +990,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15": {
     "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15",
     "personal_info": {
       "first_name": "Sofia",
@@ -1055,7 +1055,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "a1b2c3d4-e5f6-7890-1234-567890abcdef-16": {
     "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef-16",
     "personal_info": {
       "first_name": "John",
@@ -1121,7 +1121,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17": {
     "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17",
     "personal_info": {
       "first_name": "Mohammed",
@@ -1144,14 +1144,14 @@
         }
       ],
       "mailing_address": {
-        "street_address": "Avenida Atl\u00e2ntica, 1702",
+        "street_address": "Avenida Atlântica, 1702",
         "city": "Rio de Janeiro",
         "state": "RJ",
         "postal_code": "22021-001",
         "country": "Brazil"
       },
       "residential_address": {
-        "street_address": "Avenida Atl\u00e2ntica, 1702",
+        "street_address": "Avenida Atlântica, 1702",
         "city": "Rio de Janeiro",
         "state": "RJ",
         "postal_code": "22021-001",
@@ -1186,11 +1186,11 @@
       "aml_risk_level": "Medium"
     }
   },
-  {
+  "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18": {
     "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18",
     "personal_info": {
       "first_name": "Santiago",
-      "last_name": "Mu\u00f1oz",
+      "last_name": "Muñoz",
       "middle_name": "Javier",
       "date_of_birth": "1979-07-07",
       "ssn_last_4": "5566",
@@ -1200,7 +1200,7 @@
       "employer": "Ljubljana High School"
     },
     "contact_info": {
-      "email_address": "santiago.mu\u00f1oz@example.com",
+      "email_address": "santiago.muñoz@example.com",
       "phone_numbers": [
         {
           "type": "Mobile",
@@ -1209,14 +1209,14 @@
         }
       ],
       "mailing_address": {
-        "street_address": "Pre\u0161ernov trg 1",
+        "street_address": "Prešernov trg 1",
         "city": "Ljubljana",
         "state": "",
         "postal_code": "1000",
         "country": "Slovenia"
       },
       "residential_address": {
-        "street_address": "Pre\u0161ernov trg 1",
+        "street_address": "Prešernov trg 1",
         "city": "Ljubljana",
         "state": "",
         "postal_code": "1000",
@@ -1251,7 +1251,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19": {
     "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19",
     "personal_info": {
       "first_name": "Jane",
@@ -1316,7 +1316,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-20": {
     "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-20",
     "personal_info": {
       "first_name": "Isabella",
@@ -1381,7 +1381,7 @@
       "aml_risk_level": "Medium"
     }
   },
-  {
+  "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21": {
     "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21",
     "personal_info": {
       "first_name": "Aisha",
@@ -1404,14 +1404,14 @@
         }
       ],
       "mailing_address": {
-        "street_address": "Andr\u00e1ssy \u00fat 10",
+        "street_address": "Andrássy út 10",
         "city": "Budapest",
         "state": "",
         "postal_code": "1061",
         "country": "Hungary"
       },
       "residential_address": {
-        "street_address": "Andr\u00e1ssy \u00fat 10",
+        "street_address": "Andrássy út 10",
         "city": "Budapest",
         "state": "",
         "postal_code": "1061",
@@ -1446,7 +1446,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "a1b2c3d4-e5f6-7890-1234-567890abcdef-22": {
     "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef-22",
     "personal_info": {
       "first_name": "Adetokunbo",
@@ -1511,7 +1511,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23": {
     "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23",
     "personal_info": {
       "first_name": "Fatima",
@@ -1577,7 +1577,7 @@
       "aml_risk_level": "Medium"
     }
   },
-  {
+  "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24": {
     "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24",
     "personal_info": {
       "first_name": "Lakshmi",
@@ -1642,7 +1642,7 @@
       "aml_risk_level": "Low"
     }
   },
-  {
+  "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-25": {
     "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-25",
     "personal_info": {
       "first_name": "Yara",
@@ -1707,4 +1707,4 @@
       "aml_risk_level": "Low"
     }
   }
-]
+}

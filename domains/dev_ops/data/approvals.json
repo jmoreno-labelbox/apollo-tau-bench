@@ -1,5 +1,5 @@
-[
-  {
+{
+  "approval_001": {
     "id": "approval_001",
     "object_type": "deployment",
     "object_id": "deploy_001",
@@ -7,7 +7,7 @@
     "state": "approved",
     "created_at": "2025-01-25T14:25:00Z"
   },
-  {
+  "approval_002": {
     "id": "approval_002",
     "object_type": "pr",
     "object_id": "pr_001",
@@ -15,7 +15,7 @@
     "state": "approved",
     "created_at": "2025-01-25T13:30:00Z"
   },
-  {
+  "approval_003": {
     "id": "approval_003",
     "object_type": "release",
     "object_id": "release_001",
@@ -23,7 +23,7 @@
     "state": "approved",
     "created_at": "2025-01-25T12:00:00Z"
   },
-  {
+  "approval_004": {
     "id": "approval_004",
     "object_type": "deployment",
     "object_id": "deploy_003",
@@ -31,7 +31,7 @@
     "state": "approved",
     "created_at": "2025-01-26T10:30:00Z"
   },
-  {
+  "approval_005": {
     "id": "approval_005",
     "object_type": "exception",
     "object_id": "exception_001",
@@ -39,7 +39,7 @@
     "state": "waived",
     "created_at": "2025-01-26T08:15:00Z"
   },
-  {
+  "approval_006": {
     "id": "approval_006",
     "object_type": "pr",
     "object_id": "pr_005",
@@ -47,7 +47,7 @@
     "state": "rejected",
     "created_at": "2025-01-26T09:45:00Z"
   },
-  {
+  "approval_007": {
     "id": "approval_007",
     "object_type": "deployment",
     "object_id": "deploy_007",
@@ -55,7 +55,7 @@
     "state": "approved",
     "created_at": "2025-01-26T11:15:00Z"
   },
-  {
+  "approval_008": {
     "id": "approval_008",
     "object_type": "release",
     "object_id": "release_003",
@@ -63,7 +63,7 @@
     "state": "required",
     "created_at": "2025-01-26T14:00:00Z"
   },
-  {
+  "approval_009": {
     "id": "approval_009",
     "object_type": "pr",
     "object_id": "pr_008",
@@ -71,7 +71,7 @@
     "state": "approved",
     "created_at": "2025-01-26T15:30:00Z"
   },
-  {
+  "approval_010": {
     "id": "approval_010",
     "object_type": "deployment",
     "object_id": "deploy_009",
@@ -79,7 +79,7 @@
     "state": "approved",
     "created_at": "2025-01-27T07:00:00Z"
   },
-  {
+  "approval_011": {
     "id": "approval_011",
     "object_type": "exception",
     "object_id": "exception_002",
@@ -87,7 +87,7 @@
     "state": "approved",
     "created_at": "2025-01-27T08:45:00Z"
   },
-  {
+  "approval_012": {
     "id": "approval_012",
     "object_type": "pr",
     "object_id": "pr_012",
@@ -95,7 +95,7 @@
     "state": "approved",
     "created_at": "2025-01-27T10:15:00Z"
   },
-  {
+  "approval_013": {
     "id": "approval_013",
     "object_type": "deployment",
     "object_id": "deploy_011",
@@ -103,7 +103,7 @@
     "state": "required",
     "created_at": "2025-01-27T11:30:00Z"
   },
-  {
+  "approval_014": {
     "id": "approval_014",
     "object_type": "release",
     "object_id": "release_005",
@@ -111,7 +111,7 @@
     "state": "approved",
     "created_at": "2025-01-27T12:00:00Z"
   },
-  {
+  "approval_015": {
     "id": "approval_015",
     "object_type": "pr",
     "object_id": "pr_015",
@@ -119,4 +119,4 @@
     "state": "rejected",
     "created_at": "2025-01-27T13:45:00Z"
   }
-]
+}

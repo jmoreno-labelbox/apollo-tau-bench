@@ -1,5 +1,5 @@
-[
-  {
+{
+  "release_001": {
     "release_id": "release_001",
     "figma_file_id": "figd_abc123def456",
     "version_id": "v1.2.0",
@@ -9,7 +9,7 @@
     "created_ts": "2024-08-22T16:45:00Z",
     "thread_id_nullable": "thread_006"
   },
-  {
+  "release_002": {
     "release_id": "release_002",
     "figma_file_id": "figd_xyz789ghi012",
     "version_id": "v2.1.0",
@@ -19,7 +19,7 @@
     "created_ts": "2024-08-20T13:10:00Z",
     "thread_id_nullable": "thread_007"
   },
-  {
+  "release_003": {
     "release_id": "release_003",
     "figma_file_id": "figd_def456ghi789",
     "version_id": "v1.0.0",
@@ -29,7 +29,7 @@
     "created_ts": "2024-08-22T10:45:00Z",
     "thread_id_nullable": "thread_003"
   },
-  {
+  "release_004": {
     "release_id": "release_004",
     "figma_file_id": "figd_jkl012mno345",
     "version_id": "v3.0.0",
@@ -39,7 +39,7 @@
     "created_ts": "2024-08-19T16:55:00Z",
     "thread_id_nullable": "thread_004"
   },
-  {
+  "release_005": {
     "release_id": "release_005",
     "figma_file_id": "figd_pqr678stu901",
     "version_id": "v2.0.0",
@@ -49,7 +49,7 @@
     "created_ts": "2024-08-20T12:00:00Z",
     "thread_id_nullable": "thread_005"
   },
-  {
+  "release_006": {
     "release_id": "release_006",
     "figma_file_id": "figd_abc123def456",
     "version_id": "v1.1.0",
@@ -59,7 +59,7 @@
     "created_ts": "2024-08-21T09:15:00Z",
     "thread_id_nullable": "thread_010"
   },
-  {
+  "release_007": {
     "release_id": "release_007",
     "figma_file_id": "figd_xyz789ghi012",
     "version_id": "v2.0.0",
@@ -69,7 +69,7 @@
     "created_ts": "2024-08-19T11:20:00Z",
     "thread_id_nullable": "thread_002"
   },
-  {
+  "release_008": {
     "release_id": "release_008",
     "figma_file_id": "figd_def456ghi789",
     "version_id": "v0.9.0",
@@ -79,7 +79,7 @@
     "created_ts": "2024-08-21T15:30:00Z",
     "thread_id_nullable": null
   },
-  {
+  "release_009": {
     "release_id": "release_009",
     "figma_file_id": "figd_jkl012mno345",
     "version_id": "v2.5.0",
@@ -89,7 +89,7 @@
     "created_ts": "2024-08-19T16:55:00Z",
     "thread_id_nullable": "thread_009"
   },
-  {
+  "release_010": {
     "release_id": "release_010",
     "figma_file_id": "figd_abc123def456",
     "version_id": "v1.0.0",
@@ -99,7 +99,7 @@
     "created_ts": "2024-08-20T14:30:00Z",
     "thread_id_nullable": "thread_001"
   },
-  {
+  "release_011": {
     "release_id": "release_011",
     "figma_file_id": "figd_abc123def456",
     "version_id": "v1.3.0",
@@ -109,7 +109,7 @@
     "created_ts": "2024-08-23T11:00:00Z",
     "thread_id_nullable": "thread_013"
   },
-  {
+  "release_012": {
     "release_id": "release_012",
     "figma_file_id": "figd_xyz789ghi012",
     "version_id": "v2.2.0",
@@ -119,4 +119,4 @@
     "created_ts": "2024-08-23T12:30:00Z",
     "thread_id_nullable": "thread_014"
   }
-]
+}

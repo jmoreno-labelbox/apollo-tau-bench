@@ -1,5 +1,5 @@
-[
-  {
+{
+  "finding_a11y_001": {
     "finding_id": "finding_a11y_001",
     "audit_id": "audit_002",
     "layer_id": "4:5",
@@ -9,7 +9,7 @@
     "severity": "HIGH",
     "recommended_fix_summary": "Increase button size to minimum 44x44px for touch accessibility"
   },
-  {
+  "finding_a11y_002": {
     "finding_id": "finding_a11y_002",
     "audit_id": "audit_002",
     "layer_id": "4:6",
@@ -19,7 +19,7 @@
     "severity": "MEDIUM",
     "recommended_fix_summary": "Increase text color contrast to meet WCAG AA standards"
   },
-  {
+  "finding_a11y_003": {
     "finding_id": "finding_a11y_003",
     "audit_id": "audit_004",
     "layer_id": "2:3",
@@ -29,7 +29,7 @@
     "severity": "HIGH",
     "recommended_fix_summary": "Increase font size to minimum 16px for better readability"
   },
-  {
+  "finding_a11y_004": {
     "finding_id": "finding_a11y_004",
     "audit_id": "audit_007",
     "layer_id": "1:5",
@@ -39,7 +39,7 @@
     "severity": "LOW",
     "recommended_fix_summary": "Implement flexible layout that supports RTL languages"
   },
-  {
+  "finding_a11y_005": {
     "finding_id": "finding_a11y_005",
     "audit_id": "audit_001",
     "layer_id": "1:4",
@@ -49,7 +49,7 @@
     "severity": "LOW",
     "recommended_fix_summary": "Button contrast meets minimum requirements but could be improved"
   },
-  {
+  "finding_a11y_006": {
     "finding_id": "finding_a11y_006",
     "audit_id": "audit_002",
     "layer_id": "4:7",
@@ -59,7 +59,7 @@
     "severity": "MEDIUM",
     "recommended_fix_summary": "Increase search icon touch target to 44x44px minimum"
   },
-  {
+  "finding_a11y_007": {
     "finding_id": "finding_a11y_007",
     "audit_id": "audit_004",
     "layer_id": "2:4",
@@ -69,7 +69,7 @@
     "severity": "HIGH",
     "recommended_fix_summary": "Improve contrast ratio for mobile menu toggle button"
   },
-  {
+  "finding_a11y_008": {
     "finding_id": "finding_a11y_008",
     "audit_id": "audit_007",
     "layer_id": "1:6",
@@ -79,7 +79,7 @@
     "severity": "LOW",
     "recommended_fix_summary": "Consider increasing footer text size to 16px for better accessibility"
   },
-  {
+  "finding_a11y_009": {
     "finding_id": "finding_a11y_009",
     "audit_id": "audit_001",
     "layer_id": "1:7",
@@ -89,7 +89,7 @@
     "severity": "LOW",
     "recommended_fix_summary": "Form label contrast meets accessibility standards"
   },
-  {
+  "finding_a11y_010": {
     "finding_id": "finding_a11y_010",
     "audit_id": "audit_002",
     "layer_id": "4:8",
@@ -99,7 +99,7 @@
     "severity": "MEDIUM",
     "recommended_fix_summary": "Increase dropdown trigger button size to 44x44px minimum"
   },
-  {
+  "finding_a11y_011": {
     "finding_id": "finding_a11y_011",
     "audit_id": "audit_011",
     "layer_id": "1:20",
@@ -109,7 +109,7 @@
     "severity": "MEDIUM",
     "recommended_fix_summary": "Increase input text contrast to meet WCAG AA standards"
   },
-  {
+  "finding_a11y_012": {
     "finding_id": "finding_a11y_012",
     "audit_id": "audit_011",
     "layer_id": "1:21",
@@ -119,7 +119,7 @@
     "severity": "MEDIUM",
     "recommended_fix_summary": "Increase submit button size to 44x44px minimum for touch accessibility"
   },
-  {
+  "finding_a11y_013": {
     "finding_id": "finding_a11y_013",
     "audit_id": "audit_011",
     "layer_id": "1:23",
@@ -129,7 +129,7 @@
     "severity": "LOW",
     "recommended_fix_summary": "Increase form label font size to 16px for better readability"
   },
-  {
+  "finding_a11y_014": {
     "finding_id": "finding_a11y_014",
     "audit_id": "audit_012",
     "layer_id": "2:10",
@@ -139,7 +139,7 @@
     "severity": "HIGH",
     "recommended_fix_summary": "Increase toggle switch size to 44x44px minimum for touch accessibility"
   },
-  {
+  "finding_a11y_015": {
     "finding_id": "finding_a11y_015",
     "audit_id": "audit_012",
     "layer_id": "2:12",
@@ -149,4 +149,4 @@
     "severity": "MEDIUM",
     "recommended_fix_summary": "Improve settings text contrast to meet WCAG AA standards"
   }
-]
+}

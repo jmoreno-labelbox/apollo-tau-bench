@@ -1,5 +1,5 @@
-[
-  {
+{
+  "au_001": {
     "update_id": "au_001",
     "cr_id": "cr_001",
     "artifact_type": "requirements",
@@ -9,7 +9,7 @@
     "updated_by": "emp_analyst_01",
     "update_date": "2024-03-13T10:00:00Z"
   },
-  {
+  "au_002": {
     "update_id": "au_002",
     "cr_id": "cr_001",
     "artifact_type": "project_schedule",
@@ -19,7 +19,7 @@
     "updated_by": "emp_pm_03",
     "update_date": "2024-03-13T14:00:00Z"
   },
-  {
+  "au_003": {
     "update_id": "au_003",
     "cr_id": "cr_005",
     "artifact_type": "project_schedule",
@@ -29,7 +29,7 @@
     "updated_by": "emp_pm_03",
     "update_date": "2024-03-04T09:00:00Z"
   },
-  {
+  "au_004": {
     "update_id": "au_004",
     "cr_id": "cr_005",
     "artifact_type": "resource_plan",
@@ -39,4 +39,4 @@
     "updated_by": "emp_pm_03",
     "update_date": "2024-03-04T11:00:00Z"
   }
-]
+}

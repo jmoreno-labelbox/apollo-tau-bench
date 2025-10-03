@@ -1,37 +1,37 @@
-[
-    {
+{
+    "301": {
         "job_id": "301",
         "org_id": "00D8d000000KxyzABC",
         "job_name": "Load API Metadata",
         "last_run_status": "Success",
         "last_run_time": "2023-10-01T02:00:00Z"
     },
-    {
+    "302": {
         "job_id": "302",
         "org_id": "00D8d000000KxyzABC",
         "job_name": "Populate Cache Job",
         "last_run_status": "Failed",
         "last_run_time": "2023-10-01T02:15:00Z"
     },
-    {
+    "303": {
         "job_id": "303",
         "org_id": "00D8d000000KxyzABC",
         "job_name": "Product Delta Sync",
         "last_run_status": "Success",
         "last_run_time": "2023-10-01T04:00:00Z"
     },
-    {
+    "304": {
         "job_id": "304",
         "org_id": "00D8d000000LmnopQRS",
         "job_name": "Load API Metadata",
         "last_run_status": "Success",
         "last_run_time": "2023-10-28 02:00:00 UTC"
     },
-    {
+    "305": {
         "job_id": "305",
         "org_id": "00D8d000000LmnopQRS",
         "job_name": "Populate Cache Job",
         "last_run_status": "Success",
         "last_run_time": "2023-10-28 02:15:00 UTC"
     }
-]
+}

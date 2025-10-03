@@ -1,5 +1,5 @@
-[
-  {
+{
+  "exp_001": {
     "expense_id": "exp_001",
     "project_id": "proj_mobile_01",
     "task_id": "task_007",
@@ -14,7 +14,7 @@
     "fiscal_year": 2024,
     "receipt_provided": true
   },
-  {
+  "exp_002": {
     "expense_id": "exp_002",
     "project_id": "proj_ai_01",
     "amount": 25000,
@@ -25,7 +25,7 @@
     "submitted_date": "2024-03-10T09:00:00Z",
     "fiscal_year": 2024
   },
-  {
+  "exp_003": {
     "expense_id": "exp_003",
     "project_id": "proj_mobile_01",
     "amount": 1250,
@@ -36,7 +36,7 @@
     "submitted_date": "2024-03-18T11:00:00Z",
     "fiscal_year": 2024
   },
-  {
+  "exp_004": {
     "expense_id": "exp_004",
     "project_id": "proj_web_01",
     "task_id": "task_003",
@@ -50,7 +50,7 @@
     "fiscal_year": 2024,
     "receipt_provided": true
   },
-  {
+  "exp_005": {
     "expense_id": "exp_005",
     "project_id": "proj_enterprise_01",
     "amount": 45000,
@@ -62,4 +62,4 @@
     "approved_date": "2024-02-22T15:00:00Z",
     "fiscal_year": 2024
   }
-]
+}

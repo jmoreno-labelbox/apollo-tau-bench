@@ -1,5 +1,5 @@
-[
-  {
+{
+  "PROMO-001": {
     "promotion_id": "PROMO-001",
     "name": "Summer Electronics Sale",
     "type": "percentage",
@@ -17,7 +17,7 @@
     "usage_limit": null,
     "times_used": 0
   },
-  {
+  "PROMO-002": {
     "promotion_id": "PROMO-002",
     "name": "Kitchen Essentials Bundle",
     "type": "fixed_bundle",
@@ -33,7 +33,7 @@
     "usage_limit": 500,
     "times_used": 124
   },
-  {
+  "PROMO-003": {
     "promotion_id": "PROMO-003",
     "name": "Buy One Yoga Mat Get 50% Off Second",
     "type": "bogo_percentage",
@@ -48,7 +48,7 @@
     "usage_limit": null,
     "times_used": 0
   },
-  {
+  "PROMO-004": {
     "promotion_id": "PROMO-004",
     "name": "Tax-Free Books Weekend",
     "type": "tax_free",
@@ -63,7 +63,7 @@
     "usage_limit": null,
     "times_used": 0
   },
-  {
+  "PROMO-005": {
     "promotion_id": "PROMO-005",
     "name": "Clearance Apparel Markdown",
     "type": "percentage",
@@ -79,7 +79,7 @@
     "usage_limit": null,
     "times_used": 87
   },
-  {
+  "PROMO-006": {
     "promotion_id": "PROMO-006",
     "name": "Smart Home Starter Discount",
     "type": "percentage",
@@ -94,7 +94,7 @@
     "usage_limit": null,
     "times_used": 64
   },
-  {
+  "PROMO-007": {
     "promotion_id": "PROMO-007",
     "name": "Weekend Flash Sale - Home & Kitchen",
     "type": "percentage",
@@ -113,4 +113,4 @@
     "usage_limit": null,
     "times_used": 0
   }
-]
+}

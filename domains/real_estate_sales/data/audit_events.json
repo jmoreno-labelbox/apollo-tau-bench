@@ -1,5 +1,5 @@
-[
-  {
+{
+  "1": {
     "event_id": 1,
     "actor_id": 2,
     "action": "created",
@@ -12,7 +12,7 @@
       "report_type": "cma"
     }
   },
-  {
+  "2": {
     "event_id": 2,
     "actor_id": 2,
     "action": "sent",
@@ -24,7 +24,7 @@
       "delivery_method": "email"
     }
   },
-  {
+  "3": {
     "event_id": 3,
     "actor_id": 4,
     "action": "viewed",
@@ -36,7 +36,7 @@
       "pages_viewed": 8
     }
   },
-  {
+  "4": {
     "event_id": 4,
     "actor_id": 11,
     "action": "created",
@@ -49,7 +49,7 @@
       "report_type": "detailed_analysis"
     }
   },
-  {
+  "5": {
     "event_id": 5,
     "actor_id": 6,
     "action": "created",
@@ -61,7 +61,7 @@
       "initial_contact": "phone"
     }
   },
-  {
+  "6": {
     "event_id": 6,
     "actor_id": 6,
     "action": "updated",
@@ -74,7 +74,7 @@
       "new_value": "active"
     }
   },
-  {
+  "7": {
     "event_id": 7,
     "actor_id": 3,
     "action": "scheduled",
@@ -87,7 +87,7 @@
       "properties_count": 3
     }
   },
-  {
+  "8": {
     "event_id": 8,
     "actor_id": 5,
     "action": "sent",
@@ -100,7 +100,7 @@
       "properties_count": 4
     }
   },
-  {
+  "9": {
     "event_id": 9,
     "actor_id": 13,
     "action": "opened",
@@ -112,7 +112,7 @@
       "device": "mobile"
     }
   },
-  {
+  "10": {
     "event_id": 10,
     "actor_id": 15,
     "action": "created",
@@ -125,7 +125,7 @@
       "estimated_duration_minutes": 120
     }
   },
-  {
+  "11": {
     "event_id": 11,
     "actor_id": 12,
     "action": "completed",
@@ -138,7 +138,7 @@
       "client_feedback": "positive"
     }
   },
-  {
+  "12": {
     "event_id": 12,
     "actor_id": 8,
     "action": "created",
@@ -151,7 +151,7 @@
       "tasks_count": 7
     }
   },
-  {
+  "13": {
     "event_id": 13,
     "actor_id": 14,
     "action": "launched",
@@ -164,7 +164,7 @@
       "properties_featured": 12
     }
   },
-  {
+  "14": {
     "event_id": 14,
     "actor_id": 1,
     "action": "updated",
@@ -177,7 +177,7 @@
       "new_value": "under_contract"
     }
   },
-  {
+  "15": {
     "event_id": 15,
     "actor_id": 10,
     "action": "created",
@@ -190,7 +190,7 @@
       "credit_score": 699
     }
   },
-  {
+  "16": {
     "event_id": 16,
     "actor_id": 7,
     "action": "updated",
@@ -203,7 +203,7 @@
       "new_value": 7
     }
   },
-  {
+  "17": {
     "event_id": 17,
     "actor_id": 9,
     "action": "deleted",
@@ -216,7 +216,7 @@
       "rescheduled": false
     }
   },
-  {
+  "18": {
     "event_id": 18,
     "actor_id": 2,
     "action": "exported",
@@ -229,7 +229,7 @@
       "file_size_mb": 2.3
     }
   },
-  {
+  "19": {
     "event_id": 19,
     "actor_id": 11,
     "action": "assigned",
@@ -242,7 +242,7 @@
       "assignment_reason": "initial_contact"
     }
   },
-  {
+  "20": {
     "event_id": 20,
     "actor_id": 5,
     "action": "reviewed",
@@ -255,4 +255,4 @@
       "lender_contacted": true
     }
   }
-]
+}

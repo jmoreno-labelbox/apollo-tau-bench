@@ -1,5 +1,5 @@
-[
-  {
+{
+  "1": {
     "rate_id": 1,
     "lender_id": 1,
     "region": "AZ",
@@ -8,7 +8,7 @@
     "min_credit_score": 700,
     "updated_at": "2025-07-15T05:22:57Z"
   },
-  {
+  "2": {
     "rate_id": 2,
     "lender_id": 1,
     "region": "AZ",
@@ -17,7 +17,7 @@
     "min_credit_score": 620,
     "updated_at": "2025-07-26T05:22:57Z"
   },
-  {
+  "3": {
     "rate_id": 3,
     "lender_id": 1,
     "region": "AZ",
@@ -26,7 +26,7 @@
     "min_credit_score": 660,
     "updated_at": "2025-07-07T05:22:57Z"
   },
-  {
+  "4": {
     "rate_id": 4,
     "lender_id": 2,
     "region": "AZ",
@@ -35,7 +35,7 @@
     "min_credit_score": 620,
     "updated_at": "2025-06-20T05:22:57Z"
   },
-  {
+  "5": {
     "rate_id": 5,
     "lender_id": 2,
     "region": "AZ",
@@ -44,7 +44,7 @@
     "min_credit_score": 660,
     "updated_at": "2025-06-04T05:22:57Z"
   },
-  {
+  "6": {
     "rate_id": 6,
     "lender_id": 2,
     "region": "AZ",
@@ -53,7 +53,7 @@
     "min_credit_score": 660,
     "updated_at": "2025-07-10T05:22:57Z"
   },
-  {
+  "7": {
     "rate_id": 7,
     "lender_id": 3,
     "region": "AZ",
@@ -62,7 +62,7 @@
     "min_credit_score": 660,
     "updated_at": "2025-07-30T05:22:57Z"
   },
-  {
+  "8": {
     "rate_id": 8,
     "lender_id": 3,
     "region": "AZ",
@@ -71,7 +71,7 @@
     "min_credit_score": 620,
     "updated_at": "2025-08-12T05:22:57Z"
   },
-  {
+  "9": {
     "rate_id": 9,
     "lender_id": 3,
     "region": "AZ",
@@ -80,7 +80,7 @@
     "min_credit_score": 700,
     "updated_at": "2025-05-25T05:22:57Z"
   },
-  {
+  "10": {
     "rate_id": 10,
     "lender_id": 4,
     "region": "AZ",
@@ -89,7 +89,7 @@
     "min_credit_score": 700,
     "updated_at": "2025-08-13T05:22:57Z"
   },
-  {
+  "11": {
     "rate_id": 11,
     "lender_id": 4,
     "region": "AZ",
@@ -98,7 +98,7 @@
     "min_credit_score": 620,
     "updated_at": "2025-06-14T05:22:57Z"
   },
-  {
+  "12": {
     "rate_id": 12,
     "lender_id": 4,
     "region": "AZ",
@@ -107,7 +107,7 @@
     "min_credit_score": 620,
     "updated_at": "2025-07-28T05:22:57Z"
   },
-  {
+  "13": {
     "rate_id": 13,
     "lender_id": 5,
     "region": "AZ",
@@ -116,7 +116,7 @@
     "min_credit_score": 620,
     "updated_at": "2025-06-02T05:22:57Z"
   },
-  {
+  "14": {
     "rate_id": 14,
     "lender_id": 5,
     "region": "AZ",
@@ -125,7 +125,7 @@
     "min_credit_score": 620,
     "updated_at": "2025-06-19T05:22:57Z"
   },
-  {
+  "15": {
     "rate_id": 15,
     "lender_id": 5,
     "region": "AZ",
@@ -134,7 +134,7 @@
     "min_credit_score": 660,
     "updated_at": "2025-05-22T05:22:57Z"
   },
-  {
+  "16": {
     "rate_id": 16,
     "lender_id": 6,
     "region": "AZ",
@@ -143,7 +143,7 @@
     "min_credit_score": 700,
     "updated_at": "2025-07-30T05:22:57Z"
   },
-  {
+  "17": {
     "rate_id": 17,
     "lender_id": 6,
     "region": "AZ",
@@ -152,7 +152,7 @@
     "min_credit_score": 660,
     "updated_at": "2025-08-01T05:22:57Z"
   },
-  {
+  "18": {
     "rate_id": 18,
     "lender_id": 6,
     "region": "AZ",
@@ -161,7 +161,7 @@
     "min_credit_score": 700,
     "updated_at": "2025-06-16T05:22:57Z"
   },
-  {
+  "19": {
     "rate_id": 19,
     "lender_id": 7,
     "region": "AZ",
@@ -170,7 +170,7 @@
     "min_credit_score": 700,
     "updated_at": "2025-08-12T05:22:57Z"
   },
-  {
+  "20": {
     "rate_id": 20,
     "lender_id": 7,
     "region": "AZ",
@@ -179,7 +179,7 @@
     "min_credit_score": 660,
     "updated_at": "2025-06-29T05:22:57Z"
   },
-  {
+  "21": {
     "rate_id": 21,
     "lender_id": 7,
     "region": "AZ",
@@ -188,7 +188,7 @@
     "min_credit_score": 700,
     "updated_at": "2025-07-02T05:22:57Z"
   },
-  {
+  "22": {
     "rate_id": 22,
     "lender_id": 8,
     "region": "AZ",
@@ -197,7 +197,7 @@
     "min_credit_score": 660,
     "updated_at": "2025-07-25T05:22:57Z"
   },
-  {
+  "23": {
     "rate_id": 23,
     "lender_id": 8,
     "region": "AZ",
@@ -206,7 +206,7 @@
     "min_credit_score": 620,
     "updated_at": "2025-08-03T05:22:57Z"
   },
-  {
+  "24": {
     "rate_id": 24,
     "lender_id": 8,
     "region": "AZ",
@@ -215,7 +215,7 @@
     "min_credit_score": 620,
     "updated_at": "2025-05-23T05:22:57Z"
   },
-  {
+  "25": {
     "rate_id": 25,
     "lender_id": 9,
     "region": "AZ",
@@ -224,7 +224,7 @@
     "min_credit_score": 620,
     "updated_at": "2025-08-17T05:22:57Z"
   },
-  {
+  "26": {
     "rate_id": 26,
     "lender_id": 9,
     "region": "AZ",
@@ -233,7 +233,7 @@
     "min_credit_score": 700,
     "updated_at": "2025-05-30T05:22:57Z"
   },
-  {
+  "27": {
     "rate_id": 27,
     "lender_id": 9,
     "region": "AZ",
@@ -242,7 +242,7 @@
     "min_credit_score": 660,
     "updated_at": "2025-05-28T05:22:57Z"
   },
-  {
+  "28": {
     "rate_id": 28,
     "lender_id": 10,
     "region": "AZ",
@@ -251,7 +251,7 @@
     "min_credit_score": 660,
     "updated_at": "2025-08-13T05:22:57Z"
   },
-  {
+  "29": {
     "rate_id": 29,
     "lender_id": 10,
     "region": "AZ",
@@ -260,7 +260,7 @@
     "min_credit_score": 660,
     "updated_at": "2025-08-01T05:22:57Z"
   },
-  {
+  "30": {
     "rate_id": 30,
     "lender_id": 10,
     "region": "AZ",
@@ -269,4 +269,4 @@
     "min_credit_score": 700,
     "updated_at": "2025-08-16T05:22:57Z"
   }
-]
+}

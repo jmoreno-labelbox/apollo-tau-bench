@@ -1,79 +1,146 @@
-[
-    {
-      "provider": "Coursera",
-      "format": "Online",
-      "focus_areas": ["Programming", "AI", "Project Management"],
-      "certification_offered": true,
-      "institution_type": "MOOC",
-      "delivery_mode": ["Self-paced", "Instructor-led"],
-      "average_duration_weeks": 4,
-      "preferred_audience_roles": ["Software Engineer", "AI Researcher", "Project Manager"],
-      "platform_url": "https://www.coursera.org"
-    },
-    {
-      "provider": "edX",
-      "format": "Online",
-      "focus_areas": ["Data Science", "Business", "Education"],
-      "certification_offered": true,
-      "institution_type": "MOOC",
-      "delivery_mode": ["Self-paced", "Instructor-led"],
-      "average_duration_weeks": 6,
-      "preferred_audience_roles": ["Data Analyst", "Educator", "Business Strategist"],
-      "platform_url": "https://www.edx.org"
-    },
-    {
-      "provider": "Google",
-      "format": "Online",
-      "focus_areas": ["UX", "IT Support", "Data Analytics"],
-      "certification_offered": true,
-      "institution_type": "Corporate Provider",
-      "delivery_mode": ["Self-paced"],
-      "average_duration_weeks": 8,
-      "preferred_audience_roles": ["UX Designer", "Support Engineer", "Data Analyst"],
-      "platform_url": "https://grow.google/certificates"
-    },
-    {
-      "provider": "PMI",
-      "format": "Cert",
-      "focus_areas": ["Project Management"],
-      "certification_offered": true,
-      "institution_type": "Professional Body",
-      "delivery_mode": ["Instructor-led", "Workshop-based"],
-      "average_duration_weeks": 5,
-      "preferred_audience_roles": ["Project Manager", "Program Manager"],
-      "platform_url": "https://www.pmi.org"
-    },
-    {
-      "provider": "Stanford",
-      "format": "University",
-      "focus_areas": ["AI", "Machine Learning"],
-      "certification_offered": false,
-      "institution_type": "University",
-      "delivery_mode": ["Instructor-led"],
-      "average_duration_weeks": 10,
-      "preferred_audience_roles": ["ML Engineer", "AI Specialist", "Researcher"],
-      "platform_url": "https://online.stanford.edu"
-    },
-    {
-      "provider": "Udacity",
-      "format": "Bootcamp",
-      "focus_areas": ["Product Management", "Software Engineering"],
-      "certification_offered": true,
-      "institution_type": "Bootcamp",
-      "delivery_mode": ["Self-paced", "Mentor-supported"],
-      "average_duration_weeks": 12,
-      "preferred_audience_roles": ["Product Manager", "Full Stack Developer"],
-      "platform_url": "https://www.udacity.com"
-    },
-    {
-      "provider": "FutureLearn",
-      "format": "Online",
-      "focus_areas": ["Climate", "Policy", "Health"],
-      "certification_offered": true,
-      "institution_type": "MOOC",
-      "delivery_mode": ["Instructor-led"],
-      "average_duration_weeks": 3,
-      "preferred_audience_roles": ["Policy Analyst", "Public Health Specialist"],
-      "platform_url": "https://www.futurelearn.com"
-    }
-  ]
+{
+  "Coursera": {
+    "provider": "Coursera",
+    "format": "Online",
+    "focus_areas": [
+      "Programming",
+      "AI",
+      "Project Management"
+    ],
+    "certification_offered": true,
+    "institution_type": "MOOC",
+    "delivery_mode": [
+      "Self-paced",
+      "Instructor-led"
+    ],
+    "average_duration_weeks": 4,
+    "preferred_audience_roles": [
+      "Software Engineer",
+      "AI Researcher",
+      "Project Manager"
+    ],
+    "platform_url": "https://www.coursera.org"
+  },
+  "edX": {
+    "provider": "edX",
+    "format": "Online",
+    "focus_areas": [
+      "Data Science",
+      "Business",
+      "Education"
+    ],
+    "certification_offered": true,
+    "institution_type": "MOOC",
+    "delivery_mode": [
+      "Self-paced",
+      "Instructor-led"
+    ],
+    "average_duration_weeks": 6,
+    "preferred_audience_roles": [
+      "Data Analyst",
+      "Educator",
+      "Business Strategist"
+    ],
+    "platform_url": "https://www.edx.org"
+  },
+  "Google": {
+    "provider": "Google",
+    "format": "Online",
+    "focus_areas": [
+      "UX",
+      "IT Support",
+      "Data Analytics"
+    ],
+    "certification_offered": true,
+    "institution_type": "Corporate Provider",
+    "delivery_mode": [
+      "Self-paced"
+    ],
+    "average_duration_weeks": 8,
+    "preferred_audience_roles": [
+      "UX Designer",
+      "Support Engineer",
+      "Data Analyst"
+    ],
+    "platform_url": "https://grow.google/certificates"
+  },
+  "PMI": {
+    "provider": "PMI",
+    "format": "Cert",
+    "focus_areas": [
+      "Project Management"
+    ],
+    "certification_offered": true,
+    "institution_type": "Professional Body",
+    "delivery_mode": [
+      "Instructor-led",
+      "Workshop-based"
+    ],
+    "average_duration_weeks": 5,
+    "preferred_audience_roles": [
+      "Project Manager",
+      "Program Manager"
+    ],
+    "platform_url": "https://www.pmi.org"
+  },
+  "Stanford": {
+    "provider": "Stanford",
+    "format": "University",
+    "focus_areas": [
+      "AI",
+      "Machine Learning"
+    ],
+    "certification_offered": false,
+    "institution_type": "University",
+    "delivery_mode": [
+      "Instructor-led"
+    ],
+    "average_duration_weeks": 10,
+    "preferred_audience_roles": [
+      "ML Engineer",
+      "AI Specialist",
+      "Researcher"
+    ],
+    "platform_url": "https://online.stanford.edu"
+  },
+  "Udacity": {
+    "provider": "Udacity",
+    "format": "Bootcamp",
+    "focus_areas": [
+      "Product Management",
+      "Software Engineering"
+    ],
+    "certification_offered": true,
+    "institution_type": "Bootcamp",
+    "delivery_mode": [
+      "Self-paced",
+      "Mentor-supported"
+    ],
+    "average_duration_weeks": 12,
+    "preferred_audience_roles": [
+      "Product Manager",
+      "Full Stack Developer"
+    ],
+    "platform_url": "https://www.udacity.com"
+  },
+  "FutureLearn": {
+    "provider": "FutureLearn",
+    "format": "Online",
+    "focus_areas": [
+      "Climate",
+      "Policy",
+      "Health"
+    ],
+    "certification_offered": true,
+    "institution_type": "MOOC",
+    "delivery_mode": [
+      "Instructor-led"
+    ],
+    "average_duration_weeks": 3,
+    "preferred_audience_roles": [
+      "Policy Analyst",
+      "Public Health Specialist"
+    ],
+    "platform_url": "https://www.futurelearn.com"
+  }
+}

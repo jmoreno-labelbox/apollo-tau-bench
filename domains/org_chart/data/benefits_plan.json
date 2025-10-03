@@ -1,40 +1,40 @@
-[
-  {
+{
+  "BEN4001": {
     "benefit_plan_id": "BEN4001",
-    "name": "Medical \u2013\u00a0PPO",
-    "provider": "Blue\u00a0Shield",
+    "name": "Medical – PPO",
+    "provider": "Blue Shield",
     "employer_coverage_pct": 85,
     "employee_cost_monthly": 160
   },
-  {
+  "BEN4002": {
     "benefit_plan_id": "BEN4002",
     "name": "Dental",
-    "provider": "Delta\u00a0Dental",
+    "provider": "Delta Dental",
     "employer_coverage_pct": 90,
     "employee_cost_monthly": 20
   },
-  {
+  "BEN4003": {
     "benefit_plan_id": "BEN4003",
     "name": "401(k)",
     "provider": "Vanguard",
     "match_pct": 4
   },
-  {
+  "BEN4004": {
     "benefit_plan_id": "BEN4004",
     "name": "Parental Leave",
     "provider": "Internal Policy",
     "paid_weeks": 16
   },
-  {
+  "BEN4005": {
     "benefit_plan_id": "BEN4005",
-    "name": "Commuter Stipend \u2013\u00a0EU",
+    "name": "Commuter Stipend – EU",
     "provider": "HR Europe",
     "annual_amount": 1200
   },
-  {
+  "BEN9999": {
     "benefit_plan_id": "BEN9999",
     "name": "Legal Insurance",
     "provider": "MetLife",
     "annual_amount": 200
   }
-]
+}

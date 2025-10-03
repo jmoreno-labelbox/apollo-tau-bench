@@ -1,5 +1,5 @@
-[
-  {
+{
+  "M100": {
     "mentor_id": "M100",
     "name": "Mentor 0",
     "expertise": [
@@ -34,7 +34,7 @@
       "U307"
     ]
   },
-  {
+  "M101": {
     "mentor_id": "M101",
     "name": "Mentor 1",
     "expertise": [
@@ -65,7 +65,7 @@
       "U312"
     ]
   },
-  {
+  "M102": {
     "mentor_id": "M102",
     "name": "Mentor 2",
     "expertise": [
@@ -98,7 +98,7 @@
       "U301"
     ]
   },
-  {
+  "M103": {
     "mentor_id": "M103",
     "name": "Mentor 3",
     "expertise": [
@@ -129,4 +129,4 @@
       "U305"
     ]
   }
-]
+}

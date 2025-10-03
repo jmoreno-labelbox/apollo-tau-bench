@@ -1,5 +1,5 @@
-[
-  {
+{
+  "proj_01": {
     "study_id": "proj_01",
     "study_name": "Quantum Computing Applications",
     "chief_researcher_id": "res_03",
@@ -11,7 +11,7 @@
     ],
     "sponsor_id": "fs_02"
   },
-  {
+  "proj_02": {
     "study_id": "proj_02",
     "study_name": "Exoplanet Atmospheric Analysis",
     "chief_researcher_id": "res_05",
@@ -23,7 +23,7 @@
     ],
     "sponsor_id": null
   },
-  {
+  "proj_03": {
     "study_id": "proj_03",
     "study_name": "Next-Generation CRISPR Technologies",
     "chief_researcher_id": "res_02",
@@ -36,7 +36,7 @@
     ],
     "sponsor_id": "fs_07"
   },
-  {
+  "proj_04": {
     "study_id": "proj_04",
     "study_name": "Federated AI Systems",
     "chief_researcher_id": "res_06",
@@ -49,7 +49,7 @@
     ],
     "sponsor_id": "fs_01"
   },
-  {
+  "proj_05": {
     "study_id": "proj_05",
     "study_name": "Exoplanet Atmospheric Analysis",
     "chief_researcher_id": "res_05",
@@ -62,7 +62,7 @@
     ],
     "sponsor_id": "fs_06"
   },
-  {
+  "proj_06": {
     "study_id": "proj_06",
     "study_name": "Quantum Cryptography Networks",
     "chief_researcher_id": "res_03",
@@ -74,4 +74,4 @@
     ],
     "sponsor_id": "fs_05"
   }
-]
+}

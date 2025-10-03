@@ -1,5 +1,5 @@
-[
-  {
+{
+  "plan_001": {
     "plan_id": "plan_001",
     "audit_id": "audit_002",
     "status": "DELIVERED",
@@ -7,7 +7,7 @@
     "owner_email": "chris.engineer@company.com",
     "delivery_method": "TICKETS"
   },
-  {
+  "plan_002": {
     "plan_id": "plan_002",
     "audit_id": "audit_003",
     "status": "DRAFTED",
@@ -15,7 +15,7 @@
     "owner_email": "emma.creative@company.com",
     "delivery_method": "COMMENTS"
   },
-  {
+  "plan_003": {
     "plan_id": "plan_003",
     "audit_id": "audit_004",
     "status": "DELIVERED",
@@ -23,7 +23,7 @@
     "owner_email": "jake.design@company.com",
     "delivery_method": "PDF"
   },
-  {
+  "plan_004": {
     "plan_id": "plan_004",
     "audit_id": "audit_006",
     "status": "ARCHIVED",
@@ -31,7 +31,7 @@
     "owner_email": "chris.engineer@company.com",
     "delivery_method": "TICKETS"
   },
-  {
+  "plan_005": {
     "plan_id": "plan_005",
     "audit_id": "audit_008",
     "status": "DELIVERED",
@@ -39,7 +39,7 @@
     "owner_email": "jake.design@company.com",
     "delivery_method": "COMMENTS"
   },
-  {
+  "plan_006": {
     "plan_id": "plan_006",
     "audit_id": "audit_001",
     "status": "DRAFTED",
@@ -47,7 +47,7 @@
     "owner_email": "emma.creative@company.com",
     "delivery_method": "PDF"
   },
-  {
+  "plan_007": {
     "plan_id": "plan_007",
     "audit_id": "audit_007",
     "status": "DELIVERED",
@@ -55,7 +55,7 @@
     "owner_email": "chris.engineer@company.com",
     "delivery_method": "TICKETS"
   },
-  {
+  "plan_008": {
     "plan_id": "plan_008",
     "audit_id": "audit_010",
     "status": "ARCHIVED",
@@ -63,7 +63,7 @@
     "owner_email": "sophie.marketing@company.com",
     "delivery_method": "COMMENTS"
   },
-  {
+  "plan_009": {
     "plan_id": "plan_009",
     "audit_id": "audit_009",
     "status": "DRAFTED",
@@ -71,7 +71,7 @@
     "owner_email": "anna.brand@company.com",
     "delivery_method": "PDF"
   },
-  {
+  "plan_010": {
     "plan_id": "plan_010",
     "audit_id": "audit_005",
     "status": "DELIVERED",
@@ -79,7 +79,7 @@
     "owner_email": "emma.creative@company.com",
     "delivery_method": "TICKETS"
   },
-  {
+  "plan_011": {
     "plan_id": "plan_011",
     "audit_id": "audit_011",
     "status": "ARCHIVED",
@@ -87,7 +87,7 @@
     "owner_email": "chris.engineer@company.com",
     "delivery_method": "COMMENTS"
   },
-  {
+  "plan_012": {
     "plan_id": "plan_012",
     "audit_id": "audit_012",
     "status": "ARCHIVED",
@@ -95,4 +95,4 @@
     "owner_email": "jake.design@company.com",
     "delivery_method": "TICKETS"
   }
-]
+}

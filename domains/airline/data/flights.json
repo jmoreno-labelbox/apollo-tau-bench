@@ -1,5 +1,5 @@
-[
-    {
+{
+    "HAT001": {
         "flight_number": "HAT001",
         "origin": "PHL",
         "destination": "LGA",
@@ -274,7 +274,7 @@
             }
         }
     },
-    {
+    "HAT002": {
         "flight_number": "HAT002",
         "origin": "LGA",
         "destination": "PHX",
@@ -553,7 +553,7 @@
             }
         }
     },
-    {
+    "HAT003": {
         "flight_number": "HAT003",
         "origin": "LAS",
         "destination": "DEN",
@@ -830,7 +830,7 @@
             }
         }
     },
-    {
+    "HAT004": {
         "flight_number": "HAT004",
         "origin": "ATL",
         "destination": "DFW",
@@ -1101,7 +1101,7 @@
             }
         }
     },
-    {
+    "HAT005": {
         "flight_number": "HAT005",
         "origin": "LAS",
         "destination": "ATL",
@@ -1380,7 +1380,7 @@
             }
         }
     },
-    {
+    "HAT006": {
         "flight_number": "HAT006",
         "origin": "BOS",
         "destination": "SEA",
@@ -1657,7 +1657,7 @@
             }
         }
     },
-    {
+    "HAT007": {
         "flight_number": "HAT007",
         "origin": "LAS",
         "destination": "ATL",
@@ -1934,7 +1934,7 @@
             }
         }
     },
-    {
+    "HAT008": {
         "flight_number": "HAT008",
         "origin": "MIA",
         "destination": "LAX",
@@ -2211,7 +2211,7 @@
             }
         }
     },
-    {
+    "HAT009": {
         "flight_number": "HAT009",
         "origin": "PHX",
         "destination": "SFO",
@@ -2488,7 +2488,7 @@
             }
         }
     },
-    {
+    "HAT010": {
         "flight_number": "HAT010",
         "origin": "ATL",
         "destination": "MCO",
@@ -2765,7 +2765,7 @@
             }
         }
     },
-    {
+    "HAT011": {
         "flight_number": "HAT011",
         "origin": "SEA",
         "destination": "SFO",
@@ -3044,7 +3044,7 @@
             }
         }
     },
-    {
+    "HAT012": {
         "flight_number": "HAT012",
         "origin": "LAX",
         "destination": "EWR",
@@ -3319,7 +3319,7 @@
             }
         }
     },
-    {
+    "HAT013": {
         "flight_number": "HAT013",
         "origin": "BOS",
         "destination": "MCO",
@@ -3598,7 +3598,7 @@
             }
         }
     },
-    {
+    "HAT014": {
         "flight_number": "HAT014",
         "origin": "JFK",
         "destination": "MIA",
@@ -3871,7 +3871,7 @@
             }
         }
     },
-    {
+    "HAT015": {
         "flight_number": "HAT015",
         "origin": "CLT",
         "destination": "EWR",
@@ -4146,7 +4146,7 @@
             }
         }
     },
-    {
+    "HAT016": {
         "flight_number": "HAT016",
         "origin": "PHL",
         "destination": "CLT",
@@ -4423,7 +4423,7 @@
             }
         }
     },
-    {
+    "HAT017": {
         "flight_number": "HAT017",
         "origin": "MCO",
         "destination": "BOS",
@@ -4698,7 +4698,7 @@
             }
         }
     },
-    {
+    "HAT018": {
         "flight_number": "HAT018",
         "origin": "SEA",
         "destination": "LAS",
@@ -4975,7 +4975,7 @@
             }
         }
     },
-    {
+    "HAT019": {
         "flight_number": "HAT019",
         "origin": "MIA",
         "destination": "LAX",
@@ -5252,7 +5252,7 @@
             }
         }
     },
-    {
+    "HAT020": {
         "flight_number": "HAT020",
         "origin": "ORD",
         "destination": "DTW",
@@ -5525,7 +5525,7 @@
             }
         }
     },
-    {
+    "HAT021": {
         "flight_number": "HAT021",
         "origin": "SEA",
         "destination": "JFK",
@@ -5800,7 +5800,7 @@
             }
         }
     },
-    {
+    "HAT022": {
         "flight_number": "HAT022",
         "origin": "LAX",
         "destination": "DFW",
@@ -6077,7 +6077,7 @@
             }
         }
     },
-    {
+    "HAT023": {
         "flight_number": "HAT023",
         "origin": "JFK",
         "destination": "SFO",
@@ -6354,7 +6354,7 @@
             }
         }
     },
-    {
+    "HAT024": {
         "flight_number": "HAT024",
         "origin": "CLT",
         "destination": "LGA",
@@ -6631,7 +6631,7 @@
             }
         }
     },
-    {
+    "HAT025": {
         "flight_number": "HAT025",
         "origin": "IAH",
         "destination": "JFK",
@@ -6910,7 +6910,7 @@
             }
         }
     },
-    {
+    "HAT026": {
         "flight_number": "HAT026",
         "origin": "SFO",
         "destination": "BOS",
@@ -7187,7 +7187,7 @@
             }
         }
     },
-    {
+    "HAT027": {
         "flight_number": "HAT027",
         "origin": "PHX",
         "destination": "LAS",
@@ -7460,7 +7460,7 @@
             }
         }
     },
-    {
+    "HAT028": {
         "flight_number": "HAT028",
         "origin": "MCO",
         "destination": "BOS",
@@ -7739,7 +7739,7 @@
             }
         }
     },
-    {
+    "HAT029": {
         "flight_number": "HAT029",
         "origin": "LGA",
         "destination": "PHL",
@@ -8016,7 +8016,7 @@
             }
         }
     },
-    {
+    "HAT030": {
         "flight_number": "HAT030",
         "origin": "LAX",
         "destination": "ORD",
@@ -8291,7 +8291,7 @@
             }
         }
     },
-    {
+    "HAT031": {
         "flight_number": "HAT031",
         "origin": "MIA",
         "destination": "EWR",
@@ -8566,7 +8566,7 @@
             }
         }
     },
-    {
+    "HAT032": {
         "flight_number": "HAT032",
         "origin": "PHX",
         "destination": "SFO",
@@ -8837,7 +8837,7 @@
             }
         }
     },
-    {
+    "HAT033": {
         "flight_number": "HAT033",
         "origin": "JFK",
         "destination": "DTW",
@@ -9116,7 +9116,7 @@
             }
         }
     },
-    {
+    "HAT034": {
         "flight_number": "HAT034",
         "origin": "LAX",
         "destination": "SFO",
@@ -9391,7 +9391,7 @@
             }
         }
     },
-    {
+    "HAT035": {
         "flight_number": "HAT035",
         "origin": "DTW",
         "destination": "PHX",
@@ -9668,7 +9668,7 @@
             }
         }
     },
-    {
+    "HAT036": {
         "flight_number": "HAT036",
         "origin": "MSP",
         "destination": "MCO",
@@ -9945,7 +9945,7 @@
             }
         }
     },
-    {
+    "HAT037": {
         "flight_number": "HAT037",
         "origin": "SEA",
         "destination": "DFW",
@@ -10224,7 +10224,7 @@
             }
         }
     },
-    {
+    "HAT038": {
         "flight_number": "HAT038",
         "origin": "DFW",
         "destination": "SEA",
@@ -10499,7 +10499,7 @@
             }
         }
     },
-    {
+    "HAT039": {
         "flight_number": "HAT039",
         "origin": "ATL",
         "destination": "SEA",
@@ -10776,7 +10776,7 @@
             }
         }
     },
-    {
+    "HAT040": {
         "flight_number": "HAT040",
         "origin": "LAS",
         "destination": "SEA",
@@ -11055,7 +11055,7 @@
             }
         }
     },
-    {
+    "HAT041": {
         "flight_number": "HAT041",
         "origin": "EWR",
         "destination": "LAX",
@@ -11332,7 +11332,7 @@
             }
         }
     },
-    {
+    "HAT042": {
         "flight_number": "HAT042",
         "origin": "SFO",
         "destination": "PHL",
@@ -11611,7 +11611,7 @@
             }
         }
     },
-    {
+    "HAT043": {
         "flight_number": "HAT043",
         "origin": "EWR",
         "destination": "CLT",
@@ -11886,7 +11886,7 @@
             }
         }
     },
-    {
+    "HAT044": {
         "flight_number": "HAT044",
         "origin": "IAH",
         "destination": "ORD",
@@ -12165,7 +12165,7 @@
             }
         }
     },
-    {
+    "HAT045": {
         "flight_number": "HAT045",
         "origin": "PHX",
         "destination": "SEA",
@@ -12442,7 +12442,7 @@
             }
         }
     },
-    {
+    "HAT046": {
         "flight_number": "HAT046",
         "origin": "DEN",
         "destination": "DFW",
@@ -12721,7 +12721,7 @@
             }
         }
     },
-    {
+    "HAT047": {
         "flight_number": "HAT047",
         "origin": "LAS",
         "destination": "SEA",
@@ -13000,7 +13000,7 @@
             }
         }
     },
-    {
+    "HAT048": {
         "flight_number": "HAT048",
         "origin": "MCO",
         "destination": "PHX",
@@ -13279,7 +13279,7 @@
             }
         }
     },
-    {
+    "HAT049": {
         "flight_number": "HAT049",
         "origin": "ORD",
         "destination": "DEN",
@@ -13556,7 +13556,7 @@
             }
         }
     },
-    {
+    "HAT050": {
         "flight_number": "HAT050",
         "origin": "MIA",
         "destination": "LAX",
@@ -13831,7 +13831,7 @@
             }
         }
     },
-    {
+    "HAT051": {
         "flight_number": "HAT051",
         "origin": "PHX",
         "destination": "LGA",
@@ -14110,7 +14110,7 @@
             }
         }
     },
-    {
+    "HAT052": {
         "flight_number": "HAT052",
         "origin": "ATL",
         "destination": "LAS",
@@ -14379,7 +14379,7 @@
             }
         }
     },
-    {
+    "HAT053": {
         "flight_number": "HAT053",
         "origin": "DTW",
         "destination": "CLT",
@@ -14656,7 +14656,7 @@
             }
         }
     },
-    {
+    "HAT054": {
         "flight_number": "HAT054",
         "origin": "MSP",
         "destination": "MCO",
@@ -14929,7 +14929,7 @@
             }
         }
     },
-    {
+    "HAT055": {
         "flight_number": "HAT055",
         "origin": "SEA",
         "destination": "DFW",
@@ -15202,7 +15202,7 @@
             }
         }
     },
-    {
+    "HAT056": {
         "flight_number": "HAT056",
         "origin": "EWR",
         "destination": "IAH",
@@ -15479,7 +15479,7 @@
             }
         }
     },
-    {
+    "HAT057": {
         "flight_number": "HAT057",
         "origin": "JFK",
         "destination": "ATL",
@@ -15756,7 +15756,7 @@
             }
         }
     },
-    {
+    "HAT058": {
         "flight_number": "HAT058",
         "origin": "DEN",
         "destination": "CLT",
@@ -16031,7 +16031,7 @@
             }
         }
     },
-    {
+    "HAT059": {
         "flight_number": "HAT059",
         "origin": "ATL",
         "destination": "DFW",
@@ -16310,7 +16310,7 @@
             }
         }
     },
-    {
+    "HAT060": {
         "flight_number": "HAT060",
         "origin": "JFK",
         "destination": "MIA",
@@ -16587,7 +16587,7 @@
             }
         }
     },
-    {
+    "HAT061": {
         "flight_number": "HAT061",
         "origin": "LAS",
         "destination": "ATL",
@@ -16866,7 +16866,7 @@
             }
         }
     },
-    {
+    "HAT062": {
         "flight_number": "HAT062",
         "origin": "MIA",
         "destination": "LAS",
@@ -17145,7 +17145,7 @@
             }
         }
     },
-    {
+    "HAT063": {
         "flight_number": "HAT063",
         "origin": "DFW",
         "destination": "EWR",
@@ -17420,7 +17420,7 @@
             }
         }
     },
-    {
+    "HAT064": {
         "flight_number": "HAT064",
         "origin": "CLT",
         "destination": "BOS",
@@ -17697,7 +17697,7 @@
             }
         }
     },
-    {
+    "HAT065": {
         "flight_number": "HAT065",
         "origin": "LGA",
         "destination": "CLT",
@@ -17974,7 +17974,7 @@
             }
         }
     },
-    {
+    "HAT066": {
         "flight_number": "HAT066",
         "origin": "PHX",
         "destination": "LGA",
@@ -18251,7 +18251,7 @@
             }
         }
     },
-    {
+    "HAT067": {
         "flight_number": "HAT067",
         "origin": "DFW",
         "destination": "SEA",
@@ -18528,7 +18528,7 @@
             }
         }
     },
-    {
+    "HAT068": {
         "flight_number": "HAT068",
         "origin": "IAH",
         "destination": "JFK",
@@ -18805,7 +18805,7 @@
             }
         }
     },
-    {
+    "HAT069": {
         "flight_number": "HAT069",
         "origin": "JFK",
         "destination": "SEA",
@@ -19082,7 +19082,7 @@
             }
         }
     },
-    {
+    "HAT070": {
         "flight_number": "HAT070",
         "origin": "LAS",
         "destination": "ATL",
@@ -19359,7 +19359,7 @@
             }
         }
     },
-    {
+    "HAT071": {
         "flight_number": "HAT071",
         "origin": "MSP",
         "destination": "MCO",
@@ -19636,7 +19636,7 @@
             }
         }
     },
-    {
+    "HAT072": {
         "flight_number": "HAT072",
         "origin": "IAH",
         "destination": "SFO",
@@ -19915,7 +19915,7 @@
             }
         }
     },
-    {
+    "HAT073": {
         "flight_number": "HAT073",
         "origin": "PHX",
         "destination": "DTW",
@@ -20192,7 +20192,7 @@
             }
         }
     },
-    {
+    "HAT074": {
         "flight_number": "HAT074",
         "origin": "SFO",
         "destination": "PHL",
@@ -20467,7 +20467,7 @@
             }
         }
     },
-    {
+    "HAT075": {
         "flight_number": "HAT075",
         "origin": "MCO",
         "destination": "LAS",
@@ -20744,7 +20744,7 @@
             }
         }
     },
-    {
+    "HAT076": {
         "flight_number": "HAT076",
         "origin": "PHL",
         "destination": "DEN",
@@ -21019,7 +21019,7 @@
             }
         }
     },
-    {
+    "HAT077": {
         "flight_number": "HAT077",
         "origin": "LAS",
         "destination": "ATL",
@@ -21298,7 +21298,7 @@
             }
         }
     },
-    {
+    "HAT078": {
         "flight_number": "HAT078",
         "origin": "IAH",
         "destination": "ORD",
@@ -21575,7 +21575,7 @@
             }
         }
     },
-    {
+    "HAT079": {
         "flight_number": "HAT079",
         "origin": "JFK",
         "destination": "ORD",
@@ -21854,7 +21854,7 @@
             }
         }
     },
-    {
+    "HAT080": {
         "flight_number": "HAT080",
         "origin": "DEN",
         "destination": "PHL",
@@ -22129,7 +22129,7 @@
             }
         }
     },
-    {
+    "HAT081": {
         "flight_number": "HAT081",
         "origin": "PHX",
         "destination": "LGA",
@@ -22404,7 +22404,7 @@
             }
         }
     },
-    {
+    "HAT082": {
         "flight_number": "HAT082",
         "origin": "SFO",
         "destination": "IAH",
@@ -22683,7 +22683,7 @@
             }
         }
     },
-    {
+    "HAT083": {
         "flight_number": "HAT083",
         "origin": "JFK",
         "destination": "SEA",
@@ -22958,7 +22958,7 @@
             }
         }
     },
-    {
+    "HAT084": {
         "flight_number": "HAT084",
         "origin": "DEN",
         "destination": "LAS",
@@ -23237,7 +23237,7 @@
             }
         }
     },
-    {
+    "HAT085": {
         "flight_number": "HAT085",
         "origin": "IAH",
         "destination": "JFK",
@@ -23512,7 +23512,7 @@
             }
         }
     },
-    {
+    "HAT086": {
         "flight_number": "HAT086",
         "origin": "BOS",
         "destination": "MIA",
@@ -23789,7 +23789,7 @@
             }
         }
     },
-    {
+    "HAT087": {
         "flight_number": "HAT087",
         "origin": "CLT",
         "destination": "LGA",
@@ -24060,7 +24060,7 @@
             }
         }
     },
-    {
+    "HAT088": {
         "flight_number": "HAT088",
         "origin": "JFK",
         "destination": "DTW",
@@ -24335,7 +24335,7 @@
             }
         }
     },
-    {
+    "HAT089": {
         "flight_number": "HAT089",
         "origin": "SEA",
         "destination": "JFK",
@@ -24612,7 +24612,7 @@
             }
         }
     },
-    {
+    "HAT090": {
         "flight_number": "HAT090",
         "origin": "LAX",
         "destination": "ORD",
@@ -24889,7 +24889,7 @@
             }
         }
     },
-    {
+    "HAT091": {
         "flight_number": "HAT091",
         "origin": "LGA",
         "destination": "PHL",
@@ -25168,7 +25168,7 @@
             }
         }
     },
-    {
+    "HAT092": {
         "flight_number": "HAT092",
         "origin": "JFK",
         "destination": "DTW",
@@ -25445,7 +25445,7 @@
             }
         }
     },
-    {
+    "HAT093": {
         "flight_number": "HAT093",
         "origin": "ORD",
         "destination": "ATL",
@@ -25724,7 +25724,7 @@
             }
         }
     },
-    {
+    "HAT094": {
         "flight_number": "HAT094",
         "origin": "LAX",
         "destination": "SFO",
@@ -25999,7 +25999,7 @@
             }
         }
     },
-    {
+    "HAT095": {
         "flight_number": "HAT095",
         "origin": "LAS",
         "destination": "PHX",
@@ -26276,7 +26276,7 @@
             }
         }
     },
-    {
+    "HAT096": {
         "flight_number": "HAT096",
         "origin": "PHL",
         "destination": "LGA",
@@ -26549,7 +26549,7 @@
             }
         }
     },
-    {
+    "HAT097": {
         "flight_number": "HAT097",
         "origin": "DTW",
         "destination": "PHX",
@@ -26828,7 +26828,7 @@
             }
         }
     },
-    {
+    "HAT098": {
         "flight_number": "HAT098",
         "origin": "MSP",
         "destination": "MCO",
@@ -27105,7 +27105,7 @@
             }
         }
     },
-    {
+    "HAT099": {
         "flight_number": "HAT099",
         "origin": "DFW",
         "destination": "SEA",
@@ -27380,7 +27380,7 @@
             }
         }
     },
-    {
+    "HAT100": {
         "flight_number": "HAT100",
         "origin": "SEA",
         "destination": "JFK",
@@ -27653,7 +27653,7 @@
             }
         }
     },
-    {
+    "HAT101": {
         "flight_number": "HAT101",
         "origin": "MCO",
         "destination": "LAS",
@@ -27928,7 +27928,7 @@
             }
         }
     },
-    {
+    "HAT102": {
         "flight_number": "HAT102",
         "origin": "ATL",
         "destination": "LAS",
@@ -28207,7 +28207,7 @@
             }
         }
     },
-    {
+    "HAT103": {
         "flight_number": "HAT103",
         "origin": "LAX",
         "destination": "ORD",
@@ -28482,7 +28482,7 @@
             }
         }
     },
-    {
+    "HAT104": {
         "flight_number": "HAT104",
         "origin": "LAX",
         "destination": "ORD",
@@ -28755,7 +28755,7 @@
             }
         }
     },
-    {
+    "HAT105": {
         "flight_number": "HAT105",
         "origin": "DEN",
         "destination": "ORD",
@@ -29034,7 +29034,7 @@
             }
         }
     },
-    {
+    "HAT106": {
         "flight_number": "HAT106",
         "origin": "PHX",
         "destination": "DTW",
@@ -29313,7 +29313,7 @@
             }
         }
     },
-    {
+    "HAT107": {
         "flight_number": "HAT107",
         "origin": "SEA",
         "destination": "SFO",
@@ -29584,7 +29584,7 @@
             }
         }
     },
-    {
+    "HAT108": {
         "flight_number": "HAT108",
         "origin": "CLT",
         "destination": "EWR",
@@ -29863,7 +29863,7 @@
             }
         }
     },
-    {
+    "HAT109": {
         "flight_number": "HAT109",
         "origin": "LAX",
         "destination": "ORD",
@@ -30138,7 +30138,7 @@
             }
         }
     },
-    {
+    "HAT110": {
         "flight_number": "HAT110",
         "origin": "ATL",
         "destination": "LGA",
@@ -30417,7 +30417,7 @@
             }
         }
     },
-    {
+    "HAT111": {
         "flight_number": "HAT111",
         "origin": "DTW",
         "destination": "MSP",
@@ -30696,7 +30696,7 @@
             }
         }
     },
-    {
+    "HAT112": {
         "flight_number": "HAT112",
         "origin": "IAH",
         "destination": "LAS",
@@ -30973,7 +30973,7 @@
             }
         }
     },
-    {
+    "HAT113": {
         "flight_number": "HAT113",
         "origin": "SEA",
         "destination": "DFW",
@@ -31252,7 +31252,7 @@
             }
         }
     },
-    {
+    "HAT114": {
         "flight_number": "HAT114",
         "origin": "LGA",
         "destination": "PHX",
@@ -31529,7 +31529,7 @@
             }
         }
     },
-    {
+    "HAT115": {
         "flight_number": "HAT115",
         "origin": "LAS",
         "destination": "MIA",
@@ -31804,7 +31804,7 @@
             }
         }
     },
-    {
+    "HAT116": {
         "flight_number": "HAT116",
         "origin": "IAH",
         "destination": "ORD",
@@ -32079,7 +32079,7 @@
             }
         }
     },
-    {
+    "HAT117": {
         "flight_number": "HAT117",
         "origin": "SEA",
         "destination": "DFW",
@@ -32356,7 +32356,7 @@
             }
         }
     },
-    {
+    "HAT118": {
         "flight_number": "HAT118",
         "origin": "ORD",
         "destination": "DEN",
@@ -32635,7 +32635,7 @@
             }
         }
     },
-    {
+    "HAT119": {
         "flight_number": "HAT119",
         "origin": "DTW",
         "destination": "ORD",
@@ -32912,7 +32912,7 @@
             }
         }
     },
-    {
+    "HAT120": {
         "flight_number": "HAT120",
         "origin": "MIA",
         "destination": "LAX",
@@ -33189,7 +33189,7 @@
             }
         }
     },
-    {
+    "HAT121": {
         "flight_number": "HAT121",
         "origin": "SEA",
         "destination": "PHX",
@@ -33466,7 +33466,7 @@
             }
         }
     },
-    {
+    "HAT122": {
         "flight_number": "HAT122",
         "origin": "PHL",
         "destination": "CLT",
@@ -33745,7 +33745,7 @@
             }
         }
     },
-    {
+    "HAT123": {
         "flight_number": "HAT123",
         "origin": "SFO",
         "destination": "PHX",
@@ -34022,7 +34022,7 @@
             }
         }
     },
-    {
+    "HAT124": {
         "flight_number": "HAT124",
         "origin": "DFW",
         "destination": "LAX",
@@ -34295,7 +34295,7 @@
             }
         }
     },
-    {
+    "HAT125": {
         "flight_number": "HAT125",
         "origin": "DTW",
         "destination": "MSP",
@@ -34574,7 +34574,7 @@
             }
         }
     },
-    {
+    "HAT126": {
         "flight_number": "HAT126",
         "origin": "JFK",
         "destination": "MIA",
@@ -34851,7 +34851,7 @@
             }
         }
     },
-    {
+    "HAT127": {
         "flight_number": "HAT127",
         "origin": "MSP",
         "destination": "DTW",
@@ -35126,7 +35126,7 @@
             }
         }
     },
-    {
+    "HAT128": {
         "flight_number": "HAT128",
         "origin": "DFW",
         "destination": "ATL",
@@ -35401,7 +35401,7 @@
             }
         }
     },
-    {
+    "HAT129": {
         "flight_number": "HAT129",
         "origin": "MIA",
         "destination": "ORD",
@@ -35680,7 +35680,7 @@
             }
         }
     },
-    {
+    "HAT130": {
         "flight_number": "HAT130",
         "origin": "DEN",
         "destination": "MIA",
@@ -35959,7 +35959,7 @@
             }
         }
     },
-    {
+    "HAT131": {
         "flight_number": "HAT131",
         "origin": "IAH",
         "destination": "LAS",
@@ -36236,7 +36236,7 @@
             }
         }
     },
-    {
+    "HAT132": {
         "flight_number": "HAT132",
         "origin": "LGA",
         "destination": "PHL",
@@ -36509,7 +36509,7 @@
             }
         }
     },
-    {
+    "HAT133": {
         "flight_number": "HAT133",
         "origin": "ATL",
         "destination": "SEA",
@@ -36786,7 +36786,7 @@
             }
         }
     },
-    {
+    "HAT134": {
         "flight_number": "HAT134",
         "origin": "SFO",
         "destination": "PHX",
@@ -37063,7 +37063,7 @@
             }
         }
     },
-    {
+    "HAT135": {
         "flight_number": "HAT135",
         "origin": "PHL",
         "destination": "LGA",
@@ -37340,7 +37340,7 @@
             }
         }
     },
-    {
+    "HAT136": {
         "flight_number": "HAT136",
         "origin": "JFK",
         "destination": "ATL",
@@ -37617,7 +37617,7 @@
             }
         }
     },
-    {
+    "HAT137": {
         "flight_number": "HAT137",
         "origin": "LAS",
         "destination": "MCO",
@@ -37894,7 +37894,7 @@
             }
         }
     },
-    {
+    "HAT138": {
         "flight_number": "HAT138",
         "origin": "IAH",
         "destination": "ORD",
@@ -38169,7 +38169,7 @@
             }
         }
     },
-    {
+    "HAT139": {
         "flight_number": "HAT139",
         "origin": "ORD",
         "destination": "PHL",
@@ -38448,7 +38448,7 @@
             }
         }
     },
-    {
+    "HAT140": {
         "flight_number": "HAT140",
         "origin": "DEN",
         "destination": "DFW",
@@ -38727,7 +38727,7 @@
             }
         }
     },
-    {
+    "HAT141": {
         "flight_number": "HAT141",
         "origin": "MSP",
         "destination": "EWR",
@@ -39006,7 +39006,7 @@
             }
         }
     },
-    {
+    "HAT142": {
         "flight_number": "HAT142",
         "origin": "DFW",
         "destination": "EWR",
@@ -39277,7 +39277,7 @@
             }
         }
     },
-    {
+    "HAT143": {
         "flight_number": "HAT143",
         "origin": "DEN",
         "destination": "CLT",
@@ -39556,7 +39556,7 @@
             }
         }
     },
-    {
+    "HAT144": {
         "flight_number": "HAT144",
         "origin": "SFO",
         "destination": "PHX",
@@ -39833,7 +39833,7 @@
             }
         }
     },
-    {
+    "HAT145": {
         "flight_number": "HAT145",
         "origin": "BOS",
         "destination": "MCO",
@@ -40112,7 +40112,7 @@
             }
         }
     },
-    {
+    "HAT146": {
         "flight_number": "HAT146",
         "origin": "ATL",
         "destination": "MCO",
@@ -40391,7 +40391,7 @@
             }
         }
     },
-    {
+    "HAT147": {
         "flight_number": "HAT147",
         "origin": "ORD",
         "destination": "IAH",
@@ -40670,7 +40670,7 @@
             }
         }
     },
-    {
+    "HAT148": {
         "flight_number": "HAT148",
         "origin": "MIA",
         "destination": "DEN",
@@ -40949,7 +40949,7 @@
             }
         }
     },
-    {
+    "HAT149": {
         "flight_number": "HAT149",
         "origin": "IAH",
         "destination": "EWR",
@@ -41228,7 +41228,7 @@
             }
         }
     },
-    {
+    "HAT150": {
         "flight_number": "HAT150",
         "origin": "LGA",
         "destination": "PHX",
@@ -41505,7 +41505,7 @@
             }
         }
     },
-    {
+    "HAT151": {
         "flight_number": "HAT151",
         "origin": "MSP",
         "destination": "MCO",
@@ -41782,7 +41782,7 @@
             }
         }
     },
-    {
+    "HAT152": {
         "flight_number": "HAT152",
         "origin": "PHX",
         "destination": "IAH",
@@ -42059,7 +42059,7 @@
             }
         }
     },
-    {
+    "HAT153": {
         "flight_number": "HAT153",
         "origin": "MCO",
         "destination": "PHX",
@@ -42336,7 +42336,7 @@
             }
         }
     },
-    {
+    "HAT154": {
         "flight_number": "HAT154",
         "origin": "LAS",
         "destination": "MCO",
@@ -42615,7 +42615,7 @@
             }
         }
     },
-    {
+    "HAT155": {
         "flight_number": "HAT155",
         "origin": "LAX",
         "destination": "SFO",
@@ -42892,7 +42892,7 @@
             }
         }
     },
-    {
+    "HAT156": {
         "flight_number": "HAT156",
         "origin": "PHX",
         "destination": "SEA",
@@ -43171,7 +43171,7 @@
             }
         }
     },
-    {
+    "HAT157": {
         "flight_number": "HAT157",
         "origin": "CLT",
         "destination": "EWR",
@@ -43450,7 +43450,7 @@
             }
         }
     },
-    {
+    "HAT158": {
         "flight_number": "HAT158",
         "origin": "DEN",
         "destination": "PHL",
@@ -43721,7 +43721,7 @@
             }
         }
     },
-    {
+    "HAT159": {
         "flight_number": "HAT159",
         "origin": "PHX",
         "destination": "SFO",
@@ -43996,7 +43996,7 @@
             }
         }
     },
-    {
+    "HAT160": {
         "flight_number": "HAT160",
         "origin": "DEN",
         "destination": "CLT",
@@ -44273,7 +44273,7 @@
             }
         }
     },
-    {
+    "HAT161": {
         "flight_number": "HAT161",
         "origin": "MCO",
         "destination": "PHX",
@@ -44550,7 +44550,7 @@
             }
         }
     },
-    {
+    "HAT162": {
         "flight_number": "HAT162",
         "origin": "LAS",
         "destination": "DEN",
@@ -44823,7 +44823,7 @@
             }
         }
     },
-    {
+    "HAT163": {
         "flight_number": "HAT163",
         "origin": "SFO",
         "destination": "LAX",
@@ -45100,7 +45100,7 @@
             }
         }
     },
-    {
+    "HAT164": {
         "flight_number": "HAT164",
         "origin": "ATL",
         "destination": "LGA",
@@ -45379,7 +45379,7 @@
             }
         }
     },
-    {
+    "HAT165": {
         "flight_number": "HAT165",
         "origin": "ORD",
         "destination": "IAH",
@@ -45654,7 +45654,7 @@
             }
         }
     },
-    {
+    "HAT166": {
         "flight_number": "HAT166",
         "origin": "EWR",
         "destination": "IAH",
@@ -45925,7 +45925,7 @@
             }
         }
     },
-    {
+    "HAT167": {
         "flight_number": "HAT167",
         "origin": "CLT",
         "destination": "DTW",
@@ -46200,7 +46200,7 @@
             }
         }
     },
-    {
+    "HAT168": {
         "flight_number": "HAT168",
         "origin": "DTW",
         "destination": "CLT",
@@ -46475,7 +46475,7 @@
             }
         }
     },
-    {
+    "HAT169": {
         "flight_number": "HAT169",
         "origin": "DTW",
         "destination": "JFK",
@@ -46752,7 +46752,7 @@
             }
         }
     },
-    {
+    "HAT170": {
         "flight_number": "HAT170",
         "origin": "DFW",
         "destination": "LAX",
@@ -47029,7 +47029,7 @@
             }
         }
     },
-    {
+    "HAT171": {
         "flight_number": "HAT171",
         "origin": "MSP",
         "destination": "MCO",
@@ -47304,7 +47304,7 @@
             }
         }
     },
-    {
+    "HAT172": {
         "flight_number": "HAT172",
         "origin": "LGA",
         "destination": "PHL",
@@ -47583,7 +47583,7 @@
             }
         }
     },
-    {
+    "HAT173": {
         "flight_number": "HAT173",
         "origin": "PHX",
         "destination": "LAS",
@@ -47862,7 +47862,7 @@
             }
         }
     },
-    {
+    "HAT174": {
         "flight_number": "HAT174",
         "origin": "ATL",
         "destination": "LAS",
@@ -48139,7 +48139,7 @@
             }
         }
     },
-    {
+    "HAT175": {
         "flight_number": "HAT175",
         "origin": "LAS",
         "destination": "IAH",
@@ -48416,7 +48416,7 @@
             }
         }
     },
-    {
+    "HAT176": {
         "flight_number": "HAT176",
         "origin": "CLT",
         "destination": "DTW",
@@ -48689,7 +48689,7 @@
             }
         }
     },
-    {
+    "HAT177": {
         "flight_number": "HAT177",
         "origin": "DFW",
         "destination": "ATL",
@@ -48966,7 +48966,7 @@
             }
         }
     },
-    {
+    "HAT178": {
         "flight_number": "HAT178",
         "origin": "ATL",
         "destination": "LAS",
@@ -49239,7 +49239,7 @@
             }
         }
     },
-    {
+    "HAT179": {
         "flight_number": "HAT179",
         "origin": "EWR",
         "destination": "IAH",
@@ -49518,7 +49518,7 @@
             }
         }
     },
-    {
+    "HAT180": {
         "flight_number": "HAT180",
         "origin": "IAH",
         "destination": "SFO",
@@ -49795,7 +49795,7 @@
             }
         }
     },
-    {
+    "HAT181": {
         "flight_number": "HAT181",
         "origin": "PHX",
         "destination": "MCO",
@@ -50072,7 +50072,7 @@
             }
         }
     },
-    {
+    "HAT182": {
         "flight_number": "HAT182",
         "origin": "BOS",
         "destination": "MCO",
@@ -50349,7 +50349,7 @@
             }
         }
     },
-    {
+    "HAT183": {
         "flight_number": "HAT183",
         "origin": "DFW",
         "destination": "SEA",
@@ -50624,7 +50624,7 @@
             }
         }
     },
-    {
+    "HAT184": {
         "flight_number": "HAT184",
         "origin": "MIA",
         "destination": "BOS",
@@ -50899,7 +50899,7 @@
             }
         }
     },
-    {
+    "HAT185": {
         "flight_number": "HAT185",
         "origin": "MIA",
         "destination": "LAX",
@@ -51170,7 +51170,7 @@
             }
         }
     },
-    {
+    "HAT186": {
         "flight_number": "HAT186",
         "origin": "LAX",
         "destination": "DFW",
@@ -51445,7 +51445,7 @@
             }
         }
     },
-    {
+    "HAT187": {
         "flight_number": "HAT187",
         "origin": "LAX",
         "destination": "DFW",
@@ -51720,7 +51720,7 @@
             }
         }
     },
-    {
+    "HAT188": {
         "flight_number": "HAT188",
         "origin": "EWR",
         "destination": "IAH",
@@ -51995,7 +51995,7 @@
             }
         }
     },
-    {
+    "HAT189": {
         "flight_number": "HAT189",
         "origin": "MIA",
         "destination": "LAX",
@@ -52274,7 +52274,7 @@
             }
         }
     },
-    {
+    "HAT190": {
         "flight_number": "HAT190",
         "origin": "IAH",
         "destination": "LAS",
@@ -52549,7 +52549,7 @@
             }
         }
     },
-    {
+    "HAT191": {
         "flight_number": "HAT191",
         "origin": "DTW",
         "destination": "CLT",
@@ -52820,7 +52820,7 @@
             }
         }
     },
-    {
+    "HAT192": {
         "flight_number": "HAT192",
         "origin": "MIA",
         "destination": "EWR",
@@ -53097,7 +53097,7 @@
             }
         }
     },
-    {
+    "HAT193": {
         "flight_number": "HAT193",
         "origin": "MIA",
         "destination": "DEN",
@@ -53374,7 +53374,7 @@
             }
         }
     },
-    {
+    "HAT194": {
         "flight_number": "HAT194",
         "origin": "SEA",
         "destination": "BOS",
@@ -53653,7 +53653,7 @@
             }
         }
     },
-    {
+    "HAT195": {
         "flight_number": "HAT195",
         "origin": "IAH",
         "destination": "EWR",
@@ -53930,7 +53930,7 @@
             }
         }
     },
-    {
+    "HAT196": {
         "flight_number": "HAT196",
         "origin": "MSP",
         "destination": "EWR",
@@ -54201,7 +54201,7 @@
             }
         }
     },
-    {
+    "HAT197": {
         "flight_number": "HAT197",
         "origin": "PHL",
         "destination": "ORD",
@@ -54480,7 +54480,7 @@
             }
         }
     },
-    {
+    "HAT198": {
         "flight_number": "HAT198",
         "origin": "MIA",
         "destination": "JFK",
@@ -54757,7 +54757,7 @@
             }
         }
     },
-    {
+    "HAT199": {
         "flight_number": "HAT199",
         "origin": "PHL",
         "destination": "SFO",
@@ -55034,7 +55034,7 @@
             }
         }
     },
-    {
+    "HAT200": {
         "flight_number": "HAT200",
         "origin": "MIA",
         "destination": "LAX",
@@ -55309,7 +55309,7 @@
             }
         }
     },
-    {
+    "HAT201": {
         "flight_number": "HAT201",
         "origin": "LGA",
         "destination": "PHX",
@@ -55584,7 +55584,7 @@
             }
         }
     },
-    {
+    "HAT202": {
         "flight_number": "HAT202",
         "origin": "EWR",
         "destination": "MIA",
@@ -55861,7 +55861,7 @@
             }
         }
     },
-    {
+    "HAT203": {
         "flight_number": "HAT203",
         "origin": "ATL",
         "destination": "MCO",
@@ -56132,7 +56132,7 @@
             }
         }
     },
-    {
+    "HAT204": {
         "flight_number": "HAT204",
         "origin": "SFO",
         "destination": "SEA",
@@ -56407,7 +56407,7 @@
             }
         }
     },
-    {
+    "HAT205": {
         "flight_number": "HAT205",
         "origin": "CLT",
         "destination": "PHL",
@@ -56684,7 +56684,7 @@
             }
         }
     },
-    {
+    "HAT206": {
         "flight_number": "HAT206",
         "origin": "LGA",
         "destination": "PHL",
@@ -56963,7 +56963,7 @@
             }
         }
     },
-    {
+    "HAT207": {
         "flight_number": "HAT207",
         "origin": "IAH",
         "destination": "EWR",
@@ -57242,7 +57242,7 @@
             }
         }
     },
-    {
+    "HAT208": {
         "flight_number": "HAT208",
         "origin": "EWR",
         "destination": "MSP",
@@ -57521,7 +57521,7 @@
             }
         }
     },
-    {
+    "HAT209": {
         "flight_number": "HAT209",
         "origin": "JFK",
         "destination": "MIA",
@@ -57800,7 +57800,7 @@
             }
         }
     },
-    {
+    "HAT210": {
         "flight_number": "HAT210",
         "origin": "DTW",
         "destination": "MSP",
@@ -58077,7 +58077,7 @@
             }
         }
     },
-    {
+    "HAT211": {
         "flight_number": "HAT211",
         "origin": "LGA",
         "destination": "CLT",
@@ -58352,7 +58352,7 @@
             }
         }
     },
-    {
+    "HAT212": {
         "flight_number": "HAT212",
         "origin": "JFK",
         "destination": "DTW",
@@ -58631,7 +58631,7 @@
             }
         }
     },
-    {
+    "HAT213": {
         "flight_number": "HAT213",
         "origin": "EWR",
         "destination": "DFW",
@@ -58906,7 +58906,7 @@
             }
         }
     },
-    {
+    "HAT214": {
         "flight_number": "HAT214",
         "origin": "MCO",
         "destination": "PHX",
@@ -59181,7 +59181,7 @@
             }
         }
     },
-    {
+    "HAT215": {
         "flight_number": "HAT215",
         "origin": "EWR",
         "destination": "CLT",
@@ -59458,7 +59458,7 @@
             }
         }
     },
-    {
+    "HAT216": {
         "flight_number": "HAT216",
         "origin": "CLT",
         "destination": "BOS",
@@ -59735,7 +59735,7 @@
             }
         }
     },
-    {
+    "HAT217": {
         "flight_number": "HAT217",
         "origin": "MCO",
         "destination": "BOS",
@@ -60012,7 +60012,7 @@
             }
         }
     },
-    {
+    "HAT218": {
         "flight_number": "HAT218",
         "origin": "JFK",
         "destination": "ATL",
@@ -60289,7 +60289,7 @@
             }
         }
     },
-    {
+    "HAT219": {
         "flight_number": "HAT219",
         "origin": "LGA",
         "destination": "PHX",
@@ -60564,7 +60564,7 @@
             }
         }
     },
-    {
+    "HAT220": {
         "flight_number": "HAT220",
         "origin": "SEA",
         "destination": "ATL",
@@ -60843,7 +60843,7 @@
             }
         }
     },
-    {
+    "HAT221": {
         "flight_number": "HAT221",
         "origin": "SEA",
         "destination": "DFW",
@@ -61120,7 +61120,7 @@
             }
         }
     },
-    {
+    "HAT222": {
         "flight_number": "HAT222",
         "origin": "DFW",
         "destination": "SEA",
@@ -61397,7 +61397,7 @@
             }
         }
     },
-    {
+    "HAT223": {
         "flight_number": "HAT223",
         "origin": "ORD",
         "destination": "ATL",
@@ -61670,7 +61670,7 @@
             }
         }
     },
-    {
+    "HAT224": {
         "flight_number": "HAT224",
         "origin": "MIA",
         "destination": "JFK",
@@ -61949,7 +61949,7 @@
             }
         }
     },
-    {
+    "HAT225": {
         "flight_number": "HAT225",
         "origin": "DEN",
         "destination": "CLT",
@@ -62226,7 +62226,7 @@
             }
         }
     },
-    {
+    "HAT226": {
         "flight_number": "HAT226",
         "origin": "PHX",
         "destination": "LGA",
@@ -62503,7 +62503,7 @@
             }
         }
     },
-    {
+    "HAT227": {
         "flight_number": "HAT227",
         "origin": "ATL",
         "destination": "ORD",
@@ -62780,7 +62780,7 @@
             }
         }
     },
-    {
+    "HAT228": {
         "flight_number": "HAT228",
         "origin": "LAX",
         "destination": "EWR",
@@ -63057,7 +63057,7 @@
             }
         }
     },
-    {
+    "HAT229": {
         "flight_number": "HAT229",
         "origin": "DEN",
         "destination": "LAS",
@@ -63334,7 +63334,7 @@
             }
         }
     },
-    {
+    "HAT230": {
         "flight_number": "HAT230",
         "origin": "ORD",
         "destination": "DTW",
@@ -63607,7 +63607,7 @@
             }
         }
     },
-    {
+    "HAT231": {
         "flight_number": "HAT231",
         "origin": "EWR",
         "destination": "DFW",
@@ -63884,7 +63884,7 @@
             }
         }
     },
-    {
+    "HAT232": {
         "flight_number": "HAT232",
         "origin": "MIA",
         "destination": "LAX",
@@ -64161,7 +64161,7 @@
             }
         }
     },
-    {
+    "HAT233": {
         "flight_number": "HAT233",
         "origin": "ATL",
         "destination": "JFK",
@@ -64440,7 +64440,7 @@
             }
         }
     },
-    {
+    "HAT234": {
         "flight_number": "HAT234",
         "origin": "DFW",
         "destination": "SEA",
@@ -64717,7 +64717,7 @@
             }
         }
     },
-    {
+    "HAT235": {
         "flight_number": "HAT235",
         "origin": "BOS",
         "destination": "MCO",
@@ -64992,7 +64992,7 @@
             }
         }
     },
-    {
+    "HAT236": {
         "flight_number": "HAT236",
         "origin": "SEA",
         "destination": "PHX",
@@ -65269,7 +65269,7 @@
             }
         }
     },
-    {
+    "HAT237": {
         "flight_number": "HAT237",
         "origin": "DTW",
         "destination": "MSP",
@@ -65546,7 +65546,7 @@
             }
         }
     },
-    {
+    "HAT238": {
         "flight_number": "HAT238",
         "origin": "ORD",
         "destination": "DEN",
@@ -65821,7 +65821,7 @@
             }
         }
     },
-    {
+    "HAT239": {
         "flight_number": "HAT239",
         "origin": "ATL",
         "destination": "SEA",
@@ -66100,7 +66100,7 @@
             }
         }
     },
-    {
+    "HAT240": {
         "flight_number": "HAT240",
         "origin": "DTW",
         "destination": "JFK",
@@ -66373,7 +66373,7 @@
             }
         }
     },
-    {
+    "HAT241": {
         "flight_number": "HAT241",
         "origin": "DEN",
         "destination": "DFW",
@@ -66650,7 +66650,7 @@
             }
         }
     },
-    {
+    "HAT242": {
         "flight_number": "HAT242",
         "origin": "LAS",
         "destination": "PHX",
@@ -66925,7 +66925,7 @@
             }
         }
     },
-    {
+    "HAT243": {
         "flight_number": "HAT243",
         "origin": "PHL",
         "destination": "CLT",
@@ -67204,7 +67204,7 @@
             }
         }
     },
-    {
+    "HAT244": {
         "flight_number": "HAT244",
         "origin": "LAS",
         "destination": "PHX",
@@ -67475,7 +67475,7 @@
             }
         }
     },
-    {
+    "HAT245": {
         "flight_number": "HAT245",
         "origin": "LGA",
         "destination": "PHX",
@@ -67754,7 +67754,7 @@
             }
         }
     },
-    {
+    "HAT246": {
         "flight_number": "HAT246",
         "origin": "DEN",
         "destination": "DFW",
@@ -68033,7 +68033,7 @@
             }
         }
     },
-    {
+    "HAT247": {
         "flight_number": "HAT247",
         "origin": "BOS",
         "destination": "MIA",
@@ -68308,7 +68308,7 @@
             }
         }
     },
-    {
+    "HAT248": {
         "flight_number": "HAT248",
         "origin": "MSP",
         "destination": "DTW",
@@ -68583,7 +68583,7 @@
             }
         }
     },
-    {
+    "HAT249": {
         "flight_number": "HAT249",
         "origin": "LAX",
         "destination": "SFO",
@@ -68862,7 +68862,7 @@
             }
         }
     },
-    {
+    "HAT250": {
         "flight_number": "HAT250",
         "origin": "MIA",
         "destination": "LAX",
@@ -69137,7 +69137,7 @@
             }
         }
     },
-    {
+    "HAT251": {
         "flight_number": "HAT251",
         "origin": "PHX",
         "destination": "SEA",
@@ -69412,7 +69412,7 @@
             }
         }
     },
-    {
+    "HAT252": {
         "flight_number": "HAT252",
         "origin": "ATL",
         "destination": "DFW",
@@ -69687,7 +69687,7 @@
             }
         }
     },
-    {
+    "HAT253": {
         "flight_number": "HAT253",
         "origin": "SEA",
         "destination": "BOS",
@@ -69966,7 +69966,7 @@
             }
         }
     },
-    {
+    "HAT254": {
         "flight_number": "HAT254",
         "origin": "DTW",
         "destination": "MSP",
@@ -70245,7 +70245,7 @@
             }
         }
     },
-    {
+    "HAT255": {
         "flight_number": "HAT255",
         "origin": "DEN",
         "destination": "MIA",
@@ -70522,7 +70522,7 @@
             }
         }
     },
-    {
+    "HAT256": {
         "flight_number": "HAT256",
         "origin": "PHX",
         "destination": "LGA",
@@ -70797,7 +70797,7 @@
             }
         }
     },
-    {
+    "HAT257": {
         "flight_number": "HAT257",
         "origin": "SFO",
         "destination": "LAX",
@@ -71072,7 +71072,7 @@
             }
         }
     },
-    {
+    "HAT258": {
         "flight_number": "HAT258",
         "origin": "SEA",
         "destination": "SFO",
@@ -71351,7 +71351,7 @@
             }
         }
     },
-    {
+    "HAT259": {
         "flight_number": "HAT259",
         "origin": "PHX",
         "destination": "LAS",
@@ -71630,7 +71630,7 @@
             }
         }
     },
-    {
+    "HAT260": {
         "flight_number": "HAT260",
         "origin": "BOS",
         "destination": "CLT",
@@ -71903,7 +71903,7 @@
             }
         }
     },
-    {
+    "HAT261": {
         "flight_number": "HAT261",
         "origin": "JFK",
         "destination": "ORD",
@@ -72180,7 +72180,7 @@
             }
         }
     },
-    {
+    "HAT262": {
         "flight_number": "HAT262",
         "origin": "CLT",
         "destination": "DEN",
@@ -72455,7 +72455,7 @@
             }
         }
     },
-    {
+    "HAT263": {
         "flight_number": "HAT263",
         "origin": "DTW",
         "destination": "JFK",
@@ -72732,7 +72732,7 @@
             }
         }
     },
-    {
+    "HAT264": {
         "flight_number": "HAT264",
         "origin": "LGA",
         "destination": "PHL",
@@ -73007,7 +73007,7 @@
             }
         }
     },
-    {
+    "HAT265": {
         "flight_number": "HAT265",
         "origin": "PHX",
         "destination": "DTW",
@@ -73284,7 +73284,7 @@
             }
         }
     },
-    {
+    "HAT266": {
         "flight_number": "HAT266",
         "origin": "LAS",
         "destination": "IAH",
@@ -73559,7 +73559,7 @@
             }
         }
     },
-    {
+    "HAT267": {
         "flight_number": "HAT267",
         "origin": "PHX",
         "destination": "SEA",
@@ -73836,7 +73836,7 @@
             }
         }
     },
-    {
+    "HAT268": {
         "flight_number": "HAT268",
         "origin": "JFK",
         "destination": "ATL",
@@ -74113,7 +74113,7 @@
             }
         }
     },
-    {
+    "HAT269": {
         "flight_number": "HAT269",
         "origin": "PHL",
         "destination": "CLT",
@@ -74390,7 +74390,7 @@
             }
         }
     },
-    {
+    "HAT270": {
         "flight_number": "HAT270",
         "origin": "EWR",
         "destination": "CLT",
@@ -74667,7 +74667,7 @@
             }
         }
     },
-    {
+    "HAT271": {
         "flight_number": "HAT271",
         "origin": "ORD",
         "destination": "PHL",
@@ -74944,7 +74944,7 @@
             }
         }
     },
-    {
+    "HAT272": {
         "flight_number": "HAT272",
         "origin": "LGA",
         "destination": "CLT",
@@ -75217,7 +75217,7 @@
             }
         }
     },
-    {
+    "HAT273": {
         "flight_number": "HAT273",
         "origin": "SFO",
         "destination": "LAX",
@@ -75492,7 +75492,7 @@
             }
         }
     },
-    {
+    "HAT274": {
         "flight_number": "HAT274",
         "origin": "SEA",
         "destination": "SFO",
@@ -75769,7 +75769,7 @@
             }
         }
     },
-    {
+    "HAT275": {
         "flight_number": "HAT275",
         "origin": "DTW",
         "destination": "PHX",
@@ -76048,7 +76048,7 @@
             }
         }
     },
-    {
+    "HAT276": {
         "flight_number": "HAT276",
         "origin": "SEA",
         "destination": "JFK",
@@ -76325,7 +76325,7 @@
             }
         }
     },
-    {
+    "HAT277": {
         "flight_number": "HAT277",
         "origin": "BOS",
         "destination": "CLT",
@@ -76600,7 +76600,7 @@
             }
         }
     },
-    {
+    "HAT278": {
         "flight_number": "HAT278",
         "origin": "SFO",
         "destination": "IAH",
@@ -76875,7 +76875,7 @@
             }
         }
     },
-    {
+    "HAT279": {
         "flight_number": "HAT279",
         "origin": "JFK",
         "destination": "IAH",
@@ -77150,7 +77150,7 @@
             }
         }
     },
-    {
+    "HAT280": {
         "flight_number": "HAT280",
         "origin": "SFO",
         "destination": "PHL",
@@ -77425,7 +77425,7 @@
             }
         }
     },
-    {
+    "HAT281": {
         "flight_number": "HAT281",
         "origin": "ATL",
         "destination": "LAS",
@@ -77704,7 +77704,7 @@
             }
         }
     },
-    {
+    "HAT282": {
         "flight_number": "HAT282",
         "origin": "DFW",
         "destination": "ATL",
@@ -77979,7 +77979,7 @@
             }
         }
     },
-    {
+    "HAT283": {
         "flight_number": "HAT283",
         "origin": "PHX",
         "destination": "SFO",
@@ -78258,7 +78258,7 @@
             }
         }
     },
-    {
+    "HAT284": {
         "flight_number": "HAT284",
         "origin": "LAS",
         "destination": "PHX",
@@ -78533,7 +78533,7 @@
             }
         }
     },
-    {
+    "HAT285": {
         "flight_number": "HAT285",
         "origin": "ATL",
         "destination": "JFK",
@@ -78808,7 +78808,7 @@
             }
         }
     },
-    {
+    "HAT286": {
         "flight_number": "HAT286",
         "origin": "IAH",
         "destination": "LAS",
@@ -79081,7 +79081,7 @@
             }
         }
     },
-    {
+    "HAT287": {
         "flight_number": "HAT287",
         "origin": "CLT",
         "destination": "BOS",
@@ -79360,7 +79360,7 @@
             }
         }
     },
-    {
+    "HAT288": {
         "flight_number": "HAT288",
         "origin": "MIA",
         "destination": "LAS",
@@ -79637,7 +79637,7 @@
             }
         }
     },
-    {
+    "HAT289": {
         "flight_number": "HAT289",
         "origin": "ORD",
         "destination": "PHL",
@@ -79914,7 +79914,7 @@
             }
         }
     },
-    {
+    "HAT290": {
         "flight_number": "HAT290",
         "origin": "DEN",
         "destination": "LAS",
@@ -80193,7 +80193,7 @@
             }
         }
     },
-    {
+    "HAT291": {
         "flight_number": "HAT291",
         "origin": "PHL",
         "destination": "SFO",
@@ -80472,7 +80472,7 @@
             }
         }
     },
-    {
+    "HAT292": {
         "flight_number": "HAT292",
         "origin": "MIA",
         "destination": "JFK",
@@ -80745,7 +80745,7 @@
             }
         }
     },
-    {
+    "HAT293": {
         "flight_number": "HAT293",
         "origin": "ATL",
         "destination": "MCO",
@@ -81022,7 +81022,7 @@
             }
         }
     },
-    {
+    "HAT294": {
         "flight_number": "HAT294",
         "origin": "SFO",
         "destination": "BOS",
@@ -81299,7 +81299,7 @@
             }
         }
     },
-    {
+    "HAT295": {
         "flight_number": "HAT295",
         "origin": "SFO",
         "destination": "BOS",
@@ -81574,7 +81574,7 @@
             }
         }
     },
-    {
+    "HAT296": {
         "flight_number": "HAT296",
         "origin": "PHL",
         "destination": "LGA",
@@ -81849,7 +81849,7 @@
             }
         }
     },
-    {
+    "HAT297": {
         "flight_number": "HAT297",
         "origin": "ATL",
         "destination": "DFW",
@@ -82126,7 +82126,7 @@
             }
         }
     },
-    {
+    "HAT298": {
         "flight_number": "HAT298",
         "origin": "MCO",
         "destination": "MSP",
@@ -82401,7 +82401,7 @@
             }
         }
     },
-    {
+    "HAT299": {
         "flight_number": "HAT299",
         "origin": "MCO",
         "destination": "LAS",
@@ -82676,7 +82676,7 @@
             }
         }
     },
-    {
+    "HAT300": {
         "flight_number": "HAT300",
         "origin": "MSP",
         "destination": "EWR",
@@ -82953,4 +82953,4 @@
             }
         }
     }
-]
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "escalation_id": "esc_001",
+    "task_id": "task_005",
+    "escalated_by": "emp_sec_dev_01",
+    "escalated_to": "emp_pm_03",
+    "reason": "Blocked on security tool licenses for over 2 days. Critical for audit deadline.",
+    "previous_status": "blocked",
+    "created_date": "2024-03-20T10:00:00Z",
+    "resolved": false
+  },
+  {
+    "escalation_id": "esc_002",
+    "task_id": "task_015",
+    "escalated_by": "emp_des_04",
+    "escalated_to": "emp_pm_04",
+    "reason": "Frontend framework decision needed to proceed with admin UI",
+    "previous_status": "blocked",
+    "created_date": "2024-03-21T09:00:00Z",
+    "resolved": false
+  }
+]

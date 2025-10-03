@@ -1,5 +1,5 @@
-[
-  {
+{
+  "commit_001": {
     "id": "commit_001",
     "repository_id": "repo_001",
     "commit_hash": "a1b2c3d4e5f6789012345678901234567890abcd",
@@ -12,9 +12,11 @@
     "lines_added": 450,
     "lines_deleted": 23,
     "merge_commit": false,
-    "parent_commits": ["commit_002"]
+    "parent_commits": [
+      "commit_002"
+    ]
   },
-  {
+  "commit_002": {
     "id": "commit_002",
     "repository_id": "repo_001",
     "commit_hash": "b2c3d4e5f6789012345678901234567890abcde",
@@ -27,9 +29,11 @@
     "lines_added": 15,
     "lines_deleted": 8,
     "merge_commit": false,
-    "parent_commits": ["commit_003"]
+    "parent_commits": [
+      "commit_003"
+    ]
   },
-  {
+  "commit_003": {
     "id": "commit_003",
     "repository_id": "repo_002",
     "commit_hash": "c3d4e5f6789012345678901234567890abcdef",
@@ -42,9 +46,11 @@
     "lines_added": 320,
     "lines_deleted": 0,
     "merge_commit": false,
-    "parent_commits": ["commit_004"]
+    "parent_commits": [
+      "commit_004"
+    ]
   },
-  {
+  "commit_004": {
     "id": "commit_004",
     "repository_id": "repo_003",
     "commit_hash": "d4e5f6789012345678901234567890abcdef1",
@@ -57,9 +63,11 @@
     "lines_added": 280,
     "lines_deleted": 45,
     "merge_commit": false,
-    "parent_commits": ["commit_005"]
+    "parent_commits": [
+      "commit_005"
+    ]
   },
-  {
+  "commit_005": {
     "id": "commit_005",
     "repository_id": "repo_004",
     "commit_hash": "e5f6789012345678901234567890abcdef12",
@@ -72,9 +80,11 @@
     "lines_added": 650,
     "lines_deleted": 0,
     "merge_commit": false,
-    "parent_commits": ["commit_006"]
+    "parent_commits": [
+      "commit_006"
+    ]
   },
-  {
+  "commit_006": {
     "id": "commit_006",
     "repository_id": "repo_005",
     "commit_hash": "f6789012345678901234567890abcdef123",
@@ -87,9 +97,11 @@
     "lines_added": 890,
     "lines_deleted": 120,
     "merge_commit": false,
-    "parent_commits": ["commit_007"]
+    "parent_commits": [
+      "commit_007"
+    ]
   },
-  {
+  "commit_007": {
     "id": "commit_007",
     "repository_id": "repo_006",
     "commit_hash": "6789012345678901234567890abcdef1234",
@@ -102,9 +114,11 @@
     "lines_added": 420,
     "lines_deleted": 15,
     "merge_commit": false,
-    "parent_commits": ["commit_008"]
+    "parent_commits": [
+      "commit_008"
+    ]
   },
-  {
+  "commit_008": {
     "id": "commit_008",
     "repository_id": "repo_007",
     "commit_hash": "7890123456789012345678901234567890abc",
@@ -117,9 +131,11 @@
     "lines_added": 780,
     "lines_deleted": 45,
     "merge_commit": false,
-    "parent_commits": ["commit_009"]
+    "parent_commits": [
+      "commit_009"
+    ]
   },
-  {
+  "commit_009": {
     "id": "commit_009",
     "repository_id": "repo_008",
     "commit_hash": "890123456789012345678901234567890abcd",
@@ -132,9 +148,11 @@
     "lines_added": 520,
     "lines_deleted": 30,
     "merge_commit": false,
-    "parent_commits": ["commit_010"]
+    "parent_commits": [
+      "commit_010"
+    ]
   },
-  {
+  "commit_010": {
     "id": "commit_010",
     "repository_id": "repo_009",
     "commit_hash": "90123456789012345678901234567890abcde",
@@ -147,9 +165,11 @@
     "lines_added": 380,
     "lines_deleted": 25,
     "merge_commit": false,
-    "parent_commits": ["commit_011"]
+    "parent_commits": [
+      "commit_011"
+    ]
   },
-  {
+  "commit_011": {
     "id": "commit_011",
     "repository_id": "repo_010",
     "commit_hash": "0123456789012345678901234567890abcdef",
@@ -162,9 +182,11 @@
     "lines_added": 450,
     "lines_deleted": 20,
     "merge_commit": false,
-    "parent_commits": ["commit_012"]
+    "parent_commits": [
+      "commit_012"
+    ]
   },
-  {
+  "commit_012": {
     "id": "commit_012",
     "repository_id": "repo_001",
     "commit_hash": "123456789012345678901234567890abcdef1",
@@ -177,9 +199,11 @@
     "lines_added": 25,
     "lines_deleted": 5,
     "merge_commit": false,
-    "parent_commits": ["commit_013"]
+    "parent_commits": [
+      "commit_013"
+    ]
   },
-  {
+  "commit_013": {
     "id": "commit_013",
     "repository_id": "repo_002",
     "commit_hash": "23456789012345678901234567890abcdef12",
@@ -192,9 +216,11 @@
     "lines_added": 120,
     "lines_deleted": 15,
     "merge_commit": false,
-    "parent_commits": ["commit_014"]
+    "parent_commits": [
+      "commit_014"
+    ]
   },
-  {
+  "commit_014": {
     "id": "commit_014",
     "repository_id": "repo_003",
     "commit_hash": "3456789012345678901234567890abcdef123",
@@ -207,9 +233,11 @@
     "lines_added": 180,
     "lines_deleted": 0,
     "merge_commit": false,
-    "parent_commits": ["commit_015"]
+    "parent_commits": [
+      "commit_015"
+    ]
   },
-  {
+  "commit_015": {
     "id": "commit_015",
     "repository_id": "repo_004",
     "commit_hash": "456789012345678901234567890abcdef1234",
@@ -222,9 +250,11 @@
     "lines_added": 45,
     "lines_deleted": 30,
     "merge_commit": false,
-    "parent_commits": ["commit_016"]
+    "parent_commits": [
+      "commit_016"
+    ]
   },
-  {
+  "commit_016": {
     "id": "commit_016",
     "repository_id": "repo_005",
     "commit_hash": "56789012345678901234567890abcdef12345",
@@ -237,9 +267,11 @@
     "lines_added": 280,
     "lines_deleted": 15,
     "merge_commit": false,
-    "parent_commits": ["commit_017"]
+    "parent_commits": [
+      "commit_017"
+    ]
   },
-  {
+  "commit_017": {
     "id": "commit_017",
     "repository_id": "repo_006",
     "commit_hash": "6789012345678901234567890abcdef123456",
@@ -252,9 +284,11 @@
     "lines_added": 350,
     "lines_deleted": 20,
     "merge_commit": false,
-    "parent_commits": ["commit_018"]
+    "parent_commits": [
+      "commit_018"
+    ]
   },
-  {
+  "commit_018": {
     "id": "commit_018",
     "repository_id": "repo_007",
     "commit_hash": "789012345678901234567890abcdef1234567",
@@ -267,9 +301,11 @@
     "lines_added": 220,
     "lines_deleted": 10,
     "merge_commit": false,
-    "parent_commits": ["commit_019"]
+    "parent_commits": [
+      "commit_019"
+    ]
   },
-  {
+  "commit_019": {
     "id": "commit_019",
     "repository_id": "repo_008",
     "commit_hash": "89012345678901234567890abcdef12345678",
@@ -282,9 +318,11 @@
     "lines_added": 320,
     "lines_deleted": 25,
     "merge_commit": false,
-    "parent_commits": ["commit_020"]
+    "parent_commits": [
+      "commit_020"
+    ]
   },
-  {
+  "commit_020": {
     "id": "commit_020",
     "repository_id": "repo_009",
     "commit_hash": "9012345678901234567890abcdef123456789",
@@ -297,9 +335,11 @@
     "lines_added": 480,
     "lines_deleted": 35,
     "merge_commit": false,
-    "parent_commits": ["commit_021"]
+    "parent_commits": [
+      "commit_021"
+    ]
   },
-  {
+  "commit_021": {
     "id": "commit_021",
     "repository_id": "repo_010",
     "commit_hash": "012345678901234567890abcdef1234567890",
@@ -312,9 +352,11 @@
     "lines_added": 280,
     "lines_deleted": 15,
     "merge_commit": false,
-    "parent_commits": ["commit_022"]
+    "parent_commits": [
+      "commit_022"
+    ]
   },
-  {
+  "commit_022": {
     "id": "commit_022",
     "repository_id": "repo_001",
     "commit_hash": "12345678901234567890abcdef12345678901",
@@ -327,9 +369,11 @@
     "lines_added": 35,
     "lines_deleted": 12,
     "merge_commit": false,
-    "parent_commits": ["commit_023"]
+    "parent_commits": [
+      "commit_023"
+    ]
   },
-  {
+  "commit_023": {
     "id": "commit_023",
     "repository_id": "repo_002",
     "commit_hash": "2345678901234567890abcdef123456789012",
@@ -342,9 +386,11 @@
     "lines_added": 180,
     "lines_deleted": 0,
     "merge_commit": false,
-    "parent_commits": ["commit_024"]
+    "parent_commits": [
+      "commit_024"
+    ]
   },
-  {
+  "commit_024": {
     "id": "commit_024",
     "repository_id": "repo_003",
     "commit_hash": "345678901234567890abcdef1234567890123",
@@ -357,9 +403,11 @@
     "lines_added": 320,
     "lines_deleted": 25,
     "merge_commit": false,
-    "parent_commits": ["commit_025"]
+    "parent_commits": [
+      "commit_025"
+    ]
   },
-  {
+  "commit_025": {
     "id": "commit_025",
     "repository_id": "repo_004",
     "commit_hash": "45678901234567890abcdef12345678901234",
@@ -372,6 +420,8 @@
     "lines_added": 250,
     "lines_deleted": 0,
     "merge_commit": false,
-    "parent_commits": ["commit_026"]
+    "parent_commits": [
+      "commit_026"
+    ]
   }
-]
+}

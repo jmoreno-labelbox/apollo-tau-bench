@@ -1,5 +1,5 @@
-[
-  {
+{
+  "fix_001": {
     "id": "fix_001",
     "build_run_id": "run_001",
     "bisect_result_id": "bisect_001",
@@ -58,7 +58,7 @@
       "fix_source": "automated_bisect"
     }
   },
-  {
+  "fix_002": {
     "id": "fix_002",
     "build_run_id": "run_003",
     "bisect_result_id": "bisect_002",
@@ -117,7 +117,7 @@
       "fix_source": "automated_bisect"
     }
   },
-  {
+  "fix_003": {
     "id": "fix_003",
     "build_run_id": "run_005",
     "bisect_result_id": "bisect_003",
@@ -176,7 +176,7 @@
       "fix_source": "automated_bisect"
     }
   },
-  {
+  "fix_004": {
     "id": "fix_004",
     "build_run_id": "run_006",
     "bisect_result_id": "bisect_006",
@@ -225,7 +225,7 @@
       "fix_source": "automated_asset_validation"
     }
   },
-  {
+  "fix_005": {
     "id": "fix_005",
     "build_run_id": "run_007",
     "bisect_result_id": "bisect_004",
@@ -287,7 +287,7 @@
       "fix_source": "manual_analysis"
     }
   },
-  {
+  "fix_006": {
     "id": "fix_006",
     "build_run_id": "run_008",
     "bisect_result_id": "bisect_007",
@@ -339,7 +339,7 @@
       "fix_source": "automated_localization_validation"
     }
   },
-  {
+  "fix_007": {
     "id": "fix_007",
     "build_run_id": "run_010",
     "bisect_result_id": "bisect_005",
@@ -398,4 +398,4 @@
       "fix_source": "manual_infrastructure_analysis"
     }
   }
-]
+}

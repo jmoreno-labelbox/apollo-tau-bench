@@ -1,0 +1,645 @@
+[
+  {
+    "owner": "maya-w",
+    "repo_name": "acme-webapp",
+    "branch_names": [
+      "main",
+      "feature-update"
+    ],
+    "commit_shas": [
+      [
+        "a1b2c3d4e5f6",
+        "b2c3d4e5f6a7"
+      ],
+      [
+        "c3d4e5f6a7b8"
+      ]
+    ],
+    "commit_messages": [
+      [
+        "Initial commit",
+        "Add main.py file"
+      ],
+      [
+        "Add helper utilities"
+      ]
+    ],
+    "commit_authors": [
+      [
+        "maya-w",
+        "maya-w"
+      ],
+      [
+        "maya-w"
+      ]
+    ],
+    "commit_timestamps": [
+      [
+        "2023-12-01T10:00:00Z",
+        "2023-12-01T11:30:00Z"
+      ],
+      [
+        "2023-12-01T15:30:00Z"
+      ]
+    ]
+  },
+  {
+    "owner": "ryan-dev",
+    "repo_name": "utils-js",
+    "branch_names": [
+      "master"
+    ],
+    "commit_shas": [
+      [
+        "xyz456abc789"
+      ]
+    ],
+    "commit_messages": [
+      [
+        "Initial library setup"
+      ]
+    ],
+    "commit_authors": [
+      [
+        "ryan-dev"
+      ]
+    ],
+    "commit_timestamps": [
+      [
+        "2023-11-28T09:15:00Z"
+      ]
+    ]
+  },
+  {
+    "owner": "design-team",
+    "repo_name": "ui-kit",
+    "branch_names": [
+      "main",
+      "release-1.0",
+      "feature-theme"
+    ],
+    "commit_shas": [
+      [
+        "uik1110a",
+        "uik1110b"
+      ],
+      [
+        "uik2220a"
+      ],
+      [
+        "uik3330a",
+        "uik3330b"
+      ]
+    ],
+    "commit_messages": [
+      [
+        "Initial components",
+        "Add button"
+      ],
+      [
+        "Prepare 1.0 release"
+      ],
+      [
+        "Add theme base",
+        "Add colors"
+      ]
+    ],
+    "commit_authors": [
+      [
+        "ui-bot",
+        "ui-dev"
+      ],
+      [
+        "release-manager"
+      ],
+      [
+        "ui-dev",
+        "ui-dev"
+      ]
+    ],
+    "commit_timestamps": [
+      [
+        "2023-10-20T08:00:00Z",
+        "2023-10-21T09:15:00Z"
+      ],
+      [
+        "2023-10-25T17:00:00Z"
+      ],
+      [
+        "2023-12-03T10:00:00Z",
+        "2023-12-04T10:30:00Z"
+      ]
+    ]
+  },
+  {
+    "owner": "language-ai",
+    "repo_name": "nlp-models",
+    "branch_names": [
+      "main",
+      "exp-transformer",
+      "data-cleanup"
+    ],
+    "commit_shas": [
+      [
+        "nlp1110a"
+      ],
+      [
+        "nlp2220a",
+        "nlp2220b"
+      ],
+      [
+        "nlp3330a"
+      ]
+    ],
+    "commit_messages": [
+      [
+        "Init experiments"
+      ],
+      [
+        "Add transformer training",
+        "Tune hyperparams"
+      ],
+      [
+        "Cleanup data"
+      ]
+    ],
+    "commit_authors": [
+      [
+        "language-ai"
+      ],
+      [
+        "language-ai",
+        "language-ai"
+      ],
+      [
+        "language-ai"
+      ]
+    ],
+    "commit_timestamps": [
+      [
+        "2023-09-12T12:12:12Z"
+      ],
+      [
+        "2023-11-28T10:10:10Z",
+        "2023-11-29T11:11:11Z"
+      ],
+      [
+        "2023-11-30T12:34:56Z"
+      ]
+    ]
+  },
+  {
+    "owner": "server-main",
+    "repo_name": "payments-service",
+    "branch_names": [
+      "main",
+      "feature-3ds",
+      "hotfix-timeout"
+    ],
+    "commit_shas": [
+      [
+        "pay111aaa",
+        "pay111bbb"
+      ],
+      [
+        "pay222bbb"
+      ],
+      [
+        "pay333ccc"
+      ]
+    ],
+    "commit_messages": [
+      [
+        "Bootstrap service",
+        "Add Express server"
+      ],
+      [
+        "Add 3DS support"
+      ],
+      [
+        "Increase request timeout"
+      ]
+    ],
+    "commit_authors": [
+      [
+        "server-main",
+        "server-main"
+      ],
+      [
+        "server-main"
+      ],
+      [
+        "server-main"
+      ]
+    ],
+    "commit_timestamps": [
+      [
+        "2023-10-10T10:10:10Z",
+        "2023-10-11T12:00:00Z"
+      ],
+      [
+        "2023-11-01T09:00:00Z"
+      ],
+      [
+        "2023-12-03T17:45:00Z"
+      ]
+    ]
+  },
+  {
+    "owner": "platform-team",
+    "repo_name": "infra-terraform",
+    "branch_names": [
+      "main",
+      "feat-alb",
+      "fix-s3-policy"
+    ],
+    "commit_shas": [
+      [
+        "tf111aaa",
+        "tf111bbb"
+      ],
+      [
+        "tf222bbb"
+      ],
+      [
+        "tf333ccc"
+      ]
+    ],
+    "commit_messages": [
+      [
+        "Init Terraform",
+        "Add provider"
+      ],
+      [
+        "Add ALB"
+      ],
+      [
+        "Fix S3 bucket policy"
+      ]
+    ],
+    "commit_authors": [
+      [
+        "platform-team",
+        "platform-team"
+      ],
+      [
+        "platform-team"
+      ],
+      [
+        "platform-team"
+      ]
+    ],
+    "commit_timestamps": [
+      [
+        "2023-08-01T07:00:00Z",
+        "2023-08-02T09:30:00Z"
+      ],
+      [
+        "2023-09-10T14:20:00Z"
+      ],
+      [
+        "2023-12-04T08:50:00Z"
+      ]
+    ]
+  },
+  {
+    "owner": "security-group",
+    "repo_name": "security-scanner",
+    "branch_names": [
+      "main",
+      "feature-sarif-output",
+      "perf-optimizations"
+    ],
+    "commit_shas": [
+      [
+        "sec1a2b3c4d5",
+        "sec1a2b3c4d6"
+      ],
+      [
+        "sec2b3c4d5e6"
+      ],
+      [
+        "sec3c4d5e6f7",
+        "sec3c4d5e6f8"
+      ]
+    ],
+    "commit_messages": [
+      [
+        "Initial Rust scanner setup",
+        "Add XSS and SQLi detection rules"
+      ],
+      [
+        "Implement SARIF output format"
+      ],
+      [
+        "Add caching layer",
+        "Optimize rule parsing performance"
+      ]
+    ],
+    "commit_authors": [
+      [
+        "security-group",
+        "security-group"
+      ],
+      [
+        "security-group"
+      ],
+      [
+        "security-group",
+        "security-group"
+      ]
+    ],
+    "commit_timestamps": [
+      [
+        "2023-06-15T14:30:00Z",
+        "2023-06-16T09:15:00Z"
+      ],
+      [
+        "2023-08-22T16:45:00Z"
+      ],
+      [
+        "2023-12-03T10:20:00Z",
+        "2023-12-04T16:20:00Z"
+      ]
+    ]
+  },
+  {
+    "owner": "app-developer",
+    "repo_name": "flutter-finance-app",
+    "branch_names": [
+      "main",
+      "feature-dark-mode",
+      "release-v1.2"
+    ],
+    "commit_shas": [
+      [
+        "flutter1a2b3c4d",
+        "flutter1a2b3c4e",
+        "flutter1a2b3c4f"
+      ],
+      [
+        "flutter2b3c4d5e"
+      ],
+      [
+        "flutter3c4d5e6f"
+      ]
+    ],
+    "commit_messages": [
+      [
+        "Initial Flutter project setup",
+        "Add transaction model and home screen",
+        "Implement chart widgets"
+      ],
+      [
+        "Add dark theme support"
+      ],
+      [
+        "Prepare v1.2.0 release with changelog"
+      ]
+    ],
+    "commit_authors": [
+      [
+        "app-developer",
+        "app-developer",
+        "app-developer"
+      ],
+      [
+        "app-developer"
+      ],
+      [
+        "app-developer"
+      ]
+    ],
+    "commit_timestamps": [
+      [
+        "2023-07-20T11:15:00Z",
+        "2023-07-21T14:30:00Z",
+        "2023-07-22T16:45:00Z"
+      ],
+      [
+        "2023-11-15T10:20:00Z"
+      ],
+      [
+        "2023-12-05T09:45:00Z"
+      ]
+    ]
+  },
+  {
+    "owner": "ui-developer",
+    "repo_name": "react-dashboard",
+    "branch_names": [
+      "main",
+      "feature-real-time",
+      "upgrade-react-18"
+    ],
+    "commit_shas": [
+      [
+        "react1a2b3c4d5",
+        "react1a2b3c4d6"
+      ],
+      [
+        "react2b3c4d5e6",
+        "react2b3c4d5e7"
+      ],
+      [
+        "react3c4d5e6f7"
+      ]
+    ],
+    "commit_messages": [
+      [
+        "Bootstrap React TypeScript project",
+        "Add dashboard components and charts"
+      ],
+      [
+        "Implement WebSocket hooks",
+        "Add real-time data updates"
+      ],
+      [
+        "Upgrade to React 18 with concurrent features"
+      ]
+    ],
+    "commit_authors": [
+      [
+        "ui-developer",
+        "ui-developer"
+      ],
+      [
+        "ui-developer",
+        "ui-developer"
+      ],
+      [
+        "ui-developer"
+      ]
+    ],
+    "commit_timestamps": [
+      [
+        "2023-08-10T13:20:00Z",
+        "2023-08-11T10:45:00Z"
+      ],
+      [
+        "2023-10-05T09:30:00Z",
+        "2023-10-06T14:15:00Z"
+      ],
+      [
+        "2023-12-05T14:30:00Z"
+      ]
+    ]
+  },
+  {
+    "owner": "ml-engineer",
+    "repo_name": "ml-pipeline",
+    "branch_names": [
+      "main",
+      "experiment-deep-learning",
+      "feature-mlflow-tracking"
+    ],
+    "commit_shas": [
+      [
+        "ml1a2b3c4d5e6f",
+        "ml1a2b3c4d5e70"
+      ],
+      [
+        "ml2b3c4d5e6f7a",
+        "ml2b3c4d5e6f7b"
+      ],
+      [
+        "ml3c4d5e6f7a8b"
+      ]
+    ],
+    "commit_messages": [
+      [
+        "Initialize ML pipeline with scikit-learn",
+        "Add preprocessing and evaluation modules"
+      ],
+      [
+        "Experiment with PyTorch neural networks",
+        "Tune hyperparameters for deep learning"
+      ],
+      [
+        "Integrate MLflow for experiment tracking"
+      ]
+    ],
+    "commit_authors": [
+      [
+        "ml-engineer",
+        "ml-engineer"
+      ],
+      [
+        "ml-engineer",
+        "ml-engineer"
+      ],
+      [
+        "ml-engineer"
+      ]
+    ],
+    "commit_timestamps": [
+      [
+        "2023-05-30T16:45:00Z",
+        "2023-06-02T11:20:00Z"
+      ],
+      [
+        "2023-09-15T14:30:00Z",
+        "2023-09-16T16:45:00Z"
+      ],
+      [
+        "2023-12-05T11:20:00Z"
+      ]
+    ]
+  },
+  {
+    "owner": "intern-emma",
+    "repo_name": "portfolio-site",
+    "branch_names": [
+      "main"
+    ],
+    "commit_shas": [
+      [
+        "portfolio1a2b3c",
+        "portfolio1a2b3d",
+        "portfolio1a2b3e"
+      ]
+    ],
+    "commit_messages": [
+      [
+        "Create initial HTML structure",
+        "Add styling and responsive design",
+        "Include projects and contact pages"
+      ]
+    ],
+    "commit_authors": [
+      [
+        "intern-emma",
+        "intern-emma",
+        "intern-emma"
+      ]
+    ],
+    "commit_timestamps": [
+      [
+        "2023-09-05T10:30:00Z",
+        "2023-09-06T15:20:00Z",
+        "2023-11-20T15:45:00Z"
+      ]
+    ]
+  },
+  {
+    "owner": "infra-lead",
+    "repo_name": "k8s-monitoring",
+    "branch_names": [
+      "main",
+      "feature-alertmanager",
+      "upgrade-prometheus"
+    ],
+    "commit_shas": [
+      [
+        "k8s1a2b3c4d5e6",
+        "k8s1a2b3c4d5e7"
+      ],
+      [
+        "k8s2b3c4d5e6f7"
+      ],
+      [
+        "k8s3c4d5e6f7a8",
+        "k8s3c4d5e6f7a9"
+      ]
+    ],
+    "commit_messages": [
+      [
+        "Setup Kubernetes monitoring namespace",
+        "Deploy Prometheus and Grafana"
+      ],
+      [
+        "Add Alertmanager for notifications"
+      ],
+      [
+        "Upgrade Prometheus to v2.45.0",
+        "Update deployment configurations"
+      ]
+    ],
+    "commit_authors": [
+      [
+        "infra-lead",
+        "infra-lead"
+      ],
+      [
+        "infra-lead"
+      ],
+      [
+        "infra-lead",
+        "infra-lead"
+      ]
+    ],
+    "commit_timestamps": [
+      [
+        "2023-04-15T08:00:00Z",
+        "2023-04-16T14:30:00Z"
+      ],
+      [
+        "2023-07-20T11:45:00Z"
+      ],
+      [
+        "2023-12-03T09:15:00Z",
+        "2023-12-04T12:30:00Z"
+      ]
+    ]
+  }
+]

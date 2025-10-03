@@ -1,5 +1,5 @@
-[
-  {
+{
+  "vendor_001": {
     "vendor_id": "vendor_001",
     "vendor_name": "Digital Innovations Corp",
     "vendor_type": "software_licensing",
@@ -17,7 +17,7 @@
       "security"
     ]
   },
-  {
+  "vendor_002": {
     "vendor_id": "vendor_002",
     "vendor_name": "Equipment Providers LLC",
     "vendor_type": "hardware",
@@ -26,7 +26,7 @@
     "late_payments": 2,
     "last_payment_date": "2024-03-20T09:00:00Z"
   },
-  {
+  "vendor_003": {
     "vendor_id": "vendor_003",
     "vendor_name": "Cloud Infrastructure Partners",
     "vendor_type": "infrastructure",
@@ -36,7 +36,7 @@
     "requires_prepayment": false,
     "last_payment_date": "2024-02-28T14:00:00Z"
   },
-  {
+  "vendor_004": {
     "vendor_id": "vendor_004",
     "vendor_name": "UI Development Solutions",
     "vendor_type": "software_tools",
@@ -45,7 +45,7 @@
     "late_payments": 0,
     "last_payment_date": "2024-03-10T10:00:00Z"
   },
-  {
+  "vendor_005": {
     "vendor_id": "vendor_005",
     "vendor_name": "CyberAudit Technologies",
     "vendor_type": "security_services",
@@ -59,7 +59,7 @@
       "compliance"
     ]
   },
-  {
+  "vendor_006": {
     "vendor_id": "vendor_006",
     "vendor_name": "Talent Network Services",
     "vendor_type": "staffing",
@@ -72,4 +72,4 @@
       "design"
     ]
   }
-]
+}

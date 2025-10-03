@@ -1,5 +1,5 @@
-[
-  {
+{
+  "loc_workflow_001": {
     "id": "loc_workflow_001",
     "pr_number": 999,
     "changed_keys": [
@@ -26,7 +26,7 @@
       "translator": "user_009"
     }
   },
-  {
+  "loc_workflow_002": {
     "id": "loc_workflow_002",
     "pr_number": 1000,
     "changed_keys": [
@@ -54,7 +54,7 @@
       "translator": "user_009"
     }
   },
-  {
+  "loc_workflow_003": {
     "id": "loc_workflow_003",
     "pr_number": 1001,
     "changed_keys": [
@@ -81,7 +81,7 @@
       "translator": "user_009"
     }
   },
-  {
+  "loc_workflow_004": {
     "id": "loc_workflow_004",
     "pr_number": 1002,
     "changed_keys": [
@@ -109,7 +109,7 @@
       "translator": "user_009"
     }
   },
-  {
+  "loc_workflow_005": {
     "id": "loc_workflow_005",
     "pr_number": 1003,
     "changed_keys": [
@@ -136,7 +136,7 @@
       "translator": "user_009"
     }
   },
-  {
+  "loc_workflow_006": {
     "id": "loc_workflow_006",
     "pr_number": 1004,
     "changed_keys": [
@@ -163,7 +163,7 @@
       "translator": "user_009"
     }
   },
-  {
+  "loc_workflow_007": {
     "id": "loc_workflow_007",
     "pr_number": 1005,
     "changed_keys": [
@@ -190,7 +190,7 @@
       "translator": "user_009"
     }
   },
-  {
+  "loc_workflow_008": {
     "id": "loc_workflow_008",
     "pr_number": 1006,
     "changed_keys": [
@@ -217,7 +217,7 @@
       "translator": "user_009"
     }
   },
-  {
+  "loc_workflow_009": {
     "id": "loc_workflow_009",
     "pr_number": 1007,
     "changed_keys": [
@@ -244,7 +244,7 @@
       "translator": "user_009"
     }
   },
-  {
+  "loc_workflow_010": {
     "id": "loc_workflow_010",
     "pr_number": 1008,
     "changed_keys": [
@@ -271,4 +271,4 @@
       "translator": "user_009"
     }
   }
-]
+}

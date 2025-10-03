@@ -1,44 +1,5 @@
-[
-  {
-    "department": "IT",
-    "job_title": "Service Desk Analyst",
-    "group_ids": [
-      "grp_it_2990",
-      "grp_it_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_github_ent",
-      "lic_slack_ent"
-    ]
-  },
-  {
-    "department": "IT",
-    "job_title": "Systems Engineer",
-    "group_ids": [
-      "grp_it_6b89",
-      "grp_it_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_github_ent",
-      "lic_slack_ent"
-    ]
-  },
-  {
-    "department": "IT",
-    "job_title": "IT Manager",
-    "group_ids": [
-      "grp_it_a6e7",
-      "grp_it_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_github_ent",
-      "lic_slack_ent"
-    ]
-  },
-  {
+{
+  "IT": {
     "department": "IT",
     "job_title": "Identity Engineer",
     "group_ids": [
@@ -51,46 +12,7 @@
       "lic_slack_ent"
     ]
   },
-  {
-    "department": "Engineering",
-    "job_title": "Software Engineer",
-    "group_ids": [
-      "grp_engineering_cbaf",
-      "grp_engineering_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_github_ent",
-      "lic_slack_ent"
-    ]
-  },
-  {
-    "department": "Engineering",
-    "job_title": "Senior Software Engineer",
-    "group_ids": [
-      "grp_engineering_639b",
-      "grp_engineering_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_github_ent",
-      "lic_slack_ent"
-    ]
-  },
-  {
-    "department": "Engineering",
-    "job_title": "DevOps Engineer",
-    "group_ids": [
-      "grp_engineering_4162",
-      "grp_engineering_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_github_ent",
-      "lic_slack_ent"
-    ]
-  },
-  {
+  "Engineering": {
     "department": "Engineering",
     "job_title": "QA Engineer",
     "group_ids": [
@@ -103,33 +25,7 @@
       "lic_slack_ent"
     ]
   },
-  {
-    "department": "Sales",
-    "job_title": "Account Executive",
-    "group_ids": [
-      "grp_sales_6744",
-      "grp_sales_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_salesforce",
-      "lic_slack_ent"
-    ]
-  },
-  {
-    "department": "Sales",
-    "job_title": "Sales Ops Analyst",
-    "group_ids": [
-      "grp_sales_5040",
-      "grp_sales_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_salesforce",
-      "lic_slack_ent"
-    ]
-  },
-  {
+  "Sales": {
     "department": "Sales",
     "job_title": "Sales Manager",
     "group_ids": [
@@ -142,31 +38,7 @@
       "lic_slack_ent"
     ]
   },
-  {
-    "department": "HR",
-    "job_title": "HR Generalist",
-    "group_ids": [
-      "grp_hr_a74e",
-      "grp_hr_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_slack_ent"
-    ]
-  },
-  {
-    "department": "HR",
-    "job_title": "HRBP",
-    "group_ids": [
-      "grp_hr_82f8",
-      "grp_hr_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_slack_ent"
-    ]
-  },
-  {
+  "HR": {
     "department": "HR",
     "job_title": "Recruiter",
     "group_ids": [
@@ -178,31 +50,7 @@
       "lic_slack_ent"
     ]
   },
-  {
-    "department": "Finance",
-    "job_title": "Financial Analyst",
-    "group_ids": [
-      "grp_finance_7304",
-      "grp_finance_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_slack_ent"
-    ]
-  },
-  {
-    "department": "Finance",
-    "job_title": "Accounting Manager",
-    "group_ids": [
-      "grp_finance_5d50",
-      "grp_finance_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_slack_ent"
-    ]
-  },
-  {
+  "Finance": {
     "department": "Finance",
     "job_title": "Controller",
     "group_ids": [
@@ -214,33 +62,7 @@
       "lic_slack_ent"
     ]
   },
-  {
-    "department": "Marketing",
-    "job_title": "Content Strategist",
-    "group_ids": [
-      "grp_marketing_719b",
-      "grp_marketing_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_salesforce",
-      "lic_slack_ent"
-    ]
-  },
-  {
-    "department": "Marketing",
-    "job_title": "Growth Marketer",
-    "group_ids": [
-      "grp_marketing_231e",
-      "grp_marketing_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_salesforce",
-      "lic_slack_ent"
-    ]
-  },
-  {
+  "Marketing": {
     "department": "Marketing",
     "job_title": "Design Lead",
     "group_ids": [
@@ -253,19 +75,7 @@
       "lic_slack_ent"
     ]
   },
-  {
-    "department": "Support",
-    "job_title": "Support Specialist",
-    "group_ids": [
-      "grp_support_a407",
-      "grp_support_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_slack_ent"
-    ]
-  },
-  {
+  "Support": {
     "department": "Support",
     "job_title": "Support Manager",
     "group_ids": [
@@ -277,31 +87,7 @@
       "lic_slack_ent"
     ]
   },
-  {
-    "department": "Operations",
-    "job_title": "Ops Coordinator",
-    "group_ids": [
-      "grp_operations_772e",
-      "grp_operations_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_slack_ent"
-    ]
-  },
-  {
-    "department": "Operations",
-    "job_title": "Supply Chain Analyst",
-    "group_ids": [
-      "grp_operations_dcb3",
-      "grp_operations_all"
-    ],
-    "default_license_bundle": [
-      "lic_m365_e3",
-      "lic_slack_ent"
-    ]
-  },
-  {
+  "Operations": {
     "department": "Operations",
     "job_title": "Operations Manager",
     "group_ids": [
@@ -313,4 +99,4 @@
       "lic_slack_ent"
     ]
   }
-]
+}

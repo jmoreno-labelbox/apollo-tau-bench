@@ -1,5 +1,5 @@
-[
-  {
+{
+  "asset_001": {
     "asset_id": "asset_001",
     "artifact_id_nullable": "art_001",
     "export_profile": "PNG 2x",
@@ -9,7 +9,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_002": {
     "asset_id": "asset_002",
     "artifact_id_nullable": "art_001",
     "export_profile": "SVG",
@@ -19,7 +19,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_003": {
     "asset_id": "asset_003",
     "artifact_id_nullable": "art_002",
     "export_profile": "PNG 1x",
@@ -29,7 +29,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_004": {
     "asset_id": "asset_004",
     "artifact_id_nullable": "art_004",
     "export_profile": "PNG 3x",
@@ -39,7 +39,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_005": {
     "asset_id": "asset_005",
     "artifact_id_nullable": "art_005",
     "export_profile": "PNG 2x",
@@ -49,7 +49,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_006": {
     "asset_id": "asset_006",
     "artifact_id_nullable": "art_007",
     "export_profile": "PNG 1x",
@@ -59,7 +59,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_007": {
     "asset_id": "asset_007",
     "artifact_id_nullable": "art_008",
     "export_profile": "SVG",
@@ -69,7 +69,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_008": {
     "asset_id": "asset_008",
     "artifact_id_nullable": "art_009",
     "export_profile": "PNG 2x",
@@ -79,7 +79,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_009": {
     "asset_id": "asset_009",
     "artifact_id_nullable": null,
     "export_profile": "PDF",
@@ -89,7 +89,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_010": {
     "asset_id": "asset_010",
     "artifact_id_nullable": "art_003",
     "export_profile": "PNG 1x",
@@ -99,7 +99,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_011": {
     "asset_id": "asset_011",
     "artifact_id_nullable": "art_011",
     "export_profile": "PNG 2x",
@@ -109,7 +109,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_012": {
     "asset_id": "asset_012",
     "artifact_id_nullable": "art_012",
     "export_profile": "PNG 3x",
@@ -119,7 +119,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_013": {
     "asset_id": "asset_013",
     "artifact_id_nullable": "art_011",
     "export_profile": "PNG 2x",
@@ -129,7 +129,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_014": {
     "asset_id": "asset_014",
     "artifact_id_nullable": null,
     "export_profile": "PNG 2x",
@@ -139,7 +139,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_015": {
     "asset_id": "asset_015",
     "artifact_id_nullable": "art_012",
     "export_profile": "PNG 2x",
@@ -149,7 +149,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_016": {
     "asset_id": "asset_016",
     "artifact_id_nullable": null,
     "export_profile": "PNG 2x",
@@ -159,7 +159,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_017": {
     "asset_id": "asset_017",
     "artifact_id_nullable": null,
     "export_profile": "PDF",
@@ -169,7 +169,7 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   },
-  {
+  "asset_018": {
     "asset_id": "asset_018",
     "artifact_id_nullable": null,
     "export_profile": "PDF",
@@ -179,4 +179,4 @@
     "dlp_scan_status": "CLEAN",
     "dlp_scan_details_nullable": null
   }
-]
+}

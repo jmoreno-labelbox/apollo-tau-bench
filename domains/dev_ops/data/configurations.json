@@ -1,5 +1,5 @@
-[
-  {
+{
+  "config_001": {
     "id": "config_001",
     "project_id": "project_001",
     "config_type": "environment_variables",
@@ -14,7 +14,7 @@
     "created_at": "2025-01-20T10:00:00Z",
     "updated_at": "2025-01-25T14:00:00Z"
   },
-  {
+  "config_002": {
     "id": "config_002",
     "project_id": "project_002",
     "config_type": "kubernetes_config",
@@ -36,7 +36,7 @@
     "created_at": "2025-01-18T09:00:00Z",
     "updated_at": "2025-01-20T09:00:00Z"
   },
-  {
+  "config_003": {
     "id": "config_003",
     "project_id": "project_003",
     "config_type": "docker_config",
@@ -46,12 +46,18 @@
       "services": {
         "app": {
           "build": ".",
-          "ports": ["8080:8080"],
-          "environment": ["NODE_ENV=test"]
+          "ports": [
+            "8080:8080"
+          ],
+          "environment": [
+            "NODE_ENV=test"
+          ]
         },
         "test-db": {
           "image": "postgres:13",
-          "environment": ["POSTGRES_DB=testdb"]
+          "environment": [
+            "POSTGRES_DB=testdb"
+          ]
         }
       }
     },
@@ -59,7 +65,7 @@
     "created_at": "2025-01-22T11:00:00Z",
     "updated_at": "2025-01-26T12:00:00Z"
   },
-  {
+  "config_004": {
     "id": "config_004",
     "project_id": "project_004",
     "config_type": "jenkins_config",
@@ -68,9 +74,24 @@
       "pipeline": {
         "agent": "any",
         "stages": [
-          {"name": "Build", "steps": ["sh 'mvn clean package'"]},
-          {"name": "Test", "steps": ["sh 'mvn test'"]},
-          {"name": "Deploy", "steps": ["sh './deploy.sh'"]}
+          {
+            "name": "Build",
+            "steps": [
+              "sh 'mvn clean package'"
+            ]
+          },
+          {
+            "name": "Test",
+            "steps": [
+              "sh 'mvn test'"
+            ]
+          },
+          {
+            "name": "Deploy",
+            "steps": [
+              "sh './deploy.sh'"
+            ]
+          }
         ]
       }
     },
@@ -78,7 +99,7 @@
     "created_at": "2025-01-19T08:00:00Z",
     "updated_at": "2025-01-20T08:00:00Z"
   },
-  {
+  "config_005": {
     "id": "config_005",
     "project_id": "project_005",
     "config_type": "aws_config",
@@ -86,7 +107,9 @@
     "config_data": {
       "family": "myapp-task",
       "networkMode": "awsvpc",
-      "requiresCompatibilities": ["FARGATE"],
+      "requiresCompatibilities": [
+        "FARGATE"
+      ],
       "cpu": "1024",
       "memory": "2048",
       "executionRoleArn": "arn:aws:iam::123456789:role/ecsTaskExecutionRole"
@@ -95,7 +118,7 @@
     "created_at": "2025-01-21T10:00:00Z",
     "updated_at": "2025-01-26T08:00:00Z"
   },
-  {
+  "config_006": {
     "id": "config_006",
     "project_id": "project_006",
     "config_type": "monitoring_config",
@@ -105,11 +128,19 @@
         "scrape_interval": "15s",
         "evaluation_interval": "15s"
       },
-      "rule_files": ["/etc/prometheus/rules/*.yml"],
+      "rule_files": [
+        "/etc/prometheus/rules/*.yml"
+      ],
       "scrape_configs": [
         {
           "job_name": "myapp",
-          "static_configs": [{"targets": ["localhost:8080"]}]
+          "static_configs": [
+            {
+              "targets": [
+                "localhost:8080"
+              ]
+            }
+          ]
         }
       ]
     },
@@ -117,7 +148,7 @@
     "created_at": "2025-01-23T14:00:00Z",
     "updated_at": "2025-01-25T17:00:00Z"
   },
-  {
+  "config_007": {
     "id": "config_007",
     "project_id": "project_007",
     "config_type": "api_gateway_config",
@@ -130,8 +161,12 @@
               {
                 "id": "api_route",
                 "uri": "lb://api-service",
-                "predicates": ["Path=/api/**"],
-                "filters": ["RateLimit=10,1s"]
+                "predicates": [
+                  "Path=/api/**"
+                ],
+                "filters": [
+                  "RateLimit=10,1s"
+                ]
               }
             ]
           }
@@ -142,7 +177,7 @@
     "created_at": "2025-01-24T12:00:00Z",
     "updated_at": "2025-01-27T11:00:00Z"
   },
-  {
+  "config_008": {
     "id": "config_008",
     "project_id": "project_008",
     "config_type": "oauth_config",
@@ -152,7 +187,10 @@
         "client": {
           "clientId": "mobile-app-client",
           "clientSecret": "encrypted-secret",
-          "scope": ["read", "write"]
+          "scope": [
+            "read",
+            "write"
+          ]
         },
         "server": {
           "authorizationEndpoint": "/oauth/authorize",
@@ -164,7 +202,7 @@
     "created_at": "2025-01-22T15:00:00Z",
     "updated_at": "2025-01-26T09:00:00Z"
   },
-  {
+  "config_009": {
     "id": "config_009",
     "project_id": "project_009",
     "config_type": "edge_config",
@@ -186,7 +224,7 @@
     "created_at": "2025-01-23T16:00:00Z",
     "updated_at": "2025-01-25T18:00:00Z"
   },
-  {
+  "config_010": {
     "id": "config_010",
     "project_id": "project_010",
     "config_type": "spark_config",
@@ -208,7 +246,7 @@
     "created_at": "2025-01-16T10:00:00Z",
     "updated_at": "2025-01-17T09:00:00Z"
   },
-  {
+  "config_011": {
     "id": "config_011",
     "project_id": "project_001",
     "config_type": "database_config",
@@ -229,7 +267,7 @@
     "created_at": "2025-01-20T10:00:00Z",
     "updated_at": "2025-01-25T12:00:00Z"
   },
-  {
+  "config_012": {
     "id": "config_012",
     "project_id": "project_002",
     "config_type": "helm_config",
@@ -246,34 +284,42 @@
       },
       "ingress": {
         "enabled": true,
-        "hosts": ["api.myapp.com"]
+        "hosts": [
+          "api.myapp.com"
+        ]
       }
     },
     "environment_id": "env_002",
     "created_at": "2025-01-18T09:00:00Z",
     "updated_at": "2025-01-20T08:30:00Z"
   },
-  {
+  "config_013": {
     "id": "config_013",
     "project_id": "project_003",
     "config_type": "gitlab_config",
     "config_name": "gitlab_ci_config",
     "config_data": {
-      "stages": ["build", "test", "deploy"],
+      "stages": [
+        "build",
+        "test",
+        "deploy"
+      ],
       "variables": {
         "DOCKER_DRIVER": "overlay2"
       },
       "build": {
         "stage": "build",
         "image": "maven:3.8",
-        "script": ["mvn clean package"]
+        "script": [
+          "mvn clean package"
+        ]
       }
     },
     "environment_id": "env_003",
     "created_at": "2025-01-22T11:00:00Z",
     "updated_at": "2025-01-26T09:30:00Z"
   },
-  {
+  "config_014": {
     "id": "config_014",
     "project_id": "project_006",
     "config_type": "grafana_config",
@@ -298,7 +344,7 @@
     "created_at": "2025-01-23T14:00:00Z",
     "updated_at": "2025-01-25T14:00:00Z"
   },
-  {
+  "config_015": {
     "id": "config_015",
     "project_id": "project_007",
     "config_type": "load_balancer_config",
@@ -306,7 +352,10 @@
     "config_data": {
       "nginx": {
         "upstream": {
-          "api_backend": ["api-server-1:8080", "api-server-2:8080"]
+          "api_backend": [
+            "api-server-1:8080",
+            "api-server-2:8080"
+          ]
         },
         "server": {
           "listen": 80,
@@ -319,4 +368,4 @@
     "created_at": "2025-01-24T12:00:00Z",
     "updated_at": "2025-01-27T10:00:00Z"
   }
-]
+}

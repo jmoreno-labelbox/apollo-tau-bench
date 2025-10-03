@@ -1,5 +1,5 @@
-[
-  {
+{
+  "comp_001": {
     "msg_id": "comp_001",
     "task_id": "fc_task_003",
     "task_type": "file_check",
@@ -9,11 +9,13 @@
     "details": {
       "files_found": 3,
       "total_size": "37208875",
-      "file_types": ["csv"],
+      "file_types": [
+        "csv"
+      ],
       "log_path": "/tmp/file_check_log_fc_task_003.json"
     }
   },
-  {
+  "comp_002": {
     "msg_id": "comp_002",
     "task_id": "fc_task_005",
     "task_type": "file_check",
@@ -23,11 +25,15 @@
     "details": {
       "files_found": 3,
       "total_size": "14506689",
-      "file_types": ["txt", "docx", "pdf"],
+      "file_types": [
+        "txt",
+        "docx",
+        "pdf"
+      ],
       "log_path": "/tmp/file_check_log_fc_task_005.json"
     }
   },
-  {
+  "comp_003": {
     "msg_id": "comp_003",
     "task_id": "dir_op_002",
     "task_type": "file_organization",
@@ -39,10 +45,14 @@
       "total_size": "45678901",
       "source_path": "/tmp/project_files",
       "destination_path": "/archive/projects",
-      "subdirectories_created": ["documents", "source_code", "data_files"]
+      "subdirectories_created": [
+        "documents",
+        "source_code",
+        "data_files"
+      ]
     }
   },
-  {
+  "comp_004": {
     "msg_id": "comp_004",
     "task_id": "arch_002",
     "task_type": "archive",
@@ -57,4 +67,4 @@
       "checksum": "g7h8i9j0k1l23456789012345678901234ghij"
     }
   }
-]
+}

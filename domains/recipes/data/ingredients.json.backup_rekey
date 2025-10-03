@@ -1,0 +1,1146 @@
+[
+  {
+    "ingredient_id": 1001,
+    "ingredient_name": "Chicken Breast",
+    "grocery_section": "Meat",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1002,
+    "ingredient_name": "Salmon Fillet",
+    "grocery_section": "Seafood",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1003,
+    "ingredient_name": "Firm Tofu",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1004,
+    "ingredient_name": "Canned Chickpeas",
+    "grocery_section": "Canned Goods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1005,
+    "ingredient_name": "Spaghetti Pasta",
+    "grocery_section": "Pasta & Grains",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1006,
+    "ingredient_name": "White Rice",
+    "grocery_section": "Pasta & Grains",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1007,
+    "ingredient_name": "Quinoa",
+    "grocery_section": "Pasta & Grains",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1008,
+    "ingredient_name": "Corn Tortillas",
+    "grocery_section": "Bakery",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1009,
+    "ingredient_name": "Bell Pepper",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1010,
+    "ingredient_name": "Yellow Onion",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1011,
+    "ingredient_name": "Garlic",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "clove"
+  },
+  {
+    "ingredient_id": 1012,
+    "ingredient_name": "Tomato Sauce",
+    "grocery_section": "Canned Goods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1013,
+    "ingredient_name": "Romaine Lettuce",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1014,
+    "ingredient_name": "Cucumber",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1015,
+    "ingredient_name": "Olive Oil",
+    "grocery_section": "Oils & Vinegars",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1016,
+    "ingredient_name": "Salt",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1017,
+    "ingredient_name": "Black Pepper",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1018,
+    "ingredient_name": "Ground Cumin",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1019,
+    "ingredient_name": "Chili Powder",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1020,
+    "ingredient_name": "Soy Sauce",
+    "grocery_section": "International",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1021,
+    "ingredient_name": "Teriyaki Sauce",
+    "grocery_section": "International",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1022,
+    "ingredient_name": "Lemon",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1023,
+    "ingredient_name": "Plain Greek Yogurt",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1024,
+    "ingredient_name": "Cheddar Cheese",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1025,
+    "ingredient_name": "Mozzarella Cheese",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1026,
+    "ingredient_name": "Whole Wheat Bread",
+    "grocery_section": "Bakery",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "slice"
+  },
+  {
+    "ingredient_id": 1027,
+    "ingredient_name": "Flour (All-Purpose)",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1028,
+    "ingredient_name": "Granulated Sugar",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1029,
+    "ingredient_name": "Unsalted Butter",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1030,
+    "ingredient_name": "Eggs",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1031,
+    "ingredient_name": "Baking Soda",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1032,
+    "ingredient_name": "Baking Powder",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1033,
+    "ingredient_name": "Chocolate Chips",
+    "grocery_section": "Snacks & Candy",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1034,
+    "ingredient_name": "Bananas",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1035,
+    "ingredient_name": "Rolled Oats",
+    "grocery_section": "Cereal & Breakfast",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1036,
+    "ingredient_name": "Cocoa Powder",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1037,
+    "ingredient_name": "Milk",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1038,
+    "ingredient_name": "Hummus",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1039,
+    "ingredient_name": "Turkey Deli Slices",
+    "grocery_section": "Deli",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1040,
+    "ingredient_name": "Crackers",
+    "grocery_section": "Snacks & Candy",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1041,
+    "ingredient_name": "Peanut Butter",
+    "grocery_section": "Spreads",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": false,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1042,
+    "ingredient_name": "Yogurt (Vanilla)",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1043,
+    "ingredient_name": "Tortilla Wraps",
+    "grocery_section": "Bakery",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1044,
+    "ingredient_name": "Cherry Tomatoes",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1045,
+    "ingredient_name": "Ground Beef",
+    "grocery_section": "Meat",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1046,
+    "ingredient_name": "Pork Tenderloin",
+    "grocery_section": "Meat",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1047,
+    "ingredient_name": "Chicken Thighs",
+    "grocery_section": "Meat",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1048,
+    "ingredient_name": "Shrimp",
+    "grocery_section": "Seafood",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1049,
+    "ingredient_name": "Cod Fillet",
+    "grocery_section": "Seafood",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1050,
+    "ingredient_name": "Tuna (Canned)",
+    "grocery_section": "Canned Goods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1051,
+    "ingredient_name": "Black Beans",
+    "grocery_section": "Canned Goods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1052,
+    "ingredient_name": "Kidney Beans",
+    "grocery_section": "Canned Goods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1053,
+    "ingredient_name": "Lentils (Dried)",
+    "grocery_section": "Pasta & Grains",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1054,
+    "ingredient_name": "Tempeh",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1055,
+    "ingredient_name": "Beyond Meat",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1056,
+    "ingredient_name": "Brown Rice",
+    "grocery_section": "Pasta & Grains",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1057,
+    "ingredient_name": "Wild Rice",
+    "grocery_section": "Pasta & Grains",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1058,
+    "ingredient_name": "Basmati Rice",
+    "grocery_section": "Pasta & Grains",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1059,
+    "ingredient_name": "Jasmine Rice",
+    "grocery_section": "Pasta & Grains",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1060,
+    "ingredient_name": "Barley",
+    "grocery_section": "Pasta & Grains",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1061,
+    "ingredient_name": "Farro",
+    "grocery_section": "Pasta & Grains",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1062,
+    "ingredient_name": "Penne Pasta",
+    "grocery_section": "Pasta & Grains",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1063,
+    "ingredient_name": "Linguine",
+    "grocery_section": "Pasta & Grains",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1064,
+    "ingredient_name": "Rice Noodles",
+    "grocery_section": "International",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1065,
+    "ingredient_name": "Gluten-Free Pasta",
+    "grocery_section": "Health Foods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1066,
+    "ingredient_name": "Broccoli",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1067,
+    "ingredient_name": "Cauliflower",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1068,
+    "ingredient_name": "Carrots",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1069,
+    "ingredient_name": "Celery",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1070,
+    "ingredient_name": "Spinach",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1071,
+    "ingredient_name": "Kale",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1072,
+    "ingredient_name": "Swiss Chard",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1073,
+    "ingredient_name": "Zucchini",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1074,
+    "ingredient_name": "Eggplant",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1075,
+    "ingredient_name": "Mushrooms",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1076,
+    "ingredient_name": "Red Onion",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1077,
+    "ingredient_name": "Green Onions",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "bundle"
+  },
+  {
+    "ingredient_id": 1078,
+    "ingredient_name": "Ginger",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1079,
+    "ingredient_name": "Sweet Potato",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1080,
+    "ingredient_name": "Regular Potato",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1081,
+    "ingredient_name": "Apples",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1082,
+    "ingredient_name": "Oranges",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1083,
+    "ingredient_name": "Berries (Mixed)",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1084,
+    "ingredient_name": "Strawberries",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1085,
+    "ingredient_name": "Blueberries",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1086,
+    "ingredient_name": "Avocado",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1087,
+    "ingredient_name": "Lime",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1088,
+    "ingredient_name": "Coconut",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1089,
+    "ingredient_name": "Parmesan Cheese",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1090,
+    "ingredient_name": "Feta Cheese",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1091,
+    "ingredient_name": "Goat Cheese",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1092,
+    "ingredient_name": "Almond Milk",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1093,
+    "ingredient_name": "Oat Milk",
+    "grocery_section": "Refrigerated",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1094,
+    "ingredient_name": "Coconut Milk",
+    "grocery_section": "International",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1095,
+    "ingredient_name": "Vegan Cheese",
+    "grocery_section": "Health Foods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1096,
+    "ingredient_name": "Nutritional Yeast",
+    "grocery_section": "Health Foods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1097,
+    "ingredient_name": "Paprika",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1098,
+    "ingredient_name": "Turmeric",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1099,
+    "ingredient_name": "Coriander",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1100,
+    "ingredient_name": "Cayenne Pepper",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1101,
+    "ingredient_name": "Oregano",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1102,
+    "ingredient_name": "Basil (Dried)",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1103,
+    "ingredient_name": "Fresh Basil",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1104,
+    "ingredient_name": "Fresh Cilantro",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1105,
+    "ingredient_name": "Fresh Parsley",
+    "grocery_section": "Produce",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1106,
+    "ingredient_name": "Thyme",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1107,
+    "ingredient_name": "Rosemary",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1108,
+    "ingredient_name": "Bay Leaves",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "pcs"
+  },
+  {
+    "ingredient_id": 1109,
+    "ingredient_name": "Sesame Oil",
+    "grocery_section": "International",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1110,
+    "ingredient_name": "Coconut Oil",
+    "grocery_section": "Oils & Vinegars",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1111,
+    "ingredient_name": "Avocado Oil",
+    "grocery_section": "Oils & Vinegars",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1112,
+    "ingredient_name": "Balsamic Vinegar",
+    "grocery_section": "Oils & Vinegars",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1113,
+    "ingredient_name": "Apple Cider Vinegar",
+    "grocery_section": "Oils & Vinegars",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1114,
+    "ingredient_name": "Rice Vinegar",
+    "grocery_section": "International",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1115,
+    "ingredient_name": "Honey",
+    "grocery_section": "Spreads",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1116,
+    "ingredient_name": "Maple Syrup",
+    "grocery_section": "Spreads",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1117,
+    "ingredient_name": "Agave Nectar",
+    "grocery_section": "Health Foods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1118,
+    "ingredient_name": "Brown Sugar",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1119,
+    "ingredient_name": "Gluten-Free Flour",
+    "grocery_section": "Health Foods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1120,
+    "ingredient_name": "Almond Flour",
+    "grocery_section": "Health Foods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1121,
+    "ingredient_name": "Coconut Flour",
+    "grocery_section": "Health Foods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1122,
+    "ingredient_name": "Gluten-Free Bread",
+    "grocery_section": "Health Foods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "slice"
+  },
+  {
+    "ingredient_id": 1123,
+    "ingredient_name": "Almonds",
+    "grocery_section": "Snacks & Candy",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1124,
+    "ingredient_name": "Walnuts",
+    "grocery_section": "Snacks & Candy",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1125,
+    "ingredient_name": "Cashews",
+    "grocery_section": "Snacks & Candy",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1126,
+    "ingredient_name": "Peanuts",
+    "grocery_section": "Snacks & Candy",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": false,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1127,
+    "ingredient_name": "Sunflower Seeds",
+    "grocery_section": "Snacks & Candy",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1128,
+    "ingredient_name": "Chia Seeds",
+    "grocery_section": "Health Foods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1129,
+    "ingredient_name": "Flax Seeds",
+    "grocery_section": "Health Foods",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1130,
+    "ingredient_name": "Tahini",
+    "grocery_section": "International",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1131,
+    "ingredient_name": "Almond Butter",
+    "grocery_section": "Spreads",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1132,
+    "ingredient_name": "Sunflower Seed Butter",
+    "grocery_section": "Spreads",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1133,
+    "ingredient_name": "Miso Paste",
+    "grocery_section": "International",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1134,
+    "ingredient_name": "Fish Sauce",
+    "grocery_section": "International",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1135,
+    "ingredient_name": "Curry Powder",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1136,
+    "ingredient_name": "Garam Masala",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1137,
+    "ingredient_name": "Five Spice",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1138,
+    "ingredient_name": "Vanilla Extract",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "ml"
+  },
+  {
+    "ingredient_id": 1139,
+    "ingredient_name": "Cinnamon",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1140,
+    "ingredient_name": "Nutmeg",
+    "grocery_section": "Spices & Baking",
+    "pantry_staple_flag": true,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1141,
+    "ingredient_name": "Frozen Peas",
+    "grocery_section": "Frozen",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1142,
+    "ingredient_name": "Frozen Corn",
+    "grocery_section": "Frozen",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  },
+  {
+    "ingredient_id": 1143,
+    "ingredient_name": "Frozen Berries",
+    "grocery_section": "Frozen",
+    "pantry_staple_flag": false,
+    "peanut_free_flag": true,
+    "default_unit": "g"
+  }
+]

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "TIME001": {
     "time_entry_id": "TIME001",
     "project_id": "PROJ001",
     "entry_date": "2024-01-15",
@@ -8,7 +8,7 @@
     "source_reference": "Toggl_Entry_12345",
     "synced_at": "2024-01-16T09:30:00Z"
   },
-  {
+  "TIME002": {
     "time_entry_id": "TIME002",
     "project_id": "PROJ001",
     "entry_date": "2024-01-18",
@@ -17,7 +17,7 @@
     "source_reference": "Toggl_Entry_12346",
     "synced_at": "2024-01-19T08:15:00Z"
   },
-  {
+  "TIME003": {
     "time_entry_id": "TIME003",
     "project_id": "PROJ002",
     "entry_date": "2024-02-05",
@@ -26,7 +26,7 @@
     "source_reference": "Toggl_Entry_12347",
     "synced_at": "2024-02-06T10:45:00Z"
   },
-  {
+  "TIME004": {
     "time_entry_id": "TIME004",
     "project_id": "PROJ003",
     "entry_date": "2024-03-12",
@@ -35,7 +35,7 @@
     "source_reference": "Manual_Entry_001",
     "synced_at": "2024-03-13T14:20:00Z"
   },
-  {
+  "TIME005": {
     "time_entry_id": "TIME005",
     "project_id": "PROJ001",
     "entry_date": "2024-03-15",
@@ -44,7 +44,7 @@
     "source_reference": "Toggl_Entry_12348",
     "synced_at": "2024-03-16T11:00:00Z"
   },
-  {
+  "TIME006": {
     "time_entry_id": "TIME006",
     "project_id": "PROJ004",
     "entry_date": "2024-04-10",
@@ -53,7 +53,7 @@
     "source_reference": "Toggl_Entry_12349",
     "synced_at": "2024-04-11T09:45:00Z"
   },
-  {
+  "TIME007": {
     "time_entry_id": "TIME007",
     "project_id": "PROJ005",
     "entry_date": "2024-05-02",
@@ -62,7 +62,7 @@
     "source_reference": "Manual_Entry_002",
     "synced_at": "2024-05-03T13:30:00Z"
   },
-  {
+  "TIME008": {
     "time_entry_id": "TIME008",
     "project_id": "PROJ006",
     "entry_date": "2024-06-18",
@@ -71,7 +71,7 @@
     "source_reference": "Toggl_Entry_12350",
     "synced_at": "2024-06-19T08:00:00Z"
   },
-  {
+  "TIME009": {
     "time_entry_id": "TIME009",
     "project_id": "PROJ007",
     "entry_date": "2024-07-25",
@@ -80,7 +80,7 @@
     "source_reference": "Toggl_Entry_12351",
     "synced_at": "2024-07-26T12:15:00Z"
   },
-  {
+  "TIME010": {
     "time_entry_id": "TIME010",
     "project_id": "PROJ008",
     "entry_date": "2024-08-14",
@@ -89,7 +89,7 @@
     "source_reference": "Manual_Entry_003",
     "synced_at": "2024-08-15T16:20:00Z"
   },
-  {
+  "TIME011": {
     "time_entry_id": "TIME011",
     "project_id": "PROJ010",
     "entry_date": "2024-09-30",
@@ -98,7 +98,7 @@
     "source_reference": "Toggl_Entry_12352",
     "synced_at": "2024-10-01T10:30:00Z"
   },
-  {
+  "TIME012": {
     "time_entry_id": "TIME012",
     "project_id": "PROJ002",
     "entry_date": "2024-10-15",
@@ -107,7 +107,7 @@
     "source_reference": "Toggl_Entry_12353",
     "synced_at": "2024-10-16T14:45:00Z"
   },
-  {
+  "TIME013": {
     "time_entry_id": "TIME013",
     "project_id": "PROJ003",
     "entry_date": "2024-11-01",
@@ -116,7 +116,7 @@
     "source_reference": "Manual_Entry_004",
     "synced_at": "2024-11-02T09:15:00Z"
   },
-  {
+  "TIME014": {
     "time_entry_id": "TIME014",
     "project_id": "PROJ001",
     "entry_date": "2024-11-08",
@@ -125,7 +125,7 @@
     "source_reference": "Toggl_Entry_12354",
     "synced_at": "2024-11-09T11:30:00Z"
   },
-  {
+  "TIME015": {
     "time_entry_id": "TIME015",
     "project_id": "PROJ005",
     "entry_date": "2024-11-12",
@@ -134,7 +134,7 @@
     "source_reference": "Toggl_Entry_12355",
     "synced_at": "2024-11-13T15:00:00Z"
   },
-  {
+  "TIME016": {
     "time_entry_id": "TIME016",
     "project_id": "PROJ008",
     "entry_date": "2024-11-18",
@@ -143,7 +143,7 @@
     "source_reference": "Manual_Entry_005",
     "synced_at": null
   },
-  {
+  "TIME017": {
     "time_entry_id": "TIME017",
     "project_id": "PROJ010",
     "entry_date": "2024-11-20",
@@ -152,7 +152,7 @@
     "source_reference": "Toggl_Entry_12356",
     "synced_at": null
   },
-  {
+  "TIME018": {
     "time_entry_id": "TIME018",
     "project_id": "PROJ006",
     "entry_date": "2024-11-22",
@@ -161,7 +161,7 @@
     "source_reference": "Manual_Entry_006",
     "synced_at": null
   },
-  {
+  "TIME019": {
     "time_entry_id": "TIME019",
     "project_id": "PROJ001",
     "entry_date": "2024-12-01",
@@ -170,7 +170,7 @@
     "source_reference": "Toggl_Entry_12357",
     "synced_at": null
   },
-  {
+  "TIME020": {
     "time_entry_id": "TIME020",
     "project_id": "PROJ002",
     "entry_date": "2024-12-02",
@@ -179,7 +179,7 @@
     "source_reference": "Toggl_Entry_12358",
     "synced_at": null
   },
-  {
+  "TIME021": {
     "time_entry_id": "TIME021",
     "project_id": "PROJ003",
     "entry_date": "2024-12-03",
@@ -188,7 +188,7 @@
     "source_reference": "Manual_Entry_007",
     "synced_at": null
   },
-  {
+  "TIME022": {
     "time_entry_id": "TIME022",
     "project_id": "PROJ004",
     "entry_date": "2024-12-04",
@@ -197,7 +197,7 @@
     "source_reference": "Toggl_Entry_12359",
     "synced_at": null
   },
-  {
+  "TIME023": {
     "time_entry_id": "TIME023",
     "project_id": "PROJ005",
     "entry_date": "2024-12-05",
@@ -206,7 +206,7 @@
     "source_reference": "Toggl_Entry_12360",
     "synced_at": null
   },
-  {
+  "TIME024": {
     "time_entry_id": "TIME024",
     "project_id": "PROJ006",
     "entry_date": "2024-12-06",
@@ -215,7 +215,7 @@
     "source_reference": "Manual_Entry_008",
     "synced_at": null
   },
-  {
+  "TIME025": {
     "time_entry_id": "TIME025",
     "project_id": "PROJ007",
     "entry_date": "2024-12-07",
@@ -224,7 +224,7 @@
     "source_reference": "Toggl_Entry_12361",
     "synced_at": null
   },
-  {
+  "TIME026": {
     "time_entry_id": "TIME026",
     "project_id": "PROJ008",
     "entry_date": "2024-12-08",
@@ -233,7 +233,7 @@
     "source_reference": "Toggl_Entry_12362",
     "synced_at": null
   },
-  {
+  "TIME027": {
     "time_entry_id": "TIME027",
     "project_id": "PROJ009",
     "entry_date": "2024-12-09",
@@ -242,7 +242,7 @@
     "source_reference": "Manual_Entry_009",
     "synced_at": null
   },
-  {
+  "TIME028": {
     "time_entry_id": "TIME028",
     "project_id": "PROJ010",
     "entry_date": "2024-12-10",
@@ -251,4 +251,4 @@
     "source_reference": "Toggl_Entry_12363",
     "synced_at": null
   }
-]
+}

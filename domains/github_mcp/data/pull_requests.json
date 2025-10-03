@@ -1,5 +1,5 @@
-[
-  {
+{
+  "maya-w": {
     "owner": "maya-w",
     "repo_name": "acme-webapp",
     "pr_numbers": [
@@ -127,7 +127,7 @@
       "2023-12-03T15:45:00Z"
     ]
   },
-  {
+  "design-team": {
     "owner": "design-team",
     "repo_name": "ui-kit",
     "pr_numbers": [
@@ -253,7 +253,7 @@
       "2023-12-04T11:55:00Z"
     ]
   },
-  {
+  "server-main": {
     "owner": "server-main",
     "repo_name": "payments-service",
     "pr_numbers": [
@@ -333,7 +333,7 @@
       "2023-12-03T18:05:00Z"
     ]
   },
-  {
+  "ryan-dev": {
     "owner": "ryan-dev",
     "repo_name": "utils-js",
     "pr_numbers": [
@@ -460,7 +460,7 @@
       "2023-11-30T09:45:00Z"
     ]
   },
-  {
+  "language-ai": {
     "owner": "language-ai",
     "repo_name": "nlp-models",
     "pr_numbers": [
@@ -632,7 +632,7 @@
       "2023-09-22T10:45:00Z"
     ]
   },
-  {
+  "security-group": {
     "owner": "security-group",
     "repo_name": "security-scanner",
     "pr_numbers": [
@@ -763,7 +763,7 @@
       "2023-08-25T14:20:00Z"
     ]
   },
-  {
+  "app-developer": {
     "owner": "app-developer",
     "repo_name": "flutter-finance-app",
     "pr_numbers": [
@@ -888,7 +888,7 @@
       "2023-08-26T11:15:00Z"
     ]
   },
-  {
+  "ui-developer": {
     "owner": "ui-developer",
     "repo_name": "react-dashboard",
     "pr_numbers": [
@@ -1016,7 +1016,7 @@
       "2023-12-05T14:30:00Z"
     ]
   },
-  {
+  "infra-lead": {
     "owner": "infra-lead",
     "repo_name": "k8s-monitoring",
     "pr_numbers": [
@@ -1144,4 +1144,4 @@
       "2023-12-04T12:30:00Z"
     ]
   }
-]
+}

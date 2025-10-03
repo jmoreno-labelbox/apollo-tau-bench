@@ -1,5 +1,5 @@
-[
-    {
+{
+    "PE-001": {
         "exception_id": "PE-001",
         "user_id": "U-022",
         "permission_id": "P-051",
@@ -10,7 +10,7 @@
         "reason": "Backup payroll processing in case of administrator absence.",
         "status": "EXPIRED"
     },
-    {
+    "PE-002": {
         "exception_id": "PE-002",
         "user_id": "U-009",
         "permission_id": "P-042",
@@ -21,7 +21,7 @@
         "reason": "Needed to perform a mass cleanup of old sales leads.",
         "status": "DENIED"
     },
-    {
+    "PE-003": {
         "exception_id": "PE-003",
         "user_id": "U-025",
         "permission_id": "P-064",
@@ -32,7 +32,7 @@
         "reason": "Temporary write access to production database for hotfix.",
         "status": "EXPIRED"
     },
-    {
+    "PE-004": {
         "exception_id": "PE-004",
         "user_id": "U-019",
         "permission_id": "P-011",
@@ -43,7 +43,7 @@
         "reason": "Write access to the customer API for a one-time data migration script.",
         "status": "EXPIRED"
     },
-    {
+    "PE-005": {
         "exception_id": "PE-005",
         "user_id": "U-002",
         "permission_id": "P-014",
@@ -54,7 +54,7 @@
         "reason": "Editing documentation on a shared resource owned by engineering.",
         "status": "DENIED"
     },
-    {
+    "PE-006": {
         "exception_id": "PE-006",
         "user_id": "U-010",
         "permission_id": "P-050",
@@ -65,7 +65,7 @@
         "reason": "Edit an employee profile with updated certification data.",
         "status": "EXPIRED"
     },
-    {
+    "PE-007": {
         "exception_id": "PE-007",
         "user_id": "U-006",
         "permission_id": "P-076",
@@ -76,7 +76,7 @@
         "reason": "Needed to post a manual entry to the general ledger.",
         "status": "EXPIRED"
     },
-    {
+    "PE-008": {
         "exception_id": "PE-008",
         "user_id": "U-013",
         "permission_id": "P-018",
@@ -87,7 +87,7 @@
         "reason": "Needed to perform a critical schema migration outside of the standard role.",
         "status": "EXPIRED"
     },
-    {
+    "PE-009": {
         "exception_id": "PE-009",
         "user_id": "U-012",
         "permission_id": "P-084",
@@ -98,7 +98,7 @@
         "reason": "Needed to file an amended tax report for the previous fiscal year.",
         "status": "DENIED"
     },
-    {
+    "PE-010": {
         "exception_id": "PE-010",
         "user_id": "U-008",
         "permission_id": "P-021",
@@ -109,7 +109,7 @@
         "reason": "Manage social media accounts for a new product launch.",
         "status": "ACTIVE"
     },
-    {
+    "PE-011": {
         "exception_id": "PE-011",
         "user_id": "U-027",
         "permission_id": "P-037",
@@ -120,7 +120,7 @@
         "reason": "Update a critical sales opportunity in CRM due to an urgent client request.",
         "status": "PENDING_REVIEW"
     },
-    {
+    "PE-012": {
         "exception_id": "PE-012",
         "user_id": "U-023",
         "permission_id": "P-089",
@@ -131,7 +131,7 @@
         "reason": "Full administrative access to a specific production server for troubleshooting.",
         "status": "PENDING_REVIEW"
     },
-    {
+    "PE-013": {
         "exception_id": "PE-013",
         "user_id": "U-014",
         "permission_id": "P-029",
@@ -142,7 +142,7 @@
         "reason": "Updating customer data for a special marketing campaign.",
         "status": "ACTIVE"
     },
-    {
+    "PE-014": {
         "exception_id": "PE-014",
         "user_id": "U-020",
         "permission_id": "P-022",
@@ -153,7 +153,7 @@
         "reason": "Send a one-off email campaign to a segment of the customer list.",
         "status": "ACTIVE"
     },
-    {
+    "PE-015": {
         "exception_id": "PE-015",
         "user_id": "U-016",
         "permission_id": "P-108",
@@ -164,7 +164,7 @@
         "reason": "Need to review candidates in a new hiring platform for a joint-department project.",
         "status": "ACTIVE"
     },
-    {
+    "PE-016": {
         "exception_id": "PE-016",
         "user_id": "U-028",
         "permission_id": "P-056",
@@ -175,7 +175,7 @@
         "reason": "One-time enrollment of a new employee in a non-standard benefits program.",
         "status": "PENDING_REVIEW"
     },
-    {
+    "PE-017": {
         "exception_id": "PE-017",
         "user_id": "U-021",
         "permission_id": "P-096",
@@ -186,7 +186,7 @@
         "reason": "Required to create support tickets in HubSpot for new sales tools.",
         "status": "ACTIVE"
     },
-    {
+    "PE-018": {
         "exception_id": "PE-018",
         "user_id": "U-007",
         "permission_id": "P-005",
@@ -197,7 +197,7 @@
         "reason": "Emergency configuration change to the CI/CD pipeline.",
         "status": "PENDING_REVIEW"
     },
-    {
+    "PE-019": {
         "exception_id": "PE-019",
         "user_id": "U-024",
         "permission_id": "P-088",
@@ -208,7 +208,7 @@
         "reason": "Approval of a large expense report for a new project.",
         "status": "PENDING_REVIEW"
     },
-    {
+    "PE-020": {
         "exception_id": "PE-020",
         "user_id": "U-017",
         "permission_id": "P-070",
@@ -219,4 +219,4 @@
         "reason": "Temporary permission to delete outdated backups from storage.",
         "status": "ACTIVE"
     }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "elog_001": {
     "log_id": "elog_001",
     "cr_id": "cr_007",
     "authorized_by": "sh_003",
@@ -13,7 +13,7 @@
       "sh_005"
     ]
   },
-  {
+  "elog_002": {
     "log_id": "elog_002",
     "cr_id": "ecr_prod_001",
     "authorized_by": "sh_001",
@@ -27,7 +27,7 @@
       "sh_004"
     ]
   },
-  {
+  "elog_003": {
     "log_id": "elog_003",
     "cr_id": "ecr_compliance_001",
     "authorized_by": "sh_005",
@@ -38,7 +38,7 @@
     "retroactive_approval_date": null,
     "retroactive_approvers": []
   },
-  {
+  "elog_004": {
     "log_id": "elog_004",
     "cr_id": "ecr_data_001",
     "authorized_by": "sh_003",
@@ -51,7 +51,7 @@
       "sh_001"
     ]
   },
-  {
+  "elog_005": {
     "log_id": "elog_005",
     "cr_id": "ecr_perf_001",
     "authorized_by": "sh_004",
@@ -64,4 +64,4 @@
       "sh_003"
     ]
   }
-]
+}

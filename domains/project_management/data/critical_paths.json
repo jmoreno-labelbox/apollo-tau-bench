@@ -1,5 +1,5 @@
-[
-  {
+{
+  "cp_001": {
     "path_id": "cp_001",
     "project_id": "proj_mobile_01",
     "critical_tasks": [
@@ -12,7 +12,7 @@
     "slack_time": 0,
     "last_calculated": "2024-03-20T10:00:00Z"
   },
-  {
+  "cp_002": {
     "path_id": "cp_002",
     "project_id": "proj_ai_01",
     "critical_tasks": [
@@ -24,7 +24,7 @@
     "slack_time": 0,
     "last_calculated": "2024-03-15T14:00:00Z"
   },
-  {
+  "cp_003": {
     "path_id": "cp_003",
     "project_id": "proj_enterprise_01",
     "critical_tasks": [
@@ -36,7 +36,7 @@
     "slack_time": 0,
     "last_calculated": "2024-03-10T11:00:00Z"
   },
-  {
+  "cp_004": {
     "path_id": "cp_004",
     "project_id": "proj_web_01",
     "critical_tasks": [
@@ -48,7 +48,7 @@
     "slack_time": 0,
     "last_calculated": "2024-03-18T09:00:00Z"
   },
-  {
+  "cp_005": {
     "path_id": "cp_005",
     "project_id": "proj_banking_01",
     "critical_tasks": [
@@ -60,4 +60,4 @@
     "slack_time": 0,
     "last_calculated": "2024-03-12T15:00:00Z"
   }
-]
+}

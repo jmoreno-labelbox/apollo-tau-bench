@@ -1,5 +1,5 @@
-[
-  {
+{
+  "srv_001": {
     "server_id": "srv_001",
     "hostname": "server-prod-01.company.com",
     "ip_address": "192.168.1.10",
@@ -25,7 +25,7 @@
       }
     ]
   },
-  {
+  "srv_002": {
     "server_id": "srv_002",
     "hostname": "server-data-01.company.com",
     "ip_address": "192.168.1.20",
@@ -43,7 +43,7 @@
     ],
     "active_connections": []
   },
-  {
+  "srv_003": {
     "server_id": "srv_003",
     "hostname": "server-analytics.company.com",
     "ip_address": "192.168.1.30",
@@ -60,7 +60,7 @@
     ],
     "active_connections": []
   },
-  {
+  "srv_004": {
     "server_id": "srv_004",
     "hostname": "server-config.company.com",
     "ip_address": "192.168.1.40",
@@ -77,7 +77,7 @@
     ],
     "active_connections": []
   },
-  {
+  "srv_005": {
     "server_id": "srv_005",
     "hostname": "backup-server.company.com",
     "ip_address": "192.168.1.50",
@@ -95,7 +95,7 @@
     ],
     "active_connections": []
   },
-  {
+  "srv_006": {
     "server_id": "srv_006",
     "hostname": "storage-01.company.com",
     "ip_address": "192.168.1.60",
@@ -112,4 +112,4 @@
     ],
     "active_connections": []
   }
-]
+}

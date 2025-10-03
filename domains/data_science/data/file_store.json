@@ -1,5 +1,5 @@
-[
-  {
+{
+  "['requirements.txt', '/src/data_collection/weather_api.py', '/src/models/flood_risk_model.py', '/config/model_config.json', '/docs/project_report.md', '/notebooks/exploratory_analysis.ipynb', '/data/processed/timeseries_sf_weather.csv']": {
     "paths": [
       "requirements.txt",
       "/src/data_collection/weather_api.py",
@@ -55,7 +55,7 @@
       "2024-03-16T14:22:00Z"
     ]
   },
-  {
+  "['/processed_data/boston_model_config.json']": {
     "paths": [
       "/processed_data/boston_model_config.json"
     ],
@@ -75,7 +75,7 @@
       "2024-03-01T13:00:00Z"
     ]
   },
-  {
+  "['/data/processed/features_boston.csv']": {
     "paths": [
       "/data/processed/features_boston.csv"
     ],
@@ -95,7 +95,7 @@
       "2024-03-01T13:18:00Z"
     ]
   },
-  {
+  "['/processed_data/split_summary.json']": {
     "paths": [
       "/processed_data/split_summary.json"
     ],
@@ -115,7 +115,7 @@
       "2024-03-17T10:45:00Z"
     ]
   },
-  {
+  "['/src/etl/boston_preprocessing.py']": {
     "paths": [
       "/src/etl/boston_preprocessing.py"
     ],
@@ -135,4 +135,4 @@
       "2024-03-01T13:05:00Z"
     ]
   }
-]
+}

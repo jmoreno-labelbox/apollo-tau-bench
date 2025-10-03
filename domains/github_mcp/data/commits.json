@@ -1,5 +1,5 @@
-[
-  {
+{
+  "maya-w": {
     "owner": "maya-w",
     "repo_name": "acme-webapp",
     "branch_names": [
@@ -43,7 +43,7 @@
       ]
     ]
   },
-  {
+  "ryan-dev": {
     "owner": "ryan-dev",
     "repo_name": "utils-js",
     "branch_names": [
@@ -70,7 +70,7 @@
       ]
     ]
   },
-  {
+  "design-team": {
     "owner": "design-team",
     "repo_name": "ui-kit",
     "branch_names": [
@@ -131,7 +131,7 @@
       ]
     ]
   },
-  {
+  "language-ai": {
     "owner": "language-ai",
     "repo_name": "nlp-models",
     "branch_names": [
@@ -188,7 +188,7 @@
       ]
     ]
   },
-  {
+  "server-main": {
     "owner": "server-main",
     "repo_name": "payments-service",
     "branch_names": [
@@ -245,7 +245,7 @@
       ]
     ]
   },
-  {
+  "platform-team": {
     "owner": "platform-team",
     "repo_name": "infra-terraform",
     "branch_names": [
@@ -302,7 +302,7 @@
       ]
     ]
   },
-  {
+  "security-group": {
     "owner": "security-group",
     "repo_name": "security-scanner",
     "branch_names": [
@@ -363,7 +363,7 @@
       ]
     ]
   },
-  {
+  "app-developer": {
     "owner": "app-developer",
     "repo_name": "flutter-finance-app",
     "branch_names": [
@@ -424,7 +424,7 @@
       ]
     ]
   },
-  {
+  "ui-developer": {
     "owner": "ui-developer",
     "repo_name": "react-dashboard",
     "branch_names": [
@@ -485,7 +485,7 @@
       ]
     ]
   },
-  {
+  "ml-engineer": {
     "owner": "ml-engineer",
     "repo_name": "ml-pipeline",
     "branch_names": [
@@ -546,7 +546,7 @@
       ]
     ]
   },
-  {
+  "intern-emma": {
     "owner": "intern-emma",
     "repo_name": "portfolio-site",
     "branch_names": [
@@ -581,7 +581,7 @@
       ]
     ]
   },
-  {
+  "infra-lead": {
     "owner": "infra-lead",
     "repo_name": "k8s-monitoring",
     "branch_names": [
@@ -642,4 +642,4 @@
       ]
     ]
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "alert_001": {
     "alert_id": "alert_001",
     "alert_type": "budget_overrun",
     "entity_type": "project",
@@ -14,7 +14,7 @@
     "triggered_count": 0,
     "last_triggered": null
   },
-  {
+  "alert_002": {
     "alert_id": "alert_002",
     "alert_type": "payment_due",
     "entity_type": "vendor",
@@ -29,4 +29,4 @@
     "triggered_count": 1,
     "last_triggered": "2024-03-20T08:00:00Z"
   }
-]
+}

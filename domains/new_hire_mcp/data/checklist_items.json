@@ -1,5 +1,5 @@
-[
-  {
+{
+  "item_1": {
     "item_id": "item_1",
     "candidate_id": "cand_3",
     "task_name": "Account Setup",
@@ -10,7 +10,7 @@
     "created_ts": "2024-07-29T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_2": {
     "item_id": "item_2",
     "candidate_id": "cand_3",
     "task_name": "HR Forms",
@@ -21,7 +21,7 @@
     "created_ts": "2024-07-29T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_3": {
     "item_id": "item_3",
     "candidate_id": "cand_3",
     "task_name": "Benefits Enrollment",
@@ -32,7 +32,7 @@
     "created_ts": "2024-07-29T09:00:00Z",
     "reminder_email_message_id_nullable": "msg_5"
   },
-  {
+  "item_4": {
     "item_id": "item_4",
     "candidate_id": "cand_2",
     "task_name": "Account Setup",
@@ -43,7 +43,7 @@
     "created_ts": "2024-08-05T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_5": {
     "item_id": "item_5",
     "candidate_id": "cand_2",
     "task_name": "HR Forms",
@@ -54,7 +54,7 @@
     "created_ts": "2024-08-05T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_6": {
     "item_id": "item_6",
     "candidate_id": "cand_2",
     "task_name": "Benefits Enrollment",
@@ -65,7 +65,7 @@
     "created_ts": "2024-08-05T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_7": {
     "item_id": "item_7",
     "candidate_id": "cand_2",
     "task_name": "Security Training",
@@ -76,7 +76,7 @@
     "created_ts": "2024-08-05T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_8": {
     "item_id": "item_8",
     "candidate_id": "cand_4",
     "task_name": "Account Setup",
@@ -87,7 +87,7 @@
     "created_ts": "2024-08-12T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_9": {
     "item_id": "item_9",
     "candidate_id": "cand_4",
     "task_name": "Design Tool Access",
@@ -98,7 +98,7 @@
     "created_ts": "2024-08-12T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_10": {
     "item_id": "item_10",
     "candidate_id": "cand_4",
     "task_name": "Adobe Creative Suite License",
@@ -109,7 +109,7 @@
     "created_ts": "2024-08-12T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_11": {
     "item_id": "item_11",
     "candidate_id": "cand_5",
     "task_name": "Account Setup",
@@ -120,7 +120,7 @@
     "created_ts": "2024-08-19T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_12": {
     "item_id": "item_12",
     "candidate_id": "cand_5",
     "task_name": "AWS IAM Setup",
@@ -131,7 +131,7 @@
     "created_ts": "2024-08-19T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_13": {
     "item_id": "item_13",
     "candidate_id": "cand_5",
     "task_name": "Kubernetes Access",
@@ -142,7 +142,7 @@
     "created_ts": "2024-08-19T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_14": {
     "item_id": "item_14",
     "candidate_id": "cand_5",
     "task_name": "Security Training",
@@ -153,7 +153,7 @@
     "created_ts": "2024-08-19T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_15": {
     "item_id": "item_15",
     "candidate_id": "cand_7",
     "task_name": "Account Setup",
@@ -164,7 +164,7 @@
     "created_ts": "2024-09-02T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_16": {
     "item_id": "item_16",
     "candidate_id": "cand_7",
     "task_name": "Code Repository Access",
@@ -175,7 +175,7 @@
     "created_ts": "2024-09-02T09:00:00Z",
     "reminder_email_message_id_nullable": null
   },
-  {
+  "item_17": {
     "item_id": "item_17",
     "candidate_id": "cand_6",
     "task_name": "Marketing Platform Access",
@@ -186,4 +186,4 @@
     "created_ts": "2024-08-26T09:00:00Z",
     "reminder_email_message_id_nullable": "msg_13"
   }
-]
+}

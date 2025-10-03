@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Oakland": {
     "city": "Oakland",
     "latitude": 37.7749,
     "longitude": -122.4194,
@@ -44,7 +44,7 @@
     "raw_json_path_nullable": "/data/raw/weather_sf_20240315.json",
     "fetched_ts": "2024-03-15T08:30:00Z"
   },
-  {
+  "Orlando": {
     "city": "Orlando",
     "latitude": 25.7617,
     "longitude": -80.1918,
@@ -85,7 +85,7 @@
     "raw_json_path_nullable": "/data/raw/weather_miami_20240201.json",
     "fetched_ts": "2024-02-01T09:15:00Z"
   },
-  {
+  "Charleston": {
     "city": "Charleston",
     "latitude": 32.7765,
     "longitude": -79.9311,
@@ -122,7 +122,7 @@
     "raw_json_path_nullable": null,
     "fetched_ts": "2024-01-22T16:30:00Z"
   },
-  {
+  "Providence": {
     "city": "Providence",
     "latitude": 42.3601,
     "longitude": -71.0589,
@@ -163,7 +163,7 @@
     "raw_json_path_nullable": "/data/raw/weather_boston_20240301.json",
     "fetched_ts": "2024-03-01T12:30:00Z"
   },
-  {
+  "Portland": {
     "city": "Portland",
     "latitude": 47.6062,
     "longitude": -122.3321,
@@ -208,4 +208,4 @@
     "raw_json_path_nullable": "/data/raw/weather_seattle_20240201.json",
     "fetched_ts": "2024-02-01T14:30:00Z"
   }
-]
+}

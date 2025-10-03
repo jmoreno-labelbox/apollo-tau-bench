@@ -1,5 +1,5 @@
-[
-  {
+{
+  "/processed_data/features.csv": {
     "csv_path": "/processed_data/features.csv",
     "feature_names": [
       "timestamp",
@@ -15,7 +15,7 @@
     ],
     "generated_ts": "2024-03-17T10:15:00Z"
   },
-  {
+  "/data/processed/features_miami.csv": {
     "csv_path": "/data/processed/features_miami.csv",
     "feature_names": [
       "tide_height_m",
@@ -33,7 +33,7 @@
     ],
     "generated_ts": "2024-02-02T15:30:00Z"
   },
-  {
+  "/data/processed/features_charleston.csv": {
     "csv_path": "/data/processed/features_charleston.csv",
     "feature_names": [
       "timestamp",
@@ -51,7 +51,7 @@
     ],
     "generated_ts": "2024-01-23T09:45:00Z"
   },
-  {
+  "/data/processed/features_boston.csv": {
     "csv_path": "/data/processed/features_boston.csv",
     "feature_names": [
       "timestamp",
@@ -69,7 +69,7 @@
     ],
     "generated_ts": "2024-03-01T13:18:00Z"
   },
-  {
+  "/data/processed/features_seattle.csv": {
     "csv_path": "/data/processed/features_seattle.csv",
     "feature_names": [
       "timestamp",
@@ -87,4 +87,4 @@
     ],
     "generated_ts": "2024-02-01T15:25:00Z"
   }
-]
+}

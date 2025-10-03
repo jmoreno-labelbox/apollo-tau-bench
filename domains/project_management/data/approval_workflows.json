@@ -1,5 +1,5 @@
-[
-  {
+{
+  "wf_001": {
     "workflow_id": "wf_001",
     "cr_id": "cr_001",
     "workflow_type": "standard",
@@ -27,7 +27,7 @@
     "status": "completed",
     "created_date": "2024-03-11T15:00:00Z"
   },
-  {
+  "wf_002": {
     "workflow_id": "wf_002",
     "cr_id": "cr_005",
     "workflow_type": "expedited",
@@ -55,7 +55,7 @@
     "status": "completed",
     "created_date": "2024-03-02T16:00:00Z"
   },
-  {
+  "wf_003": {
     "workflow_id": "wf_003",
     "cr_id": "cr_007",
     "workflow_type": "emergency",
@@ -74,7 +74,7 @@
     "status": "completed",
     "created_date": "2024-03-15T02:00:00Z"
   },
-  {
+  "wf_004": {
     "workflow_id": "wf_004",
     "cr_id": "cr_002",
     "workflow_type": "standard",
@@ -92,7 +92,7 @@
     "status": "active",
     "created_date": "2024-03-15T10:00:00Z"
   },
-  {
+  "wf_005": {
     "workflow_id": "wf_005",
     "cr_id": "cr_003",
     "workflow_type": "standard",
@@ -119,4 +119,4 @@
     "status": "active",
     "created_date": "2024-03-18T12:00:00Z"
   }
-]
+}

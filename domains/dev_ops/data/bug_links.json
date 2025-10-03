@@ -1,5 +1,5 @@
-[
-  {
+{
+  "link_001": {
     "id": "link_001",
     "primary_bug_id": "work_027",
     "related_bug_id": "work_026",
@@ -28,7 +28,7 @@
       "automation_run_id": "auto_run_003"
     }
   },
-  {
+  "link_002": {
     "id": "link_002",
     "primary_bug_id": "work_028",
     "related_bug_id": "work_029",
@@ -57,7 +57,7 @@
       "automation_run_id": "auto_run_004"
     }
   },
-  {
+  "link_003": {
     "id": "link_003",
     "primary_bug_id": "work_030",
     "related_bug_id": "work_031",
@@ -86,7 +86,7 @@
       "automation_run_id": "auto_run_005"
     }
   },
-  {
+  "link_004": {
     "id": "link_004",
     "primary_bug_id": "bug_intake_008",
     "related_bug_id": "bug_intake_007",
@@ -115,7 +115,7 @@
       "automation_run_id": "auto_run_006"
     }
   },
-  {
+  "link_005": {
     "id": "link_005",
     "primary_bug_id": "bug_intake_010",
     "related_bug_id": "bug_intake_009",
@@ -144,7 +144,7 @@
       "automation_run_id": null
     }
   },
-  {
+  "link_006": {
     "id": "link_006",
     "primary_bug_id": "bug_intake_012",
     "related_bug_id": "bug_intake_011",
@@ -173,7 +173,7 @@
       "automation_run_id": "auto_run_007"
     }
   },
-  {
+  "link_007": {
     "id": "link_007",
     "primary_bug_id": "bug_intake_014",
     "related_bug_id": "bug_intake_013",
@@ -202,7 +202,7 @@
       "automation_run_id": "auto_run_008"
     }
   },
-  {
+  "link_008": {
     "id": "link_008",
     "primary_bug_id": "bug_intake_016",
     "related_bug_id": "bug_intake_015",
@@ -231,7 +231,7 @@
       "automation_run_id": "auto_run_009"
     }
   },
-  {
+  "link_009": {
     "id": "link_009",
     "primary_bug_id": "bug_intake_018",
     "related_bug_id": "bug_intake_017",
@@ -260,7 +260,7 @@
       "automation_run_id": null
     }
   },
-  {
+  "link_010": {
     "id": "link_010",
     "primary_bug_id": "bug_intake_020",
     "related_bug_id": "bug_intake_019",
@@ -289,7 +289,7 @@
       "automation_run_id": "auto_run_010"
     }
   },
-  {
+  "link_011": {
     "id": "link_011",
     "primary_bug_id": "bug_intake_022",
     "related_bug_id": "bug_intake_021",
@@ -318,7 +318,7 @@
       "automation_run_id": "auto_run_011"
     }
   },
-  {
+  "link_012": {
     "id": "link_012",
     "primary_bug_id": "bug_intake_024",
     "related_bug_id": "bug_intake_023",
@@ -347,7 +347,7 @@
       "automation_run_id": "auto_run_012"
     }
   },
-  {
+  "link_013": {
     "id": "link_013",
     "primary_bug_id": "bug_intake_026",
     "related_bug_id": "bug_intake_025",
@@ -376,7 +376,7 @@
       "automation_run_id": null
     }
   },
-  {
+  "link_014": {
     "id": "link_014",
     "primary_bug_id": "bug_intake_028",
     "related_bug_id": "bug_intake_027",
@@ -405,7 +405,7 @@
       "automation_run_id": "auto_run_013"
     }
   },
-  {
+  "link_015": {
     "id": "link_015",
     "primary_bug_id": "bug_intake_030",
     "related_bug_id": "bug_intake_029",
@@ -434,4 +434,4 @@
       "automation_run_id": null
     }
   }
-]
+}

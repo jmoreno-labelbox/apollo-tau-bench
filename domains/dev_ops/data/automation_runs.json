@@ -1,5 +1,5 @@
-[
-  {
+{
+  "auto_run_001": {
     "id": "auto_run_001",
     "automation_type": "build_triage",
     "started_at": "2025-01-27T10:00:00Z",
@@ -15,7 +15,7 @@
     "issues_json": null,
     "duration_ms": 330000
   },
-  {
+  "auto_run_002": {
     "id": "auto_run_002",
     "automation_type": "asset_qa",
     "started_at": "2025-01-27T11:30:00Z",
@@ -32,7 +32,7 @@
     "issues_json": null,
     "duration_ms": 345000
   },
-  {
+  "auto_run_003": {
     "id": "auto_run_003",
     "automation_type": "bug_deduplication",
     "started_at": "2025-01-27T12:15:00Z",
@@ -49,7 +49,7 @@
     "issues_json": null,
     "duration_ms": 30000
   },
-  {
+  "auto_run_004": {
     "id": "auto_run_004",
     "automation_type": "localization",
     "started_at": "2025-01-27T13:00:00Z",
@@ -77,7 +77,7 @@
     "issues_json": null,
     "duration_ms": 615000
   },
-  {
+  "auto_run_005": {
     "id": "auto_run_005",
     "automation_type": "build_triage",
     "started_at": "2025-01-27T14:00:00Z",
@@ -95,4 +95,4 @@
     },
     "duration_ms": 140000
   }
-]
+}

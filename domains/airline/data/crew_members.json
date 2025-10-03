@@ -1,5 +1,5 @@
-[
-  {
+{
+  "CM001": {
     "crew_member_id": "CM001",
     "employee_code": "EMP001",
     "first_name": "Isabella",
@@ -29,7 +29,7 @@
       }
     ]
   },
-  {
+  "CM002": {
     "crew_member_id": "CM002",
     "employee_code": "EMP002",
     "first_name": "Sophia",
@@ -59,7 +59,7 @@
       }
     ]
   },
-  {
+  "CM003": {
     "crew_member_id": "CM003",
     "employee_code": "EMP003",
     "first_name": "Linda",
@@ -89,7 +89,7 @@
       }
     ]
   },
-  {
+  "CM004": {
     "crew_member_id": "CM004",
     "employee_code": "EMP004",
     "first_name": "Jennifer",
@@ -119,7 +119,7 @@
       }
     ]
   },
-  {
+  "CM005": {
     "crew_member_id": "CM005",
     "employee_code": "EMP005",
     "first_name": "William",
@@ -149,7 +149,7 @@
       }
     ]
   },
-  {
+  "CM006": {
     "crew_member_id": "CM006",
     "employee_code": "EMP006",
     "first_name": "Michael",
@@ -179,7 +179,7 @@
       }
     ]
   },
-  {
+  "CM007": {
     "crew_member_id": "CM007",
     "employee_code": "EMP007",
     "first_name": "Elizabeth",
@@ -209,7 +209,7 @@
       }
     ]
   },
-  {
+  "CM008": {
     "crew_member_id": "CM008",
     "employee_code": "EMP008",
     "first_name": "Patricia",
@@ -239,7 +239,7 @@
       }
     ]
   },
-  {
+  "CM009": {
     "crew_member_id": "CM009",
     "employee_code": "EMP009",
     "first_name": "Elizabeth",
@@ -269,7 +269,7 @@
       }
     ]
   },
-  {
+  "CM010": {
     "crew_member_id": "CM010",
     "employee_code": "EMP010",
     "first_name": "Mary",
@@ -299,7 +299,7 @@
       }
     ]
   },
-  {
+  "CM011": {
     "crew_member_id": "CM011",
     "employee_code": "EMP011",
     "first_name": "James",
@@ -312,7 +312,7 @@
     "status": "Active",
     "flight_log": []
   },
-  {
+  "CM012": {
     "crew_member_id": "CM012",
     "employee_code": "EMP012",
     "first_name": "John",
@@ -325,7 +325,7 @@
     "status": "Inactive",
     "flight_log": []
   },
-  {
+  "CM013": {
     "crew_member_id": "CM013",
     "employee_code": "EMP013",
     "first_name": "Chen",
@@ -338,7 +338,7 @@
     "status": "Inactive",
     "flight_log": []
   },
-  {
+  "CM014": {
     "crew_member_id": "CM014",
     "employee_code": "EMP014",
     "first_name": "Emma",
@@ -351,7 +351,7 @@
     "status": "Inactive",
     "flight_log": []
   },
-  {
+  "CM015": {
     "crew_member_id": "CM015",
     "employee_code": "EMP015",
     "first_name": "David",
@@ -364,7 +364,7 @@
     "status": "Active",
     "flight_log": []
   },
-  {
+  "CM016": {
     "crew_member_id": "CM016",
     "employee_code": "EMP016",
     "first_name": "Evelyn",
@@ -377,7 +377,7 @@
     "status": "Active",
     "flight_log": []
   },
-  {
+  "CM017": {
     "crew_member_id": "CM017",
     "employee_code": "EMP017",
     "first_name": "Richard",
@@ -390,7 +390,7 @@
     "status": "Inactive",
     "flight_log": []
   },
-  {
+  "CM018": {
     "crew_member_id": "CM018",
     "employee_code": "EMP018",
     "first_name": "Noah",
@@ -403,7 +403,7 @@
     "status": "Inactive",
     "flight_log": []
   },
-  {
+  "CM019": {
     "crew_member_id": "CM019",
     "employee_code": "EMP019",
     "first_name": "James",
@@ -416,7 +416,7 @@
     "status": "Inactive",
     "flight_log": []
   },
-  {
+  "CM020": {
     "crew_member_id": "CM020",
     "employee_code": "EMP020",
     "first_name": "Harper",
@@ -429,7 +429,7 @@
     "status": "On Leave",
     "flight_log": []
   },
-  {
+  "CM021": {
     "crew_member_id": "CM021",
     "employee_code": "EMP021",
     "first_name": "Sophia",
@@ -442,7 +442,7 @@
     "status": "On Leave",
     "flight_log": []
   },
-  {
+  "CM022": {
     "crew_member_id": "CM022",
     "employee_code": "EMP022",
     "first_name": "James",
@@ -455,7 +455,7 @@
     "status": "Inactive",
     "flight_log": []
   },
-  {
+  "CM023": {
     "crew_member_id": "CM023",
     "employee_code": "EMP023",
     "first_name": "Linda",
@@ -468,7 +468,7 @@
     "status": "Active",
     "flight_log": []
   },
-  {
+  "CM024": {
     "crew_member_id": "CM024",
     "employee_code": "EMP024",
     "first_name": "Anya",
@@ -481,7 +481,7 @@
     "status": "Inactive",
     "flight_log": []
   },
-  {
+  "CM025": {
     "crew_member_id": "CM025",
     "employee_code": "EMP025",
     "first_name": "Susan",
@@ -494,4 +494,4 @@
     "status": "Active",
     "flight_log": []
   }
-]
+}

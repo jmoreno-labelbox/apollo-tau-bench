@@ -1,5 +1,5 @@
-[
-  {
+{
+  "simple_model": {
     "model_name": "simple_model",
     "model_type": "logistic_regression",
     "training_ts": "2024-03-17T11:00:00Z",
@@ -12,7 +12,7 @@
     "target_name": "high_risk_flag",
     "train_metrics_json_path_nullable": null
   },
-  {
+  "flood_risk_sf_v1": {
     "model_name": "flood_risk_sf_v1",
     "model_type": "logistic_regression",
     "training_ts": "2024-03-17T09:30:00Z",
@@ -30,7 +30,7 @@
     "target_name": "high_risk_flag",
     "train_metrics_json_path_nullable": "/results/train_metrics_sf_v1.json"
   },
-  {
+  "flood_risk_miami_v1": {
     "model_name": "flood_risk_miami_v1",
     "model_type": "logistic_regression",
     "training_ts": "2024-02-02T16:00:00Z",
@@ -45,7 +45,7 @@
     "target_name": "high_risk_flag",
     "train_metrics_json_path_nullable": null
   },
-  {
+  "flood_risk_sf_v2": {
     "model_name": "flood_risk_sf_v2",
     "model_type": "logistic_regression",
     "training_ts": "2024-03-18T14:15:00Z",
@@ -62,7 +62,7 @@
     "target_name": "high_risk_flag",
     "train_metrics_json_path_nullable": "/results/train_metrics_sf_v2.json"
   },
-  {
+  "boston_harbor_model": {
     "model_name": "boston_harbor_model",
     "model_type": "logistic_regression",
     "training_ts": "2024-03-01T13:10:00Z",
@@ -77,4 +77,4 @@
     "target_name": "high_risk_flag",
     "train_metrics_json_path_nullable": "/data/processed/train_metrics_boston.json"
   }
-]
+}

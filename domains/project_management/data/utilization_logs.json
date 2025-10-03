@@ -1,5 +1,5 @@
-[
-  {
+{
+  "util_001": {
     "log_id": "util_001",
     "employee_id": "emp_dev_05",
     "week": "current",
@@ -16,7 +16,7 @@
     "total_hours": 48,
     "utilization_percentage": 120
   },
-  {
+  "util_002": {
     "log_id": "util_002",
     "employee_id": "emp_analyst_01",
     "week": "current",
@@ -33,7 +33,7 @@
     "total_hours": 38,
     "utilization_percentage": 95
   },
-  {
+  "util_003": {
     "log_id": "util_003",
     "employee_id": "emp_analyst_02",
     "week": "current",
@@ -50,7 +50,7 @@
     "total_hours": 32,
     "utilization_percentage": 80
   },
-  {
+  "util_004": {
     "log_id": "util_004",
     "employee_id": "emp_analyst_03",
     "week": "current",
@@ -63,7 +63,7 @@
     "total_hours": 24,
     "utilization_percentage": 60
   },
-  {
+  "util_005": {
     "log_id": "util_005",
     "employee_id": "emp_eng_10",
     "week": "current",
@@ -76,7 +76,7 @@
     "total_hours": 38,
     "utilization_percentage": 95
   },
-  {
+  "util_006": {
     "log_id": "util_006",
     "employee_id": "emp_des_04",
     "week": "current",
@@ -89,7 +89,7 @@
     "total_hours": 26,
     "utilization_percentage": 65
   },
-  {
+  "util_007": {
     "log_id": "util_007",
     "employee_id": "emp_qa_02",
     "week": "current",
@@ -102,7 +102,7 @@
     "total_hours": 24,
     "utilization_percentage": 60
   },
-  {
+  "util_008": {
     "log_id": "util_008",
     "employee_id": "emp_dev_03",
     "week": "current",
@@ -115,4 +115,4 @@
     "total_hours": 30,
     "utilization_percentage": 75
   }
-]
+}

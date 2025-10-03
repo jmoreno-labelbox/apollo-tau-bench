@@ -1,5 +1,5 @@
-[
-  {
+{
+  "LV6001": {
     "leave_id": "LV6001",
     "employee_id": "E10003",
     "leave_type": "Parental",
@@ -7,7 +7,7 @@
     "end_date": "2025-02-01",
     "status": "Scheduled"
   },
-  {
+  "LV6002": {
     "leave_id": "LV6002",
     "employee_id": "E10004",
     "leave_type": "Vacation",
@@ -15,7 +15,7 @@
     "end_date": "2025-07-26",
     "status": "Taken"
   },
-  {
+  "LV7001": {
     "leave_id": "LV7001",
     "employee_id": "E10001",
     "leave_type": "Parental",
@@ -23,7 +23,7 @@
     "end_date": "2026-02-01",
     "status": "Scheduled"
   },
-  {
+  "LV9999": {
     "leave_id": "LV9999",
     "employee_id": "E99999",
     "leave_type": "Sabbatical",
@@ -31,4 +31,4 @@
     "end_date": "2025-12-01",
     "status": "Pending"
   }
-]
+}

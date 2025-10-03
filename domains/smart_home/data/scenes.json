@@ -1,5 +1,5 @@
-[
-  {
+{
+  "scene_good_morning": {
     "id": "scene_good_morning",
     "name": "Good Morning",
     "description": "Get the house ready for morning.",
@@ -52,7 +52,7 @@
     ],
     "scheduled_runs": []
   },
-  {
+  "scene_good_night": {
     "id": "scene_good_night",
     "name": "Good Night",
     "description": "Wind down the house for bedtime.",
@@ -106,7 +106,7 @@
       "2024-06-28T22:00:00-07:00"
     ]
   },
-  {
+  "scene_movie_time": {
     "id": "scene_movie_time",
     "name": "Movie Time",
     "description": "Dim lights and close curtains for watching movies.",
@@ -143,4 +143,4 @@
       "2025-06-28T22:00:00-07:00"
     ]
   }
-]
+}

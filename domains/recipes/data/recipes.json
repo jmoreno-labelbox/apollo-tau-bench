@@ -1,5 +1,5 @@
-[
-  {
+{
+  "401": {
     "recipe_id": 401,
     "recipe_title": "Spaghetti with Tomato Sauce",
     "meal_type": "Dinner",
@@ -18,7 +18,7 @@
     ],
     "notes": "Child-friendly: cut pasta shorter; mild seasoning."
   },
-  {
+  "402": {
     "recipe_id": 402,
     "recipe_title": "Chicken Tacos",
     "meal_type": "Dinner",
@@ -36,7 +36,7 @@
     ],
     "notes": "Child-friendly: reduce chili powder."
   },
-  {
+  "403": {
     "recipe_id": 403,
     "recipe_title": "Chickpea Curry",
     "meal_type": "Dinner",
@@ -54,7 +54,7 @@
     ],
     "notes": "Mild spice variant for kids."
   },
-  {
+  "404": {
     "recipe_id": 404,
     "recipe_title": "Grilled Salmon with Lemon",
     "meal_type": "Dinner",
@@ -72,7 +72,7 @@
     ],
     "notes": "Child-friendly: flake and debone."
   },
-  {
+  "405": {
     "recipe_id": 405,
     "recipe_title": "Teriyaki Tofu Bowl",
     "meal_type": "Dinner",
@@ -90,7 +90,7 @@
     ],
     "notes": "Crisp tofu for texture; mild sauce."
   },
-  {
+  "406": {
     "recipe_id": 406,
     "recipe_title": "Mediterranean Quinoa Salad",
     "meal_type": "Dinner",
@@ -108,7 +108,7 @@
     ],
     "notes": "Kid portion: smaller lemon; add cheese."
   },
-  {
+  "407": {
     "recipe_id": 407,
     "recipe_title": "Thai Chicken Stir-Fry",
     "meal_type": "Dinner",
@@ -126,7 +126,7 @@
     ],
     "notes": "Reduce spice for kids."
   },
-  {
+  "408": {
     "recipe_id": 408,
     "recipe_title": "Lentil Soup",
     "meal_type": "Dinner",
@@ -144,7 +144,7 @@
     ],
     "notes": "Blend partially for smoother texture."
   },
-  {
+  "409": {
     "recipe_id": 409,
     "recipe_title": "Turkey Sandwich Lunch Box",
     "meal_type": "Lunch",
@@ -162,7 +162,7 @@
     ],
     "notes": "No-heat; minimal prep."
   },
-  {
+  "410": {
     "recipe_id": 410,
     "recipe_title": "Hummus Veggie Wrap",
     "meal_type": "Lunch",
@@ -180,7 +180,7 @@
     ],
     "notes": "No-heat; minimal prep."
   },
-  {
+  "411": {
     "recipe_id": 411,
     "recipe_title": "Cheese and Crackers Bento",
     "meal_type": "Lunch",
@@ -198,7 +198,7 @@
     ],
     "notes": "Peanut-free; no-heat."
   },
-  {
+  "412": {
     "recipe_id": 412,
     "recipe_title": "Pasta Salad Lunch",
     "meal_type": "Lunch",
@@ -215,7 +215,7 @@
     ],
     "notes": "Can be served cold."
   },
-  {
+  "413": {
     "recipe_id": 413,
     "recipe_title": "Yogurt Parfait Cup",
     "meal_type": "Lunch",
@@ -231,7 +231,7 @@
     ],
     "notes": "No-heat; minimal prep."
   },
-  {
+  "414": {
     "recipe_id": 414,
     "recipe_title": "Chocolate Chip Cookies",
     "meal_type": "Dessert",
@@ -251,7 +251,7 @@
     ],
     "notes": "Requires eggs."
   },
-  {
+  "415": {
     "recipe_id": 415,
     "recipe_title": "No-Bake Oatmeal Cocoa Cookies",
     "meal_type": "Dessert",
@@ -269,7 +269,7 @@
     ],
     "notes": "Egg-free alternative."
   },
-  {
+  "416": {
     "recipe_id": 416,
     "recipe_title": "Butter Shortbread",
     "meal_type": "Dessert",
@@ -287,7 +287,7 @@
     ],
     "notes": "Egg-free."
   },
-  {
+  "417": {
     "recipe_id": 417,
     "recipe_title": "Banana Nice Cream",
     "meal_type": "Dessert",
@@ -303,7 +303,7 @@
     ],
     "notes": "Egg-free, no-bake."
   },
-  {
+  "418": {
     "recipe_id": 418,
     "recipe_title": "Overnight Oats with Berries",
     "meal_type": "Breakfast",
@@ -321,7 +321,7 @@
     ],
     "notes": "No-cook; prep night before."
   },
-  {
+  "419": {
     "recipe_id": 419,
     "recipe_title": "Scrambled Eggs with Toast",
     "meal_type": "Breakfast",
@@ -340,7 +340,7 @@
     ],
     "notes": "Classic breakfast option."
   },
-  {
+  "420": {
     "recipe_id": 420,
     "recipe_title": "Avocado Toast",
     "meal_type": "Breakfast",
@@ -359,7 +359,7 @@
     ],
     "notes": "Add egg for extra protein."
   },
-  {
+  "421": {
     "recipe_id": 421,
     "recipe_title": "Greek Yogurt Bowl",
     "meal_type": "Breakfast",
@@ -377,7 +377,7 @@
     ],
     "notes": "High protein option."
   },
-  {
+  "422": {
     "recipe_id": 422,
     "recipe_title": "Pancakes",
     "meal_type": "Breakfast",
@@ -396,7 +396,7 @@
     ],
     "notes": "Weekend breakfast treat."
   },
-  {
+  "423": {
     "recipe_id": 423,
     "recipe_title": "Beef Stir-Fry",
     "meal_type": "Dinner",
@@ -415,7 +415,7 @@
     ],
     "notes": "Quick weeknight meal."
   },
-  {
+  "424": {
     "recipe_id": 424,
     "recipe_title": "Vegetarian Chili",
     "meal_type": "Dinner",
@@ -434,7 +434,7 @@
     ],
     "notes": "Vegetarian protein source."
   },
-  {
+  "425": {
     "recipe_id": 425,
     "recipe_title": "Baked Cod with Herbs",
     "meal_type": "Dinner",
@@ -452,7 +452,7 @@
     ],
     "notes": "Light, healthy option."
   },
-  {
+  "426": {
     "recipe_id": 426,
     "recipe_title": "Mushroom Risotto",
     "meal_type": "Dinner",
@@ -471,7 +471,7 @@
     ],
     "notes": "Requires attention while cooking."
   },
-  {
+  "427": {
     "recipe_id": 427,
     "recipe_title": "Korean Beef Bowl",
     "meal_type": "Dinner",
@@ -490,7 +490,7 @@
     ],
     "notes": "Adjust spice level for kids."
   },
-  {
+  "428": {
     "recipe_id": 428,
     "recipe_title": "Stuffed Bell Peppers",
     "meal_type": "Dinner",
@@ -509,7 +509,7 @@
     ],
     "notes": "Can make ahead and freeze."
   },
-  {
+  "429": {
     "recipe_id": 429,
     "recipe_title": "Moroccan Tagine",
     "meal_type": "Dinner",
@@ -528,7 +528,7 @@
     ],
     "notes": "Complex flavors, mild version for kids."
   },
-  {
+  "430": {
     "recipe_id": 430,
     "recipe_title": "Shrimp Pad Thai",
     "meal_type": "Dinner",
@@ -547,7 +547,7 @@
     ],
     "notes": "Contains peanuts - not suitable for allergic individuals."
   },
-  {
+  "431": {
     "recipe_id": 431,
     "recipe_title": "Gluten-Free Pasta Primavera",
     "meal_type": "Dinner",
@@ -566,7 +566,7 @@
     ],
     "notes": "Gluten-free option for celiac household members."
   },
-  {
+  "432": {
     "recipe_id": 432,
     "recipe_title": "Vegan Black Bean Burgers",
     "meal_type": "Dinner",
@@ -585,7 +585,7 @@
     ],
     "notes": "Vegan protein option."
   },
-  {
+  "433": {
     "recipe_id": 433,
     "recipe_title": "Dairy-Free Coconut Curry",
     "meal_type": "Dinner",
@@ -604,7 +604,7 @@
     ],
     "notes": "Dairy-free option using coconut milk."
   },
-  {
+  "434": {
     "recipe_id": 434,
     "recipe_title": "Keto Zucchini Lasagna",
     "meal_type": "Dinner",
@@ -623,7 +623,7 @@
     ],
     "notes": "Low-carb alternative to pasta."
   },
-  {
+  "435": {
     "recipe_id": 435,
     "recipe_title": "Heart-Healthy Baked Salmon",
     "meal_type": "Dinner",
@@ -641,7 +641,7 @@
     ],
     "notes": "Low sodium, omega-3 rich."
   },
-  {
+  "436": {
     "recipe_id": 436,
     "recipe_title": "Quinoa Breakfast Bowl",
     "meal_type": "Breakfast",
@@ -659,7 +659,7 @@
     ],
     "notes": "High protein breakfast option."
   },
-  {
+  "437": {
     "recipe_id": 437,
     "recipe_title": "Chia Pudding",
     "meal_type": "Breakfast",
@@ -677,7 +677,7 @@
     ],
     "notes": "Make ahead breakfast."
   },
-  {
+  "438": {
     "recipe_id": 438,
     "recipe_title": "Vegetable Omelet",
     "meal_type": "Breakfast",
@@ -696,7 +696,7 @@
     ],
     "notes": "Customize with available vegetables."
   },
-  {
+  "439": {
     "recipe_id": 439,
     "recipe_title": "Smoothie Bowl",
     "meal_type": "Breakfast",
@@ -714,7 +714,7 @@
     ],
     "notes": "Refreshing summer breakfast."
   },
-  {
+  "440": {
     "recipe_id": 440,
     "recipe_title": "Gluten-Free Pancakes",
     "meal_type": "Breakfast",
@@ -732,7 +732,7 @@
     ],
     "notes": "Celiac-friendly option."
   },
-  {
+  "441": {
     "recipe_id": 441,
     "recipe_title": "Asian Lettuce Wraps",
     "meal_type": "Lunch",
@@ -750,7 +750,7 @@
     ],
     "notes": "Low-carb lunch option."
   },
-  {
+  "442": {
     "recipe_id": 442,
     "recipe_title": "Mediterranean Bowl",
     "meal_type": "Lunch",
@@ -768,7 +768,7 @@
     ],
     "notes": "Fresh, no-cook meal."
   },
-  {
+  "443": {
     "recipe_id": 443,
     "recipe_title": "Tuna Salad Sandwich",
     "meal_type": "Lunch",
@@ -786,7 +786,7 @@
     ],
     "notes": "Classic lunch option."
   },
-  {
+  "444": {
     "recipe_id": 444,
     "recipe_title": "Veggie Quesadilla",
     "meal_type": "Lunch",
@@ -804,7 +804,7 @@
     ],
     "notes": "Quick vegetarian lunch."
   },
-  {
+  "445": {
     "recipe_id": 445,
     "recipe_title": "Chicken Caesar Salad",
     "meal_type": "Lunch",
@@ -822,7 +822,7 @@
     ],
     "notes": "High protein salad."
   },
-  {
+  "446": {
     "recipe_id": 446,
     "recipe_title": "Buddha Bowl",
     "meal_type": "Lunch",
@@ -840,7 +840,7 @@
     ],
     "notes": "Customizable healthy bowl."
   },
-  {
+  "447": {
     "recipe_id": 447,
     "recipe_title": "Soup and Sandwich Combo",
     "meal_type": "Lunch",
@@ -858,7 +858,7 @@
     ],
     "notes": "Comfort food lunch."
   },
-  {
+  "448": {
     "recipe_id": 448,
     "recipe_title": "Mixed Nuts and Fruit",
     "meal_type": "Snack",
@@ -875,7 +875,7 @@
     ],
     "notes": "Contains nuts - not peanut free."
   },
-  {
+  "449": {
     "recipe_id": 449,
     "recipe_title": "Apple Slices with Almond Butter",
     "meal_type": "Snack",
@@ -892,7 +892,7 @@
     ],
     "notes": "Healthy afternoon snack."
   },
-  {
+  "450": {
     "recipe_id": 450,
     "recipe_title": "Hummus with Veggies",
     "meal_type": "Snack",
@@ -909,7 +909,7 @@
     ],
     "notes": "Low calorie, high fiber."
   },
-  {
+  "451": {
     "recipe_id": 451,
     "recipe_title": "Vegan Chocolate Mousse",
     "meal_type": "Dessert",
@@ -927,7 +927,7 @@
     ],
     "notes": "Dairy-free dessert option."
   },
-  {
+  "452": {
     "recipe_id": 452,
     "recipe_title": "Fruit Sorbet",
     "meal_type": "Dessert",
@@ -945,7 +945,7 @@
     ],
     "notes": "Light, refreshing dessert."
   },
-  {
+  "453": {
     "recipe_id": 453,
     "recipe_title": "Gluten-Free Brownies",
     "meal_type": "Dessert",
@@ -963,4 +963,4 @@
     ],
     "notes": "Celiac-friendly treat."
   }
-]
+}

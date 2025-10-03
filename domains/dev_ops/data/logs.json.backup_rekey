@@ -1,0 +1,341 @@
+[
+  {
+    "id": "log_001",
+    "project_id": "project_001",
+    "log_level": "ISSUE",
+    "log_message": "Database connection timeout after 95 seconds - connection pool exhausted",
+    "source": "auth-service",
+    "timestamp": "2025-01-25T12:00:00Z",
+    "environment_id": "env_001"
+  },
+  {
+    "id": "log_002",
+    "project_id": "project_001",
+    "log_level": "WARN",
+    "log_message": "Security vulnerability detected: CVE-2024-1234 in dependency log4j-core",
+    "source": "security-scanner",
+    "timestamp": "2025-01-25T11:00:00Z",
+    "environment_id": "env_001"
+  },
+  {
+    "id": "log_003",
+    "project_id": "project_005",
+    "log_level": "ISSUE",
+    "log_message": "ECS deployment failed: Task definition validation ISSUE - invalid memory specification",
+    "source": "ecs-deployer",
+    "timestamp": "2025-01-26T07:30:00Z",
+    "environment_id": "env_005"
+  },
+  {
+    "id": "log_004",
+    "project_id": "project_006",
+    "log_level": "WARN",
+    "log_message": "Prometheus memory usage at 87.2% - approaching critical threshold",
+    "source": "prometheus-monitor",
+    "timestamp": "2025-01-25T16:30:00Z",
+    "environment_id": "env_006"
+  },
+  {
+    "id": "log_005",
+    "project_id": "project_007",
+    "log_level": "ISSUE",
+    "log_message": "API Gateway rate limiting triggered - 1500 requests per minute exceeded",
+    "source": "api-gateway",
+    "timestamp": "2025-01-27T11:30:00Z",
+    "environment_id": "env_007"
+  },
+  {
+    "id": "log_006",
+    "project_id": "project_008",
+    "log_level": "WARN",
+    "log_message": "OAuth2 authentication service experiencing intermittent failures - 8.5% ISSUE rate",
+    "source": "oauth2-service",
+    "timestamp": "2025-01-26T09:00:00Z",
+    "environment_id": "env_008"
+  },
+  {
+    "id": "log_007",
+    "project_id": "project_009",
+    "log_level": "INFO",
+    "log_message": "Edge computing runtime latency increased to 450ms - 200% above baseline",
+    "source": "edge-runtime",
+    "timestamp": "2025-01-25T17:30:00Z",
+    "environment_id": "env_009"
+  },
+  {
+    "id": "log_008",
+    "project_id": "project_010",
+    "log_level": "ISSUE",
+    "log_message": "ETL pipeline job failed with exit code 1 - data transformation ISSUE",
+    "source": "spark-etl",
+    "timestamp": "2025-01-17T09:00:00Z",
+    "environment_id": "env_010"
+  },
+  {
+    "id": "log_009",
+    "project_id": "project_003",
+    "log_level": "WARN",
+    "log_message": "CI/CD pipeline integration tests failing intermittently - 35% failure rate",
+    "source": "gitlab-ci",
+    "timestamp": "2025-01-26T09:30:00Z",
+    "environment_id": "env_003"
+  },
+  {
+    "id": "log_010",
+    "project_id": "project_004",
+    "log_level": "INFO",
+    "log_message": "Jenkins build duration increased to 45 minutes - 150% above average",
+    "source": "jenkins-master",
+    "timestamp": "2025-01-20T08:00:00Z",
+    "environment_id": "env_004"
+  },
+  {
+    "id": "log_011",
+    "project_id": "project_002",
+    "log_level": "ISSUE",
+    "log_message": "Helm chart deployment failed - missing dependency: nginx-ingress-controller",
+    "source": "helm-deployer",
+    "timestamp": "2025-01-20T08:30:00Z",
+    "environment_id": "env_002"
+  },
+  {
+    "id": "log_012",
+    "project_id": "project_001",
+    "log_level": "ISSUE",
+    "log_message": "Docker container crashed - OOM killed due to memory limit exceeded",
+    "source": "docker-runtime",
+    "timestamp": "2025-01-25T13:00:00Z",
+    "environment_id": "env_001"
+  },
+  {
+    "id": "log_013",
+    "project_id": "project_006",
+    "log_level": "ISSUE",
+    "log_message": "Grafana service unavailable - database connection failed",
+    "source": "grafana-server",
+    "timestamp": "2025-01-25T14:00:00Z",
+    "environment_id": "env_006"
+  },
+  {
+    "id": "log_014",
+    "project_id": "project_007",
+    "log_level": "ISSUE",
+    "log_message": "API response time degraded to 2500ms - 300% above SLA threshold",
+    "source": "api-service",
+    "timestamp": "2025-01-27T10:00:00Z",
+    "environment_id": "env_007"
+  },
+  {
+    "id": "log_015",
+    "project_id": "project_008",
+    "log_level": "WARN",
+    "log_message": "Mobile API authentication ISSUE rate at 6.8% - above 5% threshold",
+    "source": "mobile-api",
+    "timestamp": "2025-01-26T08:00:00Z",
+    "environment_id": "env_008"
+  },
+  {
+    "id": "log_016",
+    "project_id": "project_001",
+    "log_level": "INFO",
+    "log_message": "AUDIT: Database configuration updated - connection pool maxConnections increased from 10 to 20",
+    "source": "audit-system",
+    "timestamp": "2025-01-25T12:00:00Z",
+    "environment_id": "env_001",
+    "metadata": {
+      "audit_type": "configuration_change",
+      "action": "database_config_updated",
+      "user_id": "user_003",
+      "ip_address": "192.168.1.100",
+      "success": true,
+      "original_audit_id": "audit_001"
+    }
+  },
+  {
+    "id": "log_017",
+    "project_id": "project_001",
+    "log_level": "INFO",
+    "log_message": "AUDIT: Security vulnerability scan triggered - CVE-2024-1234 detected in production dependencies",
+    "source": "audit-system",
+    "timestamp": "2025-01-25T11:00:00Z",
+    "environment_id": "env_001",
+    "metadata": {
+      "audit_type": "security_event",
+      "action": "vulnerability_scan_triggered",
+      "user_id": "user_003",
+      "ip_address": "192.168.1.100",
+      "success": true,
+      "original_audit_id": "audit_002"
+    }
+  },
+  {
+    "id": "log_018",
+    "project_id": "project_005",
+    "log_level": "ISSUE",
+    "log_message": "AUDIT: ECS deployment attempted with invalid memory specification (2048MB exceeds limit)",
+    "source": "audit-system",
+    "timestamp": "2025-01-26T07:30:00Z",
+    "environment_id": "env_005",
+    "metadata": {
+      "audit_type": "deployment_audit",
+      "action": "ecs_deployment_attempted",
+      "user_id": "user_012",
+      "ip_address": "10.0.0.50",
+      "success": false,
+      "original_audit_id": "audit_003"
+    }
+  },
+  {
+    "id": "log_019",
+    "project_id": "project_006",
+    "log_level": "INFO",
+    "log_message": "AUDIT: Prometheus configuration accessed to investigate high memory usage (87.2%)",
+    "source": "audit-system",
+    "timestamp": "2025-01-25T16:30:00Z",
+    "environment_id": "env_006",
+    "metadata": {
+      "audit_type": "system_access",
+      "action": "prometheus_config_accessed",
+      "user_id": "user_013",
+      "ip_address": "172.16.0.25",
+      "success": true,
+      "original_audit_id": "audit_004"
+    }
+  },
+  {
+    "id": "log_020",
+    "project_id": "project_007",
+    "log_level": "INFO",
+    "log_message": "AUDIT: API Gateway rate limiting configuration modified - threshold increased from 1000 to 1500 req/min",
+    "source": "audit-system",
+    "timestamp": "2025-01-27T11:30:00Z",
+    "environment_id": "env_007",
+    "metadata": {
+      "audit_type": "configuration_change",
+      "action": "api_gateway_rate_limit_modified",
+      "user_id": "user_016",
+      "ip_address": "10.0.0.75",
+      "success": true,
+      "original_audit_id": "audit_005"
+    }
+  },
+  {
+    "id": "log_021",
+    "project_id": "project_008",
+    "log_level": "WARN",
+    "log_message": "AUDIT: OAuth2 client tokens revoked due to authentication service failures (8.5% ISSUE rate)",
+    "source": "audit-system",
+    "timestamp": "2025-01-26T09:00:00Z",
+    "environment_id": "env_008",
+    "metadata": {
+      "audit_type": "security_event",
+      "action": "oauth2_token_revoked",
+      "user_id": "user_018",
+      "ip_address": "192.168.1.150",
+      "success": true,
+      "original_audit_id": "audit_006"
+    }
+  },
+  {
+    "id": "log_022",
+    "project_id": "project_009",
+    "log_level": "INFO",
+    "log_message": "AUDIT: Edge computing runtime logs accessed to investigate latency increase (450ms)",
+    "source": "audit-system",
+    "timestamp": "2025-01-25T17:30:00Z",
+    "environment_id": "env_009",
+    "metadata": {
+      "audit_type": "system_access",
+      "action": "edge_computing_logs_accessed",
+      "user_id": "user_019",
+      "ip_address": "172.16.0.100",
+      "success": true,
+      "original_audit_id": "audit_007"
+    }
+  },
+  {
+    "id": "log_023",
+    "project_id": "project_010",
+    "log_level": "ISSUE",
+    "log_message": "AUDIT: ETL pipeline job executed and failed with exit code 1 - data transformation ISSUE",
+    "source": "audit-system",
+    "timestamp": "2025-01-17T09:00:00Z",
+    "environment_id": "env_010",
+    "metadata": {
+      "audit_type": "job_execution",
+      "action": "etl_pipeline_job_executed",
+      "user_id": "user_002",
+      "ip_address": "10.0.0.25",
+      "success": false,
+      "original_audit_id": "audit_008"
+    }
+  },
+  {
+    "id": "log_024",
+    "project_id": "project_003",
+    "log_level": "ISSUE",
+    "log_message": "AUDIT: GitLab CI pipeline triggered and failed integration tests (35% failure rate)",
+    "source": "audit-system",
+    "timestamp": "2025-01-26T09:30:00Z",
+    "environment_id": "env_003",
+    "metadata": {
+      "audit_type": "ci_cd_audit",
+      "action": "gitlab_pipeline_triggered",
+      "user_id": "user_008",
+      "ip_address": "192.168.1.200",
+      "success": false,
+      "original_audit_id": "audit_009"
+    }
+  },
+  {
+    "id": "log_025",
+    "project_id": "project_004",
+    "log_level": "INFO",
+    "log_message": "AUDIT: Jenkins build logs accessed to investigate performance degradation (45 minutes build time)",
+    "source": "audit-system",
+    "timestamp": "2025-01-20T08:00:00Z",
+    "environment_id": "env_004",
+    "metadata": {
+      "audit_type": "system_access",
+      "action": "jenkins_build_logs_accessed",
+      "user_id": "user_010",
+      "ip_address": "172.16.0.50",
+      "success": true,
+      "original_audit_id": "audit_010"
+    }
+  },
+  {
+    "id": "log_026",
+    "project_id": "project_002",
+    "log_level": "ISSUE",
+    "log_message": "AUDIT: Helm chart deployment attempted and failed due to missing nginx-ingress-controller dependency",
+    "source": "audit-system",
+    "timestamp": "2025-01-20T08:30:00Z",
+    "environment_id": "env_002",
+    "metadata": {
+      "audit_type": "deployment_audit",
+      "action": "helm_chart_deployment_attempted",
+      "user_id": "user_006",
+      "ip_address": "10.0.0.100",
+      "success": false,
+      "original_audit_id": "audit_011"
+    }
+  },
+  {
+    "id": "log_027",
+    "project_id": "project_001",
+    "log_level": "INFO",
+    "log_message": "AUDIT: Docker container logs inspected after OOM crash - memory limit exceeded investigation",
+    "source": "audit-system",
+    "timestamp": "2025-01-25T13:00:00Z",
+    "environment_id": "env_001",
+    "metadata": {
+      "audit_type": "security_event",
+      "action": "docker_container_inspected",
+      "user_id": "user_004",
+      "ip_address": "192.168.1.75",
+      "success": true,
+      "original_audit_id": "audit_012"
+    }
+  }
+]

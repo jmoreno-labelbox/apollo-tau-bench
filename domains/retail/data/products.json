@@ -1,5 +1,5 @@
-[
-  {
+{
+  "T-Shirt": {
     "name": "T-Shirt",
     "product_id": "9523456873",
     "variants": {
@@ -138,7 +138,7 @@
     },
     "supplier_id": "#SUP0001"
   },
-  {
+  "Laptop": {
     "name": "Laptop",
     "product_id": "4760268021",
     "variants": {
@@ -349,7 +349,7 @@
     },
     "supplier_id": "#SUP0002"
   },
-  {
+  "Running Shoes": {
     "name": "Running Shoes",
     "product_id": "6938111410",
     "variants": {
@@ -411,7 +411,7 @@
     },
     "supplier_id": "#SUP0006"
   },
-  {
+  "Smartphone": {
     "name": "Smartphone",
     "product_id": "1801728040",
     "variants": {
@@ -517,7 +517,7 @@
     },
     "supplier_id": "#SUP0004"
   },
-  {
+  "Backpack": {
     "name": "Backpack",
     "product_id": "2524789262",
     "variants": {
@@ -678,7 +678,7 @@
     },
     "supplier_id": "#SUP0005"
   },
-  {
+  "Coffee Maker": {
     "name": "Coffee Maker",
     "product_id": "7996920482",
     "variants": {
@@ -795,7 +795,7 @@
     },
     "supplier_id": "#SUP0009"
   },
-  {
+  "Water Bottle": {
     "name": "Water Bottle",
     "product_id": "8310926033",
     "variants": {
@@ -982,7 +982,7 @@
     },
     "supplier_id": "#SUP0008"
   },
-  {
+  "Desk Lamp": {
     "name": "Desk Lamp",
     "product_id": "6817146515",
     "variants": {
@@ -1109,7 +1109,7 @@
     },
     "supplier_id": "#SUP0008"
   },
-  {
+  "Notebook": {
     "name": "Notebook",
     "product_id": "2892623495",
     "variants": {
@@ -1161,7 +1161,7 @@
     },
     "supplier_id": "#SUP0002"
   },
-  {
+  "Sunglasses": {
     "name": "Sunglasses",
     "product_id": "7314138884",
     "variants": {
@@ -1256,7 +1256,7 @@
     },
     "supplier_id": "#SUP0007"
   },
-  {
+  "Wristwatch": {
     "name": "Wristwatch",
     "product_id": "6066914160",
     "variants": {
@@ -1335,7 +1335,7 @@
     },
     "supplier_id": "#SUP0007"
   },
-  {
+  "Electric Toothbrush": {
     "name": "Electric Toothbrush",
     "product_id": "7352963235",
     "variants": {
@@ -1422,7 +1422,7 @@
     },
     "supplier_id": "#SUP0011"
   },
-  {
+  "Yoga Mat": {
     "name": "Yoga Mat",
     "product_id": "4635925001",
     "variants": {
@@ -1479,7 +1479,7 @@
     },
     "supplier_id": "#SUP0004"
   },
-  {
+  "Bluetooth Speaker": {
     "name": "Bluetooth Speaker",
     "product_id": "4768869376",
     "variants": {
@@ -1646,7 +1646,7 @@
     },
     "supplier_id": "#SUP0006"
   },
-  {
+  "Gaming Mouse": {
     "name": "Gaming Mouse",
     "product_id": "5713490933",
     "variants": {
@@ -1733,7 +1733,7 @@
     },
     "supplier_id": "#SUP0002"
   },
-  {
+  "Action Camera": {
     "name": "Action Camera",
     "product_id": "3377618313",
     "variants": {
@@ -1860,7 +1860,7 @@
     },
     "supplier_id": "#SUP0011"
   },
-  {
+  "Garden Hose": {
     "name": "Garden Hose",
     "product_id": "6679515468",
     "variants": {
@@ -1967,7 +1967,7 @@
     },
     "supplier_id": "#SUP0008"
   },
-  {
+  "Hiking Boots": {
     "name": "Hiking Boots",
     "product_id": "7363354090",
     "variants": {
@@ -2164,7 +2164,7 @@
     },
     "supplier_id": "#SUP0002"
   },
-  {
+  "Tablet": {
     "name": "Tablet",
     "product_id": "8024098596",
     "variants": {
@@ -2311,7 +2311,7 @@
     },
     "supplier_id": "#SUP0003"
   },
-  {
+  "E-Reader": {
     "name": "E-Reader",
     "product_id": "3801771308",
     "variants": {
@@ -2378,7 +2378,7 @@
     },
     "supplier_id": "#SUP0004"
   },
-  {
+  "Portable Charger": {
     "name": "Portable Charger",
     "product_id": "6942297802",
     "variants": {
@@ -2465,7 +2465,7 @@
     },
     "supplier_id": "#SUP0006"
   },
-  {
+  "Indoor Security Camera": {
     "name": "Indoor Security Camera",
     "product_id": "2985987096",
     "variants": {
@@ -2552,7 +2552,7 @@
     },
     "supplier_id": "#SUP0001"
   },
-  {
+  "Electric Kettle": {
     "name": "Electric Kettle",
     "product_id": "1075968781",
     "variants": {
@@ -2719,7 +2719,7 @@
     },
     "supplier_id": "#SUP0009"
   },
-  {
+  "Mechanical Keyboard": {
     "name": "Mechanical Keyboard",
     "product_id": "1656367028",
     "variants": {
@@ -2926,7 +2926,7 @@
     },
     "supplier_id": "#SUP0010"
   },
-  {
+  "Wireless Earbuds": {
     "name": "Wireless Earbuds",
     "product_id": "9924732112",
     "variants": {
@@ -3053,7 +3053,7 @@
     },
     "supplier_id": "#SUP0004"
   },
-  {
+  "Smart Thermostat": {
     "name": "Smart Thermostat",
     "product_id": "4896585277",
     "variants": {
@@ -3141,7 +3141,7 @@
     },
     "supplier_id": "#SUP0001"
   },
-  {
+  "Fleece Jacket": {
     "name": "Fleece Jacket",
     "product_id": "8560156827",
     "variants": {
@@ -3218,7 +3218,7 @@
     },
     "supplier_id": "#SUP0012"
   },
-  {
+  "Wall Clock": {
     "name": "Wall Clock",
     "product_id": "2344688344",
     "variants": {
@@ -3305,7 +3305,7 @@
     },
     "supplier_id": "#SUP0011"
   },
-  {
+  "Dumbbell Set": {
     "name": "Dumbbell Set",
     "product_id": "7233192239",
     "variants": {
@@ -3492,7 +3492,7 @@
     },
     "supplier_id": "#SUP0010"
   },
-  {
+  "Pet Bed": {
     "name": "Pet Bed",
     "product_id": "2747247837",
     "variants": {
@@ -3649,7 +3649,7 @@
     },
     "supplier_id": "#SUP0011"
   },
-  {
+  "Espresso Machine": {
     "name": "Espresso Machine",
     "product_id": "4354588079",
     "variants": {
@@ -3826,7 +3826,7 @@
     },
     "supplier_id": "#SUP0009"
   },
-  {
+  "Cycling Helmet": {
     "name": "Cycling Helmet",
     "product_id": "7765186836",
     "variants": {
@@ -4033,7 +4033,7 @@
     },
     "supplier_id": "#SUP0010"
   },
-  {
+  "LED Light Bulb": {
     "name": "LED Light Bulb",
     "product_id": "2696197613",
     "variants": {
@@ -4100,7 +4100,7 @@
     },
     "supplier_id": "#SUP0008"
   },
-  {
+  "Digital Camera": {
     "name": "Digital Camera",
     "product_id": "8940227892",
     "variants": {
@@ -4247,7 +4247,7 @@
     },
     "supplier_id": "#SUP0001"
   },
-  {
+  "Bookshelf": {
     "name": "Bookshelf",
     "product_id": "8600330539",
     "variants": {
@@ -4434,7 +4434,7 @@
     },
     "supplier_id": "#SUP0007"
   },
-  {
+  "Bicycle": {
     "name": "Bicycle",
     "product_id": "9783735446",
     "variants": {
@@ -4491,7 +4491,7 @@
     },
     "supplier_id": "#SUP0005"
   },
-  {
+  "Sneakers": {
     "name": "Sneakers",
     "product_id": "7471004230",
     "variants": {
@@ -4548,7 +4548,7 @@
     },
     "supplier_id": "#SUP0003"
   },
-  {
+  "Office Chair": {
     "name": "Office Chair",
     "product_id": "4794339885",
     "variants": {
@@ -4698,7 +4698,7 @@
     },
     "supplier_id": "#SUP0002"
   },
-  {
+  "Smart Watch": {
     "name": "Smart Watch",
     "product_id": "6945232052",
     "variants": {
@@ -4865,7 +4865,7 @@
     },
     "supplier_id": "#SUP0002"
   },
-  {
+  "Tea Kettle": {
     "name": "Tea Kettle",
     "product_id": "9832717871",
     "variants": {
@@ -5032,7 +5032,7 @@
     },
     "supplier_id": "#SUP0009"
   },
-  {
+  "Luggage Set": {
     "name": "Luggage Set",
     "product_id": "5426915165",
     "variants": {
@@ -5129,7 +5129,7 @@
     },
     "supplier_id": "#SUP0004"
   },
-  {
+  "Patio Umbrella": {
     "name": "Patio Umbrella",
     "product_id": "9743693396",
     "variants": {
@@ -5202,7 +5202,7 @@
     },
     "supplier_id": "#SUP0006"
   },
-  {
+  "Air Purifier": {
     "name": "Air Purifier",
     "product_id": "3821016478",
     "variants": {
@@ -5319,7 +5319,7 @@
     },
     "supplier_id": "#SUP0007"
   },
-  {
+  "Makeup Kit": {
     "name": "Makeup Kit",
     "product_id": "5149340237",
     "variants": {
@@ -5456,7 +5456,7 @@
     },
     "supplier_id": "#SUP0005"
   },
-  {
+  "Skateboard": {
     "name": "Skateboard",
     "product_id": "1968349452",
     "variants": {
@@ -5653,7 +5653,7 @@
     },
     "supplier_id": "#SUP0005"
   },
-  {
+  "Jigsaw Puzzle": {
     "name": "Jigsaw Puzzle",
     "product_id": "1808611083",
     "variants": {
@@ -5840,7 +5840,7 @@
     },
     "supplier_id": "#SUP0006"
   },
-  {
+  "Grill": {
     "name": "Grill",
     "product_id": "6819683148",
     "variants": {
@@ -5967,7 +5967,7 @@
     },
     "supplier_id": "#SUP0007"
   },
-  {
+  "Headphones": {
     "name": "Headphones",
     "product_id": "6992792935",
     "variants": {
@@ -6104,7 +6104,7 @@
     },
     "supplier_id": "#SUP0007"
   },
-  {
+  "Vacuum Cleaner": {
     "name": "Vacuum Cleaner",
     "product_id": "1762337868",
     "variants": {
@@ -6241,7 +6241,7 @@
     },
     "supplier_id": "#SUP0006"
   },
-  {
+  "Perfume": {
     "name": "Perfume",
     "product_id": "6858788497",
     "variants": {
@@ -6348,4 +6348,4 @@
     },
     "supplier_id": "#SUP0002"
   }
-]
+}

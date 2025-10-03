@@ -1,5 +1,5 @@
-[
-  {
+{
+  "list_shopping": {
     "list_id": "list_shopping",
     "name": "shopping",
     "created_at": "2025-06-20T15:30:00-07:00",
@@ -34,7 +34,7 @@
       }
     ]
   },
-  {
+  "list_diet_plan": {
     "list_id": "list_diet_plan",
     "name": "diet_plan",
     "created_at": "2025-04-01T10:00:00-07:00",
@@ -53,7 +53,7 @@
       }
     ]
   },
-  {
+  "list_todo": {
     "list_id": "list_todo",
     "name": "todo",
     "created_at": "2025-06-10T09:00:00-07:00",
@@ -72,7 +72,7 @@
       }
     ]
   },
-  {
+  "list_reading": {
     "list_id": "list_reading",
     "name": "reading_list",
     "created_at": "2025-05-15T11:30:00-07:00",
@@ -91,7 +91,7 @@
       }
     ]
   },
-  {
+  "list_groceries_weekend": {
     "list_id": "list_groceries_weekend",
     "name": "weekend_groceries",
     "created_at": "2025-06-21T08:00:00-07:00",
@@ -122,4 +122,4 @@
       }
     ]
   }
-]
+}

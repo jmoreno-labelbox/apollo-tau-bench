@@ -1,5 +1,5 @@
-[
-  {
+{
+  "arch_001": {
     "archive_id": "arch_001",
     "user_id": "user_001",
     "destination_directory": "/tmp/archives",
@@ -23,7 +23,7 @@
       "compression_ratio": 0.8
     }
   },
-  {
+  "arch_002": {
     "archive_id": "arch_002",
     "user_id": "user_003",
     "destination_directory": "/var/backups",
@@ -48,7 +48,7 @@
       "compression_ratio": 0.834
     }
   },
-  {
+  "arch_003": {
     "archive_id": "arch_003",
     "user_id": "user_002",
     "destination_directory": "/backup/logs",
@@ -73,7 +73,7 @@
       "compression_ratio": 0.196
     }
   },
-  {
+  "arch_004": {
     "archive_id": "arch_004",
     "user_id": "user_005",
     "destination_directory": "/archive/documents",
@@ -96,7 +96,7 @@
       "compression_ratio": 0.914
     }
   },
-  {
+  "arch_005": {
     "archive_id": "arch_005",
     "user_id": "user_004",
     "destination_directory": "/tmp/user_archives",
@@ -120,4 +120,4 @@
       "compression_ratio": 0.809
     }
   }
-]
+}

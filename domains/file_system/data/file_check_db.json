@@ -1,5 +1,5 @@
-[
-  {
+{
+  "fc_task_001": {
     "task_id": "fc_task_001",
     "user_id": "user_005",
     "name": "Weekly Log Analysis",
@@ -27,7 +27,7 @@
       ]
     }
   },
-  {
+  "fc_task_002": {
     "task_id": "fc_task_002",
     "user_id": "user_001",
     "name": "Data Directory Cleanup",
@@ -55,7 +55,7 @@
       ]
     }
   },
-  {
+  "fc_task_003": {
     "task_id": "fc_task_003",
     "user_id": "user_003",
     "name": "Analytics File Audit",
@@ -86,7 +86,7 @@
       ]
     }
   },
-  {
+  "fc_task_004": {
     "task_id": "fc_task_004",
     "user_id": "user_002",
     "name": "Config File Review",
@@ -119,7 +119,7 @@
       ]
     }
   },
-  {
+  "fc_task_005": {
     "task_id": "fc_task_005",
     "user_id": "user_004",
     "name": "User Home Scan",
@@ -153,4 +153,4 @@
       ]
     }
   }
-]
+}

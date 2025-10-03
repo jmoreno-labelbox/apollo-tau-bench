@@ -1,5 +1,5 @@
-[
-  {
+{
+  "notion_sf_run_001": {
     "page_id": "notion_sf_run_001",
     "title": "Oakland Flood Risk Analysis - Run 2024-03-17",
     "url_nullable": "https://notion.so/team/sf-flood-analysis-xyz789",
@@ -15,7 +15,7 @@
     "created_ts": "2024-03-17T12:15:00Z",
     "updated_ts": "2024-03-17T12:45:00Z"
   },
-  {
+  "notion_001": {
     "page_id": "notion_001",
     "title": "Coastal Flood Risk Prediction Project",
     "url_nullable": "https://notion.so/team/coastal-flood-prediction-abc123",
@@ -31,7 +31,7 @@
     "created_ts": "2024-01-15T16:00:00Z",
     "updated_ts": "2024-03-18T09:30:00Z"
   },
-  {
+  "notion_002": {
     "page_id": "notion_002",
     "title": "Model Performance Analysis",
     "url_nullable": "https://notion.so/team/model-performance-def456",
@@ -45,7 +45,7 @@
     "created_ts": "2024-03-17T14:00:00Z",
     "updated_ts": "2024-03-18T16:30:00Z"
   },
-  {
+  "notion_003": {
     "page_id": "notion_003",
     "title": "Data Collection and Processing Pipeline",
     "url_nullable": null,
@@ -58,7 +58,7 @@
     "created_ts": "2024-02-05T11:15:00Z",
     "updated_ts": "2024-03-16T15:45:00Z"
   },
-  {
+  "notion_boston_run_001": {
     "page_id": "notion_boston_run_001",
     "title": "Providence Harbor Ice Impact Analysis - Winter Storm Assessment",
     "url_nullable": "https://notion.so/team/boston-harbor-analysis-abc123",
@@ -73,4 +73,4 @@
     "created_ts": "2024-03-01T13:45:00Z",
     "updated_ts": "2024-03-01T14:00:00Z"
   }
-]
+}

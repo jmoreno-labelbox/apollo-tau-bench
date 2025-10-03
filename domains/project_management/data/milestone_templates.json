@@ -1,5 +1,5 @@
-[
-  {
+{
+  "template_001": {
     "template_id": "template_001",
     "template_name": "Standard Product Launch",
     "template_type": "product_launch",
@@ -28,7 +28,7 @@
     "is_critical_path_candidate": true,
     "created_date": "2024-01-15T10:00:00Z"
   },
-  {
+  "template_002": {
     "template_id": "template_002",
     "template_name": "Security Compliance Gate",
     "template_type": "compliance",
@@ -53,7 +53,7 @@
     "is_critical_path_candidate": false,
     "created_date": "2024-01-20T11:00:00Z"
   },
-  {
+  "template_003": {
     "template_id": "template_003",
     "template_name": "Major Phase Gate Review",
     "template_type": "phase_gate",
@@ -79,7 +79,7 @@
     "is_critical_path_candidate": true,
     "created_date": "2024-01-25T09:00:00Z"
   },
-  {
+  "template_004": {
     "template_id": "template_004",
     "template_name": "Infrastructure Migration",
     "template_type": "product_launch",
@@ -100,7 +100,7 @@
     "is_critical_path_candidate": true,
     "created_date": "2024-02-01T10:00:00Z"
   },
-  {
+  "template_005": {
     "template_id": "template_005",
     "template_name": "Data Privacy Compliance",
     "template_type": "compliance",
@@ -125,7 +125,7 @@
     "is_critical_path_candidate": false,
     "created_date": "2024-02-05T14:00:00Z"
   },
-  {
+  "template_006": {
     "template_id": "template_006",
     "template_name": "MVP Release",
     "template_type": "product_launch",
@@ -146,7 +146,7 @@
     "is_critical_path_candidate": true,
     "created_date": "2024-02-10T11:00:00Z"
   },
-  {
+  "template_007": {
     "template_id": "template_007",
     "template_name": "Architecture Review Gate",
     "template_type": "phase_gate",
@@ -172,7 +172,7 @@
     "is_critical_path_candidate": true,
     "created_date": "2024-02-15T13:00:00Z"
   },
-  {
+  "template_008": {
     "template_id": "template_008",
     "template_name": "Financial Compliance Gate",
     "template_type": "compliance",
@@ -197,4 +197,4 @@
     "is_critical_path_candidate": false,
     "created_date": "2024-02-20T15:00:00Z"
   }
-]
+}

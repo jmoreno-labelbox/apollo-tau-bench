@@ -1,5 +1,5 @@
-[
-  {
+{
+  "mod_001": {
     "modification_id": "mod_001",
     "project_id": "proj_mobile_01",
     "current_budget": 2500000,
@@ -18,7 +18,7 @@
     "approved_date": "2024-02-22T16:00:00Z",
     "fiscal_year": 2024
   },
-  {
+  "mod_002": {
     "modification_id": "mod_002",
     "project_id": "proj_ai_01",
     "current_budget": 3200000,
@@ -35,7 +35,7 @@
     "created_date": "2024-03-01T09:00:00Z",
     "fiscal_year": 2024
   },
-  {
+  "mod_003": {
     "modification_id": "mod_003",
     "project_id": "proj_enterprise_01",
     "current_budget": 4500000,
@@ -53,7 +53,7 @@
     "created_date": "2024-03-15T11:00:00Z",
     "fiscal_year": 2024
   },
-  {
+  "mod_004": {
     "modification_id": "mod_004",
     "project_id": "proj_web_01",
     "current_budget": 850000,
@@ -70,4 +70,4 @@
     "created_date": "2024-02-25T14:00:00Z",
     "fiscal_year": 2024
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "phase_001": {
     "phase_id": "phase_001",
     "project_id": "proj_phased_01",
     "phase_name": "design",
@@ -11,7 +11,7 @@
     ],
     "status": "pending"
   },
-  {
+  "phase_002": {
     "phase_id": "phase_002",
     "project_id": "proj_phased_01",
     "phase_name": "development",
@@ -23,4 +23,4 @@
     ],
     "status": "pending"
   }
-]
+}

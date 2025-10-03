@@ -1,5 +1,5 @@
-[
-  {
+{
+  "req_init_01": {
     "request_id": "req_init_01",
     "project_id": "proj_mobile_01",
     "skill": "React Native",
@@ -9,7 +9,7 @@
     "created_date": "2024-03-01",
     "requested_by": "emp_pm_03"
   },
-  {
+  "req_cloud_k8s": {
     "request_id": "req_cloud_k8s",
     "project_id": "proj_cloud_01",
     "skill": "Kubernetes",
@@ -20,4 +20,4 @@
     "requested_by": "emp_pm_04",
     "department": "Engineering"
   }
-]
+}

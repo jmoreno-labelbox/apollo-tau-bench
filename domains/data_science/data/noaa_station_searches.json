@@ -1,5 +1,5 @@
-[
-  {
+{
+  "37.7749": {
     "query_latitude": 37.7749,
     "query_longitude": -122.4194,
     "radius_km": 50.0,
@@ -36,7 +36,7 @@
     "raw_json_path_nullable": "/data/raw/noaa_stations_sf.json",
     "query_ts": "2024-03-15T09:15:00Z"
   },
-  {
+  "25.7617": {
     "query_latitude": 25.7617,
     "query_longitude": -80.1918,
     "radius_km": 25.0,
@@ -67,7 +67,7 @@
     "raw_json_path_nullable": "/data/raw/noaa_stations_miami.json",
     "query_ts": "2024-02-01T10:30:00Z"
   },
-  {
+  "32.7765": {
     "query_latitude": 32.7765,
     "query_longitude": -79.9311,
     "radius_km": 30.0,
@@ -98,7 +98,7 @@
     "raw_json_path_nullable": null,
     "query_ts": "2024-01-22T17:00:00Z"
   },
-  {
+  "42.3601": {
     "query_latitude": 42.3601,
     "query_longitude": -71.0589,
     "radius_km": 40.0,
@@ -135,7 +135,7 @@
     "raw_json_path_nullable": "/data/raw/noaa_stations_boston.json",
     "query_ts": "2024-03-01T12:30:00Z"
   },
-  {
+  "47.6062": {
     "query_latitude": 47.6062,
     "query_longitude": -122.3321,
     "radius_km": 60.0,
@@ -172,4 +172,4 @@
     "raw_json_path_nullable": "/data/raw/noaa_stations_seattle.json",
     "query_ts": "2024-02-01T14:30:00Z"
   }
-]
+}

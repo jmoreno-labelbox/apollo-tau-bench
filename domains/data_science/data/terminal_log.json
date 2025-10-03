@@ -1,5 +1,5 @@
-[
-  {
+{
+  "['mkdir -p raw_data processed_data models reports notebooks figures artifacts', 'ls -la', 'pip install requests pandas scikit-learn matplotlib seaborn', \"python src/data_collection/weather_api.py --city 'Oakland'\", 'python src/data_processing/clean_timeseries.py', 'python src/etl/merge_and_qc.py', 'python src/feature_engineering/create_features.py', 'python src/modeling/simple_baseline.py', 'python src/reporting/create_notion_report.py', 'jupyter notebook notebooks/exploratory_analysis.ipynb', 'python src/models/train_model.py --config config/model_config.json', 'python src/models/evaluate_model.py --model-path models/flood_risk_v1.pkl', \"git add -A && git commit -m 'Add flood risk prediction model'\", 'python -m pytest tests/test_model.py -v']": {
     "commands": [
       "mkdir -p raw_data processed_data models reports notebooks figures artifacts",
       "ls -la",
@@ -97,7 +97,7 @@
       "2024-03-18T08:00:00Z"
     ]
   },
-  {
+  "['python src/etl/boston_preprocessing.py', 'python -m pytest tests/test_ice_coverage.py']": {
     "commands": [
       "python src/etl/boston_preprocessing.py",
       "python -m pytest tests/test_ice_coverage.py"
@@ -123,7 +123,7 @@
       "2024-03-01T13:25:00Z"
     ]
   },
-  {
+  "['python src/models/train_seattle_model.py', 'mkdir -p /deliverables/seattle_analysis']": {
     "commands": [
       "python src/models/train_seattle_model.py",
       "mkdir -p /deliverables/seattle_analysis"
@@ -149,7 +149,7 @@
       "2024-02-01T15:50:00Z"
     ]
   },
-  {
+  "['python scripts/validate_zotero_papers.py', 'python -c \"import requests; print(\\'Testing API connectivity\\')\"']": {
     "commands": [
       "python scripts/validate_zotero_papers.py",
       "python -c \"import requests; print('Testing API connectivity')\""
@@ -175,7 +175,7 @@
       "2024-03-05T11:20:00Z"
     ]
   },
-  {
+  "['jupyter nbconvert --to html notebooks/exploratory_analysis.ipynb', 'python scripts/generate_summary_report.py --city all']": {
     "commands": [
       "jupyter nbconvert --to html notebooks/exploratory_analysis.ipynb",
       "python scripts/generate_summary_report.py --city all"
@@ -201,4 +201,4 @@
       "2024-03-18T14:45:00Z"
     ]
   }
-]
+}

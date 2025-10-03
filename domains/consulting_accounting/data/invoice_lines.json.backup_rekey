@@ -1,0 +1,263 @@
+[
+  {
+    "invoice_line_id": "LINE001",
+    "invoice_id": "INV001",
+    "project_id": "PROJ001",
+    "isbn": "978-0-12-345678-9",
+    "hours_billed": 10.5,
+    "hourly_rate": 85.00,
+    "line_amount": 892.50
+  },
+  {
+    "invoice_line_id": "LINE002",
+    "invoice_id": "INV002",
+    "project_id": "PROJ003",
+    "isbn": "978-0-23-456789-0",
+    "hours_billed": 10.0,
+    "hourly_rate": 75.00,
+    "line_amount": 750.00
+  },
+  {
+    "invoice_line_id": "LINE003",
+    "invoice_id": "INV002",
+    "project_id": "PROJ004",
+    "isbn": "978-0-23-456790-6",
+    "hours_billed": 0.125,
+    "hourly_rate": 80.00,
+    "line_amount": 10.00
+  },
+  {
+    "invoice_line_id": "LINE004",
+    "invoice_id": "INV003",
+    "project_id": "PROJ005",
+    "isbn": "978-0-34-567890-1",
+    "hours_billed": 6.5,
+    "hourly_rate": 90.00,
+    "line_amount": 585.00
+  },
+  {
+    "invoice_line_id": "LINE005",
+    "invoice_id": "INV003",
+    "project_id": "PROJ006",
+    "isbn": "978-0-34-567891-8",
+    "hours_billed": 4.0,
+    "hourly_rate": 100.00,
+    "line_amount": 400.00
+  },
+  {
+    "invoice_line_id": "LINE006",
+    "invoice_id": "INV003",
+    "project_id": "PROJ001",
+    "isbn": "978-0-12-345678-9",
+    "hours_billed": 3.0,
+    "hourly_rate": 85.00,
+    "line_amount": 255.00
+  },
+  {
+    "invoice_line_id": "LINE007",
+    "invoice_id": "INV003",
+    "project_id": "PROJ002",
+    "isbn": "978-0-12-345679-6",
+    "hours_billed": 0.375,
+    "hourly_rate": 95.00,
+    "line_amount": 35.00
+  },
+  {
+    "invoice_line_id": "LINE008",
+    "invoice_id": "INV004",
+    "project_id": "PROJ001",
+    "isbn": "978-0-12-345678-9",
+    "hours_billed": 6.0,
+    "hourly_rate": 85.00,
+    "line_amount": 510.00
+  },
+  {
+    "invoice_line_id": "LINE009",
+    "invoice_id": "INV005",
+    "project_id": "PROJ007",
+    "isbn": "978-0-45-678901-2",
+    "hours_billed": 5.0,
+    "hourly_rate": 80.00,
+    "line_amount": 400.00
+  },
+  {
+    "invoice_line_id": "LINE010",
+    "invoice_id": "INV005",
+    "project_id": "PROJ008",
+    "isbn": "978-0-45-678902-9",
+    "hours_billed": 6.05,
+    "hourly_rate": 95.00,
+    "line_amount": 575.00
+  },
+  {
+    "invoice_line_id": "LINE011",
+    "invoice_id": "INV006",
+    "project_id": "PROJ010",
+    "isbn": "978-0-56-789013-0",
+    "hours_billed": 8.0,
+    "hourly_rate": 85.00,
+    "line_amount": 680.00
+  },
+  {
+    "invoice_line_id": "LINE012",
+    "invoice_id": "INV007",
+    "project_id": "PROJ003",
+    "isbn": "978-0-23-456789-0",
+    "hours_billed": 15.0,
+    "hourly_rate": 75.00,
+    "line_amount": 1125.00
+  },
+  {
+    "invoice_line_id": "LINE013",
+    "invoice_id": "INV007",
+    "project_id": "PROJ004",
+    "isbn": "978-0-23-456790-6",
+    "hours_billed": 0.1875,
+    "hourly_rate": 80.00,
+    "line_amount": 15.00
+  },
+  {
+    "invoice_line_id": "LINE014",
+    "invoice_id": "INV008",
+    "project_id": "PROJ005",
+    "isbn": "978-0-34-567890-1",
+    "hours_billed": 5.5,
+    "hourly_rate": 90.00,
+    "line_amount": 495.00
+  },
+  {
+    "invoice_line_id": "LINE015",
+    "invoice_id": "INV008",
+    "project_id": "PROJ006",
+    "isbn": "978-0-34-567891-8",
+    "hours_billed": 10.25,
+    "hourly_rate": 100.00,
+    "line_amount": 1025.00
+  },
+  {
+    "invoice_line_id": "LINE016",
+    "invoice_id": "INV009",
+    "project_id": "PROJ002",
+    "isbn": "978-0-12-345679-6",
+    "hours_billed": 4.5,
+    "hourly_rate": 95.00,
+    "line_amount": 427.50
+  },
+  {
+    "invoice_line_id": "LINE017",
+    "invoice_id": "INV009",
+    "project_id": "PROJ001",
+    "isbn": "978-0-12-345678-9",
+    "hours_billed": 2.0,
+    "hourly_rate": 85.00,
+    "line_amount": 170.00
+  },
+  {
+    "invoice_line_id": "LINE018",
+    "invoice_id": "INV009",
+    "project_id": "PROJ002",
+    "isbn": "978-0-12-345679-6",
+    "hours_billed": 0.1688,
+    "hourly_rate": 95.00,
+    "line_amount": 14.50
+  },
+  {
+    "invoice_line_id": "LINE019",
+    "invoice_id": "INV010",
+    "project_id": "PROJ008",
+    "isbn": "978-0-45-678902-9",
+    "hours_billed": 8.5,
+    "hourly_rate": 95.00,
+    "line_amount": 807.50
+  },
+  {
+    "invoice_line_id": "LINE020",
+    "invoice_id": "INV010",
+    "project_id": "PROJ007",
+    "isbn": "978-0-45-678901-2",
+    "hours_billed": 6.9,
+    "hourly_rate": 80.00,
+    "line_amount": 552.50
+  },
+  {
+    "invoice_line_id": "LINE021",
+    "invoice_id": "INV011",
+    "project_id": "PROJ010",
+    "isbn": "978-0-56-789013-0",
+    "hours_billed": 9.0,
+    "hourly_rate": 85.00,
+    "line_amount": 765.00
+  },
+  {
+    "invoice_line_id": "LINE022",
+    "invoice_id": "INV012",
+    "project_id": "PROJ003",
+    "isbn": "978-0-23-456789-0",
+    "hours_billed": 5.6,
+    "hourly_rate": 75.00,
+    "line_amount": 420.00
+  },
+  {
+    "invoice_line_id": "LINE023",
+    "invoice_id": "INV013",
+    "project_id": "PROJ005",
+    "isbn": "978-0-34-567890-1",
+    "hours_billed": 10.0,
+    "hourly_rate": 90.00,
+    "line_amount": 900.00
+  },
+  {
+    "invoice_line_id": "LINE024",
+    "invoice_id": "INV021",
+    "project_id": "PROJ001",
+    "isbn": "978-0-12-345678-9",
+    "hours_billed": 14.7,
+    "hourly_rate": 85.00,
+    "line_amount": 1249.50
+  },
+  {
+    "invoice_line_id": "LINE025",
+    "invoice_id": "INV022",
+    "project_id": "PROJ005",
+    "isbn": "978-0-34-567890-1",
+    "hours_billed": 9.7,
+    "hourly_rate": 90.00,
+    "line_amount": 873.00
+  },
+  {
+    "invoice_line_id": "LINE026",
+    "invoice_id": "INV023",
+    "project_id": "PROJ003",
+    "isbn": "978-0-23-456789-0",
+    "hours_billed": 8.6,
+    "hourly_rate": 75.00,
+    "line_amount": 645.00
+  },
+  {
+    "invoice_line_id": "LINE027",
+    "invoice_id": "INV024",
+    "project_id": "PROJ006",
+    "isbn": "978-0-45-678901-2",
+    "hours_billed": 20.5,
+    "hourly_rate": 90.00,
+    "line_amount": 1845.00
+  },
+  {
+    "invoice_line_id": "LINE028",
+    "invoice_id": "INV025",
+    "project_id": "PROJ007",
+    "isbn": "978-0-56-789012-3",
+    "hours_billed": 9.0,
+    "hourly_rate": 80.00,
+    "line_amount": 720.00
+  },
+  {
+    "invoice_line_id": "LINE029",
+    "invoice_id": "INV026",
+    "project_id": "PROJ002",
+    "isbn": "978-0-12-345679-6",
+    "hours_billed": 22.1,
+    "hourly_rate": 95.00,
+    "line_amount": 2099.50
+  }
+]

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "sensor_lr_thermometer": {
     "id": "sensor_lr_thermometer",
     "type": "sensor",
     "name": "Living Room Thermometer",
@@ -19,7 +19,7 @@
       "last_updated": "2025-06-27T15:33:00-07:00"
     }
   },
-  {
+  "sensor_hall_motion": {
     "id": "sensor_hall_motion",
     "type": "sensor",
     "name": "Hallway Motion Sensor",
@@ -37,7 +37,7 @@
       "last_updated": "2025-06-27T15:34:00-07:00"
     }
   },
-  {
+  "sensor_front_door": {
     "id": "sensor_front_door",
     "type": "sensor",
     "name": "Front-Door Contact Sensor",
@@ -57,7 +57,7 @@
       "last_updated": "2025-06-27T15:35:00-07:00"
     }
   },
-  {
+  "sensor_bed_smoke": {
     "id": "sensor_bed_smoke",
     "type": "sensor",
     "name": "Bedroom Smoke Detector",
@@ -77,7 +77,7 @@
       "last_updated": "2025-06-27T15:35:30-07:00"
     }
   },
-  {
+  "sensor_lr_air_quality": {
     "id": "sensor_lr_air_quality",
     "type": "sensor",
     "name": "Living Room Air-Quality Sensor",
@@ -97,7 +97,7 @@
       "last_updated": "2025-06-27T15:36:00-07:00"
     }
   },
-  {
+  "sensor_sink_leak": {
     "id": "sensor_sink_leak",
     "type": "sensor",
     "name": "Kitchen Sink Leak Sensor",
@@ -117,7 +117,7 @@
       "last_updated": "2025-06-27T15:36:30-07:00"
     }
   },
-  {
+  "camera_front_door": {
     "id": "camera_front_door",
     "type": "camera",
     "name": "Front Door Security Camera",
@@ -141,7 +141,7 @@
       "last_updated": "2025-06-27T15:37:00-07:00"
     }
   },
-  {
+  "camera_back_door": {
     "id": "camera_back_door",
     "type": "camera",
     "name": "Back Door Security Camera",
@@ -165,4 +165,4 @@
       "last_updated": "2025-06-27T15:37:30-07:00"
     }
   }
-]
+}

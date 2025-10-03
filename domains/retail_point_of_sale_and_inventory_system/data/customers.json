@@ -1,5 +1,5 @@
-[
-  {
+{
+  "CUST-5001": {
     "customer_id": "CUST-5001",
     "name": "Emma Wilson",
     "phone_number": "+1-555-0123-456",
@@ -13,7 +13,7 @@
     "updated_at": "2025-05-20T11:00:00Z",
     "status": "active"
   },
-  {
+  "CUST-5002": {
     "customer_id": "CUST-5002",
     "name": "Noah Tran",
     "phone_number": "+1-555-0456-789",
@@ -27,7 +27,7 @@
     "updated_at": "2025-04-30T08:45:00Z",
     "status": "active"
   },
-  {
+  "CUST-5003": {
     "customer_id": "CUST-5003",
     "name": "Sophia Singh",
     "phone_number": "+1-555-0789-012",
@@ -41,7 +41,7 @@
     "updated_at": "2025-05-28T10:10:00Z",
     "status": "active"
   },
-  {
+  "CUST-5004": {
     "customer_id": "CUST-5004",
     "name": "Liam Anderson",
     "phone_number": "+1-555-0987-654",
@@ -55,7 +55,7 @@
     "updated_at": "2025-03-14T09:05:00Z",
     "status": "active"
   },
-  {
+  "CUST-5005": {
     "customer_id": "CUST-5005",
     "name": "Ava Martinez",
     "phone_number": "+1-555-0112-233",
@@ -69,7 +69,7 @@
     "updated_at": "2025-06-01T08:00:00Z",
     "status": "active"
   },
-  {
+  "CUST-5006": {
     "customer_id": "CUST-5006",
     "name": "William Zhang",
     "phone_number": "+1-555-0666-777",
@@ -83,7 +83,7 @@
     "updated_at": "2025-05-11T09:25:00Z",
     "status": "active"
   },
-  {
+  "CUST-5007": {
     "customer_id": "CUST-5007",
     "name": "Olivia Romano",
     "phone_number": "+1-555-0222-333",
@@ -97,7 +97,7 @@
     "updated_at": "2025-04-18T07:30:00Z",
     "status": "active"
   },
-  {
+  "CUST-5008": {
     "customer_id": "CUST-5008",
     "name": "James O'Connor",
     "phone_number": "+1-555-0444-555",
@@ -111,7 +111,7 @@
     "updated_at": "2025-05-25T13:15:00Z",
     "status": "active"
   },
-  {
+  "CUST-5009": {
     "customer_id": "CUST-5009",
     "name": "Charlotte Dubois",
     "phone_number": "+1-555-0555-666",
@@ -125,7 +125,7 @@
     "updated_at": "2025-06-02T10:22:00Z",
     "status": "active"
   },
-  {
+  "CUST-5010": {
     "customer_id": "CUST-5010",
     "name": "Benjamin Cohen",
     "phone_number": "+1-555-0999-888",
@@ -139,7 +139,7 @@
     "updated_at": "2025-03-28T07:55:00Z",
     "status": "active"
   },
-  {
+  "CUST-5011": {
     "customer_id": "CUST-5011",
     "name": "Mia Kim",
     "phone_number": "+1-555-0333-444",
@@ -153,7 +153,7 @@
     "updated_at": "2025-04-12T09:00:00Z",
     "status": "active"
   },
-  {
+  "CUST-5012": {
     "customer_id": "CUST-5012",
     "name": "Logan Smith",
     "phone_number": "+1-555-0667-899",
@@ -167,4 +167,4 @@
     "updated_at": "2025-05-01T08:35:00Z",
     "status": "active"
   }
-]
+}

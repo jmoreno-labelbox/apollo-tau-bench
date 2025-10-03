@@ -1,5 +1,5 @@
-[
-  {
+{
+  "srv_001": {
     "server_id": "srv_001",
     "hostname": "server-prod-01.company.com",
     "timestamp": "2024-01-15T10:40:00Z",
@@ -24,7 +24,7 @@
       "usage_percent": 65
     }
   },
-  {
+  "srv_002": {
     "server_id": "srv_002",
     "hostname": "server-data-01.company.com",
     "timestamp": "2024-01-15T14:55:00Z",
@@ -49,7 +49,7 @@
       "usage_percent": 78
     }
   },
-  {
+  "srv_003": {
     "server_id": "srv_003",
     "hostname": "server-analytics.company.com",
     "timestamp": "2024-01-16T11:30:00Z",
@@ -74,7 +74,7 @@
       "usage_percent": 45
     }
   },
-  {
+  "srv_004": {
     "server_id": "srv_004",
     "hostname": "server-config.company.com",
     "timestamp": "2024-01-16T08:00:00Z",
@@ -100,7 +100,7 @@
     },
     "status": "maintenance_mode"
   },
-  {
+  "srv_005": {
     "server_id": "srv_005",
     "hostname": "backup-server.company.com",
     "timestamp": "2024-01-18T20:15:00Z",
@@ -125,7 +125,7 @@
       "usage_percent": 15
     }
   },
-  {
+  "srv_006": {
     "server_id": "srv_006",
     "hostname": "storage-01.company.com",
     "timestamp": "2024-01-16T15:45:00Z",
@@ -150,4 +150,4 @@
       "usage_percent": 82
     }
   }
-]
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "event_id": 1,
+    "game_pk": 2024000010,
+    "pitch_id": null,
+    "timestamp_utc": "2024-07-13 20:14:58",
+    "leverage_index": 2.97,
+    "is_manual_alert": false,
+    "suggestion_text": "Consider aggressive approach against this pitcher's fastball command. Historical data shows vulnerability in 2-1 counts.",
+    "draft_status": "archived"
+  },
+  {
+    "event_id": 2,
+    "game_pk": 2024000004,
+    "pitch_id": 10,
+    "timestamp_utc": "2024-07-24 02:11:36",
+    "leverage_index": 2.05,
+    "is_manual_alert": false,
+    "suggestion_text": "Recommend hit-and-run opportunity with speed on first base. Pitcher slow to home plate with runner in scoring position.",
+    "draft_status": "archived"
+  },
+  {
+    "event_id": 3,
+    "game_pk": 2024000010,
+    "pitch_id": 15,
+    "timestamp_utc": "2024-08-03 16:40:15",
+    "leverage_index": 2.64,
+    "is_manual_alert": false,
+    "suggestion_text": "High leverage situation - consider bringing in closer for extended save opportunity.",
+    "draft_status": "published"
+  },
+  {
+    "event_id": 4,
+    "game_pk": 2024000010,
+    "pitch_id": 22,
+    "timestamp_utc": "2024-07-27 03:22:05",
+    "leverage_index": 0.15,
+    "is_manual_alert": false,
+    "suggestion_text": "Pinch-hit opportunity available with left-handed batter versus right-handed reliever showing platoon advantage.",
+    "draft_status": "published"
+  },
+  {
+    "event_id": 5,
+    "game_pk": 2024000007,
+    "pitch_id": null,
+    "timestamp_utc": "2024-07-18 02:38:43",
+    "leverage_index": 1.97,
+    "is_manual_alert": true,
+    "suggestion_text": "Manual alert: Injury concern - player favoring left shoulder during warm-up throws.",
+    "draft_status": "archived"
+  },
+  {
+    "event_id": 6,
+    "game_pk": 2024000007,
+    "pitch_id": 37,
+    "timestamp_utc": "2024-07-17 04:06:24",
+    "leverage_index": 2.13,
+    "is_manual_alert": false,
+    "suggestion_text": "Defensive shift recommendation - pull shift optimal against this left-handed batter's tendency.",
+    "draft_status": "archived"
+  },
+  {
+    "event_id": 7,
+    "game_pk": 2024000012,
+    "pitch_id": 27,
+    "timestamp_utc": "2024-08-05 19:50:26",
+    "leverage_index": 2.92,
+    "is_manual_alert": false,
+    "suggestion_text": "Pitching change advised - current pitcher at 85 pitches with velocity decreasing 2.1 mph.",
+    "draft_status": "published"
+  },
+  {
+    "event_id": 8,
+    "game_pk": 2024000006,
+    "pitch_id": 59,
+    "timestamp_utc": "2024-07-26 20:00:42",
+    "leverage_index": 1.13,
+    "is_manual_alert": true,
+    "suggestion_text": "Manual alert: Weather conditions deteriorating - consider tarp readiness for approaching storm system.",
+    "draft_status": "archived"
+  },
+  {
+    "event_id": 9,
+    "game_pk": 2024000010,
+    "pitch_id": null,
+    "timestamp_utc": "2024-07-30 02:53:29",
+    "leverage_index": 2.39,
+    "is_manual_alert": true,
+    "suggestion_text": "Base running opportunity - delayed steal situation with catcher's slow pop time to second base.",
+    "draft_status": "draft"
+  },
+  {
+    "event_id": 10,
+    "game_pk": 2024000006,
+    "pitch_id": null,
+    "timestamp_utc": "2024-07-19 01:33:04",
+    "leverage_index": 2.34,
+    "is_manual_alert": true,
+    "suggestion_text": "Manual alert: Umpire consultation needed - potential fan interference on foul ball down third base line.",
+    "draft_status": "archived"
+  },
+  {
+    "event_id": 11,
+    "game_pk": 2024000005,
+    "pitch_id": null,
+    "timestamp_utc": "2024-08-08 09:08:55",
+    "leverage_index": 1.47,
+    "is_manual_alert": false,
+    "suggestion_text": "Strategic double-switch opportunity to optimize batting order for upcoming inning.",
+    "draft_status": "archived"
+  },
+  {
+    "event_id": 12,
+    "game_pk": 2024000005,
+    "pitch_id": 52,
+    "timestamp_utc": "2024-07-24 04:03:10",
+    "leverage_index": 2.19,
+    "is_manual_alert": false,
+    "suggestion_text": "Relief pitcher warming - recommend bringing in specialist for upcoming left-handed batter sequence.",
+    "draft_status": "published"
+  }
+]

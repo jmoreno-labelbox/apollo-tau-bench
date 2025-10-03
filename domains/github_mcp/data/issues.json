@@ -1,5 +1,5 @@
-[
-  {
+{
+  "maya-w": {
     "owner": "maya-w",
     "repo_name": "acme-webapp",
     "issue_numbers": [
@@ -66,7 +66,7 @@
       "2023-12-01T16:45:00Z"
     ]
   },
-  {
+  "design-team": {
     "owner": "design-team",
     "repo_name": "ui-kit",
     "issue_numbers": [
@@ -127,7 +127,7 @@
       "2023-12-04T10:05:00Z"
     ]
   },
-  {
+  "server-main": {
     "owner": "server-main",
     "repo_name": "payments-service",
     "issue_numbers": [
@@ -190,7 +190,7 @@
       "2023-12-04T07:45:00Z"
     ]
   },
-  {
+  "platform-team": {
     "owner": "platform-team",
     "repo_name": "infra-terraform",
     "issue_numbers": [
@@ -233,7 +233,7 @@
       "2023-12-04T09:05:00Z"
     ]
   },
-  {
+  "ryan-dev": {
     "owner": "ryan-dev",
     "repo_name": "utils-js",
     "issue_numbers": [
@@ -297,7 +297,7 @@
       "2023-11-30T09:45:00Z"
     ]
   },
-  {
+  "language-ai": {
     "owner": "language-ai",
     "repo_name": "nlp-models",
     "issue_numbers": [
@@ -384,7 +384,7 @@
       "2023-09-22T10:45:00Z"
     ]
   },
-  {
+  "security-group": {
     "owner": "security-group",
     "repo_name": "security-scanner",
     "issue_numbers": [
@@ -471,7 +471,7 @@
       "2023-12-04T16:20:00Z"
     ]
   },
-  {
+  "app-developer": {
     "owner": "app-developer",
     "repo_name": "flutter-finance-app",
     "issue_numbers": [
@@ -557,7 +557,7 @@
       "2023-11-18T16:50:00Z"
     ]
   },
-  {
+  "ui-developer": {
     "owner": "ui-developer",
     "repo_name": "react-dashboard",
     "issue_numbers": [
@@ -623,7 +623,7 @@
       "2023-12-05T14:30:00Z"
     ]
   },
-  {
+  "ml-engineer": {
     "owner": "ml-engineer",
     "repo_name": "ml-pipeline",
     "issue_numbers": [
@@ -688,7 +688,7 @@
       "2023-12-03T15:35:00Z"
     ]
   },
-  {
+  "infra-lead": {
     "owner": "infra-lead",
     "repo_name": "k8s-monitoring",
     "issue_numbers": [
@@ -773,4 +773,4 @@
       "2023-12-02T11:20:00Z"
     ]
   }
-]
+}

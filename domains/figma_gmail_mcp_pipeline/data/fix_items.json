@@ -1,5 +1,5 @@
-[
-  {
+{
+  "item_001": {
     "item_id": "item_001",
     "plan_id": "plan_001",
     "finding_id": "finding_a11y_001",
@@ -9,7 +9,7 @@
     "external_ticket_ref_nullable": "JIRA-1234",
     "figma_comment_id_nullable": "comment_006"
   },
-  {
+  "item_002": {
     "item_id": "item_002",
     "plan_id": "plan_001",
     "finding_id": "finding_a11y_002",
@@ -19,7 +19,7 @@
     "external_ticket_ref_nullable": "JIRA-1235",
     "figma_comment_id_nullable": null
   },
-  {
+  "item_003": {
     "item_id": "item_003",
     "plan_id": "plan_002",
     "finding_id": "finding_ds_001",
@@ -29,7 +29,7 @@
     "external_ticket_ref_nullable": null,
     "figma_comment_id_nullable": "comment_009"
   },
-  {
+  "item_004": {
     "item_id": "item_004",
     "plan_id": "plan_003",
     "finding_id": "finding_a11y_003",
@@ -39,7 +39,7 @@
     "external_ticket_ref_nullable": "JIRA-1236",
     "figma_comment_id_nullable": null
   },
-  {
+  "item_005": {
     "item_id": "item_005",
     "plan_id": "plan_004",
     "finding_id": "finding_ds_003",
@@ -49,7 +49,7 @@
     "external_ticket_ref_nullable": "JIRA-1237",
     "figma_comment_id_nullable": "comment_007"
   },
-  {
+  "item_006": {
     "item_id": "item_006",
     "plan_id": "plan_005",
     "finding_id": "finding_ds_004",
@@ -59,7 +59,7 @@
     "external_ticket_ref_nullable": "JIRA-1238",
     "figma_comment_id_nullable": "comment_004"
   },
-  {
+  "item_007": {
     "item_id": "item_007",
     "plan_id": "plan_006",
     "finding_id": "finding_a11y_005",
@@ -69,7 +69,7 @@
     "external_ticket_ref_nullable": null,
     "figma_comment_id_nullable": null
   },
-  {
+  "item_008": {
     "item_id": "item_008",
     "plan_id": "plan_007",
     "finding_id": "finding_a11y_004",
@@ -79,7 +79,7 @@
     "external_ticket_ref_nullable": "JIRA-1239",
     "figma_comment_id_nullable": null
   },
-  {
+  "item_009": {
     "item_id": "item_009",
     "plan_id": "plan_008",
     "finding_id": "finding_ds_005",
@@ -89,7 +89,7 @@
     "external_ticket_ref_nullable": "JIRA-1240",
     "figma_comment_id_nullable": null
   },
-  {
+  "item_010": {
     "item_id": "item_010",
     "plan_id": "plan_010",
     "finding_id": "finding_a11y_006",
@@ -99,7 +99,7 @@
     "external_ticket_ref_nullable": "JIRA-1241",
     "figma_comment_id_nullable": null
   },
-  {
+  "item_011": {
     "item_id": "item_011",
     "plan_id": "plan_011",
     "finding_id": "finding_ds_011",
@@ -109,7 +109,7 @@
     "external_ticket_ref_nullable": null,
     "figma_comment_id_nullable": "comment_015"
   },
-  {
+  "item_012": {
     "item_id": "item_012",
     "plan_id": "plan_011",
     "finding_id": "finding_ds_012",
@@ -119,7 +119,7 @@
     "external_ticket_ref_nullable": null,
     "figma_comment_id_nullable": "comment_016"
   },
-  {
+  "item_013": {
     "item_id": "item_013",
     "plan_id": "plan_011",
     "finding_id": "finding_ds_013",
@@ -129,7 +129,7 @@
     "external_ticket_ref_nullable": null,
     "figma_comment_id_nullable": null
   },
-  {
+  "item_014": {
     "item_id": "item_014",
     "plan_id": "plan_011",
     "finding_id": "finding_a11y_011",
@@ -139,7 +139,7 @@
     "external_ticket_ref_nullable": null,
     "figma_comment_id_nullable": "comment_017"
   },
-  {
+  "item_015": {
     "item_id": "item_015",
     "plan_id": "plan_011",
     "finding_id": "finding_a11y_012",
@@ -149,7 +149,7 @@
     "external_ticket_ref_nullable": null,
     "figma_comment_id_nullable": "comment_018"
   },
-  {
+  "item_016": {
     "item_id": "item_016",
     "plan_id": "plan_011",
     "finding_id": "finding_a11y_013",
@@ -159,7 +159,7 @@
     "external_ticket_ref_nullable": null,
     "figma_comment_id_nullable": null
   },
-  {
+  "item_017": {
     "item_id": "item_017",
     "plan_id": "plan_012",
     "finding_id": "finding_ds_014",
@@ -169,7 +169,7 @@
     "external_ticket_ref_nullable": "JIRA-1242",
     "figma_comment_id_nullable": null
   },
-  {
+  "item_018": {
     "item_id": "item_018",
     "plan_id": "plan_012",
     "finding_id": "finding_ds_015",
@@ -179,7 +179,7 @@
     "external_ticket_ref_nullable": "JIRA-1243",
     "figma_comment_id_nullable": null
   },
-  {
+  "item_019": {
     "item_id": "item_019",
     "plan_id": "plan_012",
     "finding_id": "finding_a11y_014",
@@ -189,7 +189,7 @@
     "external_ticket_ref_nullable": "JIRA-1244",
     "figma_comment_id_nullable": null
   },
-  {
+  "item_020": {
     "item_id": "item_020",
     "plan_id": "plan_012",
     "finding_id": "finding_a11y_015",
@@ -199,4 +199,4 @@
     "external_ticket_ref_nullable": "JIRA-1245",
     "figma_comment_id_nullable": null
   }
-]
+}

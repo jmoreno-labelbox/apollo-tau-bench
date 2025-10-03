@@ -1,5 +1,5 @@
-[
-  {
+{
+  "qa_001": {
     "id": "qa_001",
     "asset_path": "assets/textures/character_models/hero_character_diffuse.png",
     "asset_type": "texture",
@@ -40,7 +40,7 @@
       "team": "team_002"
     }
   },
-  {
+  "qa_002": {
     "id": "qa_002",
     "asset_path": "assets/models/environment/castle_tower.fbx",
     "asset_type": "model",
@@ -80,7 +80,7 @@
       "team": "team_002"
     }
   },
-  {
+  "qa_003": {
     "id": "qa_003",
     "asset_path": "assets/audio/sound_effects/explosion_heavy.wav",
     "asset_type": "audio",
@@ -120,7 +120,7 @@
       "team": "team_004"
     }
   },
-  {
+  "qa_004": {
     "id": "qa_004",
     "asset_path": "assets/animations/character/walk_cycle.fbx",
     "asset_type": "animation",
@@ -159,7 +159,7 @@
       "team": "team_002"
     }
   },
-  {
+  "qa_005": {
     "id": "qa_005",
     "asset_path": "assets/vfx/particle_systems/fire_explosion.vfx",
     "asset_type": "vfx",
@@ -194,7 +194,7 @@
       "team": "team_002"
     }
   },
-  {
+  "qa_006": {
     "id": "qa_006",
     "asset_path": "assets/ui/icons/inventory_sword.png",
     "asset_type": "ui",
@@ -235,7 +235,7 @@
       "team": "team_005"
     }
   },
-  {
+  "qa_007": {
     "id": "qa_007",
     "asset_path": "assets/terrain/heightmaps/forest_region.raw",
     "asset_type": "terrain",
@@ -271,7 +271,7 @@
       "team": "team_002"
     }
   },
-  {
+  "qa_008": {
     "id": "qa_008",
     "asset_path": "assets/localization/strings/en/strings.json",
     "asset_type": "localization",
@@ -311,7 +311,7 @@
       "team": "team_005"
     }
   },
-  {
+  "qa_009": {
     "id": "qa_009",
     "asset_path": "assets/materials/character_skin.mat",
     "asset_type": "material",
@@ -346,7 +346,7 @@
       "team": "team_002"
     }
   },
-  {
+  "qa_010": {
     "id": "qa_010",
     "asset_path": "assets/lighting/light_probes/indoor_office.hdr",
     "asset_type": "lighting",
@@ -382,4 +382,4 @@
       "team": "team_002"
     }
   }
-]
+}

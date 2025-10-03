@@ -1,0 +1,754 @@
+[
+  {
+    "history_id": 6201,
+    "household_id": 201,
+    "plan_date": "2025-08-10",
+    "recipe_id": 401,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6202,
+    "household_id": 201,
+    "plan_date": "2025-08-12",
+    "recipe_id": 403,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6203,
+    "household_id": 201,
+    "plan_date": "2025-08-14",
+    "recipe_id": 404,
+    "was_prepared": false,
+    "rating_int": null
+  },
+  {
+    "history_id": 6204,
+    "household_id": 201,
+    "plan_date": "2025-08-17",
+    "recipe_id": 407,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6211,
+    "household_id": 202,
+    "plan_date": "2025-08-09",
+    "recipe_id": 402,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6212,
+    "household_id": 202,
+    "plan_date": "2025-08-13",
+    "recipe_id": 408,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6213,
+    "household_id": 202,
+    "plan_date": "2025-08-16",
+    "recipe_id": 401,
+    "was_prepared": true,
+    "rating_int": 3
+  },
+  {
+    "history_id": 6214,
+    "household_id": 201,
+    "plan_date": "2025-08-03",
+    "recipe_id": 405,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6215,
+    "household_id": 201,
+    "plan_date": "2025-08-05",
+    "recipe_id": 406,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6216,
+    "household_id": 201,
+    "plan_date": "2025-08-07",
+    "recipe_id": 408,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6217,
+    "household_id": 201,
+    "plan_date": "2025-07-30",
+    "recipe_id": 423,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6218,
+    "household_id": 201,
+    "plan_date": "2025-07-28",
+    "recipe_id": 425,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6219,
+    "household_id": 201,
+    "plan_date": "2025-07-25",
+    "recipe_id": 402,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6220,
+    "household_id": 201,
+    "plan_date": "2025-07-22",
+    "recipe_id": 426,
+    "was_prepared": false,
+    "rating_int": null
+  },
+  {
+    "history_id": 6221,
+    "household_id": 201,
+    "plan_date": "2025-07-20",
+    "recipe_id": 427,
+    "was_prepared": true,
+    "rating_int": 3
+  },
+  {
+    "history_id": 6222,
+    "household_id": 201,
+    "plan_date": "2025-07-18",
+    "recipe_id": 428,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6223,
+    "household_id": 202,
+    "plan_date": "2025-08-06",
+    "recipe_id": 409,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6224,
+    "household_id": 202,
+    "plan_date": "2025-08-04",
+    "recipe_id": 410,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6225,
+    "household_id": 202,
+    "plan_date": "2025-08-01",
+    "recipe_id": 424,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6226,
+    "household_id": 202,
+    "plan_date": "2025-07-29",
+    "recipe_id": 433,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6227,
+    "household_id": 202,
+    "plan_date": "2025-07-26",
+    "recipe_id": 403,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6228,
+    "household_id": 202,
+    "plan_date": "2025-07-23",
+    "recipe_id": 425,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6229,
+    "household_id": 202,
+    "plan_date": "2025-07-21",
+    "recipe_id": 407,
+    "was_prepared": false,
+    "rating_int": null
+  },
+  {
+    "history_id": 6230,
+    "household_id": 202,
+    "plan_date": "2025-07-19",
+    "recipe_id": 406,
+    "was_prepared": true,
+    "rating_int": 3
+  },
+  {
+    "history_id": 6231,
+    "household_id": 203,
+    "plan_date": "2025-08-15",
+    "recipe_id": 432,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6232,
+    "household_id": 203,
+    "plan_date": "2025-08-12",
+    "recipe_id": 431,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6233,
+    "household_id": 203,
+    "plan_date": "2025-08-08",
+    "recipe_id": 433,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6234,
+    "household_id": 203,
+    "plan_date": "2025-08-05",
+    "recipe_id": 406,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6235,
+    "household_id": 203,
+    "plan_date": "2025-08-02",
+    "recipe_id": 424,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6236,
+    "household_id": 203,
+    "plan_date": "2025-07-30",
+    "recipe_id": 405,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6237,
+    "household_id": 203,
+    "plan_date": "2025-07-27",
+    "recipe_id": 442,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6238,
+    "household_id": 203,
+    "plan_date": "2025-07-24",
+    "recipe_id": 446,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6239,
+    "household_id": 204,
+    "plan_date": "2025-08-14",
+    "recipe_id": 431,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6240,
+    "household_id": 204,
+    "plan_date": "2025-08-11",
+    "recipe_id": 432,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6241,
+    "household_id": 204,
+    "plan_date": "2025-08-08",
+    "recipe_id": 434,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6242,
+    "household_id": 204,
+    "plan_date": "2025-08-05",
+    "recipe_id": 433,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6243,
+    "household_id": 204,
+    "plan_date": "2025-08-02",
+    "recipe_id": 425,
+    "was_prepared": false,
+    "rating_int": null
+  },
+  {
+    "history_id": 6244,
+    "household_id": 204,
+    "plan_date": "2025-07-30",
+    "recipe_id": 440,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6245,
+    "household_id": 204,
+    "plan_date": "2025-07-27",
+    "recipe_id": 439,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6246,
+    "household_id": 204,
+    "plan_date": "2025-07-24",
+    "recipe_id": 438,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6247,
+    "household_id": 205,
+    "plan_date": "2025-08-13",
+    "recipe_id": 403,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6248,
+    "household_id": 205,
+    "plan_date": "2025-08-10",
+    "recipe_id": 424,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6249,
+    "household_id": 205,
+    "plan_date": "2025-08-07",
+    "recipe_id": 433,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6250,
+    "household_id": 205,
+    "plan_date": "2025-08-04",
+    "recipe_id": 429,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6251,
+    "household_id": 205,
+    "plan_date": "2025-08-01",
+    "recipe_id": 427,
+    "was_prepared": true,
+    "rating_int": 3
+  },
+  {
+    "history_id": 6252,
+    "household_id": 205,
+    "plan_date": "2025-07-29",
+    "recipe_id": 406,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6253,
+    "household_id": 205,
+    "plan_date": "2025-07-26",
+    "recipe_id": 408,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6254,
+    "household_id": 206,
+    "plan_date": "2025-08-12",
+    "recipe_id": 434,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6255,
+    "household_id": 206,
+    "plan_date": "2025-08-09",
+    "recipe_id": 425,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6256,
+    "household_id": 206,
+    "plan_date": "2025-08-06",
+    "recipe_id": 427,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6257,
+    "household_id": 206,
+    "plan_date": "2025-08-03",
+    "recipe_id": 435,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6258,
+    "household_id": 206,
+    "plan_date": "2025-07-31",
+    "recipe_id": 432,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6259,
+    "household_id": 206,
+    "plan_date": "2025-07-28",
+    "recipe_id": 423,
+    "was_prepared": false,
+    "rating_int": null
+  },
+  {
+    "history_id": 6260,
+    "household_id": 206,
+    "plan_date": "2025-07-25",
+    "recipe_id": 431,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6261,
+    "household_id": 207,
+    "plan_date": "2025-08-11",
+    "recipe_id": 422,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6262,
+    "household_id": 207,
+    "plan_date": "2025-08-08",
+    "recipe_id": 428,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6263,
+    "household_id": 207,
+    "plan_date": "2025-08-05",
+    "recipe_id": 425,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6264,
+    "household_id": 207,
+    "plan_date": "2025-08-02",
+    "recipe_id": 424,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6265,
+    "household_id": 207,
+    "plan_date": "2025-07-30",
+    "recipe_id": 419,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6266,
+    "household_id": 207,
+    "plan_date": "2025-07-27",
+    "recipe_id": 420,
+    "was_prepared": true,
+    "rating_int": 3
+  },
+  {
+    "history_id": 6267,
+    "household_id": 207,
+    "plan_date": "2025-07-24",
+    "recipe_id": 421,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6268,
+    "household_id": 208,
+    "plan_date": "2025-08-14",
+    "recipe_id": 402,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6269,
+    "household_id": 208,
+    "plan_date": "2025-08-11",
+    "recipe_id": 427,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6270,
+    "household_id": 208,
+    "plan_date": "2025-08-08",
+    "recipe_id": 424,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6271,
+    "household_id": 208,
+    "plan_date": "2025-08-05",
+    "recipe_id": 429,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6272,
+    "household_id": 208,
+    "plan_date": "2025-08-02",
+    "recipe_id": 428,
+    "was_prepared": false,
+    "rating_int": null
+  },
+  {
+    "history_id": 6273,
+    "household_id": 208,
+    "plan_date": "2025-07-30",
+    "recipe_id": 423,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6274,
+    "household_id": 208,
+    "plan_date": "2025-07-27",
+    "recipe_id": 401,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6275,
+    "household_id": 209,
+    "plan_date": "2025-08-13",
+    "recipe_id": 433,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6276,
+    "household_id": 209,
+    "plan_date": "2025-08-10",
+    "recipe_id": 432,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6277,
+    "household_id": 209,
+    "plan_date": "2025-08-07",
+    "recipe_id": 425,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6278,
+    "household_id": 209,
+    "plan_date": "2025-08-04",
+    "recipe_id": 431,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6279,
+    "household_id": 209,
+    "plan_date": "2025-08-01",
+    "recipe_id": 424,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6280,
+    "household_id": 209,
+    "plan_date": "2025-07-29",
+    "recipe_id": 436,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6281,
+    "household_id": 209,
+    "plan_date": "2025-07-26",
+    "recipe_id": 437,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6282,
+    "household_id": 210,
+    "plan_date": "2025-08-12",
+    "recipe_id": 435,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6283,
+    "household_id": 210,
+    "plan_date": "2025-08-09",
+    "recipe_id": 404,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6284,
+    "household_id": 210,
+    "plan_date": "2025-08-06",
+    "recipe_id": 425,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6285,
+    "household_id": 210,
+    "plan_date": "2025-08-03",
+    "recipe_id": 408,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6286,
+    "household_id": 210,
+    "plan_date": "2025-07-31",
+    "recipe_id": 406,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6287,
+    "household_id": 210,
+    "plan_date": "2025-07-28",
+    "recipe_id": 426,
+    "was_prepared": false,
+    "rating_int": null
+  },
+  {
+    "history_id": 6288,
+    "household_id": 210,
+    "plan_date": "2025-07-25",
+    "recipe_id": 424,
+    "was_prepared": true,
+    "rating_int": 3
+  },
+  {
+    "history_id": 6289,
+    "household_id": 201,
+    "plan_date": "2025-07-15",
+    "recipe_id": 404,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6290,
+    "household_id": 201,
+    "plan_date": "2025-07-12",
+    "recipe_id": 406,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6291,
+    "household_id": 201,
+    "plan_date": "2025-07-09",
+    "recipe_id": 424,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6292,
+    "household_id": 201,
+    "plan_date": "2025-07-06",
+    "recipe_id": 425,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6293,
+    "household_id": 201,
+    "plan_date": "2025-07-03",
+    "recipe_id": 427,
+    "was_prepared": false,
+    "rating_int": null
+  },
+  {
+    "history_id": 6294,
+    "household_id": 201,
+    "plan_date": "2025-06-30",
+    "recipe_id": 401,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6295,
+    "household_id": 202,
+    "plan_date": "2025-07-16",
+    "recipe_id": 408,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6296,
+    "household_id": 202,
+    "plan_date": "2025-07-13",
+    "recipe_id": 424,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6297,
+    "household_id": 202,
+    "plan_date": "2025-07-10",
+    "recipe_id": 433,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6298,
+    "household_id": 202,
+    "plan_date": "2025-07-07",
+    "recipe_id": 402,
+    "was_prepared": true,
+    "rating_int": 4
+  },
+  {
+    "history_id": 6299,
+    "household_id": 202,
+    "plan_date": "2025-07-04",
+    "recipe_id": 425,
+    "was_prepared": true,
+    "rating_int": 5
+  },
+  {
+    "history_id": 6300,
+    "household_id": 202,
+    "plan_date": "2025-07-01",
+    "recipe_id": 406,
+    "was_prepared": true,
+    "rating_int": 3
+  }
+]

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "alice_rsa_key": {
     "key_id": "alice_rsa_key",
     "user_id": "user_001",
     "username": "maya_admin",
@@ -18,7 +18,7 @@
       "storage-01.company.com"
     ]
   },
-  {
+  "bob_rsa_key": {
     "key_id": "bob_rsa_key",
     "user_id": "user_002",
     "username": "ryan_dev",
@@ -34,7 +34,7 @@
       "backup-server.company.com"
     ]
   },
-  {
+  "carol_rsa_key": {
     "key_id": "carol_rsa_key",
     "user_id": "user_003",
     "username": "luna_analyst",
@@ -50,7 +50,7 @@
       "storage-01.company.com"
     ]
   },
-  {
+  "dave_rsa_key": {
     "key_id": "dave_rsa_key",
     "user_id": "user_004",
     "username": "ethan_intern",
@@ -64,7 +64,7 @@
       "server-config.company.com"
     ]
   },
-  {
+  "eve_rsa_key": {
     "key_id": "eve_rsa_key",
     "user_id": "user_005",
     "username": "aria_manager",
@@ -80,4 +80,4 @@
       "server-data-01.company.com"
     ]
   }
-]
+}

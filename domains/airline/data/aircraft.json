@@ -1,5 +1,5 @@
-[
-  {
+{
+  "AC001": {
     "aircraft_id": "AC001",
     "tail_number": "PR-GOL",
     "model": {
@@ -13,7 +13,7 @@
       "iata_code": "ATL"
     }
   },
-  {
+  "AC002": {
     "aircraft_id": "AC002",
     "tail_number": "PR-XBE",
     "model": {
@@ -27,7 +27,7 @@
       "iata_code": "DFW"
     }
   },
-  {
+  "AC003": {
     "aircraft_id": "AC003",
     "tail_number": "PP-LTM",
     "model": {
@@ -41,7 +41,7 @@
       "iata_code": "LAX"
     }
   },
-  {
+  "AC004": {
     "aircraft_id": "AC004",
     "tail_number": "PS-AEF",
     "model": {
@@ -55,7 +55,7 @@
       "iata_code": "MCO"
     }
   },
-  {
+  "AC005": {
     "aircraft_id": "AC005",
     "tail_number": "PR-XTD",
     "model": {
@@ -69,7 +69,7 @@
       "iata_code": "JFK"
     }
   },
-  {
+  "AC006": {
     "aircraft_id": "AC006",
     "tail_number": "PT-MUI",
     "model": {
@@ -83,7 +83,7 @@
       "iata_code": "ORD"
     }
   },
-  {
+  "AC007": {
     "aircraft_id": "AC007",
     "tail_number": "PR-YJB",
     "model": {
@@ -97,7 +97,7 @@
       "iata_code": "MIA"
     }
   },
-  {
+  "AC008": {
     "aircraft_id": "AC008",
     "tail_number": "PP-PTM",
     "model": {
@@ -111,7 +111,7 @@
       "iata_code": "PHX"
     }
   },
-  {
+  "AC009": {
     "aircraft_id": "AC009",
     "tail_number": "PR-GUO",
     "model": {
@@ -125,7 +125,7 @@
       "iata_code": "LAS"
     }
   },
-  {
+  "AC010": {
     "aircraft_id": "AC010",
     "tail_number": "PR-YSH",
     "model": {
@@ -139,7 +139,7 @@
       "iata_code": "SEA"
     }
   },
-  {
+  "AC011": {
     "aircraft_id": "AC011",
     "tail_number": "PP-EJA",
     "model": {
@@ -153,7 +153,7 @@
       "iata_code": "CLT"
     }
   },
-  {
+  "AC012": {
     "aircraft_id": "AC012",
     "tail_number": "PS-MND",
     "model": {
@@ -167,7 +167,7 @@
       "iata_code": "MCO"
     }
   },
-  {
+  "AC013": {
     "aircraft_id": "AC013",
     "tail_number": "D-A-VJW",
     "model": {
@@ -181,7 +181,7 @@
       "iata_code": "ORD"
     }
   },
-  {
+  "AC014": {
     "aircraft_id": "AC014",
     "tail_number": "PP-VBT",
     "model": {
@@ -195,7 +195,7 @@
       "iata_code": "DFW"
     }
   },
-  {
+  "AC015": {
     "aircraft_id": "AC015",
     "tail_number": "G-E-RKI",
     "model": {
@@ -209,7 +209,7 @@
       "iata_code": "MCO"
     }
   },
-  {
+  "AC016": {
     "aircraft_id": "AC016",
     "tail_number": "N-DXJ",
     "model": {
@@ -223,7 +223,7 @@
       "iata_code": "PHX"
     }
   },
-  {
+  "AC017": {
     "aircraft_id": "AC017",
     "tail_number": "G-E-OMN",
     "model": {
@@ -237,7 +237,7 @@
       "iata_code": "MIA"
     }
   },
-  {
+  "AC018": {
     "aircraft_id": "AC018",
     "tail_number": "PS-KZN",
     "model": {
@@ -251,7 +251,7 @@
       "iata_code": "LAX"
     }
   },
-  {
+  "AC019": {
     "aircraft_id": "AC019",
     "tail_number": "F-G-KQZ",
     "model": {
@@ -265,7 +265,7 @@
       "iata_code": "MIA"
     }
   },
-  {
+  "AC020": {
     "aircraft_id": "AC020",
     "tail_number": "PS-BIH",
     "model": {
@@ -279,7 +279,7 @@
       "iata_code": "CLT"
     }
   },
-  {
+  "AC021": {
     "aircraft_id": "AC021",
     "tail_number": "PT-PPF",
     "model": {
@@ -293,7 +293,7 @@
       "iata_code": "SEA"
     }
   },
-  {
+  "AC022": {
     "aircraft_id": "AC022",
     "tail_number": "C-F-JUS",
     "model": {
@@ -307,7 +307,7 @@
       "iata_code": "LAX"
     }
   },
-  {
+  "AC023": {
     "aircraft_id": "AC023",
     "tail_number": "D-A-IGX",
     "model": {
@@ -321,7 +321,7 @@
       "iata_code": "MIA"
     }
   },
-  {
+  "AC024": {
     "aircraft_id": "AC024",
     "tail_number": "PT-GOO",
     "model": {
@@ -335,7 +335,7 @@
       "iata_code": "SEA"
     }
   },
-  {
+  "AC025": {
     "aircraft_id": "AC025",
     "tail_number": "G-E-SKM",
     "model": {
@@ -349,4 +349,4 @@
       "iata_code": "ATL"
     }
   }
-]
+}

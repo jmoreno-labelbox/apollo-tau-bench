@@ -1,5 +1,5 @@
-[
-  {
+{
+  "EMP-1002": {
     "employee_id": "EMP-1002",
     "name": "Sarah Anderson",
     "role": "Cashier",
@@ -9,7 +9,7 @@
     "hire_date": "2023-02-10",
     "status": "active"
   },
-  {
+  "EMP-1003": {
     "employee_id": "EMP-1003",
     "name": "Michael Rodriguez",
     "role": "Sales Associate",
@@ -19,7 +19,7 @@
     "hire_date": "2022-06-15",
     "status": "active"
   },
-  {
+  "EMP-1004": {
     "employee_id": "EMP-1004",
     "name": "Jennifer Williams",
     "role": "Customer Service Rep",
@@ -29,7 +29,7 @@
     "hire_date": "2021-11-20",
     "status": "active"
   },
-  {
+  "EMP-1008": {
     "employee_id": "EMP-1008",
     "name": "Robert Zhang",
     "role": "Department Manager",
@@ -39,7 +39,7 @@
     "hire_date": "2019-04-05",
     "status": "active"
   },
-  {
+  "EMP-1009": {
     "employee_id": "EMP-1009",
     "name": "Amanda Romano",
     "role": "Sales Associate",
@@ -49,7 +49,7 @@
     "hire_date": "2024-01-18",
     "status": "active"
   },
-  {
+  "EMP-1011": {
     "employee_id": "EMP-1011",
     "name": "Ethan Walker",
     "role": "Cashier",
@@ -59,7 +59,7 @@
     "hire_date": "2022-09-12",
     "status": "active"
   },
-  {
+  "EMP-1015": {
     "employee_id": "EMP-1015",
     "name": "Zoe Martinez",
     "role": "Inventory Specialist",
@@ -69,7 +69,7 @@
     "hire_date": "2023-05-27",
     "status": "active"
   },
-  {
+  "EMP-1020": {
     "employee_id": "EMP-1020",
     "name": "Henry Adams",
     "role": "Floor Supervisor",
@@ -79,7 +79,7 @@
     "hire_date": "2020-03-03",
     "status": "active"
   },
-  {
+  "EMP-1032": {
     "employee_id": "EMP-1032",
     "name": "Amelia Lee",
     "role": "Assistant Manager",
@@ -89,7 +89,7 @@
     "hire_date": "2018-07-22",
     "status": "active"
   },
-  {
+  "EMP-1034": {
     "employee_id": "EMP-1034",
     "name": "Jack Robinson",
     "role": "Sales Associate",
@@ -99,7 +99,7 @@
     "hire_date": "2024-04-14",
     "status": "active"
   },
-  {
+  "EMP-1045": {
     "employee_id": "EMP-1045",
     "name": "Megan Young",
     "role": "Store Manager",
@@ -109,7 +109,7 @@
     "hire_date": "2016-10-01",
     "status": "active"
   },
-  {
+  "EMP-1050": {
     "employee_id": "EMP-1050",
     "name": "Oliver Diaz",
     "role": "Cashier",
@@ -119,4 +119,4 @@
     "hire_date": "2023-08-08",
     "status": "active"
   }
-]
+}

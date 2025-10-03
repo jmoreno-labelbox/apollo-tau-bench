@@ -1,5 +1,5 @@
-[
-  {
+{
+  "comment_001": {
     "comment_id": "comment_001",
     "artifact_id": "art_001",
     "author_email": "jake.design@company.com",
@@ -8,7 +8,7 @@
     "created_ts": "2024-08-20T16:45:00Z",
     "resolved_flag": false
   },
-  {
+  "comment_002": {
     "comment_id": "comment_002",
     "artifact_id": "art_001",
     "author_email": "chris.engineer@company.com",
@@ -17,7 +17,7 @@
     "created_ts": "2024-08-20T17:00:00Z",
     "resolved_flag": true
   },
-  {
+  "comment_003": {
     "comment_id": "comment_003",
     "artifact_id": "art_004",
     "author_email": "emma.creative@company.com",
@@ -26,7 +26,7 @@
     "created_ts": "2024-08-19T12:30:00Z",
     "resolved_flag": false
   },
-  {
+  "comment_004": {
     "comment_id": "comment_004",
     "artifact_id": "art_005",
     "author_email": "chris.engineer@company.com",
@@ -35,7 +35,7 @@
     "created_ts": "2024-08-20T14:15:00Z",
     "resolved_flag": true
   },
-  {
+  "comment_005": {
     "comment_id": "comment_005",
     "artifact_id": "art_007",
     "author_email": "emma.creative@company.com",
@@ -44,7 +44,7 @@
     "created_ts": "2024-08-22T11:00:00Z",
     "resolved_flag": true
   },
-  {
+  "comment_006": {
     "comment_id": "comment_006",
     "artifact_id": "art_008",
     "author_email": "jake.design@company.com",
@@ -53,7 +53,7 @@
     "created_ts": "2024-08-18T15:45:00Z",
     "resolved_flag": false
   },
-  {
+  "comment_007": {
     "comment_id": "comment_007",
     "artifact_id": "art_009",
     "author_email": "emma.creative@company.com",
@@ -62,7 +62,7 @@
     "created_ts": "2024-08-19T18:30:00Z",
     "resolved_flag": true
   },
-  {
+  "comment_008": {
     "comment_id": "comment_008",
     "artifact_id": "art_002",
     "author_email": "chris.engineer@company.com",
@@ -71,7 +71,7 @@
     "created_ts": "2024-08-21T10:00:00Z",
     "resolved_flag": true
   },
-  {
+  "comment_009": {
     "comment_id": "comment_009",
     "artifact_id": "art_003",
     "author_email": "jake.design@company.com",
@@ -80,7 +80,7 @@
     "created_ts": "2024-08-22T17:30:00Z",
     "resolved_flag": false
   },
-  {
+  "comment_010": {
     "comment_id": "comment_010",
     "artifact_id": "art_006",
     "author_email": "sophie.marketing@company.com",
@@ -89,7 +89,7 @@
     "created_ts": "2024-08-21T16:30:00Z",
     "resolved_flag": true
   },
-  {
+  "comment_011": {
     "comment_id": "comment_011",
     "artifact_id": "art_011",
     "author_email": "design-automation@company.com",
@@ -98,7 +98,7 @@
     "created_ts": "2024-08-23T09:05:00Z",
     "resolved_flag": false
   },
-  {
+  "comment_012": {
     "comment_id": "comment_012",
     "artifact_id": "art_012",
     "author_email": "design-automation@company.com",
@@ -107,7 +107,7 @@
     "created_ts": "2024-08-23T10:35:00Z",
     "resolved_flag": false
   },
-  {
+  "comment_013": {
     "comment_id": "comment_013",
     "artifact_id": "art_011",
     "author_email": "jake.design@company.com",
@@ -116,7 +116,7 @@
     "created_ts": "2024-08-23T14:30:00Z",
     "resolved_flag": false
   },
-  {
+  "comment_014": {
     "comment_id": "comment_014",
     "artifact_id": "art_012",
     "author_email": "chris.engineer@company.com",
@@ -125,40 +125,40 @@
     "created_ts": "2024-08-23T15:45:00Z",
     "resolved_flag": false
   },
-  {
+  "comment_015": {
     "comment_id": "comment_015",
     "artifact_id": "art_011",
     "author_email": "design-system-bot@company.com",
-    "content": "\ud83d\udd27 DS Fix: Replace custom input with Input-v1.2 component. Code: https://code.company.com/components/input",
+    "content": "🔧 DS Fix: Replace custom input with Input-v1.2 component. Code: https://code.company.com/components/input",
     "source_message_id_nullable": null,
     "created_ts": "2024-08-23T13:50:00Z",
     "resolved_flag": false
   },
-  {
+  "comment_016": {
     "comment_id": "comment_016",
     "artifact_id": "art_011",
     "author_email": "design-system-bot@company.com",
-    "content": "\ud83d\udd27 DS Fix: Upgrade to Button-Primary-v1.3 component. Code: https://code.company.com/components/button",
+    "content": "🔧 DS Fix: Upgrade to Button-Primary-v1.3 component. Code: https://code.company.com/components/button",
     "source_message_id_nullable": null,
     "created_ts": "2024-08-23T13:50:00Z",
     "resolved_flag": false
   },
-  {
+  "comment_017": {
     "comment_id": "comment_017",
     "artifact_id": "art_011",
     "author_email": "accessibility-bot@company.com",
-    "content": "\u267f A11y Fix: Update input text color from #666666 to #333333 to improve contrast ratio from 3.1:1 to 4.5:1",
+    "content": "♿ A11y Fix: Update input text color from #666666 to #333333 to improve contrast ratio from 3.1:1 to 4.5:1",
     "source_message_id_nullable": null,
     "created_ts": "2024-08-23T13:50:00Z",
     "resolved_flag": false
   },
-  {
+  "comment_018": {
     "comment_id": "comment_018",
     "artifact_id": "art_011",
     "author_email": "accessibility-bot@company.com",
-    "content": "\u267f A11y Fix: Increase submit button size from 40x40px to 44x44px for touch accessibility compliance",
+    "content": "♿ A11y Fix: Increase submit button size from 40x40px to 44x44px for touch accessibility compliance",
     "source_message_id_nullable": null,
     "created_ts": "2024-08-23T13:50:00Z",
     "resolved_flag": false
   }
-]
+}

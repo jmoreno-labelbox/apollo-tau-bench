@@ -1,5 +1,5 @@
-[
-  {
+{
+  "cal_001": {
     "calendar_id": "cal_001",
     "employee_id": "emp_dev_03",
     "week": "current",
@@ -8,7 +8,7 @@
     "remaining_hours": 10,
     "leave_hours": 0
   },
-  {
+  "cal_002": {
     "calendar_id": "cal_002",
     "employee_id": "emp_data_01",
     "week": "current",
@@ -17,7 +17,7 @@
     "remaining_hours": 8,
     "leave_hours": 0
   },
-  {
+  "cal_003": {
     "calendar_id": "cal_003",
     "employee_id": "emp_data_02",
     "week": "current",
@@ -26,7 +26,7 @@
     "remaining_hours": 14,
     "leave_hours": 0
   },
-  {
+  "cal_004": {
     "calendar_id": "cal_004",
     "employee_id": "emp_dev_05",
     "week": "current",
@@ -35,7 +35,7 @@
     "remaining_hours": -8,
     "leave_hours": 0
   },
-  {
+  "cal_005": {
     "calendar_id": "cal_005",
     "employee_id": "emp_devops_02",
     "week": "current",
@@ -44,7 +44,7 @@
     "remaining_hours": 4,
     "leave_hours": 0
   },
-  {
+  "cal_006": {
     "calendar_id": "cal_006",
     "employee_id": "emp_devops_04",
     "week": "current",
@@ -53,7 +53,7 @@
     "remaining_hours": 16,
     "leave_hours": 0
   },
-  {
+  "cal_007": {
     "calendar_id": "cal_007",
     "employee_id": "emp_ux_03",
     "week": "current",
@@ -62,7 +62,7 @@
     "remaining_hours": 12,
     "leave_hours": 0
   },
-  {
+  "cal_008": {
     "calendar_id": "cal_008",
     "employee_id": "emp_arch_01",
     "week": "current",
@@ -71,7 +71,7 @@
     "remaining_hours": 6,
     "leave_hours": 0
   },
-  {
+  "cal_009": {
     "calendar_id": "cal_009",
     "employee_id": "emp_analyst_01",
     "week": "current",
@@ -80,7 +80,7 @@
     "remaining_hours": 2,
     "leave_hours": 0
   },
-  {
+  "cal_010": {
     "calendar_id": "cal_010",
     "employee_id": "emp_analyst_03",
     "week": "current",
@@ -89,7 +89,7 @@
     "remaining_hours": 16,
     "leave_hours": 0
   },
-  {
+  "cal_011": {
     "calendar_id": "cal_011",
     "employee_id": "emp_dev_07",
     "week": "current",
@@ -98,7 +98,7 @@
     "remaining_hours": 12,
     "leave_hours": 0
   },
-  {
+  "cal_012": {
     "calendar_id": "cal_012",
     "employee_id": "emp_dev_08",
     "week": "current",
@@ -107,4 +107,4 @@
     "remaining_hours": 14,
     "leave_hours": 0
   }
-]
+}

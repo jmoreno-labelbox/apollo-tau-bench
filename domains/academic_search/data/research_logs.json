@@ -1,5 +1,5 @@
-[
-  {
+{
+  "log_001": {
     "record_log_id": "log_001",
     "investigator_id": "res_01",
     "paper_id": "art_01",
@@ -7,7 +7,7 @@
     "annotations": "Fundamental paper for my current research on code generation. The analysis of the transformer architecture is very detailed.",
     "significance": "high"
   },
-  {
+  "log_002": {
     "record_log_id": "log_002",
     "investigator_id": "res_02",
     "paper_id": "art_03",
@@ -15,7 +15,7 @@
     "annotations": "Good references on CRISPR safety protocols. I need to delve deeper into the section on ethical implications.",
     "significance": "high"
   },
-  {
+  "log_003": {
     "record_log_id": "log_003",
     "investigator_id": "res_02",
     "paper_id": "art_04",
@@ -23,7 +23,7 @@
     "annotations": "Huge potential for diagnostics. I need to verify the detection methodology for the biomarkers.",
     "significance": "medium"
   },
-  {
+  "log_004": {
     "record_log_id": "log_004",
     "investigator_id": "res_04",
     "paper_id": "art_09",
@@ -31,7 +31,7 @@
     "annotations": "Excellent methodology for AI-based diagnosis. The machine learning approach aligns perfectly with our current project goals.",
     "significance": "high"
   },
-  {
+  "log_005": {
     "record_log_id": "log_005",
     "investigator_id": "res_05",
     "paper_id": "art_05",
@@ -39,7 +39,7 @@
     "annotations": "The cosmological simulations provide valuable insights for our dark matter research. Need to compare with our recent observational data.",
     "significance": "high"
   },
-  {
+  "log_006": {
     "record_log_id": "log_006",
     "investigator_id": "res_06",
     "paper_id": "art_06",
@@ -47,7 +47,7 @@
     "annotations": "The aggregation protocol described here could be improved with differential privacy techniques. Worth exploring for our federated learning project.",
     "significance": "medium"
   },
-  {
+  "log_007": {
     "record_log_id": "log_007",
     "investigator_id": "res_03",
     "paper_id": "art_07",
@@ -55,7 +55,7 @@
     "annotations": "The updated analysis addresses most of the concerns from the original paper. The new qubit stability data is particularly relevant.",
     "significance": "high"
   },
-  {
+  "log_008": {
     "record_log_id": "log_008",
     "investigator_id": "res_01",
     "paper_id": "art_12",
@@ -63,4 +63,4 @@
     "annotations": "Interesting intersection of NLP and medical imaging. The multimodal approach shows promise for our code generation research.",
     "significance": "medium"
   }
-]
+}

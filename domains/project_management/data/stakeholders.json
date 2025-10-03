@@ -1,5 +1,5 @@
-[
-  {
+{
+  "sh_001": {
     "stakeholder_id": "sh_001",
     "name": "William Turner",
     "email": "william.turner@company.com",
@@ -11,7 +11,7 @@
       "timeline"
     ]
   },
-  {
+  "sh_002": {
     "stakeholder_id": "sh_002",
     "name": "Emily Robinson",
     "email": "emily.robinson@company.com",
@@ -22,7 +22,7 @@
       "resources"
     ]
   },
-  {
+  "sh_003": {
     "stakeholder_id": "sh_003",
     "name": "Daniel Li",
     "email": "daniel.li@company.com",
@@ -34,7 +34,7 @@
       "timeline"
     ]
   },
-  {
+  "sh_004": {
     "stakeholder_id": "sh_004",
     "name": "Grace Thompson",
     "email": "grace.thompson@company.com",
@@ -45,7 +45,7 @@
       "architecture"
     ]
   },
-  {
+  "sh_005": {
     "stakeholder_id": "sh_005",
     "name": "Christopher Jackson",
     "email": "christopher.jackson@company.com",
@@ -56,4 +56,4 @@
       "compliance"
     ]
   }
-]
+}

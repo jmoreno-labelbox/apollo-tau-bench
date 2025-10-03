@@ -1,5 +1,5 @@
-[
-  {
+{
+  "TS001": {
     "training_session_id": "TS001",
     "team_id": "T001",
     "training_name": "Advanced Python",
@@ -35,7 +35,7 @@
     },
     "notes": "Team lead Chloe Scott completed successfully. Chloe Scott enrolled but needs support."
   },
-  {
+  "TS002": {
     "training_session_id": "TS002",
     "team_id": "T003",
     "training_name": "Project Management Professional (PMP)",
@@ -63,7 +63,7 @@
     },
     "notes": "Harper King successfully completed PMP certification for SRE leadership role."
   },
-  {
+  "TS003": {
     "training_session_id": "TS003",
     "team_id": "T002",
     "training_name": "UX Design Fundamentals",
@@ -91,7 +91,7 @@
     },
     "notes": "Lucas Young completed UX fundamentals to strengthen design leadership."
   },
-  {
+  "TS004": {
     "training_session_id": "TS004",
     "team_id": "T002",
     "training_name": "UX Design Fundamentals",
@@ -119,7 +119,7 @@
     },
     "notes": "Alexander Adams completed UX fundamentals as part of onboarding."
   },
-  {
+  "TS005": {
     "training_session_id": "TS005",
     "team_id": "T008",
     "training_name": "Data Visualization with Tableau",
@@ -146,7 +146,7 @@
     },
     "notes": "Chloe Scott completed Tableau training for People Analytics role."
   },
-  {
+  "TS006": {
     "training_session_id": "TS006",
     "team_id": "T003",
     "training_name": "Advanced Python",
@@ -175,7 +175,7 @@
     },
     "notes": "Lucas Young completed Python training for backend development enhancement."
   },
-  {
+  "TS007": {
     "training_session_id": "TS007",
     "team_id": "T007",
     "training_name": "UX Design Fundamentals",
@@ -203,7 +203,7 @@
     },
     "notes": "Owen Walker completed UX training to enhance instructional design skills."
   },
-  {
+  "TS008": {
     "training_session_id": "TS008",
     "team_id": "T005",
     "training_name": "Climate Science & Policy",
@@ -231,7 +231,7 @@
     },
     "notes": "David Adams completed climate policy training for compliance role enhancement."
   },
-  {
+  "TS009": {
     "training_session_id": "TS009",
     "team_id": "T004",
     "training_name": "Agile Product Management",
@@ -256,7 +256,7 @@
     },
     "notes": "Jack Wang learning agile methodologies for product marketing transition."
   },
-  {
+  "TS010": {
     "training_session_id": "TS010",
     "team_id": "T006",
     "training_name": "Data Visualization with Tableau",
@@ -281,7 +281,7 @@
     },
     "notes": "Henry Hassan learning data visualization for UX writing enhancement."
   },
-  {
+  "TS011": {
     "training_session_id": "TS011",
     "team_id": "T007",
     "training_name": "Project Management Professional (PMP)",
@@ -306,4 +306,4 @@
     },
     "notes": "Logan Garcia enrolled in PMP for L&D leadership development."
   }
-]
+}

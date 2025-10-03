@@ -1,5 +1,5 @@
-[
-  {
+{
+  "pr_001": {
     "id": "pr_001",
     "repository_id": "repo_001",
     "number": 15,
@@ -13,7 +13,7 @@
     "merged_at": "2025-01-25T13:45:00Z",
     "closed_at": "2025-01-25T13:45:00Z"
   },
-  {
+  "pr_002": {
     "id": "pr_002",
     "repository_id": "repo_001",
     "number": 16,
@@ -27,7 +27,7 @@
     "merged_at": "2025-01-25T13:30:00Z",
     "closed_at": "2025-01-25T13:30:00Z"
   },
-  {
+  "pr_003": {
     "id": "pr_003",
     "repository_id": "repo_002",
     "number": 8,
@@ -41,7 +41,7 @@
     "merged_at": "2025-01-20T08:45:00Z",
     "closed_at": "2025-01-20T08:45:00Z"
   },
-  {
+  "pr_004": {
     "id": "pr_004",
     "repository_id": "repo_003",
     "number": 12,
@@ -55,7 +55,7 @@
     "merged_at": "2025-01-26T10:15:00Z",
     "closed_at": "2025-01-26T10:15:00Z"
   },
-  {
+  "pr_005": {
     "id": "pr_005",
     "repository_id": "repo_004",
     "number": 5,
@@ -69,7 +69,7 @@
     "merged_at": "2025-01-20T08:30:00Z",
     "closed_at": "2025-01-20T08:30:00Z"
   },
-  {
+  "pr_006": {
     "id": "pr_006",
     "repository_id": "repo_005",
     "number": 22,
@@ -83,7 +83,7 @@
     "merged_at": "2025-01-26T07:45:00Z",
     "closed_at": "2025-01-26T07:45:00Z"
   },
-  {
+  "pr_007": {
     "id": "pr_007",
     "repository_id": "repo_006",
     "number": 18,
@@ -97,7 +97,7 @@
     "merged_at": "2025-01-25T15:45:00Z",
     "closed_at": "2025-01-25T15:45:00Z"
   },
-  {
+  "pr_008": {
     "id": "pr_008",
     "repository_id": "repo_007",
     "number": 31,
@@ -111,7 +111,7 @@
     "merged_at": "2025-01-27T11:45:00Z",
     "closed_at": "2025-01-27T11:45:00Z"
   },
-  {
+  "pr_009": {
     "id": "pr_009",
     "repository_id": "repo_008",
     "number": 14,
@@ -125,7 +125,7 @@
     "merged_at": "2025-01-26T09:45:00Z",
     "closed_at": "2025-01-26T09:45:00Z"
   },
-  {
+  "pr_010": {
     "id": "pr_010",
     "repository_id": "repo_009",
     "number": 9,
@@ -139,7 +139,7 @@
     "merged_at": "2025-01-25T17:15:00Z",
     "closed_at": "2025-01-25T17:15:00Z"
   },
-  {
+  "pr_011": {
     "id": "pr_011",
     "repository_id": "repo_010",
     "number": 7,
@@ -153,7 +153,7 @@
     "merged_at": "2025-01-17T09:30:00Z",
     "closed_at": "2025-01-17T09:30:00Z"
   },
-  {
+  "pr_012": {
     "id": "pr_012",
     "repository_id": "repo_001",
     "number": 17,
@@ -167,7 +167,7 @@
     "merged_at": "2025-01-25T13:15:00Z",
     "closed_at": "2025-01-25T13:15:00Z"
   },
-  {
+  "pr_013": {
     "id": "pr_013",
     "repository_id": "repo_002",
     "number": 9,
@@ -181,7 +181,7 @@
     "merged_at": "2025-01-20T08:30:00Z",
     "closed_at": "2025-01-20T08:30:00Z"
   },
-  {
+  "pr_014": {
     "id": "pr_014",
     "repository_id": "repo_003",
     "number": 13,
@@ -195,7 +195,7 @@
     "merged_at": null,
     "closed_at": null
   },
-  {
+  "pr_015": {
     "id": "pr_015",
     "repository_id": "repo_004",
     "number": 6,
@@ -209,7 +209,7 @@
     "merged_at": "2025-01-20T08:15:00Z",
     "closed_at": "2025-01-20T08:15:00Z"
   },
-  {
+  "pr_016": {
     "id": "pr_016",
     "repository_id": "repo_005",
     "number": 23,
@@ -223,7 +223,7 @@
     "merged_at": null,
     "closed_at": "2025-01-26T08:20:00Z"
   },
-  {
+  "pr_017": {
     "id": "pr_017",
     "repository_id": "repo_006",
     "number": 19,
@@ -237,7 +237,7 @@
     "merged_at": "2025-01-25T15:30:00Z",
     "closed_at": "2025-01-25T15:30:00Z"
   },
-  {
+  "pr_018": {
     "id": "pr_018",
     "repository_id": "repo_007",
     "number": 32,
@@ -251,7 +251,7 @@
     "merged_at": null,
     "closed_at": null
   },
-  {
+  "pr_019": {
     "id": "pr_019",
     "repository_id": "repo_008",
     "number": 15,
@@ -265,7 +265,7 @@
     "merged_at": "2025-01-26T09:30:00Z",
     "closed_at": "2025-01-26T09:30:00Z"
   },
-  {
+  "pr_020": {
     "id": "pr_020",
     "repository_id": "repo_009",
     "number": 10,
@@ -279,4 +279,4 @@
     "merged_at": null,
     "closed_at": null
   }
-]
+}

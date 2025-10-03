@@ -1,55 +1,5 @@
-[
-  {
-    "operation_id": "dir_op_001",
-    "file_id": "file_001",
-    "filename": "sales_data.csv",
-    "filepath": "/data/unsorted/sales_data.csv",
-    "filedestination": "/data/sorted/csv/sales_data.csv",
-    "size": "15728640",
-    "checksum": "1a2b3c4d5e6f789012345678901234567890abcd",
-    "status": "pending"
-  },
-  {
-    "operation_id": "dir_op_001",
-    "file_id": "file_002",
-    "filename": "customer_info.csv",
-    "filepath": "/data/unsorted/customer_info.csv",
-    "filedestination": "/data/sorted/csv/customer_info.csv",
-    "size": "8912345",
-    "checksum": "2b3c4d5e6f789012345678901234567890abcde1",
-    "status": "pending"
-  },
-  {
-    "operation_id": "dir_op_001",
-    "file_id": "file_003",
-    "filename": "inventory.dat",
-    "filepath": "/data/unsorted/inventory.dat",
-    "filedestination": "/data/sorted/dat/inventory.dat",
-    "size": "25165824",
-    "checksum": "3c4d5e6f789012345678901234567890abcdef12",
-    "status": "pending"
-  },
-  {
-    "operation_id": "dir_op_001",
-    "file_id": "file_004",
-    "filename": "config.json",
-    "filepath": "/data/unsorted/config.json",
-    "filedestination": "/data/sorted/json/config.json",
-    "size": "4096",
-    "checksum": "4d5e6f789012345678901234567890abcdef123",
-    "status": "pending"
-  },
-  {
-    "operation_id": "dir_op_001",
-    "file_id": "file_005",
-    "filename": "readme.txt",
-    "filepath": "/data/unsorted/readme.txt",
-    "filedestination": "/data/sorted/miscellaneous/readme.txt",
-    "size": "2048",
-    "checksum": "5e6f789012345678901234567890abcdef1234",
-    "status": "pending"
-  },
-  {
+{
+  "dir_op_001": {
     "operation_id": "dir_op_001",
     "file_id": "file_006",
     "filename": "data.csv",
@@ -61,17 +11,7 @@
     "conflict_resolved": true,
     "original_name": "data.csv"
   },
-  {
-    "operation_id": "dir_op_002",
-    "file_id": "file_007",
-    "filename": "project_spec.pdf",
-    "filepath": "/tmp/project_files/project_spec.pdf",
-    "filedestination": "/archive/projects/documents/project_spec.pdf",
-    "size": "5242880",
-    "checksum": "7089012345678901234567890abcdef123456",
-    "status": "completed"
-  },
-  {
+  "dir_op_002": {
     "operation_id": "dir_op_002",
     "file_id": "file_008",
     "filename": "main.py",
@@ -81,4 +21,4 @@
     "checksum": "8912345678901234567890abcdef1234567",
     "status": "completed"
   }
-]
+}

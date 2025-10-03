@@ -1,5 +1,5 @@
-[
-  {
+{
+  "change_001": {
     "id": "change_001",
     "commit_sha": "abc123def456789",
     "repo": "game-engine",
@@ -37,7 +37,7 @@
       "memory_usage": "reduced_10_percent"
     }
   },
-  {
+  "change_002": {
     "id": "change_002",
     "commit_sha": "def456abc123789",
     "repo": "game-engine",
@@ -72,7 +72,7 @@
       "regression_fix": true
     }
   },
-  {
+  "change_003": {
     "id": "change_003",
     "commit_sha": "ghi789def456abc",
     "repo": "game-engine",
@@ -111,7 +111,7 @@
       "accuracy_improvement": "collision_detection_15_percent"
     }
   },
-  {
+  "change_004": {
     "id": "change_004",
     "commit_sha": "jkl012ghi789def",
     "repo": "game-assets",
@@ -149,7 +149,7 @@
       "texture_resolution": "2048x2048"
     }
   },
-  {
+  "change_005": {
     "id": "change_005",
     "commit_sha": "mno345jkl012ghi",
     "repo": "game-localization",
@@ -189,7 +189,7 @@
       "strings_modified": 5
     }
   },
-  {
+  "change_006": {
     "id": "change_006",
     "commit_sha": "pqr678mno345jkl",
     "repo": "game-engine",
@@ -228,7 +228,7 @@
       "audio_quality": "maintained"
     }
   },
-  {
+  "change_007": {
     "id": "change_007",
     "commit_sha": "stu901pqr678mno",
     "repo": "game-engine",
@@ -267,7 +267,7 @@
       "timeout_threshold": "increased_30_seconds"
     }
   },
-  {
+  "change_008": {
     "id": "change_008",
     "commit_sha": "vwx234stu901pqr",
     "repo": "game-engine",
@@ -310,7 +310,7 @@
       "performance_overhead": "minimal_2_percent"
     }
   },
-  {
+  "change_009": {
     "id": "change_009",
     "commit_sha": "yza567vwx234stu",
     "repo": "game-assets",
@@ -348,7 +348,7 @@
       "lod_levels": 3
     }
   },
-  {
+  "change_010": {
     "id": "change_010",
     "commit_sha": "bcd890yza567vwx",
     "repo": "game-engine",
@@ -391,4 +391,4 @@
       ]
     }
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "E10001": {
     "employee_id": "E10001",
     "first_name": "Sophia",
     "last_name": "Nguyen",
@@ -36,7 +36,7 @@
     "role_description": "Chief Technology Officer overseeing all engineering functions.",
     "notes": "Founder-level equity grant."
   },
-  {
+  "E10002": {
     "employee_id": "E10002",
     "first_name": "Daniel",
     "last_name": "Kim",
@@ -53,9 +53,9 @@
     "department_id": "DEPT1002",
     "level_id": "L.5",
     "manager_id": "E10012",
-    "work_location": "New\u00a0York\u00a0Office",
+    "work_location": "New York Office",
     "work_email": "michael.park@example.com",
-    "work_phone": "+1\u2011212\u2011555\u20110144",
+    "work_phone": "+1‑212‑555‑0144",
     "compensation_id": "COMP2002",
     "benefit_plan_ids": [
       "BEN4001",
@@ -65,14 +65,14 @@
       "PR5002"
     ],
     "skills": [
-      "Sales\u00a0Strategy",
+      "Sales Strategy",
       "CRM",
       "Negotiation"
     ],
     "role_description": "Regional VP of Sales for the Eastern territory.",
-    "notes": "High performer\u2014President's Club 2023."
+    "notes": "High performer—President's Club 2023."
   },
-  {
+  "E10003": {
     "employee_id": "E10003",
     "first_name": "Amelia",
     "last_name": "Garcia",
@@ -89,9 +89,9 @@
     "department_id": "DEPT1005",
     "level_id": "L.3",
     "manager_id": "E10001",
-    "work_location": "Remote \u2013\u00a0Austin,\u00a0TX",
+    "work_location": "Remote – Austin, TX",
     "work_email": "emma.rodriguez@example.com",
-    "work_phone": "+1\u2011737\u2011555\u20110188",
+    "work_phone": "+1‑737‑555‑0188",
     "compensation_id": "COMP2003",
     "benefit_plan_ids": [
       "BEN4001",
@@ -107,10 +107,10 @@
       "React",
       "Accessibility"
     ],
-    "role_description": "Senior Front\u2011end Engineer on the web platform team.",
-    "notes": "On parental leave 2024\u201111\u201101 \u2192\u00a02025\u201102\u201101."
+    "role_description": "Senior Front‑end Engineer on the web platform team.",
+    "notes": "On parental leave 2024‑11‑01 → 2025‑02‑01."
   },
-  {
+  "E10004": {
     "employee_id": "E10004",
     "first_name": "Rahul",
     "last_name": "Singh",
@@ -127,9 +127,9 @@
     "department_id": "DEPT1001",
     "level_id": "L.2",
     "manager_id": "E10003",
-    "work_location": "Remote \u2013\u00a0Bangalore",
+    "work_location": "Remote – Bangalore",
     "work_email": "arjun.patel@example.com",
-    "work_phone": "+91\u201180\u20115550\u20111122",
+    "work_phone": "+91‑80‑5550‑1122",
     "compensation_id": "COMP2004",
     "benefit_plan_ids": [
       "BEN4001",
@@ -144,10 +144,10 @@
       "Kubernetes",
       "CI/CD"
     ],
-    "role_description": "Backend Engineer focusing on micro\u2011services.",
-    "notes": "Visa sponsored (H\u20111B)."
+    "role_description": "Backend Engineer focusing on micro‑services.",
+    "notes": "Visa sponsored (H‑1B)."
   },
-  {
+  "E10005": {
     "employee_id": "E10005",
     "first_name": "Elena",
     "last_name": "Rodriguez",
@@ -164,9 +164,9 @@
     "department_id": "DEPT1004",
     "level_id": "L.1",
     "manager_id": "E10011",
-    "work_location": "Madrid\u00a0Office",
+    "work_location": "Madrid Office",
     "work_email": "olivia.martinez@example.com",
-    "work_phone": "+34\u201191\u2011555\u20110200",
+    "work_phone": "+34‑91‑555‑0200",
     "compensation_id": "COMP2005",
     "benefit_plan_ids": [
       "BEN4001",
@@ -174,14 +174,14 @@
     ],
     "performance_review_ids": [],
     "skills": [
-      "Financial\u00a0Modeling",
+      "Financial Modeling",
       "SQL",
       "Excel"
     ],
     "role_description": "Junior Financial Analyst supporting quarterly forecasts.",
-    "notes": "Recent graduate\u2014ESADE Business School."
+    "notes": "Recent graduate—ESADE Business School."
   },
-  {
+  "E10006": {
     "employee_id": "E10006",
     "first_name": "Marcus",
     "last_name": "Chen",
@@ -218,7 +218,7 @@
     "role_description": "Senior Product Manager leading the analytics platform initiatives.",
     "notes": "Previously led successful product launches at major tech companies."
   },
-  {
+  "E99999": {
     "employee_id": "E99999",
     "first_name": "Andrian",
     "last_name": "Roberts",
@@ -250,4 +250,4 @@
     "role_description": "Backend Engineer (contract-to-hire).",
     "notes": ""
   }
-]
+}

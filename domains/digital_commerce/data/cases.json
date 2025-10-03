@@ -1,5 +1,5 @@
-[
-    {
+{
+    "5001": {
         "case_id": "5001",
         "contact_id": "204",
         "account_id": "103",
@@ -8,7 +8,7 @@
         "status": "Resolved",
         "priority": "Low"
     },
-    {
+    "5002": {
         "case_id": "5002",
         "contact_id": "204",
         "account_id": "103",
@@ -17,7 +17,7 @@
         "status": "New",
         "priority": "Medium"
     },
-    {
+    "5003": {
         "case_id": "5003",
         "contact_id": "201",
         "account_id": "101",
@@ -26,7 +26,7 @@
         "status": "In Progress",
         "priority": "Medium"
     },
-    {
+    "5004": {
         "case_id": "5004",
         "contact_id": "201",
         "account_id": "101",
@@ -35,7 +35,7 @@
         "status": "New",
         "priority": "Low"
     },
-    {
+    "5005": {
         "case_id": "5005",
         "contact_id": "206",
         "account_id": "105",
@@ -44,7 +44,7 @@
         "status": "New",
         "priority": "Medium"
     },
-    {
+    "5006": {
         "case_id": "5006",
         "contact_id": "201",
         "account_id": "101",
@@ -54,7 +54,7 @@
         "priority": "Medium",
         "created_at": "2025-07-01T10:00:00Z"
     },
-    {
+    "5007": {
         "case_id": "5007",
         "contact_id": "207",
         "account_id": "106",
@@ -64,7 +64,7 @@
         "status": "New",
         "priority": "Medium"
     },
-    {
+    "5008": {
         "case_id": "5008",
         "contact_id": "213",
         "account_id": "112",
@@ -73,4 +73,4 @@
         "status": "New",
         "priority": "High"
     }
-]
+}

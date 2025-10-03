@@ -1,0 +1,336 @@
+[
+  {
+    "job_id": "J001",
+    "title": "Senior Data Scientist",
+    "company": "TechCorp Inc.",
+    "department": "Data Science",
+    "location": "Oakland, CA",
+    "job_type": "Full-time",
+    "remote_option": "Hybrid",
+    "salary_range": "$140,000 - $180,000",
+    "experience_level": "Senior",
+    "required_skills": [
+      {
+        "skill": "Machine Learning",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      },
+      {
+        "skill": "Python",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      },
+      {
+        "skill": "SQL",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      },
+      {
+        "skill": "Statistical Analysis",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      }
+    ],
+    "preferred_skills": [
+      {
+        "skill": "Deep Learning",
+        "proficiency_required": "Intermediate",
+        "importance": "Highly Preferred"
+      },
+      {
+        "skill": "AWS",
+        "proficiency_required": "Intermediate",
+        "importance": "Preferred"
+      }
+    ],
+    "required_certifications": [
+      "Google Data Analytics"
+    ],
+    "preferred_certifications": [
+      "AWS Machine Learning Specialty"
+    ],
+    "responsibilities": [
+      "Develop and deploy machine learning models",
+      "Lead data science initiatives",
+      "Mentor junior data scientists",
+      "Collaborate with cross-functional teams"
+    ],
+    "posted_date": "2024-09-15",
+    "application_deadline": "2024-10-15",
+    "status": "Active",
+    "hiring_manager": "U301",
+    "applications_received": 4,
+    "internal_candidates": [
+      "U302",
+      "U310"
+    ],
+    "external_candidates": [
+      "EXT001",
+      "EXT002"
+    ]
+  },
+  {
+    "job_id": "J002",
+    "title": "UX Design Lead",
+    "company": "TechCorp Inc.",
+    "department": "Product Design",
+    "location": "Remote",
+    "job_type": "Full-time",
+    "remote_option": "Remote",
+    "salary_range": "$120,000 - $150,000",
+    "experience_level": "Senior",
+    "required_skills": [
+      {
+        "skill": "Design Operations",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      },
+      {
+        "skill": "Figma",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      },
+      {
+        "skill": "User Research",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      },
+      {
+        "skill": "Leadership",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      }
+    ],
+    "preferred_skills": [
+      {
+        "skill": "Design Systems",
+        "proficiency_required": "Advanced",
+        "importance": "Highly Preferred"
+      },
+      {
+        "skill": "Accessibility",
+        "proficiency_required": "Intermediate",
+        "importance": "Preferred"
+      }
+    ],
+    "required_certifications": [
+      "NN/g UX Certification"
+    ],
+    "preferred_certifications": [],
+    "responsibilities": [
+      "Lead design operations and processes",
+      "Manage design team and projects",
+      "Establish design standards and systems",
+      "Collaborate with product and engineering teams"
+    ],
+    "posted_date": "2024-09-10",
+    "application_deadline": "2024-10-10",
+    "status": "Active",
+    "hiring_manager": "U304",
+    "applications_received": 2,
+    "internal_candidates": [
+      "U307"
+    ],
+    "external_candidates": [
+      "EXT003"
+    ]
+  },
+  {
+    "job_id": "J003",
+    "title": "DevOps Engineer",
+    "company": "TechCorp Inc.",
+    "department": "Engineering",
+    "location": "Portland, OR",
+    "job_type": "Full-time",
+    "remote_option": "Onsite",
+    "salary_range": "$110,000 - $140,000",
+    "experience_level": "Mid-level",
+    "required_skills": [
+      {
+        "skill": "Docker",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      },
+      {
+        "skill": "Kubernetes",
+        "proficiency_required": "Intermediate",
+        "importance": "Critical"
+      },
+      {
+        "skill": "AWS",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      },
+      {
+        "skill": "CI/CD",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      }
+    ],
+    "preferred_skills": [
+      {
+        "skill": "Terraform",
+        "proficiency_required": "Intermediate",
+        "importance": "Highly Preferred"
+      },
+      {
+        "skill": "Site Reliability Engineering",
+        "proficiency_required": "Beginner",
+        "importance": "Preferred"
+      }
+    ],
+    "required_certifications": [
+      "AWS SAA"
+    ],
+    "preferred_certifications": [
+      "AWS DevOps Professional"
+    ],
+    "responsibilities": [
+      "Manage cloud infrastructure",
+      "Implement CI/CD pipelines",
+      "Monitor system performance",
+      "Collaborate with development teams"
+    ],
+    "posted_date": "2024-09-05",
+    "application_deadline": "2024-10-05",
+    "status": "Active",
+    "hiring_manager": "U312",
+    "applications_received": 2,
+    "internal_candidates": [
+      "U306"
+    ],
+    "external_candidates": [
+      "EXT004"
+    ]
+  },
+  {
+    "job_id": "J004",
+    "title": "Product Marketing Specialist",
+    "company": "TechCorp Inc.",
+    "department": "Marketing",
+    "location": "San Diego, CA",
+    "job_type": "Full-time",
+    "remote_option": "Hybrid",
+    "salary_range": "$90,000 - $120,000",
+    "experience_level": "Mid-level",
+    "required_skills": [
+      {
+        "skill": "Product Marketing",
+        "proficiency_required": "Intermediate",
+        "importance": "Critical"
+      },
+      {
+        "skill": "Market Research",
+        "proficiency_required": "Intermediate",
+        "importance": "Critical"
+      },
+      {
+        "skill": "Data Analytics",
+        "proficiency_required": "Intermediate",
+        "importance": "Critical"
+      },
+      {
+        "skill": "Storytelling",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      }
+    ],
+    "preferred_skills": [
+      {
+        "skill": "Agile Methodologies",
+        "proficiency_required": "Intermediate",
+        "importance": "Highly Preferred"
+      },
+      {
+        "skill": "Brand Positioning",
+        "proficiency_required": "Intermediate",
+        "importance": "Preferred"
+      }
+    ],
+    "required_certifications": [],
+    "preferred_certifications": [
+      "Agile Product Management"
+    ],
+    "responsibilities": [
+      "Develop product marketing strategies",
+      "Create marketing materials and campaigns",
+      "Analyze market trends and competition",
+      "Collaborate with product and sales teams"
+    ],
+    "posted_date": "2024-09-12",
+    "application_deadline": "2024-10-12",
+    "status": "Active",
+    "hiring_manager": "U305",
+    "applications_received": 1,
+    "internal_candidates": [],
+    "external_candidates": [
+      "EXT005"
+    ]
+  },
+  {
+    "job_id": "J005",
+    "title": "Cloud Security Compliance Specialist",
+    "company": "TechCorp Inc.",
+    "department": "Risk & Compliance",
+    "location": "Milwaukee, WI",
+    "job_type": "Full-time",
+    "remote_option": "Hybrid",
+    "salary_range": "$100,000 - $130,000",
+    "experience_level": "Mid-level",
+    "required_skills": [
+      {
+        "skill": "Cloud Security",
+        "proficiency_required": "Intermediate",
+        "importance": "Critical"
+      },
+      {
+        "skill": "GRC Tools",
+        "proficiency_required": "Intermediate",
+        "importance": "Critical"
+      },
+      {
+        "skill": "Policy Writing",
+        "proficiency_required": "Intermediate",
+        "importance": "Critical"
+      },
+      {
+        "skill": "Regulatory Research",
+        "proficiency_required": "Advanced",
+        "importance": "Critical"
+      }
+    ],
+    "preferred_skills": [
+      {
+        "skill": "AWS Security",
+        "proficiency_required": "Intermediate",
+        "importance": "Highly Preferred"
+      },
+      {
+        "skill": "Terraform",
+        "proficiency_required": "Beginner",
+        "importance": "Preferred"
+      }
+    ],
+    "required_certifications": [
+      "CCEP"
+    ],
+    "preferred_certifications": [
+      "AWS Security Specialty"
+    ],
+    "responsibilities": [
+      "Ensure cloud security compliance",
+      "Develop and implement security policies",
+      "Conduct security audits and assessments",
+      "Stay updated on regulatory requirements"
+    ],
+    "posted_date": "2024-09-08",
+    "application_deadline": "2024-10-08",
+    "status": "Active",
+    "hiring_manager": "U303",
+    "applications_received": 1,
+    "internal_candidates": [],
+    "external_candidates": [
+      "EXT006"
+    ]
+  }
+]

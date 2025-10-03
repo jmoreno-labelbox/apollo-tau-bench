@@ -1,5 +1,5 @@
-[
-  {
+{
+  "finding_ds_001": {
     "finding_id": "finding_ds_001",
     "audit_id": "audit_003",
     "layer_id": "1:15",
@@ -9,7 +9,7 @@
     "code_connect_link_nullable": "https://code.company.com/components/button",
     "severity": "HIGH"
   },
-  {
+  "finding_ds_002": {
     "finding_id": "finding_ds_002",
     "audit_id": "audit_003",
     "layer_id": "1:16",
@@ -19,7 +19,7 @@
     "code_connect_link_nullable": null,
     "severity": "MEDIUM"
   },
-  {
+  "finding_ds_003": {
     "finding_id": "finding_ds_003",
     "audit_id": "audit_006",
     "layer_id": "4:10",
@@ -29,7 +29,7 @@
     "code_connect_link_nullable": "https://code.company.com/components/table",
     "severity": "LOW"
   },
-  {
+  "finding_ds_004": {
     "finding_id": "finding_ds_004",
     "audit_id": "audit_008",
     "layer_id": "2:8",
@@ -39,7 +39,7 @@
     "code_connect_link_nullable": "https://code.company.com/components/avatar",
     "severity": "HIGH"
   },
-  {
+  "finding_ds_005": {
     "finding_id": "finding_ds_005",
     "audit_id": "audit_010",
     "layer_id": "5:5",
@@ -49,7 +49,7 @@
     "code_connect_link_nullable": null,
     "severity": "MEDIUM"
   },
-  {
+  "finding_ds_006": {
     "finding_id": "finding_ds_006",
     "audit_id": "audit_003",
     "layer_id": "1:17",
@@ -59,7 +59,7 @@
     "code_connect_link_nullable": "https://code.company.com/components/modal",
     "severity": "LOW"
   },
-  {
+  "finding_ds_007": {
     "finding_id": "finding_ds_007",
     "audit_id": "audit_006",
     "layer_id": "4:11",
@@ -69,7 +69,7 @@
     "code_connect_link_nullable": "https://code.company.com/components/pagination",
     "severity": "HIGH"
   },
-  {
+  "finding_ds_008": {
     "finding_id": "finding_ds_008",
     "audit_id": "audit_008",
     "layer_id": "2:9",
@@ -79,7 +79,7 @@
     "code_connect_link_nullable": null,
     "severity": "MEDIUM"
   },
-  {
+  "finding_ds_009": {
     "finding_id": "finding_ds_009",
     "audit_id": "audit_010",
     "layer_id": "5:6",
@@ -89,7 +89,7 @@
     "code_connect_link_nullable": "https://code.company.com/components/typography",
     "severity": "LOW"
   },
-  {
+  "finding_ds_010": {
     "finding_id": "finding_ds_010",
     "audit_id": "audit_003",
     "layer_id": "1:18",
@@ -99,7 +99,7 @@
     "code_connect_link_nullable": "https://code.company.com/components/navigation",
     "severity": "HIGH"
   },
-  {
+  "finding_ds_011": {
     "finding_id": "finding_ds_011",
     "audit_id": "audit_011",
     "layer_id": "1:20",
@@ -109,7 +109,7 @@
     "code_connect_link_nullable": "https://code.company.com/components/input",
     "severity": "HIGH"
   },
-  {
+  "finding_ds_012": {
     "finding_id": "finding_ds_012",
     "audit_id": "audit_011",
     "layer_id": "1:21",
@@ -119,7 +119,7 @@
     "code_connect_link_nullable": "https://code.company.com/components/button",
     "severity": "MEDIUM"
   },
-  {
+  "finding_ds_013": {
     "finding_id": "finding_ds_013",
     "audit_id": "audit_011",
     "layer_id": "1:22",
@@ -129,7 +129,7 @@
     "code_connect_link_nullable": null,
     "severity": "LOW"
   },
-  {
+  "finding_ds_014": {
     "finding_id": "finding_ds_014",
     "audit_id": "audit_012",
     "layer_id": "2:10",
@@ -139,7 +139,7 @@
     "code_connect_link_nullable": "https://code.company.com/components/toggle",
     "severity": "HIGH"
   },
-  {
+  "finding_ds_015": {
     "finding_id": "finding_ds_015",
     "audit_id": "audit_012",
     "layer_id": "2:11",
@@ -149,4 +149,4 @@
     "code_connect_link_nullable": "https://code.company.com/components/card",
     "severity": "MEDIUM"
   }
-]
+}

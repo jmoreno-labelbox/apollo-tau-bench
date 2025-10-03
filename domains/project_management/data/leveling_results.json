@@ -1,5 +1,5 @@
-[
-  {
+{
+  "level_001": {
     "result_id": "level_001",
     "project_id": "proj_mobile_01",
     "resource_constraints": {
@@ -27,7 +27,7 @@
     ],
     "created_date": "2024-02-28T10:00:00Z"
   },
-  {
+  "level_002": {
     "result_id": "level_002",
     "project_id": "proj_ai_01",
     "resource_constraints": {
@@ -43,4 +43,4 @@
     "leveling_changes": [],
     "created_date": "2024-03-05T14:00:00Z"
   }
-]
+}

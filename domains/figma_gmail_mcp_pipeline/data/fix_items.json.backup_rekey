@@ -1,0 +1,202 @@
+[
+  {
+    "item_id": "item_001",
+    "plan_id": "plan_001",
+    "finding_id": "finding_a11y_001",
+    "proposed_change_type": "SPACING_ADJUST",
+    "proposed_change_details_json": "{\"action\": \"increase_button_size\", \"from\": \"32x32px\", \"to\": \"44x44px\", \"reason\": \"Touch accessibility compliance\"}",
+    "status": "APPLIED",
+    "external_ticket_ref_nullable": "JIRA-1234",
+    "figma_comment_id_nullable": "comment_006"
+  },
+  {
+    "item_id": "item_002",
+    "plan_id": "plan_001",
+    "finding_id": "finding_a11y_002",
+    "proposed_change_type": "TOKEN_SWAP",
+    "proposed_change_details_json": "{\"action\": \"update_text_color\", \"from\": \"#666666\", \"to\": \"#333333\", \"reason\": \"Improve contrast ratio\"}",
+    "status": "APPLIED",
+    "external_ticket_ref_nullable": "JIRA-1235",
+    "figma_comment_id_nullable": null
+  },
+  {
+    "item_id": "item_003",
+    "plan_id": "plan_002",
+    "finding_id": "finding_ds_001",
+    "proposed_change_type": "COMPONENT_SWAP",
+    "proposed_change_details_json": "{\"action\": \"replace_with_component\", \"component\": \"Button-Primary-v1.2\", \"reason\": \"Design system compliance\"}",
+    "status": "PENDING",
+    "external_ticket_ref_nullable": null,
+    "figma_comment_id_nullable": "comment_009"
+  },
+  {
+    "item_id": "item_004",
+    "plan_id": "plan_003",
+    "finding_id": "finding_a11y_003",
+    "proposed_change_type": "SPACING_ADJUST",
+    "proposed_change_details_json": "{\"action\": \"increase_font_size\", \"from\": \"12px\", \"to\": \"16px\", \"reason\": \"Improve readability\"}",
+    "status": "APPLIED",
+    "external_ticket_ref_nullable": "JIRA-1236",
+    "figma_comment_id_nullable": null
+  },
+  {
+    "item_id": "item_005",
+    "plan_id": "plan_004",
+    "finding_id": "finding_ds_003",
+    "proposed_change_type": "COMPONENT_SWAP",
+    "proposed_change_details_json": "{\"action\": \"replace_with_component\", \"component\": \"Table-Header-v2.5\", \"reason\": \"Design system compliance\"}",
+    "status": "DEFERRED",
+    "external_ticket_ref_nullable": "JIRA-1237",
+    "figma_comment_id_nullable": "comment_007"
+  },
+  {
+    "item_id": "item_006",
+    "plan_id": "plan_005",
+    "finding_id": "finding_ds_004",
+    "proposed_change_type": "COMPONENT_SWAP",
+    "proposed_change_details_json": "{\"action\": \"replace_with_component\", \"component\": \"Avatar-v1.0\", \"reason\": \"Design system compliance\"}",
+    "status": "APPLIED",
+    "external_ticket_ref_nullable": "JIRA-1238",
+    "figma_comment_id_nullable": "comment_004"
+  },
+  {
+    "item_id": "item_007",
+    "plan_id": "plan_006",
+    "finding_id": "finding_a11y_005",
+    "proposed_change_type": "TOKEN_SWAP",
+    "proposed_change_details_json": "{\"action\": \"update_button_color\", \"from\": \"#007bff\", \"to\": \"#0056b3\", \"reason\": \"Improve contrast ratio\"}",
+    "status": "PENDING",
+    "external_ticket_ref_nullable": null,
+    "figma_comment_id_nullable": null
+  },
+  {
+    "item_id": "item_008",
+    "plan_id": "plan_007",
+    "finding_id": "finding_a11y_004",
+    "proposed_change_type": "SPACING_ADJUST",
+    "proposed_change_details_json": "{\"action\": \"implement_flexible_layout\", \"reason\": \"Support RTL languages\"}",
+    "status": "APPLIED",
+    "external_ticket_ref_nullable": "JIRA-1239",
+    "figma_comment_id_nullable": null
+  },
+  {
+    "item_id": "item_009",
+    "plan_id": "plan_008",
+    "finding_id": "finding_ds_005",
+    "proposed_change_type": "COMPONENT_SWAP",
+    "proposed_change_details_json": "{\"action\": \"replace_with_component\", \"component\": \"Logo-v2.0\", \"reason\": \"Design system compliance\"}",
+    "status": "DEFERRED",
+    "external_ticket_ref_nullable": "JIRA-1240",
+    "figma_comment_id_nullable": null
+  },
+  {
+    "item_id": "item_010",
+    "plan_id": "plan_010",
+    "finding_id": "finding_a11y_006",
+    "proposed_change_type": "SPACING_ADJUST",
+    "proposed_change_details_json": "{\"action\": \"increase_search_icon_size\", \"from\": \"40x40px\", \"to\": \"44x44px\", \"reason\": \"Touch accessibility compliance\"}",
+    "status": "APPLIED",
+    "external_ticket_ref_nullable": "JIRA-1241",
+    "figma_comment_id_nullable": null
+  },
+  {
+    "item_id": "item_011",
+    "plan_id": "plan_011",
+    "finding_id": "finding_ds_011",
+    "proposed_change_type": "COMPONENT_SWAP",
+    "proposed_change_details_json": "{\"action\": \"replace_with_component\", \"component\": \"Input-v1.2\", \"code_connect_link\": \"https://code.company.com/components/input\", \"reason\": \"Design system compliance - replace custom input with standardized component\"}",
+    "status": "PENDING",
+    "external_ticket_ref_nullable": null,
+    "figma_comment_id_nullable": "comment_015"
+  },
+  {
+    "item_id": "item_012",
+    "plan_id": "plan_011",
+    "finding_id": "finding_ds_012",
+    "proposed_change_type": "COMPONENT_SWAP",
+    "proposed_change_details_json": "{\"action\": \"replace_with_component\", \"component\": \"Button-Primary-v1.3\", \"code_connect_link\": \"https://code.company.com/components/button\", \"reason\": \"Design system compliance - upgrade to latest button component\"}",
+    "status": "PENDING",
+    "external_ticket_ref_nullable": null,
+    "figma_comment_id_nullable": "comment_016"
+  },
+  {
+    "item_id": "item_013",
+    "plan_id": "plan_011",
+    "finding_id": "finding_ds_013",
+    "proposed_change_type": "COMPONENT_SWAP",
+    "proposed_change_details_json": "{\"action\": \"replace_with_component\", \"component\": \"Form-v1.0\", \"reason\": \"Design system compliance - replace custom form container\"}",
+    "status": "DEFERRED",
+    "external_ticket_ref_nullable": null,
+    "figma_comment_id_nullable": null
+  },
+  {
+    "item_id": "item_014",
+    "plan_id": "plan_011",
+    "finding_id": "finding_a11y_011",
+    "proposed_change_type": "TOKEN_SWAP",
+    "proposed_change_details_json": "{\"action\": \"update_text_color\", \"from\": \"#666666\", \"to\": \"#333333\", \"reason\": \"Improve contrast ratio from 3.1:1 to 4.5:1 for WCAG AA compliance\"}",
+    "status": "PENDING",
+    "external_ticket_ref_nullable": null,
+    "figma_comment_id_nullable": "comment_017"
+  },
+  {
+    "item_id": "item_015",
+    "plan_id": "plan_011",
+    "finding_id": "finding_a11y_012",
+    "proposed_change_type": "SPACING_ADJUST",
+    "proposed_change_details_json": "{\"action\": \"increase_button_size\", \"from\": \"40x40px\", \"to\": \"44x44px\", \"reason\": \"Touch accessibility compliance - minimum touch target size\"}",
+    "status": "PENDING",
+    "external_ticket_ref_nullable": null,
+    "figma_comment_id_nullable": "comment_018"
+  },
+  {
+    "item_id": "item_016",
+    "plan_id": "plan_011",
+    "finding_id": "finding_a11y_013",
+    "proposed_change_type": "SPACING_ADJUST",
+    "proposed_change_details_json": "{\"action\": \"increase_font_size\", \"from\": \"14px\", \"to\": \"16px\", \"reason\": \"Improve readability - minimum font size for body text\"}",
+    "status": "DEFERRED",
+    "external_ticket_ref_nullable": null,
+    "figma_comment_id_nullable": null
+  },
+  {
+    "item_id": "item_017",
+    "plan_id": "plan_012",
+    "finding_id": "finding_ds_014",
+    "proposed_change_type": "COMPONENT_SWAP",
+    "proposed_change_details_json": "{\"action\": \"replace_with_component\", \"component\": \"Toggle-v1.0\", \"code_connect_link\": \"https://code.company.com/components/toggle\", \"reason\": \"Design system compliance - replace custom toggle with standardized component\"}",
+    "status": "PENDING",
+    "external_ticket_ref_nullable": "JIRA-1242",
+    "figma_comment_id_nullable": null
+  },
+  {
+    "item_id": "item_018",
+    "plan_id": "plan_012",
+    "finding_id": "finding_ds_015",
+    "proposed_change_type": "COMPONENT_SWAP",
+    "proposed_change_details_json": "{\"action\": \"replace_with_component\", \"component\": \"Card-v1.1\", \"code_connect_link\": \"https://code.company.com/components/card\", \"reason\": \"Design system compliance - replace custom settings section with card component\"}",
+    "status": "PENDING",
+    "external_ticket_ref_nullable": "JIRA-1243",
+    "figma_comment_id_nullable": null
+  },
+  {
+    "item_id": "item_019",
+    "plan_id": "plan_012",
+    "finding_id": "finding_a11y_014",
+    "proposed_change_type": "SPACING_ADJUST",
+    "proposed_change_details_json": "{\"action\": \"increase_toggle_size\", \"from\": \"32x32px\", \"to\": \"44x44px\", \"reason\": \"Touch accessibility compliance - critical interactive element\"}",
+    "status": "PENDING",
+    "external_ticket_ref_nullable": "JIRA-1244",
+    "figma_comment_id_nullable": null
+  },
+  {
+    "item_id": "item_020",
+    "plan_id": "plan_012",
+    "finding_id": "finding_a11y_015",
+    "proposed_change_type": "TOKEN_SWAP",
+    "proposed_change_details_json": "{\"action\": \"update_text_color\", \"from\": \"#777777\", \"to\": \"#333333\", \"reason\": \"Improve contrast ratio from 2.9:1 to 4.5:1 for WCAG AA compliance\"}",
+    "status": "PENDING",
+    "external_ticket_ref_nullable": "JIRA-1245",
+    "figma_comment_id_nullable": null
+  }
+]

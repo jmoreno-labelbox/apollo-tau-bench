@@ -1,5 +1,5 @@
-[
-  {
+{
+  "translation_001": {
     "id": "translation_001",
     "loc_string_id": "loc_string_001",
     "string_key": "ui.main_menu.start_game",
@@ -56,7 +56,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/main_menu_001.png"
     }
   },
-  {
+  "translation_002": {
     "id": "translation_002",
     "loc_string_id": "loc_string_001",
     "string_key": "ui.main_menu.start_game",
@@ -105,7 +105,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/main_menu_001.png"
     }
   },
-  {
+  "translation_003": {
     "id": "translation_003",
     "loc_string_id": "loc_string_001",
     "string_key": "ui.main_menu.start_game",
@@ -154,7 +154,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/main_menu_001.png"
     }
   },
-  {
+  "translation_004": {
     "id": "translation_004",
     "loc_string_id": "loc_string_001",
     "string_key": "ui.main_menu.start_game",
@@ -203,7 +203,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/main_menu_001.png"
     }
   },
-  {
+  "translation_005": {
     "id": "translation_005",
     "loc_string_id": "loc_string_001",
     "string_key": "ui.main_menu.start_game",
@@ -252,7 +252,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/main_menu_001.png"
     }
   },
-  {
+  "translation_006": {
     "id": "translation_006",
     "loc_string_id": "loc_string_002",
     "string_key": "ui.settings.audio",
@@ -301,7 +301,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/settings_menu_001.png"
     }
   },
-  {
+  "translation_007": {
     "id": "translation_007",
     "loc_string_id": "loc_string_003",
     "string_key": "ui.settings.audio.master_volume",
@@ -350,7 +350,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/audio_settings_001.png"
     }
   },
-  {
+  "translation_008": {
     "id": "translation_008",
     "loc_string_id": "loc_string_004",
     "string_key": "ui.settings.audio.music_volume",
@@ -399,7 +399,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/audio_settings_002.png"
     }
   },
-  {
+  "translation_009": {
     "id": "translation_009",
     "loc_string_id": "loc_string_005",
     "string_key": "ui.settings.audio.sfx_volume",
@@ -448,7 +448,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/audio_settings_003.png"
     }
   },
-  {
+  "translation_010": {
     "id": "translation_010",
     "loc_string_id": "loc_string_006",
     "string_key": "ui.settings.graphics",
@@ -497,4 +497,4 @@
       "context_screenshot": "https://screenshots.techcorp.com/graphics_settings_001.png"
     }
   }
-]
+}

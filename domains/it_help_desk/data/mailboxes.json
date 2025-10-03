@@ -1,5 +1,5 @@
-[
-  {
+{
+  "mbx_dc71c8": {
     "mailbox_id": "mbx_dc71c8",
     "employee_id": "emp_0001",
     "address": "jamie.chen@example.com",
@@ -7,7 +7,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-02-09T09:00:00+00:00"
   },
-  {
+  "mbx_287fb8": {
     "mailbox_id": "mbx_287fb8",
     "employee_id": "emp_0002",
     "address": "casey.liu@example.com",
@@ -15,7 +15,7 @@
     "retention_policy": "std_2y",
     "created_at": "2025-02-27T09:00:00+00:00"
   },
-  {
+  "mbx_55687f": {
     "mailbox_id": "mbx_55687f",
     "employee_id": "emp_0003",
     "address": "drew.kumar@example.com",
@@ -23,7 +23,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-11-26T09:00:00+00:00"
   },
-  {
+  "mbx_38d007": {
     "mailbox_id": "mbx_38d007",
     "employee_id": "emp_0004",
     "address": "sam.tran@example.com",
@@ -31,7 +31,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-12-18T09:00:00+00:00"
   },
-  {
+  "mbx_28d3fa": {
     "mailbox_id": "mbx_28d3fa",
     "employee_id": "emp_0005",
     "address": "robin.jones@example.com",
@@ -39,7 +39,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-10-11T09:00:00+00:00"
   },
-  {
+  "mbx_e7e9ee": {
     "mailbox_id": "mbx_e7e9ee",
     "employee_id": "emp_0006",
     "address": "alex.park@example.com",
@@ -47,7 +47,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-07-29T09:00:00+00:00"
   },
-  {
+  "mbx_e2a5e9": {
     "mailbox_id": "mbx_e2a5e9",
     "employee_id": "emp_0007",
     "address": "jordan.kim@example.com",
@@ -55,7 +55,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-03-20T09:00:00+00:00"
   },
-  {
+  "mbx_8abc91": {
     "mailbox_id": "mbx_8abc91",
     "employee_id": "emp_0008",
     "address": "morgan.lee@example.com",
@@ -63,7 +63,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-12-06T09:00:00+00:00"
   },
-  {
+  "mbx_9e0388": {
     "mailbox_id": "mbx_9e0388",
     "employee_id": "emp_0009",
     "address": "taylor.singh@example.com",
@@ -71,7 +71,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-09-13T09:00:00+00:00"
   },
-  {
+  "mbx_4d16c0": {
     "mailbox_id": "mbx_4d16c0",
     "employee_id": "emp_0010",
     "address": "avery.zhang@example.com",
@@ -79,7 +79,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-11-10T09:00:00+00:00"
   },
-  {
+  "mbx_51e138": {
     "mailbox_id": "mbx_51e138",
     "employee_id": "emp_0011",
     "address": "riley.wang@example.com",
@@ -87,7 +87,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-07-04T09:00:00+00:00"
   },
-  {
+  "mbx_f63934": {
     "mailbox_id": "mbx_f63934",
     "employee_id": "emp_0012",
     "address": "quinn.miller@example.com",
@@ -95,7 +95,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-02-24T09:00:00+00:00"
   },
-  {
+  "mbx_78fb5c": {
     "mailbox_id": "mbx_78fb5c",
     "employee_id": "emp_0013",
     "address": "cameron.patel@example.com",
@@ -103,7 +103,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-06-18T09:00:00+00:00"
   },
-  {
+  "mbx_88c4f4": {
     "mailbox_id": "mbx_88c4f4",
     "employee_id": "emp_0014",
     "address": "emerson.davis@example.com",
@@ -111,7 +111,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-10-13T09:00:00+00:00"
   },
-  {
+  "mbx_3818d8": {
     "mailbox_id": "mbx_3818d8",
     "employee_id": "emp_0015",
     "address": "peyton.shah@example.com",
@@ -119,7 +119,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-09-21T09:00:00+00:00"
   },
-  {
+  "mbx_0099f1": {
     "mailbox_id": "mbx_0099f1",
     "employee_id": "emp_0016",
     "address": "hayden.brown@example.com",
@@ -127,7 +127,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-09-28T09:00:00+00:00"
   },
-  {
+  "mbx_82aecf": {
     "mailbox_id": "mbx_82aecf",
     "employee_id": "emp_0017",
     "address": "dakota.wilson@example.com",
@@ -135,7 +135,7 @@
     "retention_policy": "finance_7y",
     "created_at": "2023-05-28T09:00:00+00:00"
   },
-  {
+  "mbx_8d4bcb": {
     "mailbox_id": "mbx_8d4bcb",
     "employee_id": "emp_0018",
     "address": "blake.anderson@example.com",
@@ -143,7 +143,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-02-22T09:00:00+00:00"
   },
-  {
+  "mbx_1d0980": {
     "mailbox_id": "mbx_1d0980",
     "employee_id": "emp_0019",
     "address": "sawyer.harris@example.com",
@@ -151,7 +151,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-10-24T09:00:00+00:00"
   },
-  {
+  "mbx_401a71": {
     "mailbox_id": "mbx_401a71",
     "employee_id": "emp_0020",
     "address": "remy.clark@example.com",
@@ -159,7 +159,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-12-15T09:00:00+00:00"
   },
-  {
+  "mbx_43980f": {
     "mailbox_id": "mbx_43980f",
     "employee_id": "emp_0021",
     "address": "logan.nguyen@example.com",
@@ -167,7 +167,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-06-10T09:00:00+00:00"
   },
-  {
+  "mbx_51ba73": {
     "mailbox_id": "mbx_51ba73",
     "employee_id": "emp_0022",
     "address": "skyler.lopez@example.com",
@@ -175,7 +175,7 @@
     "retention_policy": "std_2y",
     "created_at": "2025-01-21T09:00:00+00:00"
   },
-  {
+  "mbx_696506": {
     "mailbox_id": "mbx_696506",
     "employee_id": "emp_0023",
     "address": "kendall.garcia@example.com",
@@ -183,7 +183,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-08-02T09:00:00+00:00"
   },
-  {
+  "mbx_9071d5": {
     "mailbox_id": "mbx_9071d5",
     "employee_id": "emp_0024",
     "address": "devin.martinez@example.com",
@@ -191,7 +191,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-09-05T09:00:00+00:00"
   },
-  {
+  "mbx_1e8432": {
     "mailbox_id": "mbx_1e8432",
     "employee_id": "emp_0025",
     "address": "elliot.johnson@example.com",
@@ -199,7 +199,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-05-14T09:00:00+00:00"
   },
-  {
+  "mbx_bac647": {
     "mailbox_id": "mbx_bac647",
     "employee_id": "emp_0026",
     "address": "finley.thomas@example.com",
@@ -207,7 +207,7 @@
     "retention_policy": "std_2y",
     "created_at": "2025-05-15T09:00:00+00:00"
   },
-  {
+  "mbx_5494f2": {
     "mailbox_id": "mbx_5494f2",
     "employee_id": "emp_0027",
     "address": "jesse.moore@example.com",
@@ -215,7 +215,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-12-02T09:00:00+00:00"
   },
-  {
+  "mbx_81d8d5": {
     "mailbox_id": "mbx_81d8d5",
     "employee_id": "emp_0028",
     "address": "kai.jackson@example.com",
@@ -223,7 +223,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-05-06T09:00:00+00:00"
   },
-  {
+  "mbx_48efe8": {
     "mailbox_id": "mbx_48efe8",
     "employee_id": "emp_0029",
     "address": "lane.taylor@example.com",
@@ -231,7 +231,7 @@
     "retention_policy": "finance_7y",
     "created_at": "2023-05-01T09:00:00+00:00"
   },
-  {
+  "mbx_db017d": {
     "mailbox_id": "mbx_db017d",
     "employee_id": "emp_0030",
     "address": "micah.white@example.com",
@@ -239,7 +239,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-12-04T09:00:00+00:00"
   },
-  {
+  "mbx_351bb4": {
     "mailbox_id": "mbx_351bb4",
     "employee_id": "emp_0031",
     "address": "noel.rodriguez@example.com",
@@ -247,7 +247,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-07-18T09:00:00+00:00"
   },
-  {
+  "mbx_f06213": {
     "mailbox_id": "mbx_f06213",
     "employee_id": "emp_0032",
     "address": "river.thompson@example.com",
@@ -255,7 +255,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-12-24T09:00:00+00:00"
   },
-  {
+  "mbx_f589dc": {
     "mailbox_id": "mbx_f589dc",
     "employee_id": "emp_0033",
     "address": "shawn.lewis@example.com",
@@ -263,7 +263,7 @@
     "retention_policy": "finance_7y",
     "created_at": "2023-05-06T09:00:00+00:00"
   },
-  {
+  "mbx_baacc3": {
     "mailbox_id": "mbx_baacc3",
     "employee_id": "emp_0034",
     "address": "tatum.green@example.com",
@@ -271,7 +271,7 @@
     "retention_policy": "std_2y",
     "created_at": "2025-02-07T09:00:00+00:00"
   },
-  {
+  "mbx_d89d5c": {
     "mailbox_id": "mbx_d89d5c",
     "employee_id": "emp_0035",
     "address": "wyatt.adams@example.com",
@@ -279,7 +279,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-02-26T09:00:00+00:00"
   },
-  {
+  "mbx_f9a6bc": {
     "mailbox_id": "mbx_f9a6bc",
     "employee_id": "emp_0036",
     "address": "zion.mitchell@example.com",
@@ -287,7 +287,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-06-21T09:00:00+00:00"
   },
-  {
+  "mbx_451983": {
     "mailbox_id": "mbx_451983",
     "employee_id": "emp_0037",
     "address": "nico.turner@example.com",
@@ -295,7 +295,7 @@
     "retention_policy": "std_2y",
     "created_at": "2025-02-13T09:00:00+00:00"
   },
-  {
+  "mbx_839501": {
     "mailbox_id": "mbx_839501",
     "employee_id": "emp_0038",
     "address": "sasha.phillips@example.com",
@@ -303,7 +303,7 @@
     "retention_policy": "std_2y",
     "created_at": "2024-03-29T09:00:00+00:00"
   },
-  {
+  "mbx_c42c15": {
     "mailbox_id": "mbx_c42c15",
     "employee_id": "emp_0039",
     "address": "briar.campbell@example.com",
@@ -311,7 +311,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-06-17T09:00:00+00:00"
   },
-  {
+  "mbx_54337a": {
     "mailbox_id": "mbx_54337a",
     "employee_id": "emp_0040",
     "address": "drew.evans@example.com",
@@ -319,7 +319,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-04-23T09:00:00+00:00"
   },
-  {
+  "mbx_6f9008": {
     "mailbox_id": "mbx_6f9008",
     "employee_id": "emp_0041",
     "address": "evan.roberts@example.com",
@@ -327,7 +327,7 @@
     "retention_policy": "std_2y",
     "created_at": "2023-03-23T09:00:00+00:00"
   },
-  {
+  "mbx_f76658": {
     "mailbox_id": "mbx_f76658",
     "employee_id": "emp_0042",
     "address": "harper.hernandez@example.com",
@@ -335,4 +335,4 @@
     "retention_policy": "std_2y",
     "created_at": "2025-02-26T09:00:00+00:00"
   }
-]
+}

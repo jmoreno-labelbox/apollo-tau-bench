@@ -1,5 +1,5 @@
-[
-  {
+{
+  "POS3001": {
     "position_id": "POS3001",
     "title": "Chief Technology Officer",
     "family": "Executive",
@@ -7,31 +7,31 @@
     "department_id": "DEPT1001",
     "description": "Sets technical vision and strategy."
   },
-  {
+  "POS3004": {
     "position_id": "POS3004",
-    "title": "Regional VP Sales \u2013\u00a0East",
+    "title": "Regional VP Sales – East",
     "family": "Sales",
     "level_id": "L.5",
     "department_id": "DEPT1002",
     "description": "Owns revenue for Eastern region."
   },
-  {
+  "POS3006": {
     "position_id": "POS3006",
-    "title": "Senior Front\u2011end Engineer",
+    "title": "Senior Front‑end Engineer",
     "family": "Engineering",
     "level_id": "L.3",
     "department_id": "DEPT1001",
-    "description": "Builds client\u2011side applications."
+    "description": "Builds client‑side applications."
   },
-  {
+  "POS3007": {
     "position_id": "POS3007",
     "title": "Backend Engineer",
     "family": "Engineering",
     "level_id": "L.2",
     "department_id": "DEPT1001",
-    "description": "Develops micro\u2011services for core API."
+    "description": "Develops micro‑services for core API."
   },
-  {
+  "POS3010": {
     "position_id": "POS3010",
     "title": "Financial Analyst",
     "family": "Finance",
@@ -39,15 +39,15 @@
     "department_id": "DEPT1004",
     "description": "Supports FP&A processes."
   },
-  {
+  "POS3012": {
     "position_id": "POS3012",
     "title": "HR Business Partner",
-    "family": "Human\u00a0Resources",
+    "family": "Human Resources",
     "level_id": "L.4",
     "department_id": "DEPT1003",
     "description": "Advises managers on people strategy."
   },
-  {
+  "POS3013": {
     "position_id": "POS3013",
     "title": "Senior Accountant",
     "family": "Finance",
@@ -55,7 +55,7 @@
     "department_id": "DEPT1004",
     "description": "Supports financial reporting."
   },
-  {
+  "POS3014": {
     "position_id": "POS3014",
     "title": "Engineering Intern",
     "family": "Engineering",
@@ -63,7 +63,7 @@
     "department_id": "DEPT1001",
     "description": "Software Engineering Intern."
   },
-  {
+  "POS4000": {
     "position_id": "POS4000",
     "title": "Chief Executive Officer",
     "family": "Executive",
@@ -71,4 +71,4 @@
     "department_id": "N/A",
     "description": "Sets overall company strategy."
   }
-]
+}

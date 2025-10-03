@@ -1,74 +1,74 @@
-[
-  {
+{
+  "OFFICE_RENT": {
     "category_code": "OFFICE_RENT",
     "name": "Office Rent & Utilities",
     "deductible_percent": 100,
     "notes": "Home office expenses fully deductible if used exclusively for business"
   },
-  {
+  "PROF_FEES": {
     "category_code": "PROF_FEES",
     "name": "Professional Fees",
     "deductible_percent": 100,
     "notes": "Legal, accounting, consulting fees related to business operations"
   },
-  {
+  "MEALS_ENTERTAIN": {
     "category_code": "MEALS_ENTERTAIN",
     "name": "Meals & Entertainment",
     "deductible_percent": 50,
     "notes": "Business meals and entertainment limited to 50% deductibility"
   },
-  {
+  "VEHICLE_EXPENSE": {
     "category_code": "VEHICLE_EXPENSE",
     "name": "Vehicle Expenses",
     "deductible_percent": 100,
     "notes": "Business use portion of vehicle expenses - requires logbook"
   },
-  {
+  "TRAVEL_EXPENSE": {
     "category_code": "TRAVEL_EXPENSE",
     "name": "Travel Expenses",
     "deductible_percent": 100,
     "notes": "Business travel including accommodation, flights, ground transport"
   },
-  {
+  "OFFICE_SUPPLIES": {
     "category_code": "OFFICE_SUPPLIES",
     "name": "Office Supplies & Equipment",
     "deductible_percent": 100,
     "notes": "Supplies under $500, equipment over $500 may require depreciation"
   },
-  {
+  "SOFTWARE_SUBSCR": {
     "category_code": "SOFTWARE_SUBSCR",
     "name": "Software & Subscriptions",
     "deductible_percent": 100,
     "notes": "Business software, cloud services, professional subscriptions"
   },
-  {
+  "COMMUNICATIONS": {
     "category_code": "COMMUNICATIONS",
     "name": "Phone & Internet",
     "deductible_percent": 100,
     "notes": "Business portion of phone and internet services"
   },
-  {
+  "ADVERTISING": {
     "category_code": "ADVERTISING",
     "name": "Advertising & Marketing",
     "deductible_percent": 100,
     "notes": "Website costs, business cards, promotional materials"
   },
-  {
+  "TRAINING_DEV": {
     "category_code": "TRAINING_DEV",
     "name": "Training & Development",
     "deductible_percent": 100,
     "notes": "Professional development courses, conferences, certifications"
   },
-  {
+  "INSURANCE": {
     "category_code": "INSURANCE",
     "name": "Business Insurance",
     "deductible_percent": 100,
     "notes": "Professional liability, errors & omissions, general business insurance"
   },
-  {
+  "BANK_FEES": {
     "category_code": "BANK_FEES",
     "name": "Bank & Financial Fees",
     "deductible_percent": 100,
     "notes": "Business bank account fees, transaction fees, merchant fees"
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "repo_001": {
     "id": "repo_001",
     "project_id": "proj_001",
     "provider": "github",
@@ -10,14 +10,33 @@
     "repo_type": "game_engine",
     "game_engine": "Custom C++ Engine",
     "primary_language": "C++",
-    "game_features": ["rendering_system", "physics_engine", "audio_system", "networking"],
-    "target_platforms": ["PC", "PS5", "Xbox Series X"],
+    "game_features": [
+      "rendering_system",
+      "physics_engine",
+      "audio_system",
+      "networking"
+    ],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X"
+    ],
     "build_system": "CMake",
-    "dependencies": ["Vulkan", "DirectX", "OpenGL", "FMOD", "PhysX"],
-    "development_tools": ["Visual Studio", "Unreal Engine", "Unity"],
+    "dependencies": [
+      "Vulkan",
+      "DirectX",
+      "OpenGL",
+      "FMOD",
+      "PhysX"
+    ],
+    "development_tools": [
+      "Visual Studio",
+      "Unreal Engine",
+      "Unity"
+    ],
     "repository_purpose": "Core game engine development with modular architecture"
   },
-  {
+  "repo_002": {
     "id": "repo_002",
     "project_id": "proj_002",
     "provider": "github",
@@ -28,14 +47,35 @@
     "repo_type": "build_automation",
     "game_engine": "Multi-Engine",
     "primary_language": "Python",
-    "game_features": ["automated_builds", "asset_compilation", "shader_optimization", "cross_platform_builds"],
-    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch"],
+    "game_features": [
+      "automated_builds",
+      "asset_compilation",
+      "shader_optimization",
+      "cross_platform_builds"
+    ],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch"
+    ],
     "build_system": "Custom Build Scripts",
-    "dependencies": ["Unreal Engine", "Unity", "Jenkins", "GitLab CI", "Docker"],
-    "development_tools": ["Jenkins", "GitLab CI", "Docker", "Kubernetes"],
+    "dependencies": [
+      "Unreal Engine",
+      "Unity",
+      "Jenkins",
+      "GitLab CI",
+      "Docker"
+    ],
+    "development_tools": [
+      "Jenkins",
+      "GitLab CI",
+      "Docker",
+      "Kubernetes"
+    ],
     "repository_purpose": "Automated game build pipeline with asset compilation and cross-platform deployment"
   },
-  {
+  "repo_003": {
     "id": "repo_003",
     "project_id": "proj_003",
     "provider": "gitlab",
@@ -46,14 +86,40 @@
     "repo_type": "game_infrastructure",
     "game_engine": "Multi-Engine",
     "primary_language": "TypeScript",
-    "game_features": ["cross_platform_authentication", "cloud_save_system", "multiplayer_matchmaking", "social_features", "achievement_system"],
-    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
+    "game_features": [
+      "cross_platform_authentication",
+      "cloud_save_system",
+      "multiplayer_matchmaking",
+      "social_features",
+      "achievement_system"
+    ],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch",
+      "iOS",
+      "Android"
+    ],
     "build_system": "Node.js",
-    "dependencies": ["AWS", "Azure", "GCP", "Kubernetes", "Docker", "Redis", "PostgreSQL"],
-    "development_tools": ["VS Code", "Docker", "Kubernetes", "Terraform"],
+    "dependencies": [
+      "AWS",
+      "Azure",
+      "GCP",
+      "Kubernetes",
+      "Docker",
+      "Redis",
+      "PostgreSQL"
+    ],
+    "development_tools": [
+      "VS Code",
+      "Docker",
+      "Kubernetes",
+      "Terraform"
+    ],
     "repository_purpose": "Cross-platform game infrastructure with cloud save, multiplayer, and social features"
   },
-  {
+  "repo_004": {
     "id": "repo_004",
     "project_id": "proj_004",
     "provider": "github",
@@ -64,14 +130,35 @@
     "repo_type": "game_security",
     "game_engine": "Multi-Engine",
     "primary_language": "C++",
-    "game_features": ["anti_cheat", "drm_protection", "player_data_security", "audit_logging"],
-    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch"],
+    "game_features": [
+      "anti_cheat",
+      "drm_protection",
+      "player_data_security",
+      "audit_logging"
+    ],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch"
+    ],
     "build_system": "CMake",
-    "dependencies": ["EasyAntiCheat", "BattlEye", "DRM SDK", "OpenSSL", "SQLite"],
-    "development_tools": ["Visual Studio", "IDA Pro", "Wireshark", "Cheat Engine"],
+    "dependencies": [
+      "EasyAntiCheat",
+      "BattlEye",
+      "DRM SDK",
+      "OpenSSL",
+      "SQLite"
+    ],
+    "development_tools": [
+      "Visual Studio",
+      "IDA Pro",
+      "Wireshark",
+      "Cheat Engine"
+    ],
     "repository_purpose": "Game security and anti-cheat system with DRM protection and player data security"
   },
-  {
+  "repo_005": {
     "id": "repo_005",
     "project_id": "proj_005",
     "provider": "github",
@@ -82,14 +169,39 @@
     "repo_type": "game_analytics",
     "game_engine": "Multi-Engine",
     "primary_language": "Python",
-    "game_features": ["player_analytics", "behavioral_analysis", "performance_monitoring", "a_b_testing", "telemetry"],
-    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
+    "game_features": [
+      "player_analytics",
+      "behavioral_analysis",
+      "performance_monitoring",
+      "a_b_testing",
+      "telemetry"
+    ],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch",
+      "iOS",
+      "Android"
+    ],
     "build_system": "Poetry",
-    "dependencies": ["Apache Kafka", "Elasticsearch", "Snowflake", "Tableau", "Grafana", "Prometheus"],
-    "development_tools": ["Jupyter Notebook", "VS Code", "Docker", "Kubernetes"],
+    "dependencies": [
+      "Apache Kafka",
+      "Elasticsearch",
+      "Snowflake",
+      "Tableau",
+      "Grafana",
+      "Prometheus"
+    ],
+    "development_tools": [
+      "Jupyter Notebook",
+      "VS Code",
+      "Docker",
+      "Kubernetes"
+    ],
     "repository_purpose": "Game analytics and telemetry platform for player behavior analysis and performance monitoring"
   },
-  {
+  "repo_006": {
     "id": "repo_006",
     "project_id": "proj_006",
     "provider": "gitlab",
@@ -98,7 +210,7 @@
     "is_private": true,
     "created_at": "2024-03-20T13:20:00Z"
   },
-  {
+  "repo_007": {
     "id": "repo_007",
     "project_id": "proj_007",
     "provider": "github",
@@ -107,7 +219,7 @@
     "is_private": true,
     "created_at": "2024-04-01T08:15:00Z"
   },
-  {
+  "repo_008": {
     "id": "repo_008",
     "project_id": "proj_008",
     "provider": "github",
@@ -116,7 +228,7 @@
     "is_private": true,
     "created_at": "2024-04-15T12:00:00Z"
   },
-  {
+  "repo_009": {
     "id": "repo_009",
     "project_id": "proj_009",
     "provider": "gitlab",
@@ -125,7 +237,7 @@
     "is_private": true,
     "created_at": "2024-05-01T15:30:00Z"
   },
-  {
+  "repo_010": {
     "id": "repo_010",
     "project_id": "proj_010",
     "provider": "github",
@@ -134,7 +246,7 @@
     "is_private": true,
     "created_at": "2024-05-15T10:45:00Z"
   },
-  {
+  "repo_011": {
     "id": "repo_011",
     "project_id": "proj_011",
     "provider": "github",
@@ -143,7 +255,7 @@
     "is_private": true,
     "created_at": "2024-06-01T14:20:00Z"
   },
-  {
+  "repo_012": {
     "id": "repo_012",
     "project_id": "proj_012",
     "provider": "gitlab",
@@ -152,7 +264,7 @@
     "is_private": true,
     "created_at": "2024-06-15T09:30:00Z"
   },
-  {
+  "repo_013": {
     "id": "repo_013",
     "project_id": "proj_013",
     "provider": "github",
@@ -161,7 +273,7 @@
     "is_private": true,
     "created_at": "2024-07-01T11:00:00Z"
   },
-  {
+  "repo_014": {
     "id": "repo_014",
     "project_id": "proj_014",
     "provider": "github",
@@ -170,7 +282,7 @@
     "is_private": true,
     "created_at": "2024-07-15T16:00:00Z"
   },
-  {
+  "repo_015": {
     "id": "repo_015",
     "project_id": "proj_015",
     "provider": "gitlab",
@@ -179,7 +291,7 @@
     "is_private": true,
     "created_at": "2024-08-01T13:45:00Z"
   },
-  {
+  "repo_016": {
     "id": "repo_016",
     "project_id": "proj_016",
     "provider": "github",
@@ -188,7 +300,7 @@
     "is_private": true,
     "created_at": "2023-10-01T10:00:00Z"
   },
-  {
+  "repo_017": {
     "id": "repo_017",
     "project_id": "proj_017",
     "provider": "github",
@@ -197,7 +309,7 @@
     "is_private": true,
     "created_at": "2024-08-15T14:30:00Z"
   },
-  {
+  "repo_018": {
     "id": "repo_018",
     "project_id": "proj_018",
     "provider": "gitlab",
@@ -206,7 +318,7 @@
     "is_private": true,
     "created_at": "2024-09-01T12:15:00Z"
   },
-  {
+  "repo_019": {
     "id": "repo_019",
     "project_id": "proj_019",
     "provider": "github",
@@ -215,7 +327,7 @@
     "is_private": true,
     "created_at": "2024-09-15T15:00:00Z"
   },
-  {
+  "repo_020": {
     "id": "repo_020",
     "project_id": "proj_020",
     "provider": "gitlab",
@@ -224,7 +336,7 @@
     "is_private": true,
     "created_at": "2024-10-01T09:00:00Z"
   },
-  {
+  "repo_021": {
     "id": "repo_021",
     "project_id": "proj_001",
     "provider": "github",
@@ -233,7 +345,7 @@
     "is_private": true,
     "created_at": "2024-01-20T14:00:00Z"
   },
-  {
+  "repo_022": {
     "id": "repo_022",
     "project_id": "proj_002",
     "provider": "github",
@@ -242,7 +354,7 @@
     "is_private": true,
     "created_at": "2024-02-05T11:00:00Z"
   },
-  {
+  "repo_023": {
     "id": "repo_023",
     "project_id": "proj_003",
     "provider": "gitlab",
@@ -251,7 +363,7 @@
     "is_private": true,
     "created_at": "2024-02-20T16:00:00Z"
   },
-  {
+  "repo_024": {
     "id": "repo_024",
     "project_id": "proj_004",
     "provider": "github",
@@ -260,7 +372,7 @@
     "is_private": true,
     "created_at": "2024-03-05T13:30:00Z"
   },
-  {
+  "repo_025": {
     "id": "repo_025",
     "project_id": "proj_005",
     "provider": "github",
@@ -269,7 +381,7 @@
     "is_private": true,
     "created_at": "2024-03-15T18:45:00Z"
   },
-  {
+  "repo_026": {
     "id": "repo_026",
     "project_id": "proj_006",
     "provider": "gitlab",
@@ -278,7 +390,7 @@
     "is_private": true,
     "created_at": "2024-03-25T15:20:00Z"
   },
-  {
+  "repo_027": {
     "id": "repo_027",
     "project_id": "proj_007",
     "provider": "github",
@@ -287,7 +399,7 @@
     "is_private": true,
     "created_at": "2024-04-05T10:15:00Z"
   },
-  {
+  "repo_028": {
     "id": "repo_028",
     "project_id": "proj_008",
     "provider": "github",
@@ -296,7 +408,7 @@
     "is_private": true,
     "created_at": "2024-04-20T14:00:00Z"
   },
-  {
+  "repo_029": {
     "id": "repo_029",
     "project_id": "proj_009",
     "provider": "gitlab",
@@ -305,7 +417,7 @@
     "is_private": true,
     "created_at": "2024-05-05T17:30:00Z"
   },
-  {
+  "repo_030": {
     "id": "repo_030",
     "project_id": "proj_010",
     "provider": "github",
@@ -314,7 +426,7 @@
     "is_private": true,
     "created_at": "2024-05-20T12:45:00Z"
   },
-  {
+  "repo_031": {
     "id": "repo_031",
     "project_id": "proj_001",
     "provider": "github",
@@ -326,14 +438,38 @@
     "repo_type": "game_engine",
     "game_engine": "Custom C++ Engine",
     "primary_language": "C++",
-    "game_features": ["rendering_system", "physics_engine", "audio_system", "networking", "shader_compilation"],
-    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch"],
+    "game_features": [
+      "rendering_system",
+      "physics_engine",
+      "audio_system",
+      "networking",
+      "shader_compilation"
+    ],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch"
+    ],
     "build_system": "CMake",
-    "dependencies": ["Vulkan", "DirectX", "OpenGL", "FMOD", "PhysX", "Wwise"],
-    "development_tools": ["Visual Studio", "Unreal Engine", "Unity", "Maya", "Blender"],
+    "dependencies": [
+      "Vulkan",
+      "DirectX",
+      "OpenGL",
+      "FMOD",
+      "PhysX",
+      "Wwise"
+    ],
+    "development_tools": [
+      "Visual Studio",
+      "Unreal Engine",
+      "Unity",
+      "Maya",
+      "Blender"
+    ],
     "repository_purpose": "Core game engine development with advanced rendering pipeline and cross-platform support"
   },
-  {
+  "repo_032": {
     "id": "repo_032",
     "project_id": "proj_002",
     "provider": "github",
@@ -345,14 +481,38 @@
     "repo_type": "game_assets",
     "game_engine": "Multi-Engine",
     "primary_language": "Python",
-    "game_features": ["asset_pipeline", "texture_compression", "model_optimization", "animation_system", "material_system"],
-    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch"],
+    "game_features": [
+      "asset_pipeline",
+      "texture_compression",
+      "model_optimization",
+      "animation_system",
+      "material_system"
+    ],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch"
+    ],
     "build_system": "Custom Asset Pipeline",
-    "dependencies": ["Maya", "Blender", "Houdini", "Substance Painter", "ZBrush"],
-    "development_tools": ["Maya", "Blender", "Houdini", "Substance Painter", "ZBrush", "Photoshop"],
+    "dependencies": [
+      "Maya",
+      "Blender",
+      "Houdini",
+      "Substance Painter",
+      "ZBrush"
+    ],
+    "development_tools": [
+      "Maya",
+      "Blender",
+      "Houdini",
+      "Substance Painter",
+      "ZBrush",
+      "Photoshop"
+    ],
     "repository_purpose": "Game asset pipeline with automated validation, compression, and optimization for multiple platforms"
   },
-  {
+  "repo_033": {
     "id": "repo_033",
     "project_id": "proj_003",
     "provider": "github",
@@ -364,11 +524,36 @@
     "repo_type": "game_localization",
     "game_engine": "Multi-Engine",
     "primary_language": "Python",
-    "game_features": ["localization_system", "voice_over_pipeline", "subtitle_management", "cultural_adaptation", "translation_workflow"],
-    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
+    "game_features": [
+      "localization_system",
+      "voice_over_pipeline",
+      "subtitle_management",
+      "cultural_adaptation",
+      "translation_workflow"
+    ],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch",
+      "iOS",
+      "Android"
+    ],
     "build_system": "Translation Management System",
-    "dependencies": ["Crowdin", "Lokalise", "SDL Trados", "Wwise", "FMOD"],
-    "development_tools": ["Crowdin", "Lokalise", "SDL Trados", "Audacity", "Adobe Audition"],
+    "dependencies": [
+      "Crowdin",
+      "Lokalise",
+      "SDL Trados",
+      "Wwise",
+      "FMOD"
+    ],
+    "development_tools": [
+      "Crowdin",
+      "Lokalise",
+      "SDL Trados",
+      "Audacity",
+      "Adobe Audition"
+    ],
     "repository_purpose": "Game localization and voice-over pipeline with automated translation validation and cultural adaptation"
   }
-]
+}

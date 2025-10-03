@@ -1,5 +1,5 @@
-[
-  {
+{
+  "proj_mobile_01": {
     "project_id": "proj_mobile_01",
     "name": "Mobile App Launch",
     "priority": "critical",
@@ -10,7 +10,7 @@
     "department": "Engineering",
     "needs_resources": "true"
   },
-  {
+  "proj_insights_01": {
     "project_id": "proj_insights_01",
     "name": "Customer Insights",
     "priority": "high",
@@ -21,7 +21,7 @@
     "department": "Analytics",
     "needs_resources": "true"
   },
-  {
+  "proj_web_01": {
     "project_id": "proj_web_01",
     "name": "Web Portal Redesign",
     "priority": "medium",
@@ -32,7 +32,7 @@
     "department": "Engineering",
     "needs_resources": false
   },
-  {
+  "proj_api_02": {
     "project_id": "proj_api_02",
     "name": "API Platform",
     "priority": "high",
@@ -43,7 +43,7 @@
     "department": "Engineering",
     "needs_resources": false
   },
-  {
+  "proj_cloud_01": {
     "project_id": "proj_cloud_01",
     "name": "Cloud Migration",
     "priority": "critical",
@@ -54,7 +54,7 @@
     "department": "Engineering",
     "needs_resources": "true"
   },
-  {
+  "proj_redesign_01": {
     "project_id": "proj_redesign_01",
     "name": "Product Redesign",
     "priority": "high",
@@ -65,7 +65,7 @@
     "department": "Engineering",
     "needs_resources": "true"
   },
-  {
+  "proj_enterprise_01": {
     "project_id": "proj_enterprise_01",
     "name": "Enterprise Platform",
     "priority": "critical",
@@ -76,7 +76,7 @@
     "department": "Engineering",
     "needs_resources": "true"
   },
-  {
+  "proj_platform_02": {
     "project_id": "proj_platform_02",
     "name": "Platform Modernization",
     "priority": "high",
@@ -87,7 +87,7 @@
     "department": "Engineering",
     "needs_resources": "true"
   },
-  {
+  "proj_reporting_01": {
     "project_id": "proj_reporting_01",
     "name": "Analytics Reporting",
     "priority": "medium",
@@ -98,7 +98,7 @@
     "department": "Analytics",
     "needs_resources": false
   },
-  {
+  "proj_ai_01": {
     "project_id": "proj_ai_01",
     "name": "AI Platform",
     "priority": "critical",
@@ -109,7 +109,7 @@
     "department": "Engineering",
     "needs_resources": "true"
   },
-  {
+  "proj_banking_01": {
     "project_id": "proj_banking_01",
     "name": "Banking Integration",
     "priority": "high",
@@ -120,7 +120,7 @@
     "department": "Engineering",
     "needs_resources": false
   },
-  {
+  "proj_finance_01": {
     "project_id": "proj_finance_01",
     "name": "Financial Dashboard",
     "priority": "medium",
@@ -131,7 +131,7 @@
     "department": "Engineering",
     "needs_resources": false
   },
-  {
+  "proj_audit_01": {
     "project_id": "proj_audit_01",
     "name": "Compliance Audit System",
     "priority": "medium",
@@ -142,7 +142,7 @@
     "department": "QA",
     "needs_resources": false
   },
-  {
+  "proj_alpha_01": {
     "project_id": "proj_alpha_01",
     "name": "Alpha Module",
     "priority": "high",
@@ -153,7 +153,7 @@
     "department": "Engineering",
     "needs_resources": false
   },
-  {
+  "proj_beta_02": {
     "project_id": "proj_beta_02",
     "name": "Beta Module",
     "priority": "high",
@@ -164,7 +164,7 @@
     "department": "Engineering",
     "needs_resources": false
   },
-  {
+  "proj_gamma_03": {
     "project_id": "proj_gamma_03",
     "name": "Gamma Module",
     "priority": "medium",
@@ -175,7 +175,7 @@
     "department": "Engineering",
     "needs_resources": false
   },
-  {
+  "proj_client_01": {
     "project_id": "proj_client_01",
     "name": "Major Client Implementation",
     "priority": "critical",
@@ -186,7 +186,7 @@
     "department": "Engineering",
     "needs_resources": false
   },
-  {
+  "proj_mobile_02": {
     "project_id": "proj_mobile_02",
     "name": "Mobile App Phase 2",
     "priority": "high",
@@ -197,7 +197,7 @@
     "department": "Engineering",
     "needs_resources": "true"
   },
-  {
+  "proj_web_02": {
     "project_id": "proj_web_02",
     "name": "Web Platform Update",
     "priority": "medium",
@@ -208,7 +208,7 @@
     "department": "Engineering",
     "needs_resources": "true"
   },
-  {
+  "proj_web_03": {
     "project_id": "proj_web_03",
     "name": "Customer Portal",
     "priority": "high",
@@ -219,7 +219,7 @@
     "department": "Engineering",
     "needs_resources": "true"
   },
-  {
+  "proj_security_patch": {
     "project_id": "proj_security_patch",
     "name": "Security Patch",
     "priority": "critical",
@@ -230,4 +230,4 @@
     "department": "Engineering",
     "needs_resources": "true"
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "fs_01": {
     "sponsor_id": "fs_01",
     "origin_label": "AI Advancement Grant",
     "funding_amount": 250000,
@@ -7,7 +7,7 @@
     "core_domain": "AI",
     "state": "available"
   },
-  {
+  "fs_02": {
     "sponsor_id": "fs_02",
     "origin_label": "National Science Foundation",
     "funding_amount": 500000,
@@ -15,7 +15,7 @@
     "core_domain": "General Science",
     "state": "depleted"
   },
-  {
+  "fs_03": {
     "sponsor_id": "fs_03",
     "origin_label": "Medical Research Council",
     "funding_amount": 750000,
@@ -23,7 +23,7 @@
     "core_domain": "Artificial Intelligence",
     "state": "available"
   },
-  {
+  "fs_04": {
     "sponsor_id": "fs_04",
     "origin_label": "Space Exploration Fund",
     "funding_amount": 1200000,
@@ -31,7 +31,7 @@
     "core_domain": "Biomedicine",
     "state": "available"
   },
-  {
+  "fs_05": {
     "sponsor_id": "fs_05",
     "origin_label": "Innovation Technology Grant",
     "funding_amount": 300000,
@@ -39,7 +39,7 @@
     "core_domain": "AI",
     "state": "depleted"
   },
-  {
+  "fs_06": {
     "sponsor_id": "fs_06",
     "origin_label": "Healthcare Innovation Fund",
     "funding_amount": 450000,
@@ -47,7 +47,7 @@
     "core_domain": "Artificial Intelligence",
     "state": "available"
   },
-  {
+  "fs_07": {
     "sponsor_id": "fs_07",
     "origin_label": "Deep Space Research Grant",
     "funding_amount": 900000,
@@ -55,7 +55,7 @@
     "core_domain": "Biomedicine",
     "state": "available"
   },
-  {
+  "fs_08": {
     "sponsor_id": "fs_08",
     "origin_label": "Machine Learning Excellence Award",
     "funding_amount": 180000,
@@ -63,7 +63,7 @@
     "core_domain": "AI",
     "state": "available"
   },
-  {
+  "fs_09": {
     "sponsor_id": "fs_09",
     "origin_label": "Environmental Science Foundation",
     "funding_amount": 320000,
@@ -71,7 +71,7 @@
     "core_domain": "General Science",
     "state": "available"
   },
-  {
+  "fs_10": {
     "sponsor_id": "fs_10",
     "origin_label": "Quantum Computing Initiative",
     "funding_amount": 800000,
@@ -79,4 +79,4 @@
     "core_domain": "AI",
     "state": "available"
   }
-]
+}

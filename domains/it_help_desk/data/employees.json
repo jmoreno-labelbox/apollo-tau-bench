@@ -1,5 +1,5 @@
-[
-  {
+{
+  "emp_0001": {
     "employee_id": "emp_0001",
     "first_name": "Jamie",
     "last_name": "Chen",
@@ -11,7 +11,7 @@
     "hire_date": "2023-12-10",
     "status": "active"
   },
-  {
+  "emp_0002": {
     "employee_id": "emp_0002",
     "first_name": "Casey",
     "last_name": "Liu",
@@ -23,7 +23,7 @@
     "hire_date": "2023-07-05",
     "status": "active"
   },
-  {
+  "emp_0003": {
     "employee_id": "emp_0003",
     "first_name": "Drew",
     "last_name": "Kumar",
@@ -35,7 +35,7 @@
     "hire_date": "2023-09-24",
     "status": "active"
   },
-  {
+  "emp_0004": {
     "employee_id": "emp_0004",
     "first_name": "Sam",
     "last_name": "Tran",
@@ -47,7 +47,7 @@
     "hire_date": "2022-12-18",
     "status": "on_leave"
   },
-  {
+  "emp_0005": {
     "employee_id": "emp_0005",
     "first_name": "Robin",
     "last_name": "Jones",
@@ -59,7 +59,7 @@
     "hire_date": "2024-08-26",
     "status": "active"
   },
-  {
+  "emp_0006": {
     "employee_id": "emp_0006",
     "first_name": "Alex",
     "last_name": "Park",
@@ -71,7 +71,7 @@
     "hire_date": "2024-02-19",
     "status": "active"
   },
-  {
+  "emp_0007": {
     "employee_id": "emp_0007",
     "first_name": "Jordan",
     "last_name": "Kim",
@@ -83,7 +83,7 @@
     "hire_date": "2022-04-14",
     "status": "terminated"
   },
-  {
+  "emp_0008": {
     "employee_id": "emp_0008",
     "first_name": "Morgan",
     "last_name": "Lee",
@@ -95,7 +95,7 @@
     "hire_date": "2025-03-19",
     "status": "active"
   },
-  {
+  "emp_0009": {
     "employee_id": "emp_0009",
     "first_name": "Taylor",
     "last_name": "Singh",
@@ -107,7 +107,7 @@
     "hire_date": "2023-02-20",
     "status": "active"
   },
-  {
+  "emp_0010": {
     "employee_id": "emp_0010",
     "first_name": "Avery",
     "last_name": "Zhang",
@@ -119,7 +119,7 @@
     "hire_date": "2023-06-13",
     "status": "active"
   },
-  {
+  "emp_0011": {
     "employee_id": "emp_0011",
     "first_name": "Riley",
     "last_name": "Wang",
@@ -131,7 +131,7 @@
     "hire_date": "2025-04-28",
     "status": "active"
   },
-  {
+  "emp_0012": {
     "employee_id": "emp_0012",
     "first_name": "Quinn",
     "last_name": "Miller",
@@ -143,7 +143,7 @@
     "hire_date": "2023-10-16",
     "status": "active"
   },
-  {
+  "emp_0013": {
     "employee_id": "emp_0013",
     "first_name": "Cameron",
     "last_name": "Patel",
@@ -155,7 +155,7 @@
     "hire_date": "2024-08-29",
     "status": "active"
   },
-  {
+  "emp_0014": {
     "employee_id": "emp_0014",
     "first_name": "Emerson",
     "last_name": "Davis",
@@ -167,7 +167,7 @@
     "hire_date": "2023-11-03",
     "status": "active"
   },
-  {
+  "emp_0015": {
     "employee_id": "emp_0015",
     "first_name": "Peyton",
     "last_name": "Shah",
@@ -179,7 +179,7 @@
     "hire_date": "2023-12-21",
     "status": "active"
   },
-  {
+  "emp_0016": {
     "employee_id": "emp_0016",
     "first_name": "Hayden",
     "last_name": "Brown",
@@ -191,7 +191,7 @@
     "hire_date": "2022-09-09",
     "status": "active"
   },
-  {
+  "emp_0017": {
     "employee_id": "emp_0017",
     "first_name": "Dakota",
     "last_name": "Wilson",
@@ -203,7 +203,7 @@
     "hire_date": "2023-03-05",
     "status": "active"
   },
-  {
+  "emp_0018": {
     "employee_id": "emp_0018",
     "first_name": "Blake",
     "last_name": "Anderson",
@@ -215,7 +215,7 @@
     "hire_date": "2022-07-19",
     "status": "active"
   },
-  {
+  "emp_0019": {
     "employee_id": "emp_0019",
     "first_name": "Sawyer",
     "last_name": "Harris",
@@ -227,7 +227,7 @@
     "hire_date": "2022-04-10",
     "status": "on_leave"
   },
-  {
+  "emp_0020": {
     "employee_id": "emp_0020",
     "first_name": "Remy",
     "last_name": "Clark",
@@ -239,7 +239,7 @@
     "hire_date": "2025-02-15",
     "status": "active"
   },
-  {
+  "emp_0021": {
     "employee_id": "emp_0021",
     "first_name": "Logan",
     "last_name": "Nguyen",
@@ -251,7 +251,7 @@
     "hire_date": "2024-09-04",
     "status": "active"
   },
-  {
+  "emp_0022": {
     "employee_id": "emp_0022",
     "first_name": "Skyler",
     "last_name": "Lopez",
@@ -263,7 +263,7 @@
     "hire_date": "2025-05-08",
     "status": "active"
   },
-  {
+  "emp_0023": {
     "employee_id": "emp_0023",
     "first_name": "Kendall",
     "last_name": "Garcia",
@@ -275,7 +275,7 @@
     "hire_date": "2022-08-05",
     "status": "active"
   },
-  {
+  "emp_0024": {
     "employee_id": "emp_0024",
     "first_name": "Devin",
     "last_name": "Martinez",
@@ -287,7 +287,7 @@
     "hire_date": "2024-09-06",
     "status": "active"
   },
-  {
+  "emp_0025": {
     "employee_id": "emp_0025",
     "first_name": "Elliot",
     "last_name": "Johnson",
@@ -299,7 +299,7 @@
     "hire_date": "2023-01-03",
     "status": "active"
   },
-  {
+  "emp_0026": {
     "employee_id": "emp_0026",
     "first_name": "Finley",
     "last_name": "Thomas",
@@ -311,7 +311,7 @@
     "hire_date": "2024-02-08",
     "status": "active"
   },
-  {
+  "emp_0027": {
     "employee_id": "emp_0027",
     "first_name": "Jesse",
     "last_name": "Moore",
@@ -323,7 +323,7 @@
     "hire_date": "2024-07-11",
     "status": "active"
   },
-  {
+  "emp_0028": {
     "employee_id": "emp_0028",
     "first_name": "Kai",
     "last_name": "Jackson",
@@ -335,7 +335,7 @@
     "hire_date": "2023-02-27",
     "status": "active"
   },
-  {
+  "emp_0029": {
     "employee_id": "emp_0029",
     "first_name": "Lane",
     "last_name": "Taylor",
@@ -347,7 +347,7 @@
     "hire_date": "2022-12-29",
     "status": "active"
   },
-  {
+  "emp_0030": {
     "employee_id": "emp_0030",
     "first_name": "Micah",
     "last_name": "White",
@@ -359,7 +359,7 @@
     "hire_date": "2023-06-10",
     "status": "active"
   },
-  {
+  "emp_0031": {
     "employee_id": "emp_0031",
     "first_name": "Noel",
     "last_name": "Rodriguez",
@@ -371,7 +371,7 @@
     "hire_date": "2022-06-24",
     "status": "active"
   },
-  {
+  "emp_0032": {
     "employee_id": "emp_0032",
     "first_name": "River",
     "last_name": "Thompson",
@@ -383,7 +383,7 @@
     "hire_date": "2024-01-11",
     "status": "on_leave"
   },
-  {
+  "emp_0033": {
     "employee_id": "emp_0033",
     "first_name": "Shawn",
     "last_name": "Lewis",
@@ -395,7 +395,7 @@
     "hire_date": "2022-04-24",
     "status": "terminated"
   },
-  {
+  "emp_0034": {
     "employee_id": "emp_0034",
     "first_name": "Tatum",
     "last_name": "Green",
@@ -407,7 +407,7 @@
     "hire_date": "2023-04-09",
     "status": "active"
   },
-  {
+  "emp_0035": {
     "employee_id": "emp_0035",
     "first_name": "Wyatt",
     "last_name": "Adams",
@@ -419,7 +419,7 @@
     "hire_date": "2023-12-07",
     "status": "active"
   },
-  {
+  "emp_0036": {
     "employee_id": "emp_0036",
     "first_name": "Zion",
     "last_name": "Mitchell",
@@ -431,7 +431,7 @@
     "hire_date": "2022-10-12",
     "status": "active"
   },
-  {
+  "emp_0037": {
     "employee_id": "emp_0037",
     "first_name": "Nico",
     "last_name": "Turner",
@@ -443,7 +443,7 @@
     "hire_date": "2025-03-26",
     "status": "active"
   },
-  {
+  "emp_0038": {
     "employee_id": "emp_0038",
     "first_name": "Sasha",
     "last_name": "Phillips",
@@ -455,7 +455,7 @@
     "hire_date": "2025-05-12",
     "status": "active"
   },
-  {
+  "emp_0039": {
     "employee_id": "emp_0039",
     "first_name": "Briar",
     "last_name": "Campbell",
@@ -467,7 +467,7 @@
     "hire_date": "2022-07-07",
     "status": "active"
   },
-  {
+  "emp_0040": {
     "employee_id": "emp_0040",
     "first_name": "Drew",
     "last_name": "Evans",
@@ -479,7 +479,7 @@
     "hire_date": "2025-01-02",
     "status": "active"
   },
-  {
+  "emp_0041": {
     "employee_id": "emp_0041",
     "first_name": "Evan",
     "last_name": "Roberts",
@@ -491,7 +491,7 @@
     "hire_date": "2022-10-08",
     "status": "active"
   },
-  {
+  "emp_0042": {
     "employee_id": "emp_0042",
     "first_name": "Harper",
     "last_name": "Hernandez",
@@ -503,4 +503,4 @@
     "hire_date": "2022-10-13",
     "status": "active"
   }
-]
+}

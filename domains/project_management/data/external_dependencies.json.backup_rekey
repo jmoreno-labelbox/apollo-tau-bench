@@ -1,0 +1,54 @@
+[
+  {
+    "dependency_id": "ext_001",
+    "milestone_id": "ms_003",
+    "dependency_name": "Cloud GPU Infrastructure",
+    "provider": "CloudTech",
+    "expected_delivery_date": "2024-04-20T00:00:00Z",
+    "confirmed": true,
+    "contact_info": {
+      "name": "CloudTech Support",
+      "email": "support@cloudtech.com"
+    },
+    "criticality": "high",
+    "contingency_days": 0,
+    "notice_days": 45,
+    "created_date": "2024-03-05T10:00:00Z",
+    "status": "pending"
+  },
+  {
+    "dependency_id": "ext_002",
+    "milestone_id": "ms_006",
+    "dependency_name": "Security Audit Services",
+    "provider": "CyberAudit Technologies",
+    "expected_delivery_date": "2024-04-15T00:00:00Z",
+    "confirmed": false,
+    "contact_info": {
+      "name": "Audit Team",
+      "email": "audit@cyberaudit.com"
+    },
+    "criticality": "high",
+    "contingency_days": 7,
+    "notice_days": 30,
+    "created_date": "2024-03-10T11:00:00Z",
+    "status": "pending"
+  },
+  {
+    "dependency_id": "ext_003",
+    "milestone_id": "ms_007",
+    "dependency_name": "Network Infrastructure Upgrade",
+    "provider": "Infrastructure Corp",
+    "expected_delivery_date": "2024-03-25T00:00:00Z",
+    "confirmed": true,
+    "contact_info": {
+      "name": "Infrastructure Support",
+      "email": "support@infrastructure.com"
+    },
+    "criticality": "critical",
+    "contingency_days": 0,
+    "notice_days": 60,
+    "created_date": "2024-02-01T09:00:00Z",
+    "status": "delivered",
+    "actual_delivery_date": "2024-03-24T00:00:00Z"
+  }
+]

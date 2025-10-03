@@ -1,50 +1,50 @@
-[
-  {
+{
+  "9001": {
     "store_id": 9001,
     "store_name": "GreenGrocer Digital",
     "platform_enum": "native",
     "base_url": "https://greengrocer.example.com"
   },
-  {
+  "9002": {
     "store_id": 9002,
     "store_name": "FoodExpress",
     "platform_enum": "aggregator",
     "base_url": "https://foodexpress.example.com"
   },
-  {
+  "9003": {
     "store_id": 9003,
     "store_name": "Natural Farm Collective",
     "platform_enum": "native",
     "base_url": "https://naturalfarm.example.com"
   },
-  {
+  "9004": {
     "store_id": 9004,
     "store_name": "Value Groceries Direct",
     "platform_enum": "native",
     "base_url": "https://valuegroceries.example.com"
   },
-  {
+  "9005": {
     "store_id": 9005,
     "store_name": "Gourmet Pantry Supply",
     "platform_enum": "native",
     "base_url": "https://gourmetpantry.example.com"
   },
-  {
+  "9006": {
     "store_id": 9006,
     "store_name": "Wellness Foods Hub",
     "platform_enum": "aggregator",
     "base_url": "https://wellnessfoods.example.com"
   },
-  {
+  "9007": {
     "store_id": 9007,
     "store_name": "Harvest Direct Service",
     "platform_enum": "native",
     "base_url": "https://harvestdirect.example.com"
   },
-  {
+  "9008": {
     "store_id": 9008,
     "store_name": "SpeedyMart Online",
     "platform_enum": "aggregator",
     "base_url": "https://speedymart.example.com"
   }
-]
+}

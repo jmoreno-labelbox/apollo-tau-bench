@@ -1,5 +1,5 @@
-[
-  {
+{
+  "sub_01": {
     "proposal_id": "sub_01",
     "paper_id": "art_02",
     "writer_person_id": "res_03",
@@ -9,7 +9,7 @@
       "res_01"
     ]
   },
-  {
+  "sub_02": {
     "proposal_id": "sub_02",
     "paper_id": "art_04",
     "writer_person_id": "res_02",
@@ -17,7 +17,7 @@
     "state": "submitted",
     "allocated_evaluators": []
   },
-  {
+  "sub_03": {
     "proposal_id": "sub_03",
     "paper_id": "art_12",
     "writer_person_id": "res_01",
@@ -28,7 +28,7 @@
       "res_04"
     ]
   },
-  {
+  "sub_04": {
     "proposal_id": "sub_04",
     "paper_id": "art_10",
     "writer_person_id": "res_03",
@@ -39,7 +39,7 @@
       "res_06"
     ]
   },
-  {
+  "sub_05": {
     "proposal_id": "sub_05",
     "paper_id": "art_14",
     "writer_person_id": "res_02",
@@ -47,4 +47,4 @@
     "state": "submitted",
     "allocated_evaluators": []
   }
-]
+}

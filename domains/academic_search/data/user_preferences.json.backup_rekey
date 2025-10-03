@@ -1,0 +1,30 @@
+[
+  {
+    "setting_id": "pref_01",
+    "person_id": "res_01",
+    "alert_channel": "email",
+    "primary_email": "helena.souza@innovateai.com",
+    "interface_theme": "dark"
+  },
+  {
+    "setting_id": "pref_02",
+    "person_id": "res_02",
+    "alert_channel": "in_app",
+    "primary_email": "ricardo.mendes@healthcorp.com",
+    "interface_theme": "light"
+  },
+  {
+    "setting_id": "pref_03",
+    "person_id": "res_03",
+    "alert_channel": "email",
+    "primary_email": "lia.costa@spacey.com",
+    "interface_theme": "dark"
+  },
+  {
+    "setting_id": "pref_04",
+    "person_id": "res_05",
+    "alert_channel": "none",
+    "primary_email": "kenji.tanaka@cosmodata.com",
+    "interface_theme": "light"
+  }
+]

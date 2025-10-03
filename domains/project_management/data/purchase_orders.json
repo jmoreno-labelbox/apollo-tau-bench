@@ -1,5 +1,5 @@
-[
-  {
+{
+  "PO-2024-001": {
     "po_number": "PO-2024-001",
     "vendor_id": "vendor_001",
     "project_id": "proj_ai_01",
@@ -23,7 +23,7 @@
       }
     ]
   },
-  {
+  "PO-2024-002": {
     "po_number": "PO-2024-002",
     "vendor_id": "vendor_002",
     "project_id": "proj_mobile_01",
@@ -32,7 +32,7 @@
     "status": "pending_approval",
     "created_date": "2024-03-15T11:00:00Z"
   },
-  {
+  "PO-2024-003": {
     "po_number": "PO-2024-003",
     "vendor_id": "vendor_003",
     "project_id": "proj_enterprise_01",
@@ -56,4 +56,4 @@
       }
     ]
   }
-]
+}

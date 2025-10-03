@@ -1,5 +1,5 @@
-[
-  {
+{
+  "dep_001": {
     "id": "dep_001",
     "project_id": "project_001",
     "dependency_name": "log4j-core",
@@ -10,7 +10,7 @@
     "severity": "critical",
     "last_updated": "2025-01-25T11:00:00Z"
   },
-  {
+  "dep_002": {
     "id": "dep_002",
     "project_id": "project_001",
     "dependency_name": "postgresql-jdbc",
@@ -21,7 +21,7 @@
     "severity": null,
     "last_updated": "2025-01-20T10:00:00Z"
   },
-  {
+  "dep_003": {
     "id": "dep_003",
     "project_id": "project_002",
     "dependency_name": "nginx-ingress-controller",
@@ -32,7 +32,7 @@
     "severity": null,
     "last_updated": "2025-01-18T09:00:00Z"
   },
-  {
+  "dep_004": {
     "id": "dep_004",
     "project_id": "project_003",
     "dependency_name": "maven",
@@ -43,7 +43,7 @@
     "severity": null,
     "last_updated": "2025-01-22T11:00:00Z"
   },
-  {
+  "dep_005": {
     "id": "dep_005",
     "project_id": "project_004",
     "dependency_name": "jenkins",
@@ -54,7 +54,7 @@
     "severity": "medium",
     "last_updated": "2025-01-19T08:00:00Z"
   },
-  {
+  "dep_006": {
     "id": "dep_006",
     "project_id": "project_005",
     "dependency_name": "aws-ecs-agent",
@@ -65,7 +65,7 @@
     "severity": null,
     "last_updated": "2025-01-21T10:00:00Z"
   },
-  {
+  "dep_007": {
     "id": "dep_007",
     "project_id": "project_006",
     "dependency_name": "prometheus",
@@ -76,7 +76,7 @@
     "severity": null,
     "last_updated": "2025-01-23T14:00:00Z"
   },
-  {
+  "dep_008": {
     "id": "dep_008",
     "project_id": "project_007",
     "dependency_name": "spring-cloud-gateway",
@@ -87,7 +87,7 @@
     "severity": null,
     "last_updated": "2025-01-24T12:00:00Z"
   },
-  {
+  "dep_009": {
     "id": "dep_009",
     "project_id": "project_008",
     "dependency_name": "oauth2-server",
@@ -98,7 +98,7 @@
     "severity": "high",
     "last_updated": "2025-01-22T15:00:00Z"
   },
-  {
+  "dep_010": {
     "id": "dep_010",
     "project_id": "project_009",
     "dependency_name": "docker-runtime",
@@ -109,7 +109,7 @@
     "severity": null,
     "last_updated": "2025-01-23T16:00:00Z"
   },
-  {
+  "dep_011": {
     "id": "dep_011",
     "project_id": "project_010",
     "dependency_name": "apache-spark",
@@ -120,7 +120,7 @@
     "severity": null,
     "last_updated": "2025-01-16T10:00:00Z"
   },
-  {
+  "dep_012": {
     "id": "dep_012",
     "project_id": "project_006",
     "dependency_name": "grafana",
@@ -131,4 +131,4 @@
     "severity": null,
     "last_updated": "2025-01-23T14:00:00Z"
   }
-]
+}

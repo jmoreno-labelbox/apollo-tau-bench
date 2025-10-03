@@ -1,5 +1,5 @@
-[
-  {
+{
+  "pay_001": {
     "payment_id": "pay_001",
     "invoice_id": "inv_old_001",
     "vendor_id": "vendor_001",
@@ -12,7 +12,7 @@
     "is_late": false,
     "days_late": 0
   },
-  {
+  "pay_002": {
     "payment_id": "pay_002",
     "invoice_id": "inv_002",
     "vendor_id": "vendor_003",
@@ -25,4 +25,4 @@
     "is_late": false,
     "days_late": 0
   }
-]
+}

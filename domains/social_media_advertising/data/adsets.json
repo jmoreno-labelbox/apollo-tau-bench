@@ -1,5 +1,5 @@
-[
-  {
+{
+  "101": {
     "adset_id": "101",
     "campaign_id": "1",
     "name": "Electronics - CA",
@@ -10,7 +10,7 @@
     "status": "active",
     "updated_at": "2025-08-13T02:15:00Z"
   },
-  {
+  "102": {
     "adset_id": "102",
     "campaign_id": "1",
     "name": "Apparel - CA",
@@ -21,7 +21,7 @@
     "status": "active",
     "updated_at": "2025-08-13T02:15:00Z"
   },
-  {
+  "103": {
     "adset_id": "103",
     "campaign_id": "2",
     "name": "Brand - Video Ads",
@@ -32,7 +32,7 @@
     "status": "active",
     "updated_at": "2025-08-13T02:15:00Z"
   },
-  {
+  "104": {
     "adset_id": "104",
     "campaign_id": "3",
     "name": "Fall Fashion - Women",
@@ -43,7 +43,7 @@
     "status": "active",
     "updated_at": "2025-08-13T02:15:00Z"
   },
-  {
+  "105": {
     "adset_id": "105",
     "campaign_id": "3",
     "name": "Fall Fashion - Men",
@@ -54,7 +54,7 @@
     "status": "active",
     "updated_at": "2025-08-13T23:59:59Z"
   },
-  {
+  "106": {
     "adset_id": "106",
     "campaign_id": "5",
     "name": "Holiday - Home Goods",
@@ -65,7 +65,7 @@
     "status": "active",
     "updated_at": "2025-08-13T23:59:59Z"
   },
-  {
+  "107": {
     "adset_id": "107",
     "campaign_id": "5",
     "name": "Holiday - Toys",
@@ -76,7 +76,7 @@
     "status": "active",
     "updated_at": "2025-08-13T23:59:59Z"
   },
-  {
+  "108": {
     "adset_id": "108",
     "campaign_id": "6",
     "name": "Back to School - Laptops",
@@ -87,7 +87,7 @@
     "status": "active",
     "updated_at": "2025-08-13T02:15:00Z"
   },
-  {
+  "109": {
     "adset_id": "109",
     "campaign_id": "6",
     "name": "Back to School - Stationery",
@@ -98,7 +98,7 @@
     "status": "paused",
     "updated_at": "2025-08-10T12:00:00Z"
   },
-  {
+  "110": {
     "adset_id": "110",
     "campaign_id": "7",
     "name": "App Installs - Android",
@@ -109,7 +109,7 @@
     "status": "active",
     "updated_at": "2025-08-13T23:59:59Z"
   },
-  {
+  "111": {
     "adset_id": "111",
     "campaign_id": "7",
     "name": "App Installs - iOS",
@@ -120,7 +120,7 @@
     "status": "active",
     "updated_at": "2025-08-13T23:59:59Z"
   },
-  {
+  "112": {
     "adset_id": "112",
     "campaign_id": "1",
     "name": "Electronics - UK",
@@ -131,4 +131,4 @@
     "status": "active",
     "updated_at": "2025-08-13T23:59:59Z"
   }
-]
+}

@@ -1,338 +1,338 @@
-[
-  {
+{
+  "branch_001": {
     "id": "branch_001",
     "repository_id": "repo_001",
     "name": "main",
     "created_at": "2024-01-15T10:00:00Z"
   },
-  {
+  "branch_002": {
     "id": "branch_002",
     "repository_id": "repo_001",
     "name": "feature/user-auth",
     "created_at": "2025-01-20T14:30:00Z"
   },
-  {
+  "branch_003": {
     "id": "branch_003",
     "repository_id": "repo_001",
     "name": "release/v1.2.0",
     "created_at": "2025-01-22T09:15:00Z"
   },
-  {
+  "branch_004": {
     "id": "branch_004",
     "repository_id": "repo_002",
     "name": "main",
     "created_at": "2024-02-10T11:00:00Z"
   },
-  {
+  "branch_005": {
     "id": "branch_005",
     "repository_id": "repo_002",
     "name": "feature/helm-charts",
     "created_at": "2025-01-18T16:45:00Z"
   },
-  {
+  "branch_006": {
     "id": "branch_006",
     "repository_id": "repo_002",
     "name": "release/v2.1.0",
     "created_at": "2025-01-19T13:20:00Z"
   },
-  {
+  "branch_007": {
     "id": "branch_007",
     "repository_id": "repo_003",
     "name": "main",
     "created_at": "2024-03-05T08:30:00Z"
   },
-  {
+  "branch_008": {
     "id": "branch_008",
     "repository_id": "repo_003",
     "name": "feature/gitlab-ci",
     "created_at": "2025-01-25T10:15:00Z"
   },
-  {
+  "branch_009": {
     "id": "branch_009",
     "repository_id": "repo_003",
     "name": "release/v3.0.0",
     "created_at": "2025-01-26T15:45:00Z"
   },
-  {
+  "branch_010": {
     "id": "branch_010",
     "repository_id": "repo_004",
     "name": "main",
     "created_at": "2024-01-20T12:00:00Z"
   },
-  {
+  "branch_011": {
     "id": "branch_011",
     "repository_id": "repo_004",
     "name": "feature/jenkins-templates",
     "created_at": "2025-01-19T09:30:00Z"
   },
-  {
+  "branch_012": {
     "id": "branch_012",
     "repository_id": "repo_004",
     "name": "release/v1.0.0",
     "created_at": "2025-01-20T11:00:00Z"
   },
-  {
+  "branch_013": {
     "id": "branch_013",
     "repository_id": "repo_005",
     "name": "main",
     "created_at": "2024-04-12T14:00:00Z"
   },
-  {
+  "branch_014": {
     "id": "branch_014",
     "repository_id": "repo_005",
     "name": "feature/multi-cloud",
     "created_at": "2025-01-25T13:20:00Z"
   },
-  {
+  "branch_015": {
     "id": "branch_015",
     "repository_id": "repo_005",
     "name": "release/v3.0.0",
     "created_at": "2025-01-26T16:30:00Z"
   },
-  {
+  "branch_016": {
     "id": "branch_016",
     "repository_id": "repo_006",
     "name": "main",
     "created_at": "2024-05-08T09:15:00Z"
   },
-  {
+  "branch_017": {
     "id": "branch_017",
     "repository_id": "repo_006",
     "name": "feature/monitoring-stack",
     "created_at": "2025-01-24T15:45:00Z"
   },
-  {
+  "branch_018": {
     "id": "branch_018",
     "repository_id": "repo_006",
     "name": "release/v2.5.0",
     "created_at": "2025-01-25T17:00:00Z"
   },
-  {
+  "branch_019": {
     "id": "branch_019",
     "repository_id": "repo_007",
     "name": "main",
     "created_at": "2024-06-15T10:30:00Z"
   },
-  {
+  "branch_020": {
     "id": "branch_020",
     "repository_id": "repo_007",
     "name": "feature/api-gateway",
     "created_at": "2025-01-26T12:15:00Z"
   },
-  {
+  "branch_021": {
     "id": "branch_021",
     "repository_id": "repo_007",
     "name": "release/v1.8.0",
     "created_at": "2025-01-27T14:30:00Z"
   },
-  {
+  "branch_022": {
     "id": "branch_022",
     "repository_id": "repo_008",
     "name": "main",
     "created_at": "2024-07-22T11:45:00Z"
   },
-  {
+  "branch_023": {
     "id": "branch_023",
     "repository_id": "repo_008",
     "name": "feature/mobile-backend",
     "created_at": "2025-01-25T16:20:00Z"
   },
-  {
+  "branch_024": {
     "id": "branch_024",
     "repository_id": "repo_008",
     "name": "release/v2.3.0",
     "created_at": "2025-01-26T18:45:00Z"
   },
-  {
+  "branch_025": {
     "id": "branch_025",
     "repository_id": "repo_009",
     "name": "main",
     "created_at": "2024-08-10T13:20:00Z"
   },
-  {
+  "branch_026": {
     "id": "branch_026",
     "repository_id": "repo_009",
     "name": "feature/edge-computing",
     "created_at": "2025-01-24T17:30:00Z"
   },
-  {
+  "branch_027": {
     "id": "branch_027",
     "repository_id": "repo_009",
     "name": "release/v1.5.0",
     "created_at": "2025-01-25T19:15:00Z"
   },
-  {
+  "branch_028": {
     "id": "branch_028",
     "repository_id": "repo_010",
     "name": "main",
     "created_at": "2024-09-05T15:00:00Z"
   },
-  {
+  "branch_029": {
     "id": "branch_029",
     "repository_id": "repo_010",
     "name": "feature/data-pipeline",
     "created_at": "2025-01-16T10:45:00Z"
   },
-  {
+  "branch_030": {
     "id": "branch_030",
     "repository_id": "repo_010",
     "name": "release/v4.2.0",
     "created_at": "2025-01-17T12:30:00Z"
   },
-  {
+  "branch_031": {
     "id": "branch_031",
     "repository_id": "repo_011",
     "name": "main",
     "created_at": "2024-06-01T14:20:00Z"
   },
-  {
+  "branch_032": {
     "id": "branch_032",
     "repository_id": "repo_012",
     "name": "main",
     "created_at": "2024-06-15T09:30:00Z"
   },
-  {
+  "branch_033": {
     "id": "branch_033",
     "repository_id": "repo_013",
     "name": "main",
     "created_at": "2024-07-01T11:00:00Z"
   },
-  {
+  "branch_034": {
     "id": "branch_034",
     "repository_id": "repo_014",
     "name": "main",
     "created_at": "2024-07-15T16:00:00Z"
   },
-  {
+  "branch_035": {
     "id": "branch_035",
     "repository_id": "repo_015",
     "name": "main",
     "created_at": "2024-08-01T13:45:00Z"
   },
-  {
+  "branch_036": {
     "id": "branch_036",
     "repository_id": "repo_016",
     "name": "main",
     "created_at": "2023-10-01T10:00:00Z"
   },
-  {
+  "branch_037": {
     "id": "branch_037",
     "repository_id": "repo_017",
     "name": "main",
     "created_at": "2024-08-15T14:30:00Z"
   },
-  {
+  "branch_038": {
     "id": "branch_038",
     "repository_id": "repo_018",
     "name": "main",
     "created_at": "2024-09-01T12:15:00Z"
   },
-  {
+  "branch_039": {
     "id": "branch_039",
     "repository_id": "repo_019",
     "name": "main",
     "created_at": "2024-09-15T15:00:00Z"
   },
-  {
+  "branch_040": {
     "id": "branch_040",
     "repository_id": "repo_020",
     "name": "main",
     "created_at": "2024-10-01T09:00:00Z"
   },
-  {
+  "branch_041": {
     "id": "branch_041",
     "repository_id": "repo_021",
     "name": "main",
     "created_at": "2024-01-20T14:00:00Z"
   },
-  {
+  "branch_042": {
     "id": "branch_042",
     "repository_id": "repo_022",
     "name": "main",
     "created_at": "2024-02-05T11:00:00Z"
   },
-  {
+  "branch_043": {
     "id": "branch_043",
     "repository_id": "repo_023",
     "name": "main",
     "created_at": "2024-02-20T16:00:00Z"
   },
-  {
+  "branch_044": {
     "id": "branch_044",
     "repository_id": "repo_024",
     "name": "main",
     "created_at": "2024-03-05T13:30:00Z"
   },
-  {
+  "branch_045": {
     "id": "branch_045",
     "repository_id": "repo_025",
     "name": "main",
     "created_at": "2024-03-15T18:45:00Z"
   },
-  {
+  "branch_046": {
     "id": "branch_046",
     "repository_id": "repo_026",
     "name": "main",
     "created_at": "2024-03-25T15:20:00Z"
   },
-  {
+  "branch_047": {
     "id": "branch_047",
     "repository_id": "repo_027",
     "name": "main",
     "created_at": "2024-04-05T10:15:00Z"
   },
-  {
+  "branch_048": {
     "id": "branch_048",
     "repository_id": "repo_028",
     "name": "main",
     "created_at": "2024-04-20T14:00:00Z"
   },
-  {
+  "branch_049": {
     "id": "branch_049",
     "repository_id": "repo_029",
     "name": "main",
     "created_at": "2024-05-05T17:30:00Z"
   },
-  {
+  "branch_050": {
     "id": "branch_050",
     "repository_id": "repo_030",
     "name": "main",
     "created_at": "2025-05-20T12:45:00Z"
   },
-  {
+  "branch_051": {
     "id": "branch_051",
     "repository_id": "repo_031",
     "name": "main",
     "created_at": "2024-01-10T08:00:00Z"
   },
-  {
+  "branch_052": {
     "id": "branch_052",
     "repository_id": "repo_031",
     "name": "feature/new-renderer",
     "created_at": "2025-01-15T10:00:00Z"
   },
-  {
+  "branch_053": {
     "id": "branch_053",
     "repository_id": "repo_032",
     "name": "main",
     "created_at": "2024-01-12T09:30:00Z"
   },
-  {
+  "branch_054": {
     "id": "branch_054",
     "repository_id": "repo_032",
     "name": "feature/new-assets",
     "created_at": "2025-01-20T11:30:00Z"
   },
-  {
+  "branch_055": {
     "id": "branch_055",
     "repository_id": "repo_033",
     "name": "main",
     "created_at": "2024-01-14T11:15:00Z"
   },
-  {
+  "branch_056": {
     "id": "branch_056",
     "repository_id": "repo_033",
     "name": "feature/localization-update",
     "created_at": "2025-01-22T14:45:00Z"
   }
-]
+}

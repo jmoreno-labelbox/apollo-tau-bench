@@ -1,5 +1,5 @@
-[
-  {
+{
+  "lca_00001": {
     "assignment_id": "lca_00001",
     "account_id": "acc_dc71c8",
     "employee_id": "emp_0001",
@@ -7,7 +7,7 @@
     "status": "active",
     "assigned_at": "2024-02-09T09:00:00+00:00"
   },
-  {
+  "lca_00002": {
     "assignment_id": "lca_00002",
     "account_id": "acc_dc71c8",
     "employee_id": "emp_0001",
@@ -15,7 +15,7 @@
     "status": "active",
     "assigned_at": "2024-02-09T09:00:00+00:00"
   },
-  {
+  "lca_00003": {
     "assignment_id": "lca_00003",
     "account_id": "acc_287fb8",
     "employee_id": "emp_0002",
@@ -23,7 +23,7 @@
     "status": "active",
     "assigned_at": "2025-02-27T09:00:00+00:00"
   },
-  {
+  "lca_00004": {
     "assignment_id": "lca_00004",
     "account_id": "acc_287fb8",
     "employee_id": "emp_0002",
@@ -31,7 +31,7 @@
     "status": "active",
     "assigned_at": "2025-02-27T09:00:00+00:00"
   },
-  {
+  "lca_00005": {
     "assignment_id": "lca_00005",
     "account_id": "acc_287fb8",
     "employee_id": "emp_0002",
@@ -39,7 +39,7 @@
     "status": "active",
     "assigned_at": "2025-02-27T09:00:00+00:00"
   },
-  {
+  "lca_00006": {
     "assignment_id": "lca_00006",
     "account_id": "acc_287fb8",
     "employee_id": "emp_0002",
@@ -47,7 +47,7 @@
     "status": "active",
     "assigned_at": "2025-02-27T09:00:00+00:00"
   },
-  {
+  "lca_00007": {
     "assignment_id": "lca_00007",
     "account_id": "acc_55687f",
     "employee_id": "emp_0003",
@@ -55,7 +55,7 @@
     "status": "active",
     "assigned_at": "2023-11-26T09:00:00+00:00"
   },
-  {
+  "lca_00008": {
     "assignment_id": "lca_00008",
     "account_id": "acc_55687f",
     "employee_id": "emp_0003",
@@ -63,7 +63,7 @@
     "status": "active",
     "assigned_at": "2023-11-26T09:00:00+00:00"
   },
-  {
+  "lca_00009": {
     "assignment_id": "lca_00009",
     "account_id": "acc_38d007",
     "employee_id": "emp_0004",
@@ -71,7 +71,7 @@
     "status": "active",
     "assigned_at": "2023-12-18T09:00:00+00:00"
   },
-  {
+  "lca_00010": {
     "assignment_id": "lca_00010",
     "account_id": "acc_38d007",
     "employee_id": "emp_0004",
@@ -79,7 +79,7 @@
     "status": "active",
     "assigned_at": "2023-12-18T09:00:00+00:00"
   },
-  {
+  "lca_00011": {
     "assignment_id": "lca_00011",
     "account_id": "acc_38d007",
     "employee_id": "emp_0004",
@@ -87,7 +87,7 @@
     "status": "active",
     "assigned_at": "2023-12-18T09:00:00+00:00"
   },
-  {
+  "lca_00012": {
     "assignment_id": "lca_00012",
     "account_id": "acc_28d3fa",
     "employee_id": "emp_0005",
@@ -95,7 +95,7 @@
     "status": "active",
     "assigned_at": "2023-10-11T09:00:00+00:00"
   },
-  {
+  "lca_00013": {
     "assignment_id": "lca_00013",
     "account_id": "acc_28d3fa",
     "employee_id": "emp_0005",
@@ -103,7 +103,7 @@
     "status": "active",
     "assigned_at": "2023-10-11T09:00:00+00:00"
   },
-  {
+  "lca_00014": {
     "assignment_id": "lca_00014",
     "account_id": "acc_e7e9ee",
     "employee_id": "emp_0006",
@@ -111,7 +111,7 @@
     "status": "active",
     "assigned_at": "2023-07-29T09:00:00+00:00"
   },
-  {
+  "lca_00015": {
     "assignment_id": "lca_00015",
     "account_id": "acc_e7e9ee",
     "employee_id": "emp_0006",
@@ -119,7 +119,7 @@
     "status": "active",
     "assigned_at": "2023-07-29T09:00:00+00:00"
   },
-  {
+  "lca_00016": {
     "assignment_id": "lca_00016",
     "account_id": "acc_e7e9ee",
     "employee_id": "emp_0006",
@@ -127,7 +127,7 @@
     "status": "active",
     "assigned_at": "2023-07-29T09:00:00+00:00"
   },
-  {
+  "lca_00017": {
     "assignment_id": "lca_00017",
     "account_id": "acc_8abc91",
     "employee_id": "emp_0008",
@@ -135,7 +135,7 @@
     "status": "active",
     "assigned_at": "2023-12-06T09:00:00+00:00"
   },
-  {
+  "lca_00018": {
     "assignment_id": "lca_00018",
     "account_id": "acc_8abc91",
     "employee_id": "emp_0008",
@@ -143,7 +143,7 @@
     "status": "active",
     "assigned_at": "2023-12-06T09:00:00+00:00"
   },
-  {
+  "lca_00019": {
     "assignment_id": "lca_00019",
     "account_id": "acc_9e0388",
     "employee_id": "emp_0009",
@@ -151,7 +151,7 @@
     "status": "active",
     "assigned_at": "2024-09-13T09:00:00+00:00"
   },
-  {
+  "lca_00020": {
     "assignment_id": "lca_00020",
     "account_id": "acc_9e0388",
     "employee_id": "emp_0009",
@@ -159,7 +159,7 @@
     "status": "active",
     "assigned_at": "2024-09-13T09:00:00+00:00"
   },
-  {
+  "lca_00021": {
     "assignment_id": "lca_00021",
     "account_id": "acc_9e0388",
     "employee_id": "emp_0009",
@@ -167,7 +167,7 @@
     "status": "active",
     "assigned_at": "2024-09-13T09:00:00+00:00"
   },
-  {
+  "lca_00022": {
     "assignment_id": "lca_00022",
     "account_id": "acc_4d16c0",
     "employee_id": "emp_0010",
@@ -175,7 +175,7 @@
     "status": "active",
     "assigned_at": "2023-11-10T09:00:00+00:00"
   },
-  {
+  "lca_00023": {
     "assignment_id": "lca_00023",
     "account_id": "acc_4d16c0",
     "employee_id": "emp_0010",
@@ -183,7 +183,7 @@
     "status": "active",
     "assigned_at": "2023-11-10T09:00:00+00:00"
   },
-  {
+  "lca_00024": {
     "assignment_id": "lca_00024",
     "account_id": "acc_51e138",
     "employee_id": "emp_0011",
@@ -191,7 +191,7 @@
     "status": "active",
     "assigned_at": "2024-07-04T09:00:00+00:00"
   },
-  {
+  "lca_00025": {
     "assignment_id": "lca_00025",
     "account_id": "acc_51e138",
     "employee_id": "emp_0011",
@@ -199,7 +199,7 @@
     "status": "active",
     "assigned_at": "2024-07-04T09:00:00+00:00"
   },
-  {
+  "lca_00026": {
     "assignment_id": "lca_00026",
     "account_id": "acc_f63934",
     "employee_id": "emp_0012",
@@ -207,7 +207,7 @@
     "status": "active",
     "assigned_at": "2024-02-24T09:00:00+00:00"
   },
-  {
+  "lca_00027": {
     "assignment_id": "lca_00027",
     "account_id": "acc_f63934",
     "employee_id": "emp_0012",
@@ -215,7 +215,7 @@
     "status": "active",
     "assigned_at": "2024-02-24T09:00:00+00:00"
   },
-  {
+  "lca_00028": {
     "assignment_id": "lca_00028",
     "account_id": "acc_f63934",
     "employee_id": "emp_0012",
@@ -223,7 +223,7 @@
     "status": "active",
     "assigned_at": "2024-02-24T09:00:00+00:00"
   },
-  {
+  "lca_00029": {
     "assignment_id": "lca_00029",
     "account_id": "acc_78fb5c",
     "employee_id": "emp_0013",
@@ -231,7 +231,7 @@
     "status": "active",
     "assigned_at": "2024-06-18T09:00:00+00:00"
   },
-  {
+  "lca_00030": {
     "assignment_id": "lca_00030",
     "account_id": "acc_78fb5c",
     "employee_id": "emp_0013",
@@ -239,7 +239,7 @@
     "status": "active",
     "assigned_at": "2024-06-18T09:00:00+00:00"
   },
-  {
+  "lca_00031": {
     "assignment_id": "lca_00031",
     "account_id": "acc_78fb5c",
     "employee_id": "emp_0013",
@@ -247,7 +247,7 @@
     "status": "active",
     "assigned_at": "2024-06-18T09:00:00+00:00"
   },
-  {
+  "lca_00032": {
     "assignment_id": "lca_00032",
     "account_id": "acc_88c4f4",
     "employee_id": "emp_0014",
@@ -255,7 +255,7 @@
     "status": "active",
     "assigned_at": "2024-10-13T09:00:00+00:00"
   },
-  {
+  "lca_00033": {
     "assignment_id": "lca_00033",
     "account_id": "acc_88c4f4",
     "employee_id": "emp_0014",
@@ -263,7 +263,7 @@
     "status": "active",
     "assigned_at": "2024-10-13T09:00:00+00:00"
   },
-  {
+  "lca_00034": {
     "assignment_id": "lca_00034",
     "account_id": "acc_3818d8",
     "employee_id": "emp_0015",
@@ -271,7 +271,7 @@
     "status": "active",
     "assigned_at": "2023-09-21T09:00:00+00:00"
   },
-  {
+  "lca_00035": {
     "assignment_id": "lca_00035",
     "account_id": "acc_3818d8",
     "employee_id": "emp_0015",
@@ -279,7 +279,7 @@
     "status": "active",
     "assigned_at": "2023-09-21T09:00:00+00:00"
   },
-  {
+  "lca_00036": {
     "assignment_id": "lca_00036",
     "account_id": "acc_0099f1",
     "employee_id": "emp_0016",
@@ -287,7 +287,7 @@
     "status": "active",
     "assigned_at": "2023-09-28T09:00:00+00:00"
   },
-  {
+  "lca_00037": {
     "assignment_id": "lca_00037",
     "account_id": "acc_0099f1",
     "employee_id": "emp_0016",
@@ -295,7 +295,7 @@
     "status": "active",
     "assigned_at": "2023-09-28T09:00:00+00:00"
   },
-  {
+  "lca_00038": {
     "assignment_id": "lca_00038",
     "account_id": "acc_0099f1",
     "employee_id": "emp_0016",
@@ -303,7 +303,7 @@
     "status": "active",
     "assigned_at": "2023-09-28T09:00:00+00:00"
   },
-  {
+  "lca_00039": {
     "assignment_id": "lca_00039",
     "account_id": "acc_82aecf",
     "employee_id": "emp_0017",
@@ -311,7 +311,7 @@
     "status": "active",
     "assigned_at": "2023-05-28T09:00:00+00:00"
   },
-  {
+  "lca_00040": {
     "assignment_id": "lca_00040",
     "account_id": "acc_82aecf",
     "employee_id": "emp_0017",
@@ -319,7 +319,7 @@
     "status": "active",
     "assigned_at": "2023-05-28T09:00:00+00:00"
   },
-  {
+  "lca_00041": {
     "assignment_id": "lca_00041",
     "account_id": "acc_8d4bcb",
     "employee_id": "emp_0018",
@@ -327,7 +327,7 @@
     "status": "active",
     "assigned_at": "2024-02-22T09:00:00+00:00"
   },
-  {
+  "lca_00042": {
     "assignment_id": "lca_00042",
     "account_id": "acc_8d4bcb",
     "employee_id": "emp_0018",
@@ -335,7 +335,7 @@
     "status": "active",
     "assigned_at": "2024-02-22T09:00:00+00:00"
   },
-  {
+  "lca_00043": {
     "assignment_id": "lca_00043",
     "account_id": "acc_8d4bcb",
     "employee_id": "emp_0018",
@@ -343,7 +343,7 @@
     "status": "active",
     "assigned_at": "2024-02-22T09:00:00+00:00"
   },
-  {
+  "lca_00044": {
     "assignment_id": "lca_00044",
     "account_id": "acc_1d0980",
     "employee_id": "emp_0019",
@@ -351,7 +351,7 @@
     "status": "active",
     "assigned_at": "2023-10-24T09:00:00+00:00"
   },
-  {
+  "lca_00045": {
     "assignment_id": "lca_00045",
     "account_id": "acc_1d0980",
     "employee_id": "emp_0019",
@@ -359,7 +359,7 @@
     "status": "active",
     "assigned_at": "2023-10-24T09:00:00+00:00"
   },
-  {
+  "lca_00046": {
     "assignment_id": "lca_00046",
     "account_id": "acc_401a71",
     "employee_id": "emp_0020",
@@ -367,7 +367,7 @@
     "status": "active",
     "assigned_at": "2023-12-15T09:00:00+00:00"
   },
-  {
+  "lca_00047": {
     "assignment_id": "lca_00047",
     "account_id": "acc_401a71",
     "employee_id": "emp_0020",
@@ -375,7 +375,7 @@
     "status": "active",
     "assigned_at": "2023-12-15T09:00:00+00:00"
   },
-  {
+  "lca_00048": {
     "assignment_id": "lca_00048",
     "account_id": "acc_43980f",
     "employee_id": "emp_0021",
@@ -383,7 +383,7 @@
     "status": "active",
     "assigned_at": "2023-06-10T09:00:00+00:00"
   },
-  {
+  "lca_00049": {
     "assignment_id": "lca_00049",
     "account_id": "acc_43980f",
     "employee_id": "emp_0021",
@@ -391,7 +391,7 @@
     "status": "active",
     "assigned_at": "2023-06-10T09:00:00+00:00"
   },
-  {
+  "lca_00050": {
     "assignment_id": "lca_00050",
     "account_id": "acc_43980f",
     "employee_id": "emp_0021",
@@ -399,7 +399,7 @@
     "status": "active",
     "assigned_at": "2023-06-10T09:00:00+00:00"
   },
-  {
+  "lca_00051": {
     "assignment_id": "lca_00051",
     "account_id": "acc_51ba73",
     "employee_id": "emp_0022",
@@ -407,7 +407,7 @@
     "status": "active",
     "assigned_at": "2025-01-21T09:00:00+00:00"
   },
-  {
+  "lca_00052": {
     "assignment_id": "lca_00052",
     "account_id": "acc_51ba73",
     "employee_id": "emp_0022",
@@ -415,7 +415,7 @@
     "status": "active",
     "assigned_at": "2025-01-21T09:00:00+00:00"
   },
-  {
+  "lca_00053": {
     "assignment_id": "lca_00053",
     "account_id": "acc_696506",
     "employee_id": "emp_0023",
@@ -423,7 +423,7 @@
     "status": "active",
     "assigned_at": "2024-08-02T09:00:00+00:00"
   },
-  {
+  "lca_00054": {
     "assignment_id": "lca_00054",
     "account_id": "acc_696506",
     "employee_id": "emp_0023",
@@ -431,7 +431,7 @@
     "status": "active",
     "assigned_at": "2024-08-02T09:00:00+00:00"
   },
-  {
+  "lca_00055": {
     "assignment_id": "lca_00055",
     "account_id": "acc_696506",
     "employee_id": "emp_0023",
@@ -439,7 +439,7 @@
     "status": "active",
     "assigned_at": "2024-08-02T09:00:00+00:00"
   },
-  {
+  "lca_00056": {
     "assignment_id": "lca_00056",
     "account_id": "acc_9071d5",
     "employee_id": "emp_0024",
@@ -447,7 +447,7 @@
     "status": "active",
     "assigned_at": "2024-09-05T09:00:00+00:00"
   },
-  {
+  "lca_00057": {
     "assignment_id": "lca_00057",
     "account_id": "acc_9071d5",
     "employee_id": "emp_0024",
@@ -455,7 +455,7 @@
     "status": "active",
     "assigned_at": "2024-09-05T09:00:00+00:00"
   },
-  {
+  "lca_00058": {
     "assignment_id": "lca_00058",
     "account_id": "acc_9071d5",
     "employee_id": "emp_0024",
@@ -463,7 +463,7 @@
     "status": "active",
     "assigned_at": "2024-09-05T09:00:00+00:00"
   },
-  {
+  "lca_00059": {
     "assignment_id": "lca_00059",
     "account_id": "acc_1e8432",
     "employee_id": "emp_0025",
@@ -471,7 +471,7 @@
     "status": "active",
     "assigned_at": "2023-05-14T09:00:00+00:00"
   },
-  {
+  "lca_00060": {
     "assignment_id": "lca_00060",
     "account_id": "acc_1e8432",
     "employee_id": "emp_0025",
@@ -479,7 +479,7 @@
     "status": "active",
     "assigned_at": "2023-05-14T09:00:00+00:00"
   },
-  {
+  "lca_00061": {
     "assignment_id": "lca_00061",
     "account_id": "acc_1e8432",
     "employee_id": "emp_0025",
@@ -487,7 +487,7 @@
     "status": "active",
     "assigned_at": "2023-05-14T09:00:00+00:00"
   },
-  {
+  "lca_00062": {
     "assignment_id": "lca_00062",
     "account_id": "acc_1e8432",
     "employee_id": "emp_0025",
@@ -495,7 +495,7 @@
     "status": "active",
     "assigned_at": "2023-05-14T09:00:00+00:00"
   },
-  {
+  "lca_00063": {
     "assignment_id": "lca_00063",
     "account_id": "acc_bac647",
     "employee_id": "emp_0026",
@@ -503,7 +503,7 @@
     "status": "active",
     "assigned_at": "2025-05-15T09:00:00+00:00"
   },
-  {
+  "lca_00064": {
     "assignment_id": "lca_00064",
     "account_id": "acc_bac647",
     "employee_id": "emp_0026",
@@ -511,7 +511,7 @@
     "status": "active",
     "assigned_at": "2025-05-15T09:00:00+00:00"
   },
-  {
+  "lca_00065": {
     "assignment_id": "lca_00065",
     "account_id": "acc_5494f2",
     "employee_id": "emp_0027",
@@ -519,7 +519,7 @@
     "status": "active",
     "assigned_at": "2023-12-02T09:00:00+00:00"
   },
-  {
+  "lca_00066": {
     "assignment_id": "lca_00066",
     "account_id": "acc_5494f2",
     "employee_id": "emp_0027",
@@ -527,7 +527,7 @@
     "status": "active",
     "assigned_at": "2023-12-02T09:00:00+00:00"
   },
-  {
+  "lca_00067": {
     "assignment_id": "lca_00067",
     "account_id": "acc_5494f2",
     "employee_id": "emp_0027",
@@ -535,7 +535,7 @@
     "status": "active",
     "assigned_at": "2023-12-02T09:00:00+00:00"
   },
-  {
+  "lca_00068": {
     "assignment_id": "lca_00068",
     "account_id": "acc_81d8d5",
     "employee_id": "emp_0028",
@@ -543,7 +543,7 @@
     "status": "active",
     "assigned_at": "2023-05-06T09:00:00+00:00"
   },
-  {
+  "lca_00069": {
     "assignment_id": "lca_00069",
     "account_id": "acc_81d8d5",
     "employee_id": "emp_0028",
@@ -551,7 +551,7 @@
     "status": "active",
     "assigned_at": "2023-05-06T09:00:00+00:00"
   },
-  {
+  "lca_00070": {
     "assignment_id": "lca_00070",
     "account_id": "acc_81d8d5",
     "employee_id": "emp_0028",
@@ -559,7 +559,7 @@
     "status": "active",
     "assigned_at": "2023-05-06T09:00:00+00:00"
   },
-  {
+  "lca_00071": {
     "assignment_id": "lca_00071",
     "account_id": "acc_48efe8",
     "employee_id": "emp_0029",
@@ -567,7 +567,7 @@
     "status": "active",
     "assigned_at": "2023-05-01T09:00:00+00:00"
   },
-  {
+  "lca_00072": {
     "assignment_id": "lca_00072",
     "account_id": "acc_48efe8",
     "employee_id": "emp_0029",
@@ -575,7 +575,7 @@
     "status": "active",
     "assigned_at": "2023-05-01T09:00:00+00:00"
   },
-  {
+  "lca_00073": {
     "assignment_id": "lca_00073",
     "account_id": "acc_db017d",
     "employee_id": "emp_0030",
@@ -583,7 +583,7 @@
     "status": "active",
     "assigned_at": "2023-12-04T09:00:00+00:00"
   },
-  {
+  "lca_00074": {
     "assignment_id": "lca_00074",
     "account_id": "acc_db017d",
     "employee_id": "emp_0030",
@@ -591,7 +591,7 @@
     "status": "active",
     "assigned_at": "2023-12-04T09:00:00+00:00"
   },
-  {
+  "lca_00075": {
     "assignment_id": "lca_00075",
     "account_id": "acc_db017d",
     "employee_id": "emp_0030",
@@ -599,7 +599,7 @@
     "status": "active",
     "assigned_at": "2023-12-04T09:00:00+00:00"
   },
-  {
+  "lca_00076": {
     "assignment_id": "lca_00076",
     "account_id": "acc_351bb4",
     "employee_id": "emp_0031",
@@ -607,7 +607,7 @@
     "status": "active",
     "assigned_at": "2023-07-18T09:00:00+00:00"
   },
-  {
+  "lca_00077": {
     "assignment_id": "lca_00077",
     "account_id": "acc_351bb4",
     "employee_id": "emp_0031",
@@ -615,7 +615,7 @@
     "status": "active",
     "assigned_at": "2023-07-18T09:00:00+00:00"
   },
-  {
+  "lca_00078": {
     "assignment_id": "lca_00078",
     "account_id": "acc_351bb4",
     "employee_id": "emp_0031",
@@ -623,7 +623,7 @@
     "status": "active",
     "assigned_at": "2023-07-18T09:00:00+00:00"
   },
-  {
+  "lca_00079": {
     "assignment_id": "lca_00079",
     "account_id": "acc_351bb4",
     "employee_id": "emp_0031",
@@ -631,7 +631,7 @@
     "status": "active",
     "assigned_at": "2023-07-18T09:00:00+00:00"
   },
-  {
+  "lca_00080": {
     "assignment_id": "lca_00080",
     "account_id": "acc_f06213",
     "employee_id": "emp_0032",
@@ -639,7 +639,7 @@
     "status": "active",
     "assigned_at": "2023-12-24T09:00:00+00:00"
   },
-  {
+  "lca_00081": {
     "assignment_id": "lca_00081",
     "account_id": "acc_f06213",
     "employee_id": "emp_0032",
@@ -647,7 +647,7 @@
     "status": "active",
     "assigned_at": "2023-12-24T09:00:00+00:00"
   },
-  {
+  "lca_00082": {
     "assignment_id": "lca_00082",
     "account_id": "acc_f06213",
     "employee_id": "emp_0032",
@@ -655,7 +655,7 @@
     "status": "active",
     "assigned_at": "2023-12-24T09:00:00+00:00"
   },
-  {
+  "lca_00083": {
     "assignment_id": "lca_00083",
     "account_id": "acc_baacc3",
     "employee_id": "emp_0034",
@@ -663,7 +663,7 @@
     "status": "active",
     "assigned_at": "2025-02-07T09:00:00+00:00"
   },
-  {
+  "lca_00084": {
     "assignment_id": "lca_00084",
     "account_id": "acc_baacc3",
     "employee_id": "emp_0034",
@@ -671,7 +671,7 @@
     "status": "active",
     "assigned_at": "2025-02-07T09:00:00+00:00"
   },
-  {
+  "lca_00085": {
     "assignment_id": "lca_00085",
     "account_id": "acc_baacc3",
     "employee_id": "emp_0034",
@@ -679,7 +679,7 @@
     "status": "active",
     "assigned_at": "2025-02-07T09:00:00+00:00"
   },
-  {
+  "lca_00086": {
     "assignment_id": "lca_00086",
     "account_id": "acc_d89d5c",
     "employee_id": "emp_0035",
@@ -687,7 +687,7 @@
     "status": "active",
     "assigned_at": "2024-02-26T09:00:00+00:00"
   },
-  {
+  "lca_00087": {
     "assignment_id": "lca_00087",
     "account_id": "acc_d89d5c",
     "employee_id": "emp_0035",
@@ -695,7 +695,7 @@
     "status": "active",
     "assigned_at": "2024-02-26T09:00:00+00:00"
   },
-  {
+  "lca_00088": {
     "assignment_id": "lca_00088",
     "account_id": "acc_f9a6bc",
     "employee_id": "emp_0036",
@@ -703,7 +703,7 @@
     "status": "active",
     "assigned_at": "2024-06-21T09:00:00+00:00"
   },
-  {
+  "lca_00089": {
     "assignment_id": "lca_00089",
     "account_id": "acc_f9a6bc",
     "employee_id": "emp_0036",
@@ -711,7 +711,7 @@
     "status": "active",
     "assigned_at": "2024-06-21T09:00:00+00:00"
   },
-  {
+  "lca_00090": {
     "assignment_id": "lca_00090",
     "account_id": "acc_f9a6bc",
     "employee_id": "emp_0036",
@@ -719,7 +719,7 @@
     "status": "active",
     "assigned_at": "2024-06-21T09:00:00+00:00"
   },
-  {
+  "lca_00091": {
     "assignment_id": "lca_00091",
     "account_id": "acc_451983",
     "employee_id": "emp_0037",
@@ -727,7 +727,7 @@
     "status": "active",
     "assigned_at": "2025-02-13T09:00:00+00:00"
   },
-  {
+  "lca_00092": {
     "assignment_id": "lca_00092",
     "account_id": "acc_451983",
     "employee_id": "emp_0037",
@@ -735,7 +735,7 @@
     "status": "active",
     "assigned_at": "2025-02-13T09:00:00+00:00"
   },
-  {
+  "lca_00093": {
     "assignment_id": "lca_00093",
     "account_id": "acc_451983",
     "employee_id": "emp_0037",
@@ -743,7 +743,7 @@
     "status": "active",
     "assigned_at": "2025-02-13T09:00:00+00:00"
   },
-  {
+  "lca_00094": {
     "assignment_id": "lca_00094",
     "account_id": "acc_839501",
     "employee_id": "emp_0038",
@@ -751,7 +751,7 @@
     "status": "active",
     "assigned_at": "2024-03-29T09:00:00+00:00"
   },
-  {
+  "lca_00095": {
     "assignment_id": "lca_00095",
     "account_id": "acc_839501",
     "employee_id": "emp_0038",
@@ -759,7 +759,7 @@
     "status": "active",
     "assigned_at": "2024-03-29T09:00:00+00:00"
   },
-  {
+  "lca_00096": {
     "assignment_id": "lca_00096",
     "account_id": "acc_c42c15",
     "employee_id": "emp_0039",
@@ -767,7 +767,7 @@
     "status": "active",
     "assigned_at": "2023-06-17T09:00:00+00:00"
   },
-  {
+  "lca_00097": {
     "assignment_id": "lca_00097",
     "account_id": "acc_c42c15",
     "employee_id": "emp_0039",
@@ -775,7 +775,7 @@
     "status": "active",
     "assigned_at": "2023-06-17T09:00:00+00:00"
   },
-  {
+  "lca_00098": {
     "assignment_id": "lca_00098",
     "account_id": "acc_54337a",
     "employee_id": "emp_0040",
@@ -783,7 +783,7 @@
     "status": "active",
     "assigned_at": "2023-04-23T09:00:00+00:00"
   },
-  {
+  "lca_00099": {
     "assignment_id": "lca_00099",
     "account_id": "acc_54337a",
     "employee_id": "emp_0040",
@@ -791,7 +791,7 @@
     "status": "active",
     "assigned_at": "2023-04-23T09:00:00+00:00"
   },
-  {
+  "lca_00100": {
     "assignment_id": "lca_00100",
     "account_id": "acc_54337a",
     "employee_id": "emp_0040",
@@ -799,7 +799,7 @@
     "status": "active",
     "assigned_at": "2023-04-23T09:00:00+00:00"
   },
-  {
+  "lca_00101": {
     "assignment_id": "lca_00101",
     "account_id": "acc_6f9008",
     "employee_id": "emp_0041",
@@ -807,7 +807,7 @@
     "status": "active",
     "assigned_at": "2023-03-23T09:00:00+00:00"
   },
-  {
+  "lca_00102": {
     "assignment_id": "lca_00102",
     "account_id": "acc_6f9008",
     "employee_id": "emp_0041",
@@ -815,7 +815,7 @@
     "status": "active",
     "assigned_at": "2023-03-23T09:00:00+00:00"
   },
-  {
+  "lca_00103": {
     "assignment_id": "lca_00103",
     "account_id": "acc_6f9008",
     "employee_id": "emp_0041",
@@ -823,7 +823,7 @@
     "status": "active",
     "assigned_at": "2023-03-23T09:00:00+00:00"
   },
-  {
+  "lca_00104": {
     "assignment_id": "lca_00104",
     "account_id": "acc_f76658",
     "employee_id": "emp_0042",
@@ -831,7 +831,7 @@
     "status": "active",
     "assigned_at": "2025-02-26T09:00:00+00:00"
   },
-  {
+  "lca_00105": {
     "assignment_id": "lca_00105",
     "account_id": "acc_f76658",
     "employee_id": "emp_0042",
@@ -839,4 +839,4 @@
     "status": "active",
     "assigned_at": "2025-02-26T09:00:00+00:00"
   }
-]
+}

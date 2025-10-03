@@ -1,5 +1,5 @@
-[
-  {
+{
+  "conf_001": {
     "conflict_id": "conf_001",
     "type": "competing_requests",
     "status": "active",
@@ -40,7 +40,7 @@
       ]
     }
   },
-  {
+  "conf_002": {
     "conflict_id": "conf_002",
     "type": "overallocation",
     "status": "resolved",
@@ -75,7 +75,7 @@
       "final_utilization": 95
     }
   },
-  {
+  "conf_003": {
     "conflict_id": "conf_003",
     "type": "skill_shortage",
     "status": "active",
@@ -106,7 +106,7 @@
       "reduce_scope"
     ]
   },
-  {
+  "conf_004": {
     "conflict_id": "conf_004",
     "type": "role_duplication",
     "status": "active",
@@ -139,7 +139,7 @@
     "proposed_resolution": "consolidate_projects",
     "merge_candidate": "proj_unified_01"
   },
-  {
+  "conf_005": {
     "conflict_id": "conf_005",
     "type": "emergency_override",
     "status": "resolved",
@@ -167,7 +167,7 @@
     ],
     "emergency_protocol": "EXEC-OVERRIDE-001"
   },
-  {
+  "conf_006": {
     "conflict_id": "conf_006",
     "type": "cross_department_capacity",
     "status": "pending",
@@ -195,7 +195,7 @@
       "eng_new_utilization": 86
     }
   },
-  {
+  "conf_007": {
     "conflict_id": "conf_007",
     "type": "budget_constraint",
     "status": "active",
@@ -217,7 +217,7 @@
       ]
     }
   },
-  {
+  "conf_008": {
     "conflict_id": "conf_008",
     "type": "skill_mismatch",
     "status": "resolved",
@@ -238,7 +238,7 @@
       "efficiency_gain": 25
     }
   },
-  {
+  "conf_009": {
     "conflict_id": "conf_009",
     "type": "timeline_conflict",
     "status": "active",
@@ -261,7 +261,7 @@
       ]
     }
   },
-  {
+  "conf_010": {
     "conflict_id": "conf_010",
     "type": "team_imbalance",
     "status": "pending",
@@ -289,4 +289,4 @@
       ]
     }
   }
-]
+}

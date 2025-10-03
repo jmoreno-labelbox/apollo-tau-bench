@@ -1,7 +1,12 @@
-[
-  {
+{
+  "['zot_001', 'zot_003', 'zot_005', 'zot_006', 'zot_007', 'zot_008']": {
     "item_ids": [
-      "zot_001", "zot_003", "zot_005", "zot_006", "zot_007", "zot_008"
+      "zot_001",
+      "zot_003",
+      "zot_005",
+      "zot_006",
+      "zot_007",
+      "zot_008"
     ],
     "file_paths": [
       "/data/external/zotero_papers/zhang_2023_coastal_flood_ml_comprehensive_review.pdf",
@@ -13,9 +18,12 @@
     ],
     "fetched_ts": "2024-01-25T12:00:00Z"
   },
-  {
+  "['zot_011', 'zot_013', 'zot_014', 'zot_015']": {
     "item_ids": [
-      "zot_011", "zot_013", "zot_014", "zot_015"
+      "zot_011",
+      "zot_013",
+      "zot_014",
+      "zot_015"
     ],
     "file_paths": [
       "/data/external/zotero_papers/peterson_2022_noaa_analysis_30_year_retrospective.pdf",
@@ -25,9 +33,12 @@
     ],
     "fetched_ts": "2024-02-01T11:30:00Z"
   },
-  {
+  "['zot_017', 'zot_018', 'zot_019', 'zot_020']": {
     "item_ids": [
-      "zot_017", "zot_018", "zot_019", "zot_020"
+      "zot_017",
+      "zot_018",
+      "zot_019",
+      "zot_020"
     ],
     "file_paths": [
       "/data/external/zotero_papers/garcia_2022_ml_environmental_prediction_theory_practice.pdf",
@@ -37,9 +48,15 @@
     ],
     "fetched_ts": "2024-03-05T10:15:00Z"
   },
-  {
+  "['zot_021', 'zot_022', 'zot_023', 'zot_024', 'zot_025', 'zot_026', 'zot_027']": {
     "item_ids": [
-      "zot_021", "zot_022", "zot_023", "zot_024", "zot_025", "zot_026", "zot_027"
+      "zot_021",
+      "zot_022",
+      "zot_023",
+      "zot_024",
+      "zot_025",
+      "zot_026",
+      "zot_027"
     ],
     "file_paths": [
       "/data/external/zotero_papers/nordstrom_2018_maritime_safety_ice_coverage_guidelines.pdf",
@@ -52,9 +69,11 @@
     ],
     "fetched_ts": "2024-03-01T11:45:00Z"
   },
-  {
+  "['zot_002', 'zot_004', 'zot_012']": {
     "item_ids": [
-      "zot_002", "zot_004", "zot_012"
+      "zot_002",
+      "zot_004",
+      "zot_012"
     ],
     "file_paths": [
       "/data/external/zotero_papers/kim_2022_deep_learning_sea_level_prediction_multi_source.pdf",
@@ -63,4 +82,4 @@
     ],
     "fetched_ts": "2024-02-01T14:00:00Z"
   }
-]
+}

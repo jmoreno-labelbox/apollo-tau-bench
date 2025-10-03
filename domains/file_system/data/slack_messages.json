@@ -1,5 +1,5 @@
-[
-  {
+{
+  "msg_001": {
     "message_id": "msg_001",
     "channel_id": "ch_001",
     "user_id": "user_005",
@@ -8,7 +8,7 @@
     "timestamp": "2024-01-15T10:35:00Z",
     "type": "task_verification"
   },
-  {
+  "msg_002": {
     "message_id": "msg_002",
     "channel_id": "ch_001",
     "user_id": "user_001",
@@ -17,7 +17,7 @@
     "timestamp": "2024-01-15T14:50:00Z",
     "type": "task_verification"
   },
-  {
+  "msg_003": {
     "message_id": "msg_003",
     "channel_id": "ch_001",
     "user_id": "user_003",
@@ -26,7 +26,7 @@
     "timestamp": "2024-01-12T16:30:00Z",
     "type": "task_completion"
   },
-  {
+  "msg_004": {
     "message_id": "msg_004",
     "channel_id": "ch_002",
     "user_id": "system_agent",
@@ -35,7 +35,7 @@
     "timestamp": "2024-01-12T16:35:00Z",
     "type": "optimization_suggestion"
   },
-  {
+  "msg_005": {
     "message_id": "msg_005",
     "channel_id": "ch_002",
     "user_id": "system_agent",
@@ -44,7 +44,7 @@
     "timestamp": "2024-01-16T11:50:00Z",
     "type": "optimization_suggestion"
   },
-  {
+  "msg_006": {
     "message_id": "msg_006",
     "channel_id": "ch_003",
     "user_id": "system_agent",
@@ -53,7 +53,7 @@
     "timestamp": "2024-01-16T08:00:00Z",
     "type": "system_alert"
   },
-  {
+  "msg_007": {
     "message_id": "msg_007",
     "channel_id": "ch_003",
     "user_id": "system_agent",
@@ -62,7 +62,7 @@
     "timestamp": "2024-01-19T11:35:00Z",
     "type": "error_alert"
   },
-  {
+  "msg_008": {
     "message_id": "msg_008",
     "channel_id": "ch_004",
     "user_id": "user_002",
@@ -71,4 +71,4 @@
     "timestamp": "2024-01-15T15:30:00Z",
     "type": "task_completion"
   }
-]
+}

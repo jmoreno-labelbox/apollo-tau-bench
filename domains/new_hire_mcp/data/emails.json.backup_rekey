@@ -1,0 +1,333 @@
+[
+  {
+    "message_id": "msg_1",
+    "subject": "Welcome to the Team - Emma Thompson",
+    "body": "Dear Jane,\n\nWelcome to our team! We're thrilled to have you join us as our new Product Manager starting August 5th, 2024.\n\nAttached you'll find:\n- Company policies and handbook\n- Benefits guide with enrollment instructions\n- Your personalized welcome packet\n\nPlease review these documents before your first day. If you have any questions, don't hesitate to reach out.\n\nBest regards,\nHR Team",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "emma.thompson@example.com"
+    ],
+    "cc_emails": [
+      "kevin.liu@company.com"
+    ],
+    "date_ts": "2024-07-16T11:00:00Z",
+    "labels_ids": [],
+    "attachments_ids": [
+      "attach_1",
+      "attach_2",
+      "attach_welcome_jane"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_2",
+    "thread_id_nullable": "thread_1",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_2",
+    "subject": "Welcome to the Team - William Davis",
+    "body": "Dear Peter,\n\nWelcome! We're excited for you to start as our Data Scientist on July 29th, 2024.\n\nPlease find attached your onboarding materials including company policies, benefits information, and your personalized welcome packet.\n\nLooking forward to working with you!\n\nBest,\nHR Team",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "william.davis@example.com"
+    ],
+    "cc_emails": [
+      "grace.kim@company.com"
+    ],
+    "date_ts": "2024-07-10T12:00:00Z",
+    "labels_ids": [],
+    "attachments_ids": [
+      "attach_3",
+      "attach_4",
+      "attach_welcome_peter"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_3",
+    "thread_id_nullable": "thread_2",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_3",
+    "subject": "Asset Provisioning Request - Emma Thompson",
+    "body": "Hi IT Assets Team,\n\nWe need to provision a standard laptop for our new Product Manager, Emma Thompson, starting August 5th.\n\nPlease see the attached request details. Priority: Standard\n\nThanks,\nHR Onboarding",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "it-assets@company.com"
+    ],
+    "cc_emails": [
+      "kevin.liu@company.com"
+    ],
+    "date_ts": "2024-07-17T09:05:00Z",
+    "labels_ids": [
+      "label_1"
+    ],
+    "attachments_ids": [
+      "attach_5"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_2",
+    "thread_id_nullable": "thread_3",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_4",
+    "subject": "Asset Provisioning Request - William Davis",
+    "body": "Hi IT Assets Team,\n\nPlease provision a high-performance laptop for William Davis, our new Data Scientist starting July 29th.\n\nRequest details are attached. This role requires additional compute power for data analysis.\n\nBest,\nHR Onboarding",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "it-assets@company.com"
+    ],
+    "cc_emails": [
+      "grace.kim@company.com"
+    ],
+    "date_ts": "2024-07-11T14:05:00Z",
+    "labels_ids": [
+      "label_1"
+    ],
+    "attachments_ids": [
+      "attach_6"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_3",
+    "thread_id_nullable": "thread_4",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_5",
+    "subject": "Reminder: Pending Onboarding Tasks - William Davis",
+    "body": "Hi Peter,\n\nI hope your first week has been going well! Just a friendly reminder about your pending onboarding task:\n\n- Benefits Enrollment (Due: August 5th)\n\nPlease complete this at your earliest convenience. Let me know if you need any assistance.\n\nBest regards,\nHR Team",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "william.davis@example.com"
+    ],
+    "cc_emails": [],
+    "date_ts": "2024-08-05T11:00:00Z",
+    "labels_ids": [
+      "label_2"
+    ],
+    "attachments_ids": [
+      "attach_pending_peter"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_3",
+    "thread_id_nullable": "thread_5",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_6",
+    "subject": "Welcome to the Team - Sofia Martinez",
+    "body": "Dear Maria,\n\nWelcome to our design team! We're excited to have you join as our UX Designer starting August 12th, 2024.\n\nPlease find your onboarding materials attached. Note: We're currently resolving some system access issues that should be fixed before your start date.\n\nLooking forward to having you on board!\n\nBest,\nHR Team",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "sofia.martinez@example.com"
+    ],
+    "cc_emails": [
+      "daniel.lee@company.com"
+    ],
+    "date_ts": "2024-07-20T15:30:00Z",
+    "labels_ids": [],
+    "attachments_ids": [
+      "attach_7",
+      "attach_8",
+      "attach_welcome_maria"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_4",
+    "thread_id_nullable": "thread_6",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_7",
+    "subject": "Welcome to the Team - Jordan Williams",
+    "body": "Dear Alex,\n\nWelcome to our DevOps team! We're thrilled to have you join as our DevOps Engineer starting August 19th, 2024.\n\nYour onboarding materials are attached. As a DevOps engineer, you'll need additional system access which we've already initiated.\n\nExcited to work with you!\n\nBest regards,\nHR Team",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "jordan.williams@example.com"
+    ],
+    "cc_emails": [
+      "rachel.taylor@company.com"
+    ],
+    "date_ts": "2024-07-25T10:45:00Z",
+    "labels_ids": [],
+    "attachments_ids": [
+      "attach_9",
+      "attach_10",
+      "attach_welcome_alex"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_5",
+    "thread_id_nullable": "thread_7",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_8",
+    "subject": "Welcome to the Team - Raj Patel",
+    "body": "Dear Robert,\n\nWelcome! We're excited to have you join our engineering team as a Senior Software Engineer starting September 2nd, 2024.\n\nPlease review the attached onboarding materials. Your laptop allocation is currently being processed.\n\nLooking forward to your contributions!\n\nBest,\nHR Team",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "raj.patel@example.com"
+    ],
+    "cc_emails": [
+      "rachel.taylor@company.com"
+    ],
+    "date_ts": "2024-08-05T17:15:00Z",
+    "labels_ids": [],
+    "attachments_ids": [
+      "attach_11",
+      "attach_12",
+      "attach_welcome_robert"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_7",
+    "thread_id_nullable": "thread_8",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_9",
+    "subject": "Asset Provisioning Request - Sofia Martinez",
+    "body": "Hi IT Assets Team,\n\nUrgent: We need to provision a laptop for Sofia Martinez, our new UX Designer starting August 12th.\n\nNote: There are currently system access issues that need resolution before her start date.\n\nRequest details attached.\n\nThanks,\nHR Onboarding",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "it-assets@company.com"
+    ],
+    "cc_emails": [
+      "daniel.lee@company.com"
+    ],
+    "date_ts": "2024-07-21T10:35:00Z",
+    "labels_ids": [
+      "label_1"
+    ],
+    "attachments_ids": [
+      "attach_13"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_4",
+    "thread_id_nullable": "thread_9",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_10",
+    "subject": "Asset Provisioning Request - Jordan Williams",
+    "body": "Hi IT Assets Team,\n\nPlease provision a MacBook Pro for Jordan Williams, our new DevOps Engineer starting August 19th.\n\nHigh priority - this role requires Unix environment for containerization work.\n\nRequest details attached.\n\nBest,\nHR Onboarding",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "it-assets@company.com"
+    ],
+    "cc_emails": [
+      "rachel.taylor@company.com"
+    ],
+    "date_ts": "2024-07-26T11:20:00Z",
+    "labels_ids": [
+      "label_1"
+    ],
+    "attachments_ids": [
+      "attach_14"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_5",
+    "thread_id_nullable": "thread_10",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_11",
+    "subject": "Asset Provisioning Request - Raj Patel",
+    "body": "Hi IT Assets Team,\n\nWe need to provision a high-spec MacBook Pro for Raj Patel, Senior Software Engineer starting September 2nd.\n\nThis is for a senior role requiring powerful development environment.\n\nRequest details attached.\n\nThanks,\nHR Onboarding",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "it-assets@company.com"
+    ],
+    "cc_emails": [
+      "rachel.taylor@company.com"
+    ],
+    "date_ts": "2024-08-06T14:25:00Z",
+    "labels_ids": [
+      "label_1"
+    ],
+    "attachments_ids": [
+      "attach_15"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_7",
+    "thread_id_nullable": "thread_11",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_12",
+    "subject": "Phone Asset Request - Sofia Martinez",
+    "body": "Hi IT Assets Team,\n\nAdditional request: Please also reserve an iPhone for Sofia Martinez (UX Designer).\n\nShe'll need mobile device testing capabilities for our mobile UX work.\n\nThanks,\nHR Onboarding",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "it-assets@company.com"
+    ],
+    "cc_emails": [
+      "daniel.lee@company.com"
+    ],
+    "date_ts": "2024-07-22T15:10:00Z",
+    "labels_ids": [
+      "label_1"
+    ],
+    "attachments_ids": [
+      "attach_16"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_4",
+    "thread_id_nullable": "thread_12",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_13",
+    "subject": "Overdue: Marketing Platform Access - Lily Zhang",
+    "body": "Hi Emily,\n\nThis is a follow-up reminder about your overdue onboarding task:\n\n- Marketing Platform Access (Was due: August 29th)\n\nPlease coordinate with IT to complete your access setup as soon as possible.\n\nLet me know if you need assistance.\n\nBest regards,\nHR Team",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "lily.zhang@example.com"
+    ],
+    "cc_emails": [
+      "jessica.brown@company.com"
+    ],
+    "date_ts": "2024-08-30T10:00:00Z",
+    "labels_ids": [
+      "label_2"
+    ],
+    "attachments_ids": [
+      "attach_overdue_emily"
+    ],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_6",
+    "thread_id_nullable": "thread_13",
+    "in_reply_to_message_id_nullable": null
+  },
+  {
+    "message_id": "msg_14",
+    "subject": "Access Issues Alert - Sofia Martinez",
+    "body": "Hi IT Team and David,\n\nWe have identified access gaps for Sofia Martinez (UX Designer, starting Aug 12):\n\n- Email: Failed (Exchange server issue)\n- SSO: Failed (Identity provider sync pending)\n- Slack: Failed (depends on SSO)\n- GitHub: Pending (waiting for SSO fix)\n\nPlease prioritize these issues before her start date.\n\nThanks,\nHR Onboarding",
+    "from_email": "hr@company.com",
+    "to_emails": [
+      "it-support@company.com",
+      "daniel.lee@company.com"
+    ],
+    "cc_emails": [],
+    "date_ts": "2024-07-22T11:30:00Z",
+    "labels_ids": [
+      "label_3"
+    ],
+    "attachments_ids": [],
+    "draft_flag": false,
+    "sent_flag": true,
+    "candidate_id_nullable": "cand_4",
+    "thread_id_nullable": "thread_14",
+    "in_reply_to_message_id_nullable": null
+  }
+]

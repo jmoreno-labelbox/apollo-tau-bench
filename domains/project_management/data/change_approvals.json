@@ -1,5 +1,5 @@
-[
-  {
+{
+  "appr_ch_001": {
     "approval_id": "appr_ch_001",
     "cr_id": "cr_001",
     "approver_id": "sh_002",
@@ -9,7 +9,7 @@
     "conditions": [],
     "action_date": "2024-03-12T14:00:00Z"
   },
-  {
+  "appr_ch_002": {
     "approval_id": "appr_ch_002",
     "cr_id": "cr_001",
     "approver_id": "sh_004",
@@ -21,7 +21,7 @@
     ],
     "action_date": "2024-03-12T16:00:00Z"
   },
-  {
+  "appr_ch_003": {
     "approval_id": "appr_ch_003",
     "cr_id": "cr_005",
     "approver_id": "sh_001",
@@ -31,7 +31,7 @@
     "conditions": [],
     "action_date": "2024-03-03T09:00:00Z"
   },
-  {
+  "appr_ch_004": {
     "approval_id": "appr_ch_004",
     "cr_id": "cr_005",
     "approver_id": "sh_003",
@@ -43,7 +43,7 @@
     ],
     "action_date": "2024-03-03T11:00:00Z"
   },
-  {
+  "appr_ch_005": {
     "approval_id": "appr_ch_005",
     "cr_id": "cr_007",
     "approver_id": "sh_003",
@@ -53,4 +53,4 @@
     "conditions": [],
     "action_date": "2024-03-15T02:30:00Z"
   }
-]
+}

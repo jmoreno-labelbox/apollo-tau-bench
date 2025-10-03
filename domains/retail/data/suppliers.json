@@ -1,5 +1,5 @@
-[
-  {
+{
+  "#SUP0001": {
     "supplier_id": "#SUP0001",
     "name": "Tech Supplies Inc.",
     "contact_info": {
@@ -58,7 +58,7 @@
       "8363011723": "discontinued"
     }
   },
-  {
+  "#SUP0002": {
     "supplier_id": "#SUP0002",
     "name": "Worldwide Electronics Partners",
     "contact_info": {
@@ -165,7 +165,7 @@
       "6826843914": 160
     }
   },
-  {
+  "#SUP0003": {
     "supplier_id": "#SUP0003",
     "name": "TechCorp",
     "contact_info": {
@@ -198,7 +198,7 @@
       "4410138384": "out_of_stock"
     }
   },
-  {
+  "#SUP0004": {
     "supplier_id": "#SUP0004",
     "name": "Digital Paradise Distributors",
     "contact_info": {
@@ -256,7 +256,7 @@
       "7160999700": 152
     }
   },
-  {
+  "#SUP0005": {
     "supplier_id": "#SUP0005",
     "name": "Fresh Market Co.",
     "contact_info": {
@@ -323,7 +323,7 @@
       "2343503231": 43
     }
   },
-  {
+  "#SUP0006": {
     "supplier_id": "#SUP0006",
     "name": "Home Essentials Co.",
     "contact_info": {
@@ -407,7 +407,7 @@
       "6259501109": 149
     }
   },
-  {
+  "#SUP0007": {
     "supplier_id": "#SUP0007",
     "name": "Style Trend Distributors",
     "contact_info": {
@@ -495,7 +495,7 @@
       "1133777903": 1
     }
   },
-  {
+  "#SUP0008": {
     "supplier_id": "#SUP0008",
     "name": "Workplace Solutions Center",
     "contact_info": {
@@ -557,7 +557,7 @@
       "4938013542": 196
     }
   },
-  {
+  "#SUP0009": {
     "supplier_id": "#SUP0009",
     "name": "Animal Care Worldwide",
     "contact_info": {
@@ -632,7 +632,7 @@
       "8293778132": 140
     }
   },
-  {
+  "#SUP0010": {
     "supplier_id": "#SUP0010",
     "name": "Athletic Equipment Co.",
     "contact_info": {
@@ -705,7 +705,7 @@
       "3264130640": 129
     }
   },
-  {
+  "#SUP0011": {
     "supplier_id": "#SUP0011",
     "name": "Literature Plus",
     "contact_info": {
@@ -764,7 +764,7 @@
       "5109407456": 152
     }
   },
-  {
+  "#SUP0012": {
     "supplier_id": "#SUP0012",
     "name": "Kitchen Essentials Co.",
     "contact_info": {
@@ -784,4 +784,4 @@
       "4728397765": 126
     }
   }
-]
+}

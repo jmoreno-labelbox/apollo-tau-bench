@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Software Engineer": {
     "role": "Software Engineer",
     "role_id": "software_engineer",
     "required_skills": [
@@ -7,35 +7,54 @@
         "skill": "Programming Languages",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Java", "Python", "JavaScript"]
+        "specific_skills": [
+          "Java",
+          "Python",
+          "JavaScript"
+        ]
       },
       {
         "skill": "Version Control",
         "importance_level": "Critical",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Git", "GitHub/GitLab"]
+        "specific_skills": [
+          "Git",
+          "GitHub/GitLab"
+        ]
       },
       {
         "skill": "Software Architecture",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Microservices", "API Design", "Design Patterns"]
+        "specific_skills": [
+          "Microservices",
+          "API Design",
+          "Design Patterns"
+        ]
       },
       {
         "skill": "Testing",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Unit Testing", "Integration Testing", "TDD"]
+        "specific_skills": [
+          "Unit Testing",
+          "Integration Testing",
+          "TDD"
+        ]
       },
       {
         "skill": "Database Management",
         "importance_level": "Good to Have",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["SQL", "NoSQL", "Database Design"]
+        "specific_skills": [
+          "SQL",
+          "NoSQL",
+          "Database Design"
+        ]
       }
     ]
   },
-  {
+  "Senior Software Engineer": {
     "role": "Senior Software Engineer",
     "role_id": "senior_software_engineer",
     "required_skills": [
@@ -43,35 +62,57 @@
         "skill": "Programming Languages",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Java", "Python", "JavaScript", "Kotlin"]
+        "specific_skills": [
+          "Java",
+          "Python",
+          "JavaScript",
+          "Kotlin"
+        ]
       },
       {
         "skill": "System Design",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Distributed Systems", "Scalability", "Performance Optimization"]
+        "specific_skills": [
+          "Distributed Systems",
+          "Scalability",
+          "Performance Optimization"
+        ]
       },
       {
         "skill": "Leadership",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Code Review", "Mentoring", "Technical Decision Making"]
+        "specific_skills": [
+          "Code Review",
+          "Mentoring",
+          "Technical Decision Making"
+        ]
       },
       {
         "skill": "DevOps",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["CI/CD", "Docker", "Kubernetes", "AWS"]
+        "specific_skills": [
+          "CI/CD",
+          "Docker",
+          "Kubernetes",
+          "AWS"
+        ]
       },
       {
         "skill": "Architecture",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Microservices", "Event-Driven Architecture", "Cloud Architecture"]
+        "specific_skills": [
+          "Microservices",
+          "Event-Driven Architecture",
+          "Cloud Architecture"
+        ]
       }
     ]
   },
-  {
+  "Data Scientist": {
     "role": "Data Scientist",
     "role_id": "data_scientist",
     "required_skills": [
@@ -79,35 +120,56 @@
         "skill": "Programming Languages",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Python", "R", "SQL"]
+        "specific_skills": [
+          "Python",
+          "R",
+          "SQL"
+        ]
       },
       {
         "skill": "Machine Learning",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Supervised Learning", "Unsupervised Learning", "Deep Learning"]
+        "specific_skills": [
+          "Supervised Learning",
+          "Unsupervised Learning",
+          "Deep Learning"
+        ]
       },
       {
         "skill": "Statistics",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Statistical Analysis", "Hypothesis Testing", "Experimental Design"]
+        "specific_skills": [
+          "Statistical Analysis",
+          "Hypothesis Testing",
+          "Experimental Design"
+        ]
       },
       {
         "skill": "Data Visualization",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Tableau", "Power BI", "Matplotlib", "Seaborn"]
+        "specific_skills": [
+          "Tableau",
+          "Power BI",
+          "Matplotlib",
+          "Seaborn"
+        ]
       },
       {
         "skill": "Big Data",
         "importance_level": "Good to Have",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Spark", "Hadoop", "Data Engineering"]
+        "specific_skills": [
+          "Spark",
+          "Hadoop",
+          "Data Engineering"
+        ]
       }
     ]
   },
-  {
+  "UX Designer": {
     "role": "UX Designer",
     "role_id": "ux_designer",
     "required_skills": [
@@ -115,35 +177,55 @@
         "skill": "Design Tools",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Figma", "Sketch", "Adobe Creative Suite"]
+        "specific_skills": [
+          "Figma",
+          "Sketch",
+          "Adobe Creative Suite"
+        ]
       },
       {
         "skill": "User Research",
         "importance_level": "Critical",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["User Interviews", "Usability Testing", "Persona Development"]
+        "specific_skills": [
+          "User Interviews",
+          "Usability Testing",
+          "Persona Development"
+        ]
       },
       {
         "skill": "Design Thinking",
         "importance_level": "Critical",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Empathy Mapping", "Journey Mapping", "Prototyping"]
+        "specific_skills": [
+          "Empathy Mapping",
+          "Journey Mapping",
+          "Prototyping"
+        ]
       },
       {
         "skill": "Information Architecture",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Site Mapping", "Wireframing", "Content Strategy"]
+        "specific_skills": [
+          "Site Mapping",
+          "Wireframing",
+          "Content Strategy"
+        ]
       },
       {
         "skill": "Accessibility",
         "importance_level": "Good to Have",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["WCAG Guidelines", "Inclusive Design", "Accessibility Testing"]
+        "specific_skills": [
+          "WCAG Guidelines",
+          "Inclusive Design",
+          "Accessibility Testing"
+        ]
       }
     ]
   },
-  {
+  "Product Manager": {
     "role": "Product Manager",
     "role_id": "product_manager",
     "required_skills": [
@@ -151,35 +233,55 @@
         "skill": "Product Strategy",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Product Vision", "Roadmapping", "Market Analysis"]
+        "specific_skills": [
+          "Product Vision",
+          "Roadmapping",
+          "Market Analysis"
+        ]
       },
       {
         "skill": "Agile Methodologies",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Scrum", "Kanban", "Sprint Planning"]
+        "specific_skills": [
+          "Scrum",
+          "Kanban",
+          "Sprint Planning"
+        ]
       },
       {
         "skill": "Data Analysis",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["SQL", "Analytics Tools", "A/B Testing"]
+        "specific_skills": [
+          "SQL",
+          "Analytics Tools",
+          "A/B Testing"
+        ]
       },
       {
         "skill": "Stakeholder Management",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Cross-functional Collaboration", "Executive Communication", "Conflict Resolution"]
+        "specific_skills": [
+          "Cross-functional Collaboration",
+          "Executive Communication",
+          "Conflict Resolution"
+        ]
       },
       {
         "skill": "User Experience",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["User Research", "User Journey Mapping", "Usability Principles"]
+        "specific_skills": [
+          "User Research",
+          "User Journey Mapping",
+          "Usability Principles"
+        ]
       }
     ]
   },
-  {
+  "DevOps Engineer": {
     "role": "DevOps Engineer",
     "role_id": "devops_engineer",
     "required_skills": [
@@ -187,35 +289,55 @@
         "skill": "Infrastructure as Code",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Terraform", "CloudFormation", "Ansible"]
+        "specific_skills": [
+          "Terraform",
+          "CloudFormation",
+          "Ansible"
+        ]
       },
       {
         "skill": "Containerization",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Docker", "Kubernetes", "Container Orchestration"]
+        "specific_skills": [
+          "Docker",
+          "Kubernetes",
+          "Container Orchestration"
+        ]
       },
       {
         "skill": "CI/CD",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Jenkins", "GitLab CI", "GitHub Actions"]
+        "specific_skills": [
+          "Jenkins",
+          "GitLab CI",
+          "GitHub Actions"
+        ]
       },
       {
         "skill": "Cloud Platforms",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["AWS", "Azure", "GCP"]
+        "specific_skills": [
+          "AWS",
+          "Azure",
+          "GCP"
+        ]
       },
       {
         "skill": "Monitoring & Logging",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Prometheus", "Grafana", "ELK Stack"]
+        "specific_skills": [
+          "Prometheus",
+          "Grafana",
+          "ELK Stack"
+        ]
       }
     ]
   },
-  {
+  "Data Analyst": {
     "role": "Data Analyst",
     "role_id": "data_analyst",
     "required_skills": [
@@ -223,35 +345,55 @@
         "skill": "SQL",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Complex Queries", "Data Modeling", "Performance Optimization"]
+        "specific_skills": [
+          "Complex Queries",
+          "Data Modeling",
+          "Performance Optimization"
+        ]
       },
       {
         "skill": "Data Visualization",
         "importance_level": "Critical",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Tableau", "Power BI", "Python Visualization Libraries"]
+        "specific_skills": [
+          "Tableau",
+          "Power BI",
+          "Python Visualization Libraries"
+        ]
       },
       {
         "skill": "Statistics",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Descriptive Statistics", "Inferential Statistics", "Correlation Analysis"]
+        "specific_skills": [
+          "Descriptive Statistics",
+          "Inferential Statistics",
+          "Correlation Analysis"
+        ]
       },
       {
         "skill": "Programming",
         "importance_level": "Good to Have",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Python", "R", "Excel Advanced Functions"]
+        "specific_skills": [
+          "Python",
+          "R",
+          "Excel Advanced Functions"
+        ]
       },
       {
         "skill": "Business Intelligence",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Dashboard Creation", "KPI Definition", "Business Metrics"]
+        "specific_skills": [
+          "Dashboard Creation",
+          "KPI Definition",
+          "Business Metrics"
+        ]
       }
     ]
   },
-  {
+  "UX Writer": {
     "role": "UX Writer",
     "role_id": "ux_writer",
     "required_skills": [
@@ -259,35 +401,54 @@
         "skill": "Content Strategy",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Information Architecture", "Content Audits", "Voice & Tone Guidelines"]
+        "specific_skills": [
+          "Information Architecture",
+          "Content Audits",
+          "Voice & Tone Guidelines"
+        ]
       },
       {
         "skill": "User Experience Writing",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Microcopy", "Onboarding Content"]
+        "specific_skills": [
+          "Microcopy",
+          "Onboarding Content"
+        ]
       },
       {
         "skill": "Technical Writing",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["API Documentation", "User Manuals", "Help Content"]
+        "specific_skills": [
+          "API Documentation",
+          "User Manuals",
+          "Help Content"
+        ]
       },
       {
         "skill": "Collaboration",
         "importance_level": "Critical",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Cross-functional Teams", "Design Collaboration", "Stakeholder Alignment"]
+        "specific_skills": [
+          "Cross-functional Teams",
+          "Design Collaboration",
+          "Stakeholder Alignment"
+        ]
       },
       {
         "skill": "Accessibility",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Plain Language", "Screen Reader Compatibility", "Inclusive Language"]
+        "specific_skills": [
+          "Plain Language",
+          "Screen Reader Compatibility",
+          "Inclusive Language"
+        ]
       }
     ]
   },
-  {
+  "People Analytics Lead": {
     "role": "People Analytics Lead",
     "role_id": "people_analytics_lead",
     "required_skills": [
@@ -295,35 +456,58 @@
         "skill": "Data Analysis",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["SQL", "Python", "Statistical Analysis", "Predictive Modeling"]
+        "specific_skills": [
+          "SQL",
+          "Python",
+          "Statistical Analysis",
+          "Predictive Modeling"
+        ]
       },
       {
         "skill": "HR Knowledge",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Talent Management", "Employee Engagement", "Performance Management"]
+        "specific_skills": [
+          "Talent Management",
+          "Employee Engagement",
+          "Performance Management"
+        ]
       },
       {
         "skill": "Data Visualization",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Tableau", "Power BI", "Dashboard Creation", "Storytelling"]
+        "specific_skills": [
+          "Tableau",
+          "Power BI",
+          "Dashboard Creation",
+          "Storytelling"
+        ]
       },
       {
         "skill": "Leadership",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Team Management", "Strategic Planning", "Stakeholder Communication"]
+        "specific_skills": [
+          "Team Management",
+          "Strategic Planning",
+          "Stakeholder Communication"
+        ]
       },
       {
         "skill": "Privacy & Compliance",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["GDPR", "Data Privacy", "HR Compliance", "Ethical Data Use"]
+        "specific_skills": [
+          "GDPR",
+          "Data Privacy",
+          "HR Compliance",
+          "Ethical Data Use"
+        ]
       }
     ]
   },
-  {
+  "DesignOps Lead": {
     "role": "DesignOps Lead",
     "role_id": "designops_lead",
     "required_skills": [
@@ -331,82 +515,125 @@
         "skill": "Design Operations",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Design System Management", "Workflow Optimization", "Tool Administration"]
+        "specific_skills": [
+          "Design System Management",
+          "Workflow Optimization",
+          "Tool Administration"
+        ]
       },
       {
         "skill": "Process Management",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Design Sprints", "Agile Design", "Cross-functional Collaboration"]
+        "specific_skills": [
+          "Design Sprints",
+          "Agile Design",
+          "Cross-functional Collaboration"
+        ]
       },
       {
         "skill": "Leadership",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Team Leadership", "Change Management", "Strategic Planning"]
+        "specific_skills": [
+          "Team Leadership",
+          "Change Management",
+          "Strategic Planning"
+        ]
       },
       {
         "skill": "Design Tools",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Figma", "Design Systems", "Prototyping Tools", "Design Handoff"]
+        "specific_skills": [
+          "Figma",
+          "Design Systems",
+          "Prototyping Tools",
+          "Design Handoff"
+        ]
       },
       {
         "skill": "Analytics & Measurement",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Design Metrics", "ROI Measurement", "Performance Tracking"]
+        "specific_skills": [
+          "Design Metrics",
+          "ROI Measurement",
+          "Performance Tracking"
+        ]
       }
     ]
   },
-  {
+  "Site Reliability Team Lead": {
     "role": "Site Reliability Team Lead",
     "role_id": "site_reliability_team_lead",
     "required_skills": [
       {
         "skill": "Site Reliability Engineering",
-      "importance_level": "Critical",
-      "typical_proficiency_required": "Advanced",
-       "specific_skills": ["Incident Response", "Monitoring", "Automation"]
-    },
+        "importance_level": "Critical",
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "Incident Response",
+          "Monitoring",
+          "Automation"
+        ]
+      },
       {
         "skill": "DevOps",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["CI/CD", "Docker", "Kubernetes"]
-    },
+        "specific_skills": [
+          "CI/CD",
+          "Docker",
+          "Kubernetes"
+        ]
+      },
       {
         "skill": "Leadership",
-      "importance_level": "Critical",
-      "typical_proficiency_required": "Advanced",
-      "specific_skills": ["Team Management", "Mentoring"]
-    }
+        "importance_level": "Critical",
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "Team Management",
+          "Mentoring"
+        ]
+      }
     ]
   },
-  {
+  "Clinical Analytics Lead": {
     "role": "Clinical Analytics Lead",
     "role_id": "clinical_analytics_lead",
     "required_skills": [
       {
         "skill": "Clinical Data Analysis",
-      "importance_level": "Critical",
-      "typical_proficiency_required": "Advanced",
-      "specific_skills": ["SAS", "R", "Python"]
-    },
+        "importance_level": "Critical",
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "SAS",
+          "R",
+          "Python"
+        ]
+      },
       {
         "skill": "Healthcare Domain Knowledge",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Advanced",
-         "specific_skills": ["Clinical Trials", "Regulatory Compliance"]
-        },
-      {"skill": "Data Visualization",
-      "importance_level": "Highly Recommended",
-      "typical_proficiency_required": "Intermediate",
-      "specific_skills": ["Power BI", "Tableau"]
-    }
+        "specific_skills": [
+          "Clinical Trials",
+          "Regulatory Compliance"
+        ]
+      },
+      {
+        "skill": "Data Visualization",
+        "importance_level": "Highly Recommended",
+        "typical_proficiency_required": "Intermediate",
+        "specific_skills": [
+          "Power BI",
+          "Tableau"
+        ]
+      }
     ]
   },
-  {
+  "Director of Data Science": {
     "role": "Director of Data Science",
     "role_id": "director_of_data_science",
     "required_skills": [
@@ -414,22 +641,33 @@
         "skill": "Data Science",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-         "specific_skills": ["Machine Learning", "Statistics", "Big Data"]
-        },
-      {"skill": "Leadership",
-      "importance_level": "Critical",
-      "typical_proficiency_required": "Advanced",
-      "specific_skills": ["Team Leadership", "Strategic Planning"]
-    },
+        "specific_skills": [
+          "Machine Learning",
+          "Statistics",
+          "Big Data"
+        ]
+      },
+      {
+        "skill": "Leadership",
+        "importance_level": "Critical",
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "Team Leadership",
+          "Strategic Planning"
+        ]
+      },
       {
         "skill": "Stakeholder Management",
-      "importance_level": "Highly Recommended",
-      "typical_proficiency_required": "Intermediate",
-      "specific_skills": ["Executive Communication", "Cross-functional Collaboration"]
-    }
+        "importance_level": "Highly Recommended",
+        "typical_proficiency_required": "Intermediate",
+        "specific_skills": [
+          "Executive Communication",
+          "Cross-functional Collaboration"
+        ]
+      }
     ]
   },
-  {
+  "Senior Data Scientist": {
     "role": "Senior Data Scientist",
     "role_id": "senior_data_scientist",
     "required_skills": [
@@ -437,47 +675,66 @@
         "skill": "Machine Learning",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Deep Learning", "Model Deployment"]
-    },
+        "specific_skills": [
+          "Deep Learning",
+          "Model Deployment"
+        ]
+      },
       {
         "skill": "Programming Languages",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Python", "R"]
-    },
+        "specific_skills": [
+          "Python",
+          "R"
+        ]
+      },
       {
         "skill": "Data Visualization",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Tableau", "Power BI"]
-    }
+        "specific_skills": [
+          "Tableau",
+          "Power BI"
+        ]
+      }
     ]
   },
-  {
+  "Backend Tech Lead": {
     "role": "Backend Tech Lead",
     "role_id": "backend_tech_lead",
     "required_skills": [
       {
         "skill": "Backend Development",
         "importance_level": "Critical",
-         "typical_proficiency_required": "Advanced",
-         "specific_skills": ["Java", "Kotlin", "Spring Boot"]
-        },
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "Java",
+          "Kotlin",
+          "Spring Boot"
+        ]
+      },
       {
         "skill": "Systems Design",
-         "importance_level": "Critical",
-         "typical_proficiency_required": "Advanced",
-         "specific_skills": ["Microservices", "API Design"]
-        },
+        "importance_level": "Critical",
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "Microservices",
+          "API Design"
+        ]
+      },
       {
         "skill": "Leadership",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Mentoring", "Code Review"]
-    }
+        "specific_skills": [
+          "Mentoring",
+          "Code Review"
+        ]
+      }
     ]
   },
-  {
+  "Engineering Tech Lead": {
     "role": "Engineering Tech Lead",
     "role_id": "engineering_tech_lead",
     "required_skills": [
@@ -485,17 +742,24 @@
         "skill": "Software Engineering",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Architecture", "DevOps", "CI/CD"]
-    },
+        "specific_skills": [
+          "Architecture",
+          "DevOps",
+          "CI/CD"
+        ]
+      },
       {
         "skill": "Team Leadership",
-      "importance_level": "Critical",
-      "typical_proficiency_required": "Advanced",
-      "specific_skills": ["Mentoring", "Project Management"]
-    }
+        "importance_level": "Critical",
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "Mentoring",
+          "Project Management"
+        ]
+      }
     ]
   },
-  {
+  "Product Marketing Specialist": {
     "role": "Product Marketing Specialist",
     "role_id": "product_marketing_specialist",
     "required_skills": [
@@ -503,16 +767,23 @@
         "skill": "Product Marketing",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["Go-to-Market Strategy", "Market Research"]
-    },
-      {"skill": "Brand Strategy",
-      "importance_level": "Highly Recommended",
-      "typical_proficiency_required": "Intermediate",
-      "specific_skills": ["Brand Positioning", "Storytelling"]
-    }
+        "specific_skills": [
+          "Go-to-Market Strategy",
+          "Market Research"
+        ]
+      },
+      {
+        "skill": "Brand Strategy",
+        "importance_level": "Highly Recommended",
+        "typical_proficiency_required": "Intermediate",
+        "specific_skills": [
+          "Brand Positioning",
+          "Storytelling"
+        ]
+      }
     ]
   },
-  {
+  "Staff SRE": {
     "role": "Staff SRE",
     "role_id": "staff_sre",
     "required_skills": [
@@ -520,102 +791,147 @@
         "skill": "Site Reliability Engineering",
         "importance_level": "Critical",
         "typical_proficiency_required": "Advanced",
-         "specific_skills": ["Incident Response", "Monitoring", "Automation"]
-        },
-      {"skill": "Cloud Infrastructure",
-      "importance_level": "Highly Recommended",
-      "typical_proficiency_required": "Advanced",
-      "specific_skills": ["AWS", "GCP", "Azure"]
-    }
+        "specific_skills": [
+          "Incident Response",
+          "Monitoring",
+          "Automation"
+        ]
+      },
+      {
+        "skill": "Cloud Infrastructure",
+        "importance_level": "Highly Recommended",
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "AWS",
+          "GCP",
+          "Azure"
+        ]
+      }
     ]
   },
-  {
+  "Cloud Security Specialist": {
     "role": "Cloud Security Specialist",
     "role_id": "cloud_security_specialist",
     "required_skills": [
       {
         "skill": "Cloud Security",
-      "importance_level": "Critical",
-       "typical_proficiency_required": "Advanced",
-       "specific_skills": ["IAM", "Encryption", "Vulnerability Management"]
-    },
-      {"skill": "Compliance",
-      "importance_level": "Highly Recommended",
-      "typical_proficiency_required": "Intermediate",
-      "specific_skills": ["Regulatory Research", "Policy Writing"]
-    }
+        "importance_level": "Critical",
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "IAM",
+          "Encryption",
+          "Vulnerability Management"
+        ]
+      },
+      {
+        "skill": "Compliance",
+        "importance_level": "Highly Recommended",
+        "typical_proficiency_required": "Intermediate",
+        "specific_skills": [
+          "Regulatory Research",
+          "Policy Writing"
+        ]
+      }
     ]
   },
-  {
+  "People Analytics Specialist": {
     "role": "People Analytics Specialist",
     "role_id": "people_analytics_specialist",
     "required_skills": [
       {
         "skill": "People Analytics",
-       "importance_level": "Critical",
-       "typical_proficiency_required": "Advanced",
-       "specific_skills": ["Statistical Modeling", "Data Visualization"]
-    },
+        "importance_level": "Critical",
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "Statistical Modeling",
+          "Data Visualization"
+        ]
+      },
       {
         "skill": "HR Knowledge",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Talent Management", "Employee Engagement"]
-    }
+        "specific_skills": [
+          "Talent Management",
+          "Employee Engagement"
+        ]
+      }
     ]
   },
-  {
+  "Data Visualization Lead": {
     "role": "Data Visualization Lead",
     "role_id": "data_visualization_lead",
     "required_skills": [
       {
         "skill": "Data Visualization",
-         "importance_level": "Critical",
-         "typical_proficiency_required": "Advanced",
-         "specific_skills": ["Tableau", "Power BI", "Dashboard Creation"]
-        },
+        "importance_level": "Critical",
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "Tableau",
+          "Power BI",
+          "Dashboard Creation"
+        ]
+      },
       {
         "skill": "Storytelling",
-       "importance_level": "Highly Recommended",
+        "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Data Storytelling", "Presentation"]
-    }
+        "specific_skills": [
+          "Data Storytelling",
+          "Presentation"
+        ]
+      }
     ]
   },
-  {
+  "L&D Innovation Manager": {
     "role": "L&D Innovation Manager",
     "role_id": "ld_innovation_manager",
     "required_skills": [
       {
         "skill": "Learning & Development",
-         "importance_level": "Critical",
-         "typical_proficiency_required": "Advanced",
-         "specific_skills": ["Instructional Design", "eLearning", "AR/VR Training"]
-        },
+        "importance_level": "Critical",
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "Instructional Design",
+          "eLearning",
+          "AR/VR Training"
+        ]
+      },
       {
         "skill": "Innovation Management",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Intermediate",
-        "specific_skills": ["Change Management", "Emerging Tech"]
-    }
+        "specific_skills": [
+          "Change Management",
+          "Emerging Tech"
+        ]
+      }
     ]
   },
-  {
+  "Cloud Security Architect": {
     "role": "Cloud Security Architect",
     "role_id": "cloud_security_architect",
     "required_skills": [
       {
         "skill": "Cloud Architecture",
         "importance_level": "Critical",
-         "typical_proficiency_required": "Advanced",
-          "specific_skills": ["AWS", "Azure", "GCP"]
-        },
+        "typical_proficiency_required": "Advanced",
+        "specific_skills": [
+          "AWS",
+          "Azure",
+          "GCP"
+        ]
+      },
       {
         "skill": "Security Engineering",
         "importance_level": "Highly Recommended",
         "typical_proficiency_required": "Advanced",
-        "specific_skills": ["IAM", "Encryption", "Network Security"]
-    }
+        "specific_skills": [
+          "IAM",
+          "Encryption",
+          "Network Security"
+        ]
+      }
     ]
   }
-]
+}

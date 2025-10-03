@@ -1,5 +1,5 @@
-[
-  {
+{
+  "loan_mort_001": {
     "loan_id": "loan_mort_001",
     "customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
     "account_id": "acc_mort_3003",
@@ -18,7 +18,7 @@
     },
     "purpose": "Primary Residence Purchase"
   },
-  {
+  "loan_auto_002": {
     "loan_id": "loan_auto_002",
     "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
     "account_id": "acc_auto_1004",
@@ -37,7 +37,7 @@
     },
     "purpose": "New Car Purchase"
   },
-  {
+  "loan_pers_003": {
     "loan_id": "loan_pers_003",
     "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
     "account_id": "acc_pers_2003",
@@ -53,7 +53,7 @@
     "collateral": null,
     "purpose": "Home Renovation"
   },
-  {
+  "loan_stud_004": {
     "loan_id": "loan_stud_004",
     "customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9",
     "account_id": "acc_stud_4002",
@@ -69,7 +69,7 @@
     "collateral": null,
     "purpose": "Undergraduate Studies"
   },
-  {
+  "loan_biz_005": {
     "loan_id": "loan_biz_005",
     "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11",
     "account_id": "acc_loan_12002",
@@ -88,7 +88,7 @@
     },
     "purpose": "Farm Expansion"
   },
-  {
+  "loan_mort_006": {
     "loan_id": "loan_mort_006",
     "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17",
     "account_id": "acc_mort_18002",
@@ -103,11 +103,11 @@
     "status": "Active",
     "collateral": {
       "type": "Property",
-      "address": "Avenida Atl\u00e2ntica, 1702, Rio de Janeiro, RJ 22021-001, Brazil"
+      "address": "Avenida Atlântica, 1702, Rio de Janeiro, RJ 22021-001, Brazil"
     },
     "purpose": "Vacation Home Purchase"
   },
-  {
+  "loan_auto_007": {
     "loan_id": "loan_auto_007",
     "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13",
     "account_id": "acc_auto_14003",
@@ -126,7 +126,7 @@
     },
     "purpose": "New Car Purchase"
   },
-  {
+  "loan_pers_008": {
     "loan_id": "loan_pers_008",
     "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",
     "account_id": "acc_pers_9003",
@@ -142,7 +142,7 @@
     "collateral": null,
     "purpose": "Emergency Medical Expenses"
   },
-  {
+  "loan_biz_009": {
     "loan_id": "loan_biz_009",
     "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23",
     "account_id": "acc_biz_24003",
@@ -161,7 +161,7 @@
     },
     "purpose": "Startup Capital"
   },
-  {
+  "loan_mort_010": {
     "loan_id": "loan_mort_010",
     "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef-16",
     "account_id": "acc_mort_17003",
@@ -180,7 +180,7 @@
     },
     "purpose": "Primary Residence Purchase"
   },
-  {
+  "loan_auto_011": {
     "loan_id": "loan_auto_011",
     "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3",
     "account_id": "acc_auto_10003",
@@ -199,7 +199,7 @@
     },
     "purpose": "Family Car Purchase"
   },
-  {
+  "loan_stud_012": {
     "loan_id": "loan_stud_012",
     "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef-22",
     "account_id": "acc_stud_23002",
@@ -215,7 +215,7 @@
     "collateral": null,
     "purpose": "Graduate Studies"
   },
-  {
+  "loan_pers_013": {
     "loan_id": "loan_pers_013",
     "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18",
     "account_id": "acc_pers_19002",
@@ -231,7 +231,7 @@
     "collateral": null,
     "purpose": "Debt Consolidation"
   },
-  {
+  "loan_mort_014": {
     "loan_id": "loan_mort_014",
     "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1",
     "account_id": "acc_mort_8003",
@@ -246,11 +246,11 @@
     "status": "Active",
     "collateral": {
       "type": "Property",
-      "address": "Hauptstra\u00dfe 10, Berlin, 10115, Germany"
+      "address": "Hauptstraße 10, Berlin, 10115, Germany"
     },
     "purpose": "Investment Property"
   },
-  {
+  "loan_auto_015": {
     "loan_id": "loan_auto_015",
     "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-14",
     "account_id": "acc_auto_15002",
@@ -269,7 +269,7 @@
     },
     "purpose": "New Car Purchase"
   },
-  {
+  "loan_biz_016": {
     "loan_id": "loan_biz_016",
     "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21",
     "account_id": "acc_biz_22002",
@@ -288,7 +288,7 @@
     },
     "purpose": "Restaurant Renovation"
   },
-  {
+  "loan_pers_017": {
     "loan_id": "loan_pers_017",
     "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-20",
     "account_id": "acc_pers_21002",
@@ -304,7 +304,7 @@
     "collateral": null,
     "purpose": "Travel"
   },
-  {
+  "loan_mort_018": {
     "loan_id": "loan_mort_018",
     "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6",
     "account_id": "acc_mort_7003",
@@ -323,7 +323,7 @@
     },
     "purpose": "Second Home Purchase"
   },
-  {
+  "loan_auto_019": {
     "loan_id": "loan_auto_019",
     "customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4",
     "account_id": "acc_auto_5003",
@@ -342,7 +342,7 @@
     },
     "purpose": "New Car Purchase"
   },
-  {
+  "loan_pers_020": {
     "loan_id": "loan_pers_020",
     "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-25",
     "account_id": "acc_pers_26002",
@@ -358,4 +358,4 @@
     "collateral": null,
     "purpose": "Business Investment"
   }
-]
+}

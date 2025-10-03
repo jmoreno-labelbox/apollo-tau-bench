@@ -1,5 +1,5 @@
-[
-  {
+{
+  "sec_001": {
     "policy_id": "sec_001",
     "name": "SSH Access Policy",
     "type": "access_control",
@@ -8,30 +8,46 @@
         "rule_id": "ssh_001",
         "description": "Admin users can access all servers",
         "condition": "user.role == 'system_admin' or user.role == 'project_manager'",
-        "allowed_servers": ["*"],
-        "allowed_operations": ["ssh", "scp", "rsync"],
+        "allowed_servers": [
+          "*"
+        ],
+        "allowed_operations": [
+          "ssh",
+          "scp",
+          "rsync"
+        ],
         "time_restrictions": null
       },
       {
         "rule_id": "ssh_002",
         "description": "Developers have limited server access",
         "condition": "user.role == 'developer'",
-        "allowed_servers": ["server-prod-01.company.com", "server-data-01.company.com"],
-        "allowed_operations": ["ssh", "scp"],
+        "allowed_servers": [
+          "server-prod-01.company.com",
+          "server-data-01.company.com"
+        ],
+        "allowed_operations": [
+          "ssh",
+          "scp"
+        ],
         "time_restrictions": "business_hours"
       },
       {
         "rule_id": "ssh_003",
         "description": "Interns restricted to config server only",
         "condition": "user.role == 'intern'",
-        "allowed_servers": ["server-config.company.com"],
-        "allowed_operations": ["ssh"],
+        "allowed_servers": [
+          "server-config.company.com"
+        ],
+        "allowed_operations": [
+          "ssh"
+        ],
         "time_restrictions": "business_hours",
         "require_supervision": true
       }
     ]
   },
-  {
+  "sec_002": {
     "policy_id": "sec_002",
     "name": "File Operation Policy",
     "type": "data_protection",
@@ -40,26 +56,35 @@
         "rule_id": "file_001",
         "description": "Critical files require checksum verification",
         "condition": "file.path.startswith('/etc/') or file.path.startswith('/var/log/') or file.size > 100MB",
-        "required_checks": ["checksum_verification", "backup_confirmation"],
+        "required_checks": [
+          "checksum_verification",
+          "backup_confirmation"
+        ],
         "mandatory": true
       },
       {
         "rule_id": "file_002",
         "description": "Personal data requires encryption during transfer",
         "condition": "file.contains_pii == true or file.path.startswith('/home/')",
-        "required_checks": ["encryption_in_transit", "access_logging"],
+        "required_checks": [
+          "encryption_in_transit",
+          "access_logging"
+        ],
         "mandatory": true
       },
       {
         "rule_id": "file_003",
         "description": "Archive operations require size validation",
         "condition": "operation.type == 'archive'",
-        "required_checks": ["storage_space_check", "compression_ratio_validation"],
+        "required_checks": [
+          "storage_space_check",
+          "compression_ratio_validation"
+        ],
         "mandatory": true
       }
     ]
   },
-  {
+  "sec_003": {
     "policy_id": "sec_003",
     "name": "Remote Connection Security",
     "type": "network_security",
@@ -68,14 +93,20 @@
         "rule_id": "net_001",
         "description": "All SSH connections must use key-based authentication",
         "condition": "connection.protocol == 'ssh'",
-        "requirements": ["ssh_key_auth", "no_password_auth"],
+        "requirements": [
+          "ssh_key_auth",
+          "no_password_auth"
+        ],
         "mandatory": true
       },
       {
         "rule_id": "net_002",
         "description": "File transfers must use secure protocols",
         "condition": "operation.type in ['scp', 'rsync', 'sftp']",
-        "requirements": ["encrypted_transport", "integrity_check"],
+        "requirements": [
+          "encrypted_transport",
+          "integrity_check"
+        ],
         "mandatory": true
       },
       {
@@ -91,7 +122,7 @@
       }
     ]
   },
-  {
+  "sec_004": {
     "policy_id": "sec_004",
     "name": "Audit and Compliance",
     "type": "compliance",
@@ -100,7 +131,11 @@
         "rule_id": "audit_001",
         "description": "All file operations must be logged",
         "condition": "*",
-        "requirements": ["operation_logging", "user_attribution", "timestamp_recording"],
+        "requirements": [
+          "operation_logging",
+          "user_attribution",
+          "timestamp_recording"
+        ],
         "retention_days": 365,
         "mandatory": true
       },
@@ -108,7 +143,11 @@
         "rule_id": "audit_002",
         "description": "Administrative actions require additional logging",
         "condition": "user.permissions.contains('admin')",
-        "requirements": ["detailed_logging", "command_recording", "result_tracking"],
+        "requirements": [
+          "detailed_logging",
+          "command_recording",
+          "result_tracking"
+        ],
         "retention_days": 2555,
         "mandatory": true
       },
@@ -116,10 +155,16 @@
         "rule_id": "audit_003",
         "description": "Failed operations must trigger alerts",
         "condition": "operation.status == 'failed'",
-        "requirements": ["alert_generation", "error_categorization"],
-        "alert_targets": ["system_admin", "security_team"],
+        "requirements": [
+          "alert_generation",
+          "error_categorization"
+        ],
+        "alert_targets": [
+          "system_admin",
+          "security_team"
+        ],
         "mandatory": true
       }
     ]
   }
-]
+}

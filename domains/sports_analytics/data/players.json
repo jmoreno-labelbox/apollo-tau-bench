@@ -1,5 +1,5 @@
-[
-  {
+{
+  "1": {
     "player_id": 1,
     "full_name": "Evelyn Martin",
     "primary_position": "DH",
@@ -8,7 +8,7 @@
     "current_team_id": 8,
     "roster_status": "Active"
   },
-  {
+  "2": {
     "player_id": 2,
     "full_name": "Robert Martinez",
     "primary_position": "RF",
@@ -17,7 +17,7 @@
     "current_team_id": 9,
     "roster_status": "Active"
   },
-  {
+  "3": {
     "player_id": 3,
     "full_name": "Isabella Davis",
     "primary_position": "2B",
@@ -26,7 +26,7 @@
     "current_team_id": 3,
     "roster_status": "Active"
   },
-  {
+  "4": {
     "player_id": 4,
     "full_name": "Michael White",
     "primary_position": "RF",
@@ -35,7 +35,7 @@
     "current_team_id": 8,
     "roster_status": "Active"
   },
-  {
+  "5": {
     "player_id": 5,
     "full_name": "Sarah Williams",
     "primary_position": "CF",
@@ -44,7 +44,7 @@
     "current_team_id": 7,
     "roster_status": "Active"
   },
-  {
+  "6": {
     "player_id": 6,
     "full_name": "Lucas Garcia",
     "primary_position": "CF",
@@ -53,7 +53,7 @@
     "current_team_id": 3,
     "roster_status": "IL-60"
   },
-  {
+  "7": {
     "player_id": 7,
     "full_name": "Alexander Taylor",
     "primary_position": "LF",
@@ -62,7 +62,7 @@
     "current_team_id": 10,
     "roster_status": "Active"
   },
-  {
+  "8": {
     "player_id": 8,
     "full_name": "James Brown",
     "primary_position": "CF",
@@ -71,7 +71,7 @@
     "current_team_id": 3,
     "roster_status": "Active"
   },
-  {
+  "9": {
     "player_id": 9,
     "full_name": "Charlotte Johnson",
     "primary_position": "2B",
@@ -80,7 +80,7 @@
     "current_team_id": 10,
     "roster_status": "Active"
   },
-  {
+  "10": {
     "player_id": 10,
     "full_name": "Benjamin Miller",
     "primary_position": "3B",
@@ -89,7 +89,7 @@
     "current_team_id": 10,
     "roster_status": "IL-15"
   },
-  {
+  "11": {
     "player_id": 11,
     "full_name": "Oliver Thompson",
     "primary_position": "LF",
@@ -98,7 +98,7 @@
     "current_team_id": 6,
     "roster_status": "Active"
   },
-  {
+  "12": {
     "player_id": 12,
     "full_name": "Tyrone Martinez",
     "primary_position": "C",
@@ -107,7 +107,7 @@
     "current_team_id": 2,
     "roster_status": "Active"
   },
-  {
+  "13": {
     "player_id": 13,
     "full_name": "Amelia Jones",
     "primary_position": "2B",
@@ -116,7 +116,7 @@
     "current_team_id": 9,
     "roster_status": "IL-60"
   },
-  {
+  "14": {
     "player_id": 14,
     "full_name": "Henry Williams",
     "primary_position": "LF",
@@ -125,7 +125,7 @@
     "current_team_id": 7,
     "roster_status": "IL-15"
   },
-  {
+  "15": {
     "player_id": 15,
     "full_name": "Sophia Martinez",
     "primary_position": "SS",
@@ -134,4 +134,4 @@
     "current_team_id": 5,
     "roster_status": "Active"
   }
-]
+}

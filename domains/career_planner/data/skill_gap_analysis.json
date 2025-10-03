@@ -1,5 +1,5 @@
-[
-  {
+{
+  "SGA001": {
     "analysis_id": "SGA001",
     "user_id": "U301",
     "target_role": "Director of Data Science",
@@ -13,8 +13,12 @@
         "required_proficiency": "Advanced",
         "importance_level": "Critical",
         "gap_severity": "High",
-        "recommended_courses": ["C1005"],
-        "recommended_mentors": ["M102"],
+        "recommended_courses": [
+          "C1005"
+        ],
+        "recommended_mentors": [
+          "M102"
+        ],
         "estimated_time_to_proficiency": "6 months",
         "priority": "High"
       },
@@ -25,8 +29,12 @@
         "required_proficiency": "Advanced",
         "importance_level": "Critical",
         "gap_severity": "Medium",
-        "recommended_courses": ["C1004"],
-        "recommended_mentors": ["M102"],
+        "recommended_courses": [
+          "C1004"
+        ],
+        "recommended_mentors": [
+          "M102"
+        ],
         "estimated_time_to_proficiency": "12 months",
         "priority": "High"
       },
@@ -38,7 +46,9 @@
         "importance_level": "Highly Recommended",
         "gap_severity": "High",
         "recommended_courses": [],
-        "recommended_mentors": ["M101"],
+        "recommended_mentors": [
+          "M101"
+        ],
         "estimated_time_to_proficiency": "9 months",
         "priority": "Medium"
       }
@@ -52,7 +62,7 @@
     ],
     "timeline_to_target_role": "18 months"
   },
-  {
+  "SGA002": {
     "analysis_id": "SGA002",
     "user_id": "U302",
     "target_role": "Clinical Analytics Lead",
@@ -66,8 +76,12 @@
         "required_proficiency": "Intermediate",
         "importance_level": "Critical",
         "gap_severity": "High",
-        "recommended_courses": ["C1001"],
-        "recommended_mentors": ["M100"],
+        "recommended_courses": [
+          "C1001"
+        ],
+        "recommended_mentors": [
+          "M100"
+        ],
         "estimated_time_to_proficiency": "6 months",
         "priority": "High"
       },
@@ -78,7 +92,9 @@
         "required_proficiency": "Intermediate",
         "importance_level": "Highly Recommended",
         "gap_severity": "High",
-        "recommended_courses": ["C1003"],
+        "recommended_courses": [
+          "C1003"
+        ],
         "recommended_mentors": [],
         "estimated_time_to_proficiency": "3 months",
         "priority": "Medium"
@@ -90,8 +106,12 @@
         "required_proficiency": "Intermediate",
         "importance_level": "Highly Recommended",
         "gap_severity": "Medium",
-        "recommended_courses": ["C1004"],
-        "recommended_mentors": ["M102"],
+        "recommended_courses": [
+          "C1004"
+        ],
+        "recommended_mentors": [
+          "M102"
+        ],
         "estimated_time_to_proficiency": "9 months",
         "priority": "Medium"
       }
@@ -105,7 +125,7 @@
     ],
     "timeline_to_target_role": "24 months"
   },
-  {
+  "SGA003": {
     "analysis_id": "SGA003",
     "user_id": "U304",
     "target_role": "DesignOps Lead",
@@ -120,7 +140,9 @@
         "importance_level": "Critical",
         "gap_severity": "Medium",
         "recommended_courses": [],
-        "recommended_mentors": ["M100"],
+        "recommended_mentors": [
+          "M100"
+        ],
         "estimated_time_to_proficiency": "6 months",
         "priority": "High"
       },
@@ -131,8 +153,12 @@
         "required_proficiency": "Advanced",
         "importance_level": "Critical",
         "gap_severity": "High",
-        "recommended_courses": ["C1004"],
-        "recommended_mentors": ["M100"],
+        "recommended_courses": [
+          "C1004"
+        ],
+        "recommended_mentors": [
+          "M100"
+        ],
         "estimated_time_to_proficiency": "12 months",
         "priority": "High"
       }
@@ -146,7 +172,7 @@
     ],
     "timeline_to_target_role": "15 months"
   },
-  {
+  "SGA004": {
     "analysis_id": "SGA004",
     "user_id": "U305",
     "target_role": "Product Marketing Specialist",
@@ -160,8 +186,12 @@
         "required_proficiency": "Intermediate",
         "importance_level": "Critical",
         "gap_severity": "Medium",
-        "recommended_courses": ["C1006"],
-        "recommended_mentors": ["M103"],
+        "recommended_courses": [
+          "C1006"
+        ],
+        "recommended_mentors": [
+          "M103"
+        ],
         "estimated_time_to_proficiency": "6 months",
         "priority": "High"
       },
@@ -172,8 +202,12 @@
         "required_proficiency": "Intermediate",
         "importance_level": "Highly Recommended",
         "gap_severity": "High",
-        "recommended_courses": ["C1003"],
-        "recommended_mentors": ["M103"],
+        "recommended_courses": [
+          "C1003"
+        ],
+        "recommended_mentors": [
+          "M103"
+        ],
         "estimated_time_to_proficiency": "6 months",
         "priority": "Medium"
       }
@@ -187,7 +221,7 @@
     ],
     "timeline_to_target_role": "18 months"
   },
-  {
+  "SGA005": {
     "analysis_id": "SGA005",
     "user_id": "U306",
     "target_role": "Staff SRE",
@@ -202,7 +236,9 @@
         "importance_level": "Critical",
         "gap_severity": "Medium",
         "recommended_courses": [],
-        "recommended_mentors": ["M101"],
+        "recommended_mentors": [
+          "M101"
+        ],
         "estimated_time_to_proficiency": "6 months",
         "priority": "High"
       },
@@ -214,7 +250,9 @@
         "importance_level": "Highly Recommended",
         "gap_severity": "High",
         "recommended_courses": [],
-        "recommended_mentors": ["M101"],
+        "recommended_mentors": [
+          "M101"
+        ],
         "estimated_time_to_proficiency": "9 months",
         "priority": "Medium"
       },
@@ -225,8 +263,12 @@
         "required_proficiency": "Advanced",
         "importance_level": "Critical",
         "gap_severity": "High",
-        "recommended_courses": ["C1004"],
-        "recommended_mentors": ["M101"],
+        "recommended_courses": [
+          "C1004"
+        ],
+        "recommended_mentors": [
+          "M101"
+        ],
         "estimated_time_to_proficiency": "18 months",
         "priority": "High"
       }
@@ -240,7 +282,7 @@
     ],
     "timeline_to_target_role": "24 months"
   },
-  {
+  "SGA006": {
     "analysis_id": "SGA006",
     "user_id": "U308",
     "target_role": "UX Writer",
@@ -255,7 +297,9 @@
         "importance_level": "Critical",
         "gap_severity": "Medium",
         "recommended_courses": [],
-        "recommended_mentors": ["M102"],
+        "recommended_mentors": [
+          "M102"
+        ],
         "estimated_time_to_proficiency": "6 months",
         "priority": "High"
       },
@@ -267,7 +311,9 @@
         "importance_level": "Critical",
         "gap_severity": "Medium",
         "recommended_courses": [],
-        "recommended_mentors": ["M102"],
+        "recommended_mentors": [
+          "M102"
+        ],
         "estimated_time_to_proficiency": "6 months",
         "priority": "High"
       }
@@ -281,7 +327,7 @@
     ],
     "timeline_to_target_role": "15 months"
   },
-  {
+  "SGA007": {
     "analysis_id": "SGA007",
     "user_id": "U310",
     "target_role": "People Analytics Lead",
@@ -295,7 +341,9 @@
         "required_proficiency": "Advanced",
         "importance_level": "Critical",
         "gap_severity": "High",
-        "recommended_courses": ["C1005"],
+        "recommended_courses": [
+          "C1005"
+        ],
         "recommended_mentors": [],
         "estimated_time_to_proficiency": "12 months",
         "priority": "High"
@@ -307,7 +355,9 @@
         "required_proficiency": "Advanced",
         "importance_level": "Critical",
         "gap_severity": "Medium",
-        "recommended_courses": ["C1003"],
+        "recommended_courses": [
+          "C1003"
+        ],
         "recommended_mentors": [],
         "estimated_time_to_proficiency": "6 months",
         "priority": "Medium"
@@ -322,7 +372,7 @@
     ],
     "timeline_to_target_role": "18 months"
   },
-  {
+  "SGA008": {
     "analysis_id": "SGA008",
     "user_id": "U312",
     "target_role": "Backend Tech Lead",
@@ -337,7 +387,9 @@
         "importance_level": "Highly Recommended",
         "gap_severity": "Medium",
         "recommended_courses": [],
-        "recommended_mentors": ["M101"],
+        "recommended_mentors": [
+          "M101"
+        ],
         "estimated_time_to_proficiency": "6 months",
         "priority": "Medium"
       },
@@ -348,8 +400,12 @@
         "required_proficiency": "Advanced",
         "importance_level": "Critical",
         "gap_severity": "High",
-        "recommended_courses": ["C1004"],
-        "recommended_mentors": ["M101"],
+        "recommended_courses": [
+          "C1004"
+        ],
+        "recommended_mentors": [
+          "M101"
+        ],
         "estimated_time_to_proficiency": "18 months",
         "priority": "High"
       },
@@ -361,7 +417,9 @@
         "importance_level": "Critical",
         "gap_severity": "Medium",
         "recommended_courses": [],
-        "recommended_mentors": ["M101"],
+        "recommended_mentors": [
+          "M101"
+        ],
         "estimated_time_to_proficiency": "12 months",
         "priority": "High"
       }
@@ -375,4 +433,4 @@
     ],
     "timeline_to_target_role": "24 months"
   }
-]
+}

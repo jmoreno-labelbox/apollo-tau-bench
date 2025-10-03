@@ -1,146 +1,264 @@
-[
-    {
-      "user_id": "U301",
-      "preferred_industries": ["Tech"],
-      "preferred_work_style": "Hybrid",
-      "preferred_learning_format": ["Self-paced", "Instructor-led"],
-      "preferred_learning_providers": ["Coursera", "Udacity"],
-      "preferred_mentoring_frequency": "Monthly",
-      "preferred_mentoring_location": "Remote",
-      "willing_to_relocate": false,
-      "career_mobility_interest": ["Vertical Growth"],
-      "available_learning_hours_per_week": 3
-    },
-    {
-      "user_id": "U302",
-      "preferred_industries": ["Healthcare"],
-      "preferred_work_style": "Onsite",
-      "preferred_learning_format": ["Instructor-led"],
-      "preferred_learning_providers": ["edX", "FutureLearn"],
-      "preferred_mentoring_frequency": "Bi-weekly",
-      "preferred_mentoring_location": "Onsite",
-      "willing_to_relocate": true,
-      "career_mobility_interest": ["Domain Deepening"],
-      "available_learning_hours_per_week": 2
-    },
-    {
-      "user_id": "U303",
-      "preferred_industries": ["Finance", "Tech"],
-      "preferred_work_style": "Hybrid",
-      "preferred_learning_format": ["Self-paced"],
-      "preferred_learning_providers": ["Coursera", "Google"],
-      "preferred_mentoring_frequency": "Flexible",
-      "preferred_mentoring_location": "Remote",
-      "willing_to_relocate": false,
-      "career_mobility_interest": ["Lateral Move", "Industry Transition"],
-      "available_learning_hours_per_week": 4
-    },
-    {
-      "user_id": "U304",
-      "preferred_industries": ["Design"],
-      "preferred_work_style": "Remote",
-      "preferred_learning_format": ["Mentor-supported"],
-      "preferred_learning_providers": ["Google", "Udacity"],
-      "preferred_mentoring_frequency": "Monthly",
-      "preferred_mentoring_location": "Remote",
-      "willing_to_relocate": false,
-      "career_mobility_interest": ["Leadership Development"],
-      "available_learning_hours_per_week": 2
-    },
-    {
-      "user_id": "U305",
-      "preferred_industries": ["Marketing"],
-      "preferred_work_style": "Hybrid",
-      "preferred_learning_format": ["Self-paced"],
-      "preferred_learning_providers": ["Coursera", "FutureLearn"],
-      "preferred_mentoring_frequency": "Monthly",
-      "preferred_mentoring_location": "Remote",
-      "willing_to_relocate": true,
-      "career_mobility_interest": ["Lateral Move", "Cross-functional Transition"],
-      "available_learning_hours_per_week": 3
-    },
-    {
-      "user_id": "U306",
-      "preferred_industries": ["Tech"],
-      "preferred_work_style": "Onsite",
-      "preferred_learning_format": ["Self-paced", "Mentor-supported"],
-      "preferred_learning_providers": ["Udacity", "Stanford"],
-      "preferred_mentoring_frequency": "Flexible",
-      "preferred_mentoring_location": "Onsite",
-      "willing_to_relocate": true,
-      "career_mobility_interest": ["Vertical Growth"],
-      "available_learning_hours_per_week": 5
-    },
-    {
-      "user_id": "U307",
-      "preferred_industries": ["Design", "Tech"],
-      "preferred_work_style": "Remote",
-      "preferred_learning_format": ["Mentor-supported"],
-      "preferred_learning_providers": ["Google", "edX"],
-      "preferred_mentoring_frequency": "Monthly",
-      "preferred_mentoring_location": "Remote",
-      "willing_to_relocate": false,
-      "career_mobility_interest": ["Skill Deepening", "Mentorship Contribution"],
-      "available_learning_hours_per_week": 2
-    },
-    {
-      "user_id": "U308",
-      "preferred_industries": ["Tech"],
-      "preferred_work_style": "Remote",
-      "preferred_learning_format": ["Instructor-led"],
-      "preferred_learning_providers": ["Coursera", "edX"],
-      "preferred_mentoring_frequency": "Bi-weekly",
-      "preferred_mentoring_location": "Remote",
-      "willing_to_relocate": false,
-      "career_mobility_interest": ["Track Switch", "Cross-functional Transition"],
-      "available_learning_hours_per_week": 3
-    },
-    {
-      "user_id": "U309",
-      "preferred_industries": ["Learning & Development"],
-      "preferred_work_style": "Hybrid",
-      "preferred_learning_format": ["Instructor-led"],
-      "preferred_learning_providers": ["FutureLearn", "Coursera"],
-      "preferred_mentoring_frequency": "Flexible",
-      "preferred_mentoring_location": "Remote",
-      "willing_to_relocate": false,
-      "career_mobility_interest": ["Innovation Projects"],
-      "available_learning_hours_per_week": 2
-    },
-    {
-      "user_id": "U310",
-      "preferred_industries": ["Human Resources", "Analytics"],
-      "preferred_work_style": "Onsite",
-      "preferred_learning_format": ["Self-paced"],
-      "preferred_learning_providers": ["PMI", "edX"],
-      "preferred_mentoring_frequency": "Monthly",
-      "preferred_mentoring_location": "Onsite",
-      "willing_to_relocate": false,
-      "career_mobility_interest": ["Vertical Growth"],
-      "available_learning_hours_per_week": 3
-    },
-    {
-      "user_id": "U311",
-      "preferred_industries": ["Education"],
-      "preferred_work_style": "Remote",
-      "preferred_learning_format": ["Instructor-led"],
-      "preferred_learning_providers": ["edX", "FutureLearn"],
-      "preferred_mentoring_frequency": "Bi-weekly",
-      "preferred_mentoring_location": "Remote",
-      "willing_to_relocate": false,
-      "career_mobility_interest": ["Certification Completion"],
-      "available_learning_hours_per_week": 2
-    },
-    {
-      "user_id": "U312",
-      "preferred_industries": ["Tech"],
-      "preferred_work_style": "Hybrid",
-      "preferred_learning_format": ["Mentor-supported"],
-      "preferred_learning_providers": ["Udacity", "Google"],
-      "preferred_mentoring_frequency": "Flexible",
-      "preferred_mentoring_location": "Remote",
-      "willing_to_relocate": true,
-      "career_mobility_interest": ["Tech Leadership", "Cross-functional Transition"],
-      "available_learning_hours_per_week": 4
-    }
-  ]
+{
+  "U301": {
+    "user_id": "U301",
+    "preferred_industries": [
+      "Tech"
+    ],
+    "preferred_work_style": "Hybrid",
+    "preferred_learning_format": [
+      "Self-paced",
+      "Instructor-led"
+    ],
+    "preferred_learning_providers": [
+      "Coursera",
+      "Udacity"
+    ],
+    "preferred_mentoring_frequency": "Monthly",
+    "preferred_mentoring_location": "Remote",
+    "willing_to_relocate": false,
+    "career_mobility_interest": [
+      "Vertical Growth"
+    ],
+    "available_learning_hours_per_week": 3
+  },
+  "U302": {
+    "user_id": "U302",
+    "preferred_industries": [
+      "Healthcare"
+    ],
+    "preferred_work_style": "Onsite",
+    "preferred_learning_format": [
+      "Instructor-led"
+    ],
+    "preferred_learning_providers": [
+      "edX",
+      "FutureLearn"
+    ],
+    "preferred_mentoring_frequency": "Bi-weekly",
+    "preferred_mentoring_location": "Onsite",
+    "willing_to_relocate": true,
+    "career_mobility_interest": [
+      "Domain Deepening"
+    ],
+    "available_learning_hours_per_week": 2
+  },
+  "U303": {
+    "user_id": "U303",
+    "preferred_industries": [
+      "Finance",
+      "Tech"
+    ],
+    "preferred_work_style": "Hybrid",
+    "preferred_learning_format": [
+      "Self-paced"
+    ],
+    "preferred_learning_providers": [
+      "Coursera",
+      "Google"
+    ],
+    "preferred_mentoring_frequency": "Flexible",
+    "preferred_mentoring_location": "Remote",
+    "willing_to_relocate": false,
+    "career_mobility_interest": [
+      "Lateral Move",
+      "Industry Transition"
+    ],
+    "available_learning_hours_per_week": 4
+  },
+  "U304": {
+    "user_id": "U304",
+    "preferred_industries": [
+      "Design"
+    ],
+    "preferred_work_style": "Remote",
+    "preferred_learning_format": [
+      "Mentor-supported"
+    ],
+    "preferred_learning_providers": [
+      "Google",
+      "Udacity"
+    ],
+    "preferred_mentoring_frequency": "Monthly",
+    "preferred_mentoring_location": "Remote",
+    "willing_to_relocate": false,
+    "career_mobility_interest": [
+      "Leadership Development"
+    ],
+    "available_learning_hours_per_week": 2
+  },
+  "U305": {
+    "user_id": "U305",
+    "preferred_industries": [
+      "Marketing"
+    ],
+    "preferred_work_style": "Hybrid",
+    "preferred_learning_format": [
+      "Self-paced"
+    ],
+    "preferred_learning_providers": [
+      "Coursera",
+      "FutureLearn"
+    ],
+    "preferred_mentoring_frequency": "Monthly",
+    "preferred_mentoring_location": "Remote",
+    "willing_to_relocate": true,
+    "career_mobility_interest": [
+      "Lateral Move",
+      "Cross-functional Transition"
+    ],
+    "available_learning_hours_per_week": 3
+  },
+  "U306": {
+    "user_id": "U306",
+    "preferred_industries": [
+      "Tech"
+    ],
+    "preferred_work_style": "Onsite",
+    "preferred_learning_format": [
+      "Self-paced",
+      "Mentor-supported"
+    ],
+    "preferred_learning_providers": [
+      "Udacity",
+      "Stanford"
+    ],
+    "preferred_mentoring_frequency": "Flexible",
+    "preferred_mentoring_location": "Onsite",
+    "willing_to_relocate": true,
+    "career_mobility_interest": [
+      "Vertical Growth"
+    ],
+    "available_learning_hours_per_week": 5
+  },
+  "U307": {
+    "user_id": "U307",
+    "preferred_industries": [
+      "Design",
+      "Tech"
+    ],
+    "preferred_work_style": "Remote",
+    "preferred_learning_format": [
+      "Mentor-supported"
+    ],
+    "preferred_learning_providers": [
+      "Google",
+      "edX"
+    ],
+    "preferred_mentoring_frequency": "Monthly",
+    "preferred_mentoring_location": "Remote",
+    "willing_to_relocate": false,
+    "career_mobility_interest": [
+      "Skill Deepening",
+      "Mentorship Contribution"
+    ],
+    "available_learning_hours_per_week": 2
+  },
+  "U308": {
+    "user_id": "U308",
+    "preferred_industries": [
+      "Tech"
+    ],
+    "preferred_work_style": "Remote",
+    "preferred_learning_format": [
+      "Instructor-led"
+    ],
+    "preferred_learning_providers": [
+      "Coursera",
+      "edX"
+    ],
+    "preferred_mentoring_frequency": "Bi-weekly",
+    "preferred_mentoring_location": "Remote",
+    "willing_to_relocate": false,
+    "career_mobility_interest": [
+      "Track Switch",
+      "Cross-functional Transition"
+    ],
+    "available_learning_hours_per_week": 3
+  },
+  "U309": {
+    "user_id": "U309",
+    "preferred_industries": [
+      "Learning & Development"
+    ],
+    "preferred_work_style": "Hybrid",
+    "preferred_learning_format": [
+      "Instructor-led"
+    ],
+    "preferred_learning_providers": [
+      "FutureLearn",
+      "Coursera"
+    ],
+    "preferred_mentoring_frequency": "Flexible",
+    "preferred_mentoring_location": "Remote",
+    "willing_to_relocate": false,
+    "career_mobility_interest": [
+      "Innovation Projects"
+    ],
+    "available_learning_hours_per_week": 2
+  },
+  "U310": {
+    "user_id": "U310",
+    "preferred_industries": [
+      "Human Resources",
+      "Analytics"
+    ],
+    "preferred_work_style": "Onsite",
+    "preferred_learning_format": [
+      "Self-paced"
+    ],
+    "preferred_learning_providers": [
+      "PMI",
+      "edX"
+    ],
+    "preferred_mentoring_frequency": "Monthly",
+    "preferred_mentoring_location": "Onsite",
+    "willing_to_relocate": false,
+    "career_mobility_interest": [
+      "Vertical Growth"
+    ],
+    "available_learning_hours_per_week": 3
+  },
+  "U311": {
+    "user_id": "U311",
+    "preferred_industries": [
+      "Education"
+    ],
+    "preferred_work_style": "Remote",
+    "preferred_learning_format": [
+      "Instructor-led"
+    ],
+    "preferred_learning_providers": [
+      "edX",
+      "FutureLearn"
+    ],
+    "preferred_mentoring_frequency": "Bi-weekly",
+    "preferred_mentoring_location": "Remote",
+    "willing_to_relocate": false,
+    "career_mobility_interest": [
+      "Certification Completion"
+    ],
+    "available_learning_hours_per_week": 2
+  },
+  "U312": {
+    "user_id": "U312",
+    "preferred_industries": [
+      "Tech"
+    ],
+    "preferred_work_style": "Hybrid",
+    "preferred_learning_format": [
+      "Mentor-supported"
+    ],
+    "preferred_learning_providers": [
+      "Udacity",
+      "Google"
+    ],
+    "preferred_mentoring_frequency": "Flexible",
+    "preferred_mentoring_location": "Remote",
+    "willing_to_relocate": true,
+    "career_mobility_interest": [
+      "Tech Leadership",
+      "Cross-functional Transition"
+    ],
+    "available_learning_hours_per_week": 4
+  }
+}

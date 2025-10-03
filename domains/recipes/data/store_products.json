@@ -1,5 +1,5 @@
-[
-  {
+{
+  "9101": {
     "product_id": 9101,
     "store_id": 9001,
     "ingredient_id": 1005,
@@ -9,7 +9,7 @@
     "price_cents": 299,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9102": {
     "product_id": 9102,
     "store_id": 9001,
     "ingredient_id": 1012,
@@ -19,7 +19,7 @@
     "price_cents": 399,
     "stock_status_enum": "low"
   },
-  {
+  "9103": {
     "product_id": 9103,
     "store_id": 9001,
     "ingredient_id": 1001,
@@ -29,7 +29,7 @@
     "price_cents": 599,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9104": {
     "product_id": 9104,
     "store_id": 9001,
     "ingredient_id": 1002,
@@ -39,7 +39,7 @@
     "price_cents": 1299,
     "stock_status_enum": "out_of_stock"
   },
-  {
+  "9105": {
     "product_id": 9105,
     "store_id": 9001,
     "ingredient_id": 1015,
@@ -49,7 +49,7 @@
     "price_cents": 899,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9106": {
     "product_id": 9106,
     "store_id": 9001,
     "ingredient_id": 1066,
@@ -59,7 +59,7 @@
     "price_cents": 249,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9107": {
     "product_id": 9107,
     "store_id": 9001,
     "ingredient_id": 1070,
@@ -69,7 +69,7 @@
     "price_cents": 329,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9108": {
     "product_id": 9108,
     "store_id": 9001,
     "ingredient_id": 1006,
@@ -79,7 +79,7 @@
     "price_cents": 549,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9111": {
     "product_id": 9111,
     "store_id": 9002,
     "ingredient_id": 1026,
@@ -89,7 +89,7 @@
     "price_cents": 449,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9112": {
     "product_id": 9112,
     "store_id": 9002,
     "ingredient_id": 1039,
@@ -99,7 +99,7 @@
     "price_cents": 799,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9113": {
     "product_id": 9113,
     "store_id": 9002,
     "ingredient_id": 1038,
@@ -109,7 +109,7 @@
     "price_cents": 399,
     "stock_status_enum": "low"
   },
-  {
+  "9114": {
     "product_id": 9114,
     "store_id": 9002,
     "ingredient_id": 1041,
@@ -119,7 +119,7 @@
     "price_cents": 499,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9115": {
     "product_id": 9115,
     "store_id": 9002,
     "ingredient_id": 1045,
@@ -129,7 +129,7 @@
     "price_cents": 699,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9116": {
     "product_id": 9116,
     "store_id": 9002,
     "ingredient_id": 1075,
@@ -139,7 +139,7 @@
     "price_cents": 399,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9121": {
     "product_id": 9121,
     "store_id": 9003,
     "ingredient_id": 1003,
@@ -149,7 +149,7 @@
     "price_cents": 549,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9122": {
     "product_id": 9122,
     "store_id": 9003,
     "ingredient_id": 1007,
@@ -159,7 +159,7 @@
     "price_cents": 799,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9123": {
     "product_id": 9123,
     "store_id": 9003,
     "ingredient_id": 1015,
@@ -169,7 +169,7 @@
     "price_cents": 1299,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9124": {
     "product_id": 9124,
     "store_id": 9003,
     "ingredient_id": 1094,
@@ -179,7 +179,7 @@
     "price_cents": 349,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9125": {
     "product_id": 9125,
     "store_id": 9003,
     "ingredient_id": 1092,
@@ -189,7 +189,7 @@
     "price_cents": 449,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9126": {
     "product_id": 9126,
     "store_id": 9003,
     "ingredient_id": 1095,
@@ -199,7 +199,7 @@
     "price_cents": 649,
     "stock_status_enum": "low"
   },
-  {
+  "9131": {
     "product_id": 9131,
     "store_id": 9004,
     "ingredient_id": 1005,
@@ -209,7 +209,7 @@
     "price_cents": 199,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9132": {
     "product_id": 9132,
     "store_id": 9004,
     "ingredient_id": 1027,
@@ -219,7 +219,7 @@
     "price_cents": 299,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9133": {
     "product_id": 9133,
     "store_id": 9004,
     "ingredient_id": 1028,
@@ -229,7 +229,7 @@
     "price_cents": 199,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9134": {
     "product_id": 9134,
     "store_id": 9004,
     "ingredient_id": 1051,
@@ -239,7 +239,7 @@
     "price_cents": 129,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9135": {
     "product_id": 9135,
     "store_id": 9004,
     "ingredient_id": 1052,
@@ -249,7 +249,7 @@
     "price_cents": 129,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9136": {
     "product_id": 9136,
     "store_id": 9004,
     "ingredient_id": 1004,
@@ -259,7 +259,7 @@
     "price_cents": 139,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9141": {
     "product_id": 9141,
     "store_id": 9005,
     "ingredient_id": 1133,
@@ -269,7 +269,7 @@
     "price_cents": 1199,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9142": {
     "product_id": 9142,
     "store_id": 9005,
     "ingredient_id": 1134,
@@ -279,7 +279,7 @@
     "price_cents": 799,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9143": {
     "product_id": 9143,
     "store_id": 9005,
     "ingredient_id": 1135,
@@ -289,7 +289,7 @@
     "price_cents": 599,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9144": {
     "product_id": 9144,
     "store_id": 9005,
     "ingredient_id": 1136,
@@ -299,7 +299,7 @@
     "price_cents": 449,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9145": {
     "product_id": 9145,
     "store_id": 9005,
     "ingredient_id": 1130,
@@ -309,7 +309,7 @@
     "price_cents": 849,
     "stock_status_enum": "low"
   },
-  {
+  "9146": {
     "product_id": 9146,
     "store_id": 9005,
     "ingredient_id": 1064,
@@ -319,7 +319,7 @@
     "price_cents": 399,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9151": {
     "product_id": 9151,
     "store_id": 9006,
     "ingredient_id": 1119,
@@ -329,7 +329,7 @@
     "price_cents": 699,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9152": {
     "product_id": 9152,
     "store_id": 9006,
     "ingredient_id": 1122,
@@ -339,7 +339,7 @@
     "price_cents": 549,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9153": {
     "product_id": 9153,
     "store_id": 9006,
     "ingredient_id": 1065,
@@ -349,7 +349,7 @@
     "price_cents": 449,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9154": {
     "product_id": 9154,
     "store_id": 9006,
     "ingredient_id": 1120,
@@ -359,7 +359,7 @@
     "price_cents": 899,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9155": {
     "product_id": 9155,
     "store_id": 9006,
     "ingredient_id": 1128,
@@ -369,7 +369,7 @@
     "price_cents": 649,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9156": {
     "product_id": 9156,
     "store_id": 9006,
     "ingredient_id": 1131,
@@ -379,7 +379,7 @@
     "price_cents": 849,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9161": {
     "product_id": 9161,
     "store_id": 9007,
     "ingredient_id": 1081,
@@ -389,7 +389,7 @@
     "price_cents": 399,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9162": {
     "product_id": 9162,
     "store_id": 9007,
     "ingredient_id": 1068,
@@ -399,7 +399,7 @@
     "price_cents": 199,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9163": {
     "product_id": 9163,
     "store_id": 9007,
     "ingredient_id": 1079,
@@ -409,7 +409,7 @@
     "price_cents": 299,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9164": {
     "product_id": 9164,
     "store_id": 9007,
     "ingredient_id": 1086,
@@ -419,7 +419,7 @@
     "price_cents": 599,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9165": {
     "product_id": 9165,
     "store_id": 9007,
     "ingredient_id": 1084,
@@ -429,7 +429,7 @@
     "price_cents": 449,
     "stock_status_enum": "low"
   },
-  {
+  "9166": {
     "product_id": 9166,
     "store_id": 9007,
     "ingredient_id": 1103,
@@ -439,7 +439,7 @@
     "price_cents": 299,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9171": {
     "product_id": 9171,
     "store_id": 9008,
     "ingredient_id": 1037,
@@ -449,7 +449,7 @@
     "price_cents": 299,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9172": {
     "product_id": 9172,
     "store_id": 9008,
     "ingredient_id": 1030,
@@ -459,7 +459,7 @@
     "price_cents": 399,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9173": {
     "product_id": 9173,
     "store_id": 9008,
     "ingredient_id": 1024,
@@ -469,7 +469,7 @@
     "price_cents": 449,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9174": {
     "product_id": 9174,
     "store_id": 9008,
     "ingredient_id": 1029,
@@ -479,7 +479,7 @@
     "price_cents": 349,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9175": {
     "product_id": 9175,
     "store_id": 9008,
     "ingredient_id": 1023,
@@ -489,7 +489,7 @@
     "price_cents": 449,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9181": {
     "product_id": 9181,
     "store_id": 9001,
     "ingredient_id": 1048,
@@ -499,7 +499,7 @@
     "price_cents": 999,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9182": {
     "product_id": 9182,
     "store_id": 9001,
     "ingredient_id": 1049,
@@ -509,7 +509,7 @@
     "price_cents": 899,
     "stock_status_enum": "low"
   },
-  {
+  "9183": {
     "product_id": 9183,
     "store_id": 9001,
     "ingredient_id": 1050,
@@ -519,7 +519,7 @@
     "price_cents": 399,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9191": {
     "product_id": 9191,
     "store_id": 9003,
     "ingredient_id": 1054,
@@ -529,7 +529,7 @@
     "price_cents": 449,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9192": {
     "product_id": 9192,
     "store_id": 9003,
     "ingredient_id": 1055,
@@ -539,7 +539,7 @@
     "price_cents": 799,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9193": {
     "product_id": 9193,
     "store_id": 9003,
     "ingredient_id": 1096,
@@ -549,7 +549,7 @@
     "price_cents": 599,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9201": {
     "product_id": 9201,
     "store_id": 9004,
     "ingredient_id": 1141,
@@ -559,7 +559,7 @@
     "price_cents": 199,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9202": {
     "product_id": 9202,
     "store_id": 9004,
     "ingredient_id": 1142,
@@ -569,7 +569,7 @@
     "price_cents": 199,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9203": {
     "product_id": 9203,
     "store_id": 9004,
     "ingredient_id": 1143,
@@ -579,7 +579,7 @@
     "price_cents": 399,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9211": {
     "product_id": 9211,
     "store_id": 9002,
     "ingredient_id": 1056,
@@ -589,7 +589,7 @@
     "price_cents": 449,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9212": {
     "product_id": 9212,
     "store_id": 9002,
     "ingredient_id": 1058,
@@ -599,7 +599,7 @@
     "price_cents": 399,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9213": {
     "product_id": 9213,
     "store_id": 9002,
     "ingredient_id": 1062,
@@ -609,7 +609,7 @@
     "price_cents": 249,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9221": {
     "product_id": 9221,
     "store_id": 9005,
     "ingredient_id": 1123,
@@ -619,7 +619,7 @@
     "price_cents": 699,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9222": {
     "product_id": 9222,
     "store_id": 9005,
     "ingredient_id": 1124,
@@ -629,7 +629,7 @@
     "price_cents": 899,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9223": {
     "product_id": 9223,
     "store_id": 9005,
     "ingredient_id": 1125,
@@ -639,7 +639,7 @@
     "price_cents": 1199,
     "stock_status_enum": "low"
   },
-  {
+  "9231": {
     "product_id": 9231,
     "store_id": 9007,
     "ingredient_id": 1014,
@@ -649,7 +649,7 @@
     "price_cents": 299,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9232": {
     "product_id": 9232,
     "store_id": 9007,
     "ingredient_id": 1044,
@@ -659,7 +659,7 @@
     "price_cents": 399,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9233": {
     "product_id": 9233,
     "store_id": 9007,
     "ingredient_id": 1013,
@@ -669,7 +669,7 @@
     "price_cents": 349,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9241": {
     "product_id": 9241,
     "store_id": 9008,
     "ingredient_id": 1115,
@@ -679,7 +679,7 @@
     "price_cents": 799,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9242": {
     "product_id": 9242,
     "store_id": 9008,
     "ingredient_id": 1116,
@@ -689,7 +689,7 @@
     "price_cents": 899,
     "stock_status_enum": "in_stock"
   },
-  {
+  "9243": {
     "product_id": 9243,
     "store_id": 9008,
     "ingredient_id": 1118,
@@ -699,4 +699,4 @@
     "price_cents": 299,
     "stock_status_enum": "in_stock"
   }
-]
+}

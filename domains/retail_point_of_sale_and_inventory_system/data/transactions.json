@@ -1,5 +1,5 @@
-[
-  {
+{
+  "TXN-0001": {
     "transaction_id": "TXN-0001",
     "store_id": "STORE-001",
     "employee_id": "EMP-1003",
@@ -27,7 +27,7 @@
       }
     ]
   },
-  {
+  "TXN-0002": {
     "transaction_id": "TXN-0002",
     "store_id": "STORE-002",
     "employee_id": "EMP-1011",
@@ -55,7 +55,7 @@
       }
     ]
   },
-  {
+  "TXN-0003": {
     "transaction_id": "TXN-0003",
     "store_id": "STORE-003",
     "employee_id": "EMP-1020",
@@ -83,7 +83,7 @@
       }
     ]
   },
-  {
+  "TXN-0004": {
     "transaction_id": "TXN-0004",
     "store_id": "STORE-004",
     "employee_id": "EMP-1032",
@@ -111,7 +111,7 @@
       }
     ]
   },
-  {
+  "TXN-0005": {
     "transaction_id": "TXN-0005",
     "store_id": "STORE-005",
     "employee_id": "EMP-1045",
@@ -139,7 +139,7 @@
       }
     ]
   },
-  {
+  "TXN-0006": {
     "transaction_id": "TXN-0006",
     "store_id": "STORE-002",
     "employee_id": "EMP-1009",
@@ -167,7 +167,7 @@
       }
     ]
   },
-  {
+  "TXN-0007": {
     "transaction_id": "TXN-0007",
     "store_id": "STORE-003",
     "employee_id": "EMP-1015",
@@ -189,7 +189,7 @@
       }
     ]
   },
-  {
+  "TXN-0008": {
     "transaction_id": "TXN-0008",
     "store_id": "STORE-001",
     "employee_id": "EMP-1004",
@@ -211,7 +211,7 @@
       }
     ]
   },
-  {
+  "TXN-0009": {
     "transaction_id": "TXN-0009",
     "store_id": "STORE-004",
     "employee_id": "EMP-1034",
@@ -239,7 +239,7 @@
       }
     ]
   },
-  {
+  "TXN-0010": {
     "transaction_id": "TXN-0010",
     "store_id": "STORE-005",
     "employee_id": "EMP-1050",
@@ -267,7 +267,7 @@
       }
     ]
   },
-  {
+  "TXN-0011": {
     "transaction_id": "TXN-0011",
     "store_id": "STORE-002",
     "employee_id": "EMP-1008",
@@ -295,7 +295,7 @@
       }
     ]
   },
-  {
+  "TXN-0012": {
     "transaction_id": "TXN-0012",
     "store_id": "STORE-001",
     "employee_id": "EMP-1002",
@@ -317,4 +317,4 @@
       }
     ]
   }
-]
+}

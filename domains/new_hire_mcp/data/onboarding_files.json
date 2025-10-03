@@ -1,5 +1,5 @@
-[
-  {
+{
+  "/onboarding/Jane_Smith/welcome_Jane_Smith.md": {
     "file_path": "/onboarding/Jane_Smith/welcome_Jane_Smith.md",
     "content_text": "# Welcome to the Team, Emma Thompson!\n\nWe're thrilled to welcome you as our new **Product Manager** starting **August 5th, 2024**.\n\n## Your First Week\n- Day 1: Orientation with HR and your manager Kevin Liu\n- Day 2: Product team introductions and roadmap review\n- Day 3-5: Stakeholder meetings and project deep-dives\n\n## Important Information\n- Manager: Kevin Liu (kevin.liu@company.com)\n- Team: Product Development\n- Office Location: Building A, Floor 3\n- Start Time: 9:00 AM\n\nWe're excited to have you on board!",
     "mime_type": "text/markdown",
@@ -7,7 +7,7 @@
     "updated_ts": "2024-07-16T10:58:00Z",
     "candidate_id": "cand_2"
   },
-  {
+  "/onboarding/Peter_Jones/welcome_Peter_Jones.md": {
     "file_path": "/onboarding/Peter_Jones/welcome_Peter_Jones.md",
     "content_text": "# Welcome to the Team, William Davis!\n\nWelcome to our Data Science team! We're excited to have you join us as our **Data Scientist** starting **July 29th, 2024**.\n\n## Your Role\n- Focus on machine learning model development\n- Working with our customer analytics pipeline\n- Collaborating with engineering on ML infrastructure\n\n## Your Setup\n- Manager: Grace Kim (grace.kim@company.com)\n- Team: Data & Analytics\n- High-performance laptop with GPU access\n- Access to our data warehouse and ML platforms\n\nLooking forward to your contributions!",
     "mime_type": "text/markdown",
@@ -15,7 +15,7 @@
     "updated_ts": "2024-07-10T11:58:00Z",
     "candidate_id": "cand_3"
   },
-  {
+  "/onboarding/Jane_Smith/asset_request.json": {
     "file_path": "/onboarding/Jane_Smith/asset_request.json",
     "content_text": "{\n  \"candidate_name\": \"Emma Thompson\",\n  \"candidate_id\": \"cand_2\",\n  \"role\": \"Product Manager\",\n  \"asset_type\": \"Laptop\",\n  \"specifications\": \"Standard business laptop with 16GB RAM\",\n  \"urgency\": \"Standard\",\n  \"start_date\": \"2024-08-05\",\n  \"requested_by\": \"hr@company.com\",\n  \"requested_ts\": \"2024-07-17T09:00:00Z\",\n  \"additional_notes\": \"Product management role, needs presentation capabilities\"\n}",
     "mime_type": "application/json",
@@ -23,7 +23,7 @@
     "updated_ts": "2024-07-17T09:04:00Z",
     "candidate_id": "cand_2"
   },
-  {
+  "/onboarding/Peter_Jones/asset_request.json": {
     "file_path": "/onboarding/Peter_Jones/asset_request.json",
     "content_text": "{\n  \"candidate_name\": \"William Davis\",\n  \"candidate_id\": \"cand_3\",\n  \"role\": \"Data Scientist\",\n  \"asset_type\": \"Laptop\",\n  \"specifications\": \"High-performance laptop with 32GB RAM, GPU support\",\n  \"urgency\": \"High\",\n  \"start_date\": \"2024-07-29\",\n  \"requested_by\": \"hr@company.com\",\n  \"requested_ts\": \"2024-07-11T14:00:00Z\",\n  \"additional_notes\": \"Data science role requires computational power for ML workloads\"\n}",
     "mime_type": "application/json",
@@ -31,7 +31,7 @@
     "updated_ts": "2024-07-11T14:04:00Z",
     "candidate_id": "cand_3"
   },
-  {
+  "/onboarding/Peter_Jones/pending_tasks.md": {
     "file_path": "/onboarding/Peter_Jones/pending_tasks.md",
     "content_text": "# Pending Onboarding Tasks - William Davis\n\n## Outstanding Items (As of August 5, 2024)\n\n### Benefits Enrollment - **DUE TODAY**\n- **Status:** Pending\n- **Action Required:** Complete benefits enrollment in HR portal\n- **Due Date:** August 5, 2024\n- **Priority:** High\n- **Contact:** hr-benefits@company.com\n\n### Next Steps\n1. Log into the HR portal using your SSO credentials\n2. Review available health insurance options\n3. Complete enrollment by end of business today\n4. Contact HR if you need assistance\n\n**Note:** Late enrollment may result in delayed coverage start date.",
     "mime_type": "text/markdown",
@@ -39,7 +39,7 @@
     "updated_ts": "2024-08-05T10:59:00Z",
     "candidate_id": "cand_3"
   },
-  {
+  "/onboarding/Maria_Rodriguez/welcome_Maria_Rodriguez.md": {
     "file_path": "/onboarding/Maria_Rodriguez/welcome_Maria_Rodriguez.md",
     "content_text": "# Welcome to the Design Team, Sofia Martinez!\n\nWelcome! We're excited to have you join as our **UX Designer** starting **August 12th, 2024**.\n\n## Your Role\n- Lead UX design for our mobile applications\n- Work closely with product and engineering teams\n- Conduct user research and usability testing\n\n## Important Note\n**System Access:** We're currently resolving some technical issues with account provisioning. These should be resolved before your start date. We'll keep you updated on progress.\n\n## Your Team\n- Manager: Daniel Lee (daniel.lee@company.com)\n- Team: Design & User Experience\n- Designer peers: Sarah, Miguel, and Jennifer\n\nExcited to have you on the team!",
     "mime_type": "text/markdown",
@@ -47,7 +47,7 @@
     "updated_ts": "2024-07-20T15:28:00Z",
     "candidate_id": "cand_4"
   },
-  {
+  "/onboarding/Maria_Rodriguez/asset_request.json": {
     "file_path": "/onboarding/Maria_Rodriguez/asset_request.json",
     "content_text": "{\n  \"candidate_name\": \"Sofia Martinez\",\n  \"candidate_id\": \"cand_4\",\n  \"role\": \"UX Designer\",\n  \"asset_type\": \"Laptop\",\n  \"specifications\": \"MacBook Pro 16-inch for design work\",\n  \"urgency\": \"High\",\n  \"start_date\": \"2024-08-12\",\n  \"requested_by\": \"hr@company.com\",\n  \"requested_ts\": \"2024-07-21T10:30:00Z\",\n  \"additional_notes\": \"Design role, needs high-resolution display and design software compatibility\",\n  \"special_requirements\": [\"Adobe Creative Suite\", \"Figma\", \"Sketch\"]\n}",
     "mime_type": "application/json",
@@ -55,7 +55,7 @@
     "updated_ts": "2024-07-21T10:34:00Z",
     "candidate_id": "cand_4"
   },
-  {
+  "/onboarding/Alex_Thompson/welcome_Alex_Thompson.md": {
     "file_path": "/onboarding/Alex_Thompson/welcome_Alex_Thompson.md",
     "content_text": "# Welcome to DevOps, Jordan Williams!\n\nWelcome to our DevOps team! We're thrilled to have you as our **DevOps Engineer** starting **August 19th, 2024**.\n\n## Your Focus Areas\n- Kubernetes cluster management\n- CI/CD pipeline optimization\n- AWS infrastructure automation\n- Security and compliance implementation\n\n## Technical Setup\n- MacBook Pro with Unix environment\n- AWS Console access (already provisioned)\n- VPN access for secure infrastructure management\n- Docker and Kubernetes development tools\n\n## Your Manager\n- Rachel Taylor (rachel.taylor@company.com)\n- Team: Platform Engineering\n- Oncall rotation starts after 30 days\n\nLooking forward to your infrastructure expertise!",
     "mime_type": "text/markdown",
@@ -63,7 +63,7 @@
     "updated_ts": "2024-07-25T10:43:00Z",
     "candidate_id": "cand_5"
   },
-  {
+  "/onboarding/Alex_Thompson/asset_request.json": {
     "file_path": "/onboarding/Alex_Thompson/asset_request.json",
     "content_text": "{\n  \"candidate_name\": \"Jordan Williams\",\n  \"candidate_id\": \"cand_5\",\n  \"role\": \"DevOps Engineer\",\n  \"asset_type\": \"Laptop\",\n  \"specifications\": \"MacBook Pro 14-inch, 16GB RAM, Unix environment\",\n  \"urgency\": \"High\",\n  \"start_date\": \"2024-08-19\",\n  \"requested_by\": \"hr@company.com\",\n  \"requested_ts\": \"2024-07-26T11:15:00Z\",\n  \"additional_notes\": \"DevOps role requires Unix environment for containerization and infrastructure work\",\n  \"software_requirements\": [\"Docker\", \"kubectl\", \"Terraform\", \"AWS CLI\"]\n}",
     "mime_type": "application/json",
@@ -71,7 +71,7 @@
     "updated_ts": "2024-07-26T11:19:00Z",
     "candidate_id": "cand_5"
   },
-  {
+  "/onboarding/Robert_Singh/welcome_Robert_Singh.md": {
     "file_path": "/onboarding/Robert_Singh/welcome_Robert_Singh.md",
     "content_text": "# Welcome to Engineering, Raj Patel!\n\nWelcome to our engineering team! We're excited to have you join as a **Senior Software Engineer** starting **September 2nd, 2024**.\n\n## Your Role\n- Technical leadership on core platform features\n- Mentoring junior engineers\n- Architecture and design decisions\n- Cross-team collaboration on technical initiatives\n\n## Team Structure\n- Manager: Rachel Taylor (rachel.taylor@company.com)\n- Team: Platform Engineering\n- Senior engineer peers: Amanda, Carlos, and Raj\n- You'll be mentoring 2-3 junior engineers\n\n## Technical Environment\n- High-spec MacBook Pro for development\n- Full access to our GitHub repositories\n- Code review responsibilities from day one\n\nExcited to leverage your senior expertise!",
     "mime_type": "text/markdown",
@@ -79,7 +79,7 @@
     "updated_ts": "2024-08-05T17:13:00Z",
     "candidate_id": "cand_7"
   },
-  {
+  "/onboarding/Robert_Singh/asset_request.json": {
     "file_path": "/onboarding/Robert_Singh/asset_request.json",
     "content_text": "{\n  \"candidate_name\": \"Raj Patel\",\n  \"candidate_id\": \"cand_7\",\n  \"role\": \"Senior Software Engineer\",\n  \"asset_type\": \"Laptop\",\n  \"specifications\": \"MacBook Pro 16-inch, 32GB RAM, 1TB SSD\",\n  \"urgency\": \"Standard\",\n  \"start_date\": \"2024-09-02\",\n  \"requested_by\": \"hr@company.com\",\n  \"requested_ts\": \"2024-08-06T14:20:00Z\",\n  \"additional_notes\": \"Senior engineering role requires high-performance development environment\",\n  \"development_tools\": [\"IntelliJ IDEA\", \"Docker\", \"Node.js\", \"Python\"]\n}",
     "mime_type": "application/json",
@@ -87,7 +87,7 @@
     "updated_ts": "2024-08-06T14:24:00Z",
     "candidate_id": "cand_7"
   },
-  {
+  "/onboarding/Maria_Rodriguez/phone_request.json": {
     "file_path": "/onboarding/Maria_Rodriguez/phone_request.json",
     "content_text": "{\n  \"candidate_name\": \"Sofia Martinez\",\n  \"candidate_id\": \"cand_4\",\n  \"role\": \"UX Designer\",\n  \"asset_type\": \"Phone\",\n  \"specifications\": \"iPhone 15 128GB for mobile UX testing\",\n  \"urgency\": \"Standard\",\n  \"start_date\": \"2024-08-12\",\n  \"requested_by\": \"hr@company.com\",\n  \"requested_ts\": \"2024-07-22T15:00:00Z\",\n  \"justification\": \"Mobile UX testing and design validation for our iOS applications\",\n  \"additional_notes\": \"Will be used for user testing sessions and mobile design work\"\n}",
     "mime_type": "application/json",
@@ -95,7 +95,7 @@
     "updated_ts": "2024-07-22T15:09:00Z",
     "candidate_id": "cand_4"
   },
-  {
+  "/onboarding/Emily_Chen/overdue_tasks.md": {
     "file_path": "/onboarding/Emily_Chen/overdue_tasks.md",
     "content_text": "# Overdue Onboarding Tasks - Lily Zhang\n\n## OVERDUE ITEMS (As of August 30, 2024)\n\n### Marketing Platform Access - **OVERDUE**\n- **Status:** Not Started\n- **Original Due Date:** August 29, 2024\n- **Days Overdue:** 1\n- **Priority:** **URGENT**\n- **Contact:** it-support@company.com\n\n### Required Actions\n1. **Immediate:** Contact IT support to schedule platform access setup\n2. Submit marketing tool license request form\n3. Complete security training module (prerequisite)\n4. Schedule training session with marketing ops team\n\n### Impact\n- Cannot access campaign management tools\n- Unable to begin assigned marketing projects\n- Blocking team productivity\n\n**PLEASE PRIORITIZE THIS IMMEDIATELY**\n\nContact jessica.brown@company.com or hr@company.com if you need assistance.",
     "mime_type": "text/markdown",
@@ -103,7 +103,7 @@
     "updated_ts": "2024-08-30T09:59:00Z",
     "candidate_id": "cand_6"
   },
-  {
+  "/onboarding/templates/Welcome-Email-Template.md": {
     "file_path": "/onboarding/templates/Welcome-Email-Template.md",
     "content_text": "# Welcome Email Template\n\nDear {{NAME}},\n\nWelcome to our team! We're thrilled to have you join us as our new {{ROLE}} starting {{START_DATE}}.\n\nAttached you'll find:\n- Company policies and employee handbook\n- Benefits guide with enrollment instructions  \n- Your personalized welcome packet with role-specific information\n\n## Next Steps\n1. Review all attached documents before your first day\n2. Complete any pending HR paperwork\n3. Reach out if you have questions\n\n## Your First Day\n- Start time: 9:00 AM\n- Report to HR for orientation\n- You'll meet with your manager for an initial check-in\n\nWe're excited to have you on board and look forward to your contributions!\n\nBest regards,\nHR Team\n\n---\n*This is an automated message from the onboarding system*",
     "mime_type": "text/markdown",
@@ -111,4 +111,4 @@
     "updated_ts": "2024-06-01T10:30:00Z",
     "candidate_id": null
   }
-]
+}

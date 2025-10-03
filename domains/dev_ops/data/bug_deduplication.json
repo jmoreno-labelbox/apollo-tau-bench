@@ -1,5 +1,5 @@
-[
-  {
+{
+  "dedup_001": {
     "id": "dedup_001",
     "new_bug_id": "work_026",
     "canonical_bug_id": "work_027",
@@ -21,7 +21,7 @@
       "platform": "windows"
     }
   },
-  {
+  "dedup_002": {
     "id": "dedup_002",
     "new_bug_id": "work_028",
     "canonical_bug_id": null,
@@ -43,7 +43,7 @@
       "platform": "linux"
     }
   },
-  {
+  "dedup_003": {
     "id": "dedup_003",
     "new_bug_id": "work_029",
     "canonical_bug_id": "work_030",
@@ -65,7 +65,7 @@
       "platform": "macos"
     }
   },
-  {
+  "dedup_004": {
     "id": "dedup_004",
     "new_bug_id": "bug_006",
     "canonical_bug_id": "bug_007",
@@ -87,7 +87,7 @@
       "platform": "windows"
     }
   },
-  {
+  "dedup_005": {
     "id": "dedup_005",
     "new_bug_id": "bug_008",
     "canonical_bug_id": null,
@@ -109,7 +109,7 @@
       "platform": "linux"
     }
   },
-  {
+  "dedup_006": {
     "id": "dedup_006",
     "new_bug_id": "bug_009",
     "canonical_bug_id": "bug_010",
@@ -131,7 +131,7 @@
       "platform": "windows"
     }
   },
-  {
+  "dedup_007": {
     "id": "dedup_007",
     "new_bug_id": "bug_011",
     "canonical_bug_id": "bug_012",
@@ -153,7 +153,7 @@
       "platform": "macos"
     }
   },
-  {
+  "dedup_008": {
     "id": "dedup_008",
     "new_bug_id": "bug_013",
     "canonical_bug_id": "bug_014",
@@ -175,7 +175,7 @@
       "platform": "linux"
     }
   },
-  {
+  "dedup_009": {
     "id": "dedup_009",
     "new_bug_id": "bug_015",
     "canonical_bug_id": null,
@@ -197,7 +197,7 @@
       "platform": "windows"
     }
   },
-  {
+  "dedup_010": {
     "id": "dedup_010",
     "new_bug_id": "bug_016",
     "canonical_bug_id": "bug_017",
@@ -219,4 +219,4 @@
       "platform": "linux"
     }
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-    {
+{
+    "201": {
         "app_id": "201",
         "org_id": "00D8d000000KxyzABC",
         "app_name": "Legacy Web Portal",
@@ -10,7 +10,7 @@
             "refresh_token"
         ]
     },
-    {
+    "202": {
         "app_id": "202",
         "org_id": "00D8d000000KxyzABC",
         "app_name": "Data Warehouse Sync",
@@ -20,7 +20,7 @@
             "api"
         ]
     },
-    {
+    "203": {
         "app_id": "203",
         "org_id": "00D8d000000KxyzABC",
         "app_name": "Deprecated Partner Portal",
@@ -28,4 +28,4 @@
         "client_secret_stored": true,
         "oauth_scopes": "api"
     }
-]
+}

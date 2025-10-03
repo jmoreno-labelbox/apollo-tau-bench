@@ -1,5 +1,5 @@
-[
-  {
+{
+  "policy_001": {
     "id": "policy_001",
     "project_id": "project_001",
     "name": "Critical Vulnerability Block",
@@ -7,12 +7,16 @@
     "spec_json": {
       "severity_threshold": "critical",
       "block_on_critical": true,
-      "scan_types": ["sast", "container", "sbom"],
+      "scan_types": [
+        "sast",
+        "container",
+        "sbom"
+      ],
       "auto_remediation": false
     },
     "created_at": "2025-01-15T10:00:00Z"
   },
-  {
+  "policy_002": {
     "id": "policy_002",
     "project_id": "project_001",
     "name": "Code Coverage Minimum",
@@ -25,7 +29,7 @@
     },
     "created_at": "2025-01-15T10:30:00Z"
   },
-  {
+  "policy_003": {
     "id": "policy_003",
     "project_id": "project_002",
     "name": "Kubernetes Security Policy",
@@ -38,7 +42,7 @@
     },
     "created_at": "2025-01-18T09:00:00Z"
   },
-  {
+  "policy_004": {
     "id": "policy_004",
     "project_id": "project_003",
     "name": "CI/CD Pipeline Security",
@@ -51,7 +55,7 @@
     },
     "created_at": "2025-01-20T08:00:00Z"
   },
-  {
+  "policy_005": {
     "id": "policy_005",
     "project_id": "project_004",
     "name": "Jenkins Security Standards",
@@ -64,7 +68,7 @@
     },
     "created_at": "2025-01-20T07:00:00Z"
   },
-  {
+  "policy_006": {
     "id": "policy_006",
     "project_id": "project_005",
     "name": "AWS Security Compliance",
@@ -77,7 +81,7 @@
     },
     "created_at": "2025-01-21T10:00:00Z"
   },
-  {
+  "policy_007": {
     "id": "policy_007",
     "project_id": "project_006",
     "name": "Monitoring Data Retention",
@@ -90,7 +94,7 @@
     },
     "created_at": "2025-01-23T14:00:00Z"
   },
-  {
+  "policy_008": {
     "id": "policy_008",
     "project_id": "project_007",
     "name": "API Gateway Security",
@@ -103,7 +107,7 @@
     },
     "created_at": "2025-01-24T12:00:00Z"
   },
-  {
+  "policy_009": {
     "id": "policy_009",
     "project_id": "project_008",
     "name": "Mobile API Security",
@@ -116,7 +120,7 @@
     },
     "created_at": "2025-01-22T15:00:00Z"
   },
-  {
+  "policy_010": {
     "id": "policy_010",
     "project_id": "project_009",
     "name": "Edge Computing Security",
@@ -129,7 +133,7 @@
     },
     "created_at": "2025-01-23T16:00:00Z"
   },
-  {
+  "policy_011": {
     "id": "policy_011",
     "project_id": "project_010",
     "name": "Data Processing Compliance",
@@ -142,7 +146,7 @@
     },
     "created_at": "2025-01-16T10:00:00Z"
   },
-  {
+  "policy_012": {
     "id": "policy_012",
     "project_id": "project_001",
     "name": "Deployment Approval Required",
@@ -155,4 +159,4 @@
     },
     "created_at": "2025-01-15T11:00:00Z"
   }
-]
+}

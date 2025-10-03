@@ -1,5 +1,5 @@
-[
-  {
+{
+  "APP001": {
     "application_id": "APP001",
     "job_id": "J001",
     "applicant_id": "U302",
@@ -10,7 +10,9 @@
     "resume_url": "https://hr.techcorp.com/resumes/U302_Senior_Data_Scientist.pdf",
     "cover_letter": "Experienced clinical analyst seeking to transition into data science role. Strong background in healthcare analytics and statistical modeling.",
     "skills_match_score": 75,
-    "certifications_match": ["Google Data Analytics"],
+    "certifications_match": [
+      "Google Data Analytics"
+    ],
     "missing_skills": [
       {
         "skill": "Machine Learning",
@@ -30,7 +32,7 @@
     "notes": "Strong candidate with healthcare background. Needs ML training but shows potential.",
     "recommendation": "Consider with development plan"
   },
-  {
+  "APP002": {
     "application_id": "APP002",
     "job_id": "J001",
     "applicant_id": "U310",
@@ -67,7 +69,7 @@
     "notes": "Good analytical background but significant skill gaps. Consider for junior role instead.",
     "recommendation": "Reject - recommend junior data analyst position"
   },
-  {
+  "APP003": {
     "application_id": "APP003",
     "job_id": "J001",
     "applicant_id": "EXT001",
@@ -78,14 +80,17 @@
     "resume_url": "https://hr.techcorp.com/resumes/EXT001_Senior_Data_Scientist.pdf",
     "cover_letter": "Experienced data scientist with 6 years in machine learning and deep learning. Strong background in Python, SQL, and statistical modeling.",
     "skills_match_score": 95,
-    "certifications_match": ["Google Data Analytics", "AWS Machine Learning Specialty"],
+    "certifications_match": [
+      "Google Data Analytics",
+      "AWS Machine Learning Specialty"
+    ],
     "missing_skills": [],
     "interview_scheduled": "2024-09-26",
     "interviewer": "U301",
     "notes": "Excellent technical background. Perfect fit for the role.",
     "recommendation": "Strong candidate - schedule technical interview"
   },
-  {
+  "APP004": {
     "application_id": "APP004",
     "job_id": "J001",
     "applicant_id": "EXT002",
@@ -96,7 +101,9 @@
     "resume_url": "https://hr.techcorp.com/resumes/EXT002_Senior_Data_Scientist.pdf",
     "cover_letter": "Data engineer with strong Python and SQL skills. Looking to transition into data science role with focus on machine learning.",
     "skills_match_score": 80,
-    "certifications_match": ["AWS Solutions Architect Associate"],
+    "certifications_match": [
+      "AWS Solutions Architect Associate"
+    ],
     "missing_skills": [
       {
         "skill": "Machine Learning",
@@ -110,7 +117,7 @@
     "notes": "Good technical foundation but needs ML development. Consider for data engineering role.",
     "recommendation": "Consider for data engineering position"
   },
-  {
+  "APP005": {
     "application_id": "APP005",
     "job_id": "J002",
     "applicant_id": "U307",
@@ -141,7 +148,7 @@
     "notes": "Excellent technical skills and accessibility expertise. Needs leadership development.",
     "recommendation": "Strong candidate - recommend with mentorship"
   },
-  {
+  "APP006": {
     "application_id": "APP006",
     "job_id": "J002",
     "applicant_id": "EXT003",
@@ -152,7 +159,9 @@
     "resume_url": "https://hr.techcorp.com/resumes/EXT003_UX_Design_Lead.pdf",
     "cover_letter": "Senior UX designer with 5 years experience in design systems and user research. Seeking leadership opportunity to lead design operations.",
     "skills_match_score": 90,
-    "certifications_match": ["NN/g UX Certification"],
+    "certifications_match": [
+      "NN/g UX Certification"
+    ],
     "missing_skills": [
       {
         "skill": "Leadership",
@@ -166,7 +175,7 @@
     "notes": "Excellent design skills and portfolio. Strong candidate for UX Design Lead role.",
     "recommendation": "Strong candidate - schedule final interview"
   },
-  {
+  "APP007": {
     "application_id": "APP007",
     "job_id": "J003",
     "applicant_id": "U306",
@@ -177,7 +186,9 @@
     "resume_url": "https://hr.techcorp.com/resumes/U306_DevOps_Engineer.pdf",
     "cover_letter": "DevOps engineer with 6 years experience seeking new challenges. Strong background in AWS, Docker, and CI/CD.",
     "skills_match_score": 95,
-    "certifications_match": ["AWS SAA"],
+    "certifications_match": [
+      "AWS SAA"
+    ],
     "missing_skills": [
       {
         "skill": "Terraform",
@@ -191,7 +202,7 @@
     "notes": "Perfect fit for the role. Strong technical skills and team player.",
     "recommendation": "Hire immediately"
   },
-  {
+  "APP008": {
     "application_id": "APP008",
     "job_id": "J003",
     "applicant_id": "EXT004",
@@ -202,14 +213,17 @@
     "resume_url": "https://hr.techcorp.com/resumes/EXT004_DevOps_Engineer.pdf",
     "cover_letter": "Senior DevOps engineer with 7 years experience in cloud infrastructure and automation. Overqualified for current role but interested in growth opportunities.",
     "skills_match_score": 98,
-    "certifications_match": ["AWS Solutions Architect Professional", "Kubernetes Administrator"],
+    "certifications_match": [
+      "AWS Solutions Architect Professional",
+      "Kubernetes Administrator"
+    ],
     "missing_skills": [],
     "interview_scheduled": null,
     "interviewer": null,
     "notes": "Overqualified for current role. Consider for senior position or SRE role.",
     "recommendation": "Reject - overqualified, recommend senior role"
   },
-  {
+  "APP009": {
     "application_id": "APP009",
     "job_id": "J004",
     "applicant_id": "EXT005",
@@ -220,7 +234,9 @@
     "resume_url": "https://hr.techcorp.com/resumes/EXT005_Product_Marketing_Specialist.pdf",
     "cover_letter": "Product marketing manager with 6 years experience in product marketing and brand strategy. Strong analytical skills and creative thinking.",
     "skills_match_score": 85,
-    "certifications_match": ["Agile Product Management"],
+    "certifications_match": [
+      "Agile Product Management"
+    ],
     "missing_skills": [
       {
         "skill": "Data Analytics",
@@ -234,7 +250,7 @@
     "notes": "Strong product marketing background. Good fit for the role.",
     "recommendation": "Consider with development plan"
   },
-  {
+  "APP010": {
     "application_id": "APP010",
     "job_id": "J005",
     "applicant_id": "EXT006",
@@ -245,11 +261,14 @@
     "resume_url": "https://hr.techcorp.com/resumes/EXT006_Cloud_Security_Compliance_Specialist.pdf",
     "cover_letter": "Security engineer with 8 years experience in cloud security and compliance. Strong background in AWS security and policy development.",
     "skills_match_score": 95,
-    "certifications_match": ["AWS Security Specialty", "CISSP"],
+    "certifications_match": [
+      "AWS Security Specialty",
+      "CISSP"
+    ],
     "missing_skills": [],
     "interview_scheduled": "2024-09-22",
     "interviewer": "U303",
     "notes": "Perfect fit for cloud security role. Strong technical and compliance background.",
     "recommendation": "Strong candidate - schedule final interview"
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "OE001": {
     "event_id": "OE001",
     "flight": {
       "flight_id": "FL001",
@@ -18,7 +18,7 @@
     "status": "Resolved",
     "details": "Departure gate changed from C22 to C25 due to operational requirements."
   },
-  {
+  "OE002": {
     "event_id": "OE002",
     "flight": {
       "flight_id": "FL002",
@@ -37,7 +37,7 @@
     "status": "Resolved",
     "details": "Arrival delayed by 11 minutes due to tarmac congestion."
   },
-  {
+  "OE003": {
     "event_id": "OE003",
     "flight": {
       "flight_id": "FL003",
@@ -56,7 +56,7 @@
     "status": "Resolved",
     "details": "Resolved a minor issue with a cabin pressure sensor prior to departure."
   },
-  {
+  "OE004": {
     "event_id": "OE004",
     "flight": {
       "flight_id": "FL006",
@@ -75,7 +75,7 @@
     "status": "Resolved",
     "details": "Departure delayed by 20 minutes due to slow baggage loading."
   },
-  {
+  "OE005": {
     "event_id": "OE005",
     "flight": {
       "flight_id": "FL008",
@@ -94,7 +94,7 @@
     "status": "Active",
     "details": "Circling due to thunderstorms over the destination airport."
   },
-  {
+  "OE006": {
     "event_id": "OE006",
     "flight": {
       "flight_id": "FL001",
@@ -113,7 +113,7 @@
     "status": "Resolved",
     "details": "A passenger was deplaned due to non-compliance with crew instructions."
   },
-  {
+  "OE007": {
     "event_id": "OE007",
     "flight": {
       "flight_id": "FL002",
@@ -132,7 +132,7 @@
     "status": "Resolved",
     "details": "Medical assistance was requested upon arrival for a passenger feeling unwell."
   },
-  {
+  "OE008": {
     "event_id": "OE008",
     "flight": {
       "flight_id": "FL007",
@@ -151,7 +151,7 @@
     "status": "Resolved",
     "details": "Flight diverted to Boise (BOI) due to a medical emergency on board."
   },
-  {
+  "OE009": {
     "event_id": "OE009",
     "flight": {
       "flight_id": "FL001",
@@ -170,7 +170,7 @@
     "status": "Resolved",
     "details": "Unattended bag found at the gate. Cleared by security."
   },
-  {
+  "OE010": {
     "event_id": "OE010",
     "flight": {
       "flight_id": "FL004",
@@ -189,7 +189,7 @@
     "status": "Resolved",
     "details": "Departure delayed by 15 minutes for air traffic control."
   },
-  {
+  "OE011": {
     "event_id": "OE011",
     "flight": {
       "flight_id": "FL003",
@@ -208,7 +208,7 @@
     "status": "Resolved",
     "details": "Moderate turbulence reported over the Rocky Mountains."
   },
-  {
+  "OE012": {
     "event_id": "OE012",
     "flight": {
       "flight_id": "FL005",
@@ -227,7 +227,7 @@
     "status": "Active",
     "details": "Arrival gate changed from S11 to S15."
   },
-  {
+  "OE013": {
     "event_id": "OE013",
     "flight": {
       "flight_id": "FL002",
@@ -246,7 +246,7 @@
     "status": "Resolved",
     "details": "A faulty reading on the secondary hydraulic pump was reset."
   },
-  {
+  "OE014": {
     "event_id": "OE014",
     "flight": {
       "flight_id": "FL006",
@@ -265,7 +265,7 @@
     "status": "Resolved",
     "details": "Baggage carousel malfunction caused a delay in baggage claim."
   },
-  {
+  "OE015": {
     "event_id": "OE015",
     "flight": {
       "flight_id": "FL001",
@@ -284,7 +284,7 @@
     "status": "Resolved",
     "details": "Additional screening required for a randomly selected passenger."
   },
-  {
+  "OE016": {
     "event_id": "OE016",
     "flight": {
       "flight_id": "FL007",
@@ -303,7 +303,7 @@
     "status": "Resolved",
     "details": "De-icing procedure required before departure, causing a minor delay."
   },
-  {
+  "OE017": {
     "event_id": "OE017",
     "flight": {
       "flight_id": "FL004",
@@ -322,7 +322,7 @@
     "status": "Resolved",
     "details": "Passenger dispute over seat recline resolved by cabin crew."
   },
-  {
+  "OE018": {
     "event_id": "OE018",
     "flight": {
       "flight_id": "FL003",
@@ -341,7 +341,7 @@
     "status": "Resolved",
     "details": "Pushback delayed by 12 minutes waiting for a ground vehicle."
   },
-  {
+  "OE019": {
     "event_id": "OE019",
     "flight": {
       "flight_id": "FL008",
@@ -360,7 +360,7 @@
     "status": "Resolved",
     "details": "Stuck cargo door required manual override to open."
   },
-  {
+  "OE020": {
     "event_id": "OE020",
     "flight": {
       "flight_id": "FL010",
@@ -379,7 +379,7 @@
     "status": "Resolved",
     "details": "Arrival gate changed due to another aircraft's technical issue at the original gate."
   },
-  {
+  "OE021": {
     "event_id": "OE021",
     "flight": {
       "flight_id": "FL009",
@@ -398,7 +398,7 @@
     "status": "Resolved",
     "details": "Cross-tagged bag required manual sort, delaying baggage claim."
   },
-  {
+  "OE022": {
     "event_id": "OE022",
     "flight": {
       "flight_id": "FL001",
@@ -417,7 +417,7 @@
     "status": "Resolved",
     "details": "Delay of 10 minutes due to crew transport arriving late to the aircraft."
   },
-  {
+  "OE023": {
     "event_id": "OE023",
     "flight": {
       "flight_id": "FL002",
@@ -436,7 +436,7 @@
     "status": "Active",
     "details": "High crosswinds on approach, monitoring for potential go-around."
   },
-  {
+  "OE024": {
     "event_id": "OE024",
     "flight": {
       "flight_id": "FL005",
@@ -455,7 +455,7 @@
     "status": "Resolved",
     "details": "Passenger fainted mid-flight; provided oxygen and monitored. Paramedics met aircraft upon landing."
   },
-  {
+  "OE025": {
     "event_id": "OE025",
     "flight": {
       "flight_id": "FL006",
@@ -474,4 +474,4 @@
     "status": "Active",
     "details": "A cabin reading light is reported as inoperative. Maintenance will inspect upon arrival."
   }
-]
+}

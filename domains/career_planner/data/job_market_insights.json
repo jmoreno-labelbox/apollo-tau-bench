@@ -1,77 +1,121 @@
-[
-    {
-      "role": "Software Engineer",
-      "locations": {
-        "San Francisco": 1200,
-        "New York": 800
-      },
-      "avg_salary_usd": 145000,
-      "demand_score": 9.5,
-      "growth_trend": "High",
-      "remote_friendly": true,
-      "top_industries": ["Fintech", "Cloud Infrastructure", "AI"],
-      "skill_clusters": ["Java", "Python", "Kubernetes", "Cloud"],
-      "job_openings_change_3mo": "+8%",
-      "volatility_score": 2.1
+{
+  "Software Engineer": {
+    "role": "Software Engineer",
+    "locations": {
+      "San Francisco": 1200,
+      "New York": 800
     },
-    {
-      "role": "UX Designer",
-      "locations": {
-        "London": 300,
-        "Berlin": 250
-      },
-      "avg_salary_usd": 95000,
-      "demand_score": 7.8,
-      "growth_trend": "Steady",
-      "remote_friendly": true,
-      "top_industries": ["EdTech", "E-commerce", "Healthcare"],
-      "skill_clusters": ["Figma", "Accessibility", "User Research"],
-      "job_openings_change_3mo": "+2%",
-      "volatility_score": 3.4
+    "avg_salary_usd": 145000,
+    "demand_score": 9.5,
+    "growth_trend": "High",
+    "remote_friendly": true,
+    "top_industries": [
+      "Fintech",
+      "Cloud Infrastructure",
+      "AI"
+    ],
+    "skill_clusters": [
+      "Java",
+      "Python",
+      "Kubernetes",
+      "Cloud"
+    ],
+    "job_openings_change_3mo": "+8%",
+    "volatility_score": 2.1
+  },
+  "UX Designer": {
+    "role": "UX Designer",
+    "locations": {
+      "London": 300,
+      "Berlin": 250
     },
-    {
-      "role": "Operations Analyst",
-      "locations": {
-        "Chicago": 400,
-        "Toronto": 320
-      },
-      "avg_salary_usd": 85000,
-      "demand_score": 7.2,
-      "growth_trend": "Slight Decline",
-      "remote_friendly": false,
-      "top_industries": ["Logistics", "Manufacturing", "Retail"],
-      "skill_clusters": ["Excel", "SQL", "Dashboards", "Forecasting"],
-      "job_openings_change_3mo": "-1.5%",
-      "volatility_score": 4.2
+    "avg_salary_usd": 95000,
+    "demand_score": 7.8,
+    "growth_trend": "Steady",
+    "remote_friendly": true,
+    "top_industries": [
+      "EdTech",
+      "E-commerce",
+      "Healthcare"
+    ],
+    "skill_clusters": [
+      "Figma",
+      "Accessibility",
+      "User Research"
+    ],
+    "job_openings_change_3mo": "+2%",
+    "volatility_score": 3.4
+  },
+  "Operations Analyst": {
+    "role": "Operations Analyst",
+    "locations": {
+      "Chicago": 400,
+      "Toronto": 320
     },
-    {
-      "role": "Marketing Specialist",
-      "locations": {
-        "New York": 500,
-        "Austin": 300
-      },
-      "avg_salary_usd": 92000,
-      "demand_score": 8.1,
-      "growth_trend": "Moderate",
-      "remote_friendly": true,
-      "top_industries": ["Consumer Goods", "SaaS", "Advertising"],
-      "skill_clusters": ["Storytelling", "Brand Strategy", "SEO", "Analytics"],
-      "job_openings_change_3mo": "+4.7%",
-      "volatility_score": 3.0
+    "avg_salary_usd": 85000,
+    "demand_score": 7.2,
+    "growth_trend": "Slight Decline",
+    "remote_friendly": false,
+    "top_industries": [
+      "Logistics",
+      "Manufacturing",
+      "Retail"
+    ],
+    "skill_clusters": [
+      "Excel",
+      "SQL",
+      "Dashboards",
+      "Forecasting"
+    ],
+    "job_openings_change_3mo": "-1.5%",
+    "volatility_score": 4.2
+  },
+  "Marketing Specialist": {
+    "role": "Marketing Specialist",
+    "locations": {
+      "New York": 500,
+      "Austin": 300
     },
-    {
-      "role": "Product Manager",
-      "locations": {
-        "San Francisco": 700,
-        "Seattle": 450
-      },
-      "avg_salary_usd": 135000,
-      "demand_score": 9.1,
-      "growth_trend": "High",
-      "remote_friendly": true,
-      "top_industries": ["B2B SaaS", "Fintech", "HealthTech"],
-      "skill_clusters": ["Roadmapping", "User Research", "Jira", "Go-to-Market"],
-      "job_openings_change_3mo": "+6.2%",
-      "volatility_score": 2.3
-    }
-  ]
+    "avg_salary_usd": 92000,
+    "demand_score": 8.1,
+    "growth_trend": "Moderate",
+    "remote_friendly": true,
+    "top_industries": [
+      "Consumer Goods",
+      "SaaS",
+      "Advertising"
+    ],
+    "skill_clusters": [
+      "Storytelling",
+      "Brand Strategy",
+      "SEO",
+      "Analytics"
+    ],
+    "job_openings_change_3mo": "+4.7%",
+    "volatility_score": 3.0
+  },
+  "Product Manager": {
+    "role": "Product Manager",
+    "locations": {
+      "San Francisco": 700,
+      "Seattle": 450
+    },
+    "avg_salary_usd": 135000,
+    "demand_score": 9.1,
+    "growth_trend": "High",
+    "remote_friendly": true,
+    "top_industries": [
+      "B2B SaaS",
+      "Fintech",
+      "HealthTech"
+    ],
+    "skill_clusters": [
+      "Roadmapping",
+      "User Research",
+      "Jira",
+      "Go-to-Market"
+    ],
+    "job_openings_change_3mo": "+6.2%",
+    "volatility_score": 2.3
+  }
+}

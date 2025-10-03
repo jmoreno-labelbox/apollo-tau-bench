@@ -1,5 +1,5 @@
-[
-  {
+{
+  "emp_dev_03": {
     "employee_id": "emp_dev_03",
     "name": "Ryan Liu",
     "role": "Senior Developer",
@@ -24,7 +24,7 @@
     "work_location_preference": "remote",
     "can_work_onsite": true
   },
-  {
+  "emp_data_01": {
     "employee_id": "emp_data_01",
     "name": "Sofia Rodriguez",
     "role": "Senior Data Analyst",
@@ -49,7 +49,7 @@
     "work_location_preference": "remote",
     "can_work_onsite": false
   },
-  {
+  "emp_data_02": {
     "employee_id": "emp_data_02",
     "name": "Thomas Anderson",
     "role": "Data Engineer",
@@ -74,7 +74,7 @@
     "work_location_preference": "hybrid",
     "can_work_onsite": true
   },
-  {
+  "emp_dev_05": {
     "employee_id": "emp_dev_05",
     "name": "Olivia Anderson",
     "role": "Full Stack Developer",
@@ -99,7 +99,7 @@
     "work_location_preference": "remote",
     "can_work_onsite": true
   },
-  {
+  "emp_devops_02": {
     "employee_id": "emp_devops_02",
     "name": "Arjun Singh",
     "role": "DevOps Engineer",
@@ -124,7 +124,7 @@
     "work_location_preference": "remote",
     "can_work_onsite": true
   },
-  {
+  "emp_devops_04": {
     "employee_id": "emp_devops_04",
     "name": "Emily Davis",
     "role": "DevOps Engineer",
@@ -153,7 +153,7 @@
     "work_location_preference": "onsite",
     "can_work_onsite": true
   },
-  {
+  "emp_ux_03": {
     "employee_id": "emp_ux_03",
     "name": "Grace Wang",
     "role": "UX Designer",
@@ -178,7 +178,7 @@
     "work_location_preference": "hybrid",
     "can_work_onsite": true
   },
-  {
+  "emp_arch_01": {
     "employee_id": "emp_arch_01",
     "name": "Daniel Mitchell",
     "role": "Senior Architect",
@@ -203,7 +203,7 @@
     "work_location_preference": "onsite",
     "can_work_onsite": true
   },
-  {
+  "emp_jr_arch_01": {
     "employee_id": "emp_jr_arch_01",
     "name": "Kevin Brown",
     "role": "Junior Architect",
@@ -228,7 +228,7 @@
     "work_location_preference": "onsite",
     "can_work_onsite": true
   },
-  {
+  "emp_analyst_01": {
     "employee_id": "emp_analyst_01",
     "name": "Jason Park",
     "role": "Business Analyst",
@@ -253,7 +253,7 @@
     "work_location_preference": "remote",
     "can_work_onsite": true
   },
-  {
+  "emp_analyst_02": {
     "employee_id": "emp_analyst_02",
     "name": "Ashley Martinez",
     "role": "Data Analyst",
@@ -278,7 +278,7 @@
     "work_location_preference": "remote",
     "can_work_onsite": true
   },
-  {
+  "emp_analyst_03": {
     "employee_id": "emp_analyst_03",
     "name": "Matthew Wilson",
     "role": "Junior Analyst",
@@ -303,7 +303,7 @@
     "work_location_preference": "hybrid",
     "can_work_onsite": true
   },
-  {
+  "emp_dev_07": {
     "employee_id": "emp_dev_07",
     "name": "Priya Sharma",
     "role": "Backend Developer",
@@ -328,7 +328,7 @@
     "work_location_preference": "onsite",
     "can_work_onsite": true
   },
-  {
+  "emp_dev_08": {
     "employee_id": "emp_dev_08",
     "name": "Diego Hernandez",
     "role": "Backend Developer",
@@ -353,7 +353,7 @@
     "work_location_preference": "hybrid",
     "can_work_onsite": true
   },
-  {
+  "emp_sec_dev_01": {
     "employee_id": "emp_sec_dev_01",
     "name": "William Turner",
     "role": "Security Developer",
@@ -378,7 +378,7 @@
     "work_location_preference": "onsite",
     "can_work_onsite": true
   },
-  {
+  "emp_sec_dev_02": {
     "employee_id": "emp_sec_dev_02",
     "name": "Catherine Zhang",
     "role": "Security Developer",
@@ -403,7 +403,7 @@
     "work_location_preference": "onsite",
     "can_work_onsite": true
   },
-  {
+  "emp_sec_test_01": {
     "employee_id": "emp_sec_test_01",
     "name": "Christopher Miller",
     "role": "Security Tester",
@@ -428,7 +428,7 @@
     "work_location_preference": "hybrid",
     "can_work_onsite": true
   },
-  {
+  "emp_eng_10": {
     "employee_id": "emp_eng_10",
     "name": "Elizabeth Taylor",
     "role": "Senior Developer",
@@ -453,7 +453,7 @@
     "work_location_preference": "remote",
     "can_work_onsite": true
   },
-  {
+  "emp_des_04": {
     "employee_id": "emp_des_04",
     "name": "Lily Chen",
     "role": "UI Developer",
@@ -478,7 +478,7 @@
     "work_location_preference": "hybrid",
     "can_work_onsite": true
   },
-  {
+  "emp_qa_02": {
     "employee_id": "emp_qa_02",
     "name": "Andrew White",
     "role": "QA Engineer",
@@ -503,7 +503,7 @@
     "work_location_preference": "onsite",
     "can_work_onsite": true
   },
-  {
+  "emp_dev_15": {
     "employee_id": "emp_dev_15",
     "name": "Justin Kim",
     "role": "Full Stack Developer",
@@ -528,7 +528,7 @@
     "work_location_preference": "remote",
     "can_work_onsite": true
   },
-  {
+  "emp_dev_20": {
     "employee_id": "emp_dev_20",
     "name": "Michelle Wang",
     "role": "Frontend Developer",
@@ -553,7 +553,7 @@
     "work_location_preference": "remote",
     "can_work_onsite": true
   },
-  {
+  "emp_dev_21": {
     "employee_id": "emp_dev_21",
     "name": "Kevin Jackson",
     "role": "Backend Developer",
@@ -578,7 +578,7 @@
     "work_location_preference": "hybrid",
     "can_work_onsite": true
   },
-  {
+  "emp_test_05": {
     "employee_id": "emp_test_05",
     "name": "Rebecca Davis",
     "role": "Test Engineer",
@@ -603,7 +603,7 @@
     "work_location_preference": "hybrid",
     "can_work_onsite": true
   },
-  {
+  "emp_pm_03": {
     "employee_id": "emp_pm_03",
     "name": "Jonathan Clark",
     "role": "Project Manager",
@@ -628,7 +628,7 @@
     "work_location_preference": "onsite",
     "can_work_onsite": true
   },
-  {
+  "emp_pm_04": {
     "employee_id": "emp_pm_04",
     "name": "Amanda Johnson",
     "role": "Project Manager",
@@ -653,7 +653,7 @@
     "work_location_preference": "hybrid",
     "can_work_onsite": true
   },
-  {
+  "emp_sec_dev_03": {
     "employee_id": "emp_sec_dev_03",
     "name": "Nicholas Harris",
     "role": "Security Developer",
@@ -678,7 +678,7 @@
     "work_location_preference": "onsite",
     "can_work_onsite": true
   },
-  {
+  "emp_eng_20": {
     "employee_id": "emp_eng_20",
     "name": "Victoria Sterling",
     "role": "Senior Developer",
@@ -703,7 +703,7 @@
     "work_location_preference": "remote",
     "can_work_onsite": true
   },
-  {
+  "emp_sec_dev_XX": {
     "employee_id": "emp_sec_dev_XX",
     "name": "George Newman",
     "role": "Security Developer",
@@ -728,4 +728,4 @@
     "work_location_preference": "onsite",
     "can_work_onsite": true
   }
-]
+}

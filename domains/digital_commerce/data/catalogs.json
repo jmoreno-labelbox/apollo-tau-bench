@@ -1,27 +1,27 @@
-[
-    {
+{
+    "C100": {
         "catalog_id": "C100",
         "catalog_name": "B2C Consumer Catalog",
         "is_active": true
     },
-    {
+    "C200": {
         "catalog_id": "C200",
         "catalog_name": "B2B Enterprise Catalog",
         "is_active": true
     },
-    {
+    "C300": {
         "catalog_id": "C300",
         "catalog_name": "Holiday 2025 Gift Guide",
         "is_active": true
     },
-    {
+    "C999": {
         "catalog_id": "C999",
         "catalog_name": "Summer 2025 Collection",
         "is_active": false
     },
-    {
+    "C400": {
         "catalog_id": "C400",
         "catalog_name": "Flash Sale Event",
         "is_active": true
     }
-]
+}

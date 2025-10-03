@@ -1,0 +1,966 @@
+[
+  {
+    "recipe_id": 401,
+    "recipe_title": "Spaghetti with Tomato Sauce",
+    "meal_type": "Dinner",
+    "cuisine": "Italian",
+    "servings_default": 4,
+    "prep_minutes": 10,
+    "cook_minutes": 20,
+    "is_peanut_free": true,
+    "calories_per_serving": 520,
+    "protein_g_per_serving": 16,
+    "instructions_json": [
+      "Boil pasta until al dente",
+      "Saute onion and garlic",
+      "Add tomato sauce and simmer",
+      "Combine with pasta"
+    ],
+    "notes": "Child-friendly: cut pasta shorter; mild seasoning."
+  },
+  {
+    "recipe_id": 402,
+    "recipe_title": "Chicken Tacos",
+    "meal_type": "Dinner",
+    "cuisine": "Mexican",
+    "servings_default": 4,
+    "prep_minutes": 15,
+    "cook_minutes": 15,
+    "is_peanut_free": true,
+    "calories_per_serving": 480,
+    "protein_g_per_serving": 32,
+    "instructions_json": [
+      "Season and saute chicken",
+      "Warm tortillas",
+      "Assemble with lettuce and cheese"
+    ],
+    "notes": "Child-friendly: reduce chili powder."
+  },
+  {
+    "recipe_id": 403,
+    "recipe_title": "Chickpea Curry",
+    "meal_type": "Dinner",
+    "cuisine": "Indian",
+    "servings_default": 4,
+    "prep_minutes": 15,
+    "cook_minutes": 25,
+    "is_peanut_free": true,
+    "calories_per_serving": 450,
+    "protein_g_per_serving": 17,
+    "instructions_json": [
+      "Saute onion, garlic, spices",
+      "Add chickpeas and tomato sauce",
+      "Simmer and serve with rice"
+    ],
+    "notes": "Mild spice variant for kids."
+  },
+  {
+    "recipe_id": 404,
+    "recipe_title": "Grilled Salmon with Lemon",
+    "meal_type": "Dinner",
+    "cuisine": "American",
+    "servings_default": 4,
+    "prep_minutes": 10,
+    "cook_minutes": 12,
+    "is_peanut_free": true,
+    "calories_per_serving": 520,
+    "protein_g_per_serving": 34,
+    "instructions_json": [
+      "Season salmon",
+      "Grill until flaky",
+      "Serve with lemon"
+    ],
+    "notes": "Child-friendly: flake and debone."
+  },
+  {
+    "recipe_id": 405,
+    "recipe_title": "Teriyaki Tofu Bowl",
+    "meal_type": "Dinner",
+    "cuisine": "Japanese",
+    "servings_default": 4,
+    "prep_minutes": 15,
+    "cook_minutes": 15,
+    "is_peanut_free": true,
+    "calories_per_serving": 480,
+    "protein_g_per_serving": 22,
+    "instructions_json": [
+      "Pan-fry tofu",
+      "Add teriyaki sauce",
+      "Serve over rice with veggies"
+    ],
+    "notes": "Crisp tofu for texture; mild sauce."
+  },
+  {
+    "recipe_id": 406,
+    "recipe_title": "Mediterranean Quinoa Salad",
+    "meal_type": "Dinner",
+    "cuisine": "Mediterranean",
+    "servings_default": 4,
+    "prep_minutes": 20,
+    "cook_minutes": 20,
+    "is_peanut_free": true,
+    "calories_per_serving": 430,
+    "protein_g_per_serving": 15,
+    "instructions_json": [
+      "Cook quinoa",
+      "Chop veggies",
+      "Toss with olive oil and lemon"
+    ],
+    "notes": "Kid portion: smaller lemon; add cheese."
+  },
+  {
+    "recipe_id": 407,
+    "recipe_title": "Thai Chicken Stir-Fry",
+    "meal_type": "Dinner",
+    "cuisine": "Thai",
+    "servings_default": 4,
+    "prep_minutes": 15,
+    "cook_minutes": 15,
+    "is_peanut_free": true,
+    "calories_per_serving": 520,
+    "protein_g_per_serving": 35,
+    "instructions_json": [
+      "Stir-fry chicken and vegetables",
+      "Add soy sauce",
+      "Serve with rice"
+    ],
+    "notes": "Reduce spice for kids."
+  },
+  {
+    "recipe_id": 408,
+    "recipe_title": "Lentil Soup",
+    "meal_type": "Dinner",
+    "cuisine": "Middle Eastern",
+    "servings_default": 6,
+    "prep_minutes": 10,
+    "cook_minutes": 35,
+    "is_peanut_free": true,
+    "calories_per_serving": 360,
+    "protein_g_per_serving": 20,
+    "instructions_json": [
+      "Saute onion and garlic",
+      "Add lentils and water",
+      "Simmer until tender"
+    ],
+    "notes": "Blend partially for smoother texture."
+  },
+  {
+    "recipe_id": 409,
+    "recipe_title": "Turkey Sandwich Lunch Box",
+    "meal_type": "Lunch",
+    "cuisine": "American",
+    "servings_default": 1,
+    "prep_minutes": 5,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 420,
+    "protein_g_per_serving": 24,
+    "instructions_json": [
+      "Layer turkey and cheese on bread",
+      "Add lettuce",
+      "Pack with fruit"
+    ],
+    "notes": "No-heat; minimal prep."
+  },
+  {
+    "recipe_id": 410,
+    "recipe_title": "Hummus Veggie Wrap",
+    "meal_type": "Lunch",
+    "cuisine": "Mediterranean",
+    "servings_default": 1,
+    "prep_minutes": 7,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 380,
+    "protein_g_per_serving": 12,
+    "instructions_json": [
+      "Spread hummus on wrap",
+      "Add cucumber and lettuce",
+      "Roll tightly"
+    ],
+    "notes": "No-heat; minimal prep."
+  },
+  {
+    "recipe_id": 411,
+    "recipe_title": "Cheese and Crackers Bento",
+    "meal_type": "Lunch",
+    "cuisine": "American",
+    "servings_default": 1,
+    "prep_minutes": 5,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 320,
+    "protein_g_per_serving": 14,
+    "instructions_json": [
+      "Cube cheese",
+      "Portion crackers",
+      "Add veggies"
+    ],
+    "notes": "Peanut-free; no-heat."
+  },
+  {
+    "recipe_id": 412,
+    "recipe_title": "Pasta Salad Lunch",
+    "meal_type": "Lunch",
+    "cuisine": "Italian",
+    "servings_default": 2,
+    "prep_minutes": 10,
+    "cook_minutes": 10,
+    "is_peanut_free": true,
+    "calories_per_serving": 450,
+    "protein_g_per_serving": 15,
+    "instructions_json": [
+      "Boil pasta",
+      "Toss with veggies and dressing"
+    ],
+    "notes": "Can be served cold."
+  },
+  {
+    "recipe_id": 413,
+    "recipe_title": "Yogurt Parfait Cup",
+    "meal_type": "Lunch",
+    "cuisine": "American",
+    "servings_default": 1,
+    "prep_minutes": 5,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 280,
+    "protein_g_per_serving": 15,
+    "instructions_json": [
+      "Layer yogurt with fruit and oats"
+    ],
+    "notes": "No-heat; minimal prep."
+  },
+  {
+    "recipe_id": 414,
+    "recipe_title": "Chocolate Chip Cookies",
+    "meal_type": "Dessert",
+    "cuisine": "American",
+    "servings_default": 24,
+    "prep_minutes": 15,
+    "cook_minutes": 12,
+    "is_peanut_free": true,
+    "calories_per_serving": 160,
+    "protein_g_per_serving": 2,
+    "instructions_json": [
+      "Cream butter and sugar",
+      "Beat in eggs",
+      "Add dry ingredients",
+      "Fold in chips",
+      "Bake"
+    ],
+    "notes": "Requires eggs."
+  },
+  {
+    "recipe_id": 415,
+    "recipe_title": "No-Bake Oatmeal Cocoa Cookies",
+    "meal_type": "Dessert",
+    "cuisine": "American",
+    "servings_default": 20,
+    "prep_minutes": 10,
+    "cook_minutes": 5,
+    "is_peanut_free": true,
+    "calories_per_serving": 140,
+    "protein_g_per_serving": 3,
+    "instructions_json": [
+      "Boil cocoa, sugar, milk, butter",
+      "Stir in oats",
+      "Scoop and set"
+    ],
+    "notes": "Egg-free alternative."
+  },
+  {
+    "recipe_id": 416,
+    "recipe_title": "Butter Shortbread",
+    "meal_type": "Dessert",
+    "cuisine": "Scottish",
+    "servings_default": 16,
+    "prep_minutes": 10,
+    "cook_minutes": 25,
+    "is_peanut_free": true,
+    "calories_per_serving": 170,
+    "protein_g_per_serving": 2,
+    "instructions_json": [
+      "Mix butter, sugar, flour",
+      "Press into pan",
+      "Bake"
+    ],
+    "notes": "Egg-free."
+  },
+  {
+    "recipe_id": 417,
+    "recipe_title": "Banana Nice Cream",
+    "meal_type": "Dessert",
+    "cuisine": "American",
+    "servings_default": 4,
+    "prep_minutes": 5,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 150,
+    "protein_g_per_serving": 3,
+    "instructions_json": [
+      "Blend frozen bananas with yogurt"
+    ],
+    "notes": "Egg-free, no-bake."
+  },
+  {
+    "recipe_id": 418,
+    "recipe_title": "Overnight Oats with Berries",
+    "meal_type": "Breakfast",
+    "cuisine": "American",
+    "servings_default": 1,
+    "prep_minutes": 5,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 320,
+    "protein_g_per_serving": 12,
+    "instructions_json": [
+      "Mix oats with milk and yogurt",
+      "Add berries and honey",
+      "Refrigerate overnight"
+    ],
+    "notes": "No-cook; prep night before."
+  },
+  {
+    "recipe_id": 419,
+    "recipe_title": "Scrambled Eggs with Toast",
+    "meal_type": "Breakfast",
+    "cuisine": "American",
+    "servings_default": 2,
+    "prep_minutes": 5,
+    "cook_minutes": 8,
+    "is_peanut_free": true,
+    "calories_per_serving": 380,
+    "protein_g_per_serving": 18,
+    "instructions_json": [
+      "Beat eggs",
+      "Scramble in butter",
+      "Toast bread",
+      "Serve together"
+    ],
+    "notes": "Classic breakfast option."
+  },
+  {
+    "recipe_id": 420,
+    "recipe_title": "Avocado Toast",
+    "meal_type": "Breakfast",
+    "cuisine": "Modern",
+    "servings_default": 2,
+    "prep_minutes": 8,
+    "cook_minutes": 3,
+    "is_peanut_free": true,
+    "calories_per_serving": 290,
+    "protein_g_per_serving": 8,
+    "instructions_json": [
+      "Toast bread",
+      "Mash avocado",
+      "Spread on toast",
+      "Season with salt and pepper"
+    ],
+    "notes": "Add egg for extra protein."
+  },
+  {
+    "recipe_id": 421,
+    "recipe_title": "Greek Yogurt Bowl",
+    "meal_type": "Breakfast",
+    "cuisine": "Greek",
+    "servings_default": 1,
+    "prep_minutes": 5,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 350,
+    "protein_g_per_serving": 20,
+    "instructions_json": [
+      "Add toppings to yogurt",
+      "Drizzle with honey",
+      "Sprinkle nuts if desired"
+    ],
+    "notes": "High protein option."
+  },
+  {
+    "recipe_id": 422,
+    "recipe_title": "Pancakes",
+    "meal_type": "Breakfast",
+    "cuisine": "American",
+    "servings_default": 4,
+    "prep_minutes": 10,
+    "cook_minutes": 15,
+    "is_peanut_free": true,
+    "calories_per_serving": 280,
+    "protein_g_per_serving": 8,
+    "instructions_json": [
+      "Mix dry ingredients",
+      "Combine wet ingredients",
+      "Cook on griddle",
+      "Serve with syrup"
+    ],
+    "notes": "Weekend breakfast treat."
+  },
+  {
+    "recipe_id": 423,
+    "recipe_title": "Beef Stir-Fry",
+    "meal_type": "Dinner",
+    "cuisine": "Chinese",
+    "servings_default": 4,
+    "prep_minutes": 15,
+    "cook_minutes": 12,
+    "is_peanut_free": true,
+    "calories_per_serving": 480,
+    "protein_g_per_serving": 35,
+    "instructions_json": [
+      "Slice beef thin",
+      "Stir-fry with vegetables",
+      "Add sauce",
+      "Serve over rice"
+    ],
+    "notes": "Quick weeknight meal."
+  },
+  {
+    "recipe_id": 424,
+    "recipe_title": "Vegetarian Chili",
+    "meal_type": "Dinner",
+    "cuisine": "Mexican",
+    "servings_default": 6,
+    "prep_minutes": 15,
+    "cook_minutes": 30,
+    "is_peanut_free": true,
+    "calories_per_serving": 320,
+    "protein_g_per_serving": 15,
+    "instructions_json": [
+      "Saute onions and peppers",
+      "Add beans and tomatoes",
+      "Season and simmer",
+      "Serve with toppings"
+    ],
+    "notes": "Vegetarian protein source."
+  },
+  {
+    "recipe_id": 425,
+    "recipe_title": "Baked Cod with Herbs",
+    "meal_type": "Dinner",
+    "cuisine": "American",
+    "servings_default": 4,
+    "prep_minutes": 10,
+    "cook_minutes": 20,
+    "is_peanut_free": true,
+    "calories_per_serving": 340,
+    "protein_g_per_serving": 40,
+    "instructions_json": [
+      "Season cod with herbs",
+      "Bake until flaky",
+      "Serve with lemon"
+    ],
+    "notes": "Light, healthy option."
+  },
+  {
+    "recipe_id": 426,
+    "recipe_title": "Mushroom Risotto",
+    "meal_type": "Dinner",
+    "cuisine": "Italian",
+    "servings_default": 4,
+    "prep_minutes": 10,
+    "cook_minutes": 35,
+    "is_peanut_free": true,
+    "calories_per_serving": 420,
+    "protein_g_per_serving": 12,
+    "instructions_json": [
+      "Saute mushrooms",
+      "Add rice and stock gradually",
+      "Stir constantly",
+      "Add cheese at end"
+    ],
+    "notes": "Requires attention while cooking."
+  },
+  {
+    "recipe_id": 427,
+    "recipe_title": "Korean Beef Bowl",
+    "meal_type": "Dinner",
+    "cuisine": "Korean",
+    "servings_default": 4,
+    "prep_minutes": 10,
+    "cook_minutes": 15,
+    "is_peanut_free": true,
+    "calories_per_serving": 520,
+    "protein_g_per_serving": 32,
+    "instructions_json": [
+      "Marinate beef",
+      "Cook beef",
+      "Serve over rice",
+      "Add vegetables"
+    ],
+    "notes": "Adjust spice level for kids."
+  },
+  {
+    "recipe_id": 428,
+    "recipe_title": "Stuffed Bell Peppers",
+    "meal_type": "Dinner",
+    "cuisine": "American",
+    "servings_default": 4,
+    "prep_minutes": 20,
+    "cook_minutes": 30,
+    "is_peanut_free": true,
+    "calories_per_serving": 380,
+    "protein_g_per_serving": 25,
+    "instructions_json": [
+      "Hollow peppers",
+      "Prepare filling",
+      "Stuff peppers",
+      "Bake until tender"
+    ],
+    "notes": "Can make ahead and freeze."
+  },
+  {
+    "recipe_id": 429,
+    "recipe_title": "Moroccan Tagine",
+    "meal_type": "Dinner",
+    "cuisine": "Moroccan",
+    "servings_default": 6,
+    "prep_minutes": 20,
+    "cook_minutes": 45,
+    "is_peanut_free": true,
+    "calories_per_serving": 450,
+    "protein_g_per_serving": 28,
+    "instructions_json": [
+      "Brown meat",
+      "Add vegetables and spices",
+      "Simmer slowly",
+      "Serve with couscous"
+    ],
+    "notes": "Complex flavors, mild version for kids."
+  },
+  {
+    "recipe_id": 430,
+    "recipe_title": "Shrimp Pad Thai",
+    "meal_type": "Dinner",
+    "cuisine": "Thai",
+    "servings_default": 4,
+    "prep_minutes": 15,
+    "cook_minutes": 12,
+    "is_peanut_free": false,
+    "calories_per_serving": 480,
+    "protein_g_per_serving": 25,
+    "instructions_json": [
+      "Soak noodles",
+      "Stir-fry shrimp",
+      "Add noodles and sauce",
+      "Garnish with peanuts"
+    ],
+    "notes": "Contains peanuts - not suitable for allergic individuals."
+  },
+  {
+    "recipe_id": 431,
+    "recipe_title": "Gluten-Free Pasta Primavera",
+    "meal_type": "Dinner",
+    "cuisine": "Italian",
+    "servings_default": 4,
+    "prep_minutes": 15,
+    "cook_minutes": 15,
+    "is_peanut_free": true,
+    "calories_per_serving": 420,
+    "protein_g_per_serving": 14,
+    "instructions_json": [
+      "Cook gluten-free pasta",
+      "Saute seasonal vegetables",
+      "Toss with olive oil",
+      "Add parmesan"
+    ],
+    "notes": "Gluten-free option for celiac household members."
+  },
+  {
+    "recipe_id": 432,
+    "recipe_title": "Vegan Black Bean Burgers",
+    "meal_type": "Dinner",
+    "cuisine": "American",
+    "servings_default": 4,
+    "prep_minutes": 20,
+    "cook_minutes": 15,
+    "is_peanut_free": true,
+    "calories_per_serving": 340,
+    "protein_g_per_serving": 18,
+    "instructions_json": [
+      "Mash black beans",
+      "Mix with vegetables",
+      "Form patties",
+      "Cook in pan"
+    ],
+    "notes": "Vegan protein option."
+  },
+  {
+    "recipe_id": 433,
+    "recipe_title": "Dairy-Free Coconut Curry",
+    "meal_type": "Dinner",
+    "cuisine": "Thai",
+    "servings_default": 4,
+    "prep_minutes": 15,
+    "cook_minutes": 25,
+    "is_peanut_free": true,
+    "calories_per_serving": 380,
+    "protein_g_per_serving": 20,
+    "instructions_json": [
+      "Saute aromatics",
+      "Add coconut milk",
+      "Add protein and vegetables",
+      "Simmer"
+    ],
+    "notes": "Dairy-free option using coconut milk."
+  },
+  {
+    "recipe_id": 434,
+    "recipe_title": "Keto Zucchini Lasagna",
+    "meal_type": "Dinner",
+    "cuisine": "Italian",
+    "servings_default": 6,
+    "prep_minutes": 30,
+    "cook_minutes": 45,
+    "is_peanut_free": true,
+    "calories_per_serving": 320,
+    "protein_g_per_serving": 28,
+    "instructions_json": [
+      "Slice zucchini thin",
+      "Layer with meat sauce",
+      "Add cheese layers",
+      "Bake until set"
+    ],
+    "notes": "Low-carb alternative to pasta."
+  },
+  {
+    "recipe_id": 435,
+    "recipe_title": "Heart-Healthy Baked Salmon",
+    "meal_type": "Dinner",
+    "cuisine": "American",
+    "servings_default": 4,
+    "prep_minutes": 10,
+    "cook_minutes": 18,
+    "is_peanut_free": true,
+    "calories_per_serving": 350,
+    "protein_g_per_serving": 35,
+    "instructions_json": [
+      "Season salmon lightly",
+      "Bake with minimal oil",
+      "Serve with steamed vegetables"
+    ],
+    "notes": "Low sodium, omega-3 rich."
+  },
+  {
+    "recipe_id": 436,
+    "recipe_title": "Quinoa Breakfast Bowl",
+    "meal_type": "Breakfast",
+    "cuisine": "Modern",
+    "servings_default": 2,
+    "prep_minutes": 10,
+    "cook_minutes": 15,
+    "is_peanut_free": true,
+    "calories_per_serving": 380,
+    "protein_g_per_serving": 14,
+    "instructions_json": [
+      "Cook quinoa in almond milk",
+      "Add fruit and nuts",
+      "Drizzle with honey"
+    ],
+    "notes": "High protein breakfast option."
+  },
+  {
+    "recipe_id": 437,
+    "recipe_title": "Chia Pudding",
+    "meal_type": "Breakfast",
+    "cuisine": "Modern",
+    "servings_default": 2,
+    "prep_minutes": 5,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 220,
+    "protein_g_per_serving": 8,
+    "instructions_json": [
+      "Mix chia with milk",
+      "Let set overnight",
+      "Add toppings"
+    ],
+    "notes": "Make ahead breakfast."
+  },
+  {
+    "recipe_id": 438,
+    "recipe_title": "Vegetable Omelet",
+    "meal_type": "Breakfast",
+    "cuisine": "French",
+    "servings_default": 2,
+    "prep_minutes": 10,
+    "cook_minutes": 8,
+    "is_peanut_free": true,
+    "calories_per_serving": 320,
+    "protein_g_per_serving": 20,
+    "instructions_json": [
+      "Beat eggs",
+      "Cook vegetables",
+      "Pour eggs over veggies",
+      "Fold omelet"
+    ],
+    "notes": "Customize with available vegetables."
+  },
+  {
+    "recipe_id": 439,
+    "recipe_title": "Smoothie Bowl",
+    "meal_type": "Breakfast",
+    "cuisine": "Modern",
+    "servings_default": 1,
+    "prep_minutes": 8,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 280,
+    "protein_g_per_serving": 12,
+    "instructions_json": [
+      "Blend frozen fruit with yogurt",
+      "Pour into bowl",
+      "Add toppings"
+    ],
+    "notes": "Refreshing summer breakfast."
+  },
+  {
+    "recipe_id": 440,
+    "recipe_title": "Gluten-Free Pancakes",
+    "meal_type": "Breakfast",
+    "cuisine": "American",
+    "servings_default": 4,
+    "prep_minutes": 10,
+    "cook_minutes": 15,
+    "is_peanut_free": true,
+    "calories_per_serving": 290,
+    "protein_g_per_serving": 8,
+    "instructions_json": [
+      "Mix gluten-free flour blend",
+      "Add wet ingredients",
+      "Cook on griddle"
+    ],
+    "notes": "Celiac-friendly option."
+  },
+  {
+    "recipe_id": 441,
+    "recipe_title": "Asian Lettuce Wraps",
+    "meal_type": "Lunch",
+    "cuisine": "Asian",
+    "servings_default": 4,
+    "prep_minutes": 15,
+    "cook_minutes": 10,
+    "is_peanut_free": true,
+    "calories_per_serving": 280,
+    "protein_g_per_serving": 20,
+    "instructions_json": [
+      "Cook ground meat with vegetables",
+      "Season with Asian flavors",
+      "Serve in lettuce cups"
+    ],
+    "notes": "Low-carb lunch option."
+  },
+  {
+    "recipe_id": 442,
+    "recipe_title": "Mediterranean Bowl",
+    "meal_type": "Lunch",
+    "cuisine": "Mediterranean",
+    "servings_default": 2,
+    "prep_minutes": 15,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 420,
+    "protein_g_per_serving": 15,
+    "instructions_json": [
+      "Arrange quinoa in bowl",
+      "Add vegetables and olives",
+      "Top with hummus and feta"
+    ],
+    "notes": "Fresh, no-cook meal."
+  },
+  {
+    "recipe_id": 443,
+    "recipe_title": "Tuna Salad Sandwich",
+    "meal_type": "Lunch",
+    "cuisine": "American",
+    "servings_default": 2,
+    "prep_minutes": 10,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 380,
+    "protein_g_per_serving": 25,
+    "instructions_json": [
+      "Mix tuna with mayo",
+      "Add celery and seasonings",
+      "Serve on bread"
+    ],
+    "notes": "Classic lunch option."
+  },
+  {
+    "recipe_id": 444,
+    "recipe_title": "Veggie Quesadilla",
+    "meal_type": "Lunch",
+    "cuisine": "Mexican",
+    "servings_default": 2,
+    "prep_minutes": 10,
+    "cook_minutes": 8,
+    "is_peanut_free": true,
+    "calories_per_serving": 350,
+    "protein_g_per_serving": 16,
+    "instructions_json": [
+      "Layer vegetables and cheese in tortilla",
+      "Cook until crispy",
+      "Cut into wedges"
+    ],
+    "notes": "Quick vegetarian lunch."
+  },
+  {
+    "recipe_id": 445,
+    "recipe_title": "Chicken Caesar Salad",
+    "meal_type": "Lunch",
+    "cuisine": "American",
+    "servings_default": 2,
+    "prep_minutes": 15,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 420,
+    "protein_g_per_serving": 32,
+    "instructions_json": [
+      "Toss lettuce with dressing",
+      "Add grilled chicken",
+      "Top with parmesan and croutons"
+    ],
+    "notes": "High protein salad."
+  },
+  {
+    "recipe_id": 446,
+    "recipe_title": "Buddha Bowl",
+    "meal_type": "Lunch",
+    "cuisine": "Modern",
+    "servings_default": 2,
+    "prep_minutes": 20,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 380,
+    "protein_g_per_serving": 18,
+    "instructions_json": [
+      "Arrange various vegetables in bowl",
+      "Add protein source",
+      "Drizzle with tahini dressing"
+    ],
+    "notes": "Customizable healthy bowl."
+  },
+  {
+    "recipe_id": 447,
+    "recipe_title": "Soup and Sandwich Combo",
+    "meal_type": "Lunch",
+    "cuisine": "American",
+    "servings_default": 2,
+    "prep_minutes": 10,
+    "cook_minutes": 15,
+    "is_peanut_free": true,
+    "calories_per_serving": 450,
+    "protein_g_per_serving": 20,
+    "instructions_json": [
+      "Heat soup",
+      "Prepare grilled cheese",
+      "Serve together"
+    ],
+    "notes": "Comfort food lunch."
+  },
+  {
+    "recipe_id": 448,
+    "recipe_title": "Mixed Nuts and Fruit",
+    "meal_type": "Snack",
+    "cuisine": "Modern",
+    "servings_default": 1,
+    "prep_minutes": 2,
+    "cook_minutes": 0,
+    "is_peanut_free": false,
+    "calories_per_serving": 180,
+    "protein_g_per_serving": 6,
+    "instructions_json": [
+      "Portion nuts",
+      "Add dried fruit"
+    ],
+    "notes": "Contains nuts - not peanut free."
+  },
+  {
+    "recipe_id": 449,
+    "recipe_title": "Apple Slices with Almond Butter",
+    "meal_type": "Snack",
+    "cuisine": "Modern",
+    "servings_default": 1,
+    "prep_minutes": 3,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 200,
+    "protein_g_per_serving": 6,
+    "instructions_json": [
+      "Slice apple",
+      "Serve with almond butter"
+    ],
+    "notes": "Healthy afternoon snack."
+  },
+  {
+    "recipe_id": 450,
+    "recipe_title": "Hummus with Veggies",
+    "meal_type": "Snack",
+    "cuisine": "Mediterranean",
+    "servings_default": 1,
+    "prep_minutes": 5,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 120,
+    "protein_g_per_serving": 5,
+    "instructions_json": [
+      "Arrange vegetables",
+      "Serve with hummus"
+    ],
+    "notes": "Low calorie, high fiber."
+  },
+  {
+    "recipe_id": 451,
+    "recipe_title": "Vegan Chocolate Mousse",
+    "meal_type": "Dessert",
+    "cuisine": "Modern",
+    "servings_default": 4,
+    "prep_minutes": 15,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 280,
+    "protein_g_per_serving": 6,
+    "instructions_json": [
+      "Blend silken tofu with cocoa",
+      "Add sweetener",
+      "Chill before serving"
+    ],
+    "notes": "Dairy-free dessert option."
+  },
+  {
+    "recipe_id": 452,
+    "recipe_title": "Fruit Sorbet",
+    "meal_type": "Dessert",
+    "cuisine": "Modern",
+    "servings_default": 4,
+    "prep_minutes": 10,
+    "cook_minutes": 0,
+    "is_peanut_free": true,
+    "calories_per_serving": 90,
+    "protein_g_per_serving": 1,
+    "instructions_json": [
+      "Puree frozen fruit",
+      "Add sweetener if needed",
+      "Serve immediately"
+    ],
+    "notes": "Light, refreshing dessert."
+  },
+  {
+    "recipe_id": 453,
+    "recipe_title": "Gluten-Free Brownies",
+    "meal_type": "Dessert",
+    "cuisine": "American",
+    "servings_default": 16,
+    "prep_minutes": 15,
+    "cook_minutes": 25,
+    "is_peanut_free": true,
+    "calories_per_serving": 220,
+    "protein_g_per_serving": 4,
+    "instructions_json": [
+      "Mix gluten-free flour with cocoa",
+      "Add wet ingredients",
+      "Bake until set"
+    ],
+    "notes": "Celiac-friendly treat."
+  }
+]

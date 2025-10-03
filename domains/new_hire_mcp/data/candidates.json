@@ -1,5 +1,5 @@
-[
-  {
+{
+  "cand_1": {
     "candidate_id": "cand_1",
     "candidate_name": "Michael Anderson",
     "role_title": "Software Engineer",
@@ -14,7 +14,7 @@
     "manager_intro_invite_ts_nullable": null,
     "welcome_email_message_id_nullable": null
   },
-  {
+  "cand_2": {
     "candidate_id": "cand_2",
     "candidate_name": "Emma Thompson",
     "role_title": "Product Manager",
@@ -29,7 +29,7 @@
     "manager_intro_invite_ts_nullable": "2024-07-18T14:05:00Z",
     "welcome_email_message_id_nullable": "msg_1"
   },
-  {
+  "cand_3": {
     "candidate_id": "cand_3",
     "candidate_name": "William Davis",
     "role_title": "Data Scientist",
@@ -44,7 +44,7 @@
     "manager_intro_invite_ts_nullable": "2024-07-25T16:05:00Z",
     "welcome_email_message_id_nullable": "msg_2"
   },
-  {
+  "cand_4": {
     "candidate_id": "cand_4",
     "candidate_name": "Sofia Martinez",
     "role_title": "UX Designer",
@@ -59,7 +59,7 @@
     "manager_intro_invite_ts_nullable": "2024-07-22T10:05:00Z",
     "welcome_email_message_id_nullable": "msg_6"
   },
-  {
+  "cand_5": {
     "candidate_id": "cand_5",
     "candidate_name": "Jordan Williams",
     "role_title": "DevOps Engineer",
@@ -74,7 +74,7 @@
     "manager_intro_invite_ts_nullable": "2024-07-27T15:05:00Z",
     "welcome_email_message_id_nullable": "msg_7"
   },
-  {
+  "cand_6": {
     "candidate_id": "cand_6",
     "candidate_name": "Lily Zhang",
     "role_title": "Marketing Specialist",
@@ -89,7 +89,7 @@
     "manager_intro_invite_ts_nullable": null,
     "welcome_email_message_id_nullable": null
   },
-  {
+  "cand_7": {
     "candidate_id": "cand_7",
     "candidate_name": "Raj Patel",
     "role_title": "Senior Software Engineer",
@@ -104,4 +104,4 @@
     "manager_intro_invite_ts_nullable": "2024-08-07T13:35:00Z",
     "welcome_email_message_id_nullable": "msg_8"
   }
-]
+}

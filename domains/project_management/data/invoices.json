@@ -1,5 +1,5 @@
-[
-  {
+{
+  "inv_001": {
     "invoice_id": "inv_001",
     "vendor_id": "vendor_001",
     "po_number": "PO-2024-001",
@@ -10,7 +10,7 @@
     "status": "pending",
     "payment_terms": "Net 30"
   },
-  {
+  "inv_002": {
     "invoice_id": "inv_002",
     "vendor_id": "vendor_003",
     "po_number": "PO-2024-003",
@@ -23,7 +23,7 @@
     "paid_date": "2024-02-28T14:00:00Z",
     "payment_terms": "Net 30"
   },
-  {
+  "inv_003": {
     "invoice_id": "inv_003",
     "vendor_id": "vendor_004",
     "po_number": "PO-2024-004",
@@ -36,4 +36,4 @@
     "paid_date": "2024-03-10T10:00:00Z",
     "payment_terms": "Net 30"
   }
-]
+}

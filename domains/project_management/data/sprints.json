@@ -1,5 +1,5 @@
-[
-  {
+{
+  "sprint_001": {
     "sprint_id": "sprint_001",
     "sprint_name": "Sprint 1 - Foundation",
     "start_date": "2024-03-01",
@@ -12,7 +12,7 @@
     "velocity": 28,
     "reviewed": "False"
   },
-  {
+  "sprint_002": {
     "sprint_id": "sprint_002",
     "sprint_name": "Sprint 2 - User Features",
     "start_date": "2024-03-15",
@@ -25,7 +25,7 @@
     "velocity": 0,
     "reviewed": "False"
   },
-  {
+  "sprint_003": {
     "sprint_id": "sprint_003",
     "sprint_name": "Sprint 3 - Mobile Integration",
     "start_date": "2024-03-29",
@@ -38,7 +38,7 @@
     "velocity": 0,
     "reviewed": "False"
   },
-  {
+  "sprint_004": {
     "sprint_id": "sprint_004",
     "sprint_name": "Sprint 4 - Security Enhancement",
     "start_date": "2024-04-12",
@@ -51,7 +51,7 @@
     "velocity": 0,
     "reviewed": "False"
   },
-  {
+  "sprint_005": {
     "sprint_id": "sprint_005",
     "sprint_name": "Analytics Sprint 1",
     "start_date": "2024-03-01",
@@ -64,4 +64,4 @@
     "velocity": 18,
     "reviewed": "False"
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "gate_001": {
     "review_id": "gate_001",
     "milestone_id": "ms_002",
     "review_date": "2024-04-10T00:00:00Z",
@@ -23,7 +23,7 @@
     "consecutive_failures": 0,
     "created_date": "2024-04-10T16:00:00Z"
   },
-  {
+  "gate_002": {
     "review_id": "gate_002",
     "milestone_id": "ms_004",
     "review_date": "2024-04-25T00:00:00Z",
@@ -43,7 +43,7 @@
     "consecutive_failures": 0,
     "created_date": "2024-04-25T15:00:00Z"
   },
-  {
+  "gate_003": {
     "review_id": "gate_003",
     "milestone_id": "ms_006",
     "review_date": "2024-05-10T00:00:00Z",
@@ -66,7 +66,7 @@
     "consecutive_failures": 1,
     "created_date": "2024-05-10T14:00:00Z"
   },
-  {
+  "gate_004": {
     "review_id": "gate_004",
     "milestone_id": "ms_003",
     "review_date": "2024-06-20T00:00:00Z",
@@ -86,4 +86,4 @@
     "consecutive_failures": 0,
     "created_date": "2024-06-20T11:00:00Z"
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "rem_4fb3637f": {
     "reminder_id": "rem_4fb3637f",
     "name": "Shopping List Reminder",
     "target": {
@@ -24,7 +24,7 @@
     "created_at": "2025-06-23T17:00:00Z",
     "next_fire_time": "2025-06-29T09:00:00-07:00"
   },
-  {
+  "rem_254afa34": {
     "reminder_id": "rem_254afa34",
     "name": "Medication Reminder",
     "target": {
@@ -49,7 +49,7 @@
     "last_fired_at": "2025-06-22T21:00:00-07:00",
     "next_fire_time": "2025-06-23T21:00:00-07:00"
   },
-  {
+  "rem_5cc80c0f": {
     "reminder_id": "rem_5cc80c0f",
     "name": "Water Plants Reminder",
     "target": {
@@ -71,7 +71,7 @@
     "status": "active",
     "created_at": "2025-04-20T10:00:00Z"
   },
-  {
+  "rem_eb55e94b": {
     "reminder_id": "rem_eb55e94b",
     "name": "Trash Reminder",
     "target": {
@@ -93,7 +93,7 @@
     "status": "active",
     "created_at": "2025-03-01T12:00:00Z"
   },
-  {
+  "rem_94f92a43": {
     "reminder_id": "rem_94f92a43",
     "name": "Credit Card Bill Reminder",
     "target": {
@@ -115,7 +115,7 @@
     "status": "active",
     "created_at": "2025-01-10T09:00:00Z"
   },
-  {
+  "rem_8f9fd8ae": {
     "reminder_id": "rem_8f9fd8ae",
     "name": "Car Maintenance Reminder",
     "target": {
@@ -137,7 +137,7 @@
     "status": "inactive",
     "created_at": "2024-12-01T08:00:00Z"
   },
-  {
+  "rem_dcbb282e": {
     "reminder_id": "rem_dcbb282e",
     "name": "Home Maintenance Reminder",
     "target": {
@@ -160,7 +160,7 @@
     "status": "scheduled",
     "created_at": "2025-06-23T10:00:00Z"
   },
-  {
+  "rem_d900e8b5": {
     "reminder_id": "rem_d900e8b5",
     "name": "Dad's Birthday Call Reminder",
     "target": {
@@ -182,4 +182,4 @@
     "status": "scheduled",
     "created_at": "2025-06-23T12:00:00Z"
   }
-]
+}

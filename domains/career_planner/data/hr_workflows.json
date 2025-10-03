@@ -1,5 +1,5 @@
-[
-  {
+{
+  "WF001": {
     "workflow_id": "WF001",
     "workflow_name": "Internal Promotion Process",
     "workflow_type": "Promotion",
@@ -48,7 +48,12 @@
         "notes": "Reassess skills after training completion"
       }
     ],
-    "required_skills": ["Machine Learning", "Python", "SQL", "Statistical Analysis"],
+    "required_skills": [
+      "Machine Learning",
+      "Python",
+      "SQL",
+      "Statistical Analysis"
+    ],
     "missing_skills": [
       {
         "skill": "Machine Learning",
@@ -64,7 +69,7 @@
     "estimated_completion": "2025-03-15",
     "budget_allocation": 5000
   },
-  {
+  "WF002": {
     "workflow_id": "WF002",
     "workflow_name": "Succession Planning",
     "workflow_type": "Leadership Development",
@@ -108,19 +113,24 @@
       {
         "employee_id": "U307",
         "readiness_score": 85,
-        "development_needs": ["Leadership", "Design Operations"],
+        "development_needs": [
+          "Leadership",
+          "Design Operations"
+        ],
         "timeline": "6 months"
       },
       {
         "employee_id": "U304",
         "readiness_score": 90,
-        "development_needs": ["Stakeholder Alignment"],
+        "development_needs": [
+          "Stakeholder Alignment"
+        ],
         "timeline": "3 months"
       }
     ],
     "succession_plan": "Develop U307 for leadership role with mentorship from U304"
   },
-  {
+  "WF003": {
     "workflow_id": "WF003",
     "workflow_name": "Talent Acquisition",
     "workflow_type": "External Hiring",
@@ -182,7 +192,7 @@
       "reporting_to": "U312"
     }
   },
-  {
+  "WF004": {
     "workflow_id": "WF004",
     "workflow_name": "Performance Management",
     "workflow_type": "Performance Review",
@@ -239,7 +249,7 @@
       "Develop analytics dashboard for marketing metrics"
     ]
   },
-  {
+  "WF005": {
     "workflow_id": "WF005",
     "workflow_name": "Skills Development Program",
     "workflow_type": "Training Initiative",
@@ -248,7 +258,10 @@
     "status": "In Progress",
     "current_stage": "Training Delivery",
     "program_name": "Data Science Upskilling",
-    "target_audience": ["U302", "U310"],
+    "target_audience": [
+      "U302",
+      "U310"
+    ],
     "workflow_stages": [
       {
         "stage": "Needs Assessment",
@@ -293,8 +306,13 @@
         "notes": "Final program evaluation and ROI assessment"
       }
     ],
-    "courses_assigned": ["C1001", "C1005"],
-    "mentors_assigned": ["M102"],
+    "courses_assigned": [
+      "C1001",
+      "C1005"
+    ],
+    "mentors_assigned": [
+      "M102"
+    ],
     "budget": 15000,
     "success_metrics": [
       "Complete machine learning certification",
@@ -302,4 +320,4 @@
       "Transition to data science role"
     ]
   }
-]
+}

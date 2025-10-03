@@ -1,0 +1,122 @@
+[
+  {
+    "allocation_id": "alloc_001",
+    "expense_id": "exp_shared_001",
+    "original_amount": 30000,
+    "allocation_splits": [
+      {
+        "project_id": "proj_mobile_01",
+        "percentage": 40,
+        "amount": 12000
+      },
+      {
+        "project_id": "proj_web_01",
+        "percentage": 35,
+        "amount": 10500
+      },
+      {
+        "project_id": "proj_api_02",
+        "percentage": 25,
+        "amount": 7500
+      }
+    ],
+    "allocated_by": "emp_finance_01",
+    "allocation_date": "2024-03-05T14:00:00Z",
+    "status": "completed"
+  },
+  {
+    "allocation_id": "alloc_002",
+    "expense_id": "exp_shared_002",
+    "original_amount": 50000,
+    "allocation_splits": [
+      {
+        "project_id": "proj_enterprise_01",
+        "percentage": 50,
+        "amount": 25000
+      },
+      {
+        "project_id": "proj_platform_02",
+        "percentage": 30,
+        "amount": 15000
+      },
+      {
+        "project_id": "proj_banking_01",
+        "percentage": 20,
+        "amount": 10000
+      }
+    ],
+    "allocated_by": "emp_finance_02",
+    "allocation_date": "2024-02-20T11:00:00Z",
+    "status": "completed"
+  },
+  {
+    "allocation_id": "alloc_003",
+    "expense_id": "exp_shared_003",
+    "original_amount": 15000,
+    "allocation_splits": [
+      {
+        "project_id": "proj_ai_01",
+        "percentage": 60,
+        "amount": 9000
+      },
+      {
+        "project_id": "proj_reporting_01",
+        "percentage": 40,
+        "amount": 6000
+      }
+    ],
+    "allocated_by": "emp_finance_01",
+    "allocation_date": "2024-03-10T15:00:00Z",
+    "status": "completed"
+  },
+  {
+    "allocation_id": "alloc_004",
+    "expense_id": "exp_shared_004",
+    "original_amount": 75000,
+    "allocation_splits": [
+      {
+        "project_id": "proj_client_01",
+        "percentage": 70,
+        "amount": 52500
+      },
+      {
+        "project_id": "proj_mobile_01",
+        "percentage": 20,
+        "amount": 15000
+      },
+      {
+        "project_id": "proj_web_01",
+        "percentage": 10,
+        "amount": 7500
+      }
+    ],
+    "allocated_by": "emp_finance_02",
+    "allocation_date": "2024-01-25T10:00:00Z",
+    "status": "completed"
+  },
+  {
+    "allocation_id": "alloc_005",
+    "expense_id": "exp_shared_005",
+    "original_amount": 20000,
+    "allocation_splits": [
+      {
+        "project_id": "proj_alpha_01",
+        "percentage": 33.33,
+        "amount": 6666
+      },
+      {
+        "project_id": "proj_beta_02",
+        "percentage": 33.33,
+        "amount": 6667
+      },
+      {
+        "project_id": "proj_gamma_03",
+        "percentage": 33.34,
+        "amount": 6667
+      }
+    ],
+    "allocated_by": "emp_finance_01",
+    "allocation_date": "2024-02-15T14:00:00Z",
+    "status": "completed"
+  }
+]

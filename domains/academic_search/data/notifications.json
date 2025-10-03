@@ -1,5 +1,5 @@
-[
-  {
+{
+  "notif_01": {
     "alert_id": "notif_01",
     "receiver_person_id": "res_03",
     "sender_person_id": "system",
@@ -7,7 +7,7 @@
     "time_recorded": "2025-06-25T10:00:00Z",
     "state": "unread"
   },
-  {
+  "notif_02": {
     "alert_id": "notif_02",
     "receiver_person_id": "res_01",
     "sender_person_id": "res_05",
@@ -15,7 +15,7 @@
     "time_recorded": "2025-06-25T11:30:00Z",
     "state": "read"
   },
-  {
+  "notif_03": {
     "alert_id": "notif_03",
     "receiver_person_id": "res_02",
     "sender_person_id": "system",
@@ -23,7 +23,7 @@
     "time_recorded": "2025-06-26T09:00:00Z",
     "state": "unread"
   },
-  {
+  "notif_04": {
     "alert_id": "notif_04",
     "receiver_person_id": "res_02",
     "sender_person_id": "res_06",
@@ -31,4 +31,4 @@
     "time_recorded": "2025-06-26T12:00:00Z",
     "state": "unread"
   }
-]
+}

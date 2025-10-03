@@ -1,5 +1,5 @@
-[
-  {
+{
+  "fc_task_003": {
     "task_id": "fc_task_003",
     "task_type": "file_check",
     "user_id": "user_003",
@@ -11,7 +11,7 @@
     "error_log": null,
     "notes": "Successfully scanned /analytics/reports directory. All files met criteria. Checksum verification passed."
   },
-  {
+  "fc_task_005": {
     "task_id": "fc_task_005",
     "task_type": "file_check",
     "user_id": "user_004",
@@ -23,7 +23,7 @@
     "error_log": null,
     "notes": "Scanned /home/users directory. Found document files accessed in last 24 hours. Transfer completed successfully."
   },
-  {
+  "dir_op_002": {
     "task_id": "dir_op_002",
     "task_type": "file_organization",
     "user_id": "user_001",
@@ -35,7 +35,7 @@
     "error_log": null,
     "notes": "Successfully organized project files into categories. No filename conflicts encountered."
   },
-  {
+  "arch_002": {
     "task_id": "arch_002",
     "task_type": "archive",
     "user_id": "user_003",
@@ -47,7 +47,7 @@
     "error_log": null,
     "notes": "Analytics data archived successfully. Remote transfer completed with checksum verification."
   },
-  {
+  "arch_005": {
     "task_id": "arch_005",
     "task_type": "archive",
     "user_id": "user_004",
@@ -58,7 +58,7 @@
     "error_log": "err_005",
     "notes": "Archive task failed during initial validation. Insufficient storage space on target remote server."
   },
-  {
+  "fc_task_001": {
     "task_id": "fc_task_001",
     "task_type": "file_check",
     "user_id": "user_005",
@@ -69,4 +69,4 @@
     "error_log": null,
     "notes": "SSH connection established. Tmux session 'file_monitor' created. Currently executing find command."
   }
-]
+}

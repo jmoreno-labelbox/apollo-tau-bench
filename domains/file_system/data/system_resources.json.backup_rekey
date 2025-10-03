@@ -1,0 +1,153 @@
+[
+  {
+    "server_id": "srv_001",
+    "hostname": "server-prod-01.company.com",
+    "timestamp": "2024-01-15T10:40:00Z",
+    "cpu": {
+      "cores_total": 8,
+      "cores_idle": 6,
+      "load_average_1min": 2.4,
+      "load_average_5min": 2.1,
+      "load_average_15min": 1.8,
+      "usage_percent": 30
+    },
+    "memory": {
+      "total_gb": 32,
+      "used_gb": 18.5,
+      "available_gb": 13.5,
+      "usage_percent": 58
+    },
+    "disk": {
+      "total_gb": 500,
+      "used_gb": 325,
+      "available_gb": 175,
+      "usage_percent": 65
+    }
+  },
+  {
+    "server_id": "srv_002",
+    "hostname": "server-data-01.company.com",
+    "timestamp": "2024-01-15T14:55:00Z",
+    "cpu": {
+      "cores_total": 16,
+      "cores_idle": 10,
+      "load_average_1min": 4.2,
+      "load_average_5min": 3.9,
+      "load_average_15min": 3.7,
+      "usage_percent": 62
+    },
+    "memory": {
+      "total_gb": 64,
+      "used_gb": 45.8,
+      "available_gb": 18.2,
+      "usage_percent": 72
+    },
+    "disk": {
+      "total_gb": 2000,
+      "used_gb": 1560,
+      "available_gb": 440,
+      "usage_percent": 78
+    }
+  },
+  {
+    "server_id": "srv_003",
+    "hostname": "server-analytics.company.com",
+    "timestamp": "2024-01-16T11:30:00Z",
+    "cpu": {
+      "cores_total": 12,
+      "cores_idle": 8,
+      "load_average_1min": 1.8,
+      "load_average_5min": 1.6,
+      "load_average_15min": 1.4,
+      "usage_percent": 33
+    },
+    "memory": {
+      "total_gb": 48,
+      "used_gb": 28.5,
+      "available_gb": 19.5,
+      "usage_percent": 59
+    },
+    "disk": {
+      "total_gb": 1000,
+      "used_gb": 450,
+      "available_gb": 550,
+      "usage_percent": 45
+    }
+  },
+  {
+    "server_id": "srv_004",
+    "hostname": "server-config.company.com",
+    "timestamp": "2024-01-16T08:00:00Z",
+    "cpu": {
+      "cores_total": 4,
+      "cores_idle": 4,
+      "load_average_1min": 0.2,
+      "load_average_5min": 0.1,
+      "load_average_15min": 0.1,
+      "usage_percent": 5
+    },
+    "memory": {
+      "total_gb": 16,
+      "used_gb": 4.2,
+      "available_gb": 11.8,
+      "usage_percent": 26
+    },
+    "disk": {
+      "total_gb": 200,
+      "used_gb": 64,
+      "available_gb": 136,
+      "usage_percent": 32
+    },
+    "status": "maintenance_mode"
+  },
+  {
+    "server_id": "srv_005",
+    "hostname": "backup-server.company.com",
+    "timestamp": "2024-01-18T20:15:00Z",
+    "cpu": {
+      "cores_total": 8,
+      "cores_idle": 7,
+      "load_average_1min": 0.8,
+      "load_average_5min": 0.9,
+      "load_average_15min": 1.0,
+      "usage_percent": 12
+    },
+    "memory": {
+      "total_gb": 32,
+      "used_gb": 8.5,
+      "available_gb": 23.5,
+      "usage_percent": 27
+    },
+    "disk": {
+      "total_gb": 5000,
+      "used_gb": 750,
+      "available_gb": 4250,
+      "usage_percent": 15
+    }
+  },
+  {
+    "server_id": "srv_006",
+    "hostname": "storage-01.company.com",
+    "timestamp": "2024-01-16T15:45:00Z",
+    "cpu": {
+      "cores_total": 6,
+      "cores_idle": 3,
+      "load_average_1min": 3.1,
+      "load_average_5min": 2.8,
+      "load_average_15min": 2.5,
+      "usage_percent": 50
+    },
+    "memory": {
+      "total_gb": 24,
+      "used_gb": 18.6,
+      "available_gb": 5.4,
+      "usage_percent": 78
+    },
+    "disk": {
+      "total_gb": 10000,
+      "used_gb": 8200,
+      "available_gb": 1800,
+      "usage_percent": 82
+    }
+  }
+]

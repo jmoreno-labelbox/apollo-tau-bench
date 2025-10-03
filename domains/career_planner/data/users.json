@@ -1,5 +1,5 @@
-[
-  {
+{
+  "U301": {
     "user_id": "U301",
     "name": "Ava Nguyen",
     "current_role": "Analytics Manager",
@@ -46,7 +46,7 @@
     "years_experience": 8,
     "hire_date": "2020-03-15"
   },
-  {
+  "U302": {
     "user_id": "U302",
     "name": "Harper Bennett",
     "current_role": "Clinical Analyst",
@@ -93,7 +93,7 @@
     "years_experience": 4,
     "hire_date": "2022-06-01"
   },
-  {
+  "U303": {
     "user_id": "U303",
     "name": "David Kim",
     "current_role": "Compliance Specialist",
@@ -146,7 +146,7 @@
     "years_experience": 6,
     "hire_date": "2019-09-15"
   },
-  {
+  "U304": {
     "user_id": "U304",
     "name": "Mason Desai",
     "current_role": "UX Designer",
@@ -198,7 +198,7 @@
     "years_experience": 7,
     "hire_date": "2018-11-01"
   },
-  {
+  "U305": {
     "user_id": "U305",
     "name": "Jack Wang",
     "current_role": "Brand Strategist",
@@ -249,7 +249,7 @@
     "years_experience": 5,
     "hire_date": "2020-08-15"
   },
-  {
+  "U306": {
     "user_id": "U306",
     "name": "Sarah Chen",
     "current_role": "DevOps Engineer",
@@ -307,7 +307,7 @@
     "years_experience": 6,
     "hire_date": "2019-03-01"
   },
-  {
+  "U307": {
     "user_id": "U307",
     "name": "Alexander Adams",
     "current_role": "UX Designer",
@@ -358,7 +358,7 @@
     "years_experience": 4,
     "hire_date": "2021-09-01"
   },
-  {
+  "U308": {
     "user_id": "U308",
     "name": "Emily Johnson",
     "current_role": "Technical Writer",
@@ -411,7 +411,7 @@
     "years_experience": 8,
     "hire_date": "2017-05-15"
   },
-  {
+  "U309": {
     "user_id": "U309",
     "name": "Logan Garcia",
     "current_role": "Training Specialist",
@@ -464,7 +464,7 @@
     "years_experience": 6,
     "hire_date": "2019-01-15"
   },
-  {
+  "U310": {
     "user_id": "U310",
     "name": "Chloe Scott",
     "current_role": "HR Partner",
@@ -510,7 +510,7 @@
     "years_experience": 9,
     "hire_date": "2016-07-01"
   },
-  {
+  "U311": {
     "user_id": "U311",
     "name": "Owen Walker",
     "current_role": "Instructional Designer",
@@ -561,7 +561,7 @@
     "years_experience": 3,
     "hire_date": "2022-03-01"
   },
-  {
+  "U312": {
     "user_id": "U312",
     "name": "Michael Rodriguez",
     "current_role": "Software Engineer",
@@ -614,4 +614,4 @@
     "years_experience": 7,
     "hire_date": "2018-06-01"
   }
-]
+}

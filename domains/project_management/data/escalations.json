@@ -1,5 +1,5 @@
-[
-  {
+{
+  "esc_001": {
     "escalation_id": "esc_001",
     "task_id": "task_005",
     "escalated_by": "emp_sec_dev_01",
@@ -9,7 +9,7 @@
     "created_date": "2024-03-20T10:00:00Z",
     "resolved": false
   },
-  {
+  "esc_002": {
     "escalation_id": "esc_002",
     "task_id": "task_015",
     "escalated_by": "emp_des_04",
@@ -19,4 +19,4 @@
     "created_date": "2024-03-21T09:00:00Z",
     "resolved": false
   }
-]
+}

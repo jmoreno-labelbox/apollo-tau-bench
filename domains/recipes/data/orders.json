@@ -1,5 +1,5 @@
-[
-  {
+{
+  "10001": {
     "order_id": 10001,
     "household_id": 201,
     "store_id": 9001,
@@ -11,7 +11,7 @@
     "scheduled_slot_start_ts": "2025-08-22T18:00:00Z",
     "scheduled_slot_end_ts": "2025-08-22T20:00:00Z"
   },
-  {
+  "10002": {
     "order_id": 10002,
     "household_id": 202,
     "store_id": 9002,
@@ -23,4 +23,4 @@
     "scheduled_slot_start_ts": "2025-08-21T14:00:00Z",
     "scheduled_slot_end_ts": "2025-08-21T16:00:00Z"
   }
-]
+}

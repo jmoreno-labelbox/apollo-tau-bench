@@ -1,0 +1,92 @@
+[
+  {
+    "run_id": "AR-20250814-01",
+    "run_type": "plan_freeze",
+    "started_at": "2025-08-14T02:00:00Z",
+    "ended_at": "2025-08-14T02:02:30Z",
+    "status": "completed",
+    "input_ref": "plan_2025-08-13",
+    "errors_json": "{}"
+  },
+  {
+    "run_id": "AR-20250814-02",
+    "run_type": "budget_apply",
+    "started_at": "2025-08-14T02:10:00Z",
+    "ended_at": "2025-08-14T02:12:00Z",
+    "status": "completed",
+    "input_ref": "plan_2025-08-13",
+    "errors_json": "{}"
+  },
+  {
+    "run_id": "AR-20250814-03",
+    "run_type": "strategy_apply",
+    "started_at": "2025-08-14T02:15:00Z",
+    "ended_at": "2025-08-14T02:17:00Z",
+    "status": "completed",
+    "input_ref": "plan_2025-08-13",
+    "errors_json": "{}"
+  },
+  {
+    "run_id": "AR-20250814-04",
+    "run_type": "creative_rotation",
+    "started_at": "2025-08-14T03:00:00Z",
+    "ended_at": "2025-08-14T03:05:00Z",
+    "status": "completed",
+    "input_ref": "rotation_batch_1",
+    "errors_json": "{}"
+  },
+  {
+    "run_id": "AR-20250814-05",
+    "run_type": "reporting",
+    "started_at": "2025-08-14T04:00:00Z",
+    "ended_at": "2025-08-14T04:01:45Z",
+    "status": "completed",
+    "input_ref": "plan_2025-08-13",
+    "errors_json": "{}"
+  },
+  {
+    "run_id": "AR-20250813-01",
+    "run_type": "plan_freeze",
+    "started_at": "2025-08-13T02:00:00Z",
+    "ended_at": "2025-08-13T02:02:30Z",
+    "status": "completed",
+    "input_ref": "plan_2025-08-12",
+    "errors_json": "{}"
+  },
+  {
+    "run_id": "AR-20250813-02",
+    "run_type": "budget_apply",
+    "started_at": "2025-08-13T02:10:00Z",
+    "ended_at": "2025-08-13T02:12:00Z",
+    "status": "completed",
+    "input_ref": "plan_2025-08-12",
+    "errors_json": "{}"
+  },
+  {
+    "run_id": "AR-20250813-03",
+    "run_type": "creative_rotation",
+    "started_at": "2025-08-13T03:00:00Z",
+    "ended_at": "2025-08-13T03:04:00Z",
+    "status": "completed",
+    "input_ref": "rotation_batch_0",
+    "errors_json": "{}"
+  },
+  {
+    "run_id": "AR-20250813-04",
+    "run_type": "reporting",
+    "started_at": "2025-08-13T04:00:00Z",
+    "ended_at": "2025-08-13T04:01:45Z",
+    "status": "completed",
+    "input_ref": "plan_2025-08-12",
+    "errors_json": "{}"
+  },
+  {
+    "run_id": "AR-20250812-01",
+    "run_type": "plan_freeze",
+    "started_at": "2025-08-12T02:00:00Z",
+    "ended_at": "2025-08-12T02:03:00Z",
+    "status": "failed",
+    "input_ref": "plan_2025-08-11",
+    "errors_json": "{\"error\": \"upstream data not available\"}"
+  }
+]

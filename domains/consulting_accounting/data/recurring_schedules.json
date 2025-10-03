@@ -1,5 +1,5 @@
-[
-  {
+{
+  "SCH001": {
     "schedule_id": "SCH001",
     "schedule_type": "fixed_expense",
     "vendor": "Bell Canada",
@@ -15,7 +15,7 @@
     "auto_pay": true,
     "payment_method": "Business Credit Card"
   },
-  {
+  "SCH002": {
     "schedule_id": "SCH002",
     "schedule_type": "fixed_expense",
     "vendor": "Microsoft Canada",
@@ -32,12 +32,12 @@
     "auto_pay": true,
     "payment_method": "Business Credit Card"
   },
-  {
+  "SCH003": {
     "schedule_id": "SCH003",
     "schedule_type": "fixed_expense",
     "vendor": "Intact Insurance",
     "description": "Professional liability insurance premium",
-    "amount": 875.00,
+    "amount": 875.0,
     "currency": "CAD",
     "frequency": "annual",
     "payment_day": 1,
@@ -49,7 +49,7 @@
     "auto_pay": false,
     "payment_method": "Business Bank Transfer"
   },
-  {
+  "SCH004": {
     "schedule_id": "SCH004",
     "schedule_type": "fixed_expense",
     "vendor": "RBC Royal Bank",
@@ -65,16 +65,21 @@
     "auto_pay": true,
     "payment_method": "Bank Fee Deduction"
   },
-  {
+  "SCH005": {
     "schedule_id": "SCH005",
     "schedule_type": "tax_payment",
     "vendor": "Canada Revenue Agency",
     "description": "Quarterly income tax installments",
-    "amount": 2500.00,
+    "amount": 2500.0,
     "currency": "CAD",
     "frequency": "quarterly",
     "payment_day": 15,
-    "payment_months": [3, 6, 9, 12],
+    "payment_months": [
+      3,
+      6,
+      9,
+      12
+    ],
     "category_code": "INCOME_TAX",
     "start_date": "2024-03-15",
     "end_date": null,
@@ -82,16 +87,21 @@
     "auto_pay": false,
     "payment_method": "Business Bank Transfer"
   },
-  {
+  "SCH006": {
     "schedule_id": "SCH006",
     "schedule_type": "tax_payment",
     "vendor": "Canada Revenue Agency",
     "description": "HST/GST quarterly remittance",
-    "amount": 1200.00,
+    "amount": 1200.0,
     "currency": "CAD",
     "frequency": "quarterly",
     "payment_day": 31,
-    "payment_months": [1, 4, 7, 10],
+    "payment_months": [
+      1,
+      4,
+      7,
+      10
+    ],
     "category_code": "SALES_TAX",
     "start_date": "2024-01-31",
     "end_date": null,
@@ -99,7 +109,7 @@
     "auto_pay": false,
     "payment_method": "Business Bank Transfer"
   },
-  {
+  "SCH007": {
     "schedule_id": "SCH007",
     "schedule_type": "variable_expense",
     "vendor": "Adobe Inc.",
@@ -115,12 +125,12 @@
     "auto_pay": true,
     "payment_method": "Business Credit Card"
   },
-  {
+  "SCH008": {
     "schedule_id": "SCH008",
     "schedule_type": "owner_draw",
     "vendor": "Sarah Thompson",
     "description": "Monthly owner draw/salary",
-    "amount": 4500.00,
+    "amount": 4500.0,
     "currency": "CAD",
     "frequency": "monthly",
     "payment_day": 1,
@@ -131,12 +141,12 @@
     "auto_pay": false,
     "payment_method": "Business Bank Transfer"
   },
-  {
+  "SCH009": {
     "schedule_id": "SCH009",
     "schedule_type": "planned_expense",
     "vendor": "Dell Canada",
     "description": "Laptop replacement - planned capital expenditure",
-    "amount": 2800.00,
+    "amount": 2800.0,
     "currency": "CAD",
     "frequency": "one_time",
     "payment_day": 15,
@@ -148,12 +158,12 @@
     "auto_pay": false,
     "payment_method": "Business Credit Card"
   },
-  {
+  "SCH010": {
     "schedule_id": "SCH010",
     "schedule_type": "variable_expense",
     "vendor": "Various",
     "description": "Estimated monthly fuel costs for business travel",
-    "amount": 180.00,
+    "amount": 180.0,
     "currency": "CAD",
     "frequency": "monthly",
     "payment_day": "variable",
@@ -164,4 +174,4 @@
     "auto_pay": false,
     "payment_method": "Business Credit Card"
   }
-]
+}

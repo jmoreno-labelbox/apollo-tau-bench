@@ -1,5 +1,5 @@
-[
-  {
+{
+  "living_room": {
     "id": "living_room",
     "name": "Living Room",
     "floor": 1,
@@ -11,7 +11,7 @@
       "sensor_lr_thermometer"
     ]
   },
-  {
+  "bedroom_master": {
     "id": "bedroom_master",
     "name": "Master Bedroom",
     "floor": 2,
@@ -21,7 +21,7 @@
       "curtain_br"
     ]
   },
-  {
+  "bedroom_west": {
     "id": "bedroom_west",
     "name": "West Bedroom",
     "floor": 2,
@@ -31,7 +31,7 @@
       "curtain_bw"
     ]
   },
-  {
+  "bedroom_east": {
     "id": "bedroom_east",
     "name": "East Bedroom",
     "floor": 2,
@@ -41,7 +41,7 @@
       "curtain_be"
     ]
   },
-  {
+  "kitchen": {
     "id": "kitchen",
     "name": "Kitchen",
     "floor": 1,
@@ -49,13 +49,13 @@
       "dishwasher_kt"
     ]
   },
-  {
+  "garage": {
     "id": "garage",
     "name": "Garage",
     "floor": 1,
     "devices": []
   },
-  {
+  "basement": {
     "id": "basement",
     "name": "Basement",
     "floor": -1,
@@ -63,4 +63,4 @@
       "heater_home"
     ]
   }
-]
+}

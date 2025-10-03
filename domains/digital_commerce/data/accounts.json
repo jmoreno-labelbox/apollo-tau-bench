@@ -1,5 +1,5 @@
-[
-  {
+{
+  "101": {
     "account_id": "101",
     "account_name": "WorldWide Systems",
     "default_pricebook_id": "2",
@@ -7,7 +7,7 @@
     "billing_street": "123 Digital Hub",
     "shipping_street": "123 Digital Hub"
   },
-  {
+  "102": {
     "account_id": "102",
     "account_name": "Pioneer Technologies",
     "default_pricebook_id": "2",
@@ -15,7 +15,7 @@
     "billing_street": "456 Progress Blvd",
     "shipping_street": "456 Progress Blvd"
   },
-  {
+  "103": {
     "account_id": "103",
     "account_name": "Emily White",
     "default_pricebook_id": "1",
@@ -23,7 +23,7 @@
     "billing_street": "789 Residence Rd",
     "shipping_street": "789 Residence Rd"
   },
-  {
+  "104": {
     "account_id": "104",
     "account_name": "Tom Jenkins",
     "default_pricebook_id": "1",
@@ -31,7 +31,7 @@
     "billing_street": "321 Elm Dr",
     "shipping_street": "321 Elm Dr"
   },
-  {
+  "105": {
     "account_id": "105",
     "account_name": "NextLevel Tech",
     "default_pricebook_id": "2",
@@ -39,7 +39,7 @@
     "billing_street": "777 Future Park",
     "shipping_street": "777 Future Park"
   },
-  {
+  "106": {
     "account_id": "106",
     "account_name": "Alice Johnson",
     "default_pricebook_id": "1",
@@ -47,7 +47,7 @@
     "billing_street": "888 Bay Vista",
     "shipping_street": "888 Bay Vista"
   },
-  {
+  "107": {
     "account_id": "107",
     "account_name": "David Chen",
     "default_pricebook_id": "1",
@@ -55,7 +55,7 @@
     "billing_street": "456 Birch Street",
     "shipping_street": "456 Birch Street"
   },
-  {
+  "108": {
     "account_id": "108",
     "account_name": "Summit Shipping",
     "default_pricebook_id": "2",
@@ -63,7 +63,7 @@
     "billing_street": "900 Commerce Dr",
     "shipping_street": "900 Commerce Dr"
   },
-  {
+  "109": {
     "account_id": "109",
     "account_name": "Moonbeam Corp",
     "default_pricebook_id": "2",
@@ -71,7 +71,7 @@
     "billing_street": "555 Cosmos Way",
     "shipping_street": "555 Cosmos Way"
   },
-  {
+  "110": {
     "account_id": "110",
     "account_name": "Kevin Lee",
     "default_pricebook_id": "1",
@@ -79,7 +79,7 @@
     "billing_street": "101 Garden Way",
     "shipping_street": "101 Garden Way"
   },
-  {
+  "111": {
     "account_id": "111",
     "account_name": "Chloe Davis",
     "default_pricebook_id": "1",
@@ -87,7 +87,7 @@
     "billing_street": "222 Oak Ave",
     "shipping_street": "222 Oak Ave"
   },
-  {
+  "112": {
     "account_id": "112",
     "account_name": "Frontier Industries",
     "default_pricebook_id": "2",
@@ -95,7 +95,7 @@
     "billing_street": "1 Innovation Center",
     "shipping_street": "1 Innovation Center"
   },
-  {
+  "113": {
     "account_id": "113",
     "account_name": "Leo Martinez",
     "default_pricebook_id": "1",
@@ -103,4 +103,4 @@
     "billing_street": "789 Creek Dr",
     "shipping_street": "789 Creek Dr"
   }
-]
+}

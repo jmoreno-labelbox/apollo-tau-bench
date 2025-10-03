@@ -1,5 +1,5 @@
-[
-    {
+{
+    "AR-001": {
         "request_id": "AR-001",
         "user_id": "U-007",
         "resource_id": "RES-025",
@@ -10,7 +10,7 @@
         "reviewed_by": "U-005",
         "decision_at": "2024-04-15 16:00:00+00:00"
     },
-    {
+    "AR-002": {
         "request_id": "AR-002",
         "user_id": "U-020",
         "resource_id": "RES-008",
@@ -21,7 +21,7 @@
         "reviewed_by": "U-002",
         "decision_at": "2024-05-16 15:00:00+00:00"
     },
-    {
+    "AR-003": {
         "request_id": "AR-003",
         "user_id": "U-018",
         "resource_id": "RES-031",
@@ -32,7 +32,7 @@
         "reviewed_by": "U-006",
         "decision_at": "2024-05-16 17:00:00+00:00"
     },
-    {
+    "AR-004": {
         "request_id": "AR-004",
         "user_id": "U-022",
         "resource_id": "RES-002",
@@ -43,7 +43,7 @@
         "reviewed_by": "U-001",
         "decision_at": "2024-05-17 15:30:00+00:00"
     },
-    {
+    "AR-005": {
         "request_id": "AR-005",
         "user_id": "U-009",
         "resource_id": "RES-032",
@@ -54,7 +54,7 @@
         "reviewed_by": "U-006",
         "decision_at": "2024-05-18 16:30:00+00:00"
     },
-    {
+    "AR-006": {
         "request_id": "AR-006",
         "user_id": "U-019",
         "resource_id": "RES-009",
@@ -65,7 +65,7 @@
         "reviewed_by": "U-002",
         "decision_at": "2024-05-19 18:45:00+00:00"
     },
-    {
+    "AR-007": {
         "request_id": "AR-007",
         "user_id": "U-029",
         "resource_id": "RES-025",
@@ -76,7 +76,7 @@
         "reviewed_by": null,
         "decision_at": null
     },
-    {
+    "AR-008": {
         "request_id": "AR-008",
         "user_id": "U-030",
         "resource_id": "RES-032",
@@ -87,7 +87,7 @@
         "reviewed_by": null,
         "decision_at": null
     },
-    {
+    "AR-009": {
         "request_id": "AR-009",
         "user_id": "U-026",
         "resource_id": "RES-008",
@@ -98,7 +98,7 @@
         "reviewed_by": null,
         "decision_at": null
     },
-    {
+    "AR-010": {
         "request_id": "AR-010",
         "user_id": "U-010",
         "resource_id": "RES-021",
@@ -109,7 +109,7 @@
         "reviewed_by": "U-004",
         "decision_at": "2024-05-22 15:30:00+00:00"
     },
-    {
+    "AR-011": {
         "request_id": "AR-011",
         "user_id": "U-019",
         "resource_id": "RES-003",
@@ -120,7 +120,7 @@
         "reviewed_by": "U-001",
         "decision_at": "2024-05-22 16:30:00+00:00"
     },
-    {
+    "AR-012": {
         "request_id": "AR-012",
         "user_id": "U-012",
         "resource_id": "RES-031",
@@ -131,7 +131,7 @@
         "reviewed_by": "U-006",
         "decision_at": "2024-05-22 18:45:00+00:00"
     },
-    {
+    "AR-013": {
         "request_id": "AR-013",
         "user_id": "U-014",
         "resource_id": "RES-010",
@@ -142,7 +142,7 @@
         "reviewed_by": "U-002",
         "decision_at": "2024-05-23 15:15:00+00:00"
     },
-    {
+    "AR-014": {
         "request_id": "AR-014",
         "user_id": "U-025",
         "resource_id": "RES-025",
@@ -153,7 +153,7 @@
         "reviewed_by": "U-001",
         "decision_at": "2024-05-23 16:45:00+00:00"
     },
-    {
+    "AR-015": {
         "request_id": "AR-015",
         "user_id": "U-023",
         "resource_id": "RES-002",
@@ -164,7 +164,7 @@
         "reviewed_by": "U-005",
         "decision_at": "2024-05-24 14:10:00+00:00"
     },
-    {
+    "AR-016": {
         "request_id": "AR-016",
         "user_id": "U-028",
         "resource_id": "RES-020",
@@ -175,7 +175,7 @@
         "reviewed_by": "U-004",
         "decision_at": "2024-05-24 15:00:00+00:00"
     },
-    {
+    "AR-017": {
         "request_id": "AR-017",
         "user_id": "U-021",
         "resource_id": "RES-004",
@@ -186,7 +186,7 @@
         "reviewed_by": "U-002",
         "decision_at": "2024-05-25 16:00:00+00:00"
     },
-    {
+    "AR-018": {
         "request_id": "AR-018",
         "user_id": "U-006",
         "resource_id": "RES-025",
@@ -197,7 +197,7 @@
         "reviewed_by": "U-005",
         "decision_at": "2024-05-25 17:00:00+00:00"
     },
-    {
+    "AR-019": {
         "request_id": "AR-019",
         "user_id": "U-016",
         "resource_id": "RES-014",
@@ -208,7 +208,7 @@
         "reviewed_by": "U-003",
         "decision_at": "2024-05-25 18:30:00+00:00"
     },
-    {
+    "AR-020": {
         "request_id": "AR-020",
         "user_id": "U-013",
         "resource_id": "RES-006",
@@ -219,7 +219,7 @@
         "reviewed_by": null,
         "decision_at": null
     },
-    {
+    "AR-021": {
         "request_id": "AR-021",
         "user_id": "U-026",
         "resource_id": "RES-012",
@@ -230,7 +230,7 @@
         "reviewed_by": null,
         "decision_at": null
     },
-    {
+    "AR-022": {
         "request_id": "AR-022",
         "user_id": "U-009",
         "resource_id": "RES-016",
@@ -241,7 +241,7 @@
         "reviewed_by": null,
         "decision_at": null
     },
-    {
+    "AR-023": {
         "request_id": "AR-023",
         "user_id": "U-010",
         "resource_id": "RES-022",
@@ -252,7 +252,7 @@
         "reviewed_by": "U-004",
         "decision_at": "2024-05-27 15:30:00+00:00"
     },
-    {
+    "AR-024": {
         "request_id": "AR-024",
         "user_id": "U-001",
         "resource_id": "RES-026",
@@ -263,7 +263,7 @@
         "reviewed_by": "U-005",
         "decision_at": "2024-05-27 17:00:00+00:00"
     },
-    {
+    "AR-025": {
         "request_id": "AR-025",
         "user_id": "U-020",
         "resource_id": "RES-009",
@@ -274,7 +274,7 @@
         "reviewed_by": "U-002",
         "decision_at": "2024-05-28 14:30:00+00:00"
     },
-    {
+    "AR-026": {
         "request_id": "AR-026",
         "user_id": "U-024",
         "resource_id": "RES-033",
@@ -285,7 +285,7 @@
         "reviewed_by": "U-006",
         "decision_at": "2024-05-28 16:00:00+00:00"
     },
-    {
+    "AR-027": {
         "request_id": "AR-027",
         "user_id": "U-007",
         "resource_id": "RES-002",
@@ -296,7 +296,7 @@
         "reviewed_by": null,
         "decision_at": null
     },
-    {
+    "AR-028": {
         "request_id": "AR-028",
         "user_id": "U-015",
         "resource_id": "RES-017",
@@ -307,7 +307,7 @@
         "reviewed_by": "U-003",
         "decision_at": "2024-05-28 19:30:00+00:00"
     },
-    {
+    "AR-029": {
         "request_id": "AR-029",
         "user_id": "U-017",
         "resource_id": "RES-027",
@@ -318,7 +318,7 @@
         "reviewed_by": "U-005",
         "decision_at": "2024-05-29 13:30:00+00:00"
     },
-    {
+    "AR-030": {
         "request_id": "AR-030",
         "user_id": "U-022",
         "resource_id": "RES-020",
@@ -329,7 +329,7 @@
         "reviewed_by": null,
         "decision_at": null
     },
-    {
+    "AR-031": {
         "request_id": "AR-031",
         "user_id": "U-025",
         "resource_id": "RES-003",
@@ -340,7 +340,7 @@
         "reviewed_by": "U-001",
         "decision_at": "2024-05-29 15:30:00+00:00"
     },
-    {
+    "AR-032": {
         "request_id": "AR-032",
         "user_id": "U-008",
         "resource_id": "RES-012",
@@ -351,7 +351,7 @@
         "reviewed_by": "U-002",
         "decision_at": "2024-05-29 16:30:00+00:00"
     },
-    {
+    "AR-033": {
         "request_id": "AR-033",
         "user_id": "U-007",
         "resource_id": "RES-027",
@@ -362,7 +362,7 @@
         "reviewed_by": "U-005",
         "decision_at": "2024-05-30 14:30:00+00:00"
     },
-    {
+    "AR-034": {
         "request_id": "AR-034",
         "user_id": "U-018",
         "resource_id": "RES-034",
@@ -373,7 +373,7 @@
         "reviewed_by": null,
         "decision_at": null
     },
-    {
+    "AR-035": {
         "request_id": "AR-035",
         "user_id": "U-011",
         "resource_id": "RES-026",
@@ -384,7 +384,7 @@
         "reviewed_by": "U-005",
         "decision_at": "2024-05-30 16:30:00+00:00"
     },
-    {
+    "AR-036": {
         "request_id": "AR-036",
         "user_id": "U-021",
         "resource_id": "RES-017",
@@ -395,7 +395,7 @@
         "reviewed_by": "U-003",
         "decision_at": "2024-05-30 18:30:00+00:00"
     },
-    {
+    "AR-037": {
         "request_id": "AR-037",
         "user_id": "U-010",
         "resource_id": "RES-041",
@@ -406,7 +406,7 @@
         "reviewed_by": null,
         "decision_at": null
     },
-    {
+    "AR-038": {
         "request_id": "AR-038",
         "user_id": "U-006",
         "resource_id": "RES-040",
@@ -417,7 +417,7 @@
         "reviewed_by": "U-005",
         "decision_at": "2024-05-31 14:30:00+00:00"
     },
-    {
+    "AR-039": {
         "request_id": "AR-039",
         "user_id": "U-029",
         "resource_id": "RES-038",
@@ -428,7 +428,7 @@
         "reviewed_by": "U-005",
         "decision_at": "2024-05-31 15:30:00+00:00"
     },
-    {
+    "AR-040": {
         "request_id": "AR-040",
         "user_id": "U-014",
         "resource_id": "RES-010",
@@ -439,7 +439,7 @@
         "reviewed_by": null,
         "decision_at": null
     },
-    {
+    "AR-041": {
         "request_id": "AR-041",
         "user_id": "U-009",
         "resource_id": "RES-037",
@@ -450,4 +450,4 @@
         "reviewed_by": "U-003",
         "decision_at": "2024-05-31 17:30:00+00:00"
     }
-]
+}

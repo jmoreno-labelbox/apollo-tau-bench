@@ -1,5 +1,5 @@
-[
-  {
+{
+  "bisect_001": {
     "id": "bisect_001",
     "build_run_id": "run_001",
     "repo": "game-engine",
@@ -40,7 +40,7 @@
       "bisect_tool": "git_bisect"
     }
   },
-  {
+  "bisect_002": {
     "id": "bisect_002",
     "build_run_id": "run_003",
     "repo": "game-engine",
@@ -82,7 +82,7 @@
       "bisect_tool": "git_bisect"
     }
   },
-  {
+  "bisect_003": {
     "id": "bisect_003",
     "build_run_id": "run_005",
     "repo": "game-engine",
@@ -124,7 +124,7 @@
       "bisect_tool": "git_bisect"
     }
   },
-  {
+  "bisect_004": {
     "id": "bisect_004",
     "build_run_id": "run_007",
     "repo": "game-engine",
@@ -166,7 +166,7 @@
       "performance_threshold": "60_fps"
     }
   },
-  {
+  "bisect_005": {
     "id": "bisect_005",
     "build_run_id": "run_010",
     "repo": "game-engine",
@@ -200,7 +200,7 @@
       "failure_reason": "infrastructure_issue"
     }
   },
-  {
+  "bisect_006": {
     "id": "bisect_006",
     "build_run_id": "run_006",
     "repo": "game-assets",
@@ -240,7 +240,7 @@
       "max_texture_size": "2048x2048"
     }
   },
-  {
+  "bisect_007": {
     "id": "bisect_007",
     "build_run_id": "run_008",
     "repo": "game-localization",
@@ -286,7 +286,7 @@
       "ui_constraints": "max_width_200px"
     }
   },
-  {
+  "bisect_008": {
     "id": "bisect_008",
     "build_run_id": "run_009",
     "repo": "game-engine",
@@ -320,7 +320,7 @@
       "vulnerabilities_found": 0
     }
   },
-  {
+  "bisect_009": {
     "id": "bisect_009",
     "build_run_id": "run_002",
     "repo": "game-engine",
@@ -348,7 +348,7 @@
       "skip_reason": "build_successful"
     }
   },
-  {
+  "bisect_010": {
     "id": "bisect_010",
     "build_run_id": "run_004",
     "repo": "game-engine",
@@ -376,4 +376,4 @@
       "skip_reason": "build_successful"
     }
   }
-]
+}

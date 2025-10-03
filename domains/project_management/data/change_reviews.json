@@ -1,5 +1,5 @@
-[
-  {
+{
+  "rev_001": {
     "review_id": "rev_001",
     "review_type": "quarterly",
     "project_id": "proj_mobile_01",
@@ -42,7 +42,7 @@
       ]
     }
   },
-  {
+  "rev_002": {
     "review_id": "rev_002",
     "review_type": "adhoc",
     "project_id": "proj_ai_01",
@@ -72,7 +72,7 @@
       ]
     }
   },
-  {
+  "rev_003": {
     "review_id": "rev_003",
     "review_type": "milestone",
     "project_id": "proj_enterprise_01",
@@ -95,7 +95,7 @@
       ]
     }
   },
-  {
+  "rev_004": {
     "review_id": "rev_004",
     "review_type": "quarterly",
     "project_id": "proj_client_01",
@@ -132,7 +132,7 @@
       ]
     }
   },
-  {
+  "rev_005": {
     "review_id": "rev_005",
     "review_type": "adhoc",
     "project_id": "proj_banking_01",
@@ -155,4 +155,4 @@
       ]
     }
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "art_001": {
     "artifact_id": "art_001",
     "figma_file_id": "figd_abc123def456",
     "page_id": "1:2",
@@ -16,7 +16,7 @@
       "needs-review"
     ]
   },
-  {
+  "art_002": {
     "artifact_id": "art_002",
     "figma_file_id": "figd_abc123def456",
     "page_id": "1:2",
@@ -32,7 +32,7 @@
       "global"
     ]
   },
-  {
+  "art_003": {
     "artifact_id": "art_003",
     "figma_file_id": "figd_abc123def456",
     "page_id": "1:2",
@@ -48,7 +48,7 @@
       "tokens"
     ]
   },
-  {
+  "art_004": {
     "artifact_id": "art_004",
     "figma_file_id": "figd_xyz789ghi012",
     "page_id": "2:1",
@@ -64,7 +64,7 @@
       "app"
     ]
   },
-  {
+  "art_005": {
     "artifact_id": "art_005",
     "figma_file_id": "figd_xyz789ghi012",
     "page_id": "2:1",
@@ -80,7 +80,7 @@
       "settings"
     ]
   },
-  {
+  "art_006": {
     "artifact_id": "art_006",
     "figma_file_id": "figd_def456ghi789",
     "page_id": "3:1",
@@ -96,7 +96,7 @@
       "landing-pages"
     ]
   },
-  {
+  "art_007": {
     "artifact_id": "art_007",
     "figma_file_id": "figd_def456ghi789",
     "page_id": "3:2",
@@ -113,7 +113,7 @@
       "needs-review"
     ]
   },
-  {
+  "art_008": {
     "artifact_id": "art_008",
     "figma_file_id": "figd_jkl012mno345",
     "page_id": "4:1",
@@ -129,7 +129,7 @@
       "dashboard"
     ]
   },
-  {
+  "art_009": {
     "artifact_id": "art_009",
     "figma_file_id": "figd_jkl012mno345",
     "page_id": "4:1",
@@ -145,7 +145,7 @@
       "component"
     ]
   },
-  {
+  "art_010": {
     "artifact_id": "art_010",
     "figma_file_id": "figd_pqr678stu901",
     "page_id": "5:1",
@@ -161,7 +161,7 @@
       "identity"
     ]
   },
-  {
+  "art_011": {
     "artifact_id": "art_011",
     "figma_file_id": "figd_abc123def456",
     "page_id": "1:2",
@@ -178,7 +178,7 @@
       "approved"
     ]
   },
-  {
+  "art_012": {
     "artifact_id": "art_012",
     "figma_file_id": "figd_xyz789ghi012",
     "page_id": "2:1",
@@ -195,4 +195,4 @@
       "revise"
     ]
   }
-]
+}

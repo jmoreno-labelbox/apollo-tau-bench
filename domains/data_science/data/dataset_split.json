@@ -1,37 +1,5 @@
-[
-  {
-    "method": "time_based",
-    "test_fraction": 0.2,
-    "train_index_count": 134,
-    "test_index_count": 34,
-    "split_summary_json_path": "/processed_data/split_summary.json",
-    "split_ts": "2024-03-17T10:45:00Z"
-  },
-  {
-    "method": "time_based",
-    "test_fraction": 0.2,
-    "train_index_count": 134,
-    "test_index_count": 34,
-    "split_summary_json_path": "/data/splits/sf_time_split_20240317.json",
-    "split_ts": "2024-03-17T09:30:00Z"
-  },
-  {
-    "method": "time_based",
-    "test_fraction": 0.25,
-    "train_index_count": 72,
-    "test_index_count": 24,
-    "split_summary_json_path": "/data/splits/miami_time_split_20240202.json",
-    "split_ts": "2024-02-02T15:45:00Z"
-  },
-  {
-    "method": "time_based",
-    "test_fraction": 0.3,
-    "train_index_count": 105,
-    "test_index_count": 45,
-    "split_summary_json_path": "/data/splits/charleston_time_split_20240305.json",
-    "split_ts": "2024-03-05T11:20:00Z"
-  },
-  {
+{
+  "time_based": {
     "method": "time_based",
     "test_fraction": 0.25,
     "train_index_count": 96,
@@ -39,4 +7,4 @@
     "split_summary_json_path": "/data/splits/boston_time_split_20240301.json",
     "split_ts": "2024-03-01T13:18:00Z"
   }
-]
+}

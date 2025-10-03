@@ -1,5 +1,5 @@
-[
-  {
+{
+  "1": {
     "mortgage_id": 1,
     "client_id": 1,
     "credit_score": 647,
@@ -9,7 +9,7 @@
     "region": "AZ",
     "last_reviewed_at": "2024-11-30T05:18:30Z"
   },
-  {
+  "2": {
     "mortgage_id": 2,
     "client_id": 2,
     "credit_score": 716,
@@ -19,7 +19,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-02-22T05:18:30Z"
   },
-  {
+  "3": {
     "mortgage_id": 3,
     "client_id": 3,
     "credit_score": 698,
@@ -29,7 +29,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-01-20T05:18:30Z"
   },
-  {
+  "4": {
     "mortgage_id": 4,
     "client_id": 4,
     "credit_score": 592,
@@ -39,7 +39,7 @@
     "region": "AZ",
     "last_reviewed_at": "2024-10-18T05:18:30Z"
   },
-  {
+  "5": {
     "mortgage_id": 5,
     "client_id": 5,
     "credit_score": 694,
@@ -49,7 +49,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-07-22T05:18:30Z"
   },
-  {
+  "6": {
     "mortgage_id": 6,
     "client_id": 6,
     "credit_score": 761,
@@ -59,7 +59,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-03-07T05:18:30Z"
   },
-  {
+  "7": {
     "mortgage_id": 7,
     "client_id": 7,
     "credit_score": 744,
@@ -69,7 +69,7 @@
     "region": "AZ",
     "last_reviewed_at": "2024-11-01T05:18:30Z"
   },
-  {
+  "8": {
     "mortgage_id": 8,
     "client_id": 8,
     "credit_score": 629,
@@ -79,7 +79,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-02-04T05:18:30Z"
   },
-  {
+  "9": {
     "mortgage_id": 9,
     "client_id": 9,
     "credit_score": 580,
@@ -89,7 +89,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-02-08T05:18:30Z"
   },
-  {
+  "10": {
     "mortgage_id": 10,
     "client_id": 10,
     "credit_score": 752,
@@ -99,7 +99,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-06-13T05:18:30Z"
   },
-  {
+  "11": {
     "mortgage_id": 11,
     "client_id": 11,
     "credit_score": 722,
@@ -109,7 +109,7 @@
     "region": "AZ",
     "last_reviewed_at": "2024-08-23T05:18:30Z"
   },
-  {
+  "12": {
     "mortgage_id": 12,
     "client_id": 12,
     "credit_score": 654,
@@ -119,7 +119,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-02-06T05:18:30Z"
   },
-  {
+  "13": {
     "mortgage_id": 13,
     "client_id": 13,
     "credit_score": 737,
@@ -129,7 +129,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-04-06T05:18:30Z"
   },
-  {
+  "14": {
     "mortgage_id": 14,
     "client_id": 14,
     "credit_score": 698,
@@ -139,7 +139,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-06-29T05:18:30Z"
   },
-  {
+  "15": {
     "mortgage_id": 15,
     "client_id": 15,
     "credit_score": 658,
@@ -149,7 +149,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-07-28T05:18:30Z"
   },
-  {
+  "16": {
     "mortgage_id": 16,
     "client_id": 16,
     "credit_score": 680,
@@ -159,7 +159,7 @@
     "region": "AZ",
     "last_reviewed_at": "2024-11-04T05:18:30Z"
   },
-  {
+  "17": {
     "mortgage_id": 17,
     "client_id": 17,
     "credit_score": 699,
@@ -169,7 +169,7 @@
     "region": "AZ",
     "last_reviewed_at": "2024-11-28T05:18:30Z"
   },
-  {
+  "18": {
     "mortgage_id": 18,
     "client_id": 18,
     "credit_score": 637,
@@ -179,7 +179,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-08-08T05:18:30Z"
   },
-  {
+  "19": {
     "mortgage_id": 19,
     "client_id": 19,
     "credit_score": 702,
@@ -189,7 +189,7 @@
     "region": "AZ",
     "last_reviewed_at": "2025-02-05T05:18:30Z"
   },
-  {
+  "20": {
     "mortgage_id": 20,
     "client_id": 20,
     "credit_score": 785,
@@ -199,4 +199,4 @@
     "region": "AZ",
     "last_reviewed_at": "2024-11-15T05:18:30Z"
   }
-]
+}

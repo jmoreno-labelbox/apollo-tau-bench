@@ -1,5 +1,5 @@
-[
-  {
+{
+  "ast_0001": {
     "asset_id": "ast_0001",
     "asset_type": "phone",
     "model": "OPhone 14",
@@ -10,7 +10,7 @@
     "purchase_date": "2024-02-27",
     "warranty_expires": "2027-05-24"
   },
-  {
+  "ast_0002": {
     "asset_id": "ast_0002",
     "asset_type": "laptop",
     "model": "OrionBook Pro 14 M3",
@@ -21,7 +21,7 @@
     "purchase_date": "2024-12-09",
     "warranty_expires": "2027-08-01"
   },
-  {
+  "ast_0003": {
     "asset_id": "ast_0003",
     "asset_type": "phone",
     "model": "Nexus 8",
@@ -32,7 +32,7 @@
     "purchase_date": "2024-11-05",
     "warranty_expires": "2026-09-29"
   },
-  {
+  "ast_0004": {
     "asset_id": "ast_0004",
     "asset_type": "laptop",
     "model": "Zenith ZenPad X1 Carbon Gen11",
@@ -43,7 +43,7 @@
     "purchase_date": "2022-10-30",
     "warranty_expires": "2026-10-08"
   },
-  {
+  "ast_0005": {
     "asset_id": "ast_0005",
     "asset_type": "laptop",
     "model": "OrionBook Pro 14 M3",
@@ -54,7 +54,7 @@
     "purchase_date": "2022-09-16",
     "warranty_expires": "2026-05-26"
   },
-  {
+  "ast_0006": {
     "asset_id": "ast_0006",
     "asset_type": "headset",
     "model": "Logitech H390",
@@ -65,7 +65,7 @@
     "purchase_date": "2024-01-10",
     "warranty_expires": "2027-07-30"
   },
-  {
+  "ast_0007": {
     "asset_id": "ast_0007",
     "asset_type": "phone",
     "model": "Nexus 8",
@@ -76,7 +76,7 @@
     "purchase_date": "2024-10-30",
     "warranty_expires": "2026-10-06"
   },
-  {
+  "ast_0008": {
     "asset_id": "ast_0008",
     "asset_type": "laptop",
     "model": "Vertex Vertex Pro 7440",
@@ -87,7 +87,7 @@
     "purchase_date": "2023-07-30",
     "warranty_expires": "2027-07-21"
   },
-  {
+  "ast_0009": {
     "asset_id": "ast_0009",
     "asset_type": "phone",
     "model": "OPhone 14",
@@ -98,7 +98,7 @@
     "purchase_date": "2023-01-06",
     "warranty_expires": "2027-02-01"
   },
-  {
+  "ast_0010": {
     "asset_id": "ast_0010",
     "asset_type": "phone",
     "model": "OPhone 14",
@@ -109,7 +109,7 @@
     "purchase_date": "2023-03-22",
     "warranty_expires": "2027-12-28"
   },
-  {
+  "ast_0011": {
     "asset_id": "ast_0011",
     "asset_type": "dock",
     "model": "Vertex WD22TB4",
@@ -120,7 +120,7 @@
     "purchase_date": "2023-01-03",
     "warranty_expires": "2027-11-19"
   },
-  {
+  "ast_0012": {
     "asset_id": "ast_0012",
     "asset_type": "laptop",
     "model": "Vertex Vertex Pro 7440",
@@ -131,7 +131,7 @@
     "purchase_date": "2023-09-21",
     "warranty_expires": "2026-08-02"
   },
-  {
+  "ast_0013": {
     "asset_id": "ast_0013",
     "asset_type": "laptop",
     "model": "Zenith ZenPad X1 Carbon Gen11",
@@ -142,7 +142,7 @@
     "purchase_date": "2022-06-11",
     "warranty_expires": "2027-12-14"
   },
-  {
+  "ast_0014": {
     "asset_id": "ast_0014",
     "asset_type": "phone",
     "model": "Nexus 8",
@@ -153,7 +153,7 @@
     "purchase_date": "2023-01-31",
     "warranty_expires": "2026-06-13"
   },
-  {
+  "ast_0015": {
     "asset_id": "ast_0015",
     "asset_type": "phone",
     "model": "OPhone 14",
@@ -164,7 +164,7 @@
     "purchase_date": "2024-02-19",
     "warranty_expires": "2027-01-18"
   },
-  {
+  "ast_0016": {
     "asset_id": "ast_0016",
     "asset_type": "phone",
     "model": "OPhone 14",
@@ -175,7 +175,7 @@
     "purchase_date": "2022-10-09",
     "warranty_expires": "2026-09-29"
   },
-  {
+  "ast_0017": {
     "asset_id": "ast_0017",
     "asset_type": "dock",
     "model": "Vertex WD22TB4",
@@ -186,7 +186,7 @@
     "purchase_date": "2024-07-19",
     "warranty_expires": "2027-01-11"
   },
-  {
+  "ast_0018": {
     "asset_id": "ast_0018",
     "asset_type": "phone",
     "model": "Nexus 8",
@@ -197,7 +197,7 @@
     "purchase_date": "2024-04-09",
     "warranty_expires": "2026-10-02"
   },
-  {
+  "ast_0019": {
     "asset_id": "ast_0019",
     "asset_type": "monitor",
     "model": "Vertex CrystalView U2723QE",
@@ -208,7 +208,7 @@
     "purchase_date": "2024-04-02",
     "warranty_expires": "2026-07-30"
   },
-  {
+  "ast_0020": {
     "asset_id": "ast_0020",
     "asset_type": "headset",
     "model": "Logitech H390",
@@ -219,7 +219,7 @@
     "purchase_date": "2024-06-06",
     "warranty_expires": "2026-12-24"
   },
-  {
+  "ast_0021": {
     "asset_id": "ast_0021",
     "asset_type": "laptop",
     "model": "Vertex Vertex Pro 7440",
@@ -230,7 +230,7 @@
     "purchase_date": "2024-06-09",
     "warranty_expires": "2026-10-13"
   },
-  {
+  "ast_0022": {
     "asset_id": "ast_0022",
     "asset_type": "phone",
     "model": "OPhone 14",
@@ -241,7 +241,7 @@
     "purchase_date": "2022-07-27",
     "warranty_expires": "2026-11-09"
   },
-  {
+  "ast_0023": {
     "asset_id": "ast_0023",
     "asset_type": "laptop",
     "model": "Zenith ZenPad X1 Carbon Gen11",
@@ -252,7 +252,7 @@
     "purchase_date": "2025-03-31",
     "warranty_expires": "2027-12-08"
   },
-  {
+  "ast_0024": {
     "asset_id": "ast_0024",
     "asset_type": "laptop",
     "model": "Vertex Vertex Pro 7440",
@@ -263,7 +263,7 @@
     "purchase_date": "2023-05-20",
     "warranty_expires": "2026-12-03"
   },
-  {
+  "ast_0025": {
     "asset_id": "ast_0025",
     "asset_type": "laptop",
     "model": "Vertex Vertex Pro 7440",
@@ -274,7 +274,7 @@
     "purchase_date": "2023-05-14",
     "warranty_expires": "2027-01-08"
   },
-  {
+  "ast_0026": {
     "asset_id": "ast_0026",
     "asset_type": "headset",
     "model": "Logitech H390",
@@ -285,7 +285,7 @@
     "purchase_date": "2022-11-18",
     "warranty_expires": "2027-06-12"
   },
-  {
+  "ast_0027": {
     "asset_id": "ast_0027",
     "asset_type": "headset",
     "model": "Logitech H390",
@@ -296,7 +296,7 @@
     "purchase_date": "2022-07-24",
     "warranty_expires": "2026-06-26"
   },
-  {
+  "ast_0028": {
     "asset_id": "ast_0028",
     "asset_type": "dock",
     "model": "Vertex WD22TB4",
@@ -307,7 +307,7 @@
     "purchase_date": "2023-06-13",
     "warranty_expires": "2027-08-12"
   },
-  {
+  "ast_0029": {
     "asset_id": "ast_0029",
     "asset_type": "laptop",
     "model": "Vertex Vertex Pro 7440",
@@ -318,7 +318,7 @@
     "purchase_date": "2025-06-09",
     "warranty_expires": "2026-10-24"
   },
-  {
+  "ast_0030": {
     "asset_id": "ast_0030",
     "asset_type": "laptop",
     "model": "Vertex Vertex Pro 7440",
@@ -329,7 +329,7 @@
     "purchase_date": "2023-09-09",
     "warranty_expires": "2026-05-04"
   },
-  {
+  "ast_0031": {
     "asset_id": "ast_0031",
     "asset_type": "phone",
     "model": "OPhone 14",
@@ -340,7 +340,7 @@
     "purchase_date": "2024-05-23",
     "warranty_expires": "2027-09-26"
   },
-  {
+  "ast_0032": {
     "asset_id": "ast_0032",
     "asset_type": "laptop",
     "model": "OrionBook Pro 14 M3",
@@ -351,7 +351,7 @@
     "purchase_date": "2025-01-16",
     "warranty_expires": "2026-02-06"
   },
-  {
+  "ast_0033": {
     "asset_id": "ast_0033",
     "asset_type": "monitor",
     "model": "Vertex CrystalView U2723QE",
@@ -362,7 +362,7 @@
     "purchase_date": "2024-09-12",
     "warranty_expires": "2026-10-13"
   },
-  {
+  "ast_0034": {
     "asset_id": "ast_0034",
     "asset_type": "phone",
     "model": "OPhone 14",
@@ -373,7 +373,7 @@
     "purchase_date": "2022-11-06",
     "warranty_expires": "2026-08-03"
   },
-  {
+  "ast_0035": {
     "asset_id": "ast_0035",
     "asset_type": "laptop",
     "model": "OrionBook Pro 14 M3",
@@ -384,7 +384,7 @@
     "purchase_date": "2022-11-23",
     "warranty_expires": "2026-03-01"
   },
-  {
+  "ast_0036": {
     "asset_id": "ast_0036",
     "asset_type": "laptop",
     "model": "Vertex Vertex Pro 7440",
@@ -395,7 +395,7 @@
     "purchase_date": "2024-10-08",
     "warranty_expires": "2027-10-30"
   },
-  {
+  "ast_0037": {
     "asset_id": "ast_0037",
     "asset_type": "phone",
     "model": "OPhone 14",
@@ -406,7 +406,7 @@
     "purchase_date": "2024-12-30",
     "warranty_expires": "2027-04-14"
   },
-  {
+  "ast_0038": {
     "asset_id": "ast_0038",
     "asset_type": "laptop",
     "model": "OrionBook Pro 14 M3",
@@ -417,7 +417,7 @@
     "purchase_date": "2023-08-26",
     "warranty_expires": "2026-05-24"
   },
-  {
+  "ast_0039": {
     "asset_id": "ast_0039",
     "asset_type": "phone",
     "model": "Nexus 8",
@@ -428,7 +428,7 @@
     "purchase_date": "2022-07-26",
     "warranty_expires": "2027-12-27"
   },
-  {
+  "ast_0040": {
     "asset_id": "ast_0040",
     "asset_type": "phone",
     "model": "Nexus 8",
@@ -439,7 +439,7 @@
     "purchase_date": "2023-11-13",
     "warranty_expires": "2027-12-08"
   },
-  {
+  "ast_0041": {
     "asset_id": "ast_0041",
     "asset_type": "laptop",
     "model": "OrionBook Pro 14 M3",
@@ -450,7 +450,7 @@
     "purchase_date": "2022-12-11",
     "warranty_expires": "2027-05-01"
   },
-  {
+  "ast_0042": {
     "asset_id": "ast_0042",
     "asset_type": "monitor",
     "model": "Vertex CrystalView U2723QE",
@@ -461,7 +461,7 @@
     "purchase_date": "2024-05-25",
     "warranty_expires": "2026-04-12"
   },
-  {
+  "ast_0043": {
     "asset_id": "ast_0043",
     "asset_type": "laptop",
     "model": "Zenith ZenPad X1 Carbon Gen11",
@@ -472,7 +472,7 @@
     "purchase_date": "2023-03-18",
     "warranty_expires": "2027-02-26"
   },
-  {
+  "ast_0044": {
     "asset_id": "ast_0044",
     "asset_type": "laptop",
     "model": "OrionBook Pro 14 M3",
@@ -483,7 +483,7 @@
     "purchase_date": "2024-05-19",
     "warranty_expires": "2027-01-29"
   },
-  {
+  "ast_0045": {
     "asset_id": "ast_0045",
     "asset_type": "headset",
     "model": "Logitech H390",
@@ -494,7 +494,7 @@
     "purchase_date": "2022-09-09",
     "warranty_expires": "2026-07-09"
   },
-  {
+  "ast_0046": {
     "asset_id": "ast_0046",
     "asset_type": "dock",
     "model": "Vertex WD22TB4",
@@ -505,7 +505,7 @@
     "purchase_date": "2023-10-15",
     "warranty_expires": "2027-02-12"
   },
-  {
+  "ast_0047": {
     "asset_id": "ast_0047",
     "asset_type": "laptop",
     "model": "OrionBook Pro 14 M3",
@@ -516,7 +516,7 @@
     "purchase_date": "2023-08-22",
     "warranty_expires": "2026-09-01"
   },
-  {
+  "ast_0048": {
     "asset_id": "ast_0048",
     "asset_type": "dock",
     "model": "Vertex WD22TB4",
@@ -527,7 +527,7 @@
     "purchase_date": "2022-06-26",
     "warranty_expires": "2026-06-22"
   },
-  {
+  "ast_0049": {
     "asset_id": "ast_0049",
     "asset_type": "phone",
     "model": "OPhone 14",
@@ -538,7 +538,7 @@
     "purchase_date": "2022-12-22",
     "warranty_expires": "2027-10-28"
   },
-  {
+  "ast_0050": {
     "asset_id": "ast_0050",
     "asset_type": "laptop",
     "model": "Vertex Vertex Pro 7440",
@@ -549,7 +549,7 @@
     "purchase_date": "2025-02-02",
     "warranty_expires": "2026-11-08"
   },
-  {
+  "ast_0051": {
     "asset_id": "ast_0051",
     "asset_type": "laptop",
     "model": "Zenith ZenPad X1 Carbon Gen11",
@@ -560,7 +560,7 @@
     "purchase_date": "2022-11-10",
     "warranty_expires": "2027-09-28"
   },
-  {
+  "ast_0052": {
     "asset_id": "ast_0052",
     "asset_type": "laptop",
     "model": "Zenith ZenPad X1 Carbon Gen11",
@@ -571,7 +571,7 @@
     "purchase_date": "2025-04-01",
     "warranty_expires": "2026-10-23"
   },
-  {
+  "ast_0053": {
     "asset_id": "ast_0053",
     "asset_type": "laptop",
     "model": "OrionBook Pro 14 M3",
@@ -582,7 +582,7 @@
     "purchase_date": "2022-10-23",
     "warranty_expires": "2026-05-26"
   },
-  {
+  "ast_0054": {
     "asset_id": "ast_0054",
     "asset_type": "laptop",
     "model": "Zenith ZenPad X1 Carbon Gen11",
@@ -593,7 +593,7 @@
     "purchase_date": "2023-05-09",
     "warranty_expires": "2027-07-03"
   },
-  {
+  "ast_0055": {
     "asset_id": "ast_0055",
     "asset_type": "monitor",
     "model": "Vertex CrystalView U2723QE",
@@ -604,7 +604,7 @@
     "purchase_date": "2022-05-08",
     "warranty_expires": "2026-09-11"
   },
-  {
+  "ast_0056": {
     "asset_id": "ast_0056",
     "asset_type": "dock",
     "model": "Vertex WD22TB4",
@@ -615,7 +615,7 @@
     "purchase_date": "2022-07-11",
     "warranty_expires": "2026-12-06"
   },
-  {
+  "ast_0057": {
     "asset_id": "ast_0057",
     "asset_type": "laptop",
     "model": "OrionBook Pro 14 M3",
@@ -626,7 +626,7 @@
     "purchase_date": "2022-11-25",
     "warranty_expires": "2026-08-10"
   },
-  {
+  "ast_0058": {
     "asset_id": "ast_0058",
     "asset_type": "headset",
     "model": "Logitech H390",
@@ -637,4 +637,4 @@
     "purchase_date": "2025-02-20",
     "warranty_expires": "2027-11-15"
   }
-]
+}

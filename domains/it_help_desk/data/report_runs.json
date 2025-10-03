@@ -1,5 +1,5 @@
-[
-  {
+{
+  "rpt_2025_07_15_1700": {
     "run_id": "rpt_2025_07_15_1700",
     "report_type": "service_desk_health",
     "started_at": "2025-07-15T17:00:00+00:00",
@@ -7,4 +7,4 @@
     "output_path_pdf": "s3://reports/ServiceDesk_Health_Report_2025-07-15.pdf",
     "source_ticket_window_days": 30
   }
-]
+}

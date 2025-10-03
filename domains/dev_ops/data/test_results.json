@@ -1,5 +1,5 @@
-[
-  {
+{
+  "test_result_001": {
     "id": "test_result_001",
     "test_run_id": "test_run_001",
     "test_name": "GameEngineRendererTest::TextureLoadingTest",
@@ -18,7 +18,7 @@
       "build_config": "debug"
     }
   },
-  {
+  "test_result_002": {
     "id": "test_result_002",
     "test_run_id": "test_run_001",
     "test_name": "AIPathfindingTest::NavigationMeshTest",
@@ -37,7 +37,7 @@
       "build_config": "debug"
     }
   },
-  {
+  "test_result_003": {
     "id": "test_result_003",
     "test_run_id": "test_run_002",
     "test_name": "MultiplayerTest::ConnectionTest",
@@ -56,7 +56,7 @@
       "build_config": "release"
     }
   },
-  {
+  "test_result_004": {
     "id": "test_result_004",
     "test_run_id": "test_run_002",
     "test_name": "PhysicsTest::CollisionDetectionTest",
@@ -75,7 +75,7 @@
       "build_config": "release"
     }
   },
-  {
+  "test_result_005": {
     "id": "test_result_005",
     "test_run_id": "test_run_003",
     "test_name": "UIMenuTest::LocalizationTest",
@@ -94,7 +94,7 @@
       "build_config": "debug"
     }
   },
-  {
+  "test_result_006": {
     "id": "test_result_006",
     "test_run_id": "test_run_003",
     "test_name": "AudioTest::SoundEffectTest",
@@ -113,7 +113,7 @@
       "build_config": "debug"
     }
   },
-  {
+  "test_result_007": {
     "id": "test_result_007",
     "test_run_id": "test_run_004",
     "test_name": "InputTest::ControllerTest",
@@ -132,7 +132,7 @@
       "build_config": "release"
     }
   },
-  {
+  "test_result_008": {
     "id": "test_result_008",
     "test_run_id": "test_run_004",
     "test_name": "AssetTest::ModelLoadingTest",
@@ -151,7 +151,7 @@
       "build_config": "release"
     }
   },
-  {
+  "test_result_009": {
     "id": "test_result_009",
     "test_run_id": "test_run_005",
     "test_name": "PerformanceTest::FrameRateTest",
@@ -170,7 +170,7 @@
       "build_config": "release"
     }
   },
-  {
+  "test_result_010": {
     "id": "test_result_010",
     "test_run_id": "test_run_005",
     "test_name": "MemoryTest::MemoryLeakTest",
@@ -189,7 +189,7 @@
       "build_config": "release"
     }
   },
-  {
+  "test_result_011": {
     "id": "test_result_011",
     "test_run_id": "test_run_006",
     "test_name": "SecurityTest::SASTScan",
@@ -211,7 +211,7 @@
       "original_scan_id": "scan_001"
     }
   },
-  {
+  "test_result_012": {
     "id": "test_result_012",
     "test_run_id": "test_run_006",
     "test_name": "SecurityTest::ContainerScan",
@@ -233,7 +233,7 @@
       "original_scan_id": "scan_002"
     }
   },
-  {
+  "test_result_013": {
     "id": "test_result_013",
     "test_run_id": "test_run_007",
     "test_name": "SecurityTest::SBOMScan",
@@ -255,7 +255,7 @@
       "original_scan_id": "scan_003"
     }
   },
-  {
+  "test_result_014": {
     "id": "test_result_014",
     "test_run_id": "test_run_008",
     "test_name": "SecurityTest::DASTScan",
@@ -277,7 +277,7 @@
       "original_scan_id": "scan_004"
     }
   },
-  {
+  "test_result_015": {
     "id": "test_result_015",
     "test_run_id": "test_run_009",
     "test_name": "SecurityTest::LicenseScan",
@@ -299,7 +299,7 @@
       "original_scan_id": "scan_005"
     }
   },
-  {
+  "test_result_016": {
     "id": "test_result_016",
     "test_run_id": "test_run_010",
     "test_name": "SecurityTest::SASTScan",
@@ -321,7 +321,7 @@
       "original_scan_id": "scan_006"
     }
   },
-  {
+  "test_result_017": {
     "id": "test_result_017",
     "test_run_id": "test_run_011",
     "test_name": "SecurityTest::ContainerScan",
@@ -343,7 +343,7 @@
       "original_scan_id": "scan_007"
     }
   },
-  {
+  "test_result_018": {
     "id": "test_result_018",
     "test_run_id": "test_run_012",
     "test_name": "SecurityTest::DASTScan",
@@ -365,7 +365,7 @@
       "original_scan_id": "scan_008"
     }
   },
-  {
+  "test_result_019": {
     "id": "test_result_019",
     "test_run_id": "test_run_013",
     "test_name": "SecurityTest::SBOMScan",
@@ -387,7 +387,7 @@
       "original_scan_id": "scan_009"
     }
   },
-  {
+  "test_result_020": {
     "id": "test_result_020",
     "test_run_id": "test_run_014",
     "test_name": "SecurityTest::SASTScan",
@@ -409,7 +409,7 @@
       "original_scan_id": "scan_010"
     }
   },
-  {
+  "test_result_021": {
     "id": "test_result_021",
     "test_run_id": "test_run_015",
     "test_name": "SecurityTest::LicenseScan",
@@ -431,7 +431,7 @@
       "original_scan_id": "scan_011"
     }
   },
-  {
+  "test_result_022": {
     "id": "test_result_022",
     "test_run_id": "test_run_006",
     "test_name": "SecurityTest::DASTScan",
@@ -453,7 +453,7 @@
       "original_scan_id": "scan_012"
     }
   },
-  {
+  "test_result_023": {
     "id": "test_result_023",
     "test_run_id": "test_run_007",
     "test_name": "SecurityTest::ContainerScan",
@@ -475,7 +475,7 @@
       "original_scan_id": "scan_013"
     }
   },
-  {
+  "test_result_024": {
     "id": "test_result_024",
     "test_run_id": "test_run_008",
     "test_name": "SecurityTest::SBOMScan",
@@ -497,7 +497,7 @@
       "original_scan_id": "scan_014"
     }
   },
-  {
+  "test_result_025": {
     "id": "test_result_025",
     "test_run_id": "test_run_009",
     "test_name": "SecurityTest::SASTScan",
@@ -519,4 +519,4 @@
       "original_scan_id": "scan_015"
     }
   }
-]
+}

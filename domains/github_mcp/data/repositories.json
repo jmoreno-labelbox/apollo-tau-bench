@@ -1,5 +1,5 @@
-[
-  {
+{
+  "maya-w": {
     "owner": "maya-w",
     "repo_name": "acme-webapp",
     "description_nullable": "A sample demonstration repository",
@@ -95,7 +95,7 @@
     "created_ts": "2023-12-01T10:00:00Z",
     "updated_ts": "2023-12-01T15:30:00Z"
   },
-  {
+  "ryan-dev": {
     "owner": "ryan-dev",
     "repo_name": "utils-js",
     "description_nullable": null,
@@ -163,7 +163,7 @@
     "created_ts": "2023-11-28T09:15:00Z",
     "updated_ts": "2023-11-28T09:15:00Z"
   },
-  {
+  "design-team": {
     "owner": "design-team",
     "repo_name": "ui-kit",
     "description_nullable": "Reusable UI components",
@@ -281,7 +281,7 @@
     "created_ts": "2023-10-20T08:00:00Z",
     "updated_ts": "2023-12-04T10:45:00Z"
   },
-  {
+  "language-ai": {
     "owner": "language-ai",
     "repo_name": "nlp-models",
     "description_nullable": "NLP models and training scripts",
@@ -389,7 +389,7 @@
     "created_ts": "2023-09-12T12:12:12Z",
     "updated_ts": "2023-11-30T12:34:56Z"
   },
-  {
+  "server-main": {
     "owner": "server-main",
     "repo_name": "payments-service",
     "description_nullable": "Node service for processing payments",
@@ -505,7 +505,7 @@
     "created_ts": "2023-10-10T10:10:10Z",
     "updated_ts": "2023-12-03T18:00:00Z"
   },
-  {
+  "platform-team": {
     "owner": "platform-team",
     "repo_name": "infra-terraform",
     "description_nullable": "Terraform for staging/prod",
@@ -619,7 +619,7 @@
     "created_ts": "2023-08-01T07:00:00Z",
     "updated_ts": "2023-12-04T09:00:00Z"
   },
-  {
+  "security-group": {
     "owner": "security-group",
     "repo_name": "security-scanner",
     "description_nullable": "SAST/DAST security scanning tools",
@@ -741,7 +741,7 @@
     "created_ts": "2023-06-15T14:30:00Z",
     "updated_ts": "2023-12-04T16:20:00Z"
   },
-  {
+  "app-developer": {
     "owner": "app-developer",
     "repo_name": "flutter-finance-app",
     "description_nullable": "Personal finance tracker built with Flutter",
@@ -865,7 +865,7 @@
     "created_ts": "2023-07-20T11:15:00Z",
     "updated_ts": "2023-12-05T09:45:00Z"
   },
-  {
+  "ui-developer": {
     "owner": "ui-developer",
     "repo_name": "react-dashboard",
     "description_nullable": "Modern React dashboard with TypeScript",
@@ -987,7 +987,7 @@
     "created_ts": "2023-08-10T13:20:00Z",
     "updated_ts": "2023-12-05T14:30:00Z"
   },
-  {
+  "ml-engineer": {
     "owner": "ml-engineer",
     "repo_name": "ml-pipeline",
     "description_nullable": "End-to-end machine learning pipeline",
@@ -1111,7 +1111,7 @@
     "created_ts": "2023-05-30T16:45:00Z",
     "updated_ts": "2023-12-05T11:20:00Z"
   },
-  {
+  "intern-emma": {
     "owner": "intern-emma",
     "repo_name": "portfolio-site",
     "description_nullable": "Personal portfolio website",
@@ -1167,7 +1167,7 @@
     "created_ts": "2023-09-05T10:30:00Z",
     "updated_ts": "2023-11-20T15:45:00Z"
   },
-  {
+  "infra-lead": {
     "owner": "infra-lead",
     "repo_name": "k8s-monitoring",
     "description_nullable": "Kubernetes monitoring stack with Prometheus",
@@ -1291,4 +1291,4 @@
     "created_ts": "2023-04-15T08:00:00Z",
     "updated_ts": "2023-12-04T12:30:00Z"
   }
-]
+}

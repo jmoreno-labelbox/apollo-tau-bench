@@ -1,10 +1,13 @@
-[
-  {
+{
+  "net_001": {
     "network_id": "net_001",
     "network_name": "CompanyInternalNetwork",
     "subnet": "192.168.1.0/24",
     "gateway": "192.168.1.1",
-    "dns_servers": ["192.168.1.5", "8.8.8.8"],
+    "dns_servers": [
+      "192.168.1.5",
+      "8.8.8.8"
+    ],
     "dhcp_range": {
       "start": "192.168.1.100",
       "end": "192.168.1.200"
@@ -37,12 +40,15 @@
       }
     ]
   },
-  {
+  "net_002": {
     "network_id": "net_002",
     "network_name": "DMZNetwork",
     "subnet": "10.0.1.0/24",
     "gateway": "10.0.1.1",
-    "dns_servers": ["10.0.1.5", "8.8.4.4"],
+    "dns_servers": [
+      "10.0.1.5",
+      "8.8.4.4"
+    ],
     "static_assignments": [
       {
         "hostname": "log-storage.company.com",
@@ -61,4 +67,4 @@
       }
     ]
   }
-]
+}

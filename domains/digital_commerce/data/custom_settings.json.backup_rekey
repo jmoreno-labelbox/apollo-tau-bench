@@ -1,0 +1,50 @@
+[
+    {
+        "setting_id": "101",
+        "org_id": "00D8d000000KxyzABC",
+        "setting_name": "CacheAPI.ExternalSystemURL",
+        "value": null
+    },
+    {
+        "setting_id": "102",
+        "org_id": "00D8d000000KxyzABC",
+        "setting_name": "CacheAPI.ExternalSystemPartitionKey",
+        "value": "default"
+    },
+    {
+        "setting_id": "103",
+        "org_id": "00D8d000000KxyzABC",
+        "setting_name": "PaymentGateway.Endpoint",
+        "value": "https://api.globalpayments.com/v2"
+    },
+    {
+        "setting_id": "104",
+        "org_id": "00D8d000000LmnopQRS",
+        "setting_name": "CacheAPI.ExternalSystemURL",
+        "value": "dcomm-uat-redis.abcdef.ng.0001.use1.cache.amazonaws.com"
+    },
+    {
+        "setting_id": "105",
+        "org_id": "00D8d000000LmnopQRS",
+        "setting_name": "CacheAPI.ExternalSystemPartitionKey",
+        "value": "uat"
+    },
+    {
+        "setting_id": "106",
+        "org_id": "00D8d000000MabcDEF",
+        "setting_name": "CacheAPI.ExternalSystemURL",
+        "value": "NULL"
+    },
+    {
+        "setting_id": "107",
+        "org_id": "00D8d000000MabcDEF",
+        "setting_name": "PaymentGateway.Endpoint",
+        "value": "https://api.sandbox.globalpayments.com/v2"
+    },
+    {
+        "setting_id": "108",
+        "org_id": "00D8d000000KxyzABC",
+        "setting_name": "FeatureToggle.NewCheckoutUI",
+        "value": "false"
+    }
+]

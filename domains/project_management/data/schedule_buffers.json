@@ -1,5 +1,5 @@
-[
-  {
+{
+  "proj_mobile_01": {
     "project_id": "proj_mobile_01",
     "total_buffer": 30,
     "project_buffer": 15,
@@ -20,7 +20,7 @@
       }
     ]
   },
-  {
+  "proj_ai_01": {
     "project_id": "proj_ai_01",
     "total_buffer": 45,
     "project_buffer": 22.5,
@@ -31,7 +31,7 @@
     "integration_consumed": 0,
     "buffer_history": []
   },
-  {
+  "proj_enterprise_01": {
     "project_id": "proj_enterprise_01",
     "total_buffer": 40,
     "project_buffer": 20,
@@ -51,7 +51,7 @@
       }
     ]
   },
-  {
+  "proj_banking_01": {
     "project_id": "proj_banking_01",
     "total_buffer": 25,
     "project_buffer": 12.5,
@@ -62,7 +62,7 @@
     "integration_consumed": 0,
     "buffer_history": []
   },
-  {
+  "proj_platform_02": {
     "project_id": "proj_platform_02",
     "total_buffer": 35,
     "project_buffer": 17.5,
@@ -83,4 +83,4 @@
       }
     ]
   }
-]
+}

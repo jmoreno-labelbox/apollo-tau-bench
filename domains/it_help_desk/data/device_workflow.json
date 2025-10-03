@@ -1,5 +1,5 @@
-[
-  {
+{
+  "dwf_00001": {
     "workflow_id": "dwf_00001",
     "employee_id": "emp_0038",
     "asset_id": "ast_0002",
@@ -9,7 +9,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00002": {
     "workflow_id": "dwf_00002",
     "employee_id": "emp_0018",
     "asset_id": "ast_0004",
@@ -19,7 +19,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00003": {
     "workflow_id": "dwf_00003",
     "employee_id": "emp_0005",
     "asset_id": "ast_0008",
@@ -29,7 +29,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00004": {
     "workflow_id": "dwf_00004",
     "employee_id": "emp_0039",
     "asset_id": "ast_0010",
@@ -39,7 +39,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00005": {
     "workflow_id": "dwf_00005",
     "employee_id": "emp_0020",
     "asset_id": "ast_0011",
@@ -49,7 +49,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00006": {
     "workflow_id": "dwf_00006",
     "employee_id": "emp_0034",
     "asset_id": "ast_0012",
@@ -59,7 +59,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00007": {
     "workflow_id": "dwf_00007",
     "employee_id": "emp_0030",
     "asset_id": "ast_0014",
@@ -69,7 +69,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00008": {
     "workflow_id": "dwf_00008",
     "employee_id": "emp_0023",
     "asset_id": "ast_0015",
@@ -79,7 +79,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00009": {
     "workflow_id": "dwf_00009",
     "employee_id": "emp_0016",
     "asset_id": "ast_0022",
@@ -89,7 +89,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00010": {
     "workflow_id": "dwf_00010",
     "employee_id": "emp_0028",
     "asset_id": "ast_0028",
@@ -99,7 +99,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00011": {
     "workflow_id": "dwf_00011",
     "employee_id": "emp_0013",
     "asset_id": "ast_0033",
@@ -109,7 +109,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00012": {
     "workflow_id": "dwf_00012",
     "employee_id": "emp_0035",
     "asset_id": "ast_0034",
@@ -119,7 +119,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00013": {
     "workflow_id": "dwf_00013",
     "employee_id": "emp_0029",
     "asset_id": "ast_0039",
@@ -129,7 +129,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00014": {
     "workflow_id": "dwf_00014",
     "employee_id": "emp_0029",
     "asset_id": "ast_0049",
@@ -139,7 +139,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00015": {
     "workflow_id": "dwf_00015",
     "employee_id": "emp_0010",
     "asset_id": "ast_0041",
@@ -149,7 +149,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00016": {
     "workflow_id": "dwf_00016",
     "employee_id": "emp_0001",
     "asset_id": "ast_0046",
@@ -159,7 +159,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00017": {
     "workflow_id": "dwf_00017",
     "employee_id": "emp_0040",
     "asset_id": "ast_0048",
@@ -169,7 +169,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00018": {
     "workflow_id": "dwf_00018",
     "employee_id": "emp_0026",
     "asset_id": "ast_0052",
@@ -179,7 +179,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00019": {
     "workflow_id": "dwf_00019",
     "employee_id": "emp_0042",
     "asset_id": "ast_0053",
@@ -189,7 +189,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00020": {
     "workflow_id": "dwf_00020",
     "employee_id": "emp_0036",
     "asset_id": "ast_0055",
@@ -199,7 +199,7 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   },
-  {
+  "dwf_00021": {
     "workflow_id": "dwf_00021",
     "employee_id": "emp_0024",
     "asset_id": "ast_0056",
@@ -209,4 +209,4 @@
     "created_at": "2025-06-15T10:00:00+00:00",
     "completed_at": "2025-06-16T16:00:00+00:00"
   }
-]
+}

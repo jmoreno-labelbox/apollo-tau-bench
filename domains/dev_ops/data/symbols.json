@@ -1,5 +1,5 @@
-[
-  {
+{
+  "symbol_001": {
     "id": "symbol_001",
     "build_id": "build_001",
     "module_name": "GameEngine.dll",
@@ -16,7 +16,7 @@
       "architecture": "x64"
     }
   },
-  {
+  "symbol_002": {
     "id": "symbol_002",
     "build_id": "build_001",
     "module_name": "Renderer.dll",
@@ -33,7 +33,7 @@
       "architecture": "x64"
     }
   },
-  {
+  "symbol_003": {
     "id": "symbol_003",
     "build_id": "build_002",
     "module_name": "GameEngine.so",
@@ -50,7 +50,7 @@
       "architecture": "x64"
     }
   },
-  {
+  "symbol_004": {
     "id": "symbol_004",
     "build_id": "build_002",
     "module_name": "libRenderer.so",
@@ -67,7 +67,7 @@
       "architecture": "x64"
     }
   },
-  {
+  "symbol_005": {
     "id": "symbol_005",
     "build_id": "build_003",
     "module_name": "GameEngine.dylib",
@@ -84,7 +84,7 @@
       "architecture": "arm64"
     }
   },
-  {
+  "symbol_006": {
     "id": "symbol_006",
     "build_id": "build_003",
     "module_name": "Renderer.dylib",
@@ -101,7 +101,7 @@
       "architecture": "arm64"
     }
   },
-  {
+  "symbol_007": {
     "id": "symbol_007",
     "build_id": "build_004",
     "module_name": "AudioEngine.dll",
@@ -118,7 +118,7 @@
       "architecture": "x64"
     }
   },
-  {
+  "symbol_008": {
     "id": "symbol_008",
     "build_id": "build_004",
     "module_name": "libAudioEngine.so",
@@ -135,7 +135,7 @@
       "architecture": "x64"
     }
   },
-  {
+  "symbol_009": {
     "id": "symbol_009",
     "build_id": "build_005",
     "module_name": "PhysicsEngine.dll",
@@ -152,7 +152,7 @@
       "architecture": "x64"
     }
   },
-  {
+  "symbol_010": {
     "id": "symbol_010",
     "build_id": "build_005",
     "module_name": "libPhysicsEngine.so",
@@ -169,4 +169,4 @@
       "architecture": "x64"
     }
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "audit_001": {
     "audit_id": "audit_001",
     "artifact_id": "art_001",
     "audit_type": "COMBINED_DS_A11Y",
@@ -7,7 +7,7 @@
     "status": "COMPLETED",
     "report_asset_id_nullable": "asset_001"
   },
-  {
+  "audit_002": {
     "audit_id": "audit_002",
     "artifact_id": "art_008",
     "audit_type": "A11Y",
@@ -15,7 +15,7 @@
     "status": "COMPLETED",
     "report_asset_id_nullable": "asset_007"
   },
-  {
+  "audit_003": {
     "audit_id": "audit_003",
     "artifact_id": "art_003",
     "audit_type": "COMBINED_DS_A11Y",
@@ -23,7 +23,7 @@
     "status": "RUNNING",
     "report_asset_id_nullable": null
   },
-  {
+  "audit_004": {
     "audit_id": "audit_004",
     "artifact_id": "art_004",
     "audit_type": "A11Y",
@@ -31,7 +31,7 @@
     "status": "COMPLETED",
     "report_asset_id_nullable": "asset_004"
   },
-  {
+  "audit_005": {
     "audit_id": "audit_005",
     "artifact_id": "art_007",
     "audit_type": "COMBINED_DS_A11Y",
@@ -39,7 +39,7 @@
     "status": "COMPLETED",
     "report_asset_id_nullable": "asset_006"
   },
-  {
+  "audit_006": {
     "audit_id": "audit_006",
     "artifact_id": "art_009",
     "audit_type": "DS_MAPPING",
@@ -47,7 +47,7 @@
     "status": "COMPLETED",
     "report_asset_id_nullable": "asset_008"
   },
-  {
+  "audit_007": {
     "audit_id": "audit_007",
     "artifact_id": "art_002",
     "audit_type": "A11Y",
@@ -55,7 +55,7 @@
     "status": "COMPLETED",
     "report_asset_id_nullable": "asset_003"
   },
-  {
+  "audit_008": {
     "audit_id": "audit_008",
     "artifact_id": "art_005",
     "audit_type": "DS_MAPPING",
@@ -63,7 +63,7 @@
     "status": "COMPLETED",
     "report_asset_id_nullable": "asset_005"
   },
-  {
+  "audit_009": {
     "audit_id": "audit_009",
     "artifact_id": "art_006",
     "audit_type": "COMBINED_DS_A11Y",
@@ -71,7 +71,7 @@
     "status": "RUNNING",
     "report_asset_id_nullable": null
   },
-  {
+  "audit_010": {
     "audit_id": "audit_010",
     "artifact_id": "art_010",
     "audit_type": "DS_MAPPING",
@@ -79,7 +79,7 @@
     "status": "COMPLETED",
     "report_asset_id_nullable": "asset_010"
   },
-  {
+  "audit_011": {
     "audit_id": "audit_011",
     "artifact_id": "art_011",
     "audit_type": "COMBINED_DS_A11Y",
@@ -87,7 +87,7 @@
     "status": "COMPLETED",
     "report_asset_id_nullable": "asset_017"
   },
-  {
+  "audit_012": {
     "audit_id": "audit_012",
     "artifact_id": "art_012",
     "audit_type": "COMBINED_DS_A11Y",
@@ -95,4 +95,4 @@
     "status": "COMPLETED",
     "report_asset_id_nullable": "asset_018"
   }
-]
+}

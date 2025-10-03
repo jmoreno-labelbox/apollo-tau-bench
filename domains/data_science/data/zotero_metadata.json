@@ -1,5 +1,5 @@
-[
-  {
+{
+  "['zot_001', 'zot_002', 'zot_003', 'zot_004', 'zot_005', 'zot_006', 'zot_007', 'zot_008', 'zot_009', 'zot_010']": {
     "item_ids": [
       "zot_001",
       "zot_002",
@@ -143,7 +143,7 @@
     "saved_path_nullable": "/literature/metadata_batch1_20240115.json",
     "fetched_ts": "2024-01-15T15:00:00Z"
   },
-  {
+  "['zot_011', 'zot_012', 'zot_013', 'zot_014', 'zot_015']": {
     "item_ids": [
       "zot_011",
       "zot_012",
@@ -222,7 +222,7 @@
     "saved_path_nullable": "/literature/metadata_noaa_20240201.json",
     "fetched_ts": "2024-02-01T10:45:00Z"
   },
-  {
+  "['zot_016', 'zot_017', 'zot_018', 'zot_019', 'zot_020']": {
     "item_ids": [
       "zot_016",
       "zot_017",
@@ -305,7 +305,7 @@
     "saved_path_nullable": "/literature/metadata_climate_ml_20240305.json",
     "fetched_ts": "2024-03-05T10:00:00Z"
   },
-  {
+  "['zot_021', 'zot_022', 'zot_023', 'zot_024', 'zot_025', 'zot_026', 'zot_027']": {
     "item_ids": [
       "zot_021",
       "zot_022",
@@ -413,4 +413,4 @@
     "saved_path_nullable": "/literature/metadata_puget_sound_20240201.json",
     "fetched_ts": "2024-02-01T13:45:00Z"
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "SHIP-0001": {
     "shipment_id": "SHIP-0001",
     "purchase_order_number": "PO-2024-0001",
     "supplier_id": "SUP-1001",
@@ -43,7 +43,7 @@
     "priority_level": "Medium",
     "notes": "High season; monitor ETA closely."
   },
-  {
+  "SHIP-0002": {
     "shipment_id": "SHIP-0002",
     "purchase_order_number": "PO-2024-0002",
     "supplier_id": "SUP-1002",
@@ -87,12 +87,12 @@
     "priority_level": "High",
     "notes": "Time-sensitive electronics."
   },
-  {
+  "SHIP-0003": {
     "shipment_id": "SHIP-0003",
     "purchase_order_number": "PO-2024-0003",
     "supplier_id": "SUP-1003",
     "supplier_name": "Bavaria Parts GmbH",
-    "origin_address": "Maximilianstra\u00dfe 200",
+    "origin_address": "Maximilianstraße 200",
     "origin_city": "Frankfurt",
     "origin_country": "Deutschland",
     "destination_warehouse_id": "WH-03",
@@ -131,7 +131,7 @@
     "priority_level": "Medium",
     "notes": "Spare parts. Watch rail strike news."
   },
-  {
+  "SHIP-0004": {
     "shipment_id": "SHIP-0004",
     "purchase_order_number": "PO-2024-0004",
     "supplier_id": "SUP-1004",
@@ -175,13 +175,13 @@
     "priority_level": "High",
     "notes": "Typhoon in Pacific causing delay."
   },
-  {
+  "SHIP-0005": {
     "shipment_id": "SHIP-0005",
     "purchase_order_number": "PO-2024-0005",
     "supplier_id": "SUP-1005",
     "supplier_name": "Rio Grande Coffee Traders",
     "origin_address": "Av. Paulista 1000",
-    "origin_city": "S\u00e3o Paulo",
+    "origin_city": "São Paulo",
     "origin_country": "Brazil",
     "destination_warehouse_id": "WH-05",
     "destination_warehouse_name": "Gulf Coast Food Storage",
@@ -219,7 +219,7 @@
     "priority_level": "Medium",
     "notes": "Organic coffee beans. Temp controlled."
   },
-  {
+  "SHIP-0006": {
     "shipment_id": "SHIP-0006",
     "purchase_order_number": "PO-2024-0006",
     "supplier_id": "SUP-1006",
@@ -261,16 +261,16 @@
     "insurance_policy_number": "INS-AIR-006",
     "insurance_provider": "MediSafe Insurance",
     "priority_level": "Critical",
-    "notes": "Vaccines\u2014strict temperature control."
+    "notes": "Vaccines—strict temperature control."
   },
-  {
+  "SHIP-0007": {
     "shipment_id": "SHIP-0007",
     "purchase_order_number": "PO-2024-0007",
     "supplier_id": "SUP-1007",
     "supplier_name": "Paris Luxury Goods",
-    "origin_address": "12 Champs-\u00c9lys\u00e9es",
+    "origin_address": "12 Champs-Élysées",
     "origin_city": "Paris",
-    "origin_country": "R\u00e9publique fran\u00e7aise",
+    "origin_country": "République française",
     "destination_warehouse_id": "WH-07",
     "destination_warehouse_name": "NYC Luxury Vault",
     "destination_address": "500 5th Ave",
@@ -307,7 +307,7 @@
     "priority_level": "High",
     "notes": "High-value handbags."
   },
-  {
+  "SHIP-0008": {
     "shipment_id": "SHIP-0008",
     "purchase_order_number": "PO-2024-0008",
     "supplier_id": "SUP-1008",
@@ -351,7 +351,7 @@
     "priority_level": "Low",
     "notes": "Bulk paper rolls."
   },
-  {
+  "SHIP-0009": {
     "shipment_id": "SHIP-0009",
     "purchase_order_number": "PO-2024-0009",
     "supplier_id": "SUP-1009",
@@ -395,7 +395,7 @@
     "priority_level": "Medium",
     "notes": "Solar panel kits."
   },
-  {
+  "SHIP-0010": {
     "shipment_id": "SHIP-0010",
     "purchase_order_number": "PO-2024-0010",
     "supplier_id": "SUP-1010",
@@ -437,9 +437,9 @@
     "insurance_policy_number": "INS-AIR-010",
     "insurance_provider": "FreshGuard",
     "priority_level": "High",
-    "notes": "Perishable\u2014priority handling."
+    "notes": "Perishable—priority handling."
   },
-  {
+  "SHIP-0011": {
     "shipment_id": "SHIP-0011",
     "purchase_order_number": "PO-2024-0011",
     "supplier_id": "SUP-1011",
@@ -483,7 +483,7 @@
     "priority_level": "Medium",
     "notes": "Oversized mining parts."
   },
-  {
+  "SHIP-0012": {
     "shipment_id": "SHIP-0012",
     "purchase_order_number": "PO-2024-0012",
     "supplier_id": "SUP-1012",
@@ -527,7 +527,7 @@
     "priority_level": "Low",
     "notes": "Ceramic floor tiles."
   },
-  {
+  "SHIP-0013": {
     "shipment_id": "SHIP-0013",
     "purchase_order_number": "PO-2024-0013",
     "supplier_id": "SUP-1013",
@@ -569,9 +569,9 @@
     "insurance_policy_number": "INS-SEA-013",
     "insurance_provider": "ChemSafe Insurance",
     "priority_level": "High",
-    "notes": "Flammable liquids\u2014hazmat precautions."
+    "notes": "Flammable liquids—hazmat precautions."
   },
-  {
+  "SHIP-0014": {
     "shipment_id": "SHIP-0014",
     "purchase_order_number": "PO-2024-0014",
     "supplier_id": "SUP-1014",
@@ -615,7 +615,7 @@
     "priority_level": "High",
     "notes": "Small high-value parts."
   },
-  {
+  "SHIP-0015": {
     "shipment_id": "SHIP-0015",
     "purchase_order_number": "PO-2024-0015",
     "supplier_id": "SUP-1015",
@@ -659,7 +659,7 @@
     "priority_level": "Medium",
     "notes": "Flat-packed furniture."
   },
-  {
+  "SHIP-0016": {
     "shipment_id": "SHIP-0016",
     "purchase_order_number": "PO-2024-0016",
     "supplier_id": "SUP-1016",
@@ -703,14 +703,14 @@
     "priority_level": "High",
     "notes": "Critical robotics components."
   },
-  {
+  "SHIP-0017": {
     "shipment_id": "SHIP-0017",
     "purchase_order_number": "PO-2024-0017",
     "supplier_id": "SUP-1017",
     "supplier_name": "Ankara Apparel Ltd.",
     "origin_address": "34 Fashion St",
     "origin_city": "Ankara",
-    "origin_country": "T\u00fcrkiye",
+    "origin_country": "Türkiye",
     "destination_warehouse_id": "WH-04",
     "destination_warehouse_name": "East Coast Fashion Center",
     "destination_address": "600 Garment Way",
@@ -747,7 +747,7 @@
     "priority_level": "Medium",
     "notes": "Summer collection."
   },
-  {
+  "SHIP-0018": {
     "shipment_id": "SHIP-0018",
     "purchase_order_number": "PO-2024-0018",
     "supplier_id": "SUP-1018",
@@ -789,9 +789,9 @@
     "insurance_policy_number": "INS-SEA-018",
     "insurance_provider": "BeverageGuard",
     "priority_level": "Medium",
-    "notes": "Premium Malbec\u2014keep cool."
+    "notes": "Premium Malbec—keep cool."
   },
-  {
+  "SHIP-0019": {
     "shipment_id": "SHIP-0019",
     "purchase_order_number": "PO-2024-0019",
     "supplier_id": "SUP-1019",
@@ -833,9 +833,9 @@
     "insurance_policy_number": "INS-AIR-019",
     "insurance_provider": "TechProtect",
     "priority_level": "High",
-    "notes": "Lithium batteries\u2014UN3480."
+    "notes": "Lithium batteries—UN3480."
   },
-  {
+  "SHIP-0020": {
     "shipment_id": "SHIP-0020",
     "purchase_order_number": "PO-2024-0020",
     "supplier_id": "SUP-1020",
@@ -879,7 +879,7 @@
     "priority_level": "Low",
     "notes": "Raw cotton bales."
   },
-  {
+  "SHIP-0021": {
     "shipment_id": "SHIP-0021",
     "purchase_order_number": "PO-2024-0021",
     "supplier_id": "SUP-1021",
@@ -923,7 +923,7 @@
     "priority_level": "Critical",
     "notes": "Life-saving drugs."
   },
-  {
+  "SHIP-0022": {
     "shipment_id": "SHIP-0022",
     "purchase_order_number": "PO-2024-0022",
     "supplier_id": "SUP-1022",
@@ -967,7 +967,7 @@
     "priority_level": "Low",
     "notes": "Port strike causing delay."
   },
-  {
+  "SHIP-0023": {
     "shipment_id": "SHIP-0023",
     "purchase_order_number": "PO-2024-0023",
     "supplier_id": "SUP-1023",
@@ -1011,7 +1011,7 @@
     "priority_level": "Medium",
     "notes": "Cross-border truck shipment."
   },
-  {
+  "SHIP-0024": {
     "shipment_id": "SHIP-0024",
     "purchase_order_number": "PO-2024-0024",
     "supplier_id": "SUP-1024",
@@ -1055,7 +1055,7 @@
     "priority_level": "Low",
     "notes": "Extra virgin olive oil."
   },
-  {
+  "SHIP-0025": {
     "shipment_id": "SHIP-0025",
     "purchase_order_number": "PO-2024-0025",
     "supplier_id": "SUP-1025",
@@ -1099,7 +1099,7 @@
     "priority_level": "Medium",
     "notes": "Consumer electronics."
   },
-  {
+  "SHIP-0026": {
     "shipment_id": "SHIP-0026",
     "purchase_order_number": "PO-2024-0026",
     "supplier_id": "SUP-1026",
@@ -1143,14 +1143,14 @@
     "priority_level": "Low",
     "notes": "Natural rubber rolls."
   },
-  {
+  "SHIP-0027": {
     "shipment_id": "SHIP-0027",
     "purchase_order_number": "PO-2024-0027",
     "supplier_id": "SUP-1027",
     "supplier_name": "Akureyri Seafood Ltd.",
     "origin_address": "Harbor 1",
     "origin_city": "Akureyri",
-    "origin_country": "\u00cdsland",
+    "origin_country": "Ísland",
     "destination_warehouse_id": "WH-10",
     "destination_warehouse_name": "San Francisco Fresh Foods DC",
     "destination_address": "100 Bay St",
@@ -1187,7 +1187,7 @@
     "priority_level": "High",
     "notes": "Fresh fish, frozen."
   },
-  {
+  "SHIP-0028": {
     "shipment_id": "SHIP-0028",
     "purchase_order_number": "PO-2024-0028",
     "supplier_id": "SUP-1028",
@@ -1231,7 +1231,7 @@
     "priority_level": "Medium",
     "notes": "Steel beams."
   },
-  {
+  "SHIP-0029": {
     "shipment_id": "SHIP-0029",
     "purchase_order_number": "PO-2024-0029",
     "supplier_id": "SUP-1029",
@@ -1275,7 +1275,7 @@
     "priority_level": "High",
     "notes": "Fresh cut flowers."
   },
-  {
+  "SHIP-0030": {
     "shipment_id": "SHIP-0030",
     "purchase_order_number": "PO-2024-0030",
     "supplier_id": "SUP-1030",
@@ -1317,6 +1317,6 @@
     "insurance_policy_number": "INS-AIR-030",
     "insurance_provider": "TechProtect",
     "priority_level": "High",
-    "notes": "Smartphones\u2014new model launch."
+    "notes": "Smartphones—new model launch."
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "RUN001": {
     "run_id": "RUN001",
     "task_name": "AR_Aging_Weekly",
     "scheduled_for": "2024-10-28T09:00:00Z",
@@ -7,7 +7,7 @@
     "status": "success",
     "log_path": "/reports/ar_aging/AR_Aging_Report_2024-10-28.pdf"
   },
-  {
+  "RUN002": {
     "run_id": "RUN002",
     "task_name": "income_tax_tracker",
     "scheduled_for": "2024-11-01T08:00:00Z",
@@ -15,7 +15,7 @@
     "status": "success",
     "log_path": "/dashboards/2024/YTD_Dashboard_2024-11-01.pdf"
   },
-  {
+  "RUN003": {
     "run_id": "RUN003",
     "task_name": "expense_tracker",
     "scheduled_for": "2024-11-02T10:00:00Z",
@@ -23,7 +23,7 @@
     "status": "success",
     "log_path": "/dashboards/ExpenseDashboards/2024-11/expense_dashboard_2024-11-02.pdf"
   },
-  {
+  "RUN004": {
     "run_id": "RUN004",
     "task_name": "AR_Aging_Weekly",
     "scheduled_for": "2024-11-04T09:00:00Z",
@@ -31,7 +31,7 @@
     "status": "success",
     "log_path": "/reports/ar_aging/AR_Aging_Report_2024-11-04.pdf"
   },
-  {
+  "RUN005": {
     "run_id": "RUN005",
     "task_name": "CashFlow_Forecast",
     "scheduled_for": "2024-11-11T08:30:00Z",
@@ -39,7 +39,7 @@
     "status": "success",
     "log_path": "/reports/cashflow/CashFlow_Forecast_2024-11-11.pdf"
   },
-  {
+  "RUN006": {
     "run_id": "RUN006",
     "task_name": "AR_Aging_Weekly",
     "scheduled_for": "2024-11-11T09:00:00Z",
@@ -47,7 +47,7 @@
     "status": "success",
     "log_path": "/reports/ar_aging/AR_Aging_Report_2024-11-11.pdf"
   },
-  {
+  "RUN007": {
     "run_id": "RUN007",
     "task_name": "CashFlow_Forecast",
     "scheduled_for": "2024-11-18T08:30:00Z",
@@ -55,7 +55,7 @@
     "status": "success",
     "log_path": "/reports/cashflow/CashFlow_Forecast_2024-11-18.pdf"
   },
-  {
+  "RUN008": {
     "run_id": "RUN008",
     "task_name": "AR_Aging_Weekly",
     "scheduled_for": "2024-11-18T09:00:00Z",
@@ -63,7 +63,7 @@
     "status": "success",
     "log_path": "/reports/ar_aging/AR_Aging_Report_2024-11-18.pdf"
   },
-  {
+  "RUN009": {
     "run_id": "RUN009",
     "task_name": "income_tax_tracker",
     "scheduled_for": "2024-11-25T08:00:00Z",
@@ -71,7 +71,7 @@
     "status": "scheduled",
     "log_path": null
   },
-  {
+  "RUN010": {
     "run_id": "RUN010",
     "task_name": "CashFlow_Forecast",
     "scheduled_for": "2024-11-25T08:30:00Z",
@@ -79,7 +79,7 @@
     "status": "scheduled",
     "log_path": null
   },
-  {
+  "RUN011": {
     "run_id": "RUN011",
     "task_name": "AR_Aging_Weekly",
     "scheduled_for": "2024-11-25T09:00:00Z",
@@ -87,4 +87,4 @@
     "status": "scheduled",
     "log_path": null
   }
-]
+}

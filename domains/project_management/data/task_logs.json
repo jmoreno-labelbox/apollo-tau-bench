@@ -1,5 +1,5 @@
-[
-  {
+{
+  "time_001": {
     "log_id": "time_001",
     "task_id": "task_001",
     "employee_id": "emp_dev_05",
@@ -7,7 +7,7 @@
     "notes": "Initial OAuth2 setup and configuration",
     "logged_date": "2024-03-04T17:00:00Z"
   },
-  {
+  "time_002": {
     "log_id": "time_002",
     "task_id": "task_001",
     "employee_id": "emp_dev_05",
@@ -15,7 +15,7 @@
     "notes": "Implementing token refresh logic",
     "logged_date": "2024-03-05T17:00:00Z"
   },
-  {
+  "time_003": {
     "log_id": "time_003",
     "task_id": "task_001",
     "employee_id": "emp_dev_05",
@@ -23,7 +23,7 @@
     "notes": "Testing with multiple OAuth providers",
     "logged_date": "2024-03-06T17:00:00Z"
   },
-  {
+  "time_004": {
     "log_id": "time_004",
     "task_id": "task_001",
     "employee_id": "emp_dev_05",
@@ -31,7 +31,7 @@
     "notes": "Bug fixes and security improvements",
     "logged_date": "2024-03-07T17:00:00Z"
   },
-  {
+  "time_005": {
     "log_id": "time_005",
     "task_id": "task_001",
     "employee_id": "emp_dev_05",
@@ -39,7 +39,7 @@
     "notes": "Code review changes and documentation",
     "logged_date": "2024-03-10T17:00:00Z"
   },
-  {
+  "time_006": {
     "log_id": "time_006",
     "task_id": "task_002",
     "employee_id": "emp_arch_01",
@@ -47,7 +47,7 @@
     "notes": "Database design and ERD creation",
     "logged_date": "2024-03-03T17:00:00Z"
   },
-  {
+  "time_007": {
     "log_id": "time_007",
     "task_id": "task_002",
     "employee_id": "emp_arch_01",
@@ -55,7 +55,7 @@
     "notes": "Writing migration scripts",
     "logged_date": "2024-03-05T17:00:00Z"
   },
-  {
+  "time_008": {
     "log_id": "time_008",
     "task_id": "task_002",
     "employee_id": "emp_arch_01",
@@ -63,7 +63,7 @@
     "notes": "Performance optimization and indexing",
     "logged_date": "2024-03-07T17:00:00Z"
   },
-  {
+  "time_009": {
     "log_id": "time_009",
     "task_id": "task_002",
     "employee_id": "emp_arch_01",
@@ -71,7 +71,7 @@
     "notes": "Documentation and review",
     "logged_date": "2024-03-08T17:00:00Z"
   },
-  {
+  "time_010": {
     "log_id": "time_010",
     "task_id": "task_003",
     "employee_id": "emp_dev_21",
@@ -79,7 +79,7 @@
     "notes": "API structure design and setup",
     "logged_date": "2024-03-17T17:00:00Z"
   },
-  {
+  "time_011": {
     "log_id": "time_011",
     "task_id": "task_003",
     "employee_id": "emp_dev_21",
@@ -87,7 +87,7 @@
     "notes": "Implementing CRUD endpoints",
     "logged_date": "2024-03-18T17:00:00Z"
   },
-  {
+  "time_012": {
     "log_id": "time_012",
     "task_id": "task_008",
     "employee_id": "emp_test_05",
@@ -95,7 +95,7 @@
     "notes": "Setting up test framework",
     "logged_date": "2024-03-17T17:00:00Z"
   },
-  {
+  "time_013": {
     "log_id": "time_013",
     "task_id": "task_008",
     "employee_id": "emp_test_05",
@@ -103,7 +103,7 @@
     "notes": "Writing unit tests for auth module",
     "logged_date": "2024-03-19T17:00:00Z"
   },
-  {
+  "time_014": {
     "log_id": "time_014",
     "task_id": "task_009",
     "employee_id": "emp_devops_02",
@@ -111,7 +111,7 @@
     "notes": "GitHub Actions workflow setup",
     "logged_date": "2024-03-04T17:00:00Z"
   },
-  {
+  "time_015": {
     "log_id": "time_015",
     "task_id": "task_009",
     "employee_id": "emp_devops_02",
@@ -119,7 +119,7 @@
     "notes": "Docker configuration and testing",
     "logged_date": "2024-03-05T17:00:00Z"
   },
-  {
+  "time_016": {
     "log_id": "time_016",
     "task_id": "task_009",
     "employee_id": "emp_devops_02",
@@ -127,7 +127,7 @@
     "notes": "Deployment pipeline and environments",
     "logged_date": "2024-03-07T17:00:00Z"
   },
-  {
+  "time_017": {
     "log_id": "time_017",
     "task_id": "task_012",
     "employee_id": "emp_sec_dev_02",
@@ -135,7 +135,7 @@
     "notes": "RBAC design and planning",
     "logged_date": "2024-03-16T17:00:00Z"
   },
-  {
+  "time_018": {
     "log_id": "time_018",
     "task_id": "task_012",
     "employee_id": "emp_sec_dev_02",
@@ -143,7 +143,7 @@
     "notes": "Implementing role management",
     "logged_date": "2024-03-18T17:00:00Z"
   },
-  {
+  "time_019": {
     "log_id": "time_019",
     "task_id": "task_005",
     "employee_id": "emp_sec_dev_01",
@@ -151,7 +151,7 @@
     "notes": "Initial security assessment",
     "logged_date": "2024-03-16T17:00:00Z"
   },
-  {
+  "time_020": {
     "log_id": "time_020",
     "task_id": "task_019",
     "employee_id": "emp_devops_02",
@@ -159,4 +159,4 @@
     "notes": "Setting up Datadog monitoring",
     "logged_date": "2024-03-17T17:00:00Z"
   }
-]
+}

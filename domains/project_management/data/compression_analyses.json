@@ -1,5 +1,5 @@
-[
-  {
+{
+  "comp_001": {
     "analysis_id": "comp_001",
     "project_id": "proj_mobile_01",
     "compression_type": "crashing",
@@ -33,7 +33,7 @@
     "cost_benefit_ratio": 500,
     "created_date": "2024-03-10T14:00:00Z"
   },
-  {
+  "comp_002": {
     "analysis_id": "comp_002",
     "project_id": "proj_ai_01",
     "compression_type": "fast_tracking",
@@ -58,7 +58,7 @@
     "cost_benefit_ratio": 0,
     "created_date": "2024-02-25T11:00:00Z"
   },
-  {
+  "comp_003": {
     "analysis_id": "comp_003",
     "project_id": "proj_enterprise_01",
     "compression_type": "crashing",
@@ -71,7 +71,7 @@
     "cost_benefit_ratio": 500,
     "created_date": "2024-02-15T09:00:00Z"
   },
-  {
+  "comp_004": {
     "analysis_id": "comp_004",
     "project_id": "proj_web_01",
     "compression_type": "fast_tracking",
@@ -84,4 +84,4 @@
     "cost_benefit_ratio": 0,
     "created_date": "2024-03-05T13:00:00Z"
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "['/figures/precip_vs_tide.png', '/figures/water_level_vs_pressure.png', '/outputs/qc/missing_data_heatmap.png']": {
     "figure_paths": [
       "/figures/precip_vs_tide.png",
       "/figures/water_level_vs_pressure.png",
@@ -16,7 +16,7 @@
       "2024-03-16T16:45:00Z"
     ]
   },
-  {
+  "['figures/risk_timeseries_simple.png']": {
     "figure_paths": [
       "figures/risk_timeseries_simple.png"
     ],
@@ -27,7 +27,7 @@
       "2024-03-17T11:45:00Z"
     ]
   },
-  {
+  "['/outputs/qc/distribution_plots.png', '/outputs/qc/outlier_detection.png']": {
     "figure_paths": [
       "/outputs/qc/distribution_plots.png",
       "/outputs/qc/outlier_detection.png"
@@ -41,7 +41,7 @@
       "2024-03-17T09:30:00Z"
     ]
   },
-  {
+  "['/figures/boston_ice_coverage.png', '/figures/boston_temperature_correlation.png']": {
     "figure_paths": [
       "/figures/boston_ice_coverage.png",
       "/figures/boston_temperature_correlation.png"
@@ -55,7 +55,7 @@
       "2024-03-01T13:25:00Z"
     ]
   },
-  {
+  "['/figures/seattle_wave_heights.png']": {
     "figure_paths": [
       "/figures/seattle_wave_heights.png"
     ],
@@ -66,4 +66,4 @@
       "2024-02-01T15:30:00Z"
     ]
   }
-]
+}

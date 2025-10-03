@@ -1,5 +1,5 @@
-[
-  {
+{
+  "app_e3a1b4c2-8d7e-4f6a-9c8b-2a1d5e8c7b4f": {
     "application_id": "app_e3a1b4c2-8d7e-4f6a-9c8b-2a1d5e8c7b4f",
     "customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
     "existing_customer": true,
@@ -32,7 +32,7 @@
     },
     "submission_date": "2021-05-25T10:00:00Z"
   },
-  {
+  "app_f8c2d5e3-9a6b-5g4h-8d7e-3b2a1c5d9f8c": {
     "application_id": "app_f8c2d5e3-9a6b-5g4h-8d7e-3b2a1c5d9f8c",
     "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
     "existing_customer": true,
@@ -65,7 +65,7 @@
     },
     "submission_date": "2022-01-10T14:30:00Z"
   },
-  {
+  "app_a9b8c7d6-5e4f-3a2b-1c9d-8e7f6a5b4c3d": {
     "application_id": "app_a9b8c7d6-5e4f-3a2b-1c9d-8e7f6a5b4c3d",
     "customer_id": null,
     "existing_customer": false,
@@ -98,7 +98,7 @@
     },
     "submission_date": "2023-10-18T09:00:00Z"
   },
-  {
+  "app_b1c2d3e4-f5a6-b7c8-d9e0-f1a2b3c4d5e6": {
     "application_id": "app_b1c2d3e4-f5a6-b7c8-d9e0-f1a2b3c4d5e6",
     "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11",
     "existing_customer": true,
@@ -131,7 +131,7 @@
     },
     "submission_date": "2020-02-10T11:00:00Z"
   },
-  {
+  "app_c2d3e4f5-a6b7-c8d9-e0f1-a2b3c4d5e6f7": {
     "application_id": "app_c2d3e4f5-a6b7-c8d9-e0f1-a2b3c4d5e6f7",
     "customer_id": null,
     "existing_customer": false,
@@ -159,7 +159,7 @@
     "decision": null,
     "submission_date": "2023-10-25T16:00:00Z"
   },
-  {
+  "app_d3e4f5a6-b7c8-d9e0-f1a2-b3c4d5e6f7g8": {
     "application_id": "app_d3e4f5a6-b7c8-d9e0-f1a2-b3c4d5e6f7g8",
     "customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9",
     "existing_customer": true,
@@ -192,7 +192,7 @@
     },
     "submission_date": "2023-09-10T13:20:00Z"
   },
-  {
+  "app_e4f5a6b7-c8d9-e0f1-a2b3-c4d5e6f7g8h9": {
     "application_id": "app_e4f5a6b7-c8d9-e0f1-a2b3-c4d5e6f7g8h9",
     "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",
     "existing_customer": true,
@@ -212,7 +212,7 @@
     },
     "financial_snapshot": {
       "employment_status": "Employed",
-      "employer_name": "Le Croissant Dor\u00e9",
+      "employer_name": "Le Croissant Doré",
       "annual_income": 45000,
       "monthly_debt_payments": 800.0
     },
@@ -225,7 +225,7 @@
     },
     "submission_date": "2023-08-10T18:00:00Z"
   },
-  {
+  "app_f5a6b7c8-d9e0-f1a2-b3c4-d5e6f7g8h9i0": {
     "application_id": "app_f5a6b7c8-d9e0-f1a2-b3c4-d5e6f7g8h9i0",
     "customer_id": null,
     "existing_customer": false,
@@ -253,7 +253,7 @@
     "decision": null,
     "submission_date": "2023-10-26T10:15:00Z"
   },
-  {
+  "app_a6b7c8d9-e0f1-a2b3-c4d5-e6f7g8h9i0j1": {
     "application_id": "app_a6b7c8d9-e0f1-a2b3-c4d5-e6f7g8h9i0j1",
     "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23",
     "existing_customer": true,
@@ -286,7 +286,7 @@
     },
     "submission_date": "2022-02-28T12:00:00Z"
   },
-  {
+  "app_b7c8d9e0-f1a2-b3c4-d5e6-f7g8h9i0j1k2": {
     "application_id": "app_b7c8d9e0-f1a2-b3c4-d5e6-f7g8h9i0j1k2",
     "customer_id": null,
     "existing_customer": false,
@@ -296,7 +296,7 @@
       "date_of_birth": "1999-11-30",
       "email_address": "beatriz.c@email.com.br",
       "phone_number": "+55 11 91234-5678",
-      "address": "Rua Augusta, 100, S\u00e3o Paulo, SP 01304-000, Brazil"
+      "address": "Rua Augusta, 100, São Paulo, SP 01304-000, Brazil"
     },
     "loan_details": {
       "loan_type": "Student",
@@ -314,7 +314,7 @@
     "decision": null,
     "submission_date": "2023-10-27T11:45:00Z"
   },
-  {
+  "app_c8d9e0f1-a2b3-c4d5-e6f7-g8h9i0j1k2l3": {
     "application_id": "app_c8d9e0f1-a2b3-c4d5-e6f7-g8h9i0j1k2l3",
     "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24",
     "existing_customer": true,
@@ -342,13 +342,13 @@
     "decision": null,
     "submission_date": "2023-05-10T10:00:00Z"
   },
-  {
+  "app_d9e0f1a2-b3c4-d5e6-f7g8-h9i0j1k2l3m4": {
     "application_id": "app_d9e0f1a2-b3c4-d5e6-f7g8-h9i0j1k2l3m4",
     "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19",
     "existing_customer": true,
     "applicant_info": {
       "first_name": "Santiago",
-      "last_name": "Mu\u00f1oz",
+      "last_name": "Muñoz",
       "date_of_birth": "1991-04-03",
       "email_address": "santiago.munoz@example.cl",
       "phone_number": "+56 9 1234 5678",
@@ -370,7 +370,7 @@
     "decision": null,
     "submission_date": "2023-10-20T15:00:00Z"
   },
-  {
+  "app_e0f1a2b3-c4d5-e6f7-g8h9-i0j1k2l3m4n5": {
     "application_id": "app_e0f1a2b3-c4d5-e6f7-g8h9-i0j1k2l3m4n5",
     "customer_id": null,
     "existing_customer": false,
@@ -403,7 +403,7 @@
     },
     "submission_date": "2023-08-01T14:00:00Z"
   },
-  {
+  "app_f1a2b3c4-d5e6-f7g8-h9i0-j1k2l3m4n5o6": {
     "application_id": "app_f1a2b3c4-d5e6-f7g8-h9i0-j1k2l3m4n5o6",
     "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-25",
     "existing_customer": true,
@@ -436,7 +436,7 @@
     },
     "submission_date": "2023-03-20T09:30:00Z"
   },
-  {
+  "app_a2b3c4d5-e6f7-g8h9-i0j1-k2l3m4n5o6p7": {
     "application_id": "app_a2b3c4d5-e6f7-g8h9-i0j1-k2l3m4n5o6p7",
     "customer_id": null,
     "existing_customer": false,
@@ -464,7 +464,7 @@
     "decision": null,
     "submission_date": "2023-10-27T08:00:00Z"
   },
-  {
+  "app_a3b4c5d6-e7f8-g9h0-i1j2-k3l4m5n6o7p8": {
     "application_id": "app_a3b4c5d6-e7f8-g9h0-i1j2-k3l4m5n6o7p8",
     "customer_id": null,
     "existing_customer": false,
@@ -497,7 +497,7 @@
     },
     "submission_date": "2023-10-10T09:00:00Z"
   },
-  {
+  "app_b4c5d6e7-f8g9-h0i1-j2k3-l4m5n6o7p8q9": {
     "application_id": "app_b4c5d6e7-f8g9-h0i1-j2k3-l4m5n6o7p8q9",
     "customer_id": null,
     "existing_customer": false,
@@ -530,7 +530,7 @@
     },
     "submission_date": "2023-10-19T11:30:00Z"
   },
-  {
+  "app_c5d6e7f8-g9h0-i1j2-k3l4-m5n6o7p8q9r0": {
     "application_id": "app_c5d6e7f8-g9h0-i1j2-k3l4-m5n6o7p8q9r0",
     "customer_id": null,
     "existing_customer": false,
@@ -558,7 +558,7 @@
     "decision": null,
     "submission_date": "2023-10-26T15:00:00Z"
   },
-  {
+  "app_d6e7f8g9-h0i1-j2k3-l4m5-n6o7p8q9r0s1": {
     "application_id": "app_d6e7f8g9-h0i1-j2k3-l4m5-n6o7p8q9r0s1",
     "customer_id": null,
     "existing_customer": false,
@@ -586,7 +586,7 @@
     "decision": null,
     "submission_date": "2023-10-27T18:00:00Z"
   },
-  {
+  "app_e7f8g9h0-i1j2-k3l4-m5n6-o7p8q9r0s1t2": {
     "application_id": "app_e7f8g9h0-i1j2-k3l4-m5n6-o7p8q9r0s1t2",
     "customer_id": null,
     "existing_customer": false,
@@ -596,7 +596,7 @@
       "date_of_birth": "1997-11-11",
       "email_address": "sofia.a@email.se",
       "phone_number": "+46 72-123 45 67",
-      "address": "G\u00f6tgatan 20, Stockholm, 118 46, Sweden"
+      "address": "Götgatan 20, Stockholm, 118 46, Sweden"
     },
     "loan_details": {
       "loan_type": "Personal",
@@ -619,4 +619,4 @@
     },
     "submission_date": "2023-09-28T10:20:00Z"
   }
-]
+}

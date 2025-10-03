@@ -1,62 +1,62 @@
-[
-  {
+{
+  "101": {
     "user_id": 101,
     "email": "ryan.bennett@example.com",
     "full_name": "Ryan Bennett",
     "created_at": "2025-08-20T10:00:00Z"
   },
-  {
+  "102": {
     "user_id": 102,
     "email": "sofia.martinez@example.com",
     "full_name": "Sofia Martinez",
     "created_at": "2025-07-15T09:30:00Z"
   },
-  {
+  "103": {
     "user_id": 103,
     "email": "emily.wang@example.com",
     "full_name": "Emily Wang",
     "created_at": "2025-06-10T14:20:00Z"
   },
-  {
+  "104": {
     "user_id": 104,
     "email": "daniel.Brown@example.com",
     "full_name": "Daniel Brown",
     "created_at": "2025-05-22T11:45:00Z"
   },
-  {
+  "105": {
     "user_id": 105,
     "email": "anjali.shah@example.com",
     "full_name": "Anjali Shah",
     "created_at": "2025-04-18T16:30:00Z"
   },
-  {
+  "106": {
     "user_id": 106,
     "email": "michael.peterson@example.com",
     "full_name": "Michael Peterson",
     "created_at": "2025-03-25T13:15:00Z"
   },
-  {
+  "107": {
     "user_id": 107,
     "email": "olivia.brown@example.com",
     "full_name": "Olivia Brown",
     "created_at": "2025-02-14T09:40:00Z"
   },
-  {
+  "108": {
     "user_id": 108,
     "email": "diego.rodriguez@example.com",
     "full_name": "Diego Rodriguez",
     "created_at": "2025-01-30T12:25:00Z"
   },
-  {
+  "109": {
     "user_id": 109,
     "email": "grace.lee@example.com",
     "full_name": "Grace Lee",
     "created_at": "2024-12-15T10:50:00Z"
   },
-  {
+  "110": {
     "user_id": 110,
     "email": "william.davis@example.com",
     "full_name": "William Davis",
     "created_at": "2024-11-08T15:20:00Z"
   }
-]
+}

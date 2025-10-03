@@ -1,5 +1,5 @@
-[
-  {
+{
+  "xfer_001": {
     "transfer_id": "xfer_001",
     "source_team_id": "team_analytics_01",
     "target_team_id": "team_dev_01",
@@ -12,7 +12,7 @@
     "created_date": "2024-03-01T11:00:00Z",
     "fiscal_year": 2024
   },
-  {
+  "xfer_002": {
     "transfer_id": "xfer_002",
     "source_team_id": "team_qa_01",
     "target_team_id": "team_security_01",
@@ -25,7 +25,7 @@
     "created_date": "2024-02-15T14:00:00Z",
     "fiscal_year": 2024
   },
-  {
+  "xfer_003": {
     "transfer_id": "xfer_003",
     "source_team_id": "team_devops_01",
     "target_team_id": "team_mobile_01",
@@ -38,7 +38,7 @@
     "created_date": "2024-03-10T10:00:00Z",
     "fiscal_year": 2024
   },
-  {
+  "xfer_004": {
     "transfer_id": "xfer_004",
     "source_team_id": "team_dev_01",
     "target_team_id": "team_analytics_01",
@@ -51,7 +51,7 @@
     "created_date": "2024-03-05T09:00:00Z",
     "fiscal_year": 2024
   },
-  {
+  "xfer_005": {
     "transfer_id": "xfer_005",
     "source_team_id": "team_qa_02",
     "target_team_id": "team_dev_01",
@@ -64,4 +64,4 @@
     "created_date": "2024-02-20T11:00:00Z",
     "fiscal_year": 2024
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "ORD-0001": {
     "order_id": "ORD-0001",
     "sales_order_number": "SO-2024-0001",
     "customer_id": "CUST-2001",
@@ -47,7 +47,7 @@
     "return_status": "None",
     "notes": "Customer requires signature on delivery."
   },
-  {
+  "ORD-0002": {
     "order_id": "ORD-0002",
     "sales_order_number": "SO-2024-0002",
     "customer_id": "CUST-2002",
@@ -95,7 +95,7 @@
     "return_status": "None",
     "notes": "Urgent restock for EU store launch."
   },
-  {
+  "ORD-0003": {
     "order_id": "ORD-0003",
     "sales_order_number": "SO-2024-0003",
     "customer_id": "CUST-2003",
@@ -143,7 +143,7 @@
     "return_status": "None",
     "notes": "Construction supplies for new site."
   },
-  {
+  "ORD-0004": {
     "order_id": "ORD-0004",
     "sales_order_number": "SO-2024-0004",
     "customer_id": "CUST-2004",
@@ -191,7 +191,7 @@
     "return_status": "None",
     "notes": "Temperature sensitive pharmaceuticals."
   },
-  {
+  "ORD-0005": {
     "order_id": "ORD-0005",
     "sales_order_number": "SO-2024-0005",
     "customer_id": "CUST-2005",
@@ -239,7 +239,7 @@
     "return_status": "None",
     "notes": "Seasonal clothing shipment."
   },
-  {
+  "ORD-0006": {
     "order_id": "ORD-0006",
     "sales_order_number": "SO-2024-0006",
     "customer_id": "CUST-2006",
@@ -287,7 +287,7 @@
     "return_status": "None",
     "notes": "Consumer electronics for Japanese market."
   },
-  {
+  "ORD-0007": {
     "order_id": "ORD-0007",
     "sales_order_number": "SO-2024-0007",
     "customer_id": "CUST-2007",
@@ -335,16 +335,16 @@
     "return_status": "None",
     "notes": "Mining equipment and chemicals."
   },
-  {
+  "ORD-0008": {
     "order_id": "ORD-0008",
     "sales_order_number": "SO-2024-0008",
     "customer_id": "CUST-2008",
     "customer_name": "Theta Foods SA",
     "customer_address": "200 Avenida Paulista",
-    "customer_city": "S\u00e3o Paulo",
+    "customer_city": "São Paulo",
     "customer_country": "Brazil",
     "destination_address": "200 Avenida Paulista",
-    "destination_city": "S\u00e3o Paulo",
+    "destination_city": "São Paulo",
     "destination_country": "Brazil",
     "warehouse_id": "WH-07",
     "warehouse_name": "Buenos Aires Cold Chain",
@@ -383,17 +383,17 @@
     "return_status": "None",
     "notes": "Frozen foodstuffs."
   },
-  {
+  "ORD-0009": {
     "order_id": "ORD-0009",
     "sales_order_number": "SO-2024-0009",
     "customer_id": "CUST-2009",
     "customer_name": "Iota Automotive NAC",
     "customer_address": "25 Rue de l'Industrie",
     "customer_city": "Lyon",
-    "customer_country": "R\u00e9publique fran\u00e7aise",
+    "customer_country": "République française",
     "destination_address": "25 Rue de l'Industrie",
     "destination_city": "Lyon",
-    "destination_country": "R\u00e9publique fran\u00e7aise",
+    "destination_country": "République française",
     "warehouse_id": "WH-08",
     "warehouse_name": "Frankfurt Auto Parts Depot",
     "warehouse_address": "150 Autobahn Str.",
@@ -431,7 +431,7 @@
     "return_status": "None",
     "notes": "Auto parts for manufacturing line."
   },
-  {
+  "ORD-0010": {
     "order_id": "ORD-0010",
     "sales_order_number": "SO-2024-0010",
     "customer_id": "CUST-2010",
@@ -479,7 +479,7 @@
     "return_status": "None",
     "notes": "Awaiting print completion before dispatch."
   },
-  {
+  "ORD-0011": {
     "order_id": "ORD-0011",
     "sales_order_number": "SO-2024-0011",
     "customer_id": "CUST-2011",
@@ -527,7 +527,7 @@
     "return_status": "None",
     "notes": "Vaccines - maintain cold chain."
   },
-  {
+  "ORD-0012": {
     "order_id": "ORD-0012",
     "sales_order_number": "SO-2024-0012",
     "customer_id": "CUST-2012",
@@ -575,7 +575,7 @@
     "return_status": "None",
     "notes": "Fertilizer shipment."
   },
-  {
+  "ORD-0013": {
     "order_id": "ORD-0013",
     "sales_order_number": "SO-2024-0013",
     "customer_id": "CUST-2013",
@@ -623,7 +623,7 @@
     "return_status": "None",
     "notes": "Solar panel inverters."
   },
-  {
+  "ORD-0014": {
     "order_id": "ORD-0014",
     "sales_order_number": "SO-2024-0014",
     "customer_id": "CUST-2014",
@@ -671,7 +671,7 @@
     "return_status": "None",
     "notes": "Lab reagents, fragile."
   },
-  {
+  "ORD-0015": {
     "order_id": "ORD-0015",
     "sales_order_number": "SO-2024-0015",
     "customer_id": "CUST-2015",
@@ -719,7 +719,7 @@
     "return_status": "None",
     "notes": "Consumer goods shipment."
   },
-  {
+  "ORD-0016": {
     "order_id": "ORD-0016",
     "sales_order_number": "SO-2024-0016",
     "customer_id": "CUST-2016",
@@ -767,4 +767,4 @@
     "return_status": "None",
     "notes": "Tiles for housing project."
   }
-]
+}

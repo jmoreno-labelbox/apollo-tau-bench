@@ -1,5 +1,5 @@
-[
-  {
+{
+  "design-team": {
     "owner": "design-team",
     "repo_name": "ui-kit",
     "alert_numbers": [
@@ -31,7 +31,7 @@
       "2023-12-04T11:00:00Z"
     ]
   },
-  {
+  "server-main": {
     "owner": "server-main",
     "repo_name": "payments-service",
     "alert_numbers": [
@@ -56,7 +56,7 @@
       null
     ]
   },
-  {
+  "maya-w": {
     "owner": "maya-w",
     "repo_name": "acme-webapp",
     "alert_numbers": [
@@ -95,7 +95,7 @@
       "2023-12-01T16:45:00Z"
     ]
   },
-  {
+  "security-group": {
     "owner": "security-group",
     "repo_name": "security-scanner",
     "alert_numbers": [
@@ -141,7 +141,7 @@
       "2023-08-25T14:20:00Z"
     ]
   },
-  {
+  "ui-developer": {
     "owner": "ui-developer",
     "repo_name": "react-dashboard",
     "alert_numbers": [
@@ -173,7 +173,7 @@
       "2023-09-21T10:15:00Z"
     ]
   },
-  {
+  "ml-engineer": {
     "owner": "ml-engineer",
     "repo_name": "ml-pipeline",
     "alert_numbers": [
@@ -205,7 +205,7 @@
       null
     ]
   },
-  {
+  "infra-lead": {
     "owner": "infra-lead",
     "repo_name": "k8s-monitoring",
     "alert_numbers": [
@@ -244,7 +244,7 @@
       "2023-07-22T16:30:00Z"
     ]
   },
-  {
+  "language-ai": {
     "owner": "language-ai",
     "repo_name": "nlp-models",
     "alert_numbers": [
@@ -269,7 +269,7 @@
       null
     ]
   },
-  {
+  "app-developer": {
     "owner": "app-developer",
     "repo_name": "flutter-finance-app",
     "alert_numbers": [
@@ -301,4 +301,4 @@
       null
     ]
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "req_skill_001": {
     "requirement_id": "req_skill_001",
     "project_id": "proj_mobile_01",
     "required_skills": [
@@ -20,7 +20,7 @@
       }
     ]
   },
-  {
+  "req_skill_002": {
     "requirement_id": "req_skill_002",
     "project_id": "proj_insights_01",
     "required_skills": [
@@ -36,7 +36,7 @@
       }
     ]
   },
-  {
+  "req_skill_003": {
     "requirement_id": "req_skill_003",
     "project_id": "proj_cloud_01",
     "required_skills": [
@@ -57,7 +57,7 @@
       }
     ]
   },
-  {
+  "req_skill_004": {
     "requirement_id": "req_skill_004",
     "project_id": "proj_ai_01",
     "required_skills": [
@@ -73,4 +73,4 @@
       }
     ]
   }
-]
+}

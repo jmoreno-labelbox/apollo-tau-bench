@@ -1,5 +1,5 @@
-[
-  {
+{
+  "simple_model": {
     "model_name": "simple_model",
     "metrics_csv_path": "/processed_data/metrics_simple.csv",
     "auc_nullable": 0.79,
@@ -7,7 +7,7 @@
     "rmse_nullable": null,
     "generated_ts": "2024-03-17T11:30:00Z"
   },
-  {
+  "flood_risk_sf_v1": {
     "model_name": "flood_risk_sf_v1",
     "metrics_csv_path": "/results/metrics_sf_v1.csv",
     "auc_nullable": 0.87,
@@ -15,7 +15,7 @@
     "rmse_nullable": null,
     "generated_ts": "2024-03-17T11:15:00Z"
   },
-  {
+  "flood_risk_miami_v1": {
     "model_name": "flood_risk_miami_v1",
     "metrics_csv_path": "/results/metrics_miami_v1.csv",
     "auc_nullable": 0.73,
@@ -23,7 +23,7 @@
     "rmse_nullable": null,
     "generated_ts": "2024-02-02T16:30:00Z"
   },
-  {
+  "flood_risk_sf_v2": {
     "model_name": "flood_risk_sf_v2",
     "metrics_csv_path": "/results/metrics_sf_v2.csv",
     "auc_nullable": 0.89,
@@ -31,7 +31,7 @@
     "rmse_nullable": null,
     "generated_ts": "2024-03-18T15:45:00Z"
   },
-  {
+  "boston_harbor_model": {
     "model_name": "boston_harbor_model",
     "metrics_csv_path": "/processed_data/metrics_boston.csv",
     "auc_nullable": 0.73,
@@ -39,4 +39,4 @@
     "rmse_nullable": null,
     "generated_ts": "2024-03-01T13:18:00Z"
   }
-]
+}

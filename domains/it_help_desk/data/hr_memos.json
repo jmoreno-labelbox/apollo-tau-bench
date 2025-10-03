@@ -1,5 +1,5 @@
-[
-  {
+{
+  "memo_0001": {
     "memo_id": "memo_0001",
     "type": "onboarding",
     "first_name": "Elliot",
@@ -10,7 +10,7 @@
     "manager_email": "casey.liu@example.com",
     "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
   },
-  {
+  "memo_0002": {
     "memo_id": "memo_0002",
     "type": "onboarding",
     "first_name": "Noel",
@@ -21,7 +21,7 @@
     "manager_email": "casey.liu@example.com",
     "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
   },
-  {
+  "memo_0003": {
     "memo_id": "memo_0003",
     "type": "onboarding",
     "first_name": "Morgan",
@@ -32,7 +32,7 @@
     "manager_email": "jamie.chen@example.com",
     "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
   },
-  {
+  "memo_0004": {
     "memo_id": "memo_0004",
     "type": "onboarding",
     "first_name": "Riley",
@@ -43,7 +43,7 @@
     "manager_email": "robin.jones@example.com",
     "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
   },
-  {
+  "memo_0005": {
     "memo_id": "memo_0005",
     "type": "onboarding",
     "first_name": "Drew",
@@ -54,7 +54,7 @@
     "manager_email": "drew.kumar@example.com",
     "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
   },
-  {
+  "memo_0006": {
     "memo_id": "memo_0006",
     "type": "onboarding",
     "first_name": "Jamie",
@@ -65,7 +65,7 @@
     "manager_email": "jamie.chen@example.com",
     "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
   },
-  {
+  "memo_0007": {
     "memo_id": "memo_0007",
     "type": "onboarding",
     "first_name": "Casey",
@@ -76,7 +76,7 @@
     "manager_email": "casey.liu@example.com",
     "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
   },
-  {
+  "memo_0008": {
     "memo_id": "memo_0008",
     "type": "onboarding",
     "first_name": "Briar",
@@ -87,7 +87,7 @@
     "manager_email": "robin.jones@example.com",
     "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
   },
-  {
+  "memo_0009": {
     "memo_id": "memo_0009",
     "type": "offboarding",
     "first_name": "Jordan",
@@ -98,7 +98,7 @@
     "manager_email": "sam.tran@example.com",
     "notes": "Immediate access disable; archive mailbox; device return within 7 days."
   },
-  {
+  "memo_0010": {
     "memo_id": "memo_0010",
     "type": "offboarding",
     "first_name": "Jordan",
@@ -109,7 +109,7 @@
     "manager_email": "sam.tran@example.com",
     "notes": "Immediate access disable; archive mailbox; device return within 7 days."
   },
-  {
+  "memo_0011": {
     "memo_id": "memo_0011",
     "type": "offboarding",
     "first_name": "Jordan",
@@ -120,7 +120,7 @@
     "manager_email": "sam.tran@example.com",
     "notes": "Immediate access disable; archive mailbox; device return within 7 days."
   },
-  {
+  "memo_0012": {
     "memo_id": "memo_0012",
     "type": "offboarding",
     "first_name": "Sawyer",
@@ -131,4 +131,4 @@
     "manager_email": "drew.kumar@example.com",
     "notes": "Immediate access disable; archive mailbox; device return within 7 days."
   }
-]
+}

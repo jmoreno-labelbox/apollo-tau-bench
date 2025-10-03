@@ -1,5 +1,5 @@
-[
-  {
+{
+  "T001": {
     "team_id": "T001",
     "team_name": "Data Analytics Team",
     "team_lead_user_id": "U301",
@@ -26,7 +26,7 @@
       "U302": null
     }
   },
-  {
+  "T002": {
     "team_id": "T002",
     "team_name": "Product Design Team",
     "team_lead_user_id": "U304",
@@ -53,7 +53,7 @@
       "U307": "M100"
     }
   },
-  {
+  "T003": {
     "team_id": "T003",
     "team_name": "Engineering Team",
     "team_lead_user_id": "U312",
@@ -81,7 +81,7 @@
       "U312": "M101"
     }
   },
-  {
+  "T004": {
     "team_id": "T004",
     "team_name": "Marketing Team",
     "team_lead_user_id": "U305",
@@ -106,7 +106,7 @@
       "U305": "M103"
     }
   },
-  {
+  "T005": {
     "team_id": "T005",
     "team_name": "Compliance Team",
     "team_lead_user_id": "U303",
@@ -131,7 +131,7 @@
       "U303": "M102"
     }
   },
-  {
+  "T006": {
     "team_id": "T006",
     "team_name": "Documentation Team",
     "team_lead_user_id": "U308",
@@ -156,7 +156,7 @@
       "U308": null
     }
   },
-  {
+  "T007": {
     "team_id": "T007",
     "team_name": "Learning & Development Team",
     "team_lead_user_id": "U309",
@@ -183,7 +183,7 @@
       "U311": null
     }
   },
-  {
+  "T008": {
     "team_id": "T008",
     "team_name": "People Operations Team",
     "team_lead_user_id": "U310",
@@ -208,4 +208,4 @@
       "U310": null
     }
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "incident_001": {
     "id": "incident_001",
     "title": "TextureManager::loadTexture compilation issue on Windows",
     "description": "Build failure due to missing function declaration in texture_manager.h",
@@ -41,7 +41,7 @@
       "jira_ticket": "GAME-1200"
     }
   },
-  {
+  "incident_002": {
     "id": "incident_002",
     "title": "Similar TextureManager compilation issue on Linux",
     "description": "Build failure due to missing function declaration, similar to incident_001",
@@ -83,7 +83,7 @@
       "jira_ticket": "GAME-1201"
     }
   },
-  {
+  "incident_003": {
     "id": "incident_003",
     "title": "Texture loading test failure in renderer unit tests",
     "description": "Unit test failure due to invalid texture format validation",
@@ -123,7 +123,7 @@
       "jira_ticket": "GAME-1202"
     }
   },
-  {
+  "incident_004": {
     "id": "incident_004",
     "title": "Multiplayer connection timeout in integration tests",
     "description": "Integration test failure due to connection timeout issues",
@@ -164,7 +164,7 @@
       "jira_ticket": "GAME-1203"
     }
   },
-  {
+  "incident_005": {
     "id": "incident_005",
     "title": "Similar multiplayer connection timeout on Windows",
     "description": "Connection timeout issue similar to incident_004 but on Windows platform",
@@ -205,7 +205,7 @@
       "jira_ticket": "GAME-1204"
     }
   },
-  {
+  "incident_006": {
     "id": "incident_006",
     "title": "Asset validation failure for oversized texture",
     "description": "Asset pipeline failure due to texture exceeding maximum size requirements",
@@ -244,7 +244,7 @@
       "jira_ticket": "ART-450"
     }
   },
-  {
+  "incident_007": {
     "id": "incident_007",
     "title": "Performance regression in texture loading",
     "description": "Frame rate drop from 60 FPS to 42 FPS due to texture loading optimization",
@@ -284,7 +284,7 @@
       "jira_ticket": "GAME-1205"
     }
   },
-  {
+  "incident_008": {
     "id": "incident_008",
     "title": "Localization text overflow in German UI",
     "description": "Text overflow detected in German translation for UI elements",
@@ -325,7 +325,7 @@
       "jira_ticket": "LOC-780"
     }
   },
-  {
+  "incident_009": {
     "id": "incident_009",
     "title": "Kubernetes deployment resource allocation failure",
     "description": "Staging deployment failed due to insufficient memory allocation",
@@ -365,7 +365,7 @@
       "jira_ticket": "INFRA-450"
     }
   },
-  {
+  "incident_010": {
     "id": "incident_010",
     "title": "Database connection timeout causing service degradation",
     "description": "Database connection pool exhausted causing service timeouts and degraded performance",
@@ -405,7 +405,7 @@
       "original_incident_id": "incident_001"
     }
   },
-  {
+  "incident_011": {
     "id": "incident_011",
     "title": "Critical security vulnerabilities detected in production dependencies",
     "description": "Multiple critical security vulnerabilities including CVE-2024-1234 detected in production dependencies",
@@ -445,7 +445,7 @@
       "original_incident_id": "incident_002"
     }
   },
-  {
+  "incident_012": {
     "id": "incident_012",
     "title": "AWS ECS deployment failure during multi-cloud rollout",
     "description": "ECS deployment failed due to invalid memory specification exceeding limits",
@@ -485,7 +485,7 @@
       "original_incident_id": "incident_003"
     }
   },
-  {
+  "incident_013": {
     "id": "incident_013",
     "title": "Prometheus monitoring stack experiencing high memory usage",
     "description": "Prometheus memory usage at 87.2% causing monitoring service degradation",
@@ -525,7 +525,7 @@
       "original_incident_id": "incident_004"
     }
   },
-  {
+  "incident_014": {
     "id": "incident_014",
     "title": "API Gateway rate limiting causing legitimate traffic to be blocked",
     "description": "API Gateway rate limiting triggered at 1500 requests per minute blocking legitimate traffic",
@@ -565,7 +565,7 @@
       "original_incident_id": "incident_005"
     }
   },
-  {
+  "incident_015": {
     "id": "incident_015",
     "title": "OAuth2 authentication service experiencing intermittent failures",
     "description": "OAuth2 authentication service with 8.5% issue rate causing login issues",
@@ -605,7 +605,7 @@
       "original_incident_id": "incident_006"
     }
   },
-  {
+  "incident_016": {
     "id": "incident_016",
     "title": "Edge computing runtime experiencing increased latency",
     "description": "Edge computing runtime latency increased to 450ms, 200% above baseline",
@@ -645,7 +645,7 @@
       "original_incident_id": "incident_007"
     }
   },
-  {
+  "incident_017": {
     "id": "incident_017",
     "title": "ETL pipeline job failure causing data processing delays",
     "description": "ETL pipeline job failed with exit code 1 due to data transformation issue",
@@ -685,7 +685,7 @@
       "original_incident_id": "incident_008"
     }
   },
-  {
+  "incident_018": {
     "id": "incident_018",
     "title": "CI/CD pipeline integration tests failing intermittently",
     "description": "CI/CD pipeline integration tests failing with 35% failure rate",
@@ -725,7 +725,7 @@
       "original_incident_id": "incident_009"
     }
   },
-  {
+  "incident_019": {
     "id": "incident_019",
     "title": "Jenkins pipeline performance degradation affecting build times",
     "description": "Jenkins build duration increased to 45 minutes, 150% above average",
@@ -765,4 +765,4 @@
       "original_incident_id": "incident_010"
     }
   }
-]
+}

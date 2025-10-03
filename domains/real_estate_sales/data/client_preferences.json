@@ -1,5 +1,5 @@
-[
-  {
+{
+  "1": {
     "pref_id": 1,
     "client_id": 1,
     "neighborhoods_json": [
@@ -24,7 +24,7 @@
     "commute_max_minutes": 30,
     "property_type": "duplex"
   },
-  {
+  "2": {
     "pref_id": 2,
     "client_id": 2,
     "neighborhoods_json": [
@@ -46,7 +46,7 @@
     "commute_max_minutes": 15,
     "property_type": "condo"
   },
-  {
+  "3": {
     "pref_id": 3,
     "client_id": 3,
     "neighborhoods_json": [
@@ -72,7 +72,7 @@
     "commute_max_minutes": 45,
     "property_type": "single_family"
   },
-  {
+  "4": {
     "pref_id": 4,
     "client_id": 4,
     "neighborhoods_json": [
@@ -92,7 +92,7 @@
     "commute_max_minutes": 20,
     "property_type": "apartment"
   },
-  {
+  "5": {
     "pref_id": 5,
     "client_id": 5,
     "neighborhoods_json": [
@@ -114,7 +114,7 @@
     "commute_max_minutes": 30,
     "property_type": "condo"
   },
-  {
+  "6": {
     "pref_id": 6,
     "client_id": 6,
     "neighborhoods_json": [
@@ -136,7 +136,7 @@
     "commute_max_minutes": 45,
     "property_type": "duplex"
   },
-  {
+  "7": {
     "pref_id": 7,
     "client_id": 7,
     "neighborhoods_json": [
@@ -160,7 +160,7 @@
     "commute_max_minutes": 15,
     "property_type": "duplex"
   },
-  {
+  "8": {
     "pref_id": 8,
     "client_id": 8,
     "neighborhoods_json": [
@@ -182,7 +182,7 @@
     "commute_max_minutes": 15,
     "property_type": "duplex"
   },
-  {
+  "9": {
     "pref_id": 9,
     "client_id": 9,
     "neighborhoods_json": [
@@ -206,7 +206,7 @@
     "commute_max_minutes": 15,
     "property_type": "single_family"
   },
-  {
+  "10": {
     "pref_id": 10,
     "client_id": 10,
     "neighborhoods_json": [
@@ -227,7 +227,7 @@
     "commute_max_minutes": 45,
     "property_type": "single_family"
   },
-  {
+  "11": {
     "pref_id": 11,
     "client_id": 11,
     "neighborhoods_json": [
@@ -249,7 +249,7 @@
     "commute_max_minutes": 45,
     "property_type": "duplex"
   },
-  {
+  "12": {
     "pref_id": 12,
     "client_id": 12,
     "neighborhoods_json": [
@@ -271,7 +271,7 @@
     "commute_max_minutes": 45,
     "property_type": "townhouse"
   },
-  {
+  "13": {
     "pref_id": 13,
     "client_id": 13,
     "neighborhoods_json": [
@@ -293,7 +293,7 @@
     "commute_max_minutes": 15,
     "property_type": "condo"
   },
-  {
+  "14": {
     "pref_id": 14,
     "client_id": 14,
     "neighborhoods_json": [
@@ -318,7 +318,7 @@
     "commute_max_minutes": 30,
     "property_type": "condo"
   },
-  {
+  "15": {
     "pref_id": 15,
     "client_id": 15,
     "neighborhoods_json": [
@@ -342,7 +342,7 @@
     "commute_max_minutes": 15,
     "property_type": "condo"
   },
-  {
+  "16": {
     "pref_id": 16,
     "client_id": 16,
     "neighborhoods_json": [
@@ -367,7 +367,7 @@
     "commute_max_minutes": 15,
     "property_type": "apartment"
   },
-  {
+  "17": {
     "pref_id": 17,
     "client_id": 17,
     "neighborhoods_json": [
@@ -388,7 +388,7 @@
     "commute_max_minutes": 20,
     "property_type": "townhouse"
   },
-  {
+  "18": {
     "pref_id": 18,
     "client_id": 18,
     "neighborhoods_json": [
@@ -414,7 +414,7 @@
     "commute_max_minutes": 30,
     "property_type": "condo"
   },
-  {
+  "19": {
     "pref_id": 19,
     "client_id": 19,
     "neighborhoods_json": [
@@ -435,7 +435,7 @@
     "commute_max_minutes": 15,
     "property_type": "apartment"
   },
-  {
+  "20": {
     "pref_id": 20,
     "client_id": 20,
     "neighborhoods_json": [
@@ -456,4 +456,4 @@
     "commute_max_minutes": 20,
     "property_type": "townhouse"
   }
-]
+}

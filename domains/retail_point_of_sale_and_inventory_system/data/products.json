@@ -1,5 +1,5 @@
-[
-  {
+{
+  "ELEC-4KTV55": {
     "sku": "ELEC-4KTV55",
     "name": "UltraVision 55\" 4K Smart TV",
     "category": "Electronics",
@@ -19,7 +19,7 @@
     "created_at": "2024-11-08T10:15:00Z",
     "updated_at": "2025-05-01T14:20:00Z"
   },
-  {
+  "HOM-COFMKR12": {
     "sku": "HOM-COFMKR12",
     "name": "BrewMaster 12-Cup Coffee Maker",
     "category": "Home & Kitchen",
@@ -39,7 +39,7 @@
     "created_at": "2024-10-12T09:00:00Z",
     "updated_at": "2025-04-18T16:30:00Z"
   },
-  {
+  "CLTH-SLFJEAN34": {
     "sku": "CLTH-SLFJEAN34",
     "name": "Men's Slim Fit Jeans - 34W 32L",
     "category": "Apparel",
@@ -59,7 +59,7 @@
     "created_at": "2025-01-05T11:10:00Z",
     "updated_at": "2025-03-22T15:45:00Z"
   },
-  {
+  "GROC-ALMBTR500": {
     "sku": "GROC-ALMBTR500",
     "name": "Organic Almond Butter 500g",
     "category": "Grocery",
@@ -79,7 +79,7 @@
     "created_at": "2024-12-20T08:45:00Z",
     "updated_at": "2025-04-02T12:00:00Z"
   },
-  {
+  "SPORT-BIKHLM01": {
     "sku": "SPORT-BIKHLM01",
     "name": "TrailGuard Mountain Bike Helmet",
     "category": "Sports & Outdoors",
@@ -99,7 +99,7 @@
     "created_at": "2025-02-14T10:05:00Z",
     "updated_at": "2025-04-25T10:05:00Z"
   },
-  {
+  "AUDIO-BTSPKR02": {
     "sku": "AUDIO-BTSPKR02",
     "name": "WaveSound All-Weather Bluetooth Speaker",
     "category": "Electronics",
@@ -119,7 +119,7 @@
     "created_at": "2024-11-30T13:15:00Z",
     "updated_at": "2025-05-10T11:22:00Z"
   },
-  {
+  "KITCH-CHEFKNF8": {
     "sku": "KITCH-CHEFKNF8",
     "name": "ProSlice 8\" Chef Knife",
     "category": "Home & Kitchen",
@@ -139,7 +139,7 @@
     "created_at": "2025-01-22T09:32:00Z",
     "updated_at": "2025-04-01T09:32:00Z"
   },
-  {
+  "HOME-BTHTWL01": {
     "sku": "HOME-BTHTWL01",
     "name": "UltraSoft Cotton Bath Towel",
     "category": "Home & Kitchen",
@@ -159,7 +159,7 @@
     "created_at": "2025-03-01T07:20:00Z",
     "updated_at": "2025-05-02T07:20:00Z"
   },
-  {
+  "ELEC-GAMLP15": {
     "sku": "ELEC-GAMLP15",
     "name": "GigaPlay 15\" Gaming Laptop",
     "category": "Electronics",
@@ -179,7 +179,7 @@
     "created_at": "2024-12-01T12:00:00Z",
     "updated_at": "2025-04-15T12:00:00Z"
   },
-  {
+  "OFFC-ERGCHR01": {
     "sku": "OFFC-ERGCHR01",
     "name": "ErgoPro Adjustable Office Chair",
     "category": "Office Supplies",
@@ -199,7 +199,7 @@
     "created_at": "2025-02-10T14:40:00Z",
     "updated_at": "2025-05-08T14:40:00Z"
   },
-  {
+  "HOME-DESKLMP01": {
     "sku": "HOME-DESKLMP01",
     "name": "LumiLux LED Desk Lamp",
     "category": "Home & Kitchen",
@@ -219,7 +219,7 @@
     "created_at": "2025-02-18T10:12:00Z",
     "updated_at": "2025-05-03T10:12:00Z"
   },
-  {
+  "AUDIO-NCEBUDS01": {
     "sku": "AUDIO-NCEBUDS01",
     "name": "QuietTone Wireless Earbuds",
     "category": "Electronics",
@@ -239,7 +239,7 @@
     "created_at": "2024-10-25T11:50:00Z",
     "updated_at": "2025-03-29T11:50:00Z"
   },
-  {
+  "GROC-GRNLBR12": {
     "sku": "GROC-GRNLBR12",
     "name": "High-Protein Granola Bars (12 Pack)",
     "category": "Grocery",
@@ -259,7 +259,7 @@
     "created_at": "2024-11-18T09:35:00Z",
     "updated_at": "2025-04-10T09:35:00Z"
   },
-  {
+  "BOOK-KDSSTY01": {
     "sku": "BOOK-KDSSTY01",
     "name": "Adventures in Sillytown",
     "category": "Books",
@@ -279,7 +279,7 @@
     "created_at": "2025-01-30T08:00:00Z",
     "updated_at": "2025-03-20T08:00:00Z"
   },
-  {
+  "SMRT-THERM02": {
     "sku": "SMRT-THERM02",
     "name": "EcoSmart Wi-Fi Thermostat",
     "category": "Smart Home",
@@ -299,7 +299,7 @@
     "created_at": "2025-02-21T13:30:00Z",
     "updated_at": "2025-06-01T13:30:00Z"
   },
-  {
+  "ELEC-RCHAA04": {
     "sku": "ELEC-RCHAA04",
     "name": "PowerPlus Rechargeable AA Batteries (4 Pack)",
     "category": "Electronics",
@@ -319,7 +319,7 @@
     "created_at": "2024-12-05T07:55:00Z",
     "updated_at": "2025-05-12T07:55:00Z"
   },
-  {
+  "SPORT-YOGMAT01": {
     "sku": "SPORT-YOGMAT01",
     "name": "FlexFit Premium Yoga Mat",
     "category": "Sports & Outdoors",
@@ -339,13 +339,13 @@
     "created_at": "2025-03-15T11:25:00Z",
     "updated_at": "2025-05-18T11:25:00Z"
   },
-  {
+  "CLTH-WINJKT01": {
     "sku": "CLTH-WINJKT01",
     "name": "ArcticShield Men's Parka - Large",
     "category": "Apparel",
     "price": 189.5,
     "is_discountable": false,
-    "description": "Waterproof winter parka rated to -30\u00b0C.",
+    "description": "Waterproof winter parka rated to -30°C.",
     "supplier_id": "SUP-1003",
     "weight_kg": 1.5,
     "dimensions_cm": "45x35x12",
@@ -359,7 +359,7 @@
     "created_at": "2024-11-11T10:42:00Z",
     "updated_at": "2025-03-05T10:42:00Z"
   },
-  {
+  "KITCH-FRYPAN10": {
     "sku": "KITCH-FRYPAN10",
     "name": "ChefPro Ceramic Fry Pan 10\"",
     "category": "Home & Kitchen",
@@ -379,7 +379,7 @@
     "created_at": "2025-02-05T06:44:00Z",
     "updated_at": "2025-04-11T06:44:00Z"
   },
-  {
+  "GROC-SPRWAT6P": {
     "sku": "GROC-SPRWAT6P",
     "name": "SparkleLife Sparkling Water 1L (6 Pack)",
     "category": "Grocery",
@@ -399,4 +399,4 @@
     "created_at": "2025-01-12T09:10:00Z",
     "updated_at": "2025-05-06T09:10:00Z"
   }
-]
+}

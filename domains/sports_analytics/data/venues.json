@@ -1,86 +1,86 @@
-[
-  {
+{
+  "1": {
     "venue_id": 1,
     "venue_name": "Charlotte",
     "city": "Nashville",
     "park_factor_runs": 1.029,
     "park_factor_hr": 0.908
   },
-  {
+  "2": {
     "venue_id": 2,
     "venue_name": "Las Vegas",
     "city": "Kansas City",
     "park_factor_runs": 0.905,
     "park_factor_hr": 1.018
   },
-  {
+  "3": {
     "venue_id": 3,
     "venue_name": "Sacramento",
     "city": "Indianapolis",
     "park_factor_runs": 0.978,
     "park_factor_hr": 1.016
   },
-  {
+  "4": {
     "venue_id": 4,
     "venue_name": "Louisville Arena",
     "city": "Portland Stadium",
     "park_factor_runs": 1.068,
     "park_factor_hr": 0.912
   },
-  {
+  "5": {
     "venue_id": 5,
     "venue_name": "Memphis",
     "city": "Orlando",
     "park_factor_runs": 0.908,
     "park_factor_hr": 1.105
   },
-  {
+  "6": {
     "venue_id": 6,
     "venue_name": "Portland",
     "city": "Pittsburgh",
     "park_factor_runs": 0.904,
     "park_factor_hr": 1.128
   },
-  {
+  "7": {
     "venue_id": 7,
     "venue_name": "Louisville",
     "city": "Portland",
     "park_factor_runs": 0.967,
     "park_factor_hr": 1.166
   },
-  {
+  "8": {
     "venue_id": 8,
     "venue_name": "Columbus",
     "city": "Sacramento",
     "park_factor_runs": 0.911,
     "park_factor_hr": 1.123
   },
-  {
+  "9": {
     "venue_id": 9,
     "venue_name": "Phoenix",
     "city": "Denver",
     "park_factor_runs": 0.869,
     "park_factor_hr": 0.805
   },
-  {
+  "10": {
     "venue_id": 10,
     "venue_name": "Baltimore",
     "city": "Louisville",
     "park_factor_runs": 0.892,
     "park_factor_hr": 0.933
   },
-  {
+  "11": {
     "venue_id": 11,
     "venue_name": "Austin",
     "city": "Dallas",
     "park_factor_runs": 0.993,
     "park_factor_hr": 1.038
   },
-  {
+  "12": {
     "venue_id": 12,
     "venue_name": "Charlotte",
     "city": "Nashville",
     "park_factor_runs": 0.936,
     "park_factor_hr": 1.025
   }
-]
+}

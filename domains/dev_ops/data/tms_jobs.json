@@ -1,5 +1,5 @@
-[
-  {
+{
+  "tms_job_001": {
     "id": "tms_job_001",
     "tms_project_id": "proj_001",
     "job_name": "Game UI Localization - English to Spanish",
@@ -10,20 +10,31 @@
     "completed_at": "2025-01-26T15:00:00Z",
     "total_segments": 1250,
     "completed_segments": 1250,
-    "assigned_translators": ["user_015", "user_016"],
-    "assigned_reviewers": ["user_017"],
+    "assigned_translators": [
+      "user_015",
+      "user_016"
+    ],
+    "assigned_reviewers": [
+      "user_017"
+    ],
     "source_locale": "en",
-    "target_locales": ["es"],
+    "target_locales": [
+      "es"
+    ],
     "priority": "high",
     "due_date": "2025-01-27T00:00:00Z",
     "metadata": {
       "game_version": "1.2.0",
-      "ui_components": ["main_menu", "settings", "inventory"],
+      "ui_components": [
+        "main_menu",
+        "settings",
+        "inventory"
+      ],
       "quality_score": 0.95,
       "glossary_compliance": 0.98
     }
   },
-  {
+  "tms_job_002": {
     "id": "tms_job_002",
     "tms_project_id": "proj_002",
     "job_name": "Character Dialog Translation - English to French",
@@ -34,10 +45,17 @@
     "completed_at": null,
     "total_segments": 890,
     "completed_segments": 445,
-    "assigned_translators": ["user_018", "user_019"],
-    "assigned_reviewers": ["user_020"],
+    "assigned_translators": [
+      "user_018",
+      "user_019"
+    ],
+    "assigned_reviewers": [
+      "user_020"
+    ],
     "source_locale": "en",
-    "target_locales": ["fr"],
+    "target_locales": [
+      "fr"
+    ],
     "priority": "medium",
     "due_date": "2025-01-30T00:00:00Z",
     "metadata": {
@@ -47,7 +65,7 @@
       "context_notes": "Main story dialogue for Act 2"
     }
   },
-  {
+  "tms_job_003": {
     "id": "tms_job_003",
     "tms_project_id": "proj_003",
     "job_name": "Game Tutorial Review - German",
@@ -59,19 +77,28 @@
     "total_segments": 320,
     "completed_segments": 0,
     "assigned_translators": [],
-    "assigned_reviewers": ["user_021", "user_022"],
+    "assigned_reviewers": [
+      "user_021",
+      "user_022"
+    ],
     "source_locale": "en",
-    "target_locales": ["de"],
+    "target_locales": [
+      "de"
+    ],
     "priority": "high",
     "due_date": "2025-01-29T00:00:00Z",
     "metadata": {
       "game_version": "1.1.5",
-      "tutorial_sections": ["basic_movement", "combat", "inventory"],
+      "tutorial_sections": [
+        "basic_movement",
+        "combat",
+        "inventory"
+      ],
       "target_audience": "new_players",
       "style_guide": "formal_gaming"
     }
   },
-  {
+  "tms_job_004": {
     "id": "tms_job_004",
     "tms_project_id": "proj_004",
     "job_name": "issue Messages Translation - Japanese",
@@ -82,20 +109,31 @@
     "completed_at": "2025-01-25T16:00:00Z",
     "total_segments": 156,
     "completed_segments": 156,
-    "assigned_translators": ["user_023"],
-    "assigned_reviewers": ["user_024"],
+    "assigned_translators": [
+      "user_023"
+    ],
+    "assigned_reviewers": [
+      "user_024"
+    ],
     "source_locale": "en",
-    "target_locales": ["ja"],
+    "target_locales": [
+      "ja"
+    ],
     "priority": "urgent",
     "due_date": "2025-01-25T18:00:00Z",
     "metadata": {
       "game_version": "1.0.8",
-      "issue_categories": ["network", "save", "graphics", "audio"],
+      "issue_categories": [
+        "network",
+        "save",
+        "graphics",
+        "audio"
+      ],
       "technical_terms": true,
       "user_friendly": true
     }
   },
-  {
+  "tms_job_005": {
     "id": "tms_job_005",
     "tms_project_id": "proj_005",
     "job_name": "Achievement Names Approval - Italian",
@@ -107,16 +145,25 @@
     "total_segments": 85,
     "completed_segments": 42,
     "assigned_translators": [],
-    "assigned_reviewers": ["user_025"],
+    "assigned_reviewers": [
+      "user_025"
+    ],
     "source_locale": "en",
-    "target_locales": ["it"],
+    "target_locales": [
+      "it"
+    ],
     "priority": "medium",
     "due_date": "2025-01-31T00:00:00Z",
     "metadata": {
       "game_version": "1.4.0",
-      "achievement_types": ["story", "combat", "exploration", "collection"],
+      "achievement_types": [
+        "story",
+        "combat",
+        "exploration",
+        "collection"
+      ],
       "character_limit": 50,
       "brand_consistency": true
     }
   }
-]
+}

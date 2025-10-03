@@ -1,5 +1,5 @@
-[
-  {
+{
+  "dept_eng": {
     "department_id": "dept_eng",
     "department_name": "Engineering",
     "head_id": "emp_head_eng",
@@ -9,7 +9,7 @@
     "employee_count": 20,
     "avg_utilization": 85
   },
-  {
+  "dept_design": {
     "department_id": "dept_design",
     "department_name": "Design",
     "head_id": "emp_head_design",
@@ -19,7 +19,7 @@
     "employee_count": 5,
     "avg_utilization": 70
   },
-  {
+  "dept_qa": {
     "department_id": "dept_qa",
     "department_name": "QA",
     "head_id": "emp_head_qa",
@@ -29,7 +29,7 @@
     "employee_count": 6,
     "avg_utilization": 65
   },
-  {
+  "dept_analytics": {
     "department_id": "dept_analytics",
     "department_name": "Analytics",
     "head_id": "emp_head_analytics",
@@ -39,4 +39,4 @@
     "employee_count": 4,
     "avg_utilization": 75
   }
-]
+}

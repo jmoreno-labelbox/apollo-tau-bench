@@ -1,5 +1,5 @@
-[
-  {
+{
+  "1": {
     "listing_id": 1,
     "property_id": "HTX001",
     "list_price": 1500000,
@@ -10,7 +10,7 @@
     "listed_at": "2025-05-15T05:10:55Z",
     "updated_at": "2025-07-22T05:10:55Z"
   },
-  {
+  "2": {
     "listing_id": 2,
     "property_id": "HTX002",
     "list_price": 3975000,
@@ -21,7 +21,7 @@
     "listed_at": "2025-06-20T05:10:55Z",
     "updated_at": "2025-08-15T05:10:55Z"
   },
-  {
+  "3": {
     "listing_id": 3,
     "property_id": "HTX003",
     "list_price": 591000,
@@ -32,7 +32,7 @@
     "listed_at": "2025-06-09T05:10:55Z",
     "updated_at": "2025-09-12T05:10:55Z"
   },
-  {
+  "4": {
     "listing_id": 4,
     "property_id": "HTX004",
     "list_price": 705900,
@@ -43,7 +43,7 @@
     "listed_at": null,
     "updated_at": null
   },
-  {
+  "5": {
     "listing_id": 5,
     "property_id": "HTX005",
     "list_price": 674900,
@@ -54,7 +54,7 @@
     "listed_at": "2023-05-31T00:00:00Z",
     "updated_at": "2023-11-17T00:00:00Z"
   },
-  {
+  "6": {
     "listing_id": 6,
     "property_id": "HTX006",
     "list_price": 225700,
@@ -65,7 +65,7 @@
     "listed_at": null,
     "updated_at": null
   },
-  {
+  "7": {
     "listing_id": 7,
     "property_id": "HTX007",
     "list_price": 1490000,
@@ -76,7 +76,7 @@
     "listed_at": "2015-04-02T00:00:00Z",
     "updated_at": "2015-11-02T00:00:00Z"
   },
-  {
+  "8": {
     "listing_id": 8,
     "property_id": "HTX008",
     "list_price": 330000,
@@ -87,7 +87,7 @@
     "listed_at": "2024-10-21T00:00:00Z",
     "updated_at": "2024-12-10T00:00:00Z"
   },
-  {
+  "9": {
     "listing_id": 9,
     "property_id": "HTX009",
     "list_price": null,
@@ -98,7 +98,7 @@
     "listed_at": null,
     "updated_at": null
   },
-  {
+  "10": {
     "listing_id": 10,
     "property_id": "HTX010",
     "list_price": 458500,
@@ -109,7 +109,7 @@
     "listed_at": "2023-08-11T00:00:00Z",
     "updated_at": "2023-10-06T00:00:00Z"
   },
-  {
+  "11": {
     "listing_id": 11,
     "property_id": "HTX011",
     "list_price": 495000,
@@ -120,7 +120,7 @@
     "listed_at": "2024-06-12T00:00:00Z",
     "updated_at": "2024-09-03T00:00:00Z"
   },
-  {
+  "12": {
     "listing_id": 12,
     "property_id": "HTX012",
     "list_price": null,
@@ -131,7 +131,7 @@
     "listed_at": null,
     "updated_at": null
   },
-  {
+  "13": {
     "listing_id": 13,
     "property_id": "HTX013",
     "list_price": 1999000,
@@ -142,7 +142,7 @@
     "listed_at": "2022-09-21T00:00:00Z",
     "updated_at": "2023-03-14T00:00:00Z"
   },
-  {
+  "14": {
     "listing_id": 14,
     "property_id": "HTX014",
     "list_price": 485000,
@@ -153,7 +153,7 @@
     "listed_at": "2023-11-15T00:00:00Z",
     "updated_at": "2024-02-09T00:00:00Z"
   },
-  {
+  "15": {
     "listing_id": 15,
     "property_id": "HTX015",
     "list_price": 2499000,
@@ -164,7 +164,7 @@
     "listed_at": "2024-06-15T00:00:00Z",
     "updated_at": "2024-07-20T00:00:00Z"
   },
-  {
+  "16": {
     "listing_id": 16,
     "property_id": "HTX016",
     "list_price": 575000,
@@ -175,7 +175,7 @@
     "listed_at": "2024-05-10T00:00:00Z",
     "updated_at": "2024-07-01T00:00:00Z"
   },
-  {
+  "17": {
     "listing_id": 17,
     "property_id": "HTX017",
     "list_price": 630000,
@@ -186,7 +186,7 @@
     "listed_at": "2024-04-15T00:00:00Z",
     "updated_at": "2024-07-01T00:00:00Z"
   },
-  {
+  "18": {
     "listing_id": 18,
     "property_id": "HTX018",
     "list_price": 4300000,
@@ -197,7 +197,7 @@
     "listed_at": "2024-05-01T00:00:00Z",
     "updated_at": "2024-07-10T00:00:00Z"
   },
-  {
+  "19": {
     "listing_id": 19,
     "property_id": "HTX019",
     "list_price": 1390000,
@@ -208,7 +208,7 @@
     "listed_at": "2023-09-18T00:00:00Z",
     "updated_at": "2024-03-19T00:00:00Z"
   },
-  {
+  "20": {
     "listing_id": 20,
     "property_id": "HTX020",
     "list_price": null,
@@ -219,7 +219,7 @@
     "listed_at": "2024-08-08T00:00:00Z",
     "updated_at": "2024-08-23T00:00:00Z"
   },
-  {
+  "21": {
     "listing_id": 21,
     "property_id": "HTX021",
     "list_price": 874000,
@@ -230,7 +230,7 @@
     "listed_at": "2012-02-27T00:00:00Z",
     "updated_at": "2012-05-30T00:00:00Z"
   },
-  {
+  "22": {
     "listing_id": 22,
     "property_id": "HTX022",
     "list_price": null,
@@ -241,7 +241,7 @@
     "listed_at": null,
     "updated_at": null
   },
-  {
+  "23": {
     "listing_id": 23,
     "property_id": "HTX023",
     "list_price": 420000,
@@ -252,7 +252,7 @@
     "listed_at": "2025-01-15T00:00:00Z",
     "updated_at": "2025-08-20T00:00:00Z"
   },
-  {
+  "24": {
     "listing_id": 24,
     "property_id": "HTX024",
     "list_price": 475000,
@@ -263,7 +263,7 @@
     "listed_at": "2019-04-22T00:00:00Z",
     "updated_at": "2019-08-15T00:00:00Z"
   },
-  {
+  "25": {
     "listing_id": 25,
     "property_id": "HTX025",
     "list_price": 425000,
@@ -274,7 +274,7 @@
     "listed_at": "2025-07-07T00:00:00Z",
     "updated_at": "2025-08-17T15:08:00Z"
   },
-  {
+  "26": {
     "listing_id": 26,
     "property_id": "HTX026",
     "list_price": 601000,
@@ -285,7 +285,7 @@
     "listed_at": "2024-06-17T05:10:55Z",
     "updated_at": "2024-12-04T05:10:55Z"
   },
-  {
+  "27": {
     "listing_id": 27,
     "property_id": "HTX027",
     "list_price": 341000,
@@ -296,7 +296,7 @@
     "listed_at": "2025-07-26T05:10:55Z",
     "updated_at": "2026-01-24T05:10:55Z"
   },
-  {
+  "28": {
     "listing_id": 28,
     "property_id": "HTX028",
     "list_price": 319000,
@@ -307,7 +307,7 @@
     "listed_at": "2025-03-07T05:10:55Z",
     "updated_at": "2025-08-09T05:10:55Z"
   },
-  {
+  "29": {
     "listing_id": 29,
     "property_id": "HTX029",
     "list_price": 750000,
@@ -318,7 +318,7 @@
     "listed_at": "2024-03-07T05:10:55Z",
     "updated_at": "2024-10-23T05:10:55Z"
   },
-  {
+  "30": {
     "listing_id": 30,
     "property_id": "HTX030",
     "list_price": 824000,
@@ -329,7 +329,7 @@
     "listed_at": "2025-06-28T05:10:55Z",
     "updated_at": "2025-08-07T05:10:55Z"
   },
-  {
+  "31": {
     "listing_id": 31,
     "property_id": "HTX031",
     "list_price": 303000,
@@ -340,7 +340,7 @@
     "listed_at": "2024-01-26T05:10:55Z",
     "updated_at": "2024-06-24T05:10:55Z"
   },
-  {
+  "32": {
     "listing_id": 32,
     "property_id": "HTX032",
     "list_price": 579000,
@@ -351,7 +351,7 @@
     "listed_at": "2024-02-21T05:10:55Z",
     "updated_at": "2024-05-13T05:10:55Z"
   },
-  {
+  "33": {
     "listing_id": 33,
     "property_id": "HTX033",
     "list_price": 725000,
@@ -362,7 +362,7 @@
     "listed_at": "2023-10-27T05:10:55Z",
     "updated_at": "2024-05-22T05:10:55Z"
   },
-  {
+  "34": {
     "listing_id": 34,
     "property_id": "HTX034",
     "list_price": 568000,
@@ -373,7 +373,7 @@
     "listed_at": "2024-04-16T05:10:55Z",
     "updated_at": "2024-04-18T05:10:55Z"
   },
-  {
+  "35": {
     "listing_id": 35,
     "property_id": "HTX035",
     "list_price": 327000,
@@ -384,7 +384,7 @@
     "listed_at": "2024-01-08T05:10:55Z",
     "updated_at": "2024-08-21T05:10:55Z"
   },
-  {
+  "36": {
     "listing_id": 36,
     "property_id": "HTX036",
     "list_price": 405000,
@@ -395,7 +395,7 @@
     "listed_at": "2024-12-31T05:10:55Z",
     "updated_at": "2025-05-11T05:10:55Z"
   },
-  {
+  "37": {
     "listing_id": 37,
     "property_id": "HTX037",
     "list_price": 286000,
@@ -406,7 +406,7 @@
     "listed_at": "2024-01-19T05:10:55Z",
     "updated_at": "2024-04-10T05:10:55Z"
   },
-  {
+  "38": {
     "listing_id": 38,
     "property_id": "HTX038",
     "list_price": 352000,
@@ -417,7 +417,7 @@
     "listed_at": "2024-06-11T05:10:55Z",
     "updated_at": "2024-11-01T05:10:55Z"
   },
-  {
+  "39": {
     "listing_id": 39,
     "property_id": "HTX039",
     "list_price": 405000,
@@ -428,7 +428,7 @@
     "listed_at": "2024-06-26T05:10:55Z",
     "updated_at": "2025-02-08T05:10:55Z"
   },
-  {
+  "40": {
     "listing_id": 40,
     "property_id": "HTX040",
     "list_price": 228000,
@@ -439,7 +439,7 @@
     "listed_at": "2025-02-03T05:10:55Z",
     "updated_at": "2025-08-01T05:10:55Z"
   },
-  {
+  "41": {
     "listing_id": 41,
     "property_id": "HTX041",
     "list_price": 659000,
@@ -450,7 +450,7 @@
     "listed_at": "2024-10-29T05:10:55Z",
     "updated_at": "2025-01-13T05:10:55Z"
   },
-  {
+  "42": {
     "listing_id": 42,
     "property_id": "HTX042",
     "list_price": 661000,
@@ -461,7 +461,7 @@
     "listed_at": "2024-11-14T05:10:55Z",
     "updated_at": "2025-06-14T05:10:55Z"
   },
-  {
+  "43": {
     "listing_id": 43,
     "property_id": "HTX043",
     "list_price": 374000,
@@ -472,7 +472,7 @@
     "listed_at": "2024-10-24T05:10:55Z",
     "updated_at": "2025-06-02T05:10:55Z"
   },
-  {
+  "44": {
     "listing_id": 44,
     "property_id": "HTX044",
     "list_price": 339900,
@@ -483,7 +483,7 @@
     "listed_at": "2020-11-21T00:00:00Z",
     "updated_at": "2021-01-15T00:00:00Z"
   },
-  {
+  "45": {
     "listing_id": 45,
     "property_id": "HTX045",
     "list_price": 384900,
@@ -494,7 +494,7 @@
     "listed_at": "2021-02-01T00:00:00Z",
     "updated_at": "2021-04-15T00:00:00Z"
   },
-  {
+  "46": {
     "listing_id": 46,
     "property_id": "HTX046",
     "list_price": 529000,
@@ -505,7 +505,7 @@
     "listed_at": "2019-05-20T00:00:00Z",
     "updated_at": "2019-08-15T00:00:00Z"
   },
-  {
+  "47": {
     "listing_id": 47,
     "property_id": "HTX047",
     "list_price": 4275000,
@@ -516,7 +516,7 @@
     "listed_at": "2021-02-15T00:00:00Z",
     "updated_at": "2021-06-30T00:00:00Z"
   },
-  {
+  "48": {
     "listing_id": 48,
     "property_id": "HTX048",
     "list_price": 384000,
@@ -527,7 +527,7 @@
     "listed_at": "2019-04-10T00:00:00Z",
     "updated_at": "2019-09-01T00:00:00Z"
   },
-  {
+  "49": {
     "listing_id": 49,
     "property_id": "HTX049",
     "list_price": 479900,
@@ -538,7 +538,7 @@
     "listed_at": "2019-03-15T00:00:00Z",
     "updated_at": "2019-07-01T00:00:00Z"
   },
-  {
+  "50": {
     "listing_id": 50,
     "property_id": "HTX050",
     "list_price": 1549000,
@@ -549,4 +549,4 @@
     "listed_at": "2018-07-20T00:00:00Z",
     "updated_at": "2019-03-01T00:00:00Z"
   }
-]
+}

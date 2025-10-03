@@ -1,5 +1,5 @@
-[
-  {
+{
+  "subtitle_001": {
     "id": "subtitle_001",
     "string_key": "vo.hero.intro_01",
     "context": "Hero character introduction voice-over line 1",
@@ -51,7 +51,7 @@
       "priority": "high"
     }
   },
-  {
+  "subtitle_002": {
     "id": "subtitle_002",
     "string_key": "vo.hero.intro_01",
     "context": "Hero character introduction voice-over line 1 - German",
@@ -103,7 +103,7 @@
       "priority": "high"
     }
   },
-  {
+  "subtitle_003": {
     "id": "subtitle_003",
     "string_key": "vo.hero.intro_02",
     "context": "Hero character introduction voice-over line 2",
@@ -155,7 +155,7 @@
       "priority": "high"
     }
   },
-  {
+  "subtitle_004": {
     "id": "subtitle_004",
     "string_key": "vo.hero.intro_02",
     "context": "Hero character introduction voice-over line 2 - French",
@@ -207,7 +207,7 @@
       "priority": "high"
     }
   },
-  {
+  "subtitle_005": {
     "id": "subtitle_005",
     "string_key": "vo.villain.threat_01",
     "context": "Villain character threat voice-over line 1",
@@ -259,7 +259,7 @@
       "priority": "high"
     }
   },
-  {
+  "subtitle_006": {
     "id": "subtitle_006",
     "string_key": "vo.villain.threat_01",
     "context": "Villain character threat voice-over line 1 - Japanese",
@@ -311,7 +311,7 @@
       "priority": "high"
     }
   },
-  {
+  "subtitle_007": {
     "id": "subtitle_007",
     "string_key": "vo.npc.quest_01",
     "context": "NPC quest giver voice-over line 1",
@@ -363,7 +363,7 @@
       "priority": "medium"
     }
   },
-  {
+  "subtitle_008": {
     "id": "subtitle_008",
     "string_key": "vo.npc.quest_01",
     "context": "NPC quest giver voice-over line 1 - Spanish",
@@ -415,7 +415,7 @@
       "priority": "medium"
     }
   },
-  {
+  "subtitle_009": {
     "id": "subtitle_009",
     "string_key": "vo.ui.menu_select",
     "context": "UI menu selection voice-over",
@@ -467,7 +467,7 @@
       "priority": "low"
     }
   },
-  {
+  "subtitle_010": {
     "id": "subtitle_010",
     "string_key": "vo.ui.menu_select",
     "context": "UI menu selection voice-over - Chinese",
@@ -519,4 +519,4 @@
       "priority": "low"
     }
   }
-]
+}

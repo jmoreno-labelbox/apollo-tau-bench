@@ -1,5 +1,5 @@
-[
-  {
+{
+  "#SO9359": {
     "supply_order_id": "#SO9359",
     "supplier_id": "#SUP0001",
     "product_id": "9523456873",
@@ -10,7 +10,7 @@
     "unit_cost": 33.48,
     "total_cost": 3080.16
   },
-  {
+  "#SO5813": {
     "supply_order_id": "#SO5813",
     "supplier_id": "#SUP0002",
     "product_id": "4760268021",
@@ -21,7 +21,7 @@
     "unit_cost": 1140.45,
     "total_cost": 114045.0
   },
-  {
+  "#SO3933": {
     "supply_order_id": "#SO3933",
     "supplier_id": "#SUP0006",
     "product_id": "6938111410",
@@ -32,7 +32,7 @@
     "unit_cost": 111.48,
     "total_cost": 9252.84
   },
-  {
+  "#SO2516": {
     "supply_order_id": "#SO2516",
     "supplier_id": "#SUP0005",
     "product_id": "2524789262",
@@ -43,7 +43,7 @@
     "unit_cost": 129.81,
     "total_cost": 1427.91
   },
-  {
+  "#SO7642": {
     "supply_order_id": "#SO7642",
     "supplier_id": "#SUP0009",
     "product_id": "7996920482",
@@ -54,7 +54,7 @@
     "unit_cost": 182.93,
     "total_cost": 10975.8
   },
-  {
+  "#SO1037": {
     "supply_order_id": "#SO1037",
     "supplier_id": "#SUP0008",
     "product_id": "6817146515",
@@ -65,7 +65,7 @@
     "unit_cost": 98.66,
     "total_cost": 493.3
   },
-  {
+  "#SO6035": {
     "supply_order_id": "#SO6035",
     "supplier_id": "#SUP0002",
     "product_id": "2892623495",
@@ -76,7 +76,7 @@
     "unit_cost": 16.19,
     "total_cost": 1521.86
   },
-  {
+  "#SO5722": {
     "supply_order_id": "#SO5722",
     "supplier_id": "#SUP0007",
     "product_id": "6066914160",
@@ -87,7 +87,7 @@
     "unit_cost": 1394.43,
     "total_cost": 23705.31
   },
-  {
+  "#SO5936": {
     "supply_order_id": "#SO5936",
     "supplier_id": "#SUP0011",
     "product_id": "7352963235",
@@ -98,7 +98,7 @@
     "unit_cost": 130.37,
     "total_cost": 6909.61
   },
-  {
+  "#SO9695": {
     "supply_order_id": "#SO9695",
     "supplier_id": "#SUP0004",
     "product_id": "4635925001",
@@ -109,7 +109,7 @@
     "unit_cost": 57.34,
     "total_cost": 5389.96
   },
-  {
+  "#SO6998": {
     "supply_order_id": "#SO6998",
     "supplier_id": "#SUP0011",
     "product_id": "3377618313",
@@ -120,7 +120,7 @@
     "unit_cost": 324.78,
     "total_cost": 27281.52
   },
-  {
+  "#SO5916": {
     "supply_order_id": "#SO5916",
     "supplier_id": "#SUP0008",
     "product_id": "6679515468",
@@ -131,7 +131,7 @@
     "unit_cost": 63.6,
     "total_cost": 4197.6
   },
-  {
+  "#SO7422": {
     "supply_order_id": "#SO7422",
     "supplier_id": "#SUP0003",
     "product_id": "8024098596",
@@ -142,7 +142,7 @@
     "unit_cost": 698.98,
     "total_cost": 11882.66
   },
-  {
+  "#SO5897": {
     "supply_order_id": "#SO5897",
     "supplier_id": "#SUP0009",
     "product_id": "1075968781",
@@ -153,7 +153,7 @@
     "unit_cost": 90.56,
     "total_cost": 7335.36
   },
-  {
+  "#SO8260": {
     "supply_order_id": "#SO8260",
     "supplier_id": "#SUP0004",
     "product_id": "9924732112",
@@ -164,7 +164,7 @@
     "unit_cost": 141.7,
     "total_cost": 2975.7
   },
-  {
+  "#SO7279": {
     "supply_order_id": "#SO7279",
     "supplier_id": "#SUP0001",
     "product_id": "4896585277",
@@ -175,7 +175,7 @@
     "unit_cost": 115.7,
     "total_cost": 8793.2
   },
-  {
+  "#SO7147": {
     "supply_order_id": "#SO7147",
     "supplier_id": "#SUP0012",
     "product_id": "8560156827",
@@ -186,7 +186,7 @@
     "unit_cost": 73.8,
     "total_cost": 1918.8
   },
-  {
+  "#SO2377": {
     "supply_order_id": "#SO2377",
     "supplier_id": "#SUP0011",
     "product_id": "2344688344",
@@ -197,7 +197,7 @@
     "unit_cost": 152.67,
     "total_cost": 5648.79
   },
-  {
+  "#SO5398": {
     "supply_order_id": "#SO5398",
     "supplier_id": "#SUP0011",
     "product_id": "2747247837",
@@ -208,7 +208,7 @@
     "unit_cost": 162.38,
     "total_cost": 4384.26
   },
-  {
+  "#SO1273": {
     "supply_order_id": "#SO1273",
     "supplier_id": "#SUP0009",
     "product_id": "4354588079",
@@ -219,7 +219,7 @@
     "unit_cost": 1699.4,
     "total_cost": 5098.2
   },
-  {
+  "#SO5817": {
     "supply_order_id": "#SO5817",
     "supplier_id": "#SUP0010",
     "product_id": "7765186836",
@@ -230,7 +230,7 @@
     "unit_cost": 109.11,
     "total_cost": 1636.65
   },
-  {
+  "#SO5771": {
     "supply_order_id": "#SO5771",
     "supplier_id": "#SUP0008",
     "product_id": "2696197613",
@@ -241,7 +241,7 @@
     "unit_cost": 38.11,
     "total_cost": 1638.73
   },
-  {
+  "#SO6503": {
     "supply_order_id": "#SO6503",
     "supplier_id": "#SUP0001",
     "product_id": "8940227892",
@@ -252,7 +252,7 @@
     "unit_cost": 1639.64,
     "total_cost": 57387.4
   },
-  {
+  "#SO4238": {
     "supply_order_id": "#SO4238",
     "supplier_id": "#SUP0007",
     "product_id": "8600330539",
@@ -263,7 +263,7 @@
     "unit_cost": 337.0,
     "total_cost": 30667.0
   },
-  {
+  "#SO5244": {
     "supply_order_id": "#SO5244",
     "supplier_id": "#SUP0005",
     "product_id": "9783735446",
@@ -274,7 +274,7 @@
     "unit_cost": 932.73,
     "total_cost": 32645.55
   },
-  {
+  "#SO5993": {
     "supply_order_id": "#SO5993",
     "supplier_id": "#SUP0003",
     "product_id": "7471004230",
@@ -285,7 +285,7 @@
     "unit_cost": 146.37,
     "total_cost": 1170.96
   },
-  {
+  "#SO3880": {
     "supply_order_id": "#SO3880",
     "supplier_id": "#SUP0002",
     "product_id": "4794339885",
@@ -296,7 +296,7 @@
     "unit_cost": 263.39,
     "total_cost": 12115.94
   },
-  {
+  "#SO9426": {
     "supply_order_id": "#SO9426",
     "supplier_id": "#SUP0004",
     "product_id": "5426915165",
@@ -307,7 +307,7 @@
     "unit_cost": 359.61,
     "total_cost": 32364.9
   },
-  {
+  "#SO6372": {
     "supply_order_id": "#SO6372",
     "supplier_id": "#SUP0006",
     "product_id": "9743693396",
@@ -318,7 +318,7 @@
     "unit_cost": 222.6,
     "total_cost": 12910.8
   },
-  {
+  "#SO2749": {
     "supply_order_id": "#SO2749",
     "supplier_id": "#SUP0005",
     "product_id": "5149340237",
@@ -329,7 +329,7 @@
     "unit_cost": 119.85,
     "total_cost": 10067.4
   },
-  {
+  "#SO6767": {
     "supply_order_id": "#SO6767",
     "supplier_id": "#SUP0005",
     "product_id": "1968349452",
@@ -340,7 +340,7 @@
     "unit_cost": 124.56,
     "total_cost": 4857.84
   },
-  {
+  "#SO4853": {
     "supply_order_id": "#SO4853",
     "supplier_id": "#SUP0007",
     "product_id": "6819683148",
@@ -351,7 +351,7 @@
     "unit_cost": 631.32,
     "total_cost": 21464.88
   },
-  {
+  "#SO7984": {
     "supply_order_id": "#SO7984",
     "supplier_id": "#SUP0007",
     "product_id": "6992792935",
@@ -362,7 +362,7 @@
     "unit_cost": 174.96,
     "total_cost": 3149.28
   },
-  {
+  "#SO7848": {
     "supply_order_id": "#SO7848",
     "supplier_id": "#SUP0002",
     "product_id": "6858788497",
@@ -373,4 +373,4 @@
     "unit_cost": 168.17,
     "total_cost": 4708.76
   }
-]
+}

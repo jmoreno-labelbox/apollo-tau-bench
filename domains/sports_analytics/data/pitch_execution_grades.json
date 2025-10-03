@@ -1,5 +1,5 @@
-[
-  {
+{
+  "1": {
     "grade_id": 1,
     "pitch_id": 36,
     "game_pk": 2024000008,
@@ -8,7 +8,7 @@
     "miss_distance_inches": 9.51,
     "execution_grade": "D"
   },
-  {
+  "2": {
     "grade_id": 2,
     "pitch_id": 15,
     "game_pk": 2024000007,
@@ -17,7 +17,7 @@
     "miss_distance_inches": 6.24,
     "execution_grade": "D"
   },
-  {
+  "3": {
     "grade_id": 3,
     "pitch_id": 2,
     "game_pk": 2024000007,
@@ -26,7 +26,7 @@
     "miss_distance_inches": 5.37,
     "execution_grade": "A"
   },
-  {
+  "4": {
     "grade_id": 4,
     "pitch_id": 53,
     "game_pk": 2024000008,
@@ -35,7 +35,7 @@
     "miss_distance_inches": 2.93,
     "execution_grade": "A"
   },
-  {
+  "5": {
     "grade_id": 5,
     "pitch_id": 60,
     "game_pk": 2024000008,
@@ -44,7 +44,7 @@
     "miss_distance_inches": 10.45,
     "execution_grade": "F"
   },
-  {
+  "6": {
     "grade_id": 6,
     "pitch_id": 21,
     "game_pk": 2024000007,
@@ -53,7 +53,7 @@
     "miss_distance_inches": 6.6,
     "execution_grade": "C"
   },
-  {
+  "7": {
     "grade_id": 7,
     "pitch_id": 45,
     "game_pk": 2024000008,
@@ -62,7 +62,7 @@
     "miss_distance_inches": 4.01,
     "execution_grade": "B"
   },
-  {
+  "8": {
     "grade_id": 8,
     "pitch_id": 19,
     "game_pk": 2024000007,
@@ -71,7 +71,7 @@
     "miss_distance_inches": 5.3,
     "execution_grade": "C"
   },
-  {
+  "9": {
     "grade_id": 9,
     "pitch_id": 41,
     "game_pk": 2024000008,
@@ -80,7 +80,7 @@
     "miss_distance_inches": 6.99,
     "execution_grade": "C"
   },
-  {
+  "10": {
     "grade_id": 10,
     "pitch_id": 30,
     "game_pk": 2024000008,
@@ -89,7 +89,7 @@
     "miss_distance_inches": 3.96,
     "execution_grade": "C+"
   },
-  {
+  "11": {
     "grade_id": 11,
     "pitch_id": 5,
     "game_pk": 2024000007,
@@ -98,7 +98,7 @@
     "miss_distance_inches": 0.46,
     "execution_grade": "A+"
   },
-  {
+  "12": {
     "grade_id": 12,
     "pitch_id": 32,
     "game_pk": 2024000008,
@@ -107,7 +107,7 @@
     "miss_distance_inches": 2.91,
     "execution_grade": "F"
   },
-  {
+  "13": {
     "grade_id": 13,
     "pitch_id": 33,
     "game_pk": 2024000008,
@@ -116,7 +116,7 @@
     "miss_distance_inches": 6.56,
     "execution_grade": "B-"
   },
-  {
+  "14": {
     "grade_id": 14,
     "pitch_id": 28,
     "game_pk": 2024000008,
@@ -125,7 +125,7 @@
     "miss_distance_inches": 1.13,
     "execution_grade": "B-"
   },
-  {
+  "15": {
     "grade_id": 15,
     "pitch_id": 12,
     "game_pk": 2024000007,
@@ -134,4 +134,4 @@
     "miss_distance_inches": 0.66,
     "execution_grade": "B-"
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "['/raw_data/', '/processed_data/', '/models/', '/reports/', '/notebooks/', '/figures/', '/artifacts/', '/data/raw/weather_sf_20240315.json', '/data/raw/weather_miami_20240201.json', '/data/raw/noaa_stations_sf.json', '/data/raw/noaa_stations_miami.json', '/data/raw/geocoding_sf.json', '/data/raw/geocoding_miami.json', '/data/raw/geocoding_charleston.json', '/data/raw/tide_pred_9414290.json', '/data/raw/tide_pred_8723214.json', '/data/raw/water_levels_9414290.json', '/data/raw/water_levels_8723214.json', '/data/raw/coastal_met_9414290.json', '/data/raw/coastal_met_8723214.json', '/data/splits/sf_time_split_20240317.json', '/data/splits/miami_time_split_20240202.json', '/data/splits/charleston_time_split_20240305.json', '/data/processed/timeseries_sf_weather.csv', '/processed_data/merged_timeseries.csv', '/processed_data/features.csv', '/processed_data/model_config.json', '/processed_data/split_summary.json', '/models/simple_model.joblib', '/processed_data/predictions_simple.csv', '/processed_data/metrics_simple.csv', '/figures/risk_timeseries_simple.png', '/processed_data/predictions_final.csv', '/processed_data/metrics_summary.csv', '/artifacts/sf_run_artifacts.zip', '/figures/precip_vs_tide.png', '/figures/water_level_vs_pressure.png', '/src/data_collection/weather_api.py', '/src/models/flood_risk_model.py', '/config/model_config.json', '/results/predictions_sf_march.csv', '/docs/project_report.md', '/notebooks/exploratory_analysis.ipynb', '/data/external/zotero_papers/flood_risk_2023.pdf', '/data/external/zotero_papers/zhang_2023_coastal_flood_ml.pdf', '/data/external/zotero_papers/johnson_2024_weather_tidal_integration.pdf', '/data/external/zotero_papers/lee_2023_iot_flood_warning.pdf', '/data/external/zotero_papers/peterson_2022_noaa_analysis.pdf', '/data/external/zotero_papers/adams_2021_east_coast_trends.pdf', '/models/flood_risk_sf_v1.pkl', '/models/flood_risk_miami_v1.pkl', '/models/flood_risk_sf_v2.pkl', '/results/predictions_sf_v1.csv', '/results/predictions_sf_v2.csv', '/results/predictions_miami_v1.csv', '/results/metrics_sf_v1.csv', '/results/metrics_sf_v2.csv', '/results/metrics_miami_v1.csv', '/data/processed/predictions_boston.csv', '/processed_data/metrics_boston.csv', '/data/processed/features_miami.csv', '/data/processed/features_charleston.csv', '/data/processed/features_boston.csv', '/data/processed/features_seattle.csv', '/data/processed/timeseries_miami_weather.csv', '/data/processed/timeseries_boston_weather.csv', '/data/processed/timeseries_seattle_weather.csv']": {
     "paths": [
       "/raw_data/",
       "/processed_data/",
@@ -420,7 +420,7 @@
       "2024-02-01T15:25:00Z"
     ]
   },
-  {
+  "['/raw_data/', '/processed_data/', '/models/', '/reports/', '/notebooks/']": {
     "paths": [
       "/raw_data/",
       "/processed_data/",
@@ -464,7 +464,7 @@
       "2024-01-15T10:00:00Z"
     ]
   },
-  {
+  "['/data/raw/weather_boston_20240301.json', '/data/raw/coastal_met_8443970.json', '/processed_data/boston_features.csv', '/models/boston_harbor_model.joblib', '/reports/boston_analysis.pdf', '/notebooks/boston_eda.ipynb', '/figures/boston_ice_correlation.png']": {
     "paths": [
       "/data/raw/weather_boston_20240301.json",
       "/data/raw/coastal_met_8443970.json",
@@ -520,7 +520,7 @@
       "2024-03-01T13:45:00Z"
     ]
   },
-  {
+  "['/data/raw/weather_seattle_20240201.json', '/data/raw/coastal_met_9447130.json', '/processed_data/seattle_features.csv', '/models/seattle_flood_model.pkl', '/deliverables/seattle_predictions.csv', '/figures/seattle_wave_analysis.png']": {
     "paths": [
       "/data/raw/weather_seattle_20240201.json",
       "/data/raw/coastal_met_9447130.json",
@@ -570,7 +570,7 @@
       "2024-02-01T16:10:00Z"
     ]
   },
-  {
+  "['/literature/papers_collection/', '/literature/metadata_climate_ml_20240305.json', '/literature/metadata_ice_harbor_20240301.json', '/literature/metadata_puget_sound_20240201.json', '/data/external/zotero_papers/garcia_2022_ml_environmental.pdf', '/data/external/zotero_papers/obrien_2019_boston_harbor_ice.pdf', '/data/external/zotero_papers/williams_2020_puget_sound_waves.pdf']": {
     "paths": [
       "/literature/papers_collection/",
       "/literature/metadata_climate_ml_20240305.json",
@@ -626,4 +626,4 @@
       "2024-02-01T14:00:00Z"
     ]
   }
-]
+}

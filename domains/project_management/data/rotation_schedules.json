@@ -1,5 +1,5 @@
-[
-  {
+{
+  "rot_001": {
     "rotation_id": "rot_001",
     "employee_id": "emp_dev_13",
     "from_project": "proj_legacy_01",
@@ -8,4 +8,4 @@
     "duration_weeks": 12,
     "status": "planned"
   }
-]
+}

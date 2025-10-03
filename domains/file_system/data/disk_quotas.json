@@ -1,5 +1,5 @@
-[
-  {
+{
+  "srv_001": {
     "server_id": "srv_001",
     "hostname": "server-prod-01.company.com",
     "filesystem_quotas": [
@@ -41,7 +41,7 @@
       }
     ]
   },
-  {
+  "srv_002": {
     "server_id": "srv_002",
     "hostname": "server-data-01.company.com",
     "filesystem_quotas": [
@@ -79,7 +79,7 @@
       }
     ]
   },
-  {
+  "srv_005": {
     "server_id": "srv_005",
     "hostname": "backup-server.company.com",
     "filesystem_quotas": [
@@ -99,7 +99,7 @@
       }
     ]
   },
-  {
+  "srv_006": {
     "server_id": "srv_006",
     "hostname": "storage-01.company.com",
     "filesystem_quotas": [
@@ -120,4 +120,4 @@
       }
     ]
   }
-]
+}

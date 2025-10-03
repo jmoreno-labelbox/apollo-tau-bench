@@ -1,5 +1,5 @@
-[
-  {
+{
+  "EXT001": {
     "candidate_id": "EXT001",
     "name": "Robert Thompson",
     "current_role": "Data Scientist",
@@ -53,7 +53,7 @@
     "last_contact": "2024-09-16",
     "notes": "Strong technical background, excellent ML skills. Top candidate for Senior Data Scientist role."
   },
-  {
+  "EXT002": {
     "candidate_id": "EXT002",
     "name": "Lucas Young",
     "current_role": "Data Engineer",
@@ -105,7 +105,7 @@
     "last_contact": "2024-09-17",
     "notes": "Good technical skills but needs ML development. Consider for data engineering role."
   },
-  {
+  "EXT003": {
     "candidate_id": "EXT003",
     "name": "Henry Hassan",
     "current_role": "UX Designer",
@@ -157,7 +157,7 @@
     "last_contact": "2024-09-18",
     "notes": "Excellent design skills and portfolio. Strong candidate for UX Design Lead role."
   },
-  {
+  "EXT004": {
     "candidate_id": "EXT004",
     "name": "Lisa Wang",
     "current_role": "DevOps Engineer",
@@ -210,7 +210,7 @@
     "last_contact": "2024-09-12",
     "notes": "Overqualified for current role. Consider for senior position or SRE role."
   },
-  {
+  "EXT005": {
     "candidate_id": "EXT005",
     "name": "David Adams",
     "current_role": "Product Marketing Manager",
@@ -262,7 +262,7 @@
     "last_contact": "2024-09-13",
     "notes": "Strong product marketing background. Good fit for the role."
   },
-  {
+  "EXT006": {
     "candidate_id": "EXT006",
     "name": "Harper King",
     "current_role": "Security Engineer",
@@ -315,4 +315,4 @@
     "last_contact": "2024-09-19",
     "notes": "Perfect fit for cloud security role. Strong technical and compliance background."
   }
-]
+}

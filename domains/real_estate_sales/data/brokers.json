@@ -1,5 +1,5 @@
-[
-  {
+{
+  "1": {
     "broker_id": 1,
     "name": "Ryan Thompson",
     "email": "matthewgallegos@harper-smith.org",
@@ -8,7 +8,7 @@
     "calendar_uri": "http://www.davidson-lee.org/",
     "active": true
   },
-  {
+  "2": {
     "broker_id": 2,
     "name": "David Martinez",
     "email": "lhunt@webmail.com",
@@ -17,7 +17,7 @@
     "calendar_uri": "http://mitchell-garcia.com/",
     "active": true
   },
-  {
+  "3": {
     "broker_id": 3,
     "name": "Emily Rodriguez",
     "email": "myersjesse@cooper-johnson.com",
@@ -26,7 +26,7 @@
     "calendar_uri": "http://www.harrison.com/",
     "active": true
   },
-  {
+  "4": {
     "broker_id": 4,
     "name": "Michael Anderson",
     "email": "weissdavid@anderson-martinez.com",
@@ -35,7 +35,7 @@
     "calendar_uri": "https://rodriguez.net/",
     "active": true
   },
-  {
+  "5": {
     "broker_id": 5,
     "name": "Christopher Davis",
     "email": "michaelburns@martinez.com",
@@ -44,7 +44,7 @@
     "calendar_uri": "http://www.jackson.com/",
     "active": false
   },
-  {
+  "6": {
     "broker_id": 6,
     "name": "Sophia Wilson",
     "email": "alyssawheeler@emailpro.com",
@@ -53,7 +53,7 @@
     "calendar_uri": "http://thompson.com/",
     "active": true
   },
-  {
+  "7": {
     "broker_id": 7,
     "name": "Nicholas Taylor",
     "email": "crystalfernandez@nelson.com",
@@ -62,7 +62,7 @@
     "calendar_uri": "http://www.walker-taylor.info/",
     "active": false
   },
-  {
+  "8": {
     "broker_id": 8,
     "name": "Alexander Brown",
     "email": "raymondwelch@hernandez.org",
@@ -71,7 +71,7 @@
     "calendar_uri": "https://www.davis-lopez.com/",
     "active": true
   },
-  {
+  "9": {
     "broker_id": 9,
     "name": "Daniel Johnson",
     "email": "grose@wilson-clark.com",
@@ -80,7 +80,7 @@
     "calendar_uri": "https://www.mitchell.info/",
     "active": true
   },
-  {
+  "10": {
     "broker_id": 10,
     "name": "Nicholas Harris",
     "email": "dennispark@williams.org",
@@ -89,7 +89,7 @@
     "calendar_uri": "http://murphy.com/",
     "active": true
   },
-  {
+  "11": {
     "broker_id": 11,
     "name": "Matthew Clark",
     "email": "kennedylawrence@evans.net",
@@ -98,7 +98,7 @@
     "calendar_uri": "https://www.campbell.biz/",
     "active": true
   },
-  {
+  "12": {
     "broker_id": 12,
     "name": "Olivia Lopez",
     "email": "reynoldssarah@webmail.com",
@@ -107,7 +107,7 @@
     "calendar_uri": "https://miller-brown.com/",
     "active": true
   },
-  {
+  "13": {
     "broker_id": 13,
     "name": "Victoria Lewis",
     "email": "koneal@garcia-wilson.info",
@@ -116,7 +116,7 @@
     "calendar_uri": "http://thompson-davis.com/",
     "active": true
   },
-  {
+  "14": {
     "broker_id": 14,
     "name": "Isabella Mitchell",
     "email": "johnsonnathan@webmail.net",
@@ -125,7 +125,7 @@
     "calendar_uri": "http://peters.com/",
     "active": false
   },
-  {
+  "15": {
     "broker_id": 15,
     "name": "William Garcia",
     "email": "lindsayturner@webmail.com",
@@ -134,4 +134,4 @@
     "calendar_uri": "http://anderson-clark.com/",
     "active": true
   }
-]
+}

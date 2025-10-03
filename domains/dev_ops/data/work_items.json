@@ -1,5 +1,5 @@
-[
-  {
+{
+  "work_001": {
     "id": "work_001",
     "project_id": "proj_001",
     "type": "story",
@@ -13,9 +13,17 @@
     "metadata": {
       "epic": "engine-core",
       "sprint": "sprint-2025-01",
-      "components": ["rendering", "graphics", "performance"],
+      "components": [
+        "rendering",
+        "graphics",
+        "performance"
+      ],
       "game_feature": "real_time_rendering",
-      "target_platforms": ["PC", "PS5", "Xbox Series X"],
+      "target_platforms": [
+        "PC",
+        "PS5",
+        "Xbox Series X"
+      ],
       "technical_requirements": {
         "fps_target": 60,
         "resolution": "4K",
@@ -23,7 +31,7 @@
       }
     }
   },
-  {
+  "work_002": {
     "id": "work_002",
     "project_id": "proj_001",
     "type": "bug",
@@ -37,10 +45,16 @@
     "metadata": {
       "severity": "high",
       "environment": "development",
-      "components": ["rendering", "memory_management"],
+      "components": [
+        "rendering",
+        "memory_management"
+      ],
       "game_feature": "real_time_rendering",
       "bug_type": "memory_leak",
-      "affected_platforms": ["PC", "PS5"],
+      "affected_platforms": [
+        "PC",
+        "PS5"
+      ],
       "performance_impact": "fps_drop_30_percent",
       "reproduction_steps": [
         "Load high-polygon scene",
@@ -49,7 +63,7 @@
       ]
     }
   },
-  {
+  "work_003": {
     "id": "work_003",
     "project_id": "proj_002",
     "type": "story",
@@ -63,10 +77,23 @@
     "metadata": {
       "epic": "build-automation",
       "sprint": "sprint-2025-01",
-      "components": ["ci_cd", "asset_compilation", "shader_optimization"],
+      "components": [
+        "ci_cd",
+        "asset_compilation",
+        "shader_optimization"
+      ],
       "game_feature": "automated_builds",
-      "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch"],
-      "build_tools": ["Unreal Engine", "Unity", "Custom Scripts"],
+      "target_platforms": [
+        "PC",
+        "PS5",
+        "Xbox Series X",
+        "Nintendo Switch"
+      ],
+      "build_tools": [
+        "Unreal Engine",
+        "Unity",
+        "Custom Scripts"
+      ],
       "automation_features": [
         "asset_compilation",
         "shader_optimization",
@@ -75,7 +102,7 @@
       ]
     }
   },
-  {
+  "work_004": {
     "id": "work_004",
     "project_id": "proj_003",
     "type": "epic",
@@ -89,9 +116,21 @@
     "metadata": {
       "epic": "cross-platform-infrastructure",
       "sprint": "sprint-2025-01",
-      "components": ["multi_platform", "cloud_save", "multiplayer", "social_features"],
+      "components": [
+        "multi_platform",
+        "cloud_save",
+        "multiplayer",
+        "social_features"
+      ],
       "game_feature": "cross_platform",
-      "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
+      "target_platforms": [
+        "PC",
+        "PS5",
+        "Xbox Series X",
+        "Nintendo Switch",
+        "iOS",
+        "Android"
+      ],
       "infrastructure_components": [
         "cross_platform_authentication",
         "cloud_save_system",
@@ -106,7 +145,7 @@
       ]
     }
   },
-  {
+  "work_005": {
     "id": "work_005",
     "project_id": "proj_004",
     "type": "story",
@@ -120,9 +159,18 @@
     "metadata": {
       "epic": "game-security",
       "sprint": "sprint-2025-01",
-      "components": ["anti_cheat", "drm_protection", "player_data_security"],
+      "components": [
+        "anti_cheat",
+        "drm_protection",
+        "player_data_security"
+      ],
       "game_feature": "anti_cheat",
-      "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch"],
+      "target_platforms": [
+        "PC",
+        "PS5",
+        "Xbox Series X",
+        "Nintendo Switch"
+      ],
       "security_components": [
         "easy_anticheat_integration",
         "battle_eye_integration",
@@ -137,7 +185,7 @@
       }
     }
   },
-  {
+  "work_006": {
     "id": "work_006",
     "project_id": "project_005",
     "type": "epic",
@@ -151,10 +199,15 @@
     "metadata": {
       "epic": "multi-cloud-strategy",
       "sprint": "sprint-2025-01",
-      "components": ["aws", "gcp", "azure", "terraform"]
+      "components": [
+        "aws",
+        "gcp",
+        "azure",
+        "terraform"
+      ]
     }
   },
-  {
+  "work_007": {
     "id": "work_007",
     "project_id": "project_006",
     "type": "story",
@@ -168,10 +221,14 @@
     "metadata": {
       "epic": "observability",
       "sprint": "sprint-2025-01",
-      "components": ["prometheus", "grafana", "monitoring"]
+      "components": [
+        "prometheus",
+        "grafana",
+        "monitoring"
+      ]
     }
   },
-  {
+  "work_008": {
     "id": "work_008",
     "project_id": "project_007",
     "type": "story",
@@ -185,10 +242,14 @@
     "metadata": {
       "epic": "api-gateway",
       "sprint": "sprint-2025-01",
-      "components": ["spring-cloud", "java", "gateway"]
+      "components": [
+        "spring-cloud",
+        "java",
+        "gateway"
+      ]
     }
   },
-  {
+  "work_009": {
     "id": "work_009",
     "project_id": "project_008",
     "type": "story",
@@ -202,10 +263,14 @@
     "metadata": {
       "epic": "mobile-platform",
       "sprint": "sprint-2025-01",
-      "components": ["mobile", "backend", "api"]
+      "components": [
+        "mobile",
+        "backend",
+        "api"
+      ]
     }
   },
-  {
+  "work_010": {
     "id": "work_010",
     "project_id": "project_009",
     "type": "story",
@@ -219,10 +284,14 @@
     "metadata": {
       "epic": "edge-computing",
       "sprint": "sprint-2025-01",
-      "components": ["edge", "iot", "runtime"]
+      "components": [
+        "edge",
+        "iot",
+        "runtime"
+      ]
     }
   },
-  {
+  "work_011": {
     "id": "work_011",
     "project_id": "project_010",
     "type": "story",
@@ -236,10 +305,14 @@
     "metadata": {
       "epic": "data-pipeline",
       "sprint": "sprint-2025-01",
-      "components": ["spark", "etl", "data-processing"]
+      "components": [
+        "spark",
+        "etl",
+        "data-processing"
+      ]
     }
   },
-  {
+  "work_012": {
     "id": "work_012",
     "project_id": "project_001",
     "type": "task",
@@ -253,10 +326,13 @@
     "metadata": {
       "epic": "containerization",
       "sprint": "sprint-2025-01",
-      "components": ["docker", "containers"]
+      "components": [
+        "docker",
+        "containers"
+      ]
     }
   },
-  {
+  "work_013": {
     "id": "work_013",
     "project_id": "project_002",
     "type": "task",
@@ -270,10 +346,13 @@
     "metadata": {
       "epic": "documentation",
       "sprint": "sprint-2025-01",
-      "components": ["helm", "docs"]
+      "components": [
+        "helm",
+        "docs"
+      ]
     }
   },
-  {
+  "work_014": {
     "id": "work_014",
     "project_id": "project_003",
     "type": "story",
@@ -287,10 +366,14 @@
     "metadata": {
       "epic": "testing",
       "sprint": "sprint-2025-01",
-      "components": ["testing", "integration", "pipeline"]
+      "components": [
+        "testing",
+        "integration",
+        "pipeline"
+      ]
     }
   },
-  {
+  "work_015": {
     "id": "work_015",
     "project_id": "project_004",
     "type": "task",
@@ -304,10 +387,14 @@
     "metadata": {
       "epic": "performance",
       "sprint": "sprint-2025-01",
-      "components": ["jenkins", "performance", "optimization"]
+      "components": [
+        "jenkins",
+        "performance",
+        "optimization"
+      ]
     }
   },
-  {
+  "work_016": {
     "id": "work_016",
     "project_id": "project_005",
     "type": "story",
@@ -321,10 +408,14 @@
     "metadata": {
       "epic": "aws-deployment",
       "sprint": "sprint-2025-01",
-      "components": ["aws", "ecs", "deployment"]
+      "components": [
+        "aws",
+        "ecs",
+        "deployment"
+      ]
     }
   },
-  {
+  "work_017": {
     "id": "work_017",
     "project_id": "project_006",
     "type": "story",
@@ -338,10 +429,14 @@
     "metadata": {
       "epic": "monitoring",
       "sprint": "sprint-2025-01",
-      "components": ["grafana", "dashboards", "alerts"]
+      "components": [
+        "grafana",
+        "dashboards",
+        "alerts"
+      ]
     }
   },
-  {
+  "work_018": {
     "id": "work_018",
     "project_id": "project_007",
     "type": "story",
@@ -355,10 +450,14 @@
     "metadata": {
       "epic": "security",
       "sprint": "sprint-2025-01",
-      "components": ["security", "rate-limiting", "authentication"]
+      "components": [
+        "security",
+        "rate-limiting",
+        "authentication"
+      ]
     }
   },
-  {
+  "work_019": {
     "id": "work_019",
     "project_id": "project_008",
     "type": "story",
@@ -372,10 +471,14 @@
     "metadata": {
       "epic": "authentication",
       "sprint": "sprint-2025-01",
-      "components": ["oauth2", "mobile", "authentication"]
+      "components": [
+        "oauth2",
+        "mobile",
+        "authentication"
+      ]
     }
   },
-  {
+  "work_020": {
     "id": "work_020",
     "project_id": "project_009",
     "type": "story",
@@ -389,10 +492,14 @@
     "metadata": {
       "epic": "ml-edge",
       "sprint": "sprint-2025-01",
-      "components": ["ml", "inference", "edge"]
+      "components": [
+        "ml",
+        "inference",
+        "edge"
+      ]
     }
   },
-  {
+  "work_021": {
     "id": "work_021",
     "project_id": "project_001",
     "type": "bug",
@@ -406,10 +513,13 @@
     "metadata": {
       "severity": "critical",
       "environment": "production",
-      "components": ["security", "dependencies"]
+      "components": [
+        "security",
+        "dependencies"
+      ]
     }
   },
-  {
+  "work_022": {
     "id": "work_022",
     "project_id": "project_002",
     "type": "task",
@@ -423,10 +533,14 @@
     "metadata": {
       "epic": "kubernetes",
       "sprint": "sprint-2025-01",
-      "components": ["kubernetes", "manifests", "deployment"]
+      "components": [
+        "kubernetes",
+        "manifests",
+        "deployment"
+      ]
     }
   },
-  {
+  "work_023": {
     "id": "work_023",
     "project_id": "project_003",
     "type": "story",
@@ -440,10 +554,14 @@
     "metadata": {
       "epic": "automation",
       "sprint": "sprint-2025-01",
-      "components": ["automation", "testing", "pipeline"]
+      "components": [
+        "automation",
+        "testing",
+        "pipeline"
+      ]
     }
   },
-  {
+  "work_024": {
     "id": "work_024",
     "project_id": "project_004",
     "type": "story",
@@ -457,10 +575,14 @@
     "metadata": {
       "epic": "jenkins-libraries",
       "sprint": "sprint-2025-01",
-      "components": ["jenkins", "libraries", "shared"]
+      "components": [
+        "jenkins",
+        "libraries",
+        "shared"
+      ]
     }
   },
-  {
+  "work_025": {
     "id": "work_025",
     "project_id": "project_010",
     "type": "story",
@@ -474,10 +596,14 @@
     "metadata": {
       "epic": "data-processing",
       "sprint": "sprint-2025-01",
-      "components": ["data", "transformation", "enrichment"]
+      "components": [
+        "data",
+        "transformation",
+        "enrichment"
+      ]
     }
   },
-  {
+  "work_026": {
     "id": "work_026",
     "project_id": "proj_001",
     "type": "bug",
@@ -531,7 +657,11 @@
       },
       "telemetry_data": {
         "session_duration": "00:02:30",
-        "actions_performed": ["launch_game", "navigate_menu", "select_character"],
+        "actions_performed": [
+          "launch_game",
+          "navigate_menu",
+          "select_character"
+        ],
         "input_method": "keyboard_mouse",
         "resolution": "1920x1080",
         "graphics_settings": "high"
@@ -542,17 +672,25 @@
       "duplicate_of": null,
       "assigned_team": null,
       "assigned_engineer": null,
-      "tags": ["crash", "renderer", "character", "windows", "critical"],
+      "tags": [
+        "crash",
+        "renderer",
+        "character",
+        "windows",
+        "critical"
+      ],
       "source": "user_report",
       "reporting_tool": "in_game_crash_reporter",
       "automated_analysis": false,
       "manual_review_required": true,
       "game_feature": "character_loading",
-      "affected_platforms": ["PC"],
+      "affected_platforms": [
+        "PC"
+      ],
       "performance_impact": "game_crash"
     }
   },
-  {
+  "work_027": {
     "id": "work_027",
     "project_id": "proj_001",
     "type": "bug",
@@ -606,7 +744,11 @@
       },
       "telemetry_data": {
         "session_duration": "00:05:15",
-        "actions_performed": ["launch_game", "load_scene", "observe_character"],
+        "actions_performed": [
+          "launch_game",
+          "load_scene",
+          "observe_character"
+        ],
         "input_method": "keyboard_mouse",
         "resolution": "1920x1080",
         "graphics_settings": "high"
@@ -617,14 +759,22 @@
       "duplicate_of": null,
       "assigned_team": null,
       "assigned_engineer": null,
-      "tags": ["visual", "renderer", "texture", "compression", "character"],
+      "tags": [
+        "visual",
+        "renderer",
+        "texture",
+        "compression",
+        "character"
+      ],
       "source": "user_report",
       "reporting_tool": "in_game_bug_reporter",
       "automated_analysis": false,
       "manual_review_required": true,
       "game_feature": "texture_rendering",
-      "affected_platforms": ["PC"],
+      "affected_platforms": [
+        "PC"
+      ],
       "performance_impact": "visual_quality_degradation"
     }
   }
-]
+}

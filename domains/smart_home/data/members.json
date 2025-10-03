@@ -1,5 +1,5 @@
-[
-  {
+{
+  "john_johnson": {
     "id": "john_johnson",
     "first_name": "Robert",
     "middle_name": "Alexander",
@@ -25,7 +25,7 @@
     "schedule": {
       "weekday": {
         "wake_up": "06:30",
-        "leave_house": "\u2014",
+        "leave_house": "—",
         "work_start": "07:30",
         "lunch": "12:00",
         "work_end": "16:00",
@@ -53,7 +53,7 @@
     },
     "visit_preferences": null
   },
-  {
+  "emily_johnson": {
     "id": "emily_johnson",
     "first_name": "Jessica",
     "middle_name": "Rose",
@@ -104,7 +104,7 @@
     },
     "visit_preferences": null
   },
-  {
+  "olivia_johnson": {
     "id": "olivia_johnson",
     "first_name": "Emma",
     "middle_name": "Grace",
@@ -115,7 +115,7 @@
     "sex": "female",
     "contact": {
       "phone": null,
-      "email": "\u2014"
+      "email": "—"
     },
     "residence": {
       "lives_in_house": true,
@@ -156,7 +156,7 @@
     },
     "visit_preferences": null
   },
-  {
+  "ethan_johnson": {
     "id": "ethan_johnson",
     "first_name": "Ethan",
     "middle_name": "Christopher",
@@ -167,7 +167,7 @@
     "sex": "male",
     "contact": {
       "phone": null,
-      "email": "\u2014"
+      "email": "—"
     },
     "residence": {
       "lives_in_house": true,
@@ -206,7 +206,7 @@
     },
     "visit_preferences": null
   },
-  {
+  "linda_johnson": {
     "id": "linda_johnson",
     "first_name": "Linda",
     "middle_name": "Mae",
@@ -253,7 +253,7 @@
       "needs_wheelchair_ramp": true
     }
   },
-  {
+  "robert_johnson": {
     "id": "robert_johnson",
     "first_name": "Robert",
     "middle_name": "Lee",
@@ -296,7 +296,7 @@
       "usual_parking_spot": "driveway"
     }
   },
-  {
+  "david_chen": {
     "id": "david_chen",
     "first_name": "Michael",
     "middle_name": "Jun",
@@ -344,7 +344,7 @@
       "usual_arrival_time": "18:30"
     }
   },
-  {
+  "sarah_chen": {
     "id": "sarah_chen",
     "first_name": "Jennifer",
     "middle_name": "Ann",
@@ -393,7 +393,7 @@
       ]
     }
   },
-  {
+  "michael_wilson": {
     "id": "michael_wilson",
     "first_name": "Christopher",
     "middle_name": "James",
@@ -441,7 +441,7 @@
       "needs_guest_room": true
     }
   },
-  {
+  "mia_rodriguez": {
     "id": "mia_rodriguez",
     "first_name": "Sofia",
     "middle_name": "Isabel",
@@ -487,4 +487,4 @@
       "pickup_contact": "Maria Martinez"
     }
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "20f45789-00e0-49df-985f-c42515cb7261": {
     "run_id": "20f45789-00e0-49df-985f-c42515cb7261",
     "dag_name": "calculate_metrics",
     "game_pk": null,
@@ -8,7 +8,7 @@
     "end_time_utc": "2024-08-03 20:11:53",
     "log_s3_path": "s3://logs/workflows/1.log"
   },
-  {
+  "089c9000-81d1-4e4c-a918-81d1a85a650f": {
     "run_id": "089c9000-81d1-4e4c-a918-81d1a85a650f",
     "dag_name": "generate_reports",
     "game_pk": null,
@@ -17,7 +17,7 @@
     "end_time_utc": "2024-07-26 06:41:35",
     "log_s3_path": "s3://logs/workflows/2.log"
   },
-  {
+  "fced5017-918a-4c38-93f2-e79f13144980": {
     "run_id": "fced5017-918a-4c38-93f2-e79f13144980",
     "dag_name": "generate_reports",
     "game_pk": null,
@@ -26,7 +26,7 @@
     "end_time_utc": "2024-07-27 19:41:55",
     "log_s3_path": "s3://logs/workflows/3.log"
   },
-  {
+  "7d0a9a26-1f3a-4dba-8387-63aa8a99738c": {
     "run_id": "7d0a9a26-1f3a-4dba-8387-63aa8a99738c",
     "dag_name": "generate_reports",
     "game_pk": 2024000005,
@@ -35,7 +35,7 @@
     "end_time_utc": "2024-07-22 02:32:41",
     "log_s3_path": "s3://logs/workflows/4.log"
   },
-  {
+  "1ffa77c5-650a-499f-92a2-81f91bfd56ba": {
     "run_id": "1ffa77c5-650a-499f-92a2-81f91bfd56ba",
     "dag_name": "sync_external_data",
     "game_pk": 2024000007,
@@ -44,7 +44,7 @@
     "end_time_utc": "2024-07-20 22:52:05",
     "log_s3_path": "s3://logs/workflows/5.log"
   },
-  {
+  "2cfb75ac-a0a8-42d0-aaf8-9e2d9b41c9f6": {
     "run_id": "2cfb75ac-a0a8-42d0-aaf8-9e2d9b41c9f6",
     "dag_name": "update_models",
     "game_pk": null,
@@ -53,7 +53,7 @@
     "end_time_utc": "2024-07-25 04:32:03",
     "log_s3_path": "s3://logs/workflows/6.log"
   },
-  {
+  "f0bc9de2-6b50-4288-acb1-ebca919c7669": {
     "run_id": "f0bc9de2-6b50-4288-acb1-ebca919c7669",
     "dag_name": "ingest_game_data",
     "game_pk": 2024000010,
@@ -62,7 +62,7 @@
     "end_time_utc": "2024-07-18 16:37:56",
     "log_s3_path": "s3://logs/workflows/7.log"
   },
-  {
+  "f66e4ed2-39df-49f7-a73b-fc62c72a9523": {
     "run_id": "f66e4ed2-39df-49f7-a73b-fc62c72a9523",
     "dag_name": "process_pitch_data",
     "game_pk": 2024000008,
@@ -71,7 +71,7 @@
     "end_time_utc": "2024-08-03 19:23:32",
     "log_s3_path": "s3://logs/workflows/8.log"
   },
-  {
+  "43eefb81-ad77-49fa-b61e-d935892ea94e": {
     "run_id": "43eefb81-ad77-49fa-b61e-d935892ea94e",
     "dag_name": "sync_external_data",
     "game_pk": null,
@@ -80,7 +80,7 @@
     "end_time_utc": "2024-08-01 00:42:13",
     "log_s3_path": "s3://logs/workflows/9.log"
   },
-  {
+  "6246e2f8-7677-4670-9d5a-79f2cae6d67b": {
     "run_id": "6246e2f8-7677-4670-9d5a-79f2cae6d67b",
     "dag_name": "ingest_game_data",
     "game_pk": 2024000005,
@@ -89,7 +89,7 @@
     "end_time_utc": "2024-07-31 13:47:48",
     "log_s3_path": "s3://logs/workflows/10.log"
   },
-  {
+  "40c46e25-5b4a-447a-91ab-3456b97b0070": {
     "run_id": "40c46e25-5b4a-447a-91ab-3456b97b0070",
     "dag_name": "sync_external_data",
     "game_pk": null,
@@ -98,7 +98,7 @@
     "end_time_utc": "2024-08-08 00:09:05",
     "log_s3_path": "s3://logs/workflows/11.log"
   },
-  {
+  "6bb1cde2-f6db-4937-be50-0cfdcd438607": {
     "run_id": "6bb1cde2-f6db-4937-be50-0cfdcd438607",
     "dag_name": "sync_external_data",
     "game_pk": 2024000006,
@@ -107,7 +107,7 @@
     "end_time_utc": "2024-07-21 03:46:48",
     "log_s3_path": "s3://logs/workflows/12.log"
   },
-  {
+  "c72549ee-2a43-4eaa-9e4f-975cd50076f6": {
     "run_id": "c72549ee-2a43-4eaa-9e4f-975cd50076f6",
     "dag_name": "sync_external_data",
     "game_pk": 2024000004,
@@ -116,7 +116,7 @@
     "end_time_utc": "2024-07-18 09:05:07",
     "log_s3_path": "s3://logs/workflows/13.log"
   },
-  {
+  "c3b899be-a48d-4181-bcfc-96363ad865ee": {
     "run_id": "c3b899be-a48d-4181-bcfc-96363ad865ee",
     "dag_name": "sync_external_data",
     "game_pk": null,
@@ -125,7 +125,7 @@
     "end_time_utc": "2024-07-22 08:17:45",
     "log_s3_path": "s3://logs/workflows/14.log"
   },
-  {
+  "ef58d7f4-23f9-4e34-8dd7-476691c9d11d": {
     "run_id": "ef58d7f4-23f9-4e34-8dd7-476691c9d11d",
     "dag_name": "process_pitch_data",
     "game_pk": null,
@@ -134,4 +134,4 @@
     "end_time_utc": "2024-08-10 11:30:14",
     "log_s3_path": "s3://logs/workflows/15.log"
   }
-]
+}

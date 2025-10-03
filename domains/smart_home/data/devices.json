@@ -1,5 +1,5 @@
-[
-  {
+{
+  "light_lr_ceiling": {
     "id": "light_lr_ceiling",
     "type": "light",
     "name": "Living Room Ceiling Light",
@@ -40,7 +40,7 @@
       }
     ]
   },
-  {
+  "light_lr_floor": {
     "id": "light_lr_floor",
     "type": "light",
     "name": "Living Room Floor Lamp",
@@ -59,7 +59,7 @@
     },
     "scheduled_updates": []
   },
-  {
+  "curtain_lr": {
     "id": "curtain_lr",
     "type": "curtain",
     "name": "Living Room Curtain",
@@ -85,7 +85,7 @@
       }
     ]
   },
-  {
+  "dishwasher_kt": {
     "id": "dishwasher_kt",
     "type": "dishwasher",
     "name": "Kitchen Dishwasher",
@@ -108,7 +108,7 @@
     },
     "scheduled_updates": []
   },
-  {
+  "heater_home": {
     "id": "heater_home",
     "type": "heater",
     "name": "Central Heater",
@@ -129,7 +129,7 @@
     },
     "scheduled_updates": []
   },
-  {
+  "ac_home": {
     "id": "ac_home",
     "type": "ac",
     "name": "Central AC",
@@ -152,7 +152,7 @@
     },
     "scheduled_updates": []
   },
-  {
+  "light_br_ceiling": {
     "id": "light_br_ceiling",
     "type": "light",
     "name": "Master Bedroom Ceiling Light",
@@ -176,7 +176,7 @@
     },
     "scheduled_updates": []
   },
-  {
+  "lamp_br_night": {
     "id": "lamp_br_night",
     "type": "light",
     "name": "Master Bedroom Night Lamp",
@@ -202,7 +202,7 @@
     },
     "scheduled_updates": []
   },
-  {
+  "curtain_br": {
     "id": "curtain_br",
     "type": "curtain",
     "name": "Master Bedroom Curtain",
@@ -234,7 +234,7 @@
       }
     ]
   },
-  {
+  "light_bw_ceiling": {
     "id": "light_bw_ceiling",
     "type": "light",
     "name": "West Bedroom Ceiling Light",
@@ -253,7 +253,7 @@
     },
     "scheduled_updates": []
   },
-  {
+  "lamp_bw_desk": {
     "id": "lamp_bw_desk",
     "type": "light",
     "name": "West Bedroom Desk Lamp",
@@ -274,7 +274,7 @@
     },
     "scheduled_updates": []
   },
-  {
+  "curtain_bw": {
     "id": "curtain_bw",
     "type": "curtain",
     "name": "West Bedroom Curtain",
@@ -293,7 +293,7 @@
     },
     "scheduled_updates": []
   },
-  {
+  "light_be_ceiling": {
     "id": "light_be_ceiling",
     "type": "light",
     "name": "East Bedroom Ceiling Light",
@@ -317,7 +317,7 @@
     },
     "scheduled_updates": []
   },
-  {
+  "lamp_be_bedside": {
     "id": "lamp_be_bedside",
     "type": "light",
     "name": "East Bedroom Bedside Lamp",
@@ -341,7 +341,7 @@
     },
     "scheduled_updates": []
   },
-  {
+  "curtain_be": {
     "id": "curtain_be",
     "type": "curtain",
     "name": "East Bedroom Curtain",
@@ -360,7 +360,7 @@
     },
     "scheduled_updates": []
   },
-  {
+  "air_purifier_lr": {
     "id": "air_purifier_lr",
     "type": "air_purifier",
     "name": "Living Room Air Purifier",
@@ -383,4 +383,4 @@
     },
     "scheduled_updates": []
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "J001": {
     "job_id": "J001",
     "title": "Senior Data Scientist",
     "company": "TechCorp Inc.",
@@ -69,7 +69,7 @@
       "EXT002"
     ]
   },
-  {
+  "J002": {
     "job_id": "J002",
     "title": "UX Design Lead",
     "company": "TechCorp Inc.",
@@ -135,7 +135,7 @@
       "EXT003"
     ]
   },
-  {
+  "J003": {
     "job_id": "J003",
     "title": "DevOps Engineer",
     "company": "TechCorp Inc.",
@@ -203,7 +203,7 @@
       "EXT004"
     ]
   },
-  {
+  "J004": {
     "job_id": "J004",
     "title": "Product Marketing Specialist",
     "company": "TechCorp Inc.",
@@ -267,7 +267,7 @@
       "EXT005"
     ]
   },
-  {
+  "J005": {
     "job_id": "J005",
     "title": "Cloud Security Compliance Specialist",
     "company": "TechCorp Inc.",
@@ -333,4 +333,4 @@
       "EXT006"
     ]
   }
-]
+}

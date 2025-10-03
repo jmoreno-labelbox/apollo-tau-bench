@@ -1,5 +1,5 @@
-[
-  {
+{
+  "fc_task_003": {
     "task_id": "fc_task_003",
     "scan_metadata": {
       "task_name": "Analytics File Audit",
@@ -41,7 +41,7 @@
       }
     ]
   },
-  {
+  "fc_task_005": {
     "task_id": "fc_task_005",
     "scan_metadata": {
       "task_name": "User Home Scan",
@@ -83,4 +83,4 @@
       }
     ]
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "bene_9a8b7c6d-5e4f-3a2b-1c9d-8e7f6a5b4c3d": {
     "beneficiary_id": "bene_9a8b7c6d-5e4f-3a2b-1c9d-8e7f6a5b4c3d",
     "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
     "beneficiary_name": "Elena Popescu",
@@ -13,7 +13,7 @@
     },
     "date_added": "2023-01-15T10:30:00Z"
   },
-  {
+  "bene_8b7c6d5e-4f3a-2b1c-9d8e-7f6a5b4c3d2e": {
     "beneficiary_id": "bene_8b7c6d5e-4f3a-2b1c-9d8e-7f6a5b4c3d2e",
     "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
     "beneficiary_name": "Anytown Utility Services",
@@ -27,7 +27,7 @@
     },
     "date_added": "2022-05-20T14:00:00Z"
   },
-  {
+  "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f": {
     "beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f",
     "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
     "beneficiary_name": "Kenji Tanaka",
@@ -41,7 +41,7 @@
     },
     "date_added": "2023-02-10T09:00:00Z"
   },
-  {
+  "bene_6d5e4f3a-2b1c-9d8e-7f6a-5b4c3d2e1f0a": {
     "beneficiary_id": "bene_6d5e4f3a-2b1c-9d8e-7f6a-5b4c3d2e1f0a",
     "customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
     "beneficiary_name": "Metropolis Power & Light",
@@ -55,7 +55,7 @@
     },
     "date_added": "2021-07-01T11:45:00Z"
   },
-  {
+  "bene_5e4f3a2b-1c9d-8e7f-6a5b-4c3d2e1f0a9b": {
     "beneficiary_id": "bene_5e4f3a2b-1c9d-8e7f-6a5b-4c3d2e1f0a9b",
     "customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4",
     "beneficiary_name": "Global ISP",
@@ -69,7 +69,7 @@
     },
     "date_added": "2020-01-30T18:00:00Z"
   },
-  {
+  "bene_4f3a2b1c-9d8e-7f6a-5b4c-3d2e1f0a9b8c": {
     "beneficiary_id": "bene_4f3a2b1c-9d8e-7f6a-5b4c-3d2e1f0a9b8c",
     "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",
     "beneficiary_name": "Marie Dubois",
@@ -83,7 +83,7 @@
     },
     "date_added": "2022-11-05T12:10:00Z"
   },
-  {
+  "bene_3a2b1c9d-8e7f-6a5b-4c3d-2e1f0a9b8c7d": {
     "beneficiary_id": "bene_3a2b1c9d-8e7f-6a5b-4c3d-2e1f0a9b8c7d",
     "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5",
     "beneficiary_name": "Manchester Electricity Co.",
@@ -97,7 +97,7 @@
     },
     "date_added": "2023-02-01T16:00:00Z"
   },
-  {
+  "bene_2b1c9d8e-7f6a-5b4c-3d2e-1f0a9b8c7d6e": {
     "beneficiary_id": "bene_2b1c9d8e-7f6a-5b4c-3d2e-1f0a9b8c7d6e",
     "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3",
     "beneficiary_name": "Yuki Tanaka",
@@ -112,7 +112,7 @@
     },
     "date_added": "2015-08-15T20:00:00Z"
   },
-  {
+  "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f": {
     "beneficiary_id": "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f",
     "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6",
     "beneficiary_name": "Abu Dhabi International School",
@@ -126,7 +126,7 @@
     },
     "date_added": "2022-09-01T08:00:00Z"
   },
-  {
+  "bene_9d8e7f6a-5b4c-3d2e-1f0a-9b8c7d6e5f4a": {
     "beneficiary_id": "bene_9d8e7f6a-5b4c-3d2e-1f0a-9b8c7d6e5f4a",
     "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1",
     "beneficiary_name": "Klaus Schmidt",
@@ -140,4 +140,4 @@
     },
     "date_added": "2018-03-01T19:30:00Z"
   }
-]
+}

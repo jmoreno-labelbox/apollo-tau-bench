@@ -1,0 +1,40 @@
+[
+  {
+    "account_id": "CHK001",
+    "account_name": "RBC Business Chequing",
+    "account_type": "checking",
+    "institution": "Royal Bank of Canada",
+    "current_balance": 15420.75,
+    "currency": "CAD",
+    "last_updated": "2024-11-22T17:00:00Z"
+  },
+  {
+    "account_id": "SAV001",
+    "account_name": "RBC Business High Interest eSavings",
+    "account_type": "savings",
+    "institution": "Royal Bank of Canada",
+    "current_balance": 25000.00,
+    "currency": "CAD",
+    "last_updated": "2024-11-22T17:00:00Z"
+  },
+  {
+    "account_id": "CC001",
+    "account_name": "RBC Business Visa",
+    "account_type": "credit_card",
+    "institution": "Royal Bank of Canada",
+    "current_balance": -2847.93,
+    "currency": "CAD",
+    "credit_limit": 10000.00,
+    "last_updated": "2024-11-22T17:00:00Z"
+  },
+  {
+    "account_id": "LOC001",
+    "account_name": "RBC Business Line of Credit",
+    "account_type": "line_of_credit",
+    "institution": "Royal Bank of Canada",
+    "current_balance": 0.00,
+    "currency": "CAD",
+    "credit_limit": 15000.00,
+    "last_updated": "2024-11-22T17:00:00Z"
+  }
+]

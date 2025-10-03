@@ -1,5 +1,5 @@
-[
-  {
+{
+  "dir_op_001": {
     "operation_id": "dir_op_001",
     "target_directory": "/data/unsorted",
     "destination_directory": "/data/sorted",
@@ -28,7 +28,7 @@
       }
     ]
   },
-  {
+  "dir_op_002": {
     "operation_id": "dir_op_002",
     "target_directory": "/tmp/project_files",
     "destination_directory": "/archive/projects",
@@ -57,7 +57,7 @@
       }
     ]
   },
-  {
+  "dir_op_003": {
     "operation_id": "dir_op_003",
     "target_directory": "/home/shared/uploads",
     "destination_directory": "/storage/organized",
@@ -86,4 +86,4 @@
       }
     ]
   }
-]
+}

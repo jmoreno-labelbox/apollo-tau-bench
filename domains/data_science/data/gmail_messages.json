@@ -1,5 +1,5 @@
-[
-  {
+{
+  "draft_sf_report": {
     "draft_id_nullable": "draft_sf_report",
     "message_id_nullable": "msg_sf_report",
     "subject": "Oakland Flood Risk Analysis - Complete Results",
@@ -17,7 +17,7 @@
     "created_ts": "2024-03-17T12:45:00Z",
     "sent_ts_nullable": "2024-03-17T12:50:00Z"
   },
-  {
+  "draft_001": {
     "draft_id_nullable": "draft_001",
     "message_id_nullable": null,
     "subject": "Flood Risk Model - Initial Results",
@@ -34,23 +34,7 @@
     "created_ts": "2024-03-18T16:30:00Z",
     "sent_ts_nullable": null
   },
-  {
-    "draft_id_nullable": null,
-    "message_id_nullable": "msg_001",
-    "subject": "Weekly Progress Update - Flood Prediction Project",
-    "recipients": [
-      "project_manager@company.com",
-      "team@company.com"
-    ],
-    "body_preview_nullable": "This week we completed the model training phase and achieved 0.87 AUC on the test set...",
-    "attachments_paths": [
-      "/outputs/qc/timeseries_overview_sf.png"
-    ],
-    "status": "sent",
-    "created_ts": "2024-03-17T17:00:00Z",
-    "sent_ts_nullable": "2024-03-17T17:05:00Z"
-  },
-  {
+  "None": {
     "draft_id_nullable": null,
     "message_id_nullable": "msg_002",
     "subject": "Data Quality Issues - Orlando Dataset",
@@ -63,7 +47,7 @@
     "created_ts": "2024-02-02T10:35:00Z",
     "sent_ts_nullable": null
   },
-  {
+  "draft_boston_report": {
     "draft_id_nullable": "draft_boston_report",
     "message_id_nullable": "msg_boston_report",
     "subject": "Providence Harbor Flood Risk Analysis - Weather Update",
@@ -80,4 +64,4 @@
     "created_ts": "2024-03-01T14:00:00Z",
     "sent_ts_nullable": "2024-03-01T14:02:00Z"
   }
-]
+}

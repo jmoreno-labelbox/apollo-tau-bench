@@ -1,5 +1,5 @@
-[
-  {
+{
+  "pool_shared_01": {
     "pool_id": "pool_shared_01",
     "pool_name": "Shared Resource Pool",
     "department": "Engineering",
@@ -8,4 +8,4 @@
     "allocated_hours": 0,
     "pool_type": "permanent"
   }
-]
+}

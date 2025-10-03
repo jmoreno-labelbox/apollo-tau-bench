@@ -1,5 +1,5 @@
-[
-  {
+{
+  "loc_string_001": {
     "id": "loc_string_001",
     "string_key": "ui.main_menu.start_game",
     "context": "Main menu start game button text",
@@ -82,7 +82,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/main_menu_001.png"
     }
   },
-  {
+  "loc_string_002": {
     "id": "loc_string_002",
     "string_key": "ui.settings.audio",
     "context": "Settings menu audio section title",
@@ -163,7 +163,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/settings_menu_001.png"
     }
   },
-  {
+  "loc_string_003": {
     "id": "loc_string_003",
     "string_key": "ui.settings.audio.master_volume",
     "context": "Master volume slider label in audio settings",
@@ -245,7 +245,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/audio_settings_001.png"
     }
   },
-  {
+  "loc_string_004": {
     "id": "loc_string_004",
     "string_key": "ui.settings.audio.music_volume",
     "context": "Music volume slider label in audio settings",
@@ -327,7 +327,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/audio_settings_002.png"
     }
   },
-  {
+  "loc_string_005": {
     "id": "loc_string_005",
     "string_key": "ui.settings.audio.sfx_volume",
     "context": "Sound effects volume slider label in audio settings",
@@ -409,7 +409,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/audio_settings_003.png"
     }
   },
-  {
+  "loc_string_006": {
     "id": "loc_string_006",
     "string_key": "ui.settings.graphics",
     "context": "Settings menu graphics section title",
@@ -490,7 +490,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/graphics_settings_001.png"
     }
   },
-  {
+  "loc_string_007": {
     "id": "loc_string_007",
     "string_key": "ui.settings.graphics.resolution",
     "context": "Resolution setting label in graphics settings",
@@ -571,7 +571,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/graphics_settings_002.png"
     }
   },
-  {
+  "loc_string_008": {
     "id": "loc_string_008",
     "string_key": "ui.settings.graphics.quality",
     "context": "Graphics quality setting label",
@@ -653,7 +653,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/graphics_settings_003.png"
     }
   },
-  {
+  "loc_string_009": {
     "id": "loc_string_009",
     "string_key": "ui.game.hud.health",
     "context": "Health display label in game HUD",
@@ -735,7 +735,7 @@
       "context_screenshot": "https://screenshots.techcorp.com/game_hud_001.png"
     }
   },
-  {
+  "loc_string_010": {
     "id": "loc_string_010",
     "string_key": "ui.game.hud.mana",
     "context": "Mana display label in game HUD",
@@ -817,4 +817,4 @@
       "context_screenshot": "https://screenshots.techcorp.com/game_hud_002.png"
     }
   }
-]
+}

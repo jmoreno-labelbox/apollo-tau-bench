@@ -1,5 +1,5 @@
-[
-  {
+{
+  "bl_001": {
     "baseline_id": "bl_001",
     "project_id": "proj_mobile_01",
     "baseline_name": "Mobile App Initial Baseline",
@@ -51,7 +51,7 @@
     },
     "change_history": []
   },
-  {
+  "bl_002": {
     "baseline_id": "bl_002",
     "project_id": "proj_ai_01",
     "baseline_name": "AI Platform Baseline v1",
@@ -92,7 +92,7 @@
     },
     "change_history": []
   },
-  {
+  "bl_003": {
     "baseline_id": "bl_003",
     "project_id": "proj_enterprise_01",
     "baseline_name": "Enterprise Platform Scope",
@@ -138,7 +138,7 @@
     },
     "change_history": []
   },
-  {
+  "bl_004": {
     "baseline_id": "bl_004",
     "project_id": "proj_web_01",
     "baseline_name": "Web Portal Redesign Baseline",
@@ -179,4 +179,4 @@
     },
     "change_history": []
   }
-]
+}

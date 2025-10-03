@@ -1,5 +1,5 @@
-[
-  {
+{
+  "EXP001": {
     "expense_id": "EXP001",
     "vendor": "Bell Canada",
     "expense_date": "2024-01-15",
@@ -12,7 +12,7 @@
     "receipt_path": "/receipts/2024/01/EXP001_bell_jan2024.pdf",
     "created_at": "2024-01-16T09:30:00Z"
   },
-  {
+  "EXP002": {
     "expense_id": "EXP002",
     "vendor": "Staples Business Depot",
     "expense_date": "2024-01-22",
@@ -25,7 +25,7 @@
     "receipt_path": "/receipts/2024/01/EXP002_staples_supplies.pdf",
     "created_at": "2024-01-23T14:15:00Z"
   },
-  {
+  "EXP003": {
     "expense_id": "EXP003",
     "vendor": "Microsoft Canada",
     "expense_date": "2024-02-01",
@@ -38,7 +38,7 @@
     "receipt_path": "/receipts/2024/02/EXP003_microsoft_365.pdf",
     "created_at": "2024-02-02T10:45:00Z"
   },
-  {
+  "EXP004": {
     "expense_id": "EXP004",
     "vendor": "The Keg Restaurant",
     "expense_date": "2024-02-14",
@@ -51,7 +51,7 @@
     "receipt_path": "/receipts/2024/02/EXP004_keg_client_dinner.pdf",
     "created_at": "2024-02-15T08:20:00Z"
   },
-  {
+  "EXP005": {
     "expense_id": "EXP005",
     "vendor": "H&R Block",
     "expense_date": "2024-03-15",
@@ -64,7 +64,7 @@
     "receipt_path": "/receipts/2024/03/EXP005_hrblock_tax_prep.pdf",
     "created_at": "2024-03-16T16:30:00Z"
   },
-  {
+  "EXP006": {
     "expense_id": "EXP006",
     "vendor": "Shell Canada",
     "expense_date": "2024-04-08",
@@ -77,7 +77,7 @@
     "receipt_path": "/receipts/2024/04/EXP006_shell_fuel.pdf",
     "created_at": "2024-04-09T11:15:00Z"
   },
-  {
+  "EXP007": {
     "expense_id": "EXP007",
     "vendor": "Air Canada",
     "expense_date": "2024-05-22",
@@ -90,7 +90,7 @@
     "receipt_path": "/receipts/2024/05/EXP007_aircanada_vancouver.pdf",
     "created_at": "2024-05-23T07:45:00Z"
   },
-  {
+  "EXP008": {
     "expense_id": "EXP008",
     "vendor": "Fairmont Hotel Vancouver",
     "expense_date": "2024-05-23",
@@ -103,7 +103,7 @@
     "receipt_path": "/receipts/2024/05/EXP008_fairmont_hotel.pdf",
     "created_at": "2024-05-24T09:00:00Z"
   },
-  {
+  "EXP009": {
     "expense_id": "EXP009",
     "vendor": "Adobe Systems",
     "expense_date": "2024-06-15",
@@ -116,7 +116,7 @@
     "receipt_path": "/receipts/2024/06/EXP009_adobe_creative_cloud.pdf",
     "created_at": "2024-06-16T13:20:00Z"
   },
-  {
+  "EXP010": {
     "expense_id": "EXP010",
     "vendor": "RBC Royal Bank",
     "expense_date": "2024-07-31",
@@ -129,7 +129,7 @@
     "receipt_path": "/receipts/2024/07/EXP010_rbc_monthly_fee.pdf",
     "created_at": "2024-08-01T08:30:00Z"
   },
-  {
+  "EXP011": {
     "expense_id": "EXP011",
     "vendor": "Professional Writers Association of Canada",
     "expense_date": "2024-08-12",
@@ -142,7 +142,7 @@
     "receipt_path": "/receipts/2024/08/EXP011_pwac_membership.pdf",
     "created_at": "2024-08-13T12:45:00Z"
   },
-  {
+  "EXP012": {
     "expense_id": "EXP012",
     "vendor": "Dell Canada",
     "expense_date": "2024-09-05",
@@ -155,7 +155,7 @@
     "receipt_path": "/receipts/2024/09/EXP012_dell_laptop.pdf",
     "created_at": "2024-09-06T15:30:00Z"
   },
-  {
+  "EXP013": {
     "expense_id": "EXP013",
     "vendor": "Enbridge Gas",
     "expense_date": "2024-10-15",
@@ -168,7 +168,7 @@
     "receipt_path": "/receipts/2024/10/EXP013_enbridge_gas.pdf",
     "created_at": "2024-10-16T10:15:00Z"
   },
-  {
+  "EXP014": {
     "expense_id": "EXP014",
     "vendor": "Professional Liability Insurance Co.",
     "expense_date": "2024-11-01",
@@ -181,7 +181,7 @@
     "receipt_path": "/receipts/2024/11/EXP014_liability_insurance.pdf",
     "created_at": "2024-11-02T14:00:00Z"
   },
-  {
+  "EXP015": {
     "expense_id": "EXP015",
     "vendor": "Squarespace",
     "expense_date": "2024-11-15",
@@ -194,7 +194,7 @@
     "receipt_path": "/receipts/2024/11/EXP015_squarespace_website.pdf",
     "created_at": "2024-11-16T11:30:00Z"
   },
-  {
+  "EXP016": {
     "expense_id": "EXP016",
     "vendor": "The Keg Restaurant",
     "expense_date": "2024-02-14",
@@ -207,7 +207,7 @@
     "receipt_path": "/receipts/2024/02/EXP016_keg_client_dinner.pdf",
     "created_at": "2024-02-15T09:15:00Z"
   },
-  {
+  "EXP017": {
     "expense_id": "EXP017",
     "vendor": "Petro-Canada",
     "expense_date": "2024-03-10",
@@ -220,7 +220,7 @@
     "receipt_path": "/receipts/2024/03/EXP017_petro_fuel_business.pdf",
     "created_at": "2024-03-11T08:30:00Z"
   },
-  {
+  "EXP018": {
     "expense_id": "EXP018",
     "vendor": "Coursera Inc.",
     "expense_date": "2024-04-01",
@@ -233,7 +233,7 @@
     "receipt_path": "/receipts/2024/04/EXP018_coursera_editing.pdf",
     "created_at": "2024-04-02T10:45:00Z"
   },
-  {
+  "EXP019": {
     "expense_id": "EXP019",
     "vendor": "Tim Hortons",
     "expense_date": "2024-05-15",
@@ -246,7 +246,7 @@
     "receipt_path": "/receipts/2024/05/EXP019_tims_client_meeting.pdf",
     "created_at": "2024-05-16T11:20:00Z"
   },
-  {
+  "EXP020": {
     "expense_id": "EXP020",
     "vendor": "Canadian Tire",
     "expense_date": "2024-06-22",
@@ -259,7 +259,7 @@
     "receipt_path": "/receipts/2024/06/EXP020_cdntire_office_equipment.pdf",
     "created_at": "2024-06-23T14:30:00Z"
   },
-  {
+  "EXP021": {
     "expense_id": "EXP021",
     "vendor": "CRA - Canada Revenue Agency",
     "expense_date": "2024-07-30",
@@ -272,7 +272,7 @@
     "receipt_path": "/receipts/2024/07/EXP021_cra_penalty.pdf",
     "created_at": "2024-07-31T09:00:00Z"
   },
-  {
+  "EXP022": {
     "expense_id": "EXP022",
     "vendor": "Porter Airlines",
     "expense_date": "2024-08-12",
@@ -285,7 +285,7 @@
     "receipt_path": "/receipts/2024/08/EXP022_porter_montreal.pdf",
     "created_at": "2024-08-13T08:15:00Z"
   },
-  {
+  "EXP023": {
     "expense_id": "EXP023",
     "vendor": "Fairmont Hotel",
     "expense_date": "2024-08-13",
@@ -298,7 +298,7 @@
     "receipt_path": "/receipts/2024/08/EXP023_fairmont_montreal.pdf",
     "created_at": "2024-08-14T10:30:00Z"
   },
-  {
+  "EXP024": {
     "expense_id": "EXP024",
     "vendor": "Uber",
     "expense_date": "2024-09-05",
@@ -311,7 +311,7 @@
     "receipt_path": "/receipts/2024/09/EXP024_uber_airport.pdf",
     "created_at": "2024-09-06T09:45:00Z"
   },
-  {
+  "EXP025": {
     "expense_id": "EXP025",
     "vendor": "Adobe Inc.",
     "expense_date": "2024-10-01",
@@ -324,7 +324,7 @@
     "receipt_path": "/receipts/2024/10/EXP025_adobe_acrobat.pdf",
     "created_at": "2024-10-02T11:00:00Z"
   },
-  {
+  "EXP026": {
     "expense_id": "EXP026",
     "vendor": "RBC Royal Bank",
     "expense_date": "2024-11-01",
@@ -337,4 +337,4 @@
     "receipt_path": "/receipts/2024/11/EXP026_rbc_bank_fees.pdf",
     "created_at": "2024-11-02T08:00:00Z"
   }
-]
+}

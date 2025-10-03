@@ -1,5 +1,5 @@
-[
-  {
+{
+  "ELEC-CHIP-A1": {
     "sku": "ELEC-CHIP-A1",
     "upc_code": "789012345678",
     "product_name": "8-bit Microcontroller",
@@ -26,7 +26,7 @@
     "storage_requirements": "Dry, Anti-static",
     "lifecycle_status": "Active"
   },
-  {
+  "AUTO-PAD-B2": {
     "sku": "AUTO-PAD-B2",
     "upc_code": "890123456789",
     "product_name": "Ceramic Brake Pad Set",
@@ -53,7 +53,7 @@
     "storage_requirements": "Dry",
     "lifecycle_status": "Active"
   },
-  {
+  "FOOD-COFF-C3": {
     "sku": "FOOD-COFF-C3",
     "upc_code": "901234567890",
     "product_name": "Organic Arabica Coffee Beans",
@@ -80,7 +80,7 @@
     "storage_requirements": "Cool, Dry",
     "lifecycle_status": "Active"
   },
-  {
+  "PHRM-VACC-D4": {
     "sku": "PHRM-VACC-D4",
     "upc_code": "012345678901",
     "product_name": "Influenza Vaccine",
@@ -104,10 +104,10 @@
       "un_number": "UN3373"
     },
     "customs_tariff_code": "3002.20.0000",
-    "storage_requirements": "Refrigerated 2-8\u00b0C",
+    "storage_requirements": "Refrigerated 2-8°C",
     "lifecycle_status": "Active"
   },
-  {
+  "APRL-BAG-E5": {
     "sku": "APRL-BAG-E5",
     "upc_code": "123456789012",
     "product_name": "Leather Handbag",
@@ -115,7 +115,7 @@
     "category": "Apparel",
     "subcategory": "Accessories",
     "brand": "Elysian",
-    "country_of_origin": "R\u00e9publique fran\u00e7aise",
+    "country_of_origin": "République française",
     "unit_price": 1500.0,
     "currency": "USD",
     "unit_of_measure": "Each",
@@ -134,7 +134,7 @@
     "storage_requirements": "Climate Controlled, High Security",
     "lifecycle_status": "Active"
   },
-  {
+  "MANU-PAPR-F6": {
     "sku": "MANU-PAPR-F6",
     "upc_code": "234567890123",
     "product_name": "Industrial Paper Roll",
@@ -161,7 +161,7 @@
     "storage_requirements": "Dry",
     "lifecycle_status": "Active"
   },
-  {
+  "TECH-SOLR-G7": {
     "sku": "TECH-SOLR-G7",
     "upc_code": "345678901234",
     "product_name": "Solar Panel 450W",
@@ -188,7 +188,7 @@
     "storage_requirements": "Handle with care",
     "lifecycle_status": "Active"
   },
-  {
+  "FOOD-FISH-H8": {
     "sku": "FOOD-FISH-H8",
     "upc_code": "456789012345",
     "product_name": "Frozen Tuna Loin",
@@ -212,10 +212,10 @@
       "un_number": null
     },
     "customs_tariff_code": "0304.87.0000",
-    "storage_requirements": "Frozen -20\u00b0C",
+    "storage_requirements": "Frozen -20°C",
     "lifecycle_status": "Active"
   },
-  {
+  "HEVY-DRIL-I9": {
     "sku": "HEVY-DRIL-I9",
     "upc_code": "567890123456",
     "product_name": "Diamond Core Drill Bit",
@@ -242,7 +242,7 @@
     "storage_requirements": "Secure, Dry",
     "lifecycle_status": "Active"
   },
-  {
+  "BLDG-TILE-J10": {
     "sku": "BLDG-TILE-J10",
     "upc_code": "678901234567",
     "product_name": "Ceramic Floor Tile",
@@ -269,7 +269,7 @@
     "storage_requirements": "Handle with care",
     "lifecycle_status": "Active"
   },
-  {
+  "CHEM-SOLV-K11": {
     "sku": "CHEM-SOLV-K11",
     "upc_code": "789012345679",
     "product_name": "Industrial Solvent",
@@ -293,10 +293,10 @@
       "un_number": "UN1993"
     },
     "customs_tariff_code": "3814.00.1900",
-    "storage_requirements": "Hazmat Class 3, Temp 4-20\u00b0C, Ventilated",
+    "storage_requirements": "Hazmat Class 3, Temp 4-20°C, Ventilated",
     "lifecycle_status": "Active"
   },
-  {
+  "LUX-WATCH-L12": {
     "sku": "LUX-WATCH-L12",
     "upc_code": "890123456790",
     "product_name": "Automatic Watch Movement",
@@ -323,7 +323,7 @@
     "storage_requirements": "High Security, Anti-static",
     "lifecycle_status": "Active"
   },
-  {
+  "FURN-CHAIR-M13": {
     "sku": "FURN-CHAIR-M13",
     "upc_code": "901234567906",
     "product_name": "Teak Wood Dining Chair",
@@ -350,7 +350,7 @@
     "storage_requirements": "Dry",
     "lifecycle_status": "Active"
   },
-  {
+  "TECH-ROBO-N14": {
     "sku": "TECH-ROBO-N14",
     "upc_code": "012345679013",
     "product_name": "Articulated Robotic Arm",
@@ -377,7 +377,7 @@
     "storage_requirements": "Secure, Dry, Handle with care",
     "lifecycle_status": "Active"
   },
-  {
+  "APRL-TSHT-O15": {
     "sku": "APRL-TSHT-O15",
     "upc_code": "123456790120",
     "product_name": "Organic Cotton T-Shirt",
@@ -385,7 +385,7 @@
     "category": "Apparel",
     "subcategory": "Tops",
     "brand": "EcoThreads",
-    "country_of_origin": "T\u00fcrkiye",
+    "country_of_origin": "Türkiye",
     "unit_price": 25.0,
     "currency": "USD",
     "unit_of_measure": "Each",
@@ -404,7 +404,7 @@
     "storage_requirements": "Dry",
     "lifecycle_status": "Active"
   },
-  {
+  "BEVG-WINE-P16": {
     "sku": "BEVG-WINE-P16",
     "upc_code": "234567901237",
     "product_name": "Argentinian Malbec Wine",
@@ -428,10 +428,10 @@
       "un_number": null
     },
     "customs_tariff_code": "2204.21.5050",
-    "storage_requirements": "Temp Control 12-14\u00b0C, Dark",
+    "storage_requirements": "Temp Control 12-14°C, Dark",
     "lifecycle_status": "Active"
   },
-  {
+  "TECH-BATT-Q17": {
     "sku": "TECH-BATT-Q17",
     "upc_code": "345679012344",
     "product_name": "Lithium-Ion Battery Pack",
@@ -458,7 +458,7 @@
     "storage_requirements": "Hazmat Class 9",
     "lifecycle_status": "Active"
   },
-  {
+  "MATR-COTT-R18": {
     "sku": "MATR-COTT-R18",
     "upc_code": "456790123451",
     "product_name": "Raw Cotton Bale",
@@ -485,7 +485,7 @@
     "storage_requirements": "Dry, Ventilated",
     "lifecycle_status": "Active"
   },
-  {
+  "PHRM-DRUG-S19": {
     "sku": "PHRM-DRUG-S19",
     "upc_code": "567901234513",
     "product_name": "Oncology Drug A",
@@ -509,10 +509,10 @@
       "un_number": null
     },
     "customs_tariff_code": "3004.90.9230",
-    "storage_requirements": "Refrigerated 2-8\u00b0C, High Security",
+    "storage_requirements": "Refrigerated 2-8°C, High Security",
     "lifecycle_status": "Active"
   },
-  {
+  "MATR-CORK-T20": {
     "sku": "MATR-CORK-T20",
     "upc_code": "679012345135",
     "product_name": "Agglomerated Cork Stopper",
@@ -539,7 +539,7 @@
     "storage_requirements": "Dry",
     "lifecycle_status": "Active"
   },
-  {
+  "AUTO-GLAS-U21": {
     "sku": "AUTO-GLAS-U21",
     "upc_code": "790123451357",
     "product_name": "Automotive Windshield",
@@ -566,7 +566,7 @@
     "storage_requirements": "Fragile, Vertical Storage",
     "lifecycle_status": "Active"
   },
-  {
+  "FOOD-OLIV-V22": {
     "sku": "FOOD-OLIV-V22",
     "upc_code": "901234513579",
     "product_name": "Extra Virgin Olive Oil",
@@ -593,7 +593,7 @@
     "storage_requirements": "Cool, Dark, Dry",
     "lifecycle_status": "Active"
   },
-  {
+  "ELEC-SMART-W23": {
     "sku": "ELEC-SMART-W23",
     "upc_code": "012345135791",
     "product_name": "Smartphone Model X",
@@ -620,7 +620,7 @@
     "storage_requirements": "High Value, Secure",
     "lifecycle_status": "Active"
   },
-  {
+  "FOOD-FLWR-X24": {
     "sku": "FOOD-FLWR-X24",
     "upc_code": "123451357917",
     "product_name": "Fresh Cut Roses",
@@ -644,7 +644,7 @@
       "un_number": null
     },
     "customs_tariff_code": "0603.11.0010",
-    "storage_requirements": "Refrigerated 4\u00b0C, High Humidity",
+    "storage_requirements": "Refrigerated 4°C, High Humidity",
     "lifecycle_status": "Active"
   }
-]
+}

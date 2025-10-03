@@ -1,5 +1,5 @@
-[
-  {
+{
+  "vuln_001": {
     "id": "vuln_001",
     "test_result_id": "test_result_011",
     "artifact_id": "build_001",
@@ -11,7 +11,7 @@
     "status": "open",
     "description": "Remote code execution vulnerability in Log4j library"
   },
-  {
+  "vuln_002": {
     "id": "vuln_002",
     "test_result_id": "test_result_012",
     "artifact_id": "build_002",
@@ -23,7 +23,7 @@
     "status": "open",
     "description": "HTTP request smuggling vulnerability in Nginx"
   },
-  {
+  "vuln_003": {
     "id": "vuln_003",
     "test_result_id": "test_result_013",
     "artifact_id": "build_003",
@@ -35,7 +35,7 @@
     "status": "open",
     "description": "Information disclosure vulnerability in Spring Boot"
   },
-  {
+  "vuln_004": {
     "id": "vuln_004",
     "test_result_id": "test_result_014",
     "artifact_id": "build_004",
@@ -47,7 +47,7 @@
     "status": "open",
     "description": "SQL injection vulnerability in PostgreSQL"
   },
-  {
+  "vuln_005": {
     "id": "vuln_005",
     "test_result_id": "test_result_015",
     "artifact_id": "build_005",
@@ -59,7 +59,7 @@
     "status": "open",
     "description": "Cross-site scripting vulnerability in Jenkins"
   },
-  {
+  "vuln_006": {
     "id": "vuln_006",
     "test_result_id": "test_result_016",
     "artifact_id": "build_006",
@@ -71,7 +71,7 @@
     "status": "open",
     "description": "Container escape vulnerability in Docker runtime"
   },
-  {
+  "vuln_007": {
     "id": "vuln_007",
     "test_result_id": "test_result_017",
     "artifact_id": "build_007",
@@ -83,7 +83,7 @@
     "status": "open",
     "description": "Denial of service vulnerability in Prometheus"
   },
-  {
+  "vuln_008": {
     "id": "vuln_008",
     "test_result_id": "test_result_018",
     "artifact_id": "build_008",
@@ -95,7 +95,7 @@
     "status": "open",
     "description": "Authentication bypass vulnerability in Spring Cloud Gateway"
   },
-  {
+  "vuln_009": {
     "id": "vuln_009",
     "test_result_id": "test_result_020",
     "artifact_id": "build_009",
@@ -107,7 +107,7 @@
     "status": "open",
     "description": "Information disclosure in OAuth2 server"
   },
-  {
+  "vuln_010": {
     "id": "vuln_010",
     "test_result_id": "test_result_021",
     "artifact_id": "build_010",
@@ -119,7 +119,7 @@
     "status": "open",
     "description": "Remote code execution vulnerability in Apache Spark"
   },
-  {
+  "vuln_011": {
     "id": "vuln_011",
     "test_result_id": "test_result_022",
     "artifact_id": "build_011",
@@ -131,7 +131,7 @@
     "status": "open",
     "description": "Authentication bypass vulnerability in Grafana"
   },
-  {
+  "vuln_012": {
     "id": "vuln_012",
     "test_result_id": "test_result_023",
     "artifact_id": "build_012",
@@ -143,7 +143,7 @@
     "status": "open",
     "description": "Privilege escalation vulnerability in Kubernetes"
   },
-  {
+  "vuln_013": {
     "id": "vuln_013",
     "test_result_id": "test_result_024",
     "artifact_id": "build_013",
@@ -155,7 +155,7 @@
     "status": "open",
     "description": "Template injection vulnerability in Helm"
   },
-  {
+  "vuln_014": {
     "id": "vuln_014",
     "test_result_id": "test_result_025",
     "artifact_id": "build_014",
@@ -167,7 +167,7 @@
     "status": "open",
     "description": "Information disclosure in Terraform state files"
   },
-  {
+  "vuln_015": {
     "id": "vuln_015",
     "test_result_id": "test_result_011",
     "artifact_id": "build_015",
@@ -179,7 +179,7 @@
     "status": "open",
     "description": "Credential exposure vulnerability in AWS SDK"
   },
-  {
+  "vuln_016": {
     "id": "vuln_016",
     "test_result_id": "test_result_011",
     "artifact_id": "build_001",
@@ -191,7 +191,7 @@
     "status": "fixed",
     "description": "Log injection vulnerability in SLF4J"
   },
-  {
+  "vuln_017": {
     "id": "vuln_017",
     "test_result_id": "test_result_012",
     "artifact_id": "build_002",
@@ -203,7 +203,7 @@
     "status": "fixed",
     "description": "Package vulnerability in Alpine Linux base image"
   },
-  {
+  "vuln_018": {
     "id": "vuln_018",
     "test_result_id": "test_result_013",
     "artifact_id": "build_003",
@@ -215,7 +215,7 @@
     "status": "open",
     "description": "Deserialization vulnerability in Jackson library"
   },
-  {
+  "vuln_019": {
     "id": "vuln_019",
     "test_result_id": "test_result_014",
     "artifact_id": "build_004",
@@ -227,7 +227,7 @@
     "status": "open",
     "description": "Remote code execution vulnerability in Apache Tomcat"
   },
-  {
+  "vuln_020": {
     "id": "vuln_020",
     "test_result_id": "test_result_015",
     "artifact_id": "build_005",
@@ -239,4 +239,4 @@
     "status": "open",
     "description": "Code injection vulnerability in Groovy scripting"
   }
-]
+}

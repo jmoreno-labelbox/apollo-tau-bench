@@ -1,5 +1,5 @@
-[
-  {
+{
+  "6101": {
     "entry_id": 6101,
     "meal_plan_id": 6001,
     "plan_date": "2025-08-25",
@@ -9,7 +9,7 @@
     "servings_child": 1,
     "notes": "Reduce chili powder for child"
   },
-  {
+  "6102": {
     "entry_id": 6102,
     "meal_plan_id": 6001,
     "plan_date": "2025-08-26",
@@ -19,7 +19,7 @@
     "servings_child": 1,
     "notes": "Cut pasta shorter"
   },
-  {
+  "6103": {
     "entry_id": 6103,
     "meal_plan_id": 6001,
     "plan_date": "2025-08-27",
@@ -29,7 +29,7 @@
     "servings_child": 1,
     "notes": "Flake salmon"
   },
-  {
+  "6104": {
     "entry_id": 6104,
     "meal_plan_id": 6001,
     "plan_date": "2025-08-28",
@@ -39,7 +39,7 @@
     "servings_child": 1,
     "notes": "Mild curry"
   },
-  {
+  "6105": {
     "entry_id": 6105,
     "meal_plan_id": 6001,
     "plan_date": "2025-08-29",
@@ -49,7 +49,7 @@
     "servings_child": 1,
     "notes": "Crispy tofu"
   },
-  {
+  "6106": {
     "entry_id": 6106,
     "meal_plan_id": 6001,
     "plan_date": "2025-08-30",
@@ -59,7 +59,7 @@
     "servings_child": 1,
     "notes": "Less lemon for child"
   },
-  {
+  "6107": {
     "entry_id": 6107,
     "meal_plan_id": 6001,
     "plan_date": "2025-08-31",
@@ -69,7 +69,7 @@
     "servings_child": 1,
     "notes": "Reduce spice"
   },
-  {
+  "6111": {
     "entry_id": 6111,
     "meal_plan_id": 6002,
     "plan_date": "2025-08-25",
@@ -79,7 +79,7 @@
     "servings_child": 1,
     "notes": "Blend half for smoother texture"
   },
-  {
+  "6112": {
     "entry_id": 6112,
     "meal_plan_id": 6002,
     "plan_date": "2025-08-26",
@@ -89,7 +89,7 @@
     "servings_child": 1,
     "notes": "Cut pasta shorter"
   },
-  {
+  "6113": {
     "entry_id": 6113,
     "meal_plan_id": 6002,
     "plan_date": "2025-08-27",
@@ -99,7 +99,7 @@
     "servings_child": 1,
     "notes": "Peanut-free confirmed"
   },
-  {
+  "6114": {
     "entry_id": 6114,
     "meal_plan_id": 6002,
     "plan_date": "2025-08-28",
@@ -109,7 +109,7 @@
     "servings_child": 1,
     "notes": "Flake salmon"
   },
-  {
+  "6115": {
     "entry_id": 6115,
     "meal_plan_id": 6002,
     "plan_date": "2025-08-29",
@@ -119,7 +119,7 @@
     "servings_child": 1,
     "notes": "Tofu well-cooked"
   },
-  {
+  "6116": {
     "entry_id": 6116,
     "meal_plan_id": 6002,
     "plan_date": "2025-08-30",
@@ -129,7 +129,7 @@
     "servings_child": 1,
     "notes": "Add cheese for child"
   },
-  {
+  "6117": {
     "entry_id": 6117,
     "meal_plan_id": 6002,
     "plan_date": "2025-08-31",
@@ -139,4 +139,4 @@
     "servings_child": 1,
     "notes": "Low spice"
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "hist_ch_001": {
     "history_id": "hist_ch_001",
     "cr_id": "cr_001",
     "action": "status_change",
@@ -9,7 +9,7 @@
     "reason": "Ready for impact assessment",
     "timestamp": "2024-03-10T11:00:00Z"
   },
-  {
+  "hist_ch_002": {
     "history_id": "hist_ch_002",
     "cr_id": "cr_001",
     "action": "status_change",
@@ -19,7 +19,7 @@
     "reason": "Impact assessment complete",
     "timestamp": "2024-03-11T15:00:00Z"
   },
-  {
+  "hist_ch_003": {
     "history_id": "hist_ch_003",
     "cr_id": "cr_001",
     "action": "status_change",
@@ -29,7 +29,7 @@
     "reason": "All approvals received",
     "timestamp": "2024-03-12T16:00:00Z"
   },
-  {
+  "hist_ch_004": {
     "history_id": "hist_ch_004",
     "cr_id": "cr_005",
     "action": "status_change",
@@ -39,7 +39,7 @@
     "reason": "Fast-track approval for client requirement",
     "timestamp": "2024-03-03T11:00:00Z"
   },
-  {
+  "hist_ch_005": {
     "history_id": "hist_ch_005",
     "cr_id": "cr_007",
     "action": "emergency_approval",
@@ -49,4 +49,4 @@
     "reason": "Critical security vulnerability",
     "timestamp": "2024-03-15T02:30:00Z"
   }
-]
+}

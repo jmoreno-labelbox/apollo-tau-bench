@@ -1,5 +1,5 @@
-[
-  {
+{
+  "CARR-001": {
     "carrier_id": "CARR-001",
     "carrier_name": "NorthStar Shipping",
     "scac": "NSTS",
@@ -36,7 +36,7 @@
     },
     "active_status": true
   },
-  {
+  "CARR-002": {
     "carrier_id": "CARR-002",
     "carrier_name": "Sakura Express",
     "scac": "SKEX",
@@ -76,7 +76,7 @@
     "created_at": "2020-02-15T10:00:00Z",
     "updated_at": "2024-06-01T14:30:00Z"
   },
-  {
+  "CARR-003": {
     "carrier_id": "CARR-003",
     "carrier_name": "DeutschLogistik",
     "scac": "DLOG",
@@ -84,7 +84,7 @@
       "phone": "1-800-225-5229",
       "email": "contact.us@deutschlogistik.com",
       "address": {
-        "street": "Siemensstra\u00dfe 12",
+        "street": "Siemensstraße 12",
         "city": "Dortmund",
         "state_province": "Bavaria",
         "postal_code": "45128",
@@ -116,7 +116,7 @@
     "created_at": "2020-03-01T11:00:00Z",
     "updated_at": "2024-06-02T09:00:00Z"
   },
-  {
+  "CARR-004": {
     "carrier_id": "CARR-004",
     "carrier_name": "Pacific Ocean Lines",
     "scac": "POCL",
@@ -148,7 +148,7 @@
     "created_at": "2019-01-01T00:00:00Z",
     "updated_at": "2017-02-17T00:00:00Z"
   },
-  {
+  "CARR-005": {
     "carrier_id": "CARR-005",
     "carrier_name": "Mediterranean Lines",
     "scac": "MEDL",
@@ -160,7 +160,7 @@
         "city": "Lyon",
         "state_province": "Nouvelle-Aquitaine",
         "postal_code": "13002",
-        "country": "R\u00e9publique fran\u00e7aise"
+        "country": "République française"
       }
     },
     "supported_modes": [
@@ -186,7 +186,7 @@
     "created_at": "2020-04-10T14:00:00Z",
     "updated_at": "2024-05-30T15:00:00Z"
   },
-  {
+  "CARR-006": {
     "carrier_id": "CARR-006",
     "carrier_name": "Desert Falcon Cargo",
     "scac": "DFC",
@@ -223,7 +223,7 @@
     "created_at": "2020-05-20T16:00:00Z",
     "updated_at": "2024-06-03T12:00:00Z"
   },
-  {
+  "CARR-007": {
     "carrier_id": "CARR-007",
     "carrier_name": "SwiftDelivery",
     "scac": "SWDL",
@@ -262,7 +262,7 @@
     "created_at": "2020-06-01T09:00:00Z",
     "updated_at": "2024-06-05T09:45:00Z"
   },
-  {
+  "CARR-008": {
     "carrier_id": "CARR-008",
     "carrier_name": "Maple Trail Railway",
     "scac": "MTRL",
@@ -270,7 +270,7 @@
       "phone": "1-888-888-5909",
       "email": "contact@mapletrail.OR",
       "address": {
-        "street": "1250 Ren\u00e9-L\u00e9vesque Boulevard",
+        "street": "1250 René-Lévesque Boulevard",
         "city": "Toronto",
         "state_province": "ON",
         "postal_code": "H3B 2M9",
@@ -299,7 +299,7 @@
     "created_at": "2020-07-15T11:00:00Z",
     "updated_at": "2024-05-29T18:00:00Z"
   },
-  {
+  "CARR-009": {
     "carrier_id": "CARR-009",
     "carrier_name": "Ocean Bridge",
     "scac": "OCBR",
@@ -335,7 +335,7 @@
     "created_at": "2020-08-01T10:00:00Z",
     "updated_at": "2024-06-04T10:15:00Z"
   },
-  {
+  "CARR-010": {
     "carrier_id": "CARR-010",
     "carrier_name": "Southern Cross Freight",
     "scac": "SCF",
@@ -371,7 +371,7 @@
     "created_at": "2020-09-05T12:00:00Z",
     "updated_at": "2024-05-25T19:00:00Z"
   },
-  {
+  "CARR-011": {
     "carrier_id": "CARR-011",
     "carrier_name": "Global Ocean Carriers",
     "scac": "GOCN",
@@ -409,7 +409,7 @@
     "created_at": "2020-10-10T08:00:00Z",
     "updated_at": "2024-06-03T08:30:00Z"
   },
-  {
+  "CARR-012": {
     "carrier_id": "CARR-012",
     "carrier_name": "Alpine Freight Solutions",
     "scac": "ALFS",
@@ -448,7 +448,7 @@
     "created_at": "2020-11-01T13:00:00Z",
     "updated_at": "2024-06-05T13:15:00Z"
   },
-  {
+  "CARR-013": {
     "carrier_id": "CARR-013",
     "carrier_name": "Nordic Marine",
     "scac": "NRMC",
@@ -456,7 +456,7 @@
       "phone": "1-713-336-3900",
       "email": "info@nordicmarine.com",
       "address": {
-        "street": "Maximilianstra\u00dfe 35",
+        "street": "Maximilianstraße 35",
         "city": "Munich",
         "state_province": null,
         "postal_code": "20095",
@@ -484,7 +484,7 @@
     "created_at": "2020-12-05T15:00:00Z",
     "updated_at": "2024-05-27T10:00:00Z"
   },
-  {
+  "CARR-014": {
     "carrier_id": "CARR-014",
     "carrier_name": "Global Parcel Service",
     "scac": "GPLS",
@@ -523,7 +523,7 @@
     "created_at": "2021-01-10T10:00:00Z",
     "updated_at": "2024-06-05T16:30:00Z"
   },
-  {
+  "CARR-015": {
     "carrier_id": "CARR-015",
     "carrier_name": "Pacific Sea Lines",
     "scac": "PSLN",
@@ -559,7 +559,7 @@
     "created_at": "2021-02-15T11:00:00Z",
     "updated_at": "2024-05-26T14:00:00Z"
   },
-  {
+  "CARR-016": {
     "carrier_id": "CARR-016",
     "carrier_name": "Anatolian Air Cargo",
     "scac": "AAC",
@@ -567,11 +567,11 @@
       "phone": "1-800-874-8875",
       "email": "cargo.us@anatolianair.com",
       "address": {
-        "street": "Sabiha G\u00f6k\u00e7en Havaliman\u0131, Kargo Terminali",
+        "street": "Sabiha Gökçen Havalimanı, Kargo Terminali",
         "city": "Ankara",
         "state_province": null,
         "postal_code": "34149",
-        "country": "T\u00fcrkiye"
+        "country": "Türkiye"
       }
     },
     "supported_modes": [
@@ -595,7 +595,7 @@
     "created_at": "2021-03-20T14:00:00Z",
     "updated_at": "2024-06-02T18:00:00Z"
   },
-  {
+  "CARR-017": {
     "carrier_id": "CARR-017",
     "carrier_name": "South Atlantic Lines",
     "scac": "SATL",
@@ -631,7 +631,7 @@
     "created_at": "2021-04-10T09:00:00Z",
     "updated_at": "2024-05-21T16:00:00Z"
   },
-  {
+  "CARR-018": {
     "carrier_id": "CARR-018",
     "carrier_name": "Eagle Air Cargo",
     "scac": "EAC",
@@ -639,7 +639,7 @@
       "phone": "1-212-789-0950",
       "email": "cargo.us@eagleair.pl",
       "address": {
-        "street": "Aleja Solidarno\u015bci 78",
+        "street": "Aleja Solidarności 78",
         "city": "Krakow",
         "state_province": null,
         "postal_code": "02-146",
@@ -667,7 +667,7 @@
     "created_at": "2021-05-12T12:00:00Z",
     "updated_at": "2024-05-31T09:00:00Z"
   },
-  {
+  "CARR-019": {
     "carrier_id": "CARR-019",
     "carrier_name": "Nordic Air Cargo",
     "scac": "NAC",
@@ -703,7 +703,7 @@
     "created_at": "2021-06-18T10:00:00Z",
     "updated_at": "2024-06-04T13:45:00Z"
   },
-  {
+  "CARR-020": {
     "carrier_id": "CARR-020",
     "carrier_name": "Andean Air Freight",
     "scac": "ANAF",
@@ -739,7 +739,7 @@
     "created_at": "2021-07-22T09:00:00Z",
     "updated_at": "2024-06-01T20:00:00Z"
   },
-  {
+  "CARR-021": {
     "carrier_id": "CARR-021",
     "carrier_name": "Northern Sky Cargo",
     "scac": "NSC",
@@ -747,11 +747,11 @@
       "phone": "1-800-223-5500",
       "email": "cargo@northernsky.is",
       "address": {
-        "street": "Keflav\u00edkurflugv\u00f6llur",
+        "street": "Keflavíkurflugvöllur",
         "city": "Akureyri",
         "state_province": null,
         "postal_code": "101",
-        "country": "\u00cdsland"
+        "country": "Ísland"
       }
     },
     "supported_modes": [
@@ -761,7 +761,7 @@
       "Fresh",
       "Standard"
     ],
-    "regional_coverage": "\u00cdsland, Europe, North America",
+    "regional_coverage": "Ísland, Europe, North America",
     "performance_metrics": {
       "on_time_delivery_percentage": 97.3,
       "average_rating": 4.7
@@ -774,7 +774,7 @@
     "created_at": "2021-08-15T14:00:00Z",
     "updated_at": "2024-05-29T13:00:00Z"
   },
-  {
+  "CARR-022": {
     "carrier_id": "CARR-022",
     "carrier_name": "Express World Delivery",
     "scac": "EWDL",
@@ -812,4 +812,4 @@
     "created_at": "2021-09-01T10:00:00Z",
     "updated_at": "2024-06-05T19:20:00Z"
   }
-]
+}

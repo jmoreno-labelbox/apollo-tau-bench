@@ -1,5 +1,5 @@
-[
-  {
+{
+  "etl_001": {
     "run_id": "etl_001",
     "input_paths": [
       "/data/raw/weather_sf_20240315.json",
@@ -24,7 +24,7 @@
     ],
     "script_inline_nullable": "import pandas as pd\nimport json\n\ndef process_weather_data(weather_path, tide_path, output_path):\n    # Load data\n    with open(weather_path) as f:\n        weather = json.load(f)\n    # Process and join...\n    return output_path"
   },
-  {
+  "etl_002": {
     "run_id": "etl_002",
     "input_paths": [
       "/data/raw/weather_miami_20240201.json",
@@ -43,7 +43,7 @@
     ],
     "script_inline_nullable": null
   },
-  {
+  "etl_003": {
     "run_id": "etl_003",
     "input_paths": [
       "/data/processed/timeseries_sf_weather.csv"
@@ -61,7 +61,7 @@
     ],
     "script_inline_nullable": "import pandas as pd\nfrom sklearn.preprocessing import StandardScaler\n\ndef create_features(df):\n    # Feature engineering logic\n    pass"
   },
-  {
+  "etl_004": {
     "run_id": "etl_004",
     "input_paths": [
       "/data/raw/weather_boston_20240301.json",
@@ -83,7 +83,7 @@
     ],
     "script_inline_nullable": "import pandas as pd\nimport numpy as np\n\ndef process_boston_data(weather_path, met_path, output_path):\n    # Data processing pipeline\n    return output_path"
   },
-  {
+  "etl_005": {
     "run_id": "etl_005",
     "input_paths": [
       "/data/raw/weather_seattle_20240201.json",
@@ -105,4 +105,4 @@
     ],
     "script_inline_nullable": "import pandas as pd\nfrom datetime import datetime\n\ndef process_seattle_data(weather_path, met_path, output_path):\n    # Regional processing logic\n    return output_path"
   }
-]
+}

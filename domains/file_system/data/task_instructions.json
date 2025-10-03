@@ -1,5 +1,5 @@
-[
-  {
+{
+  "fc_task_001": {
     "task_id": "fc_task_001",
     "remote_address": "server-prod-01.company.com",
     "ssh_key": "alice_rsa_key",
@@ -7,10 +7,13 @@
     "max_size": "52428800",
     "last_access": "7",
     "target_user": "web_service",
-    "file_patterns": ["*.log", "*.txt"],
+    "file_patterns": [
+      "*.log",
+      "*.txt"
+    ],
     "parsed_at": "2024-01-15T10:35:00Z"
   },
-  {
+  "fc_task_002": {
     "task_id": "fc_task_002",
     "remote_address": "server-data-01.company.com",
     "ssh_key": "bob_rsa_key",
@@ -18,10 +21,12 @@
     "max_size": "104857600",
     "last_access": "30",
     "target_user": "*",
-    "file_patterns": ["*"],
+    "file_patterns": [
+      "*"
+    ],
     "parsed_at": "2024-01-15T14:50:00Z"
   },
-  {
+  "fc_task_003": {
     "task_id": "fc_task_003",
     "remote_address": "server-analytics.company.com",
     "ssh_key": "carol_rsa_key",
@@ -29,10 +34,12 @@
     "max_size": "26214400",
     "last_access": "14",
     "target_user": "analyst*",
-    "file_patterns": ["*.csv"],
+    "file_patterns": [
+      "*.csv"
+    ],
     "parsed_at": "2024-01-10T09:20:00Z"
   },
-  {
+  "fc_task_004": {
     "task_id": "fc_task_004",
     "remote_address": "server-config.company.com",
     "ssh_key": "dave_rsa_key",
@@ -40,10 +47,14 @@
     "max_size": "5242880",
     "last_access": "3",
     "target_user": "root",
-    "file_patterns": ["*.conf", "*.cfg", "*.ini"],
+    "file_patterns": [
+      "*.conf",
+      "*.cfg",
+      "*.ini"
+    ],
     "parsed_at": "2024-01-16T08:25:00Z"
   },
-  {
+  "fc_task_005": {
     "task_id": "fc_task_005",
     "remote_address": "server-users.company.com",
     "ssh_key": "eve_rsa_key",
@@ -51,7 +62,12 @@
     "max_size": "10485760",
     "last_access": "1",
     "target_user": "*",
-    "file_patterns": ["*.doc", "*.pdf", "*.txt", "*.docx"],
+    "file_patterns": [
+      "*.doc",
+      "*.pdf",
+      "*.txt",
+      "*.docx"
+    ],
     "parsed_at": "2024-01-14T11:05:00Z"
   }
-]
+}

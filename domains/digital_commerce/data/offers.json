@@ -1,34 +1,34 @@
-[
-    {
+{
+    "501": {
         "offer_id": "501",
         "offer_code": "WINTER20",
         "description": "20% off entire order",
         "discount_type": "PERCENTAGE",
-        "discount_value": 20.00,
+        "discount_value": 20.0,
         "is_active": true
     },
-    {
+    "502": {
         "offer_id": "502",
         "offer_code": "SAVE10",
         "description": "$10 off orders over $50",
         "discount_type": "FIXED_AMOUNT",
-        "discount_value": 10.00,
+        "discount_value": 10.0,
         "is_active": false
     },
-    {
+    "503": {
         "offer_id": "503",
         "offer_code": "WELCOME5",
         "description": "$5 off first order",
         "discount_type": "FIXED_AMOUNT",
-        "discount_value": 5.00,
+        "discount_value": 5.0,
         "is_active": true
     },
-    {
+    "504": {
         "offer_id": "504",
         "offer_code": "B2BVOLUME15",
         "description": "15% off B2B orders over $2000",
         "discount_type": "PERCENTAGE",
-        "discount_value": 15.00,
+        "discount_value": 15.0,
         "is_active": true
     }
-]
+}

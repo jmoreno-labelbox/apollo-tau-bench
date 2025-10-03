@@ -1,5 +1,5 @@
-[
-  {
+{
+  "test_run_001": {
     "id": "test_run_001",
     "pipeline_id": "pipe_001",
     "total": 156,
@@ -11,7 +11,11 @@
     "created_at": "2025-01-25T13:45:00Z",
     "test_type": "game_engine_tests",
     "game_engine": "Custom C++ Engine",
-    "target_platforms": ["PC", "PS5", "Xbox Series X"],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X"
+    ],
     "test_categories": {
       "unit_tests": 89,
       "integration_tests": 45,
@@ -38,7 +42,7 @@
       "all_tests_passed": true
     }
   },
-  {
+  "test_run_002": {
     "id": "test_run_002",
     "pipeline_id": "pipe_002",
     "total": 89,
@@ -50,7 +54,12 @@
     "created_at": "2025-01-20T08:45:00Z",
     "test_type": "asset_pipeline_tests",
     "game_engine": "Multi-Engine",
-    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch"],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch"
+    ],
     "test_categories": {
       "asset_validation": 45,
       "compression_tests": 20,
@@ -82,7 +91,7 @@
       "all_critical_tests_passed": false
     }
   },
-  {
+  "test_run_003": {
     "id": "test_run_003",
     "pipeline_id": "pipe_003",
     "total": 234,
@@ -94,7 +103,14 @@
     "created_at": "2025-01-26T15:45:00Z",
     "test_type": "cross_platform_tests",
     "game_engine": "Multi-Engine",
-    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch",
+      "iOS",
+      "Android"
+    ],
     "test_categories": {
       "unit_tests": 120,
       "integration_tests": 65,
@@ -116,11 +132,31 @@
       "mobile_build": "passed"
     },
     "platform_specific_results": {
-      "pc": {"fps": 60, "memory": "3.2gb", "load_time": "4.2s"},
-      "ps5": {"fps": 60, "memory": "3.8gb", "load_time": "3.8s"},
-      "xbox": {"fps": 60, "memory": "3.5gb", "load_time": "4.0s"},
-      "switch": {"fps": 30, "memory": "2.1gb", "load_time": "5.2s"},
-      "mobile": {"fps": 30, "memory": "1.8gb", "load_time": "6.1s"}
+      "pc": {
+        "fps": 60,
+        "memory": "3.2gb",
+        "load_time": "4.2s"
+      },
+      "ps5": {
+        "fps": 60,
+        "memory": "3.8gb",
+        "load_time": "3.8s"
+      },
+      "xbox": {
+        "fps": 60,
+        "memory": "3.5gb",
+        "load_time": "4.0s"
+      },
+      "switch": {
+        "fps": 30,
+        "memory": "2.1gb",
+        "load_time": "5.2s"
+      },
+      "mobile": {
+        "fps": 30,
+        "memory": "1.8gb",
+        "load_time": "6.1s"
+      }
     },
     "quality_gates": {
       "coverage_threshold": "85_percent",
@@ -129,7 +165,7 @@
       "compatibility_verified": true
     }
   },
-  {
+  "test_run_004": {
     "id": "test_run_004",
     "pipeline_id": "pipe_004",
     "total": 67,
@@ -141,7 +177,14 @@
     "created_at": "2025-01-20T08:30:00Z",
     "test_type": "game_testing_suite",
     "game_engine": "Multi-Engine",
-    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch",
+      "iOS",
+      "Android"
+    ],
     "test_categories": {
       "unit_tests": 35,
       "integration_tests": 20,
@@ -171,7 +214,7 @@
       "no_critical_bugs": true
     }
   },
-  {
+  "run_005": {
     "id": "run_005",
     "pipeline_id": "pipe_005",
     "total": 178,
@@ -183,7 +226,14 @@
     "created_at": "2025-01-26T08:20:00Z",
     "test_type": "game_server_tests",
     "game_engine": "Multi-Engine",
-    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch",
+      "iOS",
+      "Android"
+    ],
     "test_categories": {
       "server_functionality": 85,
       "load_testing": 45,
@@ -217,7 +267,7 @@
       "all_servers_healthy": true
     }
   },
-  {
+  "test_run_006": {
     "id": "test_run_006",
     "pipeline_id": "pipeline_006",
     "total": 123,
@@ -228,7 +278,7 @@
     "report_uri": "https://test-reports.techcorp.com/pipeline_006/test-report-2025-01-25.html",
     "created_at": "2025-01-25T15:30:00Z"
   },
-  {
+  "test_run_007": {
     "id": "test_run_007",
     "pipeline_id": "pipeline_007",
     "total": 201,
@@ -239,7 +289,7 @@
     "report_uri": "https://test-reports.techcorp.com/pipeline_007/test-report-2025-01-27.html",
     "created_at": "2025-01-27T11:45:00Z"
   },
-  {
+  "test_run_008": {
     "id": "test_run_008",
     "pipeline_id": "pipeline_008",
     "total": 145,
@@ -250,7 +300,7 @@
     "report_uri": "https://test-reports.techcorp.com/pipeline_008/test-report-2025-01-26.html",
     "created_at": "2025-01-26T09:30:00Z"
   },
-  {
+  "test_run_009": {
     "id": "test_run_009",
     "pipeline_id": "pipeline_009",
     "total": 98,
@@ -261,7 +311,7 @@
     "report_uri": "https://test-reports.techcorp.com/pipeline_009/test-report-2025-01-25.html",
     "created_at": "2025-01-25T17:15:00Z"
   },
-  {
+  "test_run_010": {
     "id": "test_run_010",
     "pipeline_id": "pipeline_010",
     "total": 312,
@@ -272,7 +322,7 @@
     "report_uri": "https://test-reports.techcorp.com/pipeline_010/test-report-2025-01-17.html",
     "created_at": "2025-01-17T09:30:00Z"
   },
-  {
+  "test_run_011": {
     "id": "test_run_011",
     "pipeline_id": "pipeline_011",
     "total": 76,
@@ -283,7 +333,7 @@
     "report_uri": "https://test-reports.techcorp.com/pipeline_011/test-report-2025-01-25.html",
     "created_at": "2025-01-25T13:15:00Z"
   },
-  {
+  "test_run_012": {
     "id": "test_run_012",
     "pipeline_id": "pipeline_012",
     "total": 134,
@@ -294,7 +344,7 @@
     "report_uri": "https://test-reports.techcorp.com/pipeline_012/test-report-2025-01-20.html",
     "created_at": "2025-01-20T08:00:00Z"
   },
-  {
+  "test_run_013": {
     "id": "test_run_013",
     "pipeline_id": "pipeline_013",
     "total": 189,
@@ -305,7 +355,7 @@
     "report_uri": "https://test-reports.techcorp.com/pipeline_013/test-report-2025-01-26.html",
     "created_at": "2025-01-26T08:30:00Z"
   },
-  {
+  "test_run_014": {
     "id": "test_run_014",
     "pipeline_id": "pipeline_014",
     "total": 167,
@@ -316,7 +366,7 @@
     "report_uri": "https://test-reports.techcorp.com/pipeline_014/test-report-2025-01-26.html",
     "created_at": "2025-01-26T09:00:00Z"
   },
-  {
+  "test_run_015": {
     "id": "test_run_015",
     "pipeline_id": "pipeline_015",
     "total": 223,
@@ -327,4 +377,4 @@
     "report_uri": "https://test-reports.techcorp.com/pipeline_015/test-report-2025-01-27.html",
     "created_at": "2025-01-27T10:15:00Z"
   }
-]
+}

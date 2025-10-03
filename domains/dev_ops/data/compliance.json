@@ -1,5 +1,5 @@
-[
-  {
+{
+  "compliance_001": {
     "id": "compliance_001",
     "project_id": "project_001",
     "compliance_type": "security_audit",
@@ -10,7 +10,7 @@
     "assigned_to": "user_003",
     "created_at": "2025-01-25T11:00:00Z"
   },
-  {
+  "compliance_002": {
     "id": "compliance_002",
     "project_id": "project_001",
     "compliance_type": "regulatory_compliance",
@@ -21,7 +21,7 @@
     "assigned_to": "user_003",
     "created_at": "2025-01-20T10:00:00Z"
   },
-  {
+  "compliance_003": {
     "id": "compliance_003",
     "project_id": "project_002",
     "compliance_type": "policy_check",
@@ -32,7 +32,7 @@
     "assigned_to": "user_006",
     "created_at": "2025-01-18T09:00:00Z"
   },
-  {
+  "compliance_004": {
     "id": "compliance_004",
     "project_id": "project_003",
     "compliance_type": "certification",
@@ -43,7 +43,7 @@
     "assigned_to": "user_008",
     "created_at": "2025-01-22T11:00:00Z"
   },
-  {
+  "compliance_005": {
     "id": "compliance_005",
     "project_id": "project_004",
     "compliance_type": "security_audit",
@@ -54,7 +54,7 @@
     "assigned_to": "user_010",
     "created_at": "2025-01-19T08:00:00Z"
   },
-  {
+  "compliance_006": {
     "id": "compliance_006",
     "project_id": "project_005",
     "compliance_type": "regulatory_compliance",
@@ -65,7 +65,7 @@
     "assigned_to": "user_012",
     "created_at": "2025-01-21T10:00:00Z"
   },
-  {
+  "compliance_007": {
     "id": "compliance_007",
     "project_id": "project_006",
     "compliance_type": "policy_check",
@@ -76,7 +76,7 @@
     "assigned_to": "user_013",
     "created_at": "2025-01-23T14:00:00Z"
   },
-  {
+  "compliance_008": {
     "id": "compliance_008",
     "project_id": "project_007",
     "compliance_type": "security_audit",
@@ -87,7 +87,7 @@
     "assigned_to": "user_016",
     "created_at": "2025-01-24T12:00:00Z"
   },
-  {
+  "compliance_009": {
     "id": "compliance_009",
     "project_id": "project_008",
     "compliance_type": "regulatory_compliance",
@@ -98,7 +98,7 @@
     "assigned_to": "user_018",
     "created_at": "2025-01-22T15:00:00Z"
   },
-  {
+  "compliance_010": {
     "id": "compliance_010",
     "project_id": "project_009",
     "compliance_type": "policy_check",
@@ -109,7 +109,7 @@
     "assigned_to": "user_019",
     "created_at": "2025-01-23T16:00:00Z"
   },
-  {
+  "compliance_011": {
     "id": "compliance_011",
     "project_id": "project_010",
     "compliance_type": "certification",
@@ -120,7 +120,7 @@
     "assigned_to": "user_002",
     "created_at": "2025-01-16T10:00:00Z"
   },
-  {
+  "compliance_012": {
     "id": "compliance_012",
     "project_id": "project_006",
     "compliance_type": "security_audit",
@@ -131,4 +131,4 @@
     "assigned_to": "user_013",
     "created_at": "2025-01-23T14:00:00Z"
   }
-]
+}

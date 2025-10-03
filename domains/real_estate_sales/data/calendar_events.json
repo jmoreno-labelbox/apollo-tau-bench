@@ -1,5 +1,5 @@
-[
-  {
+{
+  "1": {
     "event_id": 1,
     "broker_id": 2,
     "client_id": 4,
@@ -10,7 +10,7 @@
     "notes": "Discuss budget, preferences, and timeline for Central City condo search",
     "source": "client_meeting"
   },
-  {
+  "2": {
     "event_id": 2,
     "broker_id": 2,
     "client_id": 4,
@@ -21,7 +21,7 @@
     "notes": "Show HTX003, HTX017, HTX025, HTX034 - focus on amenities and city views",
     "source": "viewing"
   },
-  {
+  "3": {
     "event_id": 3,
     "broker_id": 11,
     "client_id": 10,
@@ -32,7 +32,7 @@
     "notes": "Tour family-friendly neighborhoods, check school districts",
     "source": "viewing"
   },
-  {
+  "4": {
     "event_id": 4,
     "broker_id": 6,
     "client_id": 11,
@@ -43,7 +43,7 @@
     "notes": "Discuss feedback from Arcadia tours, schedule next viewings",
     "source": "follow_up"
   },
-  {
+  "5": {
     "event_id": 5,
     "broker_id": 3,
     "client_id": 12,
@@ -54,7 +54,7 @@
     "notes": "Show modern townhouses CO Arts Quarter and SoDo areas",
     "source": "viewing"
   },
-  {
+  "6": {
     "event_id": 6,
     "broker_id": 5,
     "client_id": 13,
@@ -65,7 +65,7 @@
     "notes": "Review pre-approval status and discuss luxury condo financing options",
     "source": "client_meeting"
   },
-  {
+  "7": {
     "event_id": 7,
     "broker_id": 14,
     "client_id": 2,
@@ -76,7 +76,7 @@
     "notes": "Focus on walkability and transit access for Central City/Uptown units",
     "source": "viewing"
   },
-  {
+  "8": {
     "event_id": 8,
     "broker_id": 15,
     "client_id": 7,
@@ -87,7 +87,7 @@
     "notes": "Review purchase agreement for SoDo townhouse, discuss closing timeline",
     "source": "client_meeting"
   },
-  {
+  "9": {
     "event_id": 9,
     "broker_id": 12,
     "client_id": 8,
@@ -98,7 +98,7 @@
     "notes": "Show luxury medical center properties, highlight proximity to hospitals",
     "source": "viewing"
   },
-  {
+  "10": {
     "event_id": 10,
     "broker_id": 8,
     "client_id": 15,
@@ -109,7 +109,7 @@
     "notes": "Showcase historic charm and walkable neighborhood character",
     "source": "viewing"
   },
-  {
+  "11": {
     "event_id": 11,
     "broker_id": 8,
     "client_id": 16,
@@ -120,7 +120,7 @@
     "notes": "Show upscale apartments with amenities, discuss lease vs buy options",
     "source": "viewing"
   },
-  {
+  "12": {
     "event_id": 12,
     "broker_id": 10,
     "client_id": 17,
@@ -131,7 +131,7 @@
     "notes": "Cover home buying process, financing options, and market conditions",
     "source": "client_meeting"
   },
-  {
+  "13": {
     "event_id": 13,
     "broker_id": 5,
     "client_id": 18,
@@ -142,7 +142,7 @@
     "notes": "Review rental market data and investment property opportunities",
     "source": "client_meeting"
   },
-  {
+  "14": {
     "event_id": 14,
     "broker_id": 1,
     "client_id": 1,
@@ -153,7 +153,7 @@
     "notes": "Check on client status, discuss potential reactivation of search",
     "source": "follow_up"
   },
-  {
+  "15": {
     "event_id": 15,
     "broker_id": 9,
     "client_id": 9,
@@ -164,4 +164,4 @@
     "notes": "Present Q3 market analysis and discuss timing for home search",
     "source": "client_meeting"
   }
-]
+}

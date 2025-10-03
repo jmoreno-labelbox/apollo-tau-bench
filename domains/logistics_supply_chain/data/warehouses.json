@@ -1,5 +1,5 @@
-[
-  {
+{
+  "WH-01": {
     "warehouse_id": "WH-01",
     "warehouse_name": "West Coast Distribution Hub",
     "address": "123 Logistics Blvd.",
@@ -27,7 +27,7 @@
     "wms_system": "Skyline WMS",
     "timezone": "America/Los_Angeles"
   },
-  {
+  "WH-02": {
     "warehouse_id": "WH-02",
     "warehouse_name": "Northwest Fulfillment Center",
     "address": "321 Port Boulevard N",
@@ -54,7 +54,7 @@
     "wms_system": "Enterprise Warehouse System",
     "timezone": "America/Los_Angeles"
   },
-  {
+  "WH-03": {
     "warehouse_id": "WH-03",
     "warehouse_name": "Midwest Parts Warehouse",
     "address": "3800 Industrial Parkway",
@@ -81,7 +81,7 @@
     "wms_system": "In-house WMS",
     "timezone": "America/Milwaukee"
   },
-  {
+  "WH-04": {
     "warehouse_id": "WH-04",
     "warehouse_name": "East Coast Fashion Center",
     "address": "600 Garment Way",
@@ -106,7 +106,7 @@
     "wms_system": "CloudLogic WMS",
     "timezone": "America/New_York"
   },
-  {
+  "WH-05": {
     "warehouse_id": "WH-05",
     "warehouse_name": "Gulf Coast Food Storage",
     "address": "1200 Commerce Street",
@@ -135,7 +135,7 @@
     "wms_system": "Oracle WMS",
     "timezone": "America/Milwaukee"
   },
-  {
+  "WH-06": {
     "warehouse_id": "WH-06",
     "warehouse_name": "Charlotte Cold Chain Center",
     "address": "150 Health Park Dr",
@@ -157,14 +157,14 @@
       "GDP Certified"
     ],
     "special_capabilities": [
-      "Cold Chain (2-8\u00b0C)",
-      "Freezer (-20\u00b0C)",
+      "Cold Chain (2-8°C)",
+      "Freezer (-20°C)",
       "Pharmaceutical Handling"
     ],
     "wms_system": "HighJump WMS",
     "timezone": "America/New_York"
   },
-  {
+  "WH-07": {
     "warehouse_id": "WH-07",
     "warehouse_name": "NYC Luxury Vault",
     "address": "500 5th Ave",
@@ -192,7 +192,7 @@
     "wms_system": "Custom WMS",
     "timezone": "America/New_York"
   },
-  {
+  "WH-08": {
     "warehouse_id": "WH-08",
     "warehouse_name": "Detroit Packaging Supplies",
     "address": "200 Box Ln",
@@ -217,7 +217,7 @@
     "wms_system": "Enterprise Warehouse System",
     "timezone": "America/Detroit"
   },
-  {
+  "WH-09": {
     "warehouse_id": "WH-09",
     "warehouse_name": "Phoenix Renewable Warehouse",
     "address": "700 Solar Way",
@@ -244,7 +244,7 @@
     "wms_system": "Skyline WMS",
     "timezone": "America/Phoenix"
   },
-  {
+  "WH-10": {
     "warehouse_id": "WH-10",
     "warehouse_name": "San Francisco Fresh Foods DC",
     "address": "100 Bay St",
@@ -268,13 +268,13 @@
     ],
     "special_capabilities": [
       "Perishables Handling",
-      "Cold Chain (0-4\u00b0C)",
+      "Cold Chain (0-4°C)",
       "Blast Freezing"
     ],
     "wms_system": "CloudLogic WMS",
     "timezone": "America/Los_Angeles"
   },
-  {
+  "WH-11": {
     "warehouse_id": "WH-11",
     "warehouse_name": "Denver Heavy Equipment Yard",
     "address": "950 Quarry Rd",
@@ -300,7 +300,7 @@
     "wms_system": "Custom WMS",
     "timezone": "America/Denver"
   },
-  {
+  "WH-12": {
     "warehouse_id": "WH-12",
     "warehouse_name": "Fort Lauderdale Building Materials",
     "address": "400 Brick Ln",
@@ -326,7 +326,7 @@
     "wms_system": "Enterprise Warehouse System",
     "timezone": "America/New_York"
   },
-  {
+  "WH-13": {
     "warehouse_id": "WH-13",
     "warehouse_name": "Cleveland Chemical Storage",
     "address": "600 Lab Rd",
@@ -349,13 +349,13 @@
     ],
     "special_capabilities": [
       "Hazmat Certified (Classes 3, 6.1, 9)",
-      "Temperature Control (4-20\u00b0C)",
+      "Temperature Control (4-20°C)",
       "Spill Containment"
     ],
     "wms_system": "ChemManager WMS",
     "timezone": "America/New_York"
   },
-  {
+  "WH-14": {
     "warehouse_id": "WH-14",
     "warehouse_name": "Dallas Home Goods DC",
     "address": "300 Sofa St",
@@ -383,7 +383,7 @@
     "wms_system": "Skyline WMS",
     "timezone": "America/Milwaukee"
   },
-  {
+  "WH-15": {
     "warehouse_id": "WH-15",
     "warehouse_name": "San Diego Beverage DC",
     "address": "600 Vineyard Dr",
@@ -404,14 +404,14 @@
       "ABC Licensed"
     ],
     "special_capabilities": [
-      "Temperature Control (10-15\u00b0C)",
+      "Temperature Control (10-15°C)",
       "Bonded Storage",
       "Case Picking"
     ],
     "wms_system": "Oracle WMS",
     "timezone": "America/Los_Angeles"
   },
-  {
+  "WH-16": {
     "warehouse_id": "WH-16",
     "warehouse_name": "Milwaukee Cold Storage",
     "address": "200 Frost Ln",
@@ -434,12 +434,12 @@
       "HACCP"
     ],
     "special_capabilities": [
-      "Cold Chain (2-8\u00b0C)",
-      "Freezer (-20\u00b0C)",
+      "Cold Chain (2-8°C)",
+      "Freezer (-20°C)",
       "Pharmaceutical Handling",
       "Temperature Monitoring"
     ],
     "wms_system": "HighJump WMS",
     "timezone": "America/Milwaukee"
   }
-]
+}

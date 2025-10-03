@@ -1,5 +1,5 @@
-[
-  {
+{
+  "SC-1": {
     "change_id": "SC-1",
     "adset_id": "101",
     "old_strategy": "cost_cap",
@@ -9,7 +9,7 @@
     "changed_at": "2025-08-14T02:15:00Z",
     "reason": "plan_2025-08-13"
   },
-  {
+  "SC-2": {
     "change_id": "SC-2",
     "adset_id": "102",
     "old_strategy": "lowest_cost",
@@ -19,7 +19,7 @@
     "changed_at": "2025-08-14T02:15:05Z",
     "reason": "plan_2025-08-13"
   },
-  {
+  "SC-3": {
     "change_id": "SC-3",
     "adset_id": "108",
     "old_strategy": "cost_cap",
@@ -29,7 +29,7 @@
     "changed_at": "2025-08-14T02:15:10Z",
     "reason": "plan_2025-08-13"
   },
-  {
+  "SC-4": {
     "change_id": "SC-4",
     "adset_id": "101",
     "old_strategy": "cost_cap",
@@ -39,4 +39,4 @@
     "changed_at": "2025-08-13T02:15:00Z",
     "reason": "plan_2025-08-12"
   }
-]
+}

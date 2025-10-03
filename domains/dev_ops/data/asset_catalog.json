@@ -1,5 +1,5 @@
-[
-  {
+{
+  "asset_001": {
     "id": "asset_001",
     "asset_path": "assets/textures/characters/hero_character_diffuse.png",
     "asset_type": "texture",
@@ -43,7 +43,7 @@
       "compression_quality": "high"
     }
   },
-  {
+  "asset_002": {
     "id": "asset_002",
     "asset_path": "assets/models/characters/hero_character.fbx",
     "asset_type": "model",
@@ -87,7 +87,7 @@
       "lod_levels": 3
     }
   },
-  {
+  "asset_003": {
     "id": "asset_003",
     "asset_path": "assets/textures/characters/hero_character_normal.png",
     "asset_type": "texture",
@@ -131,7 +131,7 @@
       "compression_quality": "high"
     }
   },
-  {
+  "asset_004": {
     "id": "asset_004",
     "asset_path": "assets/animations/characters/hero_idle.fbx",
     "asset_type": "animation",
@@ -176,7 +176,7 @@
       "root_motion": false
     }
   },
-  {
+  "asset_005": {
     "id": "asset_005",
     "asset_path": "assets/models/environment/castle_tower.fbx",
     "asset_type": "model",
@@ -221,7 +221,7 @@
       "lod_levels": 3
     }
   },
-  {
+  "asset_006": {
     "id": "asset_006",
     "asset_path": "assets/textures/environment/castle_tower_diffuse.png",
     "asset_type": "texture",
@@ -267,7 +267,7 @@
       "validation_issue": "Texture size exceeds maximum allowed size of 2048x2048"
     }
   },
-  {
+  "asset_007": {
     "id": "asset_007",
     "asset_path": "assets/textures/environment/castle_tower_normal.png",
     "asset_type": "texture",
@@ -313,7 +313,7 @@
       "validation_issue": "Texture size exceeds maximum allowed size of 2048x2048"
     }
   },
-  {
+  "asset_008": {
     "id": "asset_008",
     "asset_path": "assets/materials/environment/castle_tower.mtl",
     "asset_type": "material",
@@ -357,7 +357,7 @@
       "compatibility": "all_platforms"
     }
   },
-  {
+  "asset_009": {
     "id": "asset_009",
     "asset_path": "assets/audio/sfx/hero_sword_swing.wav",
     "asset_type": "audio",
@@ -403,7 +403,7 @@
       "normalized": true
     }
   },
-  {
+  "asset_010": {
     "id": "asset_010",
     "asset_path": "assets/audio/music/main_theme.ogg",
     "asset_type": "audio",
@@ -449,4 +449,4 @@
       "loopable": true
     }
   }
-]
+}

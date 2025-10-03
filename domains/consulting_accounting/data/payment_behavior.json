@@ -1,5 +1,5 @@
-[
-  {
+{
+  "BEH001": {
     "behavior_id": "BEH001",
     "publisher_id": "PUB001",
     "avg_days_to_pay": 18.5,
@@ -18,13 +18,13 @@
     "notes": "Generally pays within net-30 terms, slower in summer months",
     "last_updated": "2024-11-20T10:00:00Z"
   },
-  {
+  "BEH002": {
     "behavior_id": "BEH002",
     "publisher_id": "PUB002",
     "avg_days_to_pay": 42.3,
     "payment_consistency": "moderate",
     "early_payment_frequency": 0.05,
-    "late_payment_frequency": 0.60,
+    "late_payment_frequency": 0.6,
     "max_days_overdue": 95,
     "seasonal_patterns": {
       "Q1": 38.5,
@@ -37,7 +37,7 @@
     "notes": "Often requests extended terms, requires follow-up reminders",
     "last_updated": "2024-11-20T10:00:00Z"
   },
-  {
+  "BEH003": {
     "behavior_id": "BEH003",
     "publisher_id": "PUB003",
     "avg_days_to_pay": 67.8,
@@ -56,12 +56,12 @@
     "notes": "Frequently exceeds 60+ days, requires escalation for payment",
     "last_updated": "2024-11-20T10:00:00Z"
   },
-  {
+  "BEH004": {
     "behavior_id": "BEH004",
     "publisher_id": "PUB004",
     "avg_days_to_pay": 28.1,
     "payment_consistency": "reliable",
-    "early_payment_frequency": 0.20,
+    "early_payment_frequency": 0.2,
     "late_payment_frequency": 0.15,
     "max_days_overdue": 45,
     "seasonal_patterns": {
@@ -75,13 +75,13 @@
     "notes": "Reliable payer, communicates proactively about any delays",
     "last_updated": "2024-11-20T10:00:00Z"
   },
-  {
+  "BEH005": {
     "behavior_id": "BEH005",
     "publisher_id": "PUB005",
     "avg_days_to_pay": 35.7,
     "payment_consistency": "moderate",
-    "early_payment_frequency": 0.10,
-    "late_payment_frequency": 0.40,
+    "early_payment_frequency": 0.1,
+    "late_payment_frequency": 0.4,
     "max_days_overdue": 72,
     "seasonal_patterns": {
       "Q1": 32.1,
@@ -94,4 +94,4 @@
     "notes": "Moderate delays typical, responds well to payment reminders",
     "last_updated": "2024-11-20T10:00:00Z"
   }
-]
+}

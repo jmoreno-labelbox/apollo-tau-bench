@@ -1,5 +1,5 @@
-[
-  {
+{
+  "9414290": {
     "station_id": "9414290",
     "station_name_nullable": "Oakland",
     "start_ts": "2024-02-14T00:00:00Z",
@@ -40,7 +40,7 @@
     "raw_json_path_nullable": "/data/raw/water_levels_9414290.json",
     "fetched_ts": "2024-03-15T10:00:00Z"
   },
-  {
+  "8723214": {
     "station_id": "8723214",
     "station_name_nullable": "Virginia Key",
     "start_ts": "2024-02-01T00:00:00Z",
@@ -63,7 +63,7 @@
     "raw_json_path_nullable": "/data/raw/water_levels_8723214.json",
     "fetched_ts": "2024-02-01T11:15:00Z"
   },
-  {
+  "8665530": {
     "station_id": "8665530",
     "station_name_nullable": null,
     "start_ts": "2024-01-22T00:00:00Z",
@@ -84,7 +84,7 @@
     "raw_json_path_nullable": null,
     "fetched_ts": "2024-01-22T18:00:00Z"
   },
-  {
+  "8443970": {
     "station_id": "8443970",
     "station_name_nullable": "Providence",
     "start_ts": "2024-02-15T00:00:00Z",
@@ -109,7 +109,7 @@
     "raw_json_path_nullable": "/data/raw/water_levels_8443970.json",
     "fetched_ts": "2024-03-01T12:30:00Z"
   },
-  {
+  "9447130": {
     "station_id": "9447130",
     "station_name_nullable": "Portland",
     "start_ts": "2024-01-15T00:00:00Z",
@@ -132,4 +132,4 @@
     "raw_json_path_nullable": "/data/raw/water_levels_9447130.json",
     "fetched_ts": "2024-02-01T14:30:00Z"
   }
-]
+}

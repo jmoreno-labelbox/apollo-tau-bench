@@ -1,5 +1,5 @@
-[
-  {
+{
+  "ED5001": {
     "edu_id": "ED5001",
     "user_id": "U301",
     "degree": "B.S.",
@@ -7,7 +7,7 @@
     "institution": "State University",
     "grad_year": 2022
   },
-  {
+  "ED5002": {
     "edu_id": "ED5002",
     "user_id": "U302",
     "degree": "M.S.",
@@ -15,7 +15,7 @@
     "institution": "Providence Univ.",
     "grad_year": 2021
   },
-  {
+  "ED5003": {
     "edu_id": "ED5003",
     "user_id": "U303",
     "degree": "B.A.",
@@ -23,7 +23,7 @@
     "institution": "Loyola Milwaukee",
     "grad_year": 2020
   },
-  {
+  "ED5004": {
     "edu_id": "ED5004",
     "user_id": "U304",
     "degree": "B.F.A.",
@@ -31,7 +31,7 @@
     "institution": "Art & Design College",
     "grad_year": 2018
   },
-  {
+  "ED5005": {
     "edu_id": "ED5005",
     "user_id": "U305",
     "degree": "B.B.A.",
@@ -39,7 +39,7 @@
     "institution": "UCLA",
     "grad_year": 2019
   },
-  {
+  "ED5006": {
     "edu_id": "ED5006",
     "user_id": "U306",
     "degree": "B.S.",
@@ -47,7 +47,7 @@
     "institution": "UT Nashville",
     "grad_year": 2017
   },
-  {
+  "ED5007": {
     "edu_id": "ED5007",
     "user_id": "U307",
     "degree": "B.S.",
@@ -55,7 +55,7 @@
     "institution": "NYU",
     "grad_year": 2021
   },
-  {
+  "ED5008": {
     "edu_id": "ED5008",
     "user_id": "U308",
     "degree": "B.A.",
@@ -63,7 +63,7 @@
     "institution": "Colorado State",
     "grad_year": 2016
   },
-  {
+  "ED5009": {
     "edu_id": "ED5009",
     "user_id": "U309",
     "degree": "M.Ed.",
@@ -71,7 +71,7 @@
     "institution": "Georgia Tech",
     "grad_year": 2020
   },
-  {
+  "ED5010": {
     "edu_id": "ED5010",
     "user_id": "U310",
     "degree": "M.S.",
@@ -79,7 +79,7 @@
     "institution": "UC Berkeley",
     "grad_year": 2019
   },
-  {
+  "ED5011": {
     "edu_id": "ED5011",
     "user_id": "U311",
     "degree": "B.A.",
@@ -87,7 +87,7 @@
     "institution": "Montreal Univ.",
     "grad_year": 2022
   },
-  {
+  "ED5012": {
     "edu_id": "ED5012",
     "user_id": "U312",
     "degree": "B.S.",
@@ -95,4 +95,4 @@
     "institution": "UW Portland",
     "grad_year": 2021
   }
-]
+}

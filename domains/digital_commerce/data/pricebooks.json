@@ -1,14 +1,14 @@
-[
-    {
+{
+    "1": {
         "pricebook_id": "1",
         "pricebook_name": "Standard Retail",
         "is_standard": true,
         "is_active": true
     },
-    {
+    "2": {
         "pricebook_id": "2",
         "pricebook_name": "B2B Wholesale",
         "is_standard": false,
         "is_active": true
     }
-]
+}

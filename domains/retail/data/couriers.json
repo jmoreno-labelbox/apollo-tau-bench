@@ -1,5 +1,5 @@
-[
-  {
+{
+  "#COU0001": {
     "courier_id": "#COU0001",
     "name": "SpeedWay Delivery",
     "contact_info": {
@@ -77,7 +77,7 @@
       "696769314695"
     ]
   },
-  {
+  "#COU0002": {
     "courier_id": "#COU0002",
     "name": "RapidTransit Solutions",
     "contact_info": {
@@ -143,7 +143,7 @@
       "200537866304"
     ]
   },
-  {
+  "#COU0003": {
     "courier_id": "#COU0003",
     "name": "Priority Shipping Co.",
     "contact_info": {
@@ -213,7 +213,7 @@
       "388793014320"
     ]
   },
-  {
+  "#COU0004": {
     "courier_id": "#COU0004",
     "name": "AgileTransport Services",
     "contact_info": {
@@ -288,7 +288,7 @@
       "294204750585"
     ]
   },
-  {
+  "#COU0005": {
     "courier_id": "#COU0005",
     "name": "QuickPath Distribution",
     "contact_info": {
@@ -354,7 +354,7 @@
       "773631111134"
     ]
   },
-  {
+  "#COU0006": {
     "courier_id": "#COU0006",
     "name": "FleetFast Delivery",
     "contact_info": {
@@ -426,7 +426,7 @@
       "492296508539"
     ]
   },
-  {
+  "#COU0007": {
     "courier_id": "#COU0007",
     "name": "Punctual Express Services",
     "contact_info": {
@@ -499,7 +499,7 @@
       "840887978435"
     ]
   },
-  {
+  "#COU0008": {
     "courier_id": "#COU0008",
     "name": "Tomorrow Shipping Co.",
     "contact_info": {
@@ -570,7 +570,7 @@
       "582528392762"
     ]
   },
-  {
+  "#COU0009": {
     "courier_id": "#COU0009",
     "name": "Reliable Delivery Co.",
     "contact_info": {
@@ -642,7 +642,7 @@
       "605417753322"
     ]
   },
-  {
+  "#COU0010": {
     "courier_id": "#COU0010",
     "name": "International Speed Services",
     "contact_info": {
@@ -711,4 +711,4 @@
       "772163555469"
     ]
   }
-]
+}

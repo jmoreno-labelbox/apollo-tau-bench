@@ -1,5 +1,5 @@
-[
-  {
+{
+  "err_005": {
     "error_log_id": "err_005",
     "task_id": "arch_005",
     "steps": [
@@ -47,7 +47,7 @@
       }
     ]
   },
-  {
+  "err_006": {
     "error_log_id": "err_006",
     "task_id": "fc_task_004",
     "steps": [
@@ -61,7 +61,7 @@
       }
     ]
   },
-  {
+  "err_007": {
     "error_log_id": "err_007",
     "task_id": "dir_op_001",
     "steps": [
@@ -83,4 +83,4 @@
       }
     ]
   }
-]
+}

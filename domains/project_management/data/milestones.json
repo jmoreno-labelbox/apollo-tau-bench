@@ -1,5 +1,5 @@
-[
-  {
+{
+  "ms_001": {
     "milestone_id": "ms_001",
     "project_id": "proj_mobile_01",
     "milestone_name": "Authentication Module Complete",
@@ -32,7 +32,7 @@
       "sprint_001"
     ]
   },
-  {
+  "ms_002": {
     "milestone_id": "ms_002",
     "project_id": "proj_mobile_01",
     "milestone_name": "Phase 1 Gate Review",
@@ -61,7 +61,7 @@
     "baseline_start": "2024-04-01T00:00:00Z",
     "baseline_target": "2024-04-15T00:00:00Z"
   },
-  {
+  "ms_003": {
     "milestone_id": "ms_003",
     "project_id": "proj_ai_01",
     "milestone_name": "ML Model Training Complete",
@@ -88,4 +88,4 @@
     "baseline_start": "2024-05-01T00:00:00Z",
     "baseline_target": "2024-06-30T00:00:00Z"
   }
-]
+}

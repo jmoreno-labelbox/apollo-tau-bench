@@ -1,5 +1,5 @@
-[
-  {
+{
+  "thread_001": {
     "thread_id": "thread_001",
     "subject": "Design Review: Homepage Hero Section",
     "sender_identity": "emma.creative@company.com",
@@ -16,7 +16,7 @@
     "created_ts": "2024-08-20T15:00:00Z",
     "updated_ts": "2024-08-21T10:30:00Z"
   },
-  {
+  "thread_002": {
     "thread_id": "thread_002",
     "subject": "Mobile App Dashboard Feedback",
     "sender_identity": "jake.design@company.com",
@@ -32,7 +32,7 @@
     "created_ts": "2024-08-19T12:00:00Z",
     "updated_ts": "2024-08-20T14:15:00Z"
   },
-  {
+  "thread_003": {
     "thread_id": "thread_003",
     "subject": "Marketing Website Launch Approval",
     "sender_identity": "anna.brand@company.com",
@@ -49,7 +49,7 @@
     "created_ts": "2024-08-21T16:00:00Z",
     "updated_ts": "2024-08-22T11:45:00Z"
   },
-  {
+  "thread_004": {
     "thread_id": "thread_004",
     "subject": "Admin Panel Accessibility Audit",
     "sender_identity": "chris.engineer@company.com",
@@ -65,7 +65,7 @@
     "created_ts": "2024-08-18T15:30:00Z",
     "updated_ts": "2024-08-19T09:20:00Z"
   },
-  {
+  "thread_005": {
     "thread_id": "thread_005",
     "subject": "Brand Guidelines Update",
     "sender_identity": "sophie.marketing@company.com",
@@ -81,7 +81,7 @@
     "created_ts": "2024-08-20T13:00:00Z",
     "updated_ts": "2024-08-21T16:30:00Z"
   },
-  {
+  "thread_006": {
     "thread_id": "thread_006",
     "subject": "Design System Component Library",
     "sender_identity": "emma.creative@company.com",
@@ -97,7 +97,7 @@
     "created_ts": "2024-08-22T17:00:00Z",
     "updated_ts": "2024-08-23T10:15:00Z"
   },
-  {
+  "thread_007": {
     "thread_id": "thread_007",
     "subject": "User Profile Screen Implementation",
     "sender_identity": "chris.engineer@company.com",
@@ -113,7 +113,7 @@
     "created_ts": "2024-08-20T14:00:00Z",
     "updated_ts": "2024-08-21T11:30:00Z"
   },
-  {
+  "thread_008": {
     "thread_id": "thread_008",
     "subject": "Pricing Page A/B Testing Results",
     "sender_identity": "anna.brand@company.com",
@@ -129,7 +129,7 @@
     "created_ts": "2024-08-22T12:00:00Z",
     "updated_ts": "2024-08-23T09:45:00Z"
   },
-  {
+  "thread_009": {
     "thread_id": "thread_009",
     "subject": "Data Table Component Review",
     "sender_identity": "chris.engineer@company.com",
@@ -144,7 +144,7 @@
     "created_ts": "2024-08-19T18:00:00Z",
     "updated_ts": "2024-08-20T15:20:00Z"
   },
-  {
+  "thread_010": {
     "thread_id": "thread_010",
     "subject": "Navigation Bar Responsive Design",
     "sender_identity": "emma.creative@company.com",
@@ -160,7 +160,7 @@
     "created_ts": "2024-08-21T10:00:00Z",
     "updated_ts": "2024-08-22T14:30:00Z"
   },
-  {
+  "thread_011": {
     "thread_id": "thread_011",
     "subject": "Design Review Request: 1 frames ready for review",
     "sender_identity": "design-automation@company.com",
@@ -174,7 +174,7 @@
     "created_ts": "2024-08-23T09:05:00Z",
     "updated_ts": "2024-08-23T14:30:00Z"
   },
-  {
+  "thread_012": {
     "thread_id": "thread_012",
     "subject": "Design Review Request: 1 frames ready for review",
     "sender_identity": "design-automation@company.com",
@@ -188,7 +188,7 @@
     "created_ts": "2024-08-23T10:35:00Z",
     "updated_ts": "2024-08-23T15:45:00Z"
   },
-  {
+  "thread_013": {
     "thread_id": "thread_013",
     "subject": "Design System v1.3.0 - Form Components & Accessibility - Release Notes",
     "sender_identity": "design-automation@company.com",
@@ -203,7 +203,7 @@
     "created_ts": "2024-08-23T11:15:00Z",
     "updated_ts": "2024-08-23T11:15:00Z"
   },
-  {
+  "thread_014": {
     "thread_id": "thread_014",
     "subject": "Mobile App v2.2.0 - Settings & Profile Enhancements - Release Notes",
     "sender_identity": "design-automation@company.com",
@@ -218,4 +218,4 @@
     "created_ts": "2024-08-23T12:45:00Z",
     "updated_ts": "2024-08-23T12:45:00Z"
   }
-]
+}

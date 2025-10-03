@@ -1,5 +1,5 @@
-[
-  {
+{
+  "build_001": {
     "id": "build_001",
     "job_id": "job_001",
     "artifact_type": "game-engine-binary",
@@ -10,14 +10,22 @@
     "created_at": "2025-01-25T14:15:00Z",
     "metadata": {
       "game_engine": "Custom C++ Engine",
-      "target_platforms": ["PC", "PS5", "Xbox Series X"],
+      "target_platforms": [
+        "PC",
+        "PS5",
+        "Xbox Series X"
+      ],
       "build_configuration": "release",
       "optimization_level": "high",
       "compression_ratio": "70_percent",
       "executable_size": "156MB",
       "debug_symbols": "included",
       "shader_cache": "pre_compiled",
-      "asset_bundles": ["core_assets", "shaders", "audio"],
+      "asset_bundles": [
+        "core_assets",
+        "shaders",
+        "audio"
+      ],
       "performance_metrics": {
         "load_time": "under_5_seconds",
         "memory_usage": "max_4gb",
@@ -32,7 +40,7 @@
       ]
     }
   },
-  {
+  "build_002": {
     "id": "build_002",
     "job_id": "job_005",
     "artifact_type": "game-asset-bundle",
@@ -44,10 +52,21 @@
     "metadata": {
       "asset_bundle_version": "1.5.2",
       "game_engine": "Multi-Engine",
-      "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch"],
+      "target_platforms": [
+        "PC",
+        "PS5",
+        "Xbox Series X",
+        "Nintendo Switch"
+      ],
       "compression_format": "lz4",
       "compression_ratio": "75_percent",
-      "asset_types": ["3d_models", "textures", "animations", "audio", "shaders"],
+      "asset_types": [
+        "3d_models",
+        "textures",
+        "animations",
+        "audio",
+        "shaders"
+      ],
       "asset_count": {
         "models": 1250,
         "textures": 3400,
@@ -68,7 +87,7 @@
       }
     }
   },
-  {
+  "build_003": {
     "id": "build_003",
     "job_id": "job_007",
     "artifact_type": "cross-platform-build",
@@ -80,15 +99,49 @@
     "metadata": {
       "build_type": "cross_platform",
       "game_engine": "Multi-Engine",
-      "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
-      "build_stages": ["compilation", "asset_integration", "platform_specific_builds", "testing", "packaging"],
-      "build_tools": ["Unreal Engine", "Unity", "Jenkins", "GitLab CI", "Docker"],
+      "target_platforms": [
+        "PC",
+        "PS5",
+        "Xbox Series X",
+        "Nintendo Switch",
+        "iOS",
+        "Android"
+      ],
+      "build_stages": [
+        "compilation",
+        "asset_integration",
+        "platform_specific_builds",
+        "testing",
+        "packaging"
+      ],
+      "build_tools": [
+        "Unreal Engine",
+        "Unity",
+        "Jenkins",
+        "GitLab CI",
+        "Docker"
+      ],
       "platform_specific_configs": {
-        "pc": {"build_type": "development", "optimization": "performance"},
-        "ps5": {"build_type": "release", "optimization": "memory"},
-        "xbox": {"build_type": "release", "optimization": "performance"},
-        "switch": {"build_type": "release", "optimization": "battery"},
-        "mobile": {"build_type": "release", "optimization": "size"}
+        "pc": {
+          "build_type": "development",
+          "optimization": "performance"
+        },
+        "ps5": {
+          "build_type": "release",
+          "optimization": "memory"
+        },
+        "xbox": {
+          "build_type": "release",
+          "optimization": "performance"
+        },
+        "switch": {
+          "build_type": "release",
+          "optimization": "battery"
+        },
+        "mobile": {
+          "build_type": "release",
+          "optimization": "size"
+        }
       },
       "build_features": [
         "cross_platform_builds",
@@ -106,7 +159,7 @@
       ]
     }
   },
-  {
+  "build_004": {
     "id": "build_004",
     "job_id": "job_010",
     "artifact_type": "game-testing-suite",
@@ -118,8 +171,19 @@
     "metadata": {
       "testing_suite_version": "2.0.1",
       "game_engine": "Multi-Engine",
-      "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
-      "test_frameworks": ["Unity Test Framework", "Unreal Engine Testing", "Custom Test Scripts"],
+      "target_platforms": [
+        "PC",
+        "PS5",
+        "Xbox Series X",
+        "Nintendo Switch",
+        "iOS",
+        "Android"
+      ],
+      "test_frameworks": [
+        "Unity Test Framework",
+        "Unreal Engine Testing",
+        "Custom Test Scripts"
+      ],
       "test_types": [
         "unit_tests",
         "integration_tests",
@@ -154,7 +218,7 @@
       ]
     }
   },
-  {
+  "build_005": {
     "id": "build_005",
     "job_id": "job_012",
     "artifact_type": "game-server-deployment",
@@ -166,9 +230,24 @@
     "metadata": {
       "deployment_type": "game_server_cluster",
       "game_engine": "Multi-Engine",
-      "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
-      "cloud_providers": ["aws", "gcp", "azure"],
-      "deployment_methods": ["kubernetes", "docker", "serverless"],
+      "target_platforms": [
+        "PC",
+        "PS5",
+        "Xbox Series X",
+        "Nintendo Switch",
+        "iOS",
+        "Android"
+      ],
+      "cloud_providers": [
+        "aws",
+        "gcp",
+        "azure"
+      ],
+      "deployment_methods": [
+        "kubernetes",
+        "docker",
+        "serverless"
+      ],
       "server_components": [
         "matchmaking_servers",
         "game_logic_servers",
@@ -198,7 +277,7 @@
       ]
     }
   },
-  {
+  "build_006": {
     "id": "build_006",
     "job_id": "job_034",
     "artifact_type": "monitoring-platform",
@@ -208,13 +287,18 @@
     "checksum": "sha256:f6789012345678901234567890abcdef1234567890abcdef1234567890abcdef1234",
     "created_at": "2025-01-25T16:10:00Z",
     "metadata": {
-      "components": ["prometheus", "grafana", "alertmanager", "node-exporter"],
+      "components": [
+        "prometheus",
+        "grafana",
+        "alertmanager",
+        "node-exporter"
+      ],
       "dashboards": 25,
       "alerts": 50,
       "scrape_configs": 15
     }
   },
-  {
+  "build_007": {
     "id": "build_007",
     "job_id": "job_040",
     "artifact_type": "api-gateway",
@@ -227,11 +311,19 @@
       "framework": "spring-cloud-gateway",
       "java_version": "17",
       "routes": 45,
-      "filters": ["rate-limiting", "authentication", "cors"],
-      "endpoints": ["/api/v1", "/api/v2", "/health"]
+      "filters": [
+        "rate-limiting",
+        "authentication",
+        "cors"
+      ],
+      "endpoints": [
+        "/api/v1",
+        "/api/v2",
+        "/health"
+      ]
     }
   },
-  {
+  "build_008": {
     "id": "build_008",
     "job_id": "job_049",
     "artifact_type": "mobile-infrastructure",
@@ -241,13 +333,21 @@
     "checksum": "sha256:7890123456789012345678901234567890abcdef1234567890abcdef1234567890ab",
     "created_at": "2025-01-26T10:15:00Z",
     "metadata": {
-      "platforms": ["ios", "android", "web"],
-      "apis": ["user-management", "push-notifications", "analytics"],
+      "platforms": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "apis": [
+        "user-management",
+        "push-notifications",
+        "analytics"
+      ],
       "authentication": "oauth2",
       "database": "mongodb"
     }
   },
-  {
+  "build_009": {
     "id": "build_009",
     "job_id": "job_056",
     "artifact_type": "edge-computing",
@@ -259,11 +359,20 @@
     "metadata": {
       "runtime": "containerd",
       "orchestration": "kubernetes-edge",
-      "locations": ["us-east", "us-west", "eu-west", "asia-pacific"],
-      "capabilities": ["ml-inference", "data-processing", "iot-gateway"]
+      "locations": [
+        "us-east",
+        "us-west",
+        "eu-west",
+        "asia-pacific"
+      ],
+      "capabilities": [
+        "ml-inference",
+        "data-processing",
+        "iot-gateway"
+      ]
     }
   },
-  {
+  "build_010": {
     "id": "build_010",
     "job_id": "job_052",
     "artifact_type": "data-pipeline",
@@ -274,12 +383,24 @@
     "created_at": "2025-01-17T10:05:00Z",
     "metadata": {
       "framework": "apache-spark",
-      "sources": ["kafka", "postgresql", "s3"],
-      "destinations": ["data-warehouse", "data-lake", "analytics-db"],
-      "transformations": ["data-cleaning", "aggregation", "enrichment"]
+      "sources": [
+        "kafka",
+        "postgresql",
+        "s3"
+      ],
+      "destinations": [
+        "data-warehouse",
+        "data-lake",
+        "analytics-db"
+      ],
+      "transformations": [
+        "data-cleaning",
+        "aggregation",
+        "enrichment"
+      ]
     }
   },
-  {
+  "build_011": {
     "id": "build_011",
     "job_id": "job_001",
     "artifact_type": "application-bundle",
@@ -290,12 +411,21 @@
     "created_at": "2025-01-25T14:15:00Z",
     "metadata": {
       "bundle_type": "complete-application",
-      "includes": ["frontend", "backend", "database-migrations", "configs"],
-      "deployment_scripts": ["deploy.sh", "rollback.sh", "health-check.sh"],
+      "includes": [
+        "frontend",
+        "backend",
+        "database-migrations",
+        "configs"
+      ],
+      "deployment_scripts": [
+        "deploy.sh",
+        "rollback.sh",
+        "health-check.sh"
+      ],
       "documentation": "README.md"
     }
   },
-  {
+  "build_012": {
     "id": "build_012",
     "job_id": "job_005",
     "artifact_type": "helm-repository",
@@ -307,11 +437,15 @@
     "metadata": {
       "repository_type": "helm-charts",
       "chart_count": 8,
-      "latest_versions": ["1.2.3", "2.1.0", "1.8.5"],
+      "latest_versions": [
+        "1.2.3",
+        "2.1.0",
+        "1.8.5"
+      ],
       "maintained_by": "platform-team"
     }
   },
-  {
+  "build_013": {
     "id": "build_013",
     "job_id": "job_007",
     "artifact_type": "pipeline-config",
@@ -322,12 +456,20 @@
     "created_at": "2025-01-26T10:45:00Z",
     "metadata": {
       "config_format": "json",
-      "environments": ["dev", "staging", "prod"],
+      "environments": [
+        "dev",
+        "staging",
+        "prod"
+      ],
       "secrets_management": "vault",
-      "notifications": ["slack", "email", "webhook"]
+      "notifications": [
+        "slack",
+        "email",
+        "webhook"
+      ]
     }
   },
-  {
+  "build_014": {
     "id": "build_014",
     "job_id": "job_010",
     "artifact_type": "jenkins-config",
@@ -339,11 +481,16 @@
     "metadata": {
       "config_format": "yaml",
       "jenkins_version": "2.387.3",
-      "plugins": ["git", "docker", "kubernetes", "pipeline"],
+      "plugins": [
+        "git",
+        "docker",
+        "kubernetes",
+        "pipeline"
+      ],
       "security": "ldap-authentication"
     }
   },
-  {
+  "build_015": {
     "id": "build_015",
     "job_id": "job_012",
     "artifact_type": "cloud-config",
@@ -354,9 +501,17 @@
     "created_at": "2025-01-26T08:15:00Z",
     "metadata": {
       "config_type": "multi-cloud",
-      "providers": ["aws", "gcp", "azure"],
-      "regions": ["us-east-1", "us-west-2", "eu-west-1"],
+      "providers": [
+        "aws",
+        "gcp",
+        "azure"
+      ],
+      "regions": [
+        "us-east-1",
+        "us-west-2",
+        "eu-west-1"
+      ],
       "networking": "vpc-config"
     }
   }
-]
+}

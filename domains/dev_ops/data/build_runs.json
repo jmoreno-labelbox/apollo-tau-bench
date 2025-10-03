@@ -1,5 +1,5 @@
-[
-  {
+{
+  "run_001": {
     "id": "run_001",
     "pipeline_name": "GameEngine-CI",
     "job_name": "build-windows-x64",
@@ -63,7 +63,7 @@
       }
     ]
   },
-  {
+  "run_002": {
     "id": "run_002",
     "pipeline_name": "GameEngine-CI",
     "job_name": "build-linux-x64",
@@ -92,7 +92,7 @@
       "compiler": "GCC 11.2"
     }
   },
-  {
+  "run_003": {
     "id": "run_003",
     "pipeline_name": "GameEngine-CI",
     "job_name": "test-unit-windows",
@@ -125,7 +125,7 @@
       ]
     }
   },
-  {
+  "run_004": {
     "id": "run_004",
     "pipeline_name": "GameEngine-CI",
     "job_name": "build-macos-arm64",
@@ -154,7 +154,7 @@
       "compiler": "Clang 15.0"
     }
   },
-  {
+  "run_005": {
     "id": "run_005",
     "pipeline_name": "GameEngine-CI",
     "job_name": "test-integration-linux",
@@ -189,7 +189,7 @@
       ]
     }
   },
-  {
+  "run_006": {
     "id": "run_006",
     "pipeline_name": "AssetPipeline-CI",
     "job_name": "validate-assets",
@@ -222,7 +222,7 @@
       ]
     }
   },
-  {
+  "run_007": {
     "id": "run_007",
     "pipeline_name": "GameEngine-CI",
     "job_name": "performance-test-windows",
@@ -253,7 +253,7 @@
       "regression": "frame_rate_dropped_30_percent"
     }
   },
-  {
+  "run_008": {
     "id": "run_008",
     "pipeline_name": "Localization-CI",
     "job_name": "validate-translations",
@@ -290,7 +290,7 @@
       ]
     }
   },
-  {
+  "run_009": {
     "id": "run_009",
     "pipeline_name": "GameEngine-CI",
     "job_name": "security-scan-windows",
@@ -319,7 +319,7 @@
       "vulnerabilities_found": 0
     }
   },
-  {
+  "run_010": {
     "id": "run_010",
     "pipeline_name": "GameEngine-CI",
     "job_name": "deploy-staging-windows",
@@ -351,4 +351,4 @@
       "issue_type": "resource_allocation_failed"
     }
   }
-]
+}

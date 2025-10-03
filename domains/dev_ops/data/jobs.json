@@ -1,5 +1,5 @@
-[
-  {
+{
+  "job_001": {
     "id": "job_001",
     "stage_id": "stage_001",
     "name": "build-application",
@@ -11,7 +11,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_001/build.log"
   },
-  {
+  "job_002": {
     "id": "job_002",
     "stage_id": "stage_002",
     "name": "unit-tests",
@@ -23,7 +23,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_002/tests.log"
   },
-  {
+  "job_003": {
     "id": "job_003",
     "stage_id": "stage_003",
     "name": "security-scan",
@@ -35,7 +35,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_003/security.log"
   },
-  {
+  "job_004": {
     "id": "job_004",
     "stage_id": "stage_004",
     "name": "deploy-to-production",
@@ -47,7 +47,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_004/deploy.log"
   },
-  {
+  "job_005": {
     "id": "job_005",
     "stage_id": "stage_005",
     "name": "build-helm-charts",
@@ -59,7 +59,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_005/build.log"
   },
-  {
+  "job_006": {
     "id": "job_006",
     "stage_id": "stage_006",
     "name": "package-charts",
@@ -71,7 +71,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_006/package.log"
   },
-  {
+  "job_007": {
     "id": "job_007",
     "stage_id": "stage_007",
     "name": "build-cicd-pipeline",
@@ -83,7 +83,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_007/build.log"
   },
-  {
+  "job_008": {
     "id": "job_008",
     "stage_id": "stage_008",
     "name": "run-integration-tests",
@@ -95,7 +95,7 @@
     "retries": 1,
     "log_uri": "https://logs.techcorp.com/job_008/tests.log"
   },
-  {
+  "job_009": {
     "id": "job_009",
     "stage_id": "stage_009",
     "name": "deploy-cicd-modernization",
@@ -107,7 +107,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_009/deploy.log"
   },
-  {
+  "job_010": {
     "id": "job_010",
     "stage_id": "stage_010",
     "name": "build-jenkins-templates",
@@ -119,7 +119,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_010/build.log"
   },
-  {
+  "job_011": {
     "id": "job_011",
     "stage_id": "stage_011",
     "name": "validate-jenkins-config",
@@ -131,7 +131,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_011/validate.log"
   },
-  {
+  "job_012": {
     "id": "job_012",
     "stage_id": "stage_012",
     "name": "build-multi-cloud-app",
@@ -143,7 +143,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_012/build.log"
   },
-  {
+  "job_013": {
     "id": "job_013",
     "stage_id": "stage_013",
     "name": "test-multi-cloud",
@@ -155,7 +155,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_013/test.log"
   },
-  {
+  "job_014": {
     "id": "job_014",
     "stage_id": "stage_014",
     "name": "deploy-to-aws",
@@ -167,7 +167,7 @@
     "retries": 2,
     "log_uri": "https://logs.techcorp.com/job_014/deploy.log"
   },
-  {
+  "job_015": {
     "id": "job_015",
     "stage_id": "stage_015",
     "name": "validate-terraform",
@@ -179,7 +179,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_015/validate.log"
   },
-  {
+  "job_016": {
     "id": "job_016",
     "stage_id": "stage_016",
     "name": "terraform-plan",
@@ -191,7 +191,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_016/plan.log"
   },
-  {
+  "job_017": {
     "id": "job_017",
     "stage_id": "stage_017",
     "name": "terraform-apply",
@@ -203,7 +203,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_017/apply.log"
   },
-  {
+  "job_018": {
     "id": "job_018",
     "stage_id": "stage_018",
     "name": "run-security-scan",
@@ -215,7 +215,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_018/scan.log"
   },
-  {
+  "job_019": {
     "id": "job_019",
     "stage_id": "stage_019",
     "name": "analyze-security-results",
@@ -227,7 +227,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_019/analyze.log"
   },
-  {
+  "job_020": {
     "id": "job_020",
     "stage_id": "stage_020",
     "name": "generate-security-report",
@@ -239,7 +239,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_020/report.log"
   },
-  {
+  "job_021": {
     "id": "job_021",
     "stage_id": "stage_021",
     "name": "scan-network-security",
@@ -251,7 +251,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_021/scan.log"
   },
-  {
+  "job_022": {
     "id": "job_022",
     "stage_id": "stage_022",
     "name": "validate-network-config",
@@ -263,7 +263,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_022/validate.log"
   },
-  {
+  "job_023": {
     "id": "job_023",
     "stage_id": "stage_023",
     "name": "backup-database",
@@ -275,7 +275,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_023/backup.log"
   },
-  {
+  "job_024": {
     "id": "job_024",
     "stage_id": "stage_024",
     "name": "migrate-database",
@@ -287,7 +287,7 @@
     "retries": 1,
     "log_uri": "https://logs.techcorp.com/job_024/migrate.log"
   },
-  {
+  "job_025": {
     "id": "job_025",
     "stage_id": "stage_025",
     "name": "verify-migration",
@@ -299,7 +299,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_025/verify.log"
   },
-  {
+  "job_026": {
     "id": "job_026",
     "stage_id": "stage_026",
     "name": "scan-container-security",
@@ -311,7 +311,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_026/scan.log"
   },
-  {
+  "job_027": {
     "id": "job_027",
     "stage_id": "stage_027",
     "name": "analyze-container-vulnerabilities",
@@ -323,7 +323,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_027/analyze.log"
   },
-  {
+  "job_028": {
     "id": "job_028",
     "stage_id": "stage_028",
     "name": "validate-load-balancer",
@@ -335,7 +335,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_028/validate.log"
   },
-  {
+  "job_029": {
     "id": "job_029",
     "stage_id": "stage_029",
     "name": "deploy-load-balancer",
@@ -347,7 +347,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_029/deploy.log"
   },
-  {
+  "job_030": {
     "id": "job_030",
     "stage_id": "stage_030",
     "name": "health-check-load-balancer",
@@ -359,7 +359,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_030/health.log"
   },
-  {
+  "job_031": {
     "id": "job_031",
     "stage_id": "stage_031",
     "name": "validate-iac",
@@ -371,7 +371,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_031/validate.log"
   },
-  {
+  "job_032": {
     "id": "job_032",
     "stage_id": "stage_032",
     "name": "terraform-plan-iac",
@@ -383,7 +383,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_032/plan.log"
   },
-  {
+  "job_033": {
     "id": "job_033",
     "stage_id": "stage_033",
     "name": "terraform-apply-iac",
@@ -395,7 +395,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_033/apply.log"
   },
-  {
+  "job_034": {
     "id": "job_034",
     "stage_id": "stage_034",
     "name": "build-monitoring-platform",
@@ -407,7 +407,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_034/build.log"
   },
-  {
+  "job_035": {
     "id": "job_035",
     "stage_id": "stage_035",
     "name": "test-monitoring",
@@ -419,7 +419,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_035/test.log"
   },
-  {
+  "job_036": {
     "id": "job_036",
     "stage_id": "stage_036",
     "name": "deploy-monitoring",
@@ -431,7 +431,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_036/deploy.log"
   },
-  {
+  "job_037": {
     "id": "job_037",
     "stage_id": "stage_037",
     "name": "analyze-costs",
@@ -443,7 +443,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_037/analyze.log"
   },
-  {
+  "job_038": {
     "id": "job_038",
     "stage_id": "stage_038",
     "name": "optimize-resources",
@@ -455,7 +455,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_038/optimize.log"
   },
-  {
+  "job_039": {
     "id": "job_039",
     "stage_id": "stage_039",
     "name": "generate-cost-report",
@@ -467,7 +467,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_039/report.log"
   },
-  {
+  "job_040": {
     "id": "job_040",
     "stage_id": "stage_040",
     "name": "build-api-gateway",
@@ -479,7 +479,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_040/build.log"
   },
-  {
+  "job_041": {
     "id": "job_041",
     "stage_id": "stage_041",
     "name": "test-api-gateway",
@@ -491,7 +491,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_041/test.log"
   },
-  {
+  "job_042": {
     "id": "job_042",
     "stage_id": "stage_042",
     "name": "deploy-api-gateway",
@@ -503,7 +503,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_042/deploy.log"
   },
-  {
+  "job_043": {
     "id": "job_043",
     "stage_id": "stage_043",
     "name": "scan-registry-security",
@@ -515,7 +515,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_043/scan.log"
   },
-  {
+  "job_044": {
     "id": "job_044",
     "stage_id": "stage_044",
     "name": "validate-registry-policy",
@@ -527,7 +527,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_044/validate.log"
   },
-  {
+  "job_045": {
     "id": "job_045",
     "stage_id": "stage_045",
     "name": "validate-testing-infra",
@@ -539,7 +539,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_045/validate.log"
   },
-  {
+  "job_046": {
     "id": "job_046",
     "stage_id": "stage_046",
     "name": "deploy-testing-infrastructure",
@@ -551,7 +551,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_046/deploy.log"
   },
-  {
+  "job_047": {
     "id": "job_047",
     "stage_id": "stage_047",
     "name": "analyze-legacy-systems",
@@ -563,7 +563,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_047/analyze.log"
   },
-  {
+  "job_048": {
     "id": "job_048",
     "stage_id": "stage_048",
     "name": "migrate-legacy-to-modern",
@@ -575,7 +575,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_048/migrate.log"
   },
-  {
+  "job_049": {
     "id": "job_049",
     "stage_id": "stage_049",
     "name": "build-mobile-infrastructure",
@@ -587,7 +587,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_049/build.log"
   },
-  {
+  "job_050": {
     "id": "job_050",
     "stage_id": "stage_050",
     "name": "test-mobile-infrastructure",
@@ -599,7 +599,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_050/test.log"
   },
-  {
+  "job_051": {
     "id": "job_051",
     "stage_id": "stage_051",
     "name": "deploy-mobile-infrastructure",
@@ -611,7 +611,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_051/deploy.log"
   },
-  {
+  "job_052": {
     "id": "job_052",
     "stage_id": "stage_052",
     "name": "validate-data-pipeline",
@@ -623,7 +623,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_052/validate.log"
   },
-  {
+  "job_053": {
     "id": "job_053",
     "stage_id": "stage_053",
     "name": "deploy-data-pipeline",
@@ -635,7 +635,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_053/deploy.log"
   },
-  {
+  "job_054": {
     "id": "job_054",
     "stage_id": "stage_054",
     "name": "analyze-green-computing",
@@ -647,7 +647,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_054/analyze.log"
   },
-  {
+  "job_055": {
     "id": "job_055",
     "stage_id": "stage_055",
     "name": "optimize-energy-usage",
@@ -659,7 +659,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_055/optimize.log"
   },
-  {
+  "job_056": {
     "id": "job_056",
     "stage_id": "stage_056",
     "name": "build-edge-computing",
@@ -671,7 +671,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_056/build.log"
   },
-  {
+  "job_057": {
     "id": "job_057",
     "stage_id": "stage_057",
     "name": "test-edge-computing",
@@ -683,7 +683,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_057/test.log"
   },
-  {
+  "job_058": {
     "id": "job_058",
     "stage_id": "stage_058",
     "name": "deploy-edge-computing",
@@ -695,7 +695,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_058/deploy.log"
   },
-  {
+  "job_059": {
     "id": "job_059",
     "stage_id": "stage_059",
     "name": "validate-rollback",
@@ -707,7 +707,7 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_059/validate.log"
   },
-  {
+  "job_060": {
     "id": "job_060",
     "stage_id": "stage_060",
     "name": "execute-rollback",
@@ -719,4 +719,4 @@
     "retries": 0,
     "log_uri": "https://logs.techcorp.com/job_060/rollback.log"
   }
-]
+}

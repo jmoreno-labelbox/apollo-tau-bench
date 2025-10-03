@@ -1,0 +1,134 @@
+[
+  {
+    "memo_id": "memo_0001",
+    "type": "onboarding",
+    "first_name": "Elliot",
+    "last_name": "Johnson",
+    "department": "Marketing",
+    "job_title": "Content Strategist",
+    "start_date": "2025-07-18",
+    "manager_email": "casey.liu@example.com",
+    "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
+  },
+  {
+    "memo_id": "memo_0002",
+    "type": "onboarding",
+    "first_name": "Noel",
+    "last_name": "Rodriguez",
+    "department": "Marketing",
+    "job_title": "Content Strategist",
+    "start_date": "2025-08-03",
+    "manager_email": "casey.liu@example.com",
+    "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
+  },
+  {
+    "memo_id": "memo_0003",
+    "type": "onboarding",
+    "first_name": "Morgan",
+    "last_name": "Lee",
+    "department": "HR",
+    "job_title": "HRBP",
+    "start_date": "2025-07-21",
+    "manager_email": "jamie.chen@example.com",
+    "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
+  },
+  {
+    "memo_id": "memo_0004",
+    "type": "onboarding",
+    "first_name": "Riley",
+    "last_name": "Wang",
+    "department": "Support",
+    "job_title": "Support Manager",
+    "start_date": "2025-07-19",
+    "manager_email": "robin.jones@example.com",
+    "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
+  },
+  {
+    "memo_id": "memo_0005",
+    "type": "onboarding",
+    "first_name": "Drew",
+    "last_name": "Kumar",
+    "department": "Operations",
+    "job_title": "Ops Coordinator",
+    "start_date": "2025-07-19",
+    "manager_email": "drew.kumar@example.com",
+    "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
+  },
+  {
+    "memo_id": "memo_0006",
+    "type": "onboarding",
+    "first_name": "Jamie",
+    "last_name": "Chen",
+    "department": "HR",
+    "job_title": "HRBP",
+    "start_date": "2025-07-20",
+    "manager_email": "jamie.chen@example.com",
+    "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
+  },
+  {
+    "memo_id": "memo_0007",
+    "type": "onboarding",
+    "first_name": "Casey",
+    "last_name": "Liu",
+    "department": "Marketing",
+    "job_title": "Content Strategist",
+    "start_date": "2025-08-01",
+    "manager_email": "casey.liu@example.com",
+    "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
+  },
+  {
+    "memo_id": "memo_0008",
+    "type": "onboarding",
+    "first_name": "Briar",
+    "last_name": "Campbell",
+    "department": "Support",
+    "job_title": "Support Manager",
+    "start_date": "2025-07-30",
+    "manager_email": "robin.jones@example.com",
+    "notes": "Standard onboarding; laptop + M365 + TeamChat; optional CreativeWorks for Marketing."
+  },
+  {
+    "memo_id": "memo_0009",
+    "type": "offboarding",
+    "first_name": "Jordan",
+    "last_name": "Kim",
+    "department": "IT",
+    "job_title": "Systems Engineer",
+    "end_date": "2025-06-17",
+    "manager_email": "sam.tran@example.com",
+    "notes": "Immediate access disable; archive mailbox; device return within 7 days."
+  },
+  {
+    "memo_id": "memo_0010",
+    "type": "offboarding",
+    "first_name": "Jordan",
+    "last_name": "Kim",
+    "department": "IT",
+    "job_title": "Systems Engineer",
+    "end_date": "2025-06-27",
+    "manager_email": "sam.tran@example.com",
+    "notes": "Immediate access disable; archive mailbox; device return within 7 days."
+  },
+  {
+    "memo_id": "memo_0011",
+    "type": "offboarding",
+    "first_name": "Jordan",
+    "last_name": "Kim",
+    "department": "IT",
+    "job_title": "Systems Engineer",
+    "end_date": "2025-06-23",
+    "manager_email": "sam.tran@example.com",
+    "notes": "Immediate access disable; archive mailbox; device return within 7 days."
+  },
+  {
+    "memo_id": "memo_0012",
+    "type": "offboarding",
+    "first_name": "Sawyer",
+    "last_name": "Harris",
+    "department": "Operations",
+    "job_title": "Operations Manager",
+    "end_date": "2025-06-28",
+    "manager_email": "drew.kumar@example.com",
+    "notes": "Immediate access disable; archive mailbox; device return within 7 days."
+  }
+]

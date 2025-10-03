@@ -1,5 +1,5 @@
-[
-  {
+{
+  "del_001": {
     "deliverable_id": "del_001",
     "project_id": "proj_mobile_01",
     "name": "User Authentication Module",
@@ -9,7 +9,7 @@
     "dependencies": [],
     "change_history": []
   },
-  {
+  "del_002": {
     "deliverable_id": "del_002",
     "project_id": "proj_mobile_01",
     "name": "Payment Processing System",
@@ -21,7 +21,7 @@
     ],
     "change_history": []
   },
-  {
+  "del_003": {
     "deliverable_id": "del_003",
     "project_id": "proj_ai_01",
     "name": "ML Model Training Pipeline",
@@ -31,7 +31,7 @@
     "dependencies": [],
     "change_history": []
   },
-  {
+  "del_004": {
     "deliverable_id": "del_004",
     "project_id": "proj_mobile_01",
     "name": "Push Notification System",
@@ -43,4 +43,4 @@
     ],
     "change_history": []
   }
-]
+}

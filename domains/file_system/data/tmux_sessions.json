@@ -1,5 +1,5 @@
-[
-  {
+{
+  "tmux_001": {
     "session_id": "tmux_001",
     "server_id": "srv_001",
     "hostname": "server-prod-01.company.com",
@@ -17,7 +17,7 @@
       }
     ]
   },
-  {
+  "tmux_002": {
     "session_id": "tmux_002",
     "server_id": "srv_002",
     "hostname": "server-data-01.company.com",
@@ -35,7 +35,7 @@
       }
     ]
   },
-  {
+  "tmux_003": {
     "session_id": "tmux_003",
     "server_id": "srv_003",
     "hostname": "server-analytics.company.com",
@@ -46,4 +46,4 @@
     "destroyed_at": "2024-01-16T11:45:00Z",
     "windows": []
   }
-]
+}

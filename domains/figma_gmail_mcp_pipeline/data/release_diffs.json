@@ -1,122 +1,272 @@
-[
-  {
+{
+  "diff_001": {
     "diff_id": "diff_001",
     "release_id": "release_001",
     "prior_release_id_nullable": "release_006",
-    "frames_added": ["1:15", "1:16", "1:17"],
-    "frames_updated": ["1:3", "1:4", "1:5"],
+    "frames_added": [
+      "1:15",
+      "1:16",
+      "1:17"
+    ],
+    "frames_updated": [
+      "1:3",
+      "1:4",
+      "1:5"
+    ],
     "frames_removed": [],
-    "component_version_bumps": ["Button-v1.2", "Card-v1.1", "Modal-v1.0"],
-    "changelog_highlights": ["Added new form components", "Enhanced button variants", "Improved accessibility"]
+    "component_version_bumps": [
+      "Button-v1.2",
+      "Card-v1.1",
+      "Modal-v1.0"
+    ],
+    "changelog_highlights": [
+      "Added new form components",
+      "Enhanced button variants",
+      "Improved accessibility"
+    ]
   },
-  {
+  "diff_002": {
     "diff_id": "diff_002",
     "release_id": "release_002",
     "prior_release_id_nullable": "release_007",
-    "frames_added": ["2:4", "2:5", "2:6"],
-    "frames_updated": ["2:2", "2:3"],
+    "frames_added": [
+      "2:4",
+      "2:5",
+      "2:6"
+    ],
+    "frames_updated": [
+      "2:2",
+      "2:3"
+    ],
     "frames_removed": [],
-    "component_version_bumps": ["Profile-v1.0", "Dashboard-v2.0"],
-    "changelog_highlights": ["Added user profile screen", "Redesigned dashboard layout", "Enhanced mobile navigation"]
+    "component_version_bumps": [
+      "Profile-v1.0",
+      "Dashboard-v2.0"
+    ],
+    "changelog_highlights": [
+      "Added user profile screen",
+      "Redesigned dashboard layout",
+      "Enhanced mobile navigation"
+    ]
   },
-  {
+  "diff_003": {
     "diff_id": "diff_003",
     "release_id": "release_003",
     "prior_release_id_nullable": "release_008",
-    "frames_added": ["3:4", "3:5"],
-    "frames_updated": ["3:3"],
+    "frames_added": [
+      "3:4",
+      "3:5"
+    ],
+    "frames_updated": [
+      "3:3"
+    ],
     "frames_removed": [],
-    "component_version_bumps": ["Hero-v1.0", "Pricing-v1.0"],
-    "changelog_highlights": ["Finalized pricing page", "Optimized hero section", "Ready for production"]
+    "component_version_bumps": [
+      "Hero-v1.0",
+      "Pricing-v1.0"
+    ],
+    "changelog_highlights": [
+      "Finalized pricing page",
+      "Optimized hero section",
+      "Ready for production"
+    ]
   },
-  {
+  "diff_004": {
     "diff_id": "diff_004",
     "release_id": "release_004",
     "prior_release_id_nullable": "release_009",
-    "frames_added": ["4:4", "4:5"],
-    "frames_updated": ["4:2", "4:3"],
+    "frames_added": [
+      "4:4",
+      "4:5"
+    ],
+    "frames_updated": [
+      "4:2",
+      "4:3"
+    ],
     "frames_removed": [],
-    "component_version_bumps": ["Header-v3.0", "Table-v2.5"],
-    "changelog_highlights": ["Improved accessibility compliance", "Enhanced keyboard navigation", "Added ARIA labels"]
+    "component_version_bumps": [
+      "Header-v3.0",
+      "Table-v2.5"
+    ],
+    "changelog_highlights": [
+      "Improved accessibility compliance",
+      "Enhanced keyboard navigation",
+      "Added ARIA labels"
+    ]
   },
-  {
+  "diff_005": {
     "diff_id": "diff_005",
     "release_id": "release_005",
     "prior_release_id_nullable": null,
-    "frames_added": ["5:2", "5:3", "5:4"],
-    "frames_updated": ["5:1"],
+    "frames_added": [
+      "5:2",
+      "5:3",
+      "5:4"
+    ],
+    "frames_updated": [
+      "5:1"
+    ],
     "frames_removed": [],
-    "component_version_bumps": ["Brand-v2.0"],
-    "changelog_highlights": ["Updated color palette", "New typography rules", "Enhanced logo guidelines"]
+    "component_version_bumps": [
+      "Brand-v2.0"
+    ],
+    "changelog_highlights": [
+      "Updated color palette",
+      "New typography rules",
+      "Enhanced logo guidelines"
+    ]
   },
-  {
+  "diff_006": {
     "diff_id": "diff_006",
     "release_id": "release_006",
     "prior_release_id_nullable": "release_010",
-    "frames_added": ["1:6", "1:7"],
-    "frames_updated": ["1:4"],
+    "frames_added": [
+      "1:6",
+      "1:7"
+    ],
+    "frames_updated": [
+      "1:4"
+    ],
     "frames_removed": [],
-    "component_version_bumps": ["Navigation-v1.1"],
-    "changelog_highlights": ["Added navigation components", "Improved responsive behavior", "Enhanced mobile menu"]
+    "component_version_bumps": [
+      "Navigation-v1.1"
+    ],
+    "changelog_highlights": [
+      "Added navigation components",
+      "Improved responsive behavior",
+      "Enhanced mobile menu"
+    ]
   },
-  {
+  "diff_007": {
     "diff_id": "diff_007",
     "release_id": "release_007",
     "prior_release_id_nullable": null,
-    "frames_added": ["2:2", "2:3"],
+    "frames_added": [
+      "2:2",
+      "2:3"
+    ],
     "frames_updated": [],
     "frames_removed": [],
-    "component_version_bumps": ["Dashboard-v2.0"],
-    "changelog_highlights": ["Complete dashboard redesign", "New data visualization", "Improved user experience"]
+    "component_version_bumps": [
+      "Dashboard-v2.0"
+    ],
+    "changelog_highlights": [
+      "Complete dashboard redesign",
+      "New data visualization",
+      "Improved user experience"
+    ]
   },
-  {
+  "diff_008": {
     "diff_id": "diff_008",
     "release_id": "release_008",
     "prior_release_id_nullable": null,
-    "frames_added": ["3:3"],
-    "frames_updated": ["3:1", "3:2"],
+    "frames_added": [
+      "3:3"
+    ],
+    "frames_updated": [
+      "3:1",
+      "3:2"
+    ],
     "frames_removed": [],
-    "component_version_bumps": ["Website-v0.9"],
-    "changelog_highlights": ["Beta version ready", "Core pages complete", "Initial testing phase"]
+    "component_version_bumps": [
+      "Website-v0.9"
+    ],
+    "changelog_highlights": [
+      "Beta version ready",
+      "Core pages complete",
+      "Initial testing phase"
+    ]
   },
-  {
+  "diff_009": {
     "diff_id": "diff_009",
     "release_id": "release_009",
     "prior_release_id_nullable": null,
-    "frames_added": ["4:3"],
-    "frames_updated": ["4:1", "4:2"],
+    "frames_added": [
+      "4:3"
+    ],
+    "frames_updated": [
+      "4:1",
+      "4:2"
+    ],
     "frames_removed": [],
-    "component_version_bumps": ["Table-v2.5"],
-    "changelog_highlights": ["Added data table component", "Enhanced admin interface", "Improved data display"]
+    "component_version_bumps": [
+      "Table-v2.5"
+    ],
+    "changelog_highlights": [
+      "Added data table component",
+      "Enhanced admin interface",
+      "Improved data display"
+    ]
   },
-  {
+  "diff_010": {
     "diff_id": "diff_010",
     "release_id": "release_010",
     "prior_release_id_nullable": null,
-    "frames_added": ["1:3", "1:4"],
+    "frames_added": [
+      "1:3",
+      "1:4"
+    ],
     "frames_updated": [],
     "frames_removed": [],
-    "component_version_bumps": ["DesignSystem-v1.0"],
-    "changelog_highlights": ["Initial design system release", "Core components defined", "Foundation established"]
+    "component_version_bumps": [
+      "DesignSystem-v1.0"
+    ],
+    "changelog_highlights": [
+      "Initial design system release",
+      "Core components defined",
+      "Foundation established"
+    ]
   },
-  {
+  "diff_011": {
     "diff_id": "diff_011",
     "release_id": "release_011",
     "prior_release_id_nullable": "release_001",
-    "frames_added": ["1:5", "1:6", "1:7"],
-    "frames_updated": ["1:3", "1:4"],
+    "frames_added": [
+      "1:5",
+      "1:6",
+      "1:7"
+    ],
+    "frames_updated": [
+      "1:3",
+      "1:4"
+    ],
     "frames_removed": [],
-    "component_version_bumps": ["Form-v1.0", "Button-v1.3", "Input-v1.2"],
-    "changelog_highlights": ["Added comprehensive form components", "Enhanced button accessibility", "Improved input validation states", "Updated color contrast ratios", "Added ARIA labels to all interactive elements"]
+    "component_version_bumps": [
+      "Form-v1.0",
+      "Button-v1.3",
+      "Input-v1.2"
+    ],
+    "changelog_highlights": [
+      "Added comprehensive form components",
+      "Enhanced button accessibility",
+      "Improved input validation states",
+      "Updated color contrast ratios",
+      "Added ARIA labels to all interactive elements"
+    ]
   },
-  {
+  "diff_012": {
     "diff_id": "diff_012",
     "release_id": "release_012",
     "prior_release_id_nullable": "release_002",
-    "frames_added": ["2:4", "2:5"],
-    "frames_updated": ["2:2", "2:3"],
+    "frames_added": [
+      "2:4",
+      "2:5"
+    ],
+    "frames_updated": [
+      "2:2",
+      "2:3"
+    ],
     "frames_removed": [],
-    "component_version_bumps": ["Settings-v1.0", "Profile-v1.1"],
-    "changelog_highlights": ["Added new settings screen", "Enhanced user profile layout", "Improved mobile navigation", "Added dark mode support", "Optimized touch targets for accessibility"]
+    "component_version_bumps": [
+      "Settings-v1.0",
+      "Profile-v1.1"
+    ],
+    "changelog_highlights": [
+      "Added new settings screen",
+      "Enhanced user profile layout",
+      "Improved mobile navigation",
+      "Added dark mode support",
+      "Optimized touch targets for accessibility"
+    ]
   }
-]
+}

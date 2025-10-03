@@ -1,5 +1,5 @@
-[
-  {
+{
+  "INV-0001": {
     "inventory_id": "INV-0001",
     "sku": "ELEC-CHIP-A1",
     "product_name": "8-bit Microcontroller",
@@ -29,7 +29,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Dry, Anti-static"
   },
-  {
+  "INV-0002": {
     "inventory_id": "INV-0002",
     "sku": "AUTO-PAD-B2",
     "product_name": "Ceramic Brake Pad Set",
@@ -59,7 +59,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Dry"
   },
-  {
+  "INV-0003": {
     "inventory_id": "INV-0003",
     "sku": "FOOD-COFF-C3",
     "product_name": "Organic Arabica Coffee Beans",
@@ -89,7 +89,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Cool, Dry"
   },
-  {
+  "INV-0004": {
     "inventory_id": "INV-0004",
     "sku": "PHRM-VACC-D4",
     "product_name": "Influenza Vaccine",
@@ -117,9 +117,9 @@
     "last_counted_date": "2024-06-05",
     "reorder_point": 5000,
     "stock_status": "In Stock",
-    "storage_requirements": "Refrigerated 2-8\u00b0C"
+    "storage_requirements": "Refrigerated 2-8°C"
   },
-  {
+  "INV-0005": {
     "inventory_id": "INV-0005",
     "sku": "APRL-BAG-E5",
     "product_name": "Leather Handbag",
@@ -149,7 +149,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Climate Controlled, High Security"
   },
-  {
+  "INV-0006": {
     "inventory_id": "INV-0006",
     "sku": "MANU-PAPR-F6",
     "product_name": "Industrial Paper Roll",
@@ -179,7 +179,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Dry"
   },
-  {
+  "INV-0007": {
     "inventory_id": "INV-0007",
     "sku": "TECH-SOLR-G7",
     "product_name": "Solar Panel 450W",
@@ -209,7 +209,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Handle with care"
   },
-  {
+  "INV-0008": {
     "inventory_id": "INV-0008",
     "sku": "FOOD-FISH-H8",
     "product_name": "Frozen Tuna Loin",
@@ -237,9 +237,9 @@
     "last_counted_date": "2024-06-04",
     "reorder_point": 500,
     "stock_status": "In Stock",
-    "storage_requirements": "Frozen -20\u00b0C"
+    "storage_requirements": "Frozen -20°C"
   },
-  {
+  "INV-0009": {
     "inventory_id": "INV-0009",
     "sku": "HEVY-DRIL-I9",
     "product_name": "Diamond Core Drill Bit",
@@ -269,7 +269,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Secure, Dry"
   },
-  {
+  "INV-0010": {
     "inventory_id": "INV-0010",
     "sku": "BLDG-TILE-J10",
     "product_name": "Ceramic Floor Tile",
@@ -299,7 +299,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Handle with care"
   },
-  {
+  "INV-0011": {
     "inventory_id": "INV-0011",
     "sku": "CHEM-SOLV-K11",
     "product_name": "Industrial Solvent",
@@ -327,9 +327,9 @@
     "last_counted_date": "2024-06-01",
     "reorder_point": 100,
     "stock_status": "In Stock",
-    "storage_requirements": "Hazmat Class 3, Temp 4-20\u00b0C, Ventilated"
+    "storage_requirements": "Hazmat Class 3, Temp 4-20°C, Ventilated"
   },
-  {
+  "INV-0012": {
     "inventory_id": "INV-0012",
     "sku": "LUX-WATCH-L12",
     "product_name": "Automatic Watch Movement",
@@ -359,7 +359,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "High Security, Anti-static"
   },
-  {
+  "INV-0013": {
     "inventory_id": "INV-0013",
     "sku": "FURN-CHAIR-M13",
     "product_name": "Teak Wood Dining Chair",
@@ -389,7 +389,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Dry"
   },
-  {
+  "INV-0014": {
     "inventory_id": "INV-0014",
     "sku": "TECH-ROBO-N14",
     "product_name": "Articulated Robotic Arm",
@@ -419,7 +419,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Secure, Dry, Handle with care"
   },
-  {
+  "INV-0015": {
     "inventory_id": "INV-0015",
     "sku": "APRL-TSHT-O15",
     "product_name": "Organic Cotton T-Shirt",
@@ -449,7 +449,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Dry"
   },
-  {
+  "INV-0016": {
     "inventory_id": "INV-0016",
     "sku": "BEVG-WINE-P16",
     "product_name": "Argentinian Malbec Wine",
@@ -477,9 +477,9 @@
     "last_counted_date": "2024-05-25",
     "reorder_point": 1200,
     "stock_status": "In Stock",
-    "storage_requirements": "Temp Control 12-14\u00b0C, Dark"
+    "storage_requirements": "Temp Control 12-14°C, Dark"
   },
-  {
+  "INV-0017": {
     "inventory_id": "INV-0017",
     "sku": "TECH-BATT-Q17",
     "product_name": "Lithium-Ion Battery Pack",
@@ -509,7 +509,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Hazmat Class 9"
   },
-  {
+  "INV-0018": {
     "inventory_id": "INV-0018",
     "sku": "MATR-COTT-R18",
     "product_name": "Raw Cotton Bale",
@@ -539,7 +539,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Dry, Ventilated"
   },
-  {
+  "INV-0019": {
     "inventory_id": "INV-0019",
     "sku": "PHRM-DRUG-S19",
     "product_name": "Oncology Drug A",
@@ -567,9 +567,9 @@
     "last_counted_date": "2024-06-04",
     "reorder_point": 100,
     "stock_status": "In Stock",
-    "storage_requirements": "Refrigerated 2-8\u00b0C, High Security"
+    "storage_requirements": "Refrigerated 2-8°C, High Security"
   },
-  {
+  "INV-0020": {
     "inventory_id": "INV-0020",
     "sku": "MATR-CORK-T20",
     "product_name": "Agglomerated Cork Stopper",
@@ -599,7 +599,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Dry"
   },
-  {
+  "INV-0021": {
     "inventory_id": "INV-0021",
     "sku": "AUTO-GLAS-U21",
     "product_name": "Automotive Windshield",
@@ -629,7 +629,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Fragile, Vertical Storage"
   },
-  {
+  "INV-0022": {
     "inventory_id": "INV-0022",
     "sku": "FOOD-OLIV-V22",
     "product_name": "Extra Virgin Olive Oil",
@@ -659,7 +659,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "Cool, Dark, Dry"
   },
-  {
+  "INV-0023": {
     "inventory_id": "INV-0023",
     "sku": "ELEC-SMART-W23",
     "product_name": "Smartphone Model X",
@@ -689,7 +689,7 @@
     "stock_status": "In Stock",
     "storage_requirements": "High Value, Secure"
   },
-  {
+  "INV-0024": {
     "inventory_id": "INV-0024",
     "sku": "FOOD-FLWR-X24",
     "product_name": "Fresh Cut Roses",
@@ -717,9 +717,9 @@
     "last_counted_date": "2024-06-05",
     "reorder_point": 1000,
     "stock_status": "In Stock",
-    "storage_requirements": "Refrigerated 4\u00b0C, High Humidity"
+    "storage_requirements": "Refrigerated 4°C, High Humidity"
   },
-  {
+  "INV-0025": {
     "inventory_id": "INV-0025",
     "sku": "ELEC-CHIP-A1",
     "product_name": "8-bit Microcontroller",
@@ -749,4 +749,4 @@
     "stock_status": "In Stock",
     "storage_requirements": "Dry, Anti-static"
   }
-]
+}

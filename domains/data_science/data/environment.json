@@ -1,5 +1,5 @@
-[
-  {
+{
+  "/Users/researcher/projects/flood-risk/.venv": {
     "venv_path_nullable": "/Users/researcher/projects/flood-risk/.venv",
     "requirements_path_nullable": "/Users/researcher/projects/flood-risk/requirements.txt",
     "packages_installed": [
@@ -16,7 +16,7 @@
     "created_ts": "2024-01-20T10:00:00Z",
     "updated_ts": "2024-03-10T14:30:00Z"
   },
-  {
+  "None": {
     "venv_path_nullable": null,
     "requirements_path_nullable": "/tmp/requirements_backup.txt",
     "packages_installed": [
@@ -28,7 +28,7 @@
     "created_ts": "2024-01-15T08:00:00Z",
     "updated_ts": "2024-01-20T09:45:00Z"
   },
-  {
+  "/opt/conda/envs/flood-analysis": {
     "venv_path_nullable": "/opt/conda/envs/flood-analysis",
     "requirements_path_nullable": "/projects/coastal-risk/requirements.txt",
     "packages_installed": [
@@ -45,7 +45,7 @@
     "created_ts": "2024-02-15T16:20:00Z",
     "updated_ts": "2024-03-17T11:45:00Z"
   },
-  {
+  "/home/data-scientist/venvs/tidal-ml": {
     "venv_path_nullable": "/home/data-scientist/venvs/tidal-ml",
     "requirements_path_nullable": "/home/data-scientist/projects/tidal-ml/requirements.txt",
     "packages_installed": [
@@ -60,7 +60,7 @@
     "created_ts": "2024-01-10T14:00:00Z",
     "updated_ts": "2024-02-28T10:15:00Z"
   },
-  {
+  "/Users/analyst/miniconda3/envs/climate-risk": {
     "venv_path_nullable": "/Users/analyst/miniconda3/envs/climate-risk",
     "requirements_path_nullable": "/Users/analyst/climate-risk/requirements.txt",
     "packages_installed": [
@@ -75,4 +75,4 @@
     "created_ts": "2024-03-05T09:30:00Z",
     "updated_ts": "2024-03-18T14:20:00Z"
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "task_001": {
     "task_id": "task_001",
     "title": "Implement user authentication",
     "description": "Add OAuth2 authentication to the platform with Google and GitHub providers",
@@ -15,7 +15,7 @@
     "completed_date": "2024-03-10T15:00:00Z",
     "time_logged": 32
   },
-  {
+  "task_002": {
     "task_id": "task_002",
     "title": "Design database schema",
     "description": "Create ERD and implement database migrations for user management",
@@ -31,7 +31,7 @@
     "completed_date": "2024-03-08T12:00:00Z",
     "time_logged": 20
   },
-  {
+  "task_003": {
     "task_id": "task_003",
     "title": "API endpoint for user profile",
     "description": "Create REST API endpoint for user profile CRUD operations",
@@ -50,7 +50,7 @@
     "completed_date": null,
     "time_logged": 12
   },
-  {
+  "task_004": {
     "task_id": "task_004",
     "title": "Frontend user dashboard",
     "description": "Create React components for user dashboard with profile management",
@@ -70,7 +70,7 @@
     "completed_date": null,
     "time_logged": 0
   },
-  {
+  "task_005": {
     "task_id": "task_005",
     "title": "Security audit preparation",
     "description": "Prepare codebase for security audit and fix critical vulnerabilities",
@@ -89,7 +89,7 @@
     "escalated": true,
     "escalation_id": "esc_001"
   },
-  {
+  "task_006": {
     "task_id": "task_006",
     "title": "Performance optimization",
     "description": "Optimize database queries for better performance",
@@ -105,7 +105,7 @@
     "completed_date": null,
     "time_logged": 0
   },
-  {
+  "task_007": {
     "task_id": "task_007",
     "title": "Mobile app API integration",
     "description": "Integrate mobile app with backend APIs for user management",
@@ -123,7 +123,7 @@
     "completed_date": null,
     "time_logged": 0
   },
-  {
+  "task_008": {
     "task_id": "task_008",
     "title": "Unit test coverage",
     "description": "Increase unit test coverage to 80% for core modules",
@@ -139,7 +139,7 @@
     "completed_date": null,
     "time_logged": 8
   },
-  {
+  "task_009": {
     "task_id": "task_009",
     "title": "Setup CI/CD pipeline",
     "description": "Configure GitHub Actions for automated testing and deployment",
@@ -155,7 +155,7 @@
     "completed_date": "2024-03-07T16:00:00Z",
     "time_logged": 18
   },
-  {
+  "task_010": {
     "task_id": "task_010",
     "title": "API documentation",
     "description": "Create Swagger/OpenAPI documentation for all endpoints",
@@ -173,7 +173,7 @@
     "completed_date": null,
     "time_logged": 0
   },
-  {
+  "task_011": {
     "task_id": "task_011",
     "title": "Load testing setup",
     "description": "Set up load testing framework and initial test scenarios",
@@ -192,7 +192,7 @@
     "completed_date": null,
     "time_logged": 0
   },
-  {
+  "task_012": {
     "task_id": "task_012",
     "title": "User permissions system",
     "description": "Implement role-based access control (RBAC)",
@@ -210,7 +210,7 @@
     "completed_date": null,
     "time_logged": 10
   },
-  {
+  "task_013": {
     "task_id": "task_013",
     "title": "Email notification service",
     "description": "Create email service for user notifications and alerts",
@@ -226,7 +226,7 @@
     "completed_date": "2024-03-12T14:00:00Z",
     "time_logged": 22
   },
-  {
+  "task_014": {
     "task_id": "task_014",
     "title": "Data migration scripts",
     "description": "Create scripts to migrate data from legacy system",
@@ -244,7 +244,7 @@
     "completed_date": null,
     "time_logged": 0
   },
-  {
+  "task_015": {
     "task_id": "task_015",
     "title": "Admin dashboard UI",
     "description": "Create admin interface for user management",
@@ -266,7 +266,7 @@
     "completed_date": null,
     "time_logged": 2
   },
-  {
+  "task_016": {
     "task_id": "task_016",
     "title": "API rate limiting",
     "description": "Implement rate limiting for API endpoints",
@@ -284,7 +284,7 @@
     "completed_date": null,
     "time_logged": 0
   },
-  {
+  "task_017": {
     "task_id": "task_017",
     "title": "Database backup strategy",
     "description": "Implement automated database backup and recovery",
@@ -302,7 +302,7 @@
     "completed_date": "2024-03-09T16:00:00Z",
     "time_logged": 16
   },
-  {
+  "task_018": {
     "task_id": "task_018",
     "title": "Mobile push notifications",
     "description": "Implement push notification service for mobile apps",
@@ -321,7 +321,7 @@
     "completed_date": null,
     "time_logged": 0
   },
-  {
+  "task_019": {
     "task_id": "task_019",
     "title": "Performance monitoring",
     "description": "Set up APM tools for performance monitoring",
@@ -339,7 +339,7 @@
     "completed_date": null,
     "time_logged": 5
   },
-  {
+  "task_020": {
     "task_id": "task_020",
     "title": "Integration tests",
     "description": "Create comprehensive integration test suite",
@@ -357,4 +357,4 @@
     "completed_date": null,
     "time_logged": 0
   }
-]
+}
