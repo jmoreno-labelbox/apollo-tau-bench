@@ -3,7 +3,6 @@ from tau_bench.types import Action, Task
 
 TASKS = [
     Task(
-        annotator="0",
         user_id="USER_001",
         instruction=(
             "Execute HQ Ops+Pricing analysis duties. You want flight HAT001 to be available on 2024-05-03, and—on "
@@ -47,7 +46,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_002",
         instruction=(
             "Execute HQ Pricing analysis duties. You want an audit snapshot for flight HAT197 on 2024-05-17. You need the flight to be operating (status ‘available’) with base fares on that date exactly: Basic Economy = 76, Economy = 189, Business = 498. You also need the Economy average price for 2024-05-16..2024-05-18 (min_samples = 1). Return only a concise verification summary with: operating_date, flight_status, the prices for 2024-05-17, and the computed average_price. Limit scope strictly to HAT197 and those dates."
@@ -89,7 +87,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_003",
         instruction=(
             "Execute HQ Pricing analysis duties. You want HAT090 and HAT223 seasonally neutral on base_fare "
@@ -126,7 +123,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_004",
         instruction=(
             "Execute Pricing analysis duties at HQ. You want flight HAT010 to be scheduled as available on 2024-05-16 with "
@@ -165,7 +161,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_005",
         instruction=(
             "Lead HQ pricing operations. You want an ATL→JFK corridor snapshot for 2024-05-23 through 2024-05-30 "
@@ -211,7 +206,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_006",
         instruction=(
             "Execute Pricing analysis duties at HQ. Deliver an audit where HAT002 is normalized from 2024-05-23 through 2024-05-29 (inclusive): "
@@ -294,7 +288,6 @@ TASKS = [
     ],
 ),
     Task(
-        annotator="0",
         user_id="USER_008",
         instruction=(
             "Execute Pricing analysis duties at HQ. Establish seasonal neutrality for HAT001 over 2024-05-20, 2024-05-21, and 2024-05-22 with multiplier 1.00 "
@@ -329,7 +322,6 @@ TASKS = [
     ),
     # Hard version
     Task(
-        annotator="0",
         user_id="USER_009",
         instruction=(
             "Lead fleet operations. You want storage and ferry handling for AC008 (ATR72-600) verified end-to-end, and then a "
@@ -385,7 +377,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_010",
         instruction=(
             "Execute Pricing analysis duties at HQ. You want a PHL→LGA corridor snapshot for May 2024 and to confirm operating eligibility on 2024-05-23. "
@@ -449,7 +440,6 @@ TASKS = [
 
     ),
     Task(
-        annotator="0",
         user_id="USER_011",
         instruction=(
             "You need a PHL→LGA corridor audit proving deterministic normalization and cheapest-fare reporting. End-state must show: "
@@ -484,7 +474,6 @@ TASKS = [
         outputs=[],  # reporting lives in tools' return; no extra strings needed
     ),
     Task(
-        annotator="0",
         user_id="USER_012",
         instruction=(
             "Execute HQ Pricing analysis duties. You were requested to make an audit that confirms HAT300 is normalized to operational compliance "
@@ -523,7 +512,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_013",
         instruction=(
             "Execute on-duty Pricing analysis for the PHL→LGA corridor. You want a baseline and analytics for HAT001 covering "
@@ -563,7 +551,6 @@ TASKS = [
         outputs=[]
     ),
     Task(
-        annotator="0",
         user_id="USER_014",
         instruction=(
             "Execute HQ Pricing analysis duties. You want HAT001 (PHL→LGA) sellable and corridor-baselined on 2024-05-21 without any bulk price/seat writes. "
@@ -601,7 +588,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_015",
         instruction=(
             "Execute Pricing analysis duties on duty. You need to verify a Business-cabin base_fare markdown for HAT002 on 2024-05-24, "
@@ -636,7 +622,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_016",
         instruction=(
             "Execute Pricing analysis duties on duty for HAT003 on 2024-05-28. Objective: produce a controlled +5.50 delta audit for "
@@ -669,7 +654,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_017",
         instruction=(
             "Execute HQ Pricing analysis duties. You want HAT001 reviewed for operational consistency across 2024-05-20 and 2024-05-22. "
@@ -711,7 +695,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_018",
         instruction=(
             "You need to set HAT002 operating on 2024-05-28, 2024-05-29, and 2024-05-30; capture baseline spot prices at the exact checkpoints "
@@ -746,7 +729,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_019",
         instruction=(
             "Execute Pricing analysis duties on duty for 2024-05-21. Objective: normalize HAT001 base_fare across cabins "
@@ -771,7 +753,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_020",
         instruction=(
             "Execute +12.00 base_fare delta confirmation for HAT200 on 2024-05-27. For Business, Economy, and Basic Economy, "
@@ -795,7 +776,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_021",
         instruction=("Execute HQ Pricing management duties. You need a 5% discount and neutral-alignment audit for HAT003 in fare_class 'economy' on 2024-05-29. "
         "Execute readback of the current fare for 2024-05-29, confirmation that a discount of 5% is applied on 2024-05-29, "
@@ -824,7 +804,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_022",
         instruction=(
             "Execute HQ Pricing management duties. You want to apply a 5% markdown and enforce neutral seasonal alignment (multiplier 1.00) "
@@ -880,7 +859,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_023",
         instruction=(
             "Execute HQ Pricing management duties. Objective: validate discounting and seasonal-normalization for HAT003 in cabin 'basic_economy' on 2024-05-29, "
@@ -915,7 +893,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_024",
         instruction=(
             "Execute HQ Pricing analysis duties. You want to apply a composite base_fare adjustment to specific "
@@ -1000,7 +977,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_025",
         instruction=(
             "Execute HQ Pricing analysis duties. Apply chained base_fare updates for the listed flight/date/cabin pairs "
@@ -1043,7 +1019,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_026",
         instruction=(
             "Execute HQ Pricing analysis duties. You want a cross-flight pricing dossier for HAT111 and HAT001 that proves all of the following end-states:\n"
@@ -1102,7 +1077,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_027",
         instruction=(
             "Generate corridor snapshot bundling three spot-checks with a uniform seasonal alignment, while guaranteeing HAT004 remains untouched.\n\n"
@@ -1146,7 +1120,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_028",
         instruction=(
             "Execute HQ Pricing analysis duties. You want to normalize the following flights by date, using the exact values below, "
@@ -1187,7 +1160,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_029",
         instruction=(
             "Execute HQ Pricing analysis duties. For HAT001, HAT002, and HAT003 across 2024-05-20..2024-05-30, "
@@ -1231,7 +1203,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_030",
         instruction=(
             "Execute HQ Pricing analysis duties. For HAT001 and HAT002 across 2024-05-20..2024-05-30, set schedule status='available' "
@@ -1267,7 +1238,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_031",
         instruction=(
             "Execute HQ Pricing analysis duties. Produce a Business-fare discount cycle audit for HAT002 on 2024-05-24. "
@@ -1300,7 +1270,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_032",
         instruction=(
             "Execute HQ Pricing analysis duties. Conduct a discount reversibility audit for HAT002 (Business) on 2024-05-24. "
@@ -1325,7 +1294,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_033",
         instruction=(
             "Execute HQ Pricing analysis duties. You want a point-in-time reversibility audit for HAT080 (Business) on 2024-05-19. "
@@ -1360,7 +1328,6 @@ TASKS = [
         outputs=[]
     ),
     Task(
-        annotator="0",
         user_id="USER_034",
         instruction=(
             "Execute Ops HQ duties. You want flight HAT014 on 2024-05-05 to be available with "
@@ -1395,7 +1362,6 @@ TASKS = [
         outputs=[]
     ),
     Task(
-        annotator="0",
         user_id="USER_035",
         instruction=(
             "Execute HQ duty analysis tasks. Normalize HAT003 across 2024-05-22..2024-05-26. Final state: schedule status is "
@@ -1429,7 +1395,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_036",
         instruction=(
             "Execute Ops HQ duties. You want an operational adjustment for HAT270 across 2024-05-23 through 2024-05-25. "
@@ -1477,7 +1442,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_037",
         instruction=(
             "You need a seasonal down-adjustment audit for HAT001 (economy) covering 2024-05-20..2024-05-30. "
@@ -1538,7 +1502,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_038",
         instruction=(
             "Execute Pricing HQ duties. You want to normalize HAT010 for 2024-05-13..2024-05-15. "
@@ -1566,7 +1529,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_039",
         instruction=(
             "You need HAT003 with schedule status 'available' on 2024-05-24. "
@@ -1599,7 +1561,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_040",
         instruction=(
             "Execute Pricing analysis duties at HQ. You want a coverage profile for MSP→EWR with a high listing limit "
@@ -1633,7 +1594,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_041",
         instruction=(
             "Execute Pricing HQ duties. Deliver an Economy-cabin audit and normalization packet for HAT300. "
@@ -1673,7 +1633,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_042",
         instruction=(
             "Execute HQ Pricing analysis duties. You need an authoritative per-cabin cheapest-by-date audit for PHL→LGA across the full "
@@ -1752,7 +1711,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_043",
         instruction=(
             "You require anavailability-normalization and fleet-assignment audit for HAT001, "
@@ -1809,7 +1767,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_044",
         instruction=(
             "Execute HQ Pricing analysis duties. You want HAT001 (Economy) normalized for 2024-05-20 and 2024-05-21, "
@@ -1851,7 +1808,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_045",
         instruction=(
             "Generate Business-cabin pricing brief for HAT002 covering 2024-05-23..2024-05-29. "
@@ -1911,7 +1867,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_046",
         instruction=(
             "Execute Pricing HQ duties. You want a PHL→LGA corridor snapshot focused on HAT001 for 2024-05-21. "
@@ -1960,7 +1915,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_047",
         instruction="Execute Ops HQ duties. For HAT223: list operational events of types ['cancellation','diversion'] over 2024-05-05..2024-05-25 for context; retrieve the Business fare history; set schedule status='available' on 2024-05-23 and 2024-05-24 (no change if already). Do not modify other dates, aircraft, crew, or cabins.",
         actions=[
@@ -1984,7 +1938,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_048",
         instruction=(
             "Execute Ops HQ duties. You want HAT223 sellable on 2024-05-23, 2024-05-24, and 2024-05-25 by publishing those dates "
@@ -2035,7 +1988,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_049",
         instruction=(
             "Execute normalization for HAT002 for the window 2024-05-23 through 2024-05-25. "
@@ -2062,7 +2014,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_050",
         instruction=(
             "Execute Pricing HQ analyst. You want a Business-cabin audit and single-day normalization for HAT300. "
@@ -2097,7 +2048,6 @@ TASKS = [
         outputs=[]
     ),
     Task(
-        annotator="0",
         user_id="USER_051",
         instruction=(
             "Execute Pricing Ops Lead. You want a Basic-Economy audit and single-day normalization for HAT300, "
@@ -2136,7 +2086,6 @@ TASKS = [
         outputs=[]
     ),
     Task(
-        annotator="0",
         user_id="USER_052",
         instruction=(
             "Execute Pricing HQ duties. You want an Economy-cabin audit and normalization packet for HAT200 over "
@@ -2185,7 +2134,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_053",
         instruction=(
             "Execute Pricing HQ duties. You want to apply and confirm a controlled Business-only additive adjustment for HAT231 "
@@ -2215,7 +2163,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_053",
         instruction=(
             "Execute Pricing HQ duties. You want to apply and confirm a controlled Business-only adjustment for HAT231 "
@@ -2246,7 +2193,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_055",
         instruction="Execute Ops HQ duties. For HAT001 and HAT002 across 2024-05-24..2024-05-27, set schedule status='available' on all dates (no change if already; do not alter aircraft or crew). For HAT002 across the same window, enable no-charge upgrades from 'economy' to 'business' (from_cabin='economy', to_cabin='business', no_charge=True).",
         actions=[
@@ -2274,7 +2220,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_056",
         instruction=(
             "Execute HQ Pricing & Finance analysis duties. For HAT001, set schedule status='available' on 2024-05-24, 2024-05-25, "
@@ -2306,7 +2251,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_057",
         instruction=(
             "Execute HQ Revenue analysis duties. You want to validate free-upgrade policy and revenue impact for HAT001 "
@@ -2354,7 +2298,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_058",
         instruction=(
             "Execute HQ Pricing & Ops control duties. Execute the following exact sequence—without interleaving or additional calls—"
@@ -2416,7 +2359,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_059",
         instruction=(
             "Execute Pricing HQ duties. You want to apply a temporary 10% markdown on flight HAT090 (economy) dated 2024-05-24 "
@@ -2450,7 +2392,6 @@ TASKS = [
         outputs=[]
     ),
     Task(
-        annotator="0",
         user_id="USER_060",
         instruction=(
             "Demonstrate a reversible Business fare discount cycle for HAT090 on 2024-05-24. "
@@ -2481,7 +2422,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_061",
         instruction=(
             "Execute HQ Pricing & Ops Lead. For HAT008 and HAT009 across 2024-09-15..2024-09-17, you want schedule "
@@ -2517,7 +2457,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_062",
         instruction=(
             "Execute HQ Pricing analysis duties. You need a scoped pricing audit covering only HAT010 (2024-10-06), reservation PGAGLM, and HAT001 (2024-05-24). "
@@ -2566,7 +2505,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_063",
         instruction=(
             "Execute Pricing HQ duties. Produce an Economy-fare sanity audit for HAT090 on 2024-05-24 that demonstrates a "
@@ -2596,7 +2534,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_064",
         instruction=(
             "Execute shift lead. Produce a relocation and status audit for aircraft AC002 covering its transfer "
@@ -2628,7 +2565,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_065",
         instruction=(
             "Execute network allocator. Objective: establish and confirm the final state for aircraft AC003 (tail 'PP-LTM') "
@@ -2652,7 +2588,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_066",
         instruction=(
             "Execute Base Maintenance Control duties. You want a post-maintenance release and allocation audit for aircraft "
@@ -2697,7 +2632,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_067",
         instruction=("Execute Long-Haul Roster Lead. You need a relocation and utilization audit limited strictly to aircraft AC006 (B777-300ER) and flight HAT013 on 2024-05-28. You want the auditable end-state to show: (a) AC006 in status 'Active' with reason 'kept in service' (a reconfirmation/no-change is acceptable); (b) AC006 located at SEA with relocation rationale 'pacific hub augmentation' and its presence visible in the SEA inventory filtered by model_id='B777-300ER'; (c) the AC006 aircraft profile reflecting SEA; and (d) HAT013 on 2024-05-28 assigned to AC006. Limit scope strictly to these entities, locations, and this date, and return only the verification fields."),
         actions=[
@@ -2721,7 +2655,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_068",
         instruction=(
             "Execute Pricing HQ duties. You want to verify discount reversibility for HAT080 (economy) on 2024-05-24. "
@@ -2756,7 +2689,6 @@ TASKS = [
             ],
     ),
     Task(
-        annotator="0",
         user_id="USER_069",
         instruction=(
             "Execute Hub Control duties. You want a relocation-and-status audit for AC007 (PR-YJB, A220-300) covering its move "
@@ -2794,7 +2726,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_070",
         instruction=(
             "Execute duty analyst. With scope limited to AC009, airports {LAS, PHX}, and flight HAT214 on 2024-05-18, "
@@ -2844,7 +2775,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_071",
         instruction=(
             "Execute West Ops Lead. You want an activation and allocation audit for aircraft AC010 "
@@ -2896,7 +2826,6 @@ TASKS = [
 
     ),
     Task(
-        annotator="0",
         user_id="USER_072",
         instruction=(
             "Execute Fleet Shuffle & Allocation Lead. You need a shuffle-and-allocation audit limited strictly to aircraft "
@@ -2926,15 +2855,9 @@ TASKS = [
             }),
             Action(name="GetAircraftProfile", kwargs={"aircraft_id": "AC011"}),
         ],
-        outputs=[
-            {"audit_id": "AS000001"},
-            {"audit_id": "AM000002"},
-            {"iata_code": "MCO", "status": "active"},
-            {"status": "success", "flight_number": "HAT011", "date": "2024-05-05", "new_aircraft_id": "AC011"}
-        ],
+        outputs=[]
     ),
     Task(
-        annotator="0",
         user_id="USER_073",
         instruction=(
             "Execute Fleet Balance Lead. You need a utilization relocation audit limited strictly to aircraft AC013 "
@@ -2979,7 +2902,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_074",
        instruction=("Execute Line Check Desk lead. You need a maintenance relocation audit limited strictly to aircraft AC014 and flight HAT014 on 2024-05-05. "
        "Execute: (a) a baseline AC014 profile showing DFW; (b) AC014 relocated to PHX with the rationale 'A-check slot PHX'; "
@@ -3013,7 +2935,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_075",
         instruction=(
             "You want to request a congestion-relief relocation audit for aircraft AC015. "
@@ -3050,7 +2971,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_076",
         instruction=(
             "Execute Ramp Flow Verifier. Run a congestion-relief basing audit for AC015 strictly within {CLT, MCO}. "
@@ -3102,7 +3022,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_077",
         instruction=(
             "You want to request a congestion-relief relocation audit for aircraft AC015, limited strictly to AC015 "
@@ -3138,7 +3057,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_078",
         instruction=(
             "You want a rehoming and schedule-alignment audit for aircraft AC001. "
@@ -3173,7 +3091,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_079",
         instruction=(
             "Execute Transatlantic Desk. You want the normalized final state limited strictly to the entities and dates listed, "
@@ -3231,7 +3148,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_080",
         instruction=(
             "Execute Fleet Ops & Pricing Lead. Scope is strictly AC003 (tail 'PP-LTM'), HAT014, and HAT003.\n\n"
@@ -3272,7 +3188,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_081",
         instruction=(
             "Execute Global Ops lead. You need a Middle East hop relocation audit limited strictly to aircraft AC002 (tail 'PR-XBE') "
@@ -3307,7 +3222,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_082",
         instruction=("Execute APAC Operations duties. You need to produce a Osaka pivot audit limited strictly to aircraft AC001 (tail 'PR-GOL') and flight HAT025. You want: (a) a baseline captured for AC001; (b) pre-pivot aircraft counts at HND and at CLT filtered by model_id='B737-800'; (c) AC001 relocated to HND with the rationale exactly 'APAC pivot—Tokyo rotation HND'; (d) AC001 retrievable by tail_number 'PR-GOL'; and (e) for HAT025 on 2024-05-25, the assigned aircraft to be AC001. Keep scope to these entities and this date, and return only the facts necessary to substantiate these outcomes."),
         actions=[
@@ -3338,7 +3252,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_083",
         instruction=(
             "Execute Crew Ops Compliance Lead. Scope is AC009 (tail PR-GUO) and HAT050 on 2024-05-06.\n\n"
@@ -3397,7 +3310,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_084",
         instruction=(
             "Execute HQ Ops Auditor. Scope strictly to HAT026 on 2024-05-03. "
@@ -3436,7 +3348,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_085",
         instruction=(
             "Execute HQ Pricing analysis duties. Produce a price-setting confirmation packet for HAT250 on 2024-05-21. "
@@ -3486,7 +3397,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_086",
         instruction=(
             "Execute Crew Ops Coordinator. Deliver a read-and-record audit with scope limited to flight HAT004 on 2024-05-01 "
@@ -3540,7 +3450,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_087",
         instruction=(
             "Execute Crew Ops Compliance lead. Run a certification-compliance audit for CM003 demonstrating dual-qualification and "
@@ -3570,7 +3479,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_088",
         instruction=(
             "You want a launch-readiness update with read-only flight context and scoped crew certification updates. "
@@ -3619,7 +3527,6 @@ TASKS = [
         ],
     ),
     Task(
-        annotator="0",
         user_id="USER_089",
         instruction=(
             "Execute Crew Ops Staffing Coordinator. You want an A220-300 staffing qualification packet for crew CM004 and CM005 "
@@ -3670,7 +3577,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_090",
         instruction=(
             "Execute Line Ops Lead. A context and pricing-alignment audit covers aircraft AC001 and flights HAT014, "
@@ -3712,7 +3618,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_091",
         instruction=(
             "Execute Maintenance Release Coordinator. You want a return-to-service and positioning audit for aircraft AC011, "
@@ -3759,7 +3664,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_092",
         instruction=(
             "Execute regional ops lead. Scope strictly to aircraft AC008 (ATR72-600) and HAT014 on 2024-05-05. "
@@ -3787,7 +3691,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_093",
         instruction=("Execute heavy-jet line lead. You need a release-and-assignment confirmation limited strictly to aircraft AC006 (B777-300ER) at ORD and flight HAT014 on 2024-05-04. You want: (a) a baseline AC006 aircraft profile that includes its current IATA location; (b) AC006 confirmed in operating status 'Active' with reason 'release to service' (note if this is a no-change); and (c) for HAT014 on 2024-05-04, schedule status 'available' with aircraft 'AC006'. Limit scope to these entities and this date, and report only the facts needed to substantiate these outcomes."),
         actions=[
@@ -3808,7 +3711,6 @@ TASKS = [
         outputs=[]
     ),
     Task(
-        annotator="0",
         user_id="USER_094",
         instruction=("Execute line ops activation lead. You need an activation, relocation, and assignment audit limited strictly to aircraft AC018 (B737-800) and flight HAT011 on 2024-05-03. You want: (a) a baseline for AC018 showing it at LAX with its current status captured; (b) AC018 confirmed in status 'Active' with reason 'stored recovery'; (c) AC018 relocated to LAS with reason 'southwest ops balance'; (d) HAT011 on 2024-05-03 set to 'available'; and (e) HAT011 on 2024-05-03 assigned to AC018 with evidence that includes the aircraft identifier. Limit scope to these entities and this date, and return only the verification data needed to substantiate these outcomes."),
         actions=[
@@ -3833,7 +3735,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_095",
         instruction=(
             "Execute regional ops lead. You need to return aircraft AC024 (E195-E2) to service from SEA, reposition it to MIA for "
@@ -3862,7 +3763,6 @@ TASKS = [
         outputs=[],
     ),
     Task(
-        annotator="0",
         user_id="USER_096",
         instruction=("Execute Line Ops Lead. You need an assignment-and-readiness audit limited strictly to aircraft AC002 "
                     "(A320neo, tail 'PR-XBE') and flight HAT002. You want: (a) a baseline AC002 aircraft profile that includes its "
@@ -3890,7 +3790,6 @@ TASKS = [
         outputs=[]
     ),
     Task(
-        annotator="0",
         user_id="USER_097",
         instruction=("Execute HQ Pricing analysis duties. You need a May-2024 schedule-and-fares compliance audit limited strictly to HAT001 and HAT002. "
             "You want the end-state to show: (a) HAT001 and HAT002 have status 'available' on 2024-05-01 and 2024-05-31; "
@@ -3945,7 +3844,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_098",
         instruction=(
             "Execute HQ Pricing analysis duties. You want a compliant end state on 2024-05-29 across flights HAT003 and HAT001. "
@@ -3978,7 +3876,6 @@ TASKS = [
         outputs=[]
     ),
     Task(
-        annotator="0",
         user_id="USER_099",
         instruction=(
             "Execute Schedule & Pricing Compliance Analyst. You need a May-2024 schedule and pricing compliance "
@@ -4015,7 +3912,6 @@ TASKS = [
         ]
     ),
     Task(
-        annotator="0",
         user_id="USER_100",
         instruction=(
             "Execute ops+pricing duty analyst. You want HAT007 normalized and verified on 2024-05-24. "
