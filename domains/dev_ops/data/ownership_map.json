@@ -1,0 +1,92 @@
+[
+  {
+    "id": "ownership_001",
+    "file_path": "src/game/engine/renderer.cpp",
+    "owner_id": "user_001",
+    "team_id": "team_001",
+    "ownership_type": "primary",
+    "last_updated": "2025-01-27T10:00:00Z",
+    "confidence_score": 0.95
+  },
+  {
+    "id": "ownership_002",
+    "file_path": "assets/textures/character_models/",
+    "owner_id": "user_002",
+    "team_id": "team_002",
+    "ownership_type": "primary",
+    "last_updated": "2025-01-27T10:00:00Z",
+    "confidence_score": 0.92
+  },
+  {
+    "id": "ownership_003",
+    "file_path": "src/game/ai/pathfinding.h",
+    "owner_id": "user_003",
+    "team_id": "team_003",
+    "ownership_type": "primary",
+    "last_updated": "2025-01-27T10:00:00Z",
+    "confidence_score": 0.88
+  },
+  {
+    "id": "ownership_004",
+    "file_path": "assets/audio/sound_effects/",
+    "owner_id": "user_004",
+    "team_id": "team_004",
+    "ownership_type": "primary",
+    "last_updated": "2025-01-27T10:00:00Z",
+    "confidence_score": 0.9
+  },
+  {
+    "id": "ownership_005",
+    "file_path": "src/game/ui/menu_system.cpp",
+    "owner_id": "user_005",
+    "team_id": "team_005",
+    "ownership_type": "primary",
+    "last_updated": "2025-01-27T10:00:00Z",
+    "confidence_score": 0.87
+  },
+  {
+    "id": "ownership_006",
+    "file_path": "src/game/physics/collision_detection.cpp",
+    "owner_id": "user_006",
+    "team_id": "team_001",
+    "ownership_type": "secondary",
+    "last_updated": "2025-01-27T10:00:00Z",
+    "confidence_score": 0.75
+  },
+  {
+    "id": "ownership_007",
+    "file_path": "assets/models/environment/",
+    "owner_id": "user_007",
+    "team_id": "team_002",
+    "ownership_type": "primary",
+    "last_updated": "2025-01-27T10:00:00Z",
+    "confidence_score": 0.93
+  },
+  {
+    "id": "ownership_008",
+    "file_path": "src/game/network/multiplayer.cpp",
+    "owner_id": "user_008",
+    "team_id": "team_003",
+    "ownership_type": "primary",
+    "last_updated": "2025-01-27T10:00:00Z",
+    "confidence_score": 0.91
+  },
+  {
+    "id": "ownership_009",
+    "file_path": "assets/localization/strings/",
+    "owner_id": "user_009",
+    "team_id": "team_005",
+    "ownership_type": "primary",
+    "last_updated": "2025-01-27T10:00:00Z",
+    "confidence_score": 0.89
+  },
+  {
+    "id": "ownership_010",
+    "file_path": "src/game/input/controller_handler.cpp",
+    "owner_id": "user_010",
+    "team_id": "team_001",
+    "ownership_type": "primary",
+    "last_updated": "2025-01-27T10:00:00Z",
+    "confidence_score": 0.86
+  }
+]

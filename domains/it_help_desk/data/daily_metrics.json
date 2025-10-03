@@ -1,0 +1,107 @@
+[
+  {
+    "date": "2025-07-01",
+    "tickets_opened": 1,
+    "tickets_closed": 0,
+    "closed_within_24h": 0,
+    "avg_open_age_hours": 61
+  },
+  {
+    "date": "2025-07-02",
+    "tickets_opened": 3,
+    "tickets_closed": 0,
+    "closed_within_24h": 0,
+    "avg_open_age_hours": 39
+  },
+  {
+    "date": "2025-07-03",
+    "tickets_opened": 3,
+    "tickets_closed": 0,
+    "closed_within_24h": 0,
+    "avg_open_age_hours": 33
+  },
+  {
+    "date": "2025-07-04",
+    "tickets_opened": 0,
+    "tickets_closed": 0,
+    "closed_within_24h": 0,
+    "avg_open_age_hours": 14
+  },
+  {
+    "date": "2025-07-05",
+    "tickets_opened": 2,
+    "tickets_closed": 2,
+    "closed_within_24h": 0,
+    "avg_open_age_hours": 60
+  },
+  {
+    "date": "2025-07-06",
+    "tickets_opened": 2,
+    "tickets_closed": 3,
+    "closed_within_24h": 3,
+    "avg_open_age_hours": 47
+  },
+  {
+    "date": "2025-07-07",
+    "tickets_opened": 1,
+    "tickets_closed": 2,
+    "closed_within_24h": 2,
+    "avg_open_age_hours": 16
+  },
+  {
+    "date": "2025-07-08",
+    "tickets_opened": 1,
+    "tickets_closed": 0,
+    "closed_within_24h": 0,
+    "avg_open_age_hours": 49
+  },
+  {
+    "date": "2025-07-09",
+    "tickets_opened": 3,
+    "tickets_closed": 2,
+    "closed_within_24h": 2,
+    "avg_open_age_hours": 65
+  },
+  {
+    "date": "2025-07-10",
+    "tickets_opened": 1,
+    "tickets_closed": 2,
+    "closed_within_24h": 0,
+    "avg_open_age_hours": 10
+  },
+  {
+    "date": "2025-07-11",
+    "tickets_opened": 2,
+    "tickets_closed": 3,
+    "closed_within_24h": 1,
+    "avg_open_age_hours": 66
+  },
+  {
+    "date": "2025-07-12",
+    "tickets_opened": 3,
+    "tickets_closed": 0,
+    "closed_within_24h": 0,
+    "avg_open_age_hours": 18
+  },
+  {
+    "date": "2025-07-13",
+    "tickets_opened": 1,
+    "tickets_closed": 3,
+    "closed_within_24h": 1,
+    "avg_open_age_hours": 46
+  },
+  {
+    "date": "2025-07-14",
+    "tickets_opened": 2,
+    "tickets_closed": 1,
+    "closed_within_24h": 0,
+    "avg_open_age_hours": 11
+  },
+  {
+    "date": "2025-07-15",
+    "tickets_opened": 0,
+    "tickets_closed": 0,
+    "closed_within_24h": 0,
+    "avg_open_age_hours": 8
+  }
+]

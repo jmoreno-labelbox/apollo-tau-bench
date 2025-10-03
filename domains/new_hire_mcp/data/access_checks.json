@@ -1,0 +1,177 @@
+[
+  {
+    "candidate_id": "cand_2",
+    "system_name": "Email",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-18T10:00:00Z"
+  },
+  {
+    "candidate_id": "cand_2",
+    "system_name": "SSO",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-18T10:01:00Z"
+  },
+  {
+    "candidate_id": "cand_2",
+    "system_name": "Slack",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-18T10:02:00Z"
+  },
+  {
+    "candidate_id": "cand_2",
+    "system_name": "GitHub",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-18T10:03:00Z"
+  },
+  {
+    "candidate_id": "cand_3",
+    "system_name": "Email",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-25T15:00:00Z"
+  },
+  {
+    "candidate_id": "cand_3",
+    "system_name": "SSO",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-25T15:01:00Z"
+  },
+  {
+    "candidate_id": "cand_3",
+    "system_name": "Slack",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-25T15:01:30Z"
+  },
+  {
+    "candidate_id": "cand_3",
+    "system_name": "GitHub",
+    "status": "Failed",
+    "note_nullable": "Account not yet provisioned. IT ticket #12345 created.",
+    "checked_ts": "2024-07-25T15:02:00Z"
+  },
+  {
+    "candidate_id": "cand_3",
+    "system_name": "VPN",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-25T15:03:00Z"
+  },
+  {
+    "candidate_id": "cand_4",
+    "system_name": "Email",
+    "status": "Failed",
+    "note_nullable": "Mailbox creation failed. Exchange server issue reported.",
+    "checked_ts": "2024-07-22T11:00:00Z"
+  },
+  {
+    "candidate_id": "cand_4",
+    "system_name": "SSO",
+    "status": "Failed",
+    "note_nullable": "Identity provider sync pending. Expected resolution by 2024-08-10.",
+    "checked_ts": "2024-07-22T11:01:00Z"
+  },
+  {
+    "candidate_id": "cand_4",
+    "system_name": "Slack",
+    "status": "Failed",
+    "note_nullable": "Account depends on SSO resolution.",
+    "checked_ts": "2024-07-22T11:02:00Z"
+  },
+  {
+    "candidate_id": "cand_4",
+    "system_name": "GitHub",
+    "status": "Pending",
+    "note_nullable": "Waiting for SSO fix before account creation.",
+    "checked_ts": "2024-07-22T11:03:00Z"
+  },
+  {
+    "candidate_id": "cand_5",
+    "system_name": "Email",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-27T16:00:00Z"
+  },
+  {
+    "candidate_id": "cand_5",
+    "system_name": "SSO",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-27T16:01:00Z"
+  },
+  {
+    "candidate_id": "cand_5",
+    "system_name": "Slack",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-27T16:02:00Z"
+  },
+  {
+    "candidate_id": "cand_5",
+    "system_name": "GitHub",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-27T16:03:00Z"
+  },
+  {
+    "candidate_id": "cand_5",
+    "system_name": "VPN",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-27T16:04:00Z"
+  },
+  {
+    "candidate_id": "cand_5",
+    "system_name": "AWS Console",
+    "status": "Success",
+    "note_nullable": "DevOps role requires AWS access",
+    "checked_ts": "2024-07-27T16:05:00Z"
+  },
+  {
+    "candidate_id": "cand_7",
+    "system_name": "Email",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-08-07T14:00:00Z"
+  },
+  {
+    "candidate_id": "cand_7",
+    "system_name": "SSO",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-08-07T14:01:00Z"
+  },
+  {
+    "candidate_id": "cand_7",
+    "system_name": "Slack",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-08-07T14:02:00Z"
+  },
+  {
+    "candidate_id": "cand_7",
+    "system_name": "GitHub",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-08-07T14:03:00Z"
+  },
+  {
+    "candidate_id": "cand_7",
+    "system_name": "VPN",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-08-07T14:04:00Z"
+  },
+  {
+    "candidate_id": "cand_1",
+    "system_name": "Email",
+    "status": "Pending",
+    "note_nullable": "Account creation scheduled for start date",
+    "checked_ts": "2024-07-30T09:00:00Z"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "license_id": "lic_m365_e3",
+    "name": "TechSoft 365 E3",
+    "total_seats": 66,
+    "used_seats": 40,
+    "reserved_seats": 1,
+    "last_audit_at": "2025-07-15T08:00:00+00:00"
+  },
+  {
+    "license_id": "lic_m365_e5",
+    "name": "TechSoft 365 E5",
+    "total_seats": 83,
+    "used_seats": 0,
+    "reserved_seats": 4,
+    "last_audit_at": "2025-07-15T08:00:00+00:00"
+  },
+  {
+    "license_id": "lic_adobe_cc",
+    "name": "CreativeWorks Creative Cloud",
+    "total_seats": 128,
+    "used_seats": 3,
+    "reserved_seats": 3,
+    "last_audit_at": "2025-07-15T08:00:00+00:00"
+  },
+  {
+    "license_id": "lic_github_ent",
+    "name": "CodeHub Enterprise",
+    "total_seats": 93,
+    "used_seats": 7,
+    "reserved_seats": 5,
+    "last_audit_at": "2025-07-15T08:00:00+00:00"
+  },
+  {
+    "license_id": "lic_slack_ent",
+    "name": "TeamChat Enterprise Grid",
+    "total_seats": 98,
+    "used_seats": 40,
+    "reserved_seats": 0,
+    "last_audit_at": "2025-07-15T08:00:00+00:00"
+  },
+  {
+    "license_id": "lic_salesforce",
+    "name": "CloudCRM Enterprise",
+    "total_seats": 71,
+    "used_seats": 15,
+    "reserved_seats": 3,
+    "last_audit_at": "2025-07-15T08:00:00+00:00"
+  }
+]

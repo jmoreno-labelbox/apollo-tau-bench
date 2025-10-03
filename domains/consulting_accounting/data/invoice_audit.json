@@ -1,0 +1,310 @@
+[
+  {
+    "audit_id": "AUD001",
+    "invoice_id": "INV001",
+    "event_type": "generated",
+    "event_timestamp": "2024-01-31T15:45:00Z",
+    "notes": "Invoice created for January 2024 work"
+  },
+  {
+    "audit_id": "AUD002",
+    "invoice_id": "INV001",
+    "event_type": "emailed",
+    "event_timestamp": "2024-01-31T16:30:00Z",
+    "notes": "Invoice emailed to accounts@mapleleafpub.com"
+  },
+  {
+    "audit_id": "AUD003",
+    "invoice_id": "INV001",
+    "event_type": "payment_received",
+    "event_timestamp": "2024-02-15T10:45:00Z",
+    "notes": "Payment received - 15 days after due date"
+  },
+  {
+    "audit_id": "AUD004",
+    "invoice_id": "INV002",
+    "event_type": "generated",
+    "event_timestamp": "2024-02-29T13:55:00Z",
+    "notes": "Invoice created for February 2024 work"
+  },
+  {
+    "audit_id": "AUD005",
+    "invoice_id": "INV002",
+    "event_type": "emailed",
+    "event_timestamp": "2024-02-29T14:20:00Z",
+    "notes": "Invoice emailed to billing@northernlights-edu.ca"
+  },
+  {
+    "audit_id": "AUD006",
+    "invoice_id": "INV002",
+    "event_type": "email_reminder",
+    "event_timestamp": "2024-03-15T09:00:00Z",
+    "notes": "Friendly reminder sent - invoice due in 15 days"
+  },
+  {
+    "audit_id": "AUD007",
+    "invoice_id": "INV002",
+    "event_type": "payment_received",
+    "event_timestamp": "2024-03-25T09:30:00Z",
+    "notes": "Payment received - 25 days after due date"
+  },
+  {
+    "audit_id": "AUD008",
+    "invoice_id": "INV008",
+    "event_type": "generated",
+    "event_timestamp": "2024-08-31T09:20:00Z",
+    "notes": "Invoice created for August 2024 work"
+  },
+  {
+    "audit_id": "AUD009",
+    "invoice_id": "INV008",
+    "event_type": "emailed",
+    "event_timestamp": "2024-08-31T09:45:00Z",
+    "notes": "Invoice emailed to finance@horizonacademic.com"
+  },
+  {
+    "audit_id": "AUD010",
+    "invoice_id": "INV008",
+    "event_type": "email_reminder",
+    "event_timestamp": "2024-10-01T10:30:00Z",
+    "notes": "First reminder sent - invoice overdue by 31 days"
+  },
+  {
+    "audit_id": "AUD011",
+    "invoice_id": "INV008",
+    "event_type": "second_notice",
+    "event_timestamp": "2024-11-01T14:15:00Z",
+    "notes": "Second notice sent - invoice overdue by 61 days, payment plan offered"
+  },
+  {
+    "audit_id": "AUD012",
+    "invoice_id": "INV009",
+    "event_type": "generated",
+    "event_timestamp": "2024-09-30T15:50:00Z",
+    "notes": "Invoice created for September 2024 work"
+  },
+  {
+    "audit_id": "AUD013",
+    "invoice_id": "INV009",
+    "event_type": "emailed",
+    "event_timestamp": "2024-09-30T16:15:00Z",
+    "notes": "Invoice emailed to accounts@mapleleafpub.com"
+  },
+  {
+    "audit_id": "AUD014",
+    "invoice_id": "INV009",
+    "event_type": "email_reminder",
+    "event_timestamp": "2024-11-15T11:00:00Z",
+    "notes": "Friendly reminder sent - invoice overdue by 15 days"
+  },
+  {
+    "audit_id": "AUD015",
+    "invoice_id": "INV010",
+    "event_type": "generated",
+    "event_timestamp": "2024-10-31T14:05:00Z",
+    "notes": "Invoice created for October 2024 work"
+  },
+  {
+    "audit_id": "AUD016",
+    "invoice_id": "INV010",
+    "event_type": "emailed",
+    "event_timestamp": "2024-10-31T14:30:00Z",
+    "notes": "Invoice emailed to ap@coastaleducational.ca"
+  },
+  {
+    "audit_id": "AUD017",
+    "invoice_id": "INV011",
+    "event_type": "generated",
+    "event_timestamp": "2024-11-30T11:35:00Z",
+    "notes": "Invoice created for November 2024 work"
+  },
+  {
+    "audit_id": "AUD018",
+    "invoice_id": "INV011",
+    "event_type": "emailed",
+    "event_timestamp": "2024-11-30T12:00:00Z",
+    "notes": "Invoice emailed to payments@prairieknowledge.com"
+  },
+  {
+    "audit_id": "AUD019",
+    "invoice_id": "INV012",
+    "event_type": "generated",
+    "event_timestamp": "2024-07-15T09:35:00Z",
+    "notes": "Invoice created for July 1-15, 2024 work"
+  },
+  {
+    "audit_id": "AUD020",
+    "invoice_id": "INV012",
+    "event_type": "emailed",
+    "event_timestamp": "2024-07-15T10:00:00Z",
+    "notes": "Invoice emailed to billing@northernlights-edu.ca"
+  },
+  {
+    "audit_id": "AUD021",
+    "invoice_id": "INV012",
+    "event_type": "phone_call",
+    "event_timestamp": "2024-09-15T15:30:00Z",
+    "notes": "Phone call made - payment plan negotiated for 60 days overdue"
+  },
+  {
+    "audit_id": "AUD022",
+    "invoice_id": "INV012",
+    "event_type": "escalation",
+    "event_timestamp": "2024-11-20T16:45:00Z",
+    "notes": "Formal escalation - invoice overdue 120+ days, late fee applied"
+  },
+  {
+    "audit_id": "AUD023",
+    "invoice_id": "INV013",
+    "event_type": "generated",
+    "event_timestamp": "2024-06-15T15:05:00Z",
+    "notes": "Invoice created for June 1-15, 2024 work"
+  },
+  {
+    "audit_id": "AUD024",
+    "invoice_id": "INV013",
+    "event_type": "emailed",
+    "event_timestamp": "2024-06-15T15:30:00Z",
+    "notes": "Invoice emailed to finance@horizonacademic.com"
+  },
+  {
+    "audit_id": "AUD025",
+    "invoice_id": "INV013",
+    "event_type": "escalation",
+    "event_timestamp": "2024-11-10T13:20:00Z",
+    "notes": "Formal escalation - invoice overdue 150+ days, considering collection agency"
+  },
+  {
+    "audit_id": "AUD026",
+    "invoice_id": "INV021",
+    "event_type": "generated",
+    "event_timestamp": "2024-09-15T15:45:00Z",
+    "notes": "Invoice created for September 1-15, 2024 work"
+  },
+  {
+    "audit_id": "AUD027",
+    "invoice_id": "INV021",
+    "event_type": "emailed",
+    "event_timestamp": "2024-09-15T16:30:00Z",
+    "notes": "Invoice emailed to accounts@mapleleafpub.com"
+  },
+  {
+    "audit_id": "AUD028",
+    "invoice_id": "INV021",
+    "event_type": "email_reminder",
+    "event_timestamp": "2024-10-20T10:00:00Z",
+    "notes": "First reminder sent - invoice 35 days overdue"
+  },
+  {
+    "audit_id": "AUD029",
+    "invoice_id": "INV021",
+    "event_type": "second_notice",
+    "event_timestamp": "2024-11-15T14:30:00Z",
+    "notes": "Second notice sent - invoice 61 days overdue, requesting payment date"
+  },
+  {
+    "audit_id": "AUD030",
+    "invoice_id": "INV022",
+    "event_type": "generated",
+    "event_timestamp": "2024-08-31T13:55:00Z",
+    "notes": "Invoice created for August 2024 work"
+  },
+  {
+    "audit_id": "AUD031",
+    "invoice_id": "INV022",
+    "event_type": "emailed",
+    "event_timestamp": "2024-08-31T14:20:00Z",
+    "notes": "Invoice emailed to finance@horizonacademic.com"
+  },
+  {
+    "audit_id": "AUD032",
+    "invoice_id": "INV022",
+    "event_type": "email_reminder",
+    "event_timestamp": "2024-10-15T09:30:00Z",
+    "notes": "First reminder sent - invoice 45 days overdue"
+  },
+  {
+    "audit_id": "AUD033",
+    "invoice_id": "INV022",
+    "event_type": "phone_call",
+    "event_timestamp": "2024-11-20T11:45:00Z",
+    "notes": "Phone call made - discussed payment plan, client agreed to pay within 10 days"
+  },
+  {
+    "audit_id": "AUD034",
+    "invoice_id": "INV023",
+    "event_type": "generated",
+    "event_timestamp": "2024-07-15T10:50:00Z",
+    "notes": "Invoice created for July 1-15, 2024 work"
+  },
+  {
+    "audit_id": "AUD035",
+    "invoice_id": "INV023",
+    "event_type": "emailed",
+    "event_timestamp": "2024-07-15T11:15:00Z",
+    "notes": "Invoice emailed to billing@northernlights-edu.ca"
+  },
+  {
+    "audit_id": "AUD036",
+    "invoice_id": "INV023",
+    "event_type": "email_reminder",
+    "event_timestamp": "2024-09-01T10:00:00Z",
+    "notes": "First reminder sent - invoice 48 days overdue"
+  },
+  {
+    "audit_id": "AUD037",
+    "invoice_id": "INV023",
+    "event_type": "escalation",
+    "event_timestamp": "2024-11-01T15:00:00Z",
+    "notes": "Escalation notice sent - invoice 120+ days overdue, late fees applied"
+  },
+  {
+    "audit_id": "AUD038",
+    "invoice_id": "INV024",
+    "event_type": "generated",
+    "event_timestamp": "2024-10-31T16:00:00Z",
+    "notes": "Invoice created for October 2024 work"
+  },
+  {
+    "audit_id": "AUD039",
+    "invoice_id": "INV024",
+    "event_type": "emailed",
+    "event_timestamp": "2024-10-31T16:45:00Z",
+    "notes": "Invoice emailed to ap@coastaleducational.ca"
+  },
+  {
+    "audit_id": "AUD040",
+    "invoice_id": "INV025",
+    "event_type": "generated",
+    "event_timestamp": "2024-11-15T17:00:00Z",
+    "notes": "Invoice created for November 1-15, 2024 work"
+  },
+  {
+    "audit_id": "AUD041",
+    "invoice_id": "INV025",
+    "event_type": "emailed",
+    "event_timestamp": "2024-11-15T17:30:00Z",
+    "notes": "Invoice emailed to payments@prairieknowledge.com"
+  },
+  {
+    "audit_id": "AUD042",
+    "invoice_id": "INV026",
+    "event_type": "generated",
+    "event_timestamp": "2024-06-30T15:00:00Z",
+    "notes": "Invoice created for June 2024 work"
+  },
+  {
+    "audit_id": "AUD043",
+    "invoice_id": "INV026",
+    "event_type": "emailed",
+    "event_timestamp": "2024-06-30T15:30:00Z",
+    "notes": "Invoice emailed to accounts@mapleleafpub.com"
+  },
+  {
+    "audit_id": "AUD044",
+    "invoice_id": "INV026",
+    "event_type": "escalation",
+    "event_timestamp": "2024-11-05T14:15:00Z",
+    "notes": "Formal escalation - invoice overdue 140+ days, considering collection agency"
+  }
+]

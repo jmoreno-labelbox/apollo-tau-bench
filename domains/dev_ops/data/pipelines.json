@@ -1,0 +1,435 @@
+[
+  {
+    "id": "pipe_001",
+    "project_id": "proj_001",
+    "repository_id": "repo_001",
+    "name": "Game Engine Build Pipeline",
+    "pipeline_type": "build",
+    "is_active": true,
+    "created_at": "2024-01-15T10:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z",
+    "game_engine": "Custom C++ Engine",
+    "pipeline_stages": ["code_compilation", "shader_compilation", "asset_processing", "linking", "packaging"],
+    "target_platforms": ["PC", "PS5", "Xbox Series X"],
+    "build_tools": ["CMake", "Visual Studio", "Vulkan SDK", "DirectX SDK"],
+    "automation_features": [
+      "incremental_builds",
+      "parallel_compilation",
+      "shader_optimization",
+      "cross_platform_builds",
+      "automated_testing"
+    ],
+    "performance_metrics": {
+      "build_time_target": "under_15_minutes",
+      "memory_usage": "max_8gb",
+      "parallel_jobs": 8
+    },
+    "quality_gates": [
+      "compilation_success",
+      "unit_tests_pass",
+      "integration_tests_pass",
+      "performance_benchmarks"
+    ]
+  },
+  {
+    "id": "pipe_002",
+    "project_id": "proj_001",
+    "repository_id": "repo_021",
+    "name": "Game Asset Pipeline",
+    "pipeline_type": "asset_processing",
+    "is_active": true,
+    "created_at": "2024-01-20T09:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z",
+    "game_engine": "Multi-Engine",
+    "pipeline_stages": ["asset_validation", "optimization", "compression", "format_conversion", "deployment"],
+    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch"],
+    "build_tools": ["Maya", "Blender", "Substance Painter", "Houdini", "Photoshop"],
+    "automation_features": [
+      "asset_validation",
+      "automatic_optimization",
+      "format_conversion",
+      "texture_atlas_generation",
+      "lod_generation"
+    ],
+    "asset_types": ["3d_models", "textures", "animations", "audio", "shaders"],
+    "quality_gates": [
+      "polygon_count_check",
+      "texture_size_validation",
+      "uv_mapping_check",
+      "bone_count_validation",
+      "file_size_limits"
+    ],
+    "performance_metrics": {
+      "processing_time_target": "under_30_minutes",
+      "compression_ratio": "70_percent",
+      "quality_threshold": "95_percent"
+    }
+  },
+  {
+    "id": "pipe_003",
+    "project_id": "proj_002",
+    "repository_id": "repo_002",
+    "name": "Cross-Platform Game Build Pipeline",
+    "pipeline_type": "build",
+    "is_active": true,
+    "created_at": "2024-02-01T09:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z",
+    "game_engine": "Multi-Engine",
+    "pipeline_stages": ["code_compilation", "asset_integration", "platform_specific_builds", "testing", "packaging"],
+    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
+    "build_tools": ["Unreal Engine", "Unity", "Jenkins", "GitLab CI", "Docker"],
+    "automation_features": [
+      "cross_platform_builds",
+      "automated_testing",
+      "asset_compilation",
+      "shader_optimization",
+      "platform_specific_optimization"
+    ],
+    "platform_specific_configs": {
+      "pc": {"build_type": "development", "optimization": "performance"},
+      "ps5": {"build_type": "release", "optimization": "memory"},
+      "xbox": {"build_type": "release", "optimization": "performance"},
+      "switch": {"build_type": "release", "optimization": "battery"},
+      "mobile": {"build_type": "release", "optimization": "size"}
+    },
+    "quality_gates": [
+      "build_success_all_platforms",
+      "automated_tests_pass",
+      "performance_benchmarks",
+      "memory_usage_check",
+      "file_size_validation"
+    ]
+  },
+  {
+    "id": "pipe_004",
+    "project_id": "proj_002",
+    "repository_id": "repo_022",
+    "name": "Game Testing Pipeline",
+    "pipeline_type": "testing",
+    "is_active": true,
+    "created_at": "2024-02-05T14:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z",
+    "game_engine": "Multi-Engine",
+    "pipeline_stages": ["unit_testing", "integration_testing", "performance_testing", "compatibility_testing", "regression_testing"],
+    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
+    "build_tools": ["Jenkins", "TestRail", "Unity Test Framework", "Unreal Engine Testing", "Custom Test Scripts"],
+    "automation_features": [
+      "automated_testing",
+      "performance_benchmarks",
+      "memory_leak_detection",
+      "crash_detection",
+      "compatibility_testing"
+    ],
+    "test_types": [
+      "unit_tests",
+      "integration_tests",
+      "performance_tests",
+      "stress_tests",
+      "compatibility_tests",
+      "regression_tests"
+    ],
+    "quality_gates": [
+      "all_tests_pass",
+      "performance_targets_met",
+      "memory_usage_within_limits",
+      "no_critical_bugs",
+      "compatibility_verified"
+    ],
+    "performance_metrics": {
+      "test_execution_time": "under_2_hours",
+      "coverage_target": "90_percent",
+      "performance_regression_threshold": "5_percent"
+    }
+  },
+  {
+    "id": "pipe_005",
+    "project_id": "proj_003",
+    "repository_id": "repo_003",
+    "name": "Game Server Deployment Pipeline",
+    "pipeline_type": "deployment",
+    "is_active": true,
+    "created_at": "2024-02-10T11:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z",
+    "game_engine": "Multi-Engine",
+    "pipeline_stages": ["build_validation", "security_scanning", "load_balancing", "database_migration", "blue_green_deployment"],
+    "target_platforms": ["PC", "PS5", "Xbox Series X", "Nintendo Switch", "iOS", "Android"],
+    "build_tools": ["Docker", "Kubernetes", "AWS", "Azure", "GCP", "Terraform"],
+    "automation_features": [
+      "blue_green_deployment",
+      "auto_scaling",
+      "load_balancing",
+      "database_migration",
+      "rollback_capability"
+    ],
+    "server_components": [
+      "matchmaking_servers",
+      "game_logic_servers",
+      "authentication_servers",
+      "analytics_servers",
+      "content_delivery_servers"
+    ],
+    "quality_gates": [
+      "build_validation",
+      "security_scanning",
+      "performance_testing",
+      "load_testing",
+      "health_check_verification"
+    ],
+    "performance_metrics": {
+      "deployment_time": "under_10_minutes",
+      "downtime": "zero_downtime",
+      "rollback_time": "under_5_minutes",
+      "server_response_time": "under_50ms"
+    }
+  },
+  {
+    "id": "pipe_006",
+    "project_id": "proj_003",
+    "repository_id": "repo_023",
+    "name": "Terraform Multi-Cloud Pipeline",
+    "pipeline_type": "infrastructure",
+    "is_active": true,
+    "created_at": "2024-02-15T16:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_007",
+    "project_id": "proj_004",
+    "repository_id": "repo_004",
+    "name": "Security Compliance Pipeline",
+    "pipeline_type": "security",
+    "is_active": true,
+    "created_at": "2024-02-20T10:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_008",
+    "project_id": "proj_005",
+    "repository_id": "repo_005",
+    "name": "Network Security Pipeline",
+    "pipeline_type": "security",
+    "is_active": true,
+    "created_at": "2024-02-25T13:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_009",
+    "project_id": "proj_006",
+    "repository_id": "repo_006",
+    "name": "Database Migration Pipeline",
+    "pipeline_type": "data",
+    "is_active": true,
+    "created_at": "2024-03-01T09:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_010",
+    "project_id": "proj_007",
+    "repository_id": "repo_007",
+    "name": "Container Security Pipeline",
+    "pipeline_type": "security",
+    "is_active": true,
+    "created_at": "2024-03-05T15:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_011",
+    "project_id": "proj_008",
+    "repository_id": "repo_008",
+    "name": "Load Balancer Pipeline",
+    "pipeline_type": "infrastructure",
+    "is_active": true,
+    "created_at": "2024-03-10T12:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_012",
+    "project_id": "proj_009",
+    "repository_id": "repo_009",
+    "name": "Disaster Recovery Pipeline",
+    "pipeline_type": "backup",
+    "is_active": true,
+    "created_at": "2024-03-15T14:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_013",
+    "project_id": "proj_010",
+    "repository_id": "repo_010",
+    "name": "Infrastructure as Code Pipeline",
+    "pipeline_type": "infrastructure",
+    "is_active": true,
+    "created_at": "2024-03-20T11:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_014",
+    "project_id": "proj_011",
+    "repository_id": "repo_011",
+    "name": "Monitoring Platform Pipeline",
+    "pipeline_type": "deployment",
+    "is_active": true,
+    "created_at": "2024-03-25T16:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_015",
+    "project_id": "proj_012",
+    "repository_id": "repo_012",
+    "name": "Cost Optimization Pipeline",
+    "pipeline_type": "analysis",
+    "is_active": true,
+    "created_at": "2024-04-01T10:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_016",
+    "project_id": "proj_013",
+    "repository_id": "repo_013",
+    "name": "API Gateway Pipeline",
+    "pipeline_type": "deployment",
+    "is_active": true,
+    "created_at": "2024-04-05T13:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_017",
+    "project_id": "proj_014",
+    "repository_id": "repo_014",
+    "name": "Container Registry Security Pipeline",
+    "pipeline_type": "security",
+    "is_active": true,
+    "created_at": "2024-04-10T15:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_018",
+    "project_id": "proj_015",
+    "repository_id": "repo_015",
+    "name": "Testing Infrastructure Pipeline",
+    "pipeline_type": "infrastructure",
+    "is_active": true,
+    "created_at": "2024-04-15T12:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_019",
+    "project_id": "proj_016",
+    "repository_id": "repo_016",
+    "name": "Legacy Modernization Pipeline",
+    "pipeline_type": "migration",
+    "is_active": true,
+    "created_at": "2024-04-20T14:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_020",
+    "project_id": "proj_017",
+    "repository_id": "repo_017",
+    "name": "Mobile Infrastructure Pipeline",
+    "pipeline_type": "deployment",
+    "is_active": true,
+    "created_at": "2024-04-25T11:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_021",
+    "project_id": "proj_018",
+    "repository_id": "repo_018",
+    "name": "Data Pipeline Infrastructure",
+    "pipeline_type": "data",
+    "is_active": true,
+    "created_at": "2024-05-01T16:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_022",
+    "project_id": "proj_019",
+    "repository_id": "repo_019",
+    "name": "Green Computing Pipeline",
+    "pipeline_type": "analysis",
+    "is_active": true,
+    "created_at": "2024-05-05T13:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_023",
+    "project_id": "proj_020",
+    "repository_id": "repo_020",
+    "name": "Edge Computing Pipeline",
+    "pipeline_type": "deployment",
+    "is_active": true,
+    "created_at": "2024-05-10T15:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_024",
+    "project_id": "proj_001",
+    "repository_id": "repo_001",
+    "name": "K8S Rollback Pipeline",
+    "pipeline_type": "rollback",
+    "is_active": true,
+    "created_at": "2024-01-25T10:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_025",
+    "project_id": "proj_002",
+    "repository_id": "repo_002",
+    "name": "CI/CD Testing Pipeline",
+    "pipeline_type": "testing",
+    "is_active": true,
+    "created_at": "2024-02-10T09:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_026",
+    "project_id": "proj_003",
+    "repository_id": "repo_003",
+    "name": "Multi-Cloud Testing Pipeline",
+    "pipeline_type": "testing",
+    "is_active": true,
+    "created_at": "2024-02-20T11:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_027",
+    "project_id": "proj_004",
+    "repository_id": "repo_004",
+    "name": "Compliance Testing Pipeline",
+    "pipeline_type": "testing",
+    "is_active": true,
+    "created_at": "2024-03-01T10:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_028",
+    "project_id": "proj_005",
+    "repository_id": "repo_005",
+    "name": "Network Testing Pipeline",
+    "pipeline_type": "testing",
+    "is_active": true,
+    "created_at": "2024-03-10T13:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_029",
+    "project_id": "proj_006",
+    "repository_id": "repo_006",
+    "name": "Database Backup Pipeline",
+    "pipeline_type": "backup",
+    "is_active": true,
+    "created_at": "2024-03-15T09:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  },
+  {
+    "id": "pipe_030",
+    "project_id": "proj_007",
+    "repository_id": "repo_007",
+    "name": "Container Scanning Pipeline",
+    "pipeline_type": "security",
+    "is_active": true,
+    "created_at": "2024-03-20T15:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "lender_id": 1,
+    "name": "Thompson-Martinez Mortgage",
+    "phone": "767-952-6080x18666",
+    "website": "https://www.thompson-williams.com/"
+  },
+  {
+    "lender_id": 2,
+    "name": "Williams LLC Mortgage",
+    "phone": "(023)707-5540x05296",
+    "website": "http://www.garcia.info/"
+  },
+  {
+    "lender_id": 3,
+    "name": "Anderson-Taylor Mortgage",
+    "phone": "+1-933-662-1986x79258",
+    "website": "https://www.martinez-taylor.net/"
+  },
+  {
+    "lender_id": 4,
+    "name": "Johnson Group Mortgage",
+    "phone": "918.470.6843x0662",
+    "website": "http://rodriguez.com/"
+  },
+  {
+    "lender_id": 5,
+    "name": "Clark, Davis and Wilson Mortgage",
+    "phone": "001-417-062-5356x1994",
+    "website": "https://mitchell.info/"
+  },
+  {
+    "lender_id": 6,
+    "name": "Garcia, Lopez and Brown Mortgage",
+    "phone": "+1-596-685-6723x620",
+    "website": "http://anderson.biz/"
+  },
+  {
+    "lender_id": 7,
+    "name": "Rodriguez and Partners Mortgage",
+    "phone": "+1-931-810-2194x064",
+    "website": "https://www.lopez.net/"
+  },
+  {
+    "lender_id": 8,
+    "name": "Mitchell Financial Mortgage",
+    "phone": "4327595213",
+    "website": "https://www.davis.biz/"
+  },
+  {
+    "lender_id": 9,
+    "name": "Harris-Lewis Mortgage",
+    "phone": "668-581-4702x3295",
+    "website": "https://wilson-martinez.com/"
+  },
+  {
+    "lender_id": 10,
+    "name": "Thompson, Wilson and Davis Mortgage",
+    "phone": "(999)138-4333",
+    "website": "http://www.garcia.com/"
+  }
+]

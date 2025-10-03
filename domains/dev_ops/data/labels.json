@@ -1,0 +1,92 @@
+[
+  {
+    "id": "label_001",
+    "project_id": "project_001",
+    "name": "backend",
+    "color": "#0366d6"
+  },
+  {
+    "id": "label_002",
+    "project_id": "project_001",
+    "name": "frontend",
+    "color": "#28a745"
+  },
+  {
+    "id": "label_003",
+    "project_id": "project_001",
+    "name": "database",
+    "color": "#d73a49"
+  },
+  {
+    "id": "label_004",
+    "project_id": "project_001",
+    "name": "security",
+    "color": "#f6a434"
+  },
+  {
+    "id": "label_005",
+    "project_id": "project_002",
+    "name": "kubernetes",
+    "color": "#326ce5"
+  },
+  {
+    "id": "label_006",
+    "project_id": "project_002",
+    "name": "helm",
+    "color": "#0db9f0"
+  },
+  {
+    "id": "label_007",
+    "project_id": "project_003",
+    "name": "ci-cd",
+    "color": "#ff6b6b"
+  },
+  {
+    "id": "label_008",
+    "project_id": "project_003",
+    "name": "testing",
+    "color": "#4ecdc4"
+  },
+  {
+    "id": "label_009",
+    "project_id": "project_004",
+    "name": "jenkins",
+    "color": "#d24939"
+  },
+  {
+    "id": "label_010",
+    "project_id": "project_005",
+    "name": "aws",
+    "color": "#ff9900"
+  },
+  {
+    "id": "label_011",
+    "project_id": "project_006",
+    "name": "monitoring",
+    "color": "#e91e63"
+  },
+  {
+    "id": "label_012",
+    "project_id": "project_007",
+    "name": "api-gateway",
+    "color": "#9c27b0"
+  },
+  {
+    "id": "label_013",
+    "project_id": "project_008",
+    "name": "mobile",
+    "color": "#2196f3"
+  },
+  {
+    "id": "label_014",
+    "project_id": "project_009",
+    "name": "edge-computing",
+    "color": "#607d8b"
+  },
+  {
+    "id": "label_015",
+    "project_id": "project_010",
+    "name": "data-processing",
+    "color": "#795548"
+  }
+]

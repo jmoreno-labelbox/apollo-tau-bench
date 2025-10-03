@@ -1,0 +1,282 @@
+[
+  {
+    "role": "Software Engineer",
+    "role_id": "software_engineer",
+    "role_family": "Engineering",
+    "industry": "Tech",
+    "description": "Designs, develops, tests, and maintains software applications and services.",
+    "common_prev_roles": ["Intern", "Junior Engineer"],
+    "growth_path": [
+      { "role": "Senior Engineer", "min_years_experience": 3 },
+      { "role": "Tech Lead", "min_years_experience": 6 },
+      { "role": "Engineering Manager", "min_years_experience": 8 }
+    ]
+  },
+  {
+    "role": "UX Designer",
+    "role_id": "ux_designer",
+    "role_family": "Design",
+    "industry": "Design",
+    "description": "Creates user-centered interaction flows, wireframes, and visual designs for digital products.",
+    "common_prev_roles": ["Design Intern", "Junior Designer", "Graphic Designer"],
+    "growth_path": [
+      { "role": "Senior Designer", "min_years_experience": 3 },
+      { "role": "Design Lead", "min_years_experience": 6 },
+      { "role": "Creative Director", "min_years_experience": 8 }
+    ]
+  },
+  {
+    "role": "Data Analyst",
+    "role_id": "data_analyst",
+    "role_family": "Data",
+    "industry": "Finance",
+    "description": "Transforms raw data into insights and visual reports to guide business decisions.",
+    "common_prev_roles": ["Data Intern", "Junior Analyst"],
+    "growth_path": [
+      { "role": "Senior Analyst", "min_years_experience": 3 },
+      { "role": "Analytics Manager", "min_years_experience": 6 },
+      { "role": "Data Science Lead", "min_years_experience": 8 }
+    ]
+  },
+  {
+    "role": "Operations Analyst",
+    "role_id": "operations_analyst",
+    "role_family": "Operations",
+    "industry": "Operations",
+    "description": "Analyzes and streamlines business processes, resource allocation, and supply-chain efficiency.",
+    "common_prev_roles": ["Process Associate", "Business Analyst"],
+    "growth_path": [
+      { "role": "Operations Lead", "min_years_experience": 3 },
+      { "role": "Operations Manager", "min_years_experience": 6 },
+      { "role": "Director of Ops", "min_years_experience": 9 }
+    ]
+  },
+  {
+    "role": "Marketing Specialist",
+    "role_id": "marketing_specialist",
+    "role_family": "Marketing",
+    "industry": "Marketing",
+    "description": "Plans and executes campaigns, analyzes performance metrics, and supports brand growth.",
+    "common_prev_roles": ["Marketing Intern", "Marketing Coordinator"],
+    "growth_path": [
+      { "role": "Marketing Manager", "min_years_experience": 3 },
+      { "role": "Brand Director", "min_years_experience": 6 },
+      { "role": "VP of Marketing", "min_years_experience": 10 }
+    ]
+  },
+  {
+    "role": "Environmental Researcher",
+    "role_id": "environmental_researcher",
+    "role_family": "Research",
+    "industry": "Sustainability",
+    "description": "Conducts field and lab studies to evaluate environmental impact and sustainability solutions.",
+    "common_prev_roles": ["Research Assistant", "Field Researcher"],
+    "growth_path": [
+      { "role": "Policy Analyst", "min_years_experience": 4 },
+      { "role": "Research Director", "min_years_experience": 7 },
+      { "role": "Climate Advisor", "min_years_experience": 10 }
+    ]
+  },
+  {
+    "role": "Game Developer",
+    "role_id": "game_developer",
+    "role_family": "Game Development",
+    "industry": "Entertainment",
+    "description": "Implements gameplay mechanics, tools, and pipelines for interactive entertainment products.",
+    "common_prev_roles": ["Junior Developer", "Gameplay Programmer"],
+    "growth_path": [
+      { "role": "Lead Developer", "min_years_experience": 4 },
+      { "role": "Game Director", "min_years_experience": 8 },
+      { "role": "Studio Head", "min_years_experience": 12 }
+    ]
+  },
+  {
+    "role": "Product Manager",
+    "role_id": "product_manager",
+    "role_family": "Product",
+    "industry": "Tech",
+    "description": "Defines product vision, prioritizes roadmaps, and aligns cross-functional teams to deliver value.",
+    "common_prev_roles": ["Associate PM", "Business Analyst"],
+    "growth_path": [
+      { "role": "Senior PM", "min_years_experience": 3 },
+      { "role": "Group PM", "min_years_experience": 6 },
+      { "role": "Director of Product", "min_years_experience": 9 }
+    ]
+  },
+  {
+    "role": "HR Partner",
+    "role_id": "hr_partner",
+    "role_family": "Human Resources",
+    "industry": "Human Resources",
+    "description": "Advises business units on talent strategy, employee relations, and organizational development.",
+    "common_prev_roles": ["HR Coordinator", "Recruiter"],
+    "growth_path": [
+      { "role": "HR Manager", "min_years_experience": 3 },
+      { "role": "HRBP Lead", "min_years_experience": 6 },
+      { "role": "Director of HR", "min_years_experience": 9 }
+    ]
+  },
+  {
+    "role": "Security Analyst",
+    "role_id": "security_analyst",
+    "role_family": "Security",
+    "industry": "Cybersecurity",
+    "description": "Monitors, investigates, and mitigates threats to protect information assets and infrastructure.",
+    "common_prev_roles": ["IT Support Specialist", "Junior Security Analyst"],
+    "growth_path": [
+      { "role": "Security Engineer", "min_years_experience": 3 },
+      { "role": "Security Lead", "min_years_experience": 6 },
+      { "role": "CISO", "min_years_experience": 12 }
+    ]
+  },
+  {
+    "role": "Senior Data Scientist",
+    "role_id": "senior_data_scientist",
+    "role_family": "Data Science",
+    "industry": "Tech",
+    "description": "Leads data science initiatives, develops machine learning models, and mentors junior data scientists.",
+    "common_prev_roles": ["Data Analyst", "Clinical Analyst", "Analytics Manager"],
+    "growth_path": [
+      { "role": "Lead Data Scientist", "min_years_experience": 5 },
+      { "role": "Director of Data Science", "min_years_experience": 8 },
+      { "role": "VP of Data Science", "min_years_experience": 12 }
+    ],
+    "required_skills": ["Machine Learning", "Python", "SQL", "Statistical Analysis"],
+    "preferred_skills": ["Deep Learning", "AWS", "Data Engineering"]
+  },
+  {
+    "role": "UX Design Lead",
+    "role_id": "ux_design_lead",
+    "role_family": "Product Design",
+    "industry": "Tech",
+    "description": "Leads design operations, manages design teams, and establishes design standards and systems.",
+    "common_prev_roles": ["UX Designer", "Senior Designer", "Design Manager"],
+    "growth_path": [
+      { "role": "Design Director", "min_years_experience": 6 },
+      { "role": "VP of Design", "min_years_experience": 10 },
+      { "role": "Chief Design Officer", "min_years_experience": 15 }
+    ],
+    "required_skills": ["Design Operations", "Figma", "User Research", "Leadership"],
+    "preferred_skills": ["Design Systems", "Accessibility"]
+  },
+  {
+    "role": "DevOps Engineer",
+    "role_id": "devops_engineer",
+    "role_family": "Engineering",
+    "industry": "Tech",
+    "description": "Manages cloud infrastructure, implements CI/CD pipelines, and monitors system performance.",
+    "common_prev_roles": ["Software Engineer", "System Administrator", "Cloud Engineer"],
+    "growth_path": [
+      { "role": "Senior DevOps Engineer", "min_years_experience": 4 },
+      { "role": "Site Reliability Engineer", "min_years_experience": 6 },
+      { "role": "DevOps Manager", "min_years_experience": 8 }
+    ],
+    "required_skills": ["Docker", "Kubernetes", "AWS", "CI/CD"],
+    "preferred_skills": ["Terraform", "Site Reliability Engineering"]
+  },
+  {
+    "role": "Product Marketing Specialist",
+    "role_id": "product_marketing_specialist",
+    "role_family": "Marketing",
+    "industry": "Tech",
+    "description": "Develops product marketing strategies, creates campaigns, and analyzes market trends.",
+    "common_prev_roles": ["Brand Strategist", "Marketing Coordinator", "Product Manager"],
+    "growth_path": [
+      { "role": "Senior Product Marketing Manager", "min_years_experience": 4 },
+      { "role": "Product Marketing Director", "min_years_experience": 7 },
+      { "role": "VP of Product Marketing", "min_years_experience": 10 }
+    ],
+    "required_skills": ["Product Marketing", "Market Research", "Data Analytics", "Storytelling"],
+    "preferred_skills": ["Agile Methodologies", "Brand Positioning"]
+  },
+  {
+    "role": "Cloud Security Compliance Specialist",
+    "role_id": "cloud_security_compliance_specialist",
+    "role_family": "Security",
+    "industry": "Tech",
+    "description": "Ensures cloud security compliance, develops security policies, and conducts security audits.",
+    "common_prev_roles": ["Compliance Specialist", "Security Analyst", "Risk Analyst"],
+    "growth_path": [
+      { "role": "Senior Security Specialist", "min_years_experience": 5 },
+      { "role": "Security Manager", "min_years_experience": 8 },
+      { "role": "Director of Security", "min_years_experience": 12 }
+    ],
+    "required_skills": ["Cloud Security", "GRC Tools", "Policy Writing", "Regulatory Research"],
+    "preferred_skills": ["AWS Security", "Terraform"]
+  },
+  {
+    "role": "Analytics Manager",
+    "role_id": "analytics_manager",
+    "role_family": "Data",
+    "industry": "Tech",
+    "description": "Leads analytics teams, manages data projects, and provides strategic insights to business units.",
+    "common_prev_roles": ["Data Analyst", "Senior Analyst", "Business Analyst"],
+    "growth_path": [
+      { "role": "Senior Analytics Manager", "min_years_experience": 5 },
+      { "role": "Director of Analytics", "min_years_experience": 8 },
+      { "role": "VP of Analytics", "min_years_experience": 12 }
+    ],
+    "required_skills": ["SQL", "Python", "Tableau", "Leadership"],
+    "preferred_skills": ["Machine Learning", "Data Engineering"]
+  },
+  {
+    "role": "Clinical Analyst",
+    "role_id": "clinical_analyst",
+    "role_family": "Healthcare Analytics",
+    "industry": "Healthcare",
+    "description": "Analyzes clinical data, manages healthcare analytics projects, and ensures data quality.",
+    "common_prev_roles": ["Data Analyst", "Research Assistant", "Clinical Coordinator"],
+    "growth_path": [
+      { "role": "Senior Clinical Analyst", "min_years_experience": 4 },
+      { "role": "Clinical Analytics Lead", "min_years_experience": 6 },
+      { "role": "Director of Clinical Analytics", "min_years_experience": 10 }
+    ],
+    "required_skills": ["R", "SAS", "Clinical Data Management", "Statistical Analysis"],
+    "preferred_skills": ["Python", "Machine Learning", "Power BI"]
+  },
+  {
+    "role": "UX Designer",
+    "role_id": "ux_designer",
+    "role_family": "Product Design",
+    "industry": "Tech",
+    "description": "Creates user-centered designs, conducts user research, and collaborates with product teams.",
+    "common_prev_roles": ["Design Intern", "Junior Designer", "Graphic Designer"],
+    "growth_path": [
+      { "role": "Senior UX Designer", "min_years_experience": 3 },
+      { "role": "UX Design Lead", "min_years_experience": 6 },
+      { "role": "Design Director", "min_years_experience": 8 }
+    ],
+    "required_skills": ["Figma", "User Research", "Prototyping", "Design Thinking"],
+    "preferred_skills": ["Accessibility", "Design Systems"]
+  },
+  {
+    "role": "Brand Strategist",
+    "role_id": "brand_strategist",
+    "role_family": "Marketing",
+    "industry": "Marketing",
+    "description": "Develops brand positioning, conducts market research, and creates brand strategies.",
+    "common_prev_roles": ["Marketing Coordinator", "Brand Assistant", "Marketing Analyst"],
+    "growth_path": [
+      { "role": "Senior Brand Strategist", "min_years_experience": 4 },
+      { "role": "Product Marketing Specialist", "min_years_experience": 6 },
+      { "role": "Brand Director", "min_years_experience": 8 }
+    ],
+    "required_skills": ["Brand Positioning", "Market Research", "Storytelling"],
+    "preferred_skills": ["Product Marketing", "Data Analytics"]
+  },
+  {
+    "role": "HR Partner",
+    "role_id": "hr_partner",
+    "role_family": "Human Resources",
+    "industry": "Human Resources",
+    "description": "Advises business units on talent strategy, employee relations, and organizational development.",
+    "common_prev_roles": ["HR Coordinator", "Recruiter", "HR Assistant"],
+    "growth_path": [
+      { "role": "Senior HR Partner", "min_years_experience": 4 },
+      { "role": "HR Manager", "min_years_experience": 7 },
+      { "role": "Director of HR", "min_years_experience": 10 }
+    ],
+    "required_skills": ["Employee Relations", "Performance Management", "Talent Brokerage"],
+    "preferred_skills": ["People Analytics", "Organizational Development"]
+  }
+]

@@ -1,0 +1,322 @@
+[
+  {
+    "id": "config_001",
+    "project_id": "project_001",
+    "config_type": "environment_variables",
+    "config_name": "production_env_vars",
+    "config_data": {
+      "DATABASE_URL": "postgresql://prod-db:5432/auth_service",
+      "REDIS_URL": "redis://prod-redis:6379",
+      "LOG_LEVEL": "INFO",
+      "API_PORT": "8080"
+    },
+    "environment_id": "env_001",
+    "created_at": "2025-01-20T10:00:00Z",
+    "updated_at": "2025-01-25T14:00:00Z"
+  },
+  {
+    "id": "config_002",
+    "project_id": "project_002",
+    "config_type": "kubernetes_config",
+    "config_name": "helm_values_production",
+    "config_data": {
+      "replicaCount": 3,
+      "image": {
+        "repository": "myapp/api",
+        "tag": "v2.1.0"
+      },
+      "resources": {
+        "limits": {
+          "cpu": "1000m",
+          "memory": "2Gi"
+        }
+      }
+    },
+    "environment_id": "env_002",
+    "created_at": "2025-01-18T09:00:00Z",
+    "updated_at": "2025-01-20T09:00:00Z"
+  },
+  {
+    "id": "config_003",
+    "project_id": "project_003",
+    "config_type": "docker_config",
+    "config_name": "docker_compose_ci",
+    "config_data": {
+      "version": "3.8",
+      "services": {
+        "app": {
+          "build": ".",
+          "ports": ["8080:8080"],
+          "environment": ["NODE_ENV=test"]
+        },
+        "test-db": {
+          "image": "postgres:13",
+          "environment": ["POSTGRES_DB=testdb"]
+        }
+      }
+    },
+    "environment_id": "env_003",
+    "created_at": "2025-01-22T11:00:00Z",
+    "updated_at": "2025-01-26T12:00:00Z"
+  },
+  {
+    "id": "config_004",
+    "project_id": "project_004",
+    "config_type": "jenkins_config",
+    "config_name": "jenkins_pipeline_config",
+    "config_data": {
+      "pipeline": {
+        "agent": "any",
+        "stages": [
+          {"name": "Build", "steps": ["sh 'mvn clean package'"]},
+          {"name": "Test", "steps": ["sh 'mvn test'"]},
+          {"name": "Deploy", "steps": ["sh './deploy.sh'"]}
+        ]
+      }
+    },
+    "environment_id": "env_004",
+    "created_at": "2025-01-19T08:00:00Z",
+    "updated_at": "2025-01-20T08:00:00Z"
+  },
+  {
+    "id": "config_005",
+    "project_id": "project_005",
+    "config_type": "aws_config",
+    "config_name": "ecs_task_definition",
+    "config_data": {
+      "family": "myapp-task",
+      "networkMode": "awsvpc",
+      "requiresCompatibilities": ["FARGATE"],
+      "cpu": "1024",
+      "memory": "2048",
+      "executionRoleArn": "arn:aws:iam::123456789:role/ecsTaskExecutionRole"
+    },
+    "environment_id": "env_005",
+    "created_at": "2025-01-21T10:00:00Z",
+    "updated_at": "2025-01-26T08:00:00Z"
+  },
+  {
+    "id": "config_006",
+    "project_id": "project_006",
+    "config_type": "monitoring_config",
+    "config_name": "prometheus_config",
+    "config_data": {
+      "global": {
+        "scrape_interval": "15s",
+        "evaluation_interval": "15s"
+      },
+      "rule_files": ["/etc/prometheus/rules/*.yml"],
+      "scrape_configs": [
+        {
+          "job_name": "myapp",
+          "static_configs": [{"targets": ["localhost:8080"]}]
+        }
+      ]
+    },
+    "environment_id": "env_006",
+    "created_at": "2025-01-23T14:00:00Z",
+    "updated_at": "2025-01-25T17:00:00Z"
+  },
+  {
+    "id": "config_007",
+    "project_id": "project_007",
+    "config_type": "api_gateway_config",
+    "config_name": "spring_cloud_gateway_config",
+    "config_data": {
+      "spring": {
+        "cloud": {
+          "gateway": {
+            "routes": [
+              {
+                "id": "api_route",
+                "uri": "lb://api-service",
+                "predicates": ["Path=/api/**"],
+                "filters": ["RateLimit=10,1s"]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "environment_id": "env_007",
+    "created_at": "2025-01-24T12:00:00Z",
+    "updated_at": "2025-01-27T11:00:00Z"
+  },
+  {
+    "id": "config_008",
+    "project_id": "project_008",
+    "config_type": "oauth_config",
+    "config_name": "oauth2_config",
+    "config_data": {
+      "oauth2": {
+        "client": {
+          "clientId": "mobile-app-client",
+          "clientSecret": "encrypted-secret",
+          "scope": ["read", "write"]
+        },
+        "server": {
+          "authorizationEndpoint": "/oauth/authorize",
+          "tokenEndpoint": "/oauth/token"
+        }
+      }
+    },
+    "environment_id": "env_008",
+    "created_at": "2025-01-22T15:00:00Z",
+    "updated_at": "2025-01-26T09:00:00Z"
+  },
+  {
+    "id": "config_009",
+    "project_id": "project_009",
+    "config_type": "edge_config",
+    "config_name": "edge_computing_config",
+    "config_data": {
+      "edge": {
+        "runtime": "docker",
+        "resources": {
+          "cpu": "500m",
+          "memory": "1Gi"
+        },
+        "networking": {
+          "port": "8080",
+          "protocol": "http"
+        }
+      }
+    },
+    "environment_id": "env_009",
+    "created_at": "2025-01-23T16:00:00Z",
+    "updated_at": "2025-01-25T18:00:00Z"
+  },
+  {
+    "id": "config_010",
+    "project_id": "project_010",
+    "config_type": "spark_config",
+    "config_name": "spark_etl_config",
+    "config_data": {
+      "spark": {
+        "app": {
+          "name": "ETL-Pipeline",
+          "master": "yarn"
+        },
+        "executor": {
+          "instances": 3,
+          "cores": 2,
+          "memory": "4g"
+        }
+      }
+    },
+    "environment_id": "env_010",
+    "created_at": "2025-01-16T10:00:00Z",
+    "updated_at": "2025-01-17T09:00:00Z"
+  },
+  {
+    "id": "config_011",
+    "project_id": "project_001",
+    "config_type": "database_config",
+    "config_name": "postgres_config",
+    "config_data": {
+      "database": {
+        "host": "prod-db-cluster",
+        "port": 5432,
+        "name": "auth_service",
+        "pool": {
+          "maxConnections": 20,
+          "minConnections": 5,
+          "connectionTimeout": 30000
+        }
+      }
+    },
+    "environment_id": "env_001",
+    "created_at": "2025-01-20T10:00:00Z",
+    "updated_at": "2025-01-25T12:00:00Z"
+  },
+  {
+    "id": "config_012",
+    "project_id": "project_002",
+    "config_type": "helm_config",
+    "config_name": "helm_chart_values",
+    "config_data": {
+      "image": {
+        "repository": "myapp/api",
+        "tag": "v2.1.0",
+        "pullPolicy": "IfNotPresent"
+      },
+      "service": {
+        "type": "LoadBalancer",
+        "port": 80
+      },
+      "ingress": {
+        "enabled": true,
+        "hosts": ["api.myapp.com"]
+      }
+    },
+    "environment_id": "env_002",
+    "created_at": "2025-01-18T09:00:00Z",
+    "updated_at": "2025-01-20T08:30:00Z"
+  },
+  {
+    "id": "config_013",
+    "project_id": "project_003",
+    "config_type": "gitlab_config",
+    "config_name": "gitlab_ci_config",
+    "config_data": {
+      "stages": ["build", "test", "deploy"],
+      "variables": {
+        "DOCKER_DRIVER": "overlay2"
+      },
+      "build": {
+        "stage": "build",
+        "image": "maven:3.8",
+        "script": ["mvn clean package"]
+      }
+    },
+    "environment_id": "env_003",
+    "created_at": "2025-01-22T11:00:00Z",
+    "updated_at": "2025-01-26T09:30:00Z"
+  },
+  {
+    "id": "config_014",
+    "project_id": "project_006",
+    "config_type": "grafana_config",
+    "config_name": "grafana_dashboard_config",
+    "config_data": {
+      "grafana": {
+        "server": {
+          "http_port": 3000,
+          "protocol": "http"
+        },
+        "security": {
+          "admin_user": "admin",
+          "admin_password": "encrypted-password"
+        },
+        "database": {
+          "type": "postgres",
+          "host": "grafana-db:5432"
+        }
+      }
+    },
+    "environment_id": "env_006",
+    "created_at": "2025-01-23T14:00:00Z",
+    "updated_at": "2025-01-25T14:00:00Z"
+  },
+  {
+    "id": "config_015",
+    "project_id": "project_007",
+    "config_type": "load_balancer_config",
+    "config_name": "nginx_config",
+    "config_data": {
+      "nginx": {
+        "upstream": {
+          "api_backend": ["api-server-1:8080", "api-server-2:8080"]
+        },
+        "server": {
+          "listen": 80,
+          "location": "/api/",
+          "proxy_pass": "http://api_backend"
+        }
+      }
+    },
+    "environment_id": "env_007",
+    "created_at": "2025-01-24T12:00:00Z",
+    "updated_at": "2025-01-27T10:00:00Z"
+  }
+]

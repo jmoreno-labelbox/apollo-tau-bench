@@ -1,0 +1,152 @@
+[
+  {
+    "id": "alert_001",
+    "project_id": "project_001",
+    "name": "Database Connection Timeout",
+    "description": "Database connection timeout threshold exceeded",
+    "severity": "critical",
+    "state": "resolved",
+    "fired_at": "2025-01-25T12:00:00Z",
+    "resolved_at": "2025-01-25T13:30:00Z"
+  },
+  {
+    "id": "alert_002",
+    "project_id": "project_001",
+    "name": "Security Vulnerability Detected",
+    "description": "Critical security vulnerabilities found in production dependencies",
+    "severity": "critical",
+    "state": "resolved",
+    "fired_at": "2025-01-25T11:00:00Z",
+    "resolved_at": "2025-01-25T12:45:00Z"
+  },
+  {
+    "id": "alert_003",
+    "project_id": "project_005",
+    "name": "ECS Deployment Failure",
+    "description": "AWS ECS deployment failed during multi-cloud rollout",
+    "severity": "critical",
+    "state": "resolved",
+    "fired_at": "2025-01-26T07:30:00Z",
+    "resolved_at": "2025-01-26T08:20:00Z"
+  },
+  {
+    "id": "alert_004",
+    "project_id": "project_006",
+    "name": "Prometheus High Memory Usage",
+    "description": "Prometheus monitoring stack memory usage above 85%",
+    "severity": "warning",
+    "state": "resolved",
+    "fired_at": "2025-01-25T16:30:00Z",
+    "resolved_at": "2025-01-25T17:15:00Z"
+  },
+  {
+    "id": "alert_005",
+    "project_id": "project_007",
+    "name": "API Gateway Rate Limiting",
+    "description": "API Gateway blocking legitimate traffic due to rate limiting",
+    "severity": "critical",
+    "state": "firing",
+    "fired_at": "2025-01-27T11:30:00Z",
+    "resolved_at": null
+  },
+  {
+    "id": "alert_006",
+    "project_id": "project_008",
+    "name": "OAuth2 Authentication Failures",
+    "description": "OAuth2 authentication service experiencing intermittent failures",
+    "severity": "warning",
+    "state": "resolved",
+    "fired_at": "2025-01-26T09:00:00Z",
+    "resolved_at": "2025-01-26T09:30:00Z"
+  },
+  {
+    "id": "alert_007",
+    "project_id": "project_009",
+    "name": "Edge Computing Latency",
+    "description": "Edge computing runtime latency increased by 200%",
+    "severity": "info",
+    "state": "resolved",
+    "fired_at": "2025-01-25T17:30:00Z",
+    "resolved_at": "2025-01-25T18:00:00Z"
+  },
+  {
+    "id": "alert_008",
+    "project_id": "project_010",
+    "name": "ETL Pipeline Job Failure",
+    "description": "ETL pipeline job failed causing data processing delays",
+    "severity": "critical",
+    "state": "resolved",
+    "fired_at": "2025-01-17T09:00:00Z",
+    "resolved_at": "2025-01-17T09:30:00Z"
+  },
+  {
+    "id": "alert_009",
+    "project_id": "project_003",
+    "name": "CI/CD Pipeline Test Failures",
+    "description": "CI/CD pipeline integration tests failing intermittently",
+    "severity": "warning",
+    "state": "firing",
+    "fired_at": "2025-01-26T09:30:00Z",
+    "resolved_at": null
+  },
+  {
+    "id": "alert_010",
+    "project_id": "project_004",
+    "name": "Jenkins Pipeline Performance",
+    "description": "Jenkins pipeline build times increased by 150%",
+    "severity": "info",
+    "state": "resolved",
+    "fired_at": "2025-01-20T08:00:00Z",
+    "resolved_at": "2025-01-20T08:15:00Z"
+  },
+  {
+    "id": "alert_011",
+    "project_id": "project_002",
+    "name": "Helm Chart Deployment issue",
+    "description": "Helm chart deployment failed due to missing dependencies",
+    "severity": "warning",
+    "state": "resolved",
+    "fired_at": "2025-01-20T08:30:00Z",
+    "resolved_at": "2025-01-20T09:00:00Z"
+  },
+  {
+    "id": "alert_012",
+    "project_id": "project_001",
+    "name": "Docker Container Crashes",
+    "description": "Production Docker containers crashing repeatedly",
+    "severity": "critical",
+    "state": "resolved",
+    "fired_at": "2025-01-25T13:00:00Z",
+    "resolved_at": "2025-01-25T13:15:00Z"
+  },
+  {
+    "id": "alert_013",
+    "project_id": "project_006",
+    "name": "Grafana Dashboard Unavailable",
+    "description": "Grafana dashboard service unavailable",
+    "severity": "warning",
+    "state": "resolved",
+    "fired_at": "2025-01-25T14:00:00Z",
+    "resolved_at": "2025-01-25T14:30:00Z"
+  },
+  {
+    "id": "alert_014",
+    "project_id": "project_007",
+    "name": "API Response Time Degradation",
+    "description": "API response times increased by 300%",
+    "severity": "critical",
+    "state": "resolved",
+    "fired_at": "2025-01-27T10:00:00Z",
+    "resolved_at": "2025-01-27T10:45:00Z"
+  },
+  {
+    "id": "alert_015",
+    "project_id": "project_008",
+    "name": "Mobile API Authentication issues",
+    "description": "Mobile API authentication issue rate above 5%",
+    "severity": "warning",
+    "state": "resolved",
+    "fired_at": "2025-01-26T08:00:00Z",
+    "resolved_at": "2025-01-26T08:30:00Z"
+  }
+]

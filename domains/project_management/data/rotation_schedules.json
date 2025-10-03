@@ -1,0 +1,11 @@
+[
+  {
+    "rotation_id": "rot_001",
+    "employee_id": "emp_dev_13",
+    "from_project": "proj_legacy_01",
+    "to_project": "proj_modern_01",
+    "rotation_date": "2024-04-01",
+    "duration_weeks": 12,
+    "status": "planned"
+  }
+]

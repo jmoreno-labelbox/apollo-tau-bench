@@ -1,0 +1,58 @@
+[
+  {
+    "sale_id": 1,
+    "property_id": "HTX003",
+    "sale_price": 577300,
+    "sale_date": "2025-10-01T05:10:55Z",
+    "source_url": "https://example.com/sales/HTX003"
+  },
+  {
+    "sale_id": 2,
+    "property_id": "HTX004",
+    "sale_price": 524500,
+    "sale_date": "2025-07-22T05:10:55Z",
+    "source_url": "https://example.com/sales/HTX004"
+  },
+  {
+    "sale_id": 3,
+    "property_id": "HTX011",
+    "sale_price": 294000,
+    "sale_date": "2026-02-07T05:10:55Z",
+    "source_url": "https://example.com/sales/HTX011"
+  },
+  {
+    "sale_id": 4,
+    "property_id": "HTX021",
+    "sale_price": 473400,
+    "sale_date": "2024-05-19T05:10:55Z",
+    "source_url": "https://example.com/sales/HTX021"
+  },
+  {
+    "sale_id": 5,
+    "property_id": "HTX024",
+    "sale_price": 346900,
+    "sale_date": "2025-06-12T05:10:55Z",
+    "source_url": "https://example.com/sales/HTX024"
+  },
+  {
+    "sale_id": 6,
+    "property_id": "HTX043",
+    "sale_price": 367200,
+    "sale_date": "2025-07-09T05:10:55Z",
+    "source_url": "https://example.com/sales/HTX043"
+  },
+  {
+    "sale_id": 7,
+    "property_id": "HTX044",
+    "sale_price": 552200,
+    "sale_date": "2025-08-08T05:10:55Z",
+    "source_url": "https://example.com/sales/HTX044"
+  },
+  {
+    "sale_id": 8,
+    "property_id": "HTX049",
+    "sale_price": 913200,
+    "sale_date": "2025-10-07T05:10:55Z",
+    "source_url": "https://example.com/sales/HTX049"
+  }
+]

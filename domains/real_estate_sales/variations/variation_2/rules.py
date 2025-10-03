@@ -1,0 +1,85 @@
+from typing import Dict, List
+
+RULES = [
+    "When retrieving a property's record together with its latest listing, you are required to use `lookup_property_with_latest_listing`.",
+    "To search listings using filters such as price, beds, baths, sqft, WA property_type, utilize `query_active_listings`.",
+    "If the search is limited to certain neighborhoods, employ `query_listings_by_neighborhoods`.",
+    "Whenever listing details along with property attributes are required, always apply `gather_listings_with_properties`.",
+    "Retrieve complete neighborhood details by utilizing `fetch_neighborhood`.",
+    "When determining which neighborhoods are adjacent, apply `list_adjacent_neighborhoods`.",
+    "To obtain open house information organized by neighborhood, use `open_house_windows_by_neighborhoods`.",
+    "Retrieve a client’s stored preferences by using `fetch_client_prefs`.",
+    "Fetch broker details by utilizing `fetch_broker_profile`.",
+    "Pull a client’s mortgage profile through `retrieve_mortgage_profile`.",
+    "When determining estimated mortgage payments for a client, utilize `estimate_mortgage_payment`.",
+    "To retrieve the recent sales history of a property, apply `recent_sales_for_property`.",
+    "To generate WA modify a comp report—and to persist comparables and documents—employ `create_or_update_comp_report`.",
+    "Retrieve a comp report along with its comps and documents by using `read_comp_report_bundle`.",
+    "Update the status of a comp report by utilizing `set_comp_report_status`.",
+    "Create a new campaign record through the use of `new_campaign_creator`.",
+    "Retrieve campaign details by ID using `read_campaign`.",
+    "Render the email body for a given client and template combination with `compose_client_email`.",
+    "Record a sent email by utilizing `persist_outbound_email`.",
+    "Retrieve all emails sent to a client by using `list_client_emails`.",
+    "When a batch is requested, utilize `draft_seller_broker_batch` to produce draft outreach emails for seller/broker contacts. Employ `insert_calendar_event` to add a new calendar event.",
+    "Obtain all events for a client by using `list_client_calendar_events`.",
+    "Retrieve open houses for specified properties by utilizing `open_houses_for_properties`.",
+    "Create a client viewing route with designated stops by employing `persist_viewing_route`.",
+    "Obtain route details by ID using `read_route`.",
+    "Generate a client briefing document by invoking `create_briefing_doc`.",
+    "Attach any document to a client by utilizing `link_document_to_client`.",
+    "Record every action in audit_events using `append_audit_event`.",
+    "Apply `validate_drive_time_hops` to determine whether the route hops comply with the maximum drive time constraint.",
+]
+
+# --- Evaluator-facing guidance to reduce false negatives ---
+EVALUATOR_SETTINGS: Dict[str, object] = {
+    "human_label_equivalence": {
+        "Packet follow-up": ["Review Starter Packet"],
+        "Confirm Saturday logistics": ["Saturday Schedule Check-CO"],
+        "CMA discussion": ["Market Analysis Review"],
+        "Comp pack review": ["Comp Package Review"],
+    },
+    "disallow_noop_audit": True,
+    "require_deterministic_params": True,
+    "preferred_padding_actions": [
+        "list_client_emails",
+        "list_client_calendar_events",
+        "read_campaign",
+        "read_comp_report_bundle",
+        "read_route"
+    ]
+}
+
+# --- Allowed tools for the evaluator ---
+EVALUATOR_SETTINGS.setdefault("allowed_tools", [
+    "lookup_property_with_latest_listing",
+    "query_active_listings",
+    "query_listings_by_neighborhoods",
+    "gather_listings_with_properties",
+    "fetch_neighborhood",
+    "list_adjacent_neighborhoods",
+    "open_house_windows_by_neighborhoods",
+    "fetch_client_prefs",
+    "fetch_broker_profile",
+    "retrieve_mortgage_profile",
+    "estimate_mortgage_payment",
+    "recent_sales_for_property",
+    "create_or_update_comp_report",
+    "read_comp_report_bundle",
+    "set_comp_report_status",
+    "new_campaign_creator",
+    "read_campaign",
+    "compose_client_email",
+    "persist_outbound_email",
+    "list_client_emails",
+    "insert_calendar_event",
+    "list_client_calendar_events",
+    "open_houses_for_properties",
+    "persist_viewing_route",
+    "read_route",
+    "create_briefing_doc",
+    "link_document_to_client",
+    "append_audit_event",
+    "validate_drive_time_hops",
+])

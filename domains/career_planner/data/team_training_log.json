@@ -1,0 +1,309 @@
+[
+  {
+    "training_session_id": "TS001",
+    "team_id": "T001",
+    "training_name": "Advanced Python",
+    "course_id": "C1001",
+    "training_type": "Required Skill Development",
+    "assigned_by": "U301",
+    "assigned_date": "2024-01-15",
+    "due_date": "2024-03-15",
+    "status": "Completed",
+    "completion_date": "2024-03-15",
+    "team_members_assigned": [
+      "U301",
+      "U302"
+    ],
+    "completion_status": {
+      "U301": {
+        "status": "Completed",
+        "completion_date": "2024-03-15",
+        "final_grade": "A",
+        "skills_gained": [
+          "Python (core)",
+          "Object-Oriented Design",
+          "AsyncIO & Concurrency",
+          "Unit Testing"
+        ]
+      },
+      "U302": {
+        "status": "Enrolled",
+        "completion_date": null,
+        "final_grade": null,
+        "skills_gained": []
+      }
+    },
+    "notes": "Team lead Chloe Scott completed successfully. Chloe Scott enrolled but needs support."
+  },
+  {
+    "training_session_id": "TS002",
+    "team_id": "T003",
+    "training_name": "Project Management Professional (PMP)",
+    "course_id": "C1004",
+    "training_type": "Leadership Development",
+    "assigned_by": "U312",
+    "assigned_date": "2023-11-01",
+    "due_date": "2024-04-01",
+    "status": "Completed",
+    "completion_date": "2024-04-01",
+    "team_members_assigned": [
+      "U306"
+    ],
+    "completion_status": {
+      "U306": {
+        "status": "Completed",
+        "completion_date": "2024-04-01",
+        "final_grade": "A",
+        "skills_gained": [
+          "Project Management",
+          "Risk Management",
+          "Stakeholder Management"
+        ]
+      }
+    },
+    "notes": "Harper King successfully completed PMP certification for SRE leadership role."
+  },
+  {
+    "training_session_id": "TS003",
+    "team_id": "T002",
+    "training_name": "UX Design Fundamentals",
+    "course_id": "C1002",
+    "training_type": "Skill Enhancement",
+    "assigned_by": "U304",
+    "assigned_date": "2023-06-01",
+    "due_date": "2023-10-01",
+    "status": "Completed",
+    "completion_date": "2023-10-01",
+    "team_members_assigned": [
+      "U304"
+    ],
+    "completion_status": {
+      "U304": {
+        "status": "Completed",
+        "completion_date": "2023-10-01",
+        "final_grade": "A-",
+        "skills_gained": [
+          "Figma",
+          "Design Thinking",
+          "User Research"
+        ]
+      }
+    },
+    "notes": "Lucas Young completed UX fundamentals to strengthen design leadership."
+  },
+  {
+    "training_session_id": "TS004",
+    "team_id": "T002",
+    "training_name": "UX Design Fundamentals",
+    "course_id": "C1002",
+    "training_type": "Required Skill Development",
+    "assigned_by": "U304",
+    "assigned_date": "2022-08-01",
+    "due_date": "2022-12-01",
+    "status": "Completed",
+    "completion_date": "2022-12-01",
+    "team_members_assigned": [
+      "U307"
+    ],
+    "completion_status": {
+      "U307": {
+        "status": "Completed",
+        "completion_date": "2022-12-01",
+        "final_grade": "A",
+        "skills_gained": [
+          "Figma",
+          "Design Thinking",
+          "User Research"
+        ]
+      }
+    },
+    "notes": "Alexander Adams completed UX fundamentals as part of onboarding."
+  },
+  {
+    "training_session_id": "TS005",
+    "team_id": "T008",
+    "training_name": "Data Visualization with Tableau",
+    "course_id": "C1003",
+    "training_type": "Skill Development",
+    "assigned_by": "U310",
+    "assigned_date": "2023-12-01",
+    "due_date": "2024-03-01",
+    "status": "Completed",
+    "completion_date": "2024-03-01",
+    "team_members_assigned": [
+      "U310"
+    ],
+    "completion_status": {
+      "U310": {
+        "status": "Completed",
+        "completion_date": "2024-03-01",
+        "final_grade": "B+",
+        "skills_gained": [
+          "Tableau",
+          "Data-Viz Best Practices"
+        ]
+      }
+    },
+    "notes": "Chloe Scott completed Tableau training for People Analytics role."
+  },
+  {
+    "training_session_id": "TS006",
+    "team_id": "T003",
+    "training_name": "Advanced Python",
+    "course_id": "C1001",
+    "training_type": "Skill Enhancement",
+    "assigned_by": "U312",
+    "assigned_date": "2023-05-01",
+    "due_date": "2023-08-01",
+    "status": "Completed",
+    "completion_date": "2023-08-01",
+    "team_members_assigned": [
+      "U312"
+    ],
+    "completion_status": {
+      "U312": {
+        "status": "Completed",
+        "completion_date": "2023-08-01",
+        "final_grade": "A",
+        "skills_gained": [
+          "Python (core)",
+          "Object-Oriented Design",
+          "AsyncIO & Concurrency",
+          "Unit Testing"
+        ]
+      }
+    },
+    "notes": "Lucas Young completed Python training for backend development enhancement."
+  },
+  {
+    "training_session_id": "TS007",
+    "team_id": "T007",
+    "training_name": "UX Design Fundamentals",
+    "course_id": "C1002",
+    "training_type": "Cross-functional Skill Development",
+    "assigned_by": "U309",
+    "assigned_date": "2023-03-01",
+    "due_date": "2023-07-01",
+    "status": "Completed",
+    "completion_date": "2023-07-01",
+    "team_members_assigned": [
+      "U311"
+    ],
+    "completion_status": {
+      "U311": {
+        "status": "Completed",
+        "completion_date": "2023-07-01",
+        "final_grade": "A-",
+        "skills_gained": [
+          "Figma",
+          "Design Thinking",
+          "User Research"
+        ]
+      }
+    },
+    "notes": "Owen Walker completed UX training to enhance instructional design skills."
+  },
+  {
+    "training_session_id": "TS008",
+    "team_id": "T005",
+    "training_name": "Climate Science & Policy",
+    "course_id": "C1007",
+    "training_type": "Domain Knowledge",
+    "assigned_by": "U303",
+    "assigned_date": "2023-09-01",
+    "due_date": "2024-02-01",
+    "status": "Completed",
+    "completion_date": "2024-02-01",
+    "team_members_assigned": [
+      "U303"
+    ],
+    "completion_status": {
+      "U303": {
+        "status": "Completed",
+        "completion_date": "2024-02-01",
+        "final_grade": "B+",
+        "skills_gained": [
+          "Climate Science Fundamentals",
+          "Policy Writing",
+          "Regulatory Analysis"
+        ]
+      }
+    },
+    "notes": "David Adams completed climate policy training for compliance role enhancement."
+  },
+  {
+    "training_session_id": "TS009",
+    "team_id": "T004",
+    "training_name": "Agile Product Management",
+    "course_id": "C1006",
+    "training_type": "Skill Development",
+    "assigned_by": "U305",
+    "assigned_date": "2024-03-01",
+    "due_date": "2024-07-01",
+    "status": "In Progress",
+    "completion_date": null,
+    "team_members_assigned": [
+      "U305"
+    ],
+    "completion_status": {
+      "U305": {
+        "status": "In Progress",
+        "completion_date": null,
+        "final_grade": null,
+        "skills_gained": [],
+        "current_progress_percent": 60
+      }
+    },
+    "notes": "Jack Wang learning agile methodologies for product marketing transition."
+  },
+  {
+    "training_session_id": "TS010",
+    "team_id": "T006",
+    "training_name": "Data Visualization with Tableau",
+    "course_id": "C1003",
+    "training_type": "Skill Enhancement",
+    "assigned_by": "U308",
+    "assigned_date": "2024-02-01",
+    "due_date": "2024-05-01",
+    "status": "In Progress",
+    "completion_date": null,
+    "team_members_assigned": [
+      "U308"
+    ],
+    "completion_status": {
+      "U308": {
+        "status": "In Progress",
+        "completion_date": null,
+        "final_grade": null,
+        "skills_gained": [],
+        "current_progress_percent": 75
+      }
+    },
+    "notes": "Henry Hassan learning data visualization for UX writing enhancement."
+  },
+  {
+    "training_session_id": "TS011",
+    "team_id": "T007",
+    "training_name": "Project Management Professional (PMP)",
+    "course_id": "C1004",
+    "training_type": "Leadership Development",
+    "assigned_by": "U309",
+    "assigned_date": "2024-06-01",
+    "due_date": "2024-11-01",
+    "status": "Enrolled",
+    "completion_date": null,
+    "team_members_assigned": [
+      "U309"
+    ],
+    "completion_status": {
+      "U309": {
+        "status": "Enrolled",
+        "completion_date": null,
+        "final_grade": null,
+        "skills_gained": [],
+        "current_progress_percent": 0
+      }
+    },
+    "notes": "Logan Garcia enrolled in PMP for L&D leadership development."
+  }
+]

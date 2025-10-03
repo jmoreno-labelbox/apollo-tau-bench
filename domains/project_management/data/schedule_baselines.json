@@ -1,0 +1,80 @@
+[
+  {
+    "baseline_id": "base_001",
+    "project_id": "proj_mobile_01",
+    "baseline_name": "Q1 2024 Baseline",
+    "baseline_type": "quarterly",
+    "approval_ref": "PMO-2024-Q1-001",
+    "notes": "Initial quarterly baseline for mobile project",
+    "milestone_count": 3,
+    "max_variance_days": 0,
+    "variance_percentage": 0,
+    "milestone_snapshots": [
+      {
+        "milestone_id": "ms_001",
+        "milestone_name": "Authentication Module Complete",
+        "baseline_start": "2024-03-01T00:00:00Z",
+        "baseline_target": "2024-03-31T00:00:00Z",
+        "current_start": "2024-03-01T00:00:00Z",
+        "current_target": "2024-03-31T00:00:00Z",
+        "variance_days": 0
+      }
+    ],
+    "created_date": "2024-01-20T10:00:00Z",
+    "year": 2024,
+    "quarter": 1
+  },
+  {
+    "baseline_id": "base_002",
+    "project_id": "proj_ai_01",
+    "baseline_name": "AI Project Initial Baseline",
+    "baseline_type": "initial",
+    "approval_ref": null,
+    "notes": "Initial baseline for AI platform project",
+    "milestone_count": 2,
+    "max_variance_days": 0,
+    "variance_percentage": 0,
+    "milestone_snapshots": [
+      {
+        "milestone_id": "ms_003",
+        "milestone_name": "ML Model Training Complete",
+        "baseline_start": "2024-05-01T00:00:00Z",
+        "baseline_target": "2024-06-30T00:00:00Z",
+        "current_start": "2024-05-01T00:00:00Z",
+        "current_target": "2024-06-30T00:00:00Z",
+        "variance_days": 0
+      }
+    ],
+    "created_date": "2024-03-01T11:00:00Z",
+    "year": 2024,
+    "quarter": 1
+  },
+  {
+    "baseline_id": "base_003",
+    "project_id": "proj_enterprise_01",
+    "baseline_name": "Enterprise Platform Q1 Baseline",
+    "baseline_type": "quarterly",
+    "approval_ref": "PMO-2024-Q1-002",
+    "notes": "Q1 baseline for enterprise platform",
+    "milestone_count": 4,
+    "max_variance_days": 3,
+    "variance_percentage": 5,
+    "created_date": "2024-01-25T09:00:00Z",
+    "year": 2024,
+    "quarter": 1
+  },
+  {
+    "baseline_id": "base_004",
+    "project_id": "proj_banking_01",
+    "baseline_name": "Banking Integration Baseline",
+    "baseline_type": "initial",
+    "approval_ref": null,
+    "notes": "Initial schedule baseline",
+    "milestone_count": 3,
+    "max_variance_days": 0,
+    "variance_percentage": 0,
+    "created_date": "2024-02-05T10:00:00Z",
+    "year": 2024,
+    "quarter": 1
+  }
+]

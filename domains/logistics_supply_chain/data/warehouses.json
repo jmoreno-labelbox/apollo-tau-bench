@@ -1,0 +1,445 @@
+[
+  {
+    "warehouse_id": "WH-01",
+    "warehouse_name": "West Coast Distribution Hub",
+    "address": "123 Logistics Blvd.",
+    "city": "San Diego",
+    "state_province": "OR",
+    "postal_code": "90001",
+    "country": "United States",
+    "contact_person": "Isabella Martinez",
+    "contact_phone": "1-213-555-0101",
+    "contact_email": "isabella.martinez@logisticshub.com",
+    "operating_hours": "Mon-Sat 6am-10pm",
+    "total_storage_capacity_cbm": 50000,
+    "current_utilization_percentage": 78.5,
+    "number_of_docks": 60,
+    "warehouse_type": "Distribution Center",
+    "ownership_status": "Owned",
+    "certifications": [
+      "ISO 9001",
+      "C-TPAT"
+    ],
+    "special_capabilities": [
+      "Cross-Docking",
+      "High-Value Cage"
+    ],
+    "wms_system": "Skyline WMS",
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "warehouse_id": "WH-02",
+    "warehouse_name": "Northwest Fulfillment Center",
+    "address": "321 Port Boulevard N",
+    "city": "Portland",
+    "state_province": "OR",
+    "postal_code": "98134",
+    "country": "United States",
+    "contact_person": "Robert Davis",
+    "contact_phone": "1-206-555-0102",
+    "contact_email": "robert.davis@logisticshub.com",
+    "operating_hours": "24/7",
+    "total_storage_capacity_cbm": 35000,
+    "current_utilization_percentage": 92.1,
+    "number_of_docks": 45,
+    "warehouse_type": "Fulfillment Center",
+    "ownership_status": "Leased",
+    "certifications": [
+      "ISO 14001"
+    ],
+    "special_capabilities": [
+      "E-commerce Fulfillment",
+      "Kitting & Assembly"
+    ],
+    "wms_system": "Enterprise Warehouse System",
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "warehouse_id": "WH-03",
+    "warehouse_name": "Midwest Parts Warehouse",
+    "address": "3800 Industrial Parkway",
+    "city": "Milwaukee",
+    "state_province": "WI",
+    "postal_code": "60616",
+    "country": "United States",
+    "contact_person": "Michael Liu",
+    "contact_phone": "1-312-555-0103",
+    "contact_email": "michael.liu@logisticshub.com",
+    "operating_hours": "Mon-Fri 7am-7pm",
+    "total_storage_capacity_cbm": 80000,
+    "current_utilization_percentage": 65.0,
+    "number_of_docks": 80,
+    "warehouse_type": "Parts Depot",
+    "ownership_status": "Owned",
+    "certifications": [
+      "ISO 9001"
+    ],
+    "special_capabilities": [
+      "Heavy Equipment Handling",
+      "VMI (Vendor Managed Inventory)"
+    ],
+    "wms_system": "In-house WMS",
+    "timezone": "America/Milwaukee"
+  },
+  {
+    "warehouse_id": "WH-04",
+    "warehouse_name": "East Coast Fashion Center",
+    "address": "600 Garment Way",
+    "city": "Jersey City",
+    "state_province": "NY",
+    "postal_code": "07101",
+    "country": "United States",
+    "contact_person": "Elena Gonzalez",
+    "contact_phone": "1-973-555-0104",
+    "contact_email": "elena.gonzalez@logisticshub.com",
+    "operating_hours": "Mon-Fri 8am-8pm",
+    "total_storage_capacity_cbm": 28000,
+    "current_utilization_percentage": 88.3,
+    "number_of_docks": 30,
+    "warehouse_type": "Apparel & Fashion",
+    "ownership_status": "Leased",
+    "certifications": [],
+    "special_capabilities": [
+      "Garment on Hanger (GOH)",
+      "Returns Processing"
+    ],
+    "wms_system": "CloudLogic WMS",
+    "timezone": "America/New_York"
+  },
+  {
+    "warehouse_id": "WH-05",
+    "warehouse_name": "Gulf Coast Food Storage",
+    "address": "1200 Commerce Street",
+    "city": "Dallas",
+    "state_province": "OK",
+    "postal_code": "77002",
+    "country": "United States",
+    "contact_person": "Diego Ramirez",
+    "contact_phone": "1-713-555-0105",
+    "contact_email": "diego.ramirez@logisticshub.com",
+    "operating_hours": "24/7",
+    "total_storage_capacity_cbm": 45000,
+    "current_utilization_percentage": 75.0,
+    "number_of_docks": 50,
+    "warehouse_type": "Food Grade Storage",
+    "ownership_status": "Owned",
+    "certifications": [
+      "FDA Registered",
+      "HACCP",
+      "Organic Certified"
+    ],
+    "special_capabilities": [
+      "Temperature Control (Ambient)",
+      "Pest Control Program"
+    ],
+    "wms_system": "Oracle WMS",
+    "timezone": "America/Milwaukee"
+  },
+  {
+    "warehouse_id": "WH-06",
+    "warehouse_name": "Charlotte Cold Chain Center",
+    "address": "150 Health Park Dr",
+    "city": "Charlotte",
+    "state_province": "SC",
+    "postal_code": "30303",
+    "country": "United States",
+    "contact_person": "Dr. Emily White",
+    "contact_phone": "1-404-555-0106",
+    "contact_email": "emily.white@examplewh.com",
+    "operating_hours": "24/7",
+    "total_storage_capacity_cbm": 20000,
+    "current_utilization_percentage": 81.2,
+    "number_of_docks": 25,
+    "warehouse_type": "Cold Storage",
+    "ownership_status": "Leased",
+    "certifications": [
+      "FDA Registered",
+      "GDP Certified"
+    ],
+    "special_capabilities": [
+      "Cold Chain (2-8\u00b0C)",
+      "Freezer (-20\u00b0C)",
+      "Pharmaceutical Handling"
+    ],
+    "wms_system": "HighJump WMS",
+    "timezone": "America/New_York"
+  },
+  {
+    "warehouse_id": "WH-07",
+    "warehouse_name": "NYC Luxury Vault",
+    "address": "500 5th Ave",
+    "city": "New York",
+    "state_province": "NY",
+    "postal_code": "10110",
+    "country": "United States",
+    "contact_person": "James Peterson",
+    "contact_phone": "1-212-555-0107",
+    "contact_email": "james.peterson@examplewh.com",
+    "operating_hours": "Mon-Fri 9am-5pm (High Security)",
+    "total_storage_capacity_cbm": 5000,
+    "current_utilization_percentage": 60.0,
+    "number_of_docks": 5,
+    "warehouse_type": "High-Value Storage",
+    "ownership_status": "Owned",
+    "certifications": [
+      "UL Certified Vault"
+    ],
+    "special_capabilities": [
+      "High-Value Cage",
+      "24/7 Security Detail",
+      "Climate Control"
+    ],
+    "wms_system": "Custom WMS",
+    "timezone": "America/New_York"
+  },
+  {
+    "warehouse_id": "WH-08",
+    "warehouse_name": "Detroit Packaging Supplies",
+    "address": "200 Box Ln",
+    "city": "Detroit",
+    "state_province": "MI",
+    "postal_code": "48226",
+    "country": "United States",
+    "contact_person": "Karen Black",
+    "contact_phone": "1-313-555-0108",
+    "contact_email": "karen.black@examplewh.com",
+    "operating_hours": "Mon-Fri 7am-6pm",
+    "total_storage_capacity_cbm": 60000,
+    "current_utilization_percentage": 72.4,
+    "number_of_docks": 70,
+    "warehouse_type": "Bulk Storage",
+    "ownership_status": "Owned",
+    "certifications": [],
+    "special_capabilities": [
+      "Bulk Goods Handling",
+      "Rail Spur Access"
+    ],
+    "wms_system": "Enterprise Warehouse System",
+    "timezone": "America/Detroit"
+  },
+  {
+    "warehouse_id": "WH-09",
+    "warehouse_name": "Phoenix Renewable Warehouse",
+    "address": "700 Solar Way",
+    "city": "Phoenix",
+    "state_province": "AZ",
+    "postal_code": "85034",
+    "country": "United States",
+    "contact_person": "Angela Kim",
+    "contact_phone": "1-602-555-0109",
+    "contact_email": "angela.kim@examplewh.com",
+    "operating_hours": "Mon-Fri 6am-8pm",
+    "total_storage_capacity_cbm": 75000,
+    "current_utilization_percentage": 85.0,
+    "number_of_docks": 90,
+    "warehouse_type": "Distribution Center",
+    "ownership_status": "Leased",
+    "certifications": [
+      "LEED Certified"
+    ],
+    "special_capabilities": [
+      "Oversized Storage",
+      "Solar Panel Handling"
+    ],
+    "wms_system": "Skyline WMS",
+    "timezone": "America/Phoenix"
+  },
+  {
+    "warehouse_id": "WH-10",
+    "warehouse_name": "San Francisco Fresh Foods DC",
+    "address": "100 Bay St",
+    "city": "San Francisco",
+    "state_province": "OR",
+    "postal_code": "94111",
+    "country": "United States",
+    "contact_person": "Michelle Tran",
+    "contact_phone": "1-415-555-0110",
+    "contact_email": "michelle.tran@examplewh.com",
+    "operating_hours": "24/7",
+    "total_storage_capacity_cbm": 22000,
+    "current_utilization_percentage": 95.5,
+    "number_of_docks": 30,
+    "warehouse_type": "Cold Storage",
+    "ownership_status": "Owned",
+    "certifications": [
+      "FDA Registered",
+      "HACCP",
+      "Organic Certified"
+    ],
+    "special_capabilities": [
+      "Perishables Handling",
+      "Cold Chain (0-4\u00b0C)",
+      "Blast Freezing"
+    ],
+    "wms_system": "CloudLogic WMS",
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "warehouse_id": "WH-11",
+    "warehouse_name": "Denver Heavy Equipment Yard",
+    "address": "950 Quarry Rd",
+    "city": "Denver",
+    "state_province": "CO",
+    "postal_code": "80238",
+    "country": "United States",
+    "contact_person": "Robert Stone",
+    "contact_phone": "1-303-555-0111",
+    "contact_email": "robert.stone@examplewh.com",
+    "operating_hours": "Mon-Fri 6am-6pm",
+    "total_storage_capacity_cbm": 120000,
+    "current_utilization_percentage": 55.8,
+    "number_of_docks": 40,
+    "warehouse_type": "Industrial Storage Yard",
+    "ownership_status": "Owned",
+    "certifications": [],
+    "special_capabilities": [
+      "Heavy Lift Cranes",
+      "Outdoor Storage",
+      "Rail Spur Access"
+    ],
+    "wms_system": "Custom WMS",
+    "timezone": "America/Denver"
+  },
+  {
+    "warehouse_id": "WH-12",
+    "warehouse_name": "Fort Lauderdale Building Materials",
+    "address": "400 Brick Ln",
+    "city": "Fort Lauderdale",
+    "state_province": "SC",
+    "postal_code": "33101",
+    "country": "United States",
+    "contact_person": "Elena Moreno",
+    "contact_phone": "1-305-555-0112",
+    "contact_email": "elena.moreno@examplewh.com",
+    "operating_hours": "Mon-Sat 6am-8pm",
+    "total_storage_capacity_cbm": 90000,
+    "current_utilization_percentage": 79.2,
+    "number_of_docks": 100,
+    "warehouse_type": "Bulk Storage",
+    "ownership_status": "Leased",
+    "certifications": [],
+    "special_capabilities": [
+      "Bulk Building Materials",
+      "Outdoor Storage",
+      "Cross-Docking"
+    ],
+    "wms_system": "Enterprise Warehouse System",
+    "timezone": "America/New_York"
+  },
+  {
+    "warehouse_id": "WH-13",
+    "warehouse_name": "Cleveland Chemical Storage",
+    "address": "600 Lab Rd",
+    "city": "Cleveland",
+    "state_province": "OH",
+    "postal_code": "44114",
+    "country": "United States",
+    "contact_person": "Dr. Alan Turing",
+    "contact_phone": "1-216-555-0113",
+    "contact_email": "alan.turing@examplewh.com",
+    "operating_hours": "24/7 (Restricted Access)",
+    "total_storage_capacity_cbm": 15000,
+    "current_utilization_percentage": 70.0,
+    "number_of_docks": 15,
+    "warehouse_type": "Hazmat Storage",
+    "ownership_status": "Owned",
+    "certifications": [
+      "OSHA Certified",
+      "RCRA Compliant"
+    ],
+    "special_capabilities": [
+      "Hazmat Certified (Classes 3, 6.1, 9)",
+      "Temperature Control (4-20\u00b0C)",
+      "Spill Containment"
+    ],
+    "wms_system": "ChemManager WMS",
+    "timezone": "America/New_York"
+  },
+  {
+    "warehouse_id": "WH-14",
+    "warehouse_name": "Dallas Home Goods DC",
+    "address": "300 Sofa St",
+    "city": "Dallas",
+    "state_province": "OK",
+    "postal_code": "75201",
+    "country": "United States",
+    "contact_person": "Susan Wright",
+    "contact_phone": "1-214-555-0114",
+    "contact_email": "susan.wright@examplewh.com",
+    "operating_hours": "Mon-Fri 7am-9pm",
+    "total_storage_capacity_cbm": 95000,
+    "current_utilization_percentage": 88.9,
+    "number_of_docks": 110,
+    "warehouse_type": "Distribution Center",
+    "ownership_status": "Owned",
+    "certifications": [
+      "ISO 9001"
+    ],
+    "special_capabilities": [
+      "Furniture Handling",
+      "Cross-Docking",
+      "Big & Bulky"
+    ],
+    "wms_system": "Skyline WMS",
+    "timezone": "America/Milwaukee"
+  },
+  {
+    "warehouse_id": "WH-15",
+    "warehouse_name": "San Diego Beverage DC",
+    "address": "600 Vineyard Dr",
+    "city": "San Diego",
+    "state_province": "OR",
+    "postal_code": "90021",
+    "country": "United States",
+    "contact_person": "Frank Gallo",
+    "contact_phone": "1-213-555-0115",
+    "contact_email": "frank.gallo@examplewh.com",
+    "operating_hours": "Mon-Fri 8am-7pm",
+    "total_storage_capacity_cbm": 30000,
+    "current_utilization_percentage": 82.0,
+    "number_of_docks": 35,
+    "warehouse_type": "Beverage Distribution",
+    "ownership_status": "Leased",
+    "certifications": [
+      "ABC Licensed"
+    ],
+    "special_capabilities": [
+      "Temperature Control (10-15\u00b0C)",
+      "Bonded Storage",
+      "Case Picking"
+    ],
+    "wms_system": "Oracle WMS",
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "warehouse_id": "WH-16",
+    "warehouse_name": "Milwaukee Cold Storage",
+    "address": "200 Frost Ln",
+    "city": "Milwaukee",
+    "state_province": "WI",
+    "postal_code": "60607",
+    "country": "United States",
+    "contact_person": "Dr. Sarah Johnson",
+    "contact_phone": "1-312-555-0103",
+    "contact_email": "sarah.johnson@examplewh.com",
+    "operating_hours": "24/7",
+    "total_storage_capacity_cbm": 25000,
+    "current_utilization_percentage": 73.5,
+    "number_of_docks": 30,
+    "warehouse_type": "Cold Storage",
+    "ownership_status": "Owned",
+    "certifications": [
+      "FDA Registered",
+      "GDP Certified",
+      "HACCP"
+    ],
+    "special_capabilities": [
+      "Cold Chain (2-8\u00b0C)",
+      "Freezer (-20\u00b0C)",
+      "Pharmaceutical Handling",
+      "Temperature Monitoring"
+    ],
+    "wms_system": "HighJump WMS",
+    "timezone": "America/Milwaukee"
+  }
+]

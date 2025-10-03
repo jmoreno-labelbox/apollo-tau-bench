@@ -1,0 +1,72 @@
+[
+  {
+    "team_id": 1,
+    "team_name": "Cyclones",
+    "abbreviation": "LAD",
+    "league": "AL",
+    "division": "East"
+  },
+  {
+    "team_id": 2,
+    "team_name": "Hurricanes",
+    "abbreviation": "SF",
+    "league": "AL",
+    "division": "East"
+  },
+  {
+    "team_id": 3,
+    "team_name": "Lightning",
+    "abbreviation": "STL",
+    "league": "AL",
+    "division": "East"
+  },
+  {
+    "team_id": 4,
+    "team_name": "Cyclones",
+    "abbreviation": "PIT",
+    "league": "AL",
+    "division": "East"
+  },
+  {
+    "team_id": 5,
+    "team_name": "Lightning",
+    "abbreviation": "MIA",
+    "league": "AL",
+    "division": "East"
+  },
+  {
+    "team_id": 6,
+    "team_name": "Falcons",
+    "abbreviation": "CHC",
+    "league": "AL",
+    "division": "Central"
+  },
+  {
+    "team_id": 7,
+    "team_name": "Falcons",
+    "abbreviation": "CIN",
+    "league": "AL",
+    "division": "Central"
+  },
+  {
+    "team_id": 8,
+    "team_name": "Cyclones",
+    "abbreviation": "MIL",
+    "league": "AL",
+    "division": "Central"
+  },
+  {
+    "team_id": 9,
+    "team_name": "Lightning",
+    "abbreviation": "STL",
+    "league": "AL",
+    "division": "Central"
+  },
+  {
+    "team_id": 10,
+    "team_name": "Cyclones",
+    "abbreviation": "COL",
+    "league": "AL",
+    "division": "Central"
+  }
+]

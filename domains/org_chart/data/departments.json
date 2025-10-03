@@ -1,0 +1,42 @@
+[
+  {
+    "department_id": "DEPT1001",
+    "name": "Engineering",
+    "head_id": "E10001",
+    "location": "San Francisco\u00a0HQ",
+    "budget": 7000000,
+    "description": "Responsible for all product development and technical operations."
+  },
+  {
+    "department_id": "DEPT1002",
+    "name": "Sales",
+    "head_id": "E10012",
+    "location": "New\u00a0York\u00a0Office",
+    "budget": 5000000,
+    "description": "Owns revenue generation and customer relationships."
+  },
+  {
+    "department_id": "DEPT1003",
+    "name": "Human\u00a0Resources",
+    "head_id": "E10009",
+    "location": "San\u00a0Francisco\u00a0HQ",
+    "budget": 800000,
+    "description": "Manages recruitment, retention, and employee well\u2011being."
+  },
+  {
+    "department_id": "DEPT1004",
+    "name": "Finance",
+    "head_id": "E10011",
+    "location": "Madrid\u00a0Office",
+    "budget": 1200000,
+    "description": "Oversees accounting, compliance, and financial planning."
+  },
+  {
+    "department_id": "DEPT1005",
+    "name": "Marketing",
+    "head_id": "E10013",
+    "location": "London\u00a0Office",
+    "budget": 1600000,
+    "description": "Drives brand awareness and demand generation."
+  }
+]

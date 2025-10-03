@@ -1,0 +1,133 @@
+[
+  {
+    "plan_id": "recovery_001",
+    "milestone_id": "ms_002",
+    "milestone_name": "Phase 1 Gate Review",
+    "current_target_date": "2024-04-19T00:00:00Z",
+    "recovery_target_date": "2024-04-15T00:00:00Z",
+    "recovery_days": 4,
+    "recovery_actions": [
+      {
+        "type": "crashing",
+        "description": "Add 2 senior developers to critical tasks",
+        "impact_days": 3
+      },
+      {
+        "type": "fast_tracking",
+        "description": "Parallel execution of testing and documentation",
+        "impact_days": 2
+      }
+    ],
+    "additional_resources": [
+      "emp_dev_15",
+      "emp_test_05"
+    ],
+    "risk_mitigation": [
+      "Daily stand-ups with recovery team",
+      "Dedicated technical lead oversight",
+      "Simplified approval process"
+    ],
+    "total_impact_days": 5,
+    "feasibility": "high",
+    "created_date": "2024-03-18T14:00:00Z",
+    "status": "pending_approval",
+    "created_within_48hrs": true
+  },
+  {
+    "plan_id": "recovery_002",
+    "milestone_id": "ms_007",
+    "milestone_name": "Infrastructure Migration Phase 1",
+    "current_target_date": "2024-06-04T00:00:00Z",
+    "recovery_target_date": "2024-05-30T00:00:00Z",
+    "recovery_days": 5,
+    "recovery_actions": [
+      {
+        "type": "resource_addition",
+        "description": "Bring in specialized DevOps consultant",
+        "impact_days": 4
+      },
+      {
+        "type": "scope_reduction",
+        "description": "Defer non-critical monitoring features",
+        "impact_days": 3
+      }
+    ],
+    "additional_resources": [
+      "external_consultant"
+    ],
+    "risk_mitigation": [
+      "Pre-migration testing in staging",
+      "Rollback procedures documented",
+      "24/7 support during migration"
+    ],
+    "total_impact_days": 7,
+    "feasibility": "medium",
+    "created_date": "2024-03-20T10:00:00Z",
+    "status": "approved",
+    "created_within_48hrs": true
+  },
+  {
+    "plan_id": "recovery_003",
+    "milestone_id": "ms_003",
+    "milestone_name": "ML Model Training Complete",
+    "current_target_date": "2024-07-14T00:00:00Z",
+    "recovery_target_date": "2024-06-30T00:00:00Z",
+    "recovery_days": 14,
+    "recovery_actions": [
+      {
+        "type": "crashing",
+        "description": "Utilize cloud GPU clusters for parallel training",
+        "impact_days": 10
+      },
+      {
+        "type": "resource_addition",
+        "description": "Add 2 ML engineers from bench",
+        "impact_days": 7
+      }
+    ],
+    "additional_resources": [
+      "emp_data_01",
+      "emp_data_02"
+    ],
+    "risk_mitigation": [
+      "Incremental model validation",
+      "Automated testing pipeline",
+      "Daily progress tracking"
+    ],
+    "total_impact_days": 17,
+    "feasibility": "high",
+    "created_date": "2024-03-15T11:00:00Z",
+    "status": "in_progress",
+    "created_within_48hrs": false
+  },
+  {
+    "plan_id": "recovery_004",
+    "milestone_id": "ms_001",
+    "milestone_name": "Authentication Module Complete",
+    "current_target_date": "2024-04-04T00:00:00Z",
+    "recovery_target_date": "2024-03-31T00:00:00Z",
+    "recovery_days": 4,
+    "recovery_actions": [
+      {
+        "type": "fast_tracking",
+        "description": "Start integration testing before unit testing completes",
+        "impact_days": 3
+      },
+      {
+        "type": "crashing",
+        "description": "Weekend work authorized for critical path tasks",
+        "impact_days": 2
+      }
+    ],
+    "additional_resources": [],
+    "risk_mitigation": [
+      "Increased code review frequency",
+      "Automated regression testing"
+    ],
+    "total_impact_days": 5,
+    "feasibility": "high",
+    "created_date": "2024-03-10T16:00:00Z",
+    "status": "completed",
+    "created_within_48hrs": true
+  }
+]

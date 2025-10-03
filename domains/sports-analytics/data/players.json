@@ -1,0 +1,137 @@
+[
+  {
+    "player_id": 1,
+    "full_name": "Evelyn Martin",
+    "primary_position": "DH",
+    "batting_handedness": "S",
+    "throwing_handedness": "R",
+    "current_team_id": 8,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 2,
+    "full_name": "Robert Martinez",
+    "primary_position": "RF",
+    "batting_handedness": "L",
+    "throwing_handedness": "R",
+    "current_team_id": 9,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 3,
+    "full_name": "Isabella Davis",
+    "primary_position": "2B",
+    "batting_handedness": "S",
+    "throwing_handedness": "L",
+    "current_team_id": 3,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 4,
+    "full_name": "Michael White",
+    "primary_position": "RF",
+    "batting_handedness": "R",
+    "throwing_handedness": "R",
+    "current_team_id": 8,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 5,
+    "full_name": "Sarah Williams",
+    "primary_position": "CF",
+    "batting_handedness": "S",
+    "throwing_handedness": "R",
+    "current_team_id": 7,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 6,
+    "full_name": "Lucas Garcia",
+    "primary_position": "CF",
+    "batting_handedness": "R",
+    "throwing_handedness": "R",
+    "current_team_id": 3,
+    "roster_status": "IL-60"
+  },
+  {
+    "player_id": 7,
+    "full_name": "Alexander Taylor",
+    "primary_position": "LF",
+    "batting_handedness": "S",
+    "throwing_handedness": "R",
+    "current_team_id": 10,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 8,
+    "full_name": "James Brown",
+    "primary_position": "CF",
+    "batting_handedness": "S",
+    "throwing_handedness": "R",
+    "current_team_id": 3,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 9,
+    "full_name": "Charlotte Johnson",
+    "primary_position": "2B",
+    "batting_handedness": "S",
+    "throwing_handedness": "L",
+    "current_team_id": 10,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 10,
+    "full_name": "Benjamin Miller",
+    "primary_position": "3B",
+    "batting_handedness": "S",
+    "throwing_handedness": "R",
+    "current_team_id": 10,
+    "roster_status": "IL-15"
+  },
+  {
+    "player_id": 11,
+    "full_name": "Oliver Thompson",
+    "primary_position": "LF",
+    "batting_handedness": "R",
+    "throwing_handedness": "R",
+    "current_team_id": 6,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 12,
+    "full_name": "Tyrone Martinez",
+    "primary_position": "C",
+    "batting_handedness": "L",
+    "throwing_handedness": "R",
+    "current_team_id": 2,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 13,
+    "full_name": "Amelia Jones",
+    "primary_position": "2B",
+    "batting_handedness": "L",
+    "throwing_handedness": "R",
+    "current_team_id": 9,
+    "roster_status": "IL-60"
+  },
+  {
+    "player_id": 14,
+    "full_name": "Henry Williams",
+    "primary_position": "LF",
+    "batting_handedness": "L",
+    "throwing_handedness": "R",
+    "current_team_id": 7,
+    "roster_status": "IL-15"
+  },
+  {
+    "player_id": 15,
+    "full_name": "Sophia Martinez",
+    "primary_position": "SS",
+    "batting_handedness": "L",
+    "throwing_handedness": "R",
+    "current_team_id": 5,
+    "roster_status": "Active"
+  }
+]

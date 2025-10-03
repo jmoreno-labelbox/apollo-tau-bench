@@ -1,0 +1,121 @@
+[
+  {
+    "course_id": "C1001",
+    "name": "Advanced Python",
+    "provider": "Coursera",
+    "level": "Intermediate-to-Advanced",
+    "delivery_mode": "Self-paced",
+    "duration_hours": 40,
+    "duration_weeks": 6,
+    "related_skills": ["Python"],
+    "skills_imparted": [
+      { "skill": "Python (core)", "proficiency_gain": "Intermediate → Advanced" },
+      { "skill": "Object-Oriented Design", "proficiency_gain": "Foundational → Intermediate" },
+      { "skill": "AsyncIO & Concurrency", "proficiency_gain": "None → Beginner" },
+      { "skill": "Unit Testing", "proficiency_gain": "None → Beginner" }
+    ],
+    "prerequisites_skills": ["Python (basic syntax)", "Git Fundamentals"],
+    "certification": true
+  },
+  {
+    "course_id": "C1002",
+    "name": "UX Design Fundamentals",
+    "provider": "Google",
+    "level": "Beginner",
+    "delivery_mode": "Instructor-led (cohort)",
+    "duration_hours": 30,
+    "duration_weeks": 4,
+    "related_skills": ["Figma", "Design Thinking"],
+    "skills_imparted": [
+      { "skill": "Figma", "proficiency_gain": "None → Beginner" },
+      { "skill": "Design Thinking", "proficiency_gain": "None → Beginner" },
+      { "skill": "User Research", "proficiency_gain": "None → Beginner" }
+    ],
+    "prerequisites_skills": [],
+    "certification": true
+  },
+  {
+    "course_id": "C1003",
+    "name": "Data Visualization with Tableau",
+    "provider": "edX",
+    "level": "Intermediate",
+    "delivery_mode": "Self-paced",
+    "duration_hours": 25,
+    "duration_weeks": 3,
+    "related_skills": ["Tableau"],
+    "skills_imparted": [
+      { "skill": "Tableau", "proficiency_gain": "Beginner → Intermediate" },
+      { "skill": "Data-Viz Best Practices", "proficiency_gain": "None → Beginner" }
+    ],
+    "prerequisites_skills": ["SQL Basics", "Statistics Fundamentals"],
+    "certification": true
+  },
+  {
+    "course_id": "C1004",
+    "name": "Project Management Professional (PMP)",
+    "provider": "PMI",
+    "level": "Advanced",
+    "delivery_mode": "Instructor-led (bootcamp)",
+    "duration_hours": 35,
+    "duration_weeks": 5,
+    "related_skills": ["Project Management"],
+    "skills_imparted": [
+      { "skill": "Project Management", "proficiency_gain": "Intermediate → Advanced" },
+      { "skill": "Risk Management", "proficiency_gain": "None → Intermediate" },
+      { "skill": "Stakeholder Management", "proficiency_gain": "None → Intermediate" }
+    ],
+    "prerequisites_skills": ["3+ years PM experience"],
+    "certification": true
+  },
+  {
+    "course_id": "C1005",
+    "name": "Machine Learning Specialization",
+    "provider": "Stanford",
+    "level": "Advanced",
+    "delivery_mode": "Self-paced",
+    "duration_hours": 60,
+    "duration_weeks": 8,
+    "related_skills": ["Machine Learning"],
+    "skills_imparted": [
+      { "skill": "Machine Learning", "proficiency_gain": "Beginner → Advanced" },
+      { "skill": "Neural Networks", "proficiency_gain": "None → Intermediate" },
+      { "skill": "Model Deployment", "proficiency_gain": "None → Beginner" }
+    ],
+    "prerequisites_skills": ["Linear Algebra", "Statistics", "Python"],
+    "certification": true
+  },
+  {
+    "course_id": "C1006",
+    "name": "Agile Product Management",
+    "provider": "Udacity",
+    "level": "Intermediate",
+    "delivery_mode": "Self-paced",
+    "duration_hours": 20,
+    "duration_weeks": 4,
+    "related_skills": ["Agile"],
+    "skills_imparted": [
+      { "skill": "Agile Methodologies", "proficiency_gain": "Beginner → Intermediate" },
+      { "skill": "Scrum & Kanban", "proficiency_gain": "None → Beginner" },
+      { "skill": "Backlog Prioritization", "proficiency_gain": "None → Beginner" }
+    ],
+    "prerequisites_skills": ["Product Management Basics"],
+    "certification": true
+  },
+  {
+    "course_id": "C1007",
+    "name": "Climate Science & Policy",
+    "provider": "FutureLearn",
+    "level": "Intermediate",
+    "delivery_mode": "Instructor-led (cohort)",
+    "duration_hours": 30,
+    "duration_weeks": 5,
+    "related_skills": ["Policy Writing"],
+    "skills_imparted": [
+      { "skill": "Climate Science Fundamentals", "proficiency_gain": "None → Beginner" },
+      { "skill": "Policy Writing", "proficiency_gain": "Beginner → Intermediate" },
+      { "skill": "Regulatory Analysis", "proficiency_gain": "None → Beginner" }
+    ],
+    "prerequisites_skills": ["Environmental Science Basics"],
+    "certification": true
+  }
+]
