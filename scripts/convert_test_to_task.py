@@ -25,6 +25,8 @@ from typing import Any, Dict, List
 REPO_ROOT = Path(__file__).resolve().parent.parent
 TAU_BENCH_DIR = REPO_ROOT / "tau_bench"
 TYPES_PATH = TAU_BENCH_DIR / "types.py"
+DOMAINS_DIR = REPO_ROOT / "domains"
+DOMAINS_DTO_PATH = DOMAINS_DIR / "dto.py"
 
 
 def _load_module_from_path(module_name: str, file_path: Path) -> ModuleType:
@@ -62,8 +64,8 @@ def task_to_dict(task_obj: Any) -> Dict[str, Any]:
         actions.append({"name": name, "arguments": kwargs})
 
     out: Dict[str, Any] = {
-        # keep annotator as int if present, else omit
-        **({"annotator": int(data["annotator"])} if "annotator" in data else {}),
+        # keep annotator as-is (can be str or int), else omit
+        **({"annotator": data["annotator"]} if "annotator" in data else {}),
         "user_id": data["user_id"],
         "instruction": data.get("instruction", ""),
         "actions": actions,
@@ -78,8 +80,17 @@ def render_tasks_py(tasks: List[Dict[str, Any]]) -> str:
     # Use consistent 4-space indentation as in repo
     import json
 
+    def _to_jsonable(obj: Any) -> Any:
+        # Recursively convert non-JSON types to JSON-safe representations
+        if isinstance(obj, dict):
+            return {k: _to_jsonable(v) for k, v in obj.items()}
+        if isinstance(obj, (list, tuple, set)):
+            return [_to_jsonable(x) for x in list(obj)]
+        return obj
+
     def dumps(obj: Any, indent: int = 8) -> str:
-        return json.dumps(obj, indent=4, ensure_ascii=False)
+        safe = _to_jsonable(obj)
+        return json.dumps(safe, indent=4, ensure_ascii=False)
 
     lines: List[str] = []
     lines.append("# Copyright Sierra")
@@ -187,6 +198,15 @@ def main() -> None:
 
     # Load tau_bench.types directly so tasks_test can import it without triggering package __init__
     _load_module_from_path("tau_bench.types", TYPES_PATH)
+
+    # Prepare a lightweight package stub for domains so `from domains.dto import Task, Action` resolves
+    if "domains" not in sys.modules:
+        domains_pkg = ModuleType("domains")
+        setattr(domains_pkg, "__path__", [str(DOMAINS_DIR)])
+        sys.modules["domains"] = domains_pkg
+    # Load domains.dto directly
+    if DOMAINS_DTO_PATH.exists():
+        _load_module_from_path("domains.dto", DOMAINS_DTO_PATH)
 
     # Load tasks_test directly from file
     tasks_test_mod = _load_module_from_path("_tasks_test_module", input_path)
