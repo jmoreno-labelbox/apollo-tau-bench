@@ -1,6 +1,7 @@
 # Copyright Sierra
 
 import argparse
+from dotenv import load_dotenv, find_dotenv
 from tau_bench.types import RunConfig
 from tau_bench.run import run
 from litellm import provider_list
@@ -94,6 +95,10 @@ def parse_args() -> RunConfig:
 
 
 def main():
+    # Load environment variables from a .env file if present
+    env_path = find_dotenv()
+    if env_path:
+        load_dotenv(env_path)
     config = parse_args()
     run(config)
 
