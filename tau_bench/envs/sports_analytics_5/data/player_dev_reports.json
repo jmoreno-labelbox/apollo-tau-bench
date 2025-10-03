@@ -1,0 +1,72 @@
+{
+  "1": {
+    "dev_report_id": 1,
+    "player_id": 13,
+    "week_of_date": "2024-05-20",
+    "created_at": "2024-06-30 15:20:47",
+    "s3_pdf_path": "s3://reports/development/1.pdf"
+  },
+  "2": {
+    "dev_report_id": 2,
+    "player_id": 15,
+    "week_of_date": "2024-09-16",
+    "created_at": "2024-07-30 15:20:47",
+    "s3_pdf_path": "s3://reports/development/2.pdf"
+  },
+  "3": {
+    "dev_report_id": 3,
+    "player_id": 14,
+    "week_of_date": "2024-04-01",
+    "created_at": "2024-06-21 15:20:47",
+    "s3_pdf_path": "s3://reports/development/3.pdf"
+  },
+  "4": {
+    "dev_report_id": 4,
+    "player_id": 6,
+    "week_of_date": "2024-03-18",
+    "created_at": "2024-05-15 15:20:47",
+    "s3_pdf_path": "s3://reports/development/4.pdf"
+  },
+  "5": {
+    "dev_report_id": 5,
+    "player_id": 5,
+    "week_of_date": "2024-07-15",
+    "created_at": "2024-07-27 15:20:47",
+    "s3_pdf_path": "s3://reports/development/5.pdf"
+  },
+  "6": {
+    "dev_report_id": 6,
+    "player_id": 10,
+    "week_of_date": "2024-04-08",
+    "created_at": "2024-05-25 15:20:47",
+    "s3_pdf_path": "s3://reports/development/6.pdf"
+  },
+  "7": {
+    "dev_report_id": 7,
+    "player_id": 8,
+    "week_of_date": "2024-03-18",
+    "created_at": "2024-06-30 15:20:47",
+    "s3_pdf_path": "s3://reports/development/7.pdf"
+  },
+  "8": {
+    "dev_report_id": 8,
+    "player_id": 8,
+    "week_of_date": "2024-02-26",
+    "created_at": "2024-06-02 15:20:47",
+    "s3_pdf_path": "s3://reports/development/8.pdf"
+  },
+  "9": {
+    "dev_report_id": 9,
+    "player_id": 3,
+    "week_of_date": "2024-07-15",
+    "created_at": "2024-05-18 15:20:47",
+    "s3_pdf_path": "s3://reports/development/9.pdf"
+  },
+  "10": {
+    "dev_report_id": 10,
+    "player_id": 11,
+    "week_of_date": "2024-04-08",
+    "created_at": "2024-07-22 15:20:47",
+    "s3_pdf_path": "s3://reports/development/10.pdf"
+  }
+}

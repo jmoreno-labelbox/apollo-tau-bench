@@ -1,0 +1,77 @@
+{
+  "proj_01": {
+    "study_id": "proj_01",
+    "study_name": "Quantum Computing Applications",
+    "chief_researcher_id": "res_03",
+    "state": "active",
+    "begin_date": "2025-02-01",
+    "finish_date": "2027-01-31",
+    "connected_papers": [
+      "art_02"
+    ],
+    "sponsor_id": "fs_02"
+  },
+  "proj_02": {
+    "study_id": "proj_02",
+    "study_name": "Exoplanet Atmospheric Analysis",
+    "chief_researcher_id": "res_05",
+    "state": "active",
+    "begin_date": "2025-03-15",
+    "finish_date": null,
+    "connected_papers": [
+      "art_08"
+    ],
+    "sponsor_id": null
+  },
+  "proj_03": {
+    "study_id": "proj_03",
+    "study_name": "Next-Generation CRISPR Technologies",
+    "chief_researcher_id": "res_02",
+    "state": "active",
+    "begin_date": "2025-01-15",
+    "finish_date": "2027-01-14",
+    "connected_papers": [
+      "art_03",
+      "art_11"
+    ],
+    "sponsor_id": "fs_07"
+  },
+  "proj_04": {
+    "study_id": "proj_04",
+    "study_name": "Federated AI Systems",
+    "chief_researcher_id": "res_06",
+    "state": "planning",
+    "begin_date": "2025-07-01",
+    "finish_date": "2027-06-30",
+    "connected_papers": [
+      "art_06",
+      "art_15"
+    ],
+    "sponsor_id": "fs_01"
+  },
+  "proj_05": {
+    "study_id": "proj_05",
+    "study_name": "Exoplanet Atmospheric Analysis",
+    "chief_researcher_id": "res_05",
+    "state": "active",
+    "begin_date": "2024-03-01",
+    "finish_date": "2026-02-28",
+    "connected_papers": [
+      "art_08",
+      "art_13"
+    ],
+    "sponsor_id": "fs_06"
+  },
+  "proj_06": {
+    "study_id": "proj_06",
+    "study_name": "Quantum Cryptography Networks",
+    "chief_researcher_id": "res_03",
+    "state": "proposal",
+    "begin_date": "2025-10-01",
+    "finish_date": "2028-09-30",
+    "connected_papers": [
+      "art_10"
+    ],
+    "sponsor_id": "fs_05"
+  }
+}

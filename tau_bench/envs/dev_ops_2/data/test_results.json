@@ -1,0 +1,522 @@
+{
+  "test_result_001": {
+    "id": "test_result_001",
+    "test_run_id": "test_run_001",
+    "test_name": "GameEngineRendererTest::TextureLoadingTest",
+    "status": "failed",
+    "failure_type": "assertion_failure",
+    "issue_message": "Texture loading failed: Invalid format for character_texture.png",
+    "file_path": "src/game/engine/renderer.cpp",
+    "line_number": 245,
+    "issue_code": "TEXTURE_LOAD_issue",
+    "stack_trace": "GameEngineRendererTest::TextureLoadingTest() at renderer_test.cpp:45\nRenderer::loadTexture() at renderer.cpp:245\nTextureManager::validateFormat() at texture_manager.cpp:123",
+    "duration_ms": 1500,
+    "timestamp": "2025-01-27T10:00:00Z",
+    "metadata": {
+      "test_suite": "GameEngineTests",
+      "platform": "windows",
+      "build_config": "debug"
+    }
+  },
+  "test_result_002": {
+    "id": "test_result_002",
+    "test_run_id": "test_run_001",
+    "test_name": "AIPathfindingTest::NavigationMeshTest",
+    "status": "failed",
+    "failure_type": "timeout",
+    "issue_message": "Test timed out after 30 seconds: Navigation mesh generation incomplete",
+    "file_path": "src/game/ai/pathfinding.cpp",
+    "line_number": 89,
+    "issue_code": "TIMEOUT_issue",
+    "stack_trace": "AIPathfindingTest::NavigationMeshTest() at pathfinding_test.cpp:67\nPathfinding::generateNavMesh() at pathfinding.cpp:89",
+    "duration_ms": 30000,
+    "timestamp": "2025-01-27T10:00:00Z",
+    "metadata": {
+      "test_suite": "AITests",
+      "platform": "windows",
+      "build_config": "debug"
+    }
+  },
+  "test_result_003": {
+    "id": "test_result_003",
+    "test_run_id": "test_run_002",
+    "test_name": "MultiplayerTest::ConnectionTest",
+    "status": "failed",
+    "failure_type": "network_issue",
+    "issue_message": "Connection failed: Port 8080 already in use",
+    "file_path": "src/game/network/multiplayer.cpp",
+    "line_number": 156,
+    "issue_code": "NETWORK_BIND_issue",
+    "stack_trace": "MultiplayerTest::ConnectionTest() at multiplayer_test.cpp:34\nMultiplayer::initializeServer() at multiplayer.cpp:156\nNetworkManager::bindPort() at network_manager.cpp:78",
+    "duration_ms": 5000,
+    "timestamp": "2025-01-27T11:00:00Z",
+    "metadata": {
+      "test_suite": "NetworkTests",
+      "platform": "linux",
+      "build_config": "release"
+    }
+  },
+  "test_result_004": {
+    "id": "test_result_004",
+    "test_run_id": "test_run_002",
+    "test_name": "PhysicsTest::CollisionDetectionTest",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 800,
+    "timestamp": "2025-01-27T11:00:00Z",
+    "metadata": {
+      "test_suite": "PhysicsTests",
+      "platform": "linux",
+      "build_config": "release"
+    }
+  },
+  "test_result_005": {
+    "id": "test_result_005",
+    "test_run_id": "test_run_003",
+    "test_name": "UIMenuTest::LocalizationTest",
+    "status": "failed",
+    "failure_type": "localization_issue",
+    "issue_message": "Missing translation key: ui.main_menu.start_game",
+    "file_path": "src/game/ui/menu_system.cpp",
+    "line_number": 234,
+    "issue_code": "MISSING_LOCALIZATION_KEY",
+    "stack_trace": "UIMenuTest::LocalizationTest() at menu_test.cpp:89\nMenuSystem::loadLocalizedText() at menu_system.cpp:234\nLocalizationManager::getText() at localization_manager.cpp:145",
+    "duration_ms": 1200,
+    "timestamp": "2025-01-27T12:00:00Z",
+    "metadata": {
+      "test_suite": "UITests",
+      "platform": "macos",
+      "build_config": "debug"
+    }
+  },
+  "test_result_006": {
+    "id": "test_result_006",
+    "test_run_id": "test_run_003",
+    "test_name": "AudioTest::SoundEffectTest",
+    "status": "failed",
+    "failure_type": "resource_issue",
+    "issue_message": "Audio file not found: assets/audio/sound_effects/explosion.wav",
+    "file_path": "src/game/audio/audio_manager.cpp",
+    "line_number": 167,
+    "issue_code": "AUDIO_FILE_NOT_FOUND",
+    "stack_trace": "AudioTest::SoundEffectTest() at audio_test.cpp:56\nAudioManager::loadSoundEffect() at audio_manager.cpp:167\nResourceManager::loadResource() at resource_manager.cpp:92",
+    "duration_ms": 300,
+    "timestamp": "2025-01-27T12:00:00Z",
+    "metadata": {
+      "test_suite": "AudioTests",
+      "platform": "macos",
+      "build_config": "debug"
+    }
+  },
+  "test_result_007": {
+    "id": "test_result_007",
+    "test_run_id": "test_run_004",
+    "test_name": "InputTest::ControllerTest",
+    "status": "failed",
+    "failure_type": "hardware_issue",
+    "issue_message": "Controller initialization failed: No compatible controller found",
+    "file_path": "src/game/input/controller_handler.cpp",
+    "line_number": 78,
+    "issue_code": "CONTROLLER_INIT_issue",
+    "stack_trace": "InputTest::ControllerTest() at input_test.cpp:23\nControllerHandler::initialize() at controller_handler.cpp:78\nInputManager::detectControllers() at input_manager.cpp:45",
+    "duration_ms": 2000,
+    "timestamp": "2025-01-27T13:00:00Z",
+    "metadata": {
+      "test_suite": "InputTests",
+      "platform": "windows",
+      "build_config": "release"
+    }
+  },
+  "test_result_008": {
+    "id": "test_result_008",
+    "test_run_id": "test_run_004",
+    "test_name": "AssetTest::ModelLoadingTest",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 2500,
+    "timestamp": "2025-01-27T13:00:00Z",
+    "metadata": {
+      "test_suite": "AssetTests",
+      "platform": "windows",
+      "build_config": "release"
+    }
+  },
+  "test_result_009": {
+    "id": "test_result_009",
+    "test_run_id": "test_run_005",
+    "test_name": "PerformanceTest::FrameRateTest",
+    "status": "failed",
+    "failure_type": "performance_issue",
+    "issue_message": "Frame rate below threshold: 45 FPS (expected 60 FPS)",
+    "file_path": "src/game/engine/performance_monitor.cpp",
+    "line_number": 123,
+    "issue_code": "LOW_FRAME_RATE",
+    "stack_trace": "PerformanceTest::FrameRateTest() at performance_test.cpp:78\nPerformanceMonitor::checkFrameRate() at performance_monitor.cpp:123",
+    "duration_ms": 60000,
+    "timestamp": "2025-01-27T14:00:00Z",
+    "metadata": {
+      "test_suite": "PerformanceTests",
+      "platform": "linux",
+      "build_config": "release"
+    }
+  },
+  "test_result_010": {
+    "id": "test_result_010",
+    "test_run_id": "test_run_005",
+    "test_name": "MemoryTest::MemoryLeakTest",
+    "status": "failed",
+    "failure_type": "memory_issue",
+    "issue_message": "Memory leak detected: 2.5MB allocated but not freed",
+    "file_path": "src/game/engine/memory_manager.cpp",
+    "line_number": 89,
+    "issue_code": "MEMORY_LEAK_DETECTED",
+    "stack_trace": "MemoryTest::MemoryLeakTest() at memory_test.cpp:45\nMemoryManager::checkForLeaks() at memory_manager.cpp:89",
+    "duration_ms": 45000,
+    "timestamp": "2025-01-27T14:00:00Z",
+    "metadata": {
+      "test_suite": "MemoryTests",
+      "platform": "linux",
+      "build_config": "release"
+    }
+  },
+  "test_result_011": {
+    "id": "test_result_011",
+    "test_run_id": "test_run_006",
+    "test_name": "SecurityTest::SASTScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 900000,
+    "timestamp": "2025-01-25T11:15:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "all",
+      "build_config": "security",
+      "scan_type": "sast",
+      "report_uri": "https://security-reports.techcorp.com/project_001/sast-report-2025-01-25.html",
+      "original_scan_id": "scan_001"
+    }
+  },
+  "test_result_012": {
+    "id": "test_result_012",
+    "test_run_id": "test_run_006",
+    "test_name": "SecurityTest::ContainerScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 300000,
+    "timestamp": "2025-01-25T11:25:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "container",
+      "build_config": "security",
+      "scan_type": "container",
+      "report_uri": "https://security-reports.techcorp.com/project_001/container-scan-2025-01-25.html",
+      "original_scan_id": "scan_002"
+    }
+  },
+  "test_result_013": {
+    "id": "test_result_013",
+    "test_run_id": "test_run_007",
+    "test_name": "SecurityTest::SBOMScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 300000,
+    "timestamp": "2025-01-20T08:05:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "all",
+      "build_config": "security",
+      "scan_type": "sbom",
+      "report_uri": "https://security-reports.techcorp.com/project_002/sbom-report-2025-01-20.html",
+      "original_scan_id": "scan_003"
+    }
+  },
+  "test_result_014": {
+    "id": "test_result_014",
+    "test_run_id": "test_run_008",
+    "test_name": "SecurityTest::DASTScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 1800000,
+    "timestamp": "2025-01-26T09:30:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "web",
+      "build_config": "security",
+      "scan_type": "dast",
+      "report_uri": "https://security-reports.techcorp.com/project_003/dast-report-2025-01-26.html",
+      "original_scan_id": "scan_004"
+    }
+  },
+  "test_result_015": {
+    "id": "test_result_015",
+    "test_run_id": "test_run_009",
+    "test_name": "SecurityTest::LicenseScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 120000,
+    "timestamp": "2025-01-20T07:02:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "all",
+      "build_config": "security",
+      "scan_type": "license",
+      "report_uri": "https://security-reports.techcorp.com/project_004/license-scan-2025-01-20.html",
+      "original_scan_id": "scan_005"
+    }
+  },
+  "test_result_016": {
+    "id": "test_result_016",
+    "test_run_id": "test_run_010",
+    "test_name": "SecurityTest::SASTScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 720000,
+    "timestamp": "2025-01-26T07:12:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "all",
+      "build_config": "security",
+      "scan_type": "sast",
+      "report_uri": "https://security-reports.techcorp.com/project_005/sast-report-2025-01-26.html",
+      "original_scan_id": "scan_006"
+    }
+  },
+  "test_result_017": {
+    "id": "test_result_017",
+    "test_run_id": "test_run_011",
+    "test_name": "SecurityTest::ContainerScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 300000,
+    "timestamp": "2025-01-25T14:05:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "container",
+      "build_config": "security",
+      "scan_type": "container",
+      "report_uri": "https://security-reports.techcorp.com/project_006/container-scan-2025-01-25.html",
+      "original_scan_id": "scan_007"
+    }
+  },
+  "test_result_018": {
+    "id": "test_result_018",
+    "test_run_id": "test_run_012",
+    "test_name": "SecurityTest::DASTScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 1500000,
+    "timestamp": "2025-01-27T10:25:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "web",
+      "build_config": "security",
+      "scan_type": "dast",
+      "report_uri": "https://security-reports.techcorp.com/project_007/dast-report-2025-01-27.html",
+      "original_scan_id": "scan_008"
+    }
+  },
+  "test_result_019": {
+    "id": "test_result_019",
+    "test_run_id": "test_run_013",
+    "test_name": "SecurityTest::SBOMScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 180000,
+    "timestamp": "2025-01-26T08:03:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "all",
+      "build_config": "security",
+      "scan_type": "sbom",
+      "report_uri": "https://security-reports.techcorp.com/project_008/sbom-report-2025-01-26.html",
+      "original_scan_id": "scan_009"
+    }
+  },
+  "test_result_020": {
+    "id": "test_result_020",
+    "test_run_id": "test_run_014",
+    "test_name": "SecurityTest::SASTScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 600000,
+    "timestamp": "2025-01-25T16:10:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "all",
+      "build_config": "security",
+      "scan_type": "sast",
+      "report_uri": "https://security-reports.techcorp.com/project_009/sast-report-2025-01-25.html",
+      "original_scan_id": "scan_010"
+    }
+  },
+  "test_result_021": {
+    "id": "test_result_021",
+    "test_run_id": "test_run_015",
+    "test_name": "SecurityTest::LicenseScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 60000,
+    "timestamp": "2025-01-17T08:01:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "all",
+      "build_config": "security",
+      "scan_type": "license",
+      "report_uri": "https://security-reports.techcorp.com/project_010/license-scan-2025-01-17.html",
+      "original_scan_id": "scan_011"
+    }
+  },
+  "test_result_022": {
+    "id": "test_result_022",
+    "test_run_id": "test_run_006",
+    "test_name": "SecurityTest::DASTScan",
+    "status": "failed",
+    "failure_type": "security_scan_failure",
+    "issue_message": "DAST scan failed: Network connectivity issues during scan execution",
+    "file_path": null,
+    "line_number": null,
+    "issue_code": "DAST_SCAN_FAILED",
+    "stack_trace": null,
+    "duration_ms": 1200000,
+    "timestamp": "2025-01-25T12:20:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "web",
+      "build_config": "security",
+      "scan_type": "dast",
+      "report_uri": "https://security-reports.techcorp.com/project_001/dast-report-2025-01-25-failed.html",
+      "original_scan_id": "scan_012"
+    }
+  },
+  "test_result_023": {
+    "id": "test_result_023",
+    "test_run_id": "test_run_007",
+    "test_name": "SecurityTest::ContainerScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 120000,
+    "timestamp": "2025-01-20T08:12:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "container",
+      "build_config": "security",
+      "scan_type": "container",
+      "report_uri": "https://security-reports.techcorp.com/project_002/container-scan-2025-01-20.html",
+      "original_scan_id": "scan_013"
+    }
+  },
+  "test_result_024": {
+    "id": "test_result_024",
+    "test_run_id": "test_run_008",
+    "test_name": "SecurityTest::SBOMScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 120000,
+    "timestamp": "2025-01-26T08:32:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "all",
+      "build_config": "security",
+      "scan_type": "sbom",
+      "report_uri": "https://security-reports.techcorp.com/project_003/sbom-report-2025-01-26.html",
+      "original_scan_id": "scan_014"
+    }
+  },
+  "test_result_025": {
+    "id": "test_result_025",
+    "test_run_id": "test_run_009",
+    "test_name": "SecurityTest::SASTScan",
+    "status": "passed",
+    "failure_type": null,
+    "issue_message": null,
+    "file_path": null,
+    "line_number": null,
+    "issue_code": null,
+    "stack_trace": null,
+    "duration_ms": 600000,
+    "timestamp": "2025-01-20T07:40:00Z",
+    "metadata": {
+      "test_suite": "SecurityTests",
+      "platform": "all",
+      "build_config": "security",
+      "scan_type": "sast",
+      "report_uri": "https://security-reports.techcorp.com/project_004/sast-report-2025-01-20.html",
+      "original_scan_id": "scan_015"
+    }
+  }
+}

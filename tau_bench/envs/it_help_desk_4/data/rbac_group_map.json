@@ -1,0 +1,102 @@
+{
+  "IT": {
+    "department": "IT",
+    "job_title": "Identity Engineer",
+    "group_ids": [
+      "grp_it_b55e",
+      "grp_it_all"
+    ],
+    "default_license_bundle": [
+      "lic_m365_e3",
+      "lic_github_ent",
+      "lic_slack_ent"
+    ]
+  },
+  "Engineering": {
+    "department": "Engineering",
+    "job_title": "QA Engineer",
+    "group_ids": [
+      "grp_engineering_addd",
+      "grp_engineering_all"
+    ],
+    "default_license_bundle": [
+      "lic_m365_e3",
+      "lic_github_ent",
+      "lic_slack_ent"
+    ]
+  },
+  "Sales": {
+    "department": "Sales",
+    "job_title": "Sales Manager",
+    "group_ids": [
+      "grp_sales_4bcb",
+      "grp_sales_all"
+    ],
+    "default_license_bundle": [
+      "lic_m365_e3",
+      "lic_salesforce",
+      "lic_slack_ent"
+    ]
+  },
+  "HR": {
+    "department": "HR",
+    "job_title": "Recruiter",
+    "group_ids": [
+      "grp_hr_92d4",
+      "grp_hr_all"
+    ],
+    "default_license_bundle": [
+      "lic_m365_e3",
+      "lic_slack_ent"
+    ]
+  },
+  "Finance": {
+    "department": "Finance",
+    "job_title": "Controller",
+    "group_ids": [
+      "grp_finance_c147",
+      "grp_finance_all"
+    ],
+    "default_license_bundle": [
+      "lic_m365_e3",
+      "lic_slack_ent"
+    ]
+  },
+  "Marketing": {
+    "department": "Marketing",
+    "job_title": "Design Lead",
+    "group_ids": [
+      "grp_marketing_c05f",
+      "grp_marketing_all"
+    ],
+    "default_license_bundle": [
+      "lic_m365_e3",
+      "lic_salesforce",
+      "lic_slack_ent"
+    ]
+  },
+  "Support": {
+    "department": "Support",
+    "job_title": "Support Manager",
+    "group_ids": [
+      "grp_support_ada3",
+      "grp_support_all"
+    ],
+    "default_license_bundle": [
+      "lic_m365_e3",
+      "lic_slack_ent"
+    ]
+  },
+  "Operations": {
+    "department": "Operations",
+    "job_title": "Operations Manager",
+    "group_ids": [
+      "grp_operations_9079",
+      "grp_operations_all"
+    ],
+    "default_license_bundle": [
+      "lic_m365_e3",
+      "lic_slack_ent"
+    ]
+  }
+}

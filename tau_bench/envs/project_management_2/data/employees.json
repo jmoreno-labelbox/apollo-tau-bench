@@ -1,0 +1,731 @@
+{
+  "emp_dev_03": {
+    "employee_id": "emp_dev_03",
+    "name": "Ryan Liu",
+    "role": "Senior Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "React Native",
+        "proficiency": 4
+      },
+      {
+        "skill": "JavaScript",
+        "proficiency": 5
+      },
+      {
+        "skill": "TypeScript",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 75,
+    "work_location_preference": "remote",
+    "can_work_onsite": true
+  },
+  "emp_data_01": {
+    "employee_id": "emp_data_01",
+    "name": "Sofia Rodriguez",
+    "role": "Senior Data Analyst",
+    "department": "Analytics",
+    "skills": [
+      {
+        "skill": "Python",
+        "proficiency": 5
+      },
+      {
+        "skill": "SQL",
+        "proficiency": 4
+      },
+      {
+        "skill": "Machine Learning",
+        "proficiency": 3
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 80,
+    "work_location_preference": "remote",
+    "can_work_onsite": false
+  },
+  "emp_data_02": {
+    "employee_id": "emp_data_02",
+    "name": "Thomas Anderson",
+    "role": "Data Engineer",
+    "department": "Analytics",
+    "skills": [
+      {
+        "skill": "SQL",
+        "proficiency": 5
+      },
+      {
+        "skill": "Python",
+        "proficiency": 4
+      },
+      {
+        "skill": "ETL",
+        "proficiency": 5
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 65,
+    "work_location_preference": "hybrid",
+    "can_work_onsite": true
+  },
+  "emp_dev_05": {
+    "employee_id": "emp_dev_05",
+    "name": "Olivia Anderson",
+    "role": "Full Stack Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "JavaScript",
+        "proficiency": 4
+      },
+      {
+        "skill": "Python",
+        "proficiency": 3
+      },
+      {
+        "skill": "React",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 120,
+    "work_location_preference": "remote",
+    "can_work_onsite": true
+  },
+  "emp_devops_02": {
+    "employee_id": "emp_devops_02",
+    "name": "Arjun Singh",
+    "role": "DevOps Engineer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "Kubernetes",
+        "proficiency": 4
+      },
+      {
+        "skill": "Docker",
+        "proficiency": 5
+      },
+      {
+        "skill": "CloudTech",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 90,
+    "work_location_preference": "remote",
+    "can_work_onsite": true
+  },
+  "emp_devops_04": {
+    "employee_id": "emp_devops_04",
+    "name": "Emily Davis",
+    "role": "DevOps Engineer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "Docker",
+        "proficiency": 5
+      },
+      {
+        "skill": "CI/CD",
+        "proficiency": 4
+      },
+      {
+        "skill": "Linux",
+        "proficiency": 5
+      },
+      {
+        "skill": "Kubernetes",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 60,
+    "work_location_preference": "onsite",
+    "can_work_onsite": true
+  },
+  "emp_ux_03": {
+    "employee_id": "emp_ux_03",
+    "name": "Grace Wang",
+    "role": "UX Designer",
+    "department": "Design",
+    "skills": [
+      {
+        "skill": "UI Design",
+        "proficiency": 5
+      },
+      {
+        "skill": "Prototyping",
+        "proficiency": 4
+      },
+      {
+        "skill": "User Research",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 0,
+    "work_location_preference": "hybrid",
+    "can_work_onsite": true
+  },
+  "emp_arch_01": {
+    "employee_id": "emp_arch_01",
+    "name": "Daniel Mitchell",
+    "role": "Senior Architect",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "System Design",
+        "proficiency": 5
+      },
+      {
+        "skill": "Cloud Architecture",
+        "proficiency": 5
+      },
+      {
+        "skill": "Microservices",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 100,
+    "work_location_preference": "onsite",
+    "can_work_onsite": true
+  },
+  "emp_jr_arch_01": {
+    "employee_id": "emp_jr_arch_01",
+    "name": "Kevin Brown",
+    "role": "Junior Architect",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "System Design",
+        "proficiency": 3
+      },
+      {
+        "skill": "Python",
+        "proficiency": 3
+      },
+      {
+        "skill": "Microservices",
+        "proficiency": 2
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 0,
+    "work_location_preference": "onsite",
+    "can_work_onsite": true
+  },
+  "emp_analyst_01": {
+    "employee_id": "emp_analyst_01",
+    "name": "Jason Park",
+    "role": "Business Analyst",
+    "department": "Analytics",
+    "skills": [
+      {
+        "skill": "SQL",
+        "proficiency": 4
+      },
+      {
+        "skill": "Tableau",
+        "proficiency": 5
+      },
+      {
+        "skill": "Python",
+        "proficiency": 3
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 95,
+    "work_location_preference": "remote",
+    "can_work_onsite": true
+  },
+  "emp_analyst_02": {
+    "employee_id": "emp_analyst_02",
+    "name": "Ashley Martinez",
+    "role": "Data Analyst",
+    "department": "Analytics",
+    "skills": [
+      {
+        "skill": "SQL",
+        "proficiency": 4
+      },
+      {
+        "skill": "Excel",
+        "proficiency": 5
+      },
+      {
+        "skill": "R",
+        "proficiency": 3
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 80,
+    "work_location_preference": "remote",
+    "can_work_onsite": true
+  },
+  "emp_analyst_03": {
+    "employee_id": "emp_analyst_03",
+    "name": "Matthew Wilson",
+    "role": "Junior Analyst",
+    "department": "Analytics",
+    "skills": [
+      {
+        "skill": "SQL",
+        "proficiency": 3
+      },
+      {
+        "skill": "Python",
+        "proficiency": 3
+      },
+      {
+        "skill": "Statistics",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 60,
+    "work_location_preference": "hybrid",
+    "can_work_onsite": true
+  },
+  "emp_dev_07": {
+    "employee_id": "emp_dev_07",
+    "name": "Priya Sharma",
+    "role": "Backend Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "Python",
+        "proficiency": 5
+      },
+      {
+        "skill": "Mathematics",
+        "proficiency": 4
+      },
+      {
+        "skill": "Django",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 70,
+    "work_location_preference": "onsite",
+    "can_work_onsite": true
+  },
+  "emp_dev_08": {
+    "employee_id": "emp_dev_08",
+    "name": "Diego Hernandez",
+    "role": "Backend Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "Python",
+        "proficiency": 4
+      },
+      {
+        "skill": "Mathematics",
+        "proficiency": 3
+      },
+      {
+        "skill": "FastAPI",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 65,
+    "work_location_preference": "hybrid",
+    "can_work_onsite": true
+  },
+  "emp_sec_dev_01": {
+    "employee_id": "emp_sec_dev_01",
+    "name": "William Turner",
+    "role": "Security Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "Security",
+        "proficiency": 5
+      },
+      {
+        "skill": "Python",
+        "proficiency": 4
+      },
+      {
+        "skill": "Cryptography",
+        "proficiency": 5
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 80,
+    "work_location_preference": "onsite",
+    "can_work_onsite": true
+  },
+  "emp_sec_dev_02": {
+    "employee_id": "emp_sec_dev_02",
+    "name": "Catherine Zhang",
+    "role": "Security Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "Security",
+        "proficiency": 4
+      },
+      {
+        "skill": "Java",
+        "proficiency": 4
+      },
+      {
+        "skill": "Penetration Testing",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "secret",
+    "max_hours_per_week": 40,
+    "current_utilization": 75,
+    "work_location_preference": "onsite",
+    "can_work_onsite": true
+  },
+  "emp_sec_test_01": {
+    "employee_id": "emp_sec_test_01",
+    "name": "Christopher Miller",
+    "role": "Security Tester",
+    "department": "QA",
+    "skills": [
+      {
+        "skill": "Security Testing",
+        "proficiency": 5
+      },
+      {
+        "skill": "OWASP",
+        "proficiency": 4
+      },
+      {
+        "skill": "Automation",
+        "proficiency": 3
+      }
+    ],
+    "clearance": "secret",
+    "max_hours_per_week": 40,
+    "current_utilization": 70,
+    "work_location_preference": "hybrid",
+    "can_work_onsite": true
+  },
+  "emp_eng_10": {
+    "employee_id": "emp_eng_10",
+    "name": "Elizabeth Taylor",
+    "role": "Senior Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "JavaScript",
+        "proficiency": 5
+      },
+      {
+        "skill": "Node.js",
+        "proficiency": 4
+      },
+      {
+        "skill": "React",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 100,
+    "work_location_preference": "remote",
+    "can_work_onsite": true
+  },
+  "emp_des_04": {
+    "employee_id": "emp_des_04",
+    "name": "Lily Chen",
+    "role": "UI Developer",
+    "department": "Design",
+    "skills": [
+      {
+        "skill": "JavaScript",
+        "proficiency": 4
+      },
+      {
+        "skill": "CSS",
+        "proficiency": 5
+      },
+      {
+        "skill": "UI Design",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 65,
+    "work_location_preference": "hybrid",
+    "can_work_onsite": true
+  },
+  "emp_qa_02": {
+    "employee_id": "emp_qa_02",
+    "name": "Andrew White",
+    "role": "QA Engineer",
+    "department": "QA",
+    "skills": [
+      {
+        "skill": "Test Automation",
+        "proficiency": 4
+      },
+      {
+        "skill": "Selenium",
+        "proficiency": 4
+      },
+      {
+        "skill": "Python",
+        "proficiency": 3
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 60,
+    "work_location_preference": "onsite",
+    "can_work_onsite": true
+  },
+  "emp_dev_15": {
+    "employee_id": "emp_dev_15",
+    "name": "Justin Kim",
+    "role": "Full Stack Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "JavaScript",
+        "proficiency": 4
+      },
+      {
+        "skill": "Python",
+        "proficiency": 4
+      },
+      {
+        "skill": "React",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 150,
+    "work_location_preference": "remote",
+    "can_work_onsite": true
+  },
+  "emp_dev_20": {
+    "employee_id": "emp_dev_20",
+    "name": "Michelle Wang",
+    "role": "Frontend Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "React",
+        "proficiency": 5
+      },
+      {
+        "skill": "TypeScript",
+        "proficiency": 4
+      },
+      {
+        "skill": "JavaScript",
+        "proficiency": 5
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 100,
+    "work_location_preference": "remote",
+    "can_work_onsite": true
+  },
+  "emp_dev_21": {
+    "employee_id": "emp_dev_21",
+    "name": "Kevin Jackson",
+    "role": "Backend Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "Java",
+        "proficiency": 5
+      },
+      {
+        "skill": "Spring",
+        "proficiency": 4
+      },
+      {
+        "skill": "Microservices",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 100,
+    "work_location_preference": "hybrid",
+    "can_work_onsite": true
+  },
+  "emp_test_05": {
+    "employee_id": "emp_test_05",
+    "name": "Rebecca Davis",
+    "role": "Test Engineer",
+    "department": "QA",
+    "skills": [
+      {
+        "skill": "Test Automation",
+        "proficiency": 4
+      },
+      {
+        "skill": "Jest",
+        "proficiency": 4
+      },
+      {
+        "skill": "Cypress",
+        "proficiency": 3
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 100,
+    "work_location_preference": "hybrid",
+    "can_work_onsite": true
+  },
+  "emp_pm_03": {
+    "employee_id": "emp_pm_03",
+    "name": "Jonathan Clark",
+    "role": "Project Manager",
+    "department": "PMO",
+    "skills": [
+      {
+        "skill": "Project Management",
+        "proficiency": 5
+      },
+      {
+        "skill": "Agile",
+        "proficiency": 4
+      },
+      {
+        "skill": "Risk Management",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 85,
+    "work_location_preference": "onsite",
+    "can_work_onsite": true
+  },
+  "emp_pm_04": {
+    "employee_id": "emp_pm_04",
+    "name": "Amanda Johnson",
+    "role": "Project Manager",
+    "department": "PMO",
+    "skills": [
+      {
+        "skill": "Project Management",
+        "proficiency": 5
+      },
+      {
+        "skill": "Scrum",
+        "proficiency": 5
+      },
+      {
+        "skill": "Stakeholder Management",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 80,
+    "work_location_preference": "hybrid",
+    "can_work_onsite": true
+  },
+  "emp_sec_dev_03": {
+    "employee_id": "emp_sec_dev_03",
+    "name": "Nicholas Harris",
+    "role": "Security Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "Security",
+        "proficiency": 4
+      },
+      {
+        "skill": "Python",
+        "proficiency": 3
+      },
+      {
+        "skill": "Penetration Testing",
+        "proficiency": 3
+      }
+    ],
+    "clearance": "secret",
+    "max_hours_per_week": 40,
+    "current_utilization": 0,
+    "work_location_preference": "onsite",
+    "can_work_onsite": true
+  },
+  "emp_eng_20": {
+    "employee_id": "emp_eng_20",
+    "name": "Victoria Sterling",
+    "role": "Senior Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "JavaScript",
+        "proficiency": 5
+      },
+      {
+        "skill": "Node.js",
+        "proficiency": 4
+      },
+      {
+        "skill": "React",
+        "proficiency": 4
+      }
+    ],
+    "clearance": "none",
+    "max_hours_per_week": 40,
+    "current_utilization": 80,
+    "work_location_preference": "remote",
+    "can_work_onsite": true
+  },
+  "emp_sec_dev_XX": {
+    "employee_id": "emp_sec_dev_XX",
+    "name": "George Newman",
+    "role": "Security Developer",
+    "department": "Engineering",
+    "skills": [
+      {
+        "skill": "Security",
+        "proficiency": 5
+      },
+      {
+        "skill": "Python",
+        "proficiency": 4
+      },
+      {
+        "skill": "Cryptography",
+        "proficiency": 5
+      }
+    ],
+    "clearance": "secret",
+    "max_hours_per_week": 40,
+    "current_utilization": 0,
+    "work_location_preference": "onsite",
+    "can_work_onsite": true
+  }
+}

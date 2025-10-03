@@ -1,0 +1,20 @@
+import json
+import os
+from typing import Any
+
+FOLDER_PATH = os.path.dirname(__file__)
+
+def load_data() -> dict[str, Any]:
+    db: dict[str, Any] = {}
+    # auto-generated from files present in data/
+    tables = ['authentication', 'code_scanning_alerts', 'commits', 'issues', 'pull_requests', 'repositories', 'terminal']
+    for name in tables:
+        path = os.path.join(FOLDER_PATH, f"{name}.json")
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                db[name] = json.loads(content) if content else []
+        except FileNotFoundError:
+            db[name] = []
+    return db
+

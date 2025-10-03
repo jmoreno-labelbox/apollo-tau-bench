@@ -1,0 +1,82 @@
+{
+  "C7001": {
+    "cert_id": "C7001",
+    "user_id": "U301",
+    "cert_name": "Google Data Analytics",
+    "issuer": "Google/Coursera",
+    "issue_date": "2024-04-20",
+    "expiry_date": "2027-04-20"
+  },
+  "C7002": {
+    "cert_id": "C7002",
+    "user_id": "U302",
+    "cert_name": "Certified Clinical Data Manager",
+    "issuer": "SCDM",
+    "issue_date": "2023-08-15",
+    "expiry_date": null
+  },
+  "C7003": {
+    "cert_id": "C7003",
+    "user_id": "U303",
+    "cert_name": "CCEP",
+    "issuer": "SCCE",
+    "issue_date": "2022-05-01",
+    "expiry_date": "2025-05-01"
+  },
+  "C7004": {
+    "cert_id": "C7004",
+    "user_id": "U304",
+    "cert_name": "NN/g UX Certification",
+    "issuer": "Nielsen Norman Group",
+    "issue_date": "2021-11-10",
+    "expiry_date": null
+  },
+  "C7005": {
+    "cert_id": "C7005",
+    "user_id": "U306",
+    "cert_name": "AWS Solutions Architect Associate",
+    "issuer": "AWS",
+    "issue_date": "2023-03-12",
+    "expiry_date": "2026-03-12"
+  },
+  "C7006": {
+    "cert_id": "C7006",
+    "user_id": "U308",
+    "cert_name": "Certified Technical Writer (STC)",
+    "issuer": "STC",
+    "issue_date": "2020-09-30",
+    "expiry_date": null
+  },
+  "C7007": {
+    "cert_id": "C7007",
+    "user_id": "U309",
+    "cert_name": "ATD CPTD",
+    "issuer": "ATD",
+    "issue_date": "2024-02-01",
+    "expiry_date": "2027-02-01"
+  },
+  "C7008": {
+    "cert_id": "C7008",
+    "user_id": "U310",
+    "cert_name": "SHRM-SCP",
+    "issuer": "SHRM",
+    "issue_date": "2019-07-01",
+    "expiry_date": "2025-07-01"
+  },
+  "C7009": {
+    "cert_id": "C7009",
+    "user_id": "U311",
+    "cert_name": "Instructional Design Foundations",
+    "issuer": "edX",
+    "issue_date": "2023-06-15",
+    "expiry_date": null
+  },
+  "C7010": {
+    "cert_id": "C7010",
+    "user_id": "U312",
+    "cert_name": "Oracle Java SE 11 Developer",
+    "issuer": "Oracle",
+    "issue_date": "2022-10-20",
+    "expiry_date": "2025-10-20"
+  }
+}

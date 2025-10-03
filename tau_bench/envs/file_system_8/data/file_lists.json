@@ -1,0 +1,24 @@
+{
+  "dir_op_001": {
+    "operation_id": "dir_op_001",
+    "file_id": "file_006",
+    "filename": "data.csv",
+    "filepath": "/data/unsorted/subdir/data.csv",
+    "filedestination": "/data/sorted/csv/data_0.csv",
+    "size": "12345678",
+    "checksum": "6f789012345678901234567890abcdef12345",
+    "status": "pending",
+    "conflict_resolved": true,
+    "original_name": "data.csv"
+  },
+  "dir_op_002": {
+    "operation_id": "dir_op_002",
+    "file_id": "file_008",
+    "filename": "main.py",
+    "filepath": "/tmp/project_files/src/main.py",
+    "filedestination": "/archive/projects/source_code/main.py",
+    "size": "8192",
+    "checksum": "8912345678901234567890abcdef1234567",
+    "status": "completed"
+  }
+}

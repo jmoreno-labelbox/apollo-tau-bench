@@ -1,0 +1,1294 @@
+{
+  "maya-w": {
+    "owner": "maya-w",
+    "repo_name": "acme-webapp",
+    "description_nullable": "A sample demonstration repository",
+    "private_flag": false,
+    "auto_init_flag": true,
+    "default_branch": "main",
+    "file_paths": [
+      "README.md",
+      "LICENSE",
+      ".gitignore",
+      "requirements.txt",
+      "src/main.py",
+      "src/app.py",
+      "src/utils.py",
+      "src/config.py",
+      "tests/test_app.py",
+      "docs/ARCHITECTURE.md"
+    ],
+    "file_contents": [
+      "# Acme Webapp\n\nFlask-based demo application.",
+      "MIT License\n\nCopyright (c) 2023",
+      "__pycache__/\n.env\n*.pyc\n",
+      "flask==2.3.2\nrequests==2.31.0\n",
+      "print('Hello, World!')\n",
+      "from flask import Flask\napp = Flask(__name__)\n@app.get('/')\ndef index():\n  return 'OK'\n",
+      "def helper(x: int) -> int:\n  return x * 2\n",
+      "DEBUG=True\nPORT=5000\n",
+      "from src.app import app\n\ndef test_index():\n  client = app.test_client()\n  assert client.get('/').status_code == 200\n",
+      "# Architecture\n\n- App layer\n- Utils layer\n- Config\n"
+    ],
+    "branches": [
+      "main",
+      "feature-update"
+    ],
+    "branch_files": [
+      [
+        "README.md",
+        "LICENSE",
+        ".gitignore",
+        "requirements.txt",
+        "src/main.py",
+        "src/app.py",
+        "src/utils.py",
+        "src/config.py",
+        "tests/test_app.py",
+        "docs/ARCHITECTURE.md"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        ".gitignore",
+        "requirements.txt",
+        "src/main.py",
+        "src/app.py",
+        "src/utils.py",
+        "src/config.py",
+        "tests/test_app.py",
+        "docs/ARCHITECTURE.md",
+        "docs/CHANGELOG.md"
+      ]
+    ],
+    "branch_contents": [
+      [
+        "# Acme Webapp\n\nFlask-based demo application.",
+        "MIT License\n\nCopyright (c) 2023",
+        "__pycache__/\n.env\n*.pyc\n",
+        "flask==2.3.2\nrequests==2.31.0\n",
+        "print('Hello, World!')\n",
+        "from flask import Flask\napp = Flask(__name__)\n@app.get('/')\ndef index():\n  return 'OK'\n",
+        "def helper(x: int) -> int:\n  return x * 2\n",
+        "DEBUG=True\nPORT=5000\n",
+        "from src.app import app\n\ndef test_index():\n  client = app.test_client()\n  assert client.get('/').status_code == 200\n",
+        "# Architecture\n\n- App layer\n- Utils layer\n- Config\n"
+      ],
+      [
+        "# Acme Webapp\n\nFlask-based demo application.",
+        "MIT License\n\nCopyright (c) 2023",
+        "__pycache__/\n.env\n*.pyc\n",
+        "flask==2.3.2\nrequests==2.31.0\n",
+        "print('Hello, World!')\n",
+        "from flask import Flask\napp = Flask(__name__)\n@app.get('/')\ndef index():\n  return 'OK'\n",
+        "def helper(x: int) -> int:\n  return x * 2\n",
+        "DEBUG=True\nPORT=5000\n",
+        "from src.app import app\n\ndef test_index():\n  client = app.test_client()\n  assert client.get('/').status_code == 200\n",
+        "# Architecture\n\n- App layer\n- Utils layer\n- Config\n",
+        "# Changelog\n\n- Added docs"
+      ]
+    ],
+    "branch_shas": [
+      "a1b2c3d4e5f60718293a4b5c6d7e8f9012345678",
+      "c3d4e5f6a7b8091a2b3c4d5e6f708192a3b4c5d6"
+    ],
+    "created_ts": "2023-12-01T10:00:00Z",
+    "updated_ts": "2023-12-01T15:30:00Z"
+  },
+  "ryan-dev": {
+    "owner": "ryan-dev",
+    "repo_name": "utils-js",
+    "description_nullable": null,
+    "private_flag": true,
+    "auto_init_flag": false,
+    "default_branch": "master",
+    "file_paths": [
+      "README.md",
+      "LICENSE",
+      ".gitignore",
+      "package.json",
+      "index.js",
+      "src/index.js",
+      "src/utils/format.js",
+      "src/utils/validate.js",
+      "test/index.test.js",
+      "CHANGELOG.md"
+    ],
+    "file_contents": [
+      "# Utils JS\n\nSmall utility functions.",
+      "MIT License\n",
+      "node_modules/\ndist/\n",
+      "{\n  \"name\": \"utils-js\",\n  \"version\": \"1.0.0\"\n}",
+      "module.exports = require('./src/index');\n",
+      "export * from './utils/format';\nexport * from './utils/validate';\n",
+      "export const formatCurrency = (n) => `$${n.toFixed(2)}`;\n",
+      "export const isEmail = (s) => /.+@.+\\..+/.test(s);\n",
+      "const { isEmail } = require('../src/utils/validate');\ntest('email', () => expect(isEmail('a@b.com')).toBe(true));\n",
+      "# Changelog\n- Initial release\n"
+    ],
+    "branches": [
+      "master"
+    ],
+    "branch_files": [
+      [
+        "README.md",
+        "LICENSE",
+        ".gitignore",
+        "package.json",
+        "index.js",
+        "src/index.js",
+        "src/utils/format.js",
+        "src/utils/validate.js",
+        "test/index.test.js",
+        "CHANGELOG.md"
+      ]
+    ],
+    "branch_contents": [
+      [
+        "# Utils JS\n\nSmall utility functions.",
+        "MIT License\n",
+        "node_modules/\ndist/\n",
+        "{\n  \"name\": \"utils-js\",\n  \"version\": \"1.0.0\"\n}",
+        "module.exports = require('./src/index');\n",
+        "export * from './utils/format';\nexport * from './utils/validate';\n",
+        "export const formatCurrency = (n) => `$${n.toFixed(2)}`;\n",
+        "export const isEmail = (s) => /.+@.+\\..+/.test(s);\n",
+        "const { isEmail } = require('../src/utils/validate');\ntest('email', () => expect(isEmail('a@b.com')).toBe(true));\n",
+        "# Changelog\n- Initial release\n"
+      ]
+    ],
+    "branch_shas": [
+      "9f8e7d6c5b4a39281706f5e4d3c2b1a0ffeeddcc"
+    ],
+    "created_ts": "2023-11-28T09:15:00Z",
+    "updated_ts": "2023-11-28T09:15:00Z"
+  },
+  "design-team": {
+    "owner": "design-team",
+    "repo_name": "ui-kit",
+    "description_nullable": "Reusable UI components",
+    "private_flag": false,
+    "auto_init_flag": true,
+    "default_branch": "main",
+    "file_paths": [
+      "README.md",
+      "LICENSE",
+      ".npmrc",
+      "package.json",
+      "packages/button/index.tsx",
+      "packages/card/index.tsx",
+      "packages/theme/index.ts",
+      "docs/STYLEGUIDE.md",
+      "docs/CONTRIBUTING.md",
+      "CHANGELOG.md"
+    ],
+    "file_contents": [
+      "# UI Kit\n\nComponent library.",
+      "MIT License\n",
+      "legacy-peer-deps=true\n",
+      "{\n  \"name\": \"ui-kit\",\n  \"version\": \"1.0.0\"\n}",
+      "export const Button = () => <button>Click</button>;\n",
+      "export const Card = () => <div className='card' />;\n",
+      "export const Theme = {};\n",
+      "# Styleguide\n\nTypography, spacing, color.",
+      "# Contributing\n\nPRs welcome. Follow conventional commits.",
+      "# Changelog\n- Init\n"
+    ],
+    "branches": [
+      "main",
+      "release-1.0",
+      "feature-theme"
+    ],
+    "branch_files": [
+      [
+        "README.md",
+        "LICENSE",
+        ".npmrc",
+        "package.json",
+        "packages/button/index.tsx",
+        "packages/card/index.tsx",
+        "packages/theme/index.ts",
+        "docs/STYLEGUIDE.md",
+        "docs/CONTRIBUTING.md",
+        "CHANGELOG.md"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        ".npmrc",
+        "package.json",
+        "packages/button/index.tsx",
+        "packages/card/index.tsx",
+        "docs/STYLEGUIDE.md",
+        "CHANGELOG.md"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        ".npmrc",
+        "package.json",
+        "packages/button/index.tsx",
+        "packages/card/index.tsx",
+        "packages/theme/index.ts",
+        "docs/STYLEGUIDE.md",
+        "docs/CONTRIBUTING.md",
+        "CHANGELOG.md",
+        "examples/theme-preview.tsx"
+      ]
+    ],
+    "branch_contents": [
+      [
+        "# UI Kit\n\nComponent library.",
+        "MIT License\n",
+        "legacy-peer-deps=true\n",
+        "{\n  \"name\": \"ui-kit\",\n  \"version\": \"1.0.0\"\n}",
+        "export const Button = () => <button>Click</button>;\n",
+        "export const Card = () => <div className='card' />;\n",
+        "export const Theme = {};\n",
+        "# Styleguide\n\nTypography, spacing, color.",
+        "# Contributing\n\nPRs welcome. Follow conventional commits.",
+        "# Changelog\n- Init\n"
+      ],
+      [
+        "# UI Kit\n\nComponent library.",
+        "MIT License\n",
+        "legacy-peer-deps=true\n",
+        "{\n  \"name\": \"ui-kit\",\n  \"version\": \"1.0.0\"\n}",
+        "export const Button = () => <button>Click</button>;\n",
+        "export const Card = () => <div className='card' />;\n",
+        "# Styleguide\n\nTypography, spacing, color.",
+        "# Changelog\n- Init\n"
+      ],
+      [
+        "# UI Kit\n\nComponent library.",
+        "MIT License\n",
+        "legacy-peer-deps=true\n",
+        "{\n  \"name\": \"ui-kit\",\n  \"version\": \"1.0.0\"\n}",
+        "export const Button = () => <button>Click</button>;\n",
+        "export const Card = () => <div className='card' />;\n",
+        "export const Theme = {};\n",
+        "# Styleguide\n\nTypography, spacing, color.",
+        "# Contributing\n\nPRs welcome. Follow conventional commits.",
+        "# Changelog\n- Init\n",
+        "export const Preview = () => <div />;\n"
+      ]
+    ],
+    "branch_shas": [
+      "111122223333444455556666777788889999aaa0",
+      "0aaa999988887777666655554444333322221111",
+      "abcdabcdabcdabcdabcdabcdabcdabcdabcdabcd"
+    ],
+    "created_ts": "2023-10-20T08:00:00Z",
+    "updated_ts": "2023-12-04T10:45:00Z"
+  },
+  "language-ai": {
+    "owner": "language-ai",
+    "repo_name": "nlp-models",
+    "description_nullable": "NLP models and training scripts",
+    "private_flag": true,
+    "auto_init_flag": false,
+    "default_branch": "main",
+    "file_paths": [
+      "README.md",
+      "LICENSE",
+      "requirements.txt",
+      "model.py",
+      "train.py",
+      "data/README.md",
+      "configs/config.yaml",
+      "scripts/clean.py",
+      "scripts/train.sh",
+      "notebooks/experiments.ipynb"
+    ],
+    "file_contents": [
+      "# NLP Models\n\nExperiments.",
+      "Apache 2.0 License\n",
+      "torch==2.1.1\ntransformers==4.35.2\n",
+      "class Model:\n  pass\n",
+      "print('train')\n",
+      "# Data\n\nPlace data here.",
+      "learning_rate: 3e-5\nbatch_size: 32\n",
+      "print('clean')\n",
+      "#!/bin/bash\npython train.py\n",
+      "{}"
+    ],
+    "branches": [
+      "main",
+      "exp-transformer",
+      "data-cleanup"
+    ],
+    "branch_files": [
+      [
+        "README.md",
+        "LICENSE",
+        "requirements.txt",
+        "model.py",
+        "train.py",
+        "data/README.md",
+        "configs/config.yaml",
+        "scripts/clean.py",
+        "scripts/train.sh",
+        "notebooks/experiments.ipynb"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "requirements.txt",
+        "model.py",
+        "train.py",
+        "configs/config.yaml",
+        "scripts/train.sh",
+        "notebooks/experiments.ipynb",
+        "experiments/transformer.md"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "requirements.txt",
+        "data/README.md",
+        "scripts/clean.py"
+      ]
+    ],
+    "branch_contents": [
+      [
+        "# NLP Models\n\nExperiments.",
+        "Apache 2.0 License\n",
+        "torch==2.1.1\ntransformers==4.35.2\n",
+        "class Model:\n  pass\n",
+        "print('train')\n",
+        "# Data\n\nPlace data here.",
+        "learning_rate: 3e-5\nbatch_size: 32\n",
+        "print('clean')\n",
+        "#!/bin/bash\npython train.py\n",
+        "{}"
+      ],
+      [
+        "# NLP Models\n\nExperiments.",
+        "Apache 2.0 License\n",
+        "torch==2.1.1\ntransformers==4.35.2\n",
+        "class Model:\n  pass\n",
+        "print('train')\n",
+        "learning_rate: 2e-5\nbatch_size: 64\n",
+        "#!/bin/bash\npython train.py --model transformer\n",
+        "{}",
+        "# Transformer experiments\n\nResults and notes."
+      ],
+      [
+        "# NLP Models\n\nExperiments.",
+        "Apache 2.0 License\n",
+        "torch==2.1.1\ntransformers==4.35.2\n",
+        "# Data\n\nPlace data here.",
+        "print('clean')\n"
+      ]
+    ],
+    "branch_shas": [
+      "0f1e2d3c4b5a69788796a5b4c3d2e1f0aa55cc77",
+      "77cc55aa00ff11ee22dd33cc44bb55aa66ee77ff",
+      "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"
+    ],
+    "created_ts": "2023-09-12T12:12:12Z",
+    "updated_ts": "2023-11-30T12:34:56Z"
+  },
+  "server-main": {
+    "owner": "server-main",
+    "repo_name": "payments-service",
+    "description_nullable": "Node service for processing payments",
+    "private_flag": true,
+    "auto_init_flag": true,
+    "default_branch": "main",
+    "file_paths": [
+      "README.md",
+      "LICENSE",
+      "package.json",
+      "Dockerfile",
+      ".dockerignore",
+      "src/server.ts",
+      "src/routes/payments.ts",
+      "src/middleware/auth.ts",
+      "src/threeDS.ts",
+      "tests/payments.test.ts"
+    ],
+    "file_contents": [
+      "# Payments Service\n\nHandles card and ACH.",
+      "MIT License\n",
+      "{\n  \"name\": \"payments-service\",\n  \"version\": \"0.2.0\"\n}",
+      "FROM node:18-alpine\nWORKDIR /srv\nCOPY . .\nRUN npm ci\nCMD ['node','dist/server.js']\n",
+      "node_modules\n.git\ndist\n.env\n",
+      "import express from 'express'\nconst app = express();\napp.listen(3000);\nexport default app;\n",
+      "import { Router } from 'express'\nexport const payments = Router();\n",
+      "export const ensureAuth = (req,res,next)=> next();\n",
+      "export const threeDS = () => true;\n",
+      "import app from '../src/server'\ntest('boot', ()=> expect(app).toBeTruthy());\n"
+    ],
+    "branches": [
+      "main",
+      "feature-3ds",
+      "hotfix-timeout"
+    ],
+    "branch_files": [
+      [
+        "README.md",
+        "LICENSE",
+        "package.json",
+        "Dockerfile",
+        ".dockerignore",
+        "src/server.ts",
+        "src/routes/payments.ts",
+        "src/middleware/auth.ts",
+        "tests/payments.test.ts"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "package.json",
+        "Dockerfile",
+        ".dockerignore",
+        "src/server.ts",
+        "src/routes/payments.ts",
+        "src/middleware/auth.ts",
+        "src/threeDS.ts",
+        "tests/payments.test.ts"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "package.json",
+        "Dockerfile",
+        ".dockerignore",
+        "src/server.ts",
+        "src/routes/payments.ts",
+        "src/middleware/auth.ts",
+        "tests/payments.test.ts"
+      ]
+    ],
+    "branch_contents": [
+      [
+        "# Payments Service\n\nHandles card and ACH.",
+        "MIT License\n",
+        "{\n  \"name\": \"payments-service\",\n  \"version\": \"0.2.0\"\n}",
+        "FROM node:18-alpine\nWORKDIR /srv\nCOPY . .\nRUN npm ci\nCMD ['node','dist/server.js']\n",
+        "node_modules\n.git\ndist\n.env\n",
+        "import express from 'express'\nconst app = express();\napp.listen(3000);\nexport default app;\n",
+        "import { Router } from 'express'\nexport const payments = Router();\n",
+        "export const ensureAuth = (req,res,next)=> next();\n",
+        "import app from '../src/server'\ntest('boot', ()=> expect(app).toBeTruthy());\n"
+      ],
+      [
+        "# Payments Service\n\nHandles card and ACH.",
+        "MIT License\n",
+        "{\n  \"name\": \"payments-service\",\n  \"version\": \"0.2.0\"\n}",
+        "FROM node:18-alpine\nWORKDIR /srv\nCOPY . .\nRUN npm ci\nCMD ['node','dist/server.js']\n",
+        "node_modules\n.git\ndist\n.env\n",
+        "import express from 'express'\nconst app = express();\napp.listen(3000);\nexport default app;\n",
+        "import { Router } from 'express'\nexport const payments = Router();\n",
+        "export const ensureAuth = (req,res,next)=> next();\n",
+        "export const threeDS = () => true;\n",
+        "import app from '../src/server'\ntest('boot', ()=> expect(app).toBeTruthy());\n"
+      ],
+      [
+        "# Payments Service\n\nHandles card and ACH.",
+        "MIT License\n",
+        "{\n  \"name\": \"payments-service\",\n  \"version\": \"0.2.0\"\n}",
+        "FROM node:18-alpine\nWORKDIR /srv\nCOPY . .\nRUN npm ci\nCMD ['node','dist/server.js']\n",
+        "node_modules\n.git\ndist\n.env\n",
+        "import express from 'express'\nconst app = express();\napp.listen(3000);\nexport default app;\n",
+        "import { Router } from 'express'\nexport const payments = Router();\n",
+        "export const ensureAuth = (req,res,next)=> next();\n",
+        "import app from '../src/server'\ntest('boot', ()=> expect(app).toBeTruthy());\n"
+      ]
+    ],
+    "branch_shas": [
+      "1234567890abcdef1234567890abcdef12345678",
+      "abcdef1234567890abcdef1234567890abcdef12",
+      "fedcba9876543210fedcba9876543210fedcba98"
+    ],
+    "created_ts": "2023-10-10T10:10:10Z",
+    "updated_ts": "2023-12-03T18:00:00Z"
+  },
+  "platform-team": {
+    "owner": "platform-team",
+    "repo_name": "infra-terraform",
+    "description_nullable": "Terraform for staging/prod",
+    "private_flag": true,
+    "auto_init_flag": false,
+    "default_branch": "main",
+    "file_paths": [
+      "README.md",
+      "LICENSE",
+      "main.tf",
+      "variables.tf",
+      "outputs.tf",
+      "alb.tf",
+      "modules/network/main.tf",
+      "modules/network/variables.tf",
+      "environments/staging/main.tf",
+      "environments/production/main.tf"
+    ],
+    "file_contents": [
+      "# Infra\n\nTerraform modules.",
+      "MPL-2.0\n",
+      "provider \"aws\" { region = \"us-east-1\" }\n",
+      "variable \"env\" { type = string }\n",
+      "output \"vpc_id\" { value = module.network.vpc_id }\n",
+      "resource \"aws_lb\" \"app\" { name = \"app\" }\n",
+      "module \"network\" { source = \"./modules/network\" }\n",
+      "variable \"cidr\" { type = string }\n",
+      "module \"network\" { source = \"../../modules/network\" }\n",
+      "module \"network\" { source = \"../../modules/network\" }\n"
+    ],
+    "branches": [
+      "main",
+      "feat-alb",
+      "fix-s3-policy"
+    ],
+    "branch_files": [
+      [
+        "README.md",
+        "LICENSE",
+        "main.tf",
+        "variables.tf",
+        "outputs.tf",
+        "modules/network/main.tf",
+        "modules/network/variables.tf",
+        "environments/staging/main.tf",
+        "environments/production/main.tf"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "main.tf",
+        "variables.tf",
+        "outputs.tf",
+        "alb.tf",
+        "modules/network/main.tf",
+        "modules/network/variables.tf",
+        "environments/staging/main.tf"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "main.tf",
+        "variables.tf",
+        "outputs.tf",
+        "modules/network/main.tf",
+        "modules/network/variables.tf",
+        "environments/staging/main.tf",
+        "environments/production/main.tf"
+      ]
+    ],
+    "branch_contents": [
+      [
+        "# Infra\n\nTerraform modules.",
+        "MPL-2.0\n",
+        "provider \"aws\" { region = \"us-east-1\" }\n",
+        "variable \"env\" { type = string }\n",
+        "output \"vpc_id\" { value = module.network.vpc_id }\n",
+        "module \"network\" { source = \"./modules/network\" }\n",
+        "variable \"cidr\" { type = string }\n",
+        "module \"network\" { source = \"../../modules/network\" }\n",
+        "module \"network\" { source = \"../../modules/network\" }\n"
+      ],
+      [
+        "# Infra\n\nTerraform modules.",
+        "MPL-2.0\n",
+        "provider \"aws\" { region = \"us-east-1\" }\n",
+        "variable \"env\" { type = string }\n",
+        "output \"vpc_id\" { value = module.network.vpc_id }\n",
+        "resource \"aws_lb\" \"app\" { name = \"app\" }\n",
+        "module \"network\" { source = \"./modules/network\" }\n",
+        "variable \"cidr\" { type = string }\n",
+        "module \"network\" { source = \"../../modules/network\" }\n"
+      ],
+      [
+        "# Infra\n\nTerraform modules.",
+        "MPL-2.0\n",
+        "provider \"aws\" { region = \"us-east-1\" }\n",
+        "variable \"env\" { type = string }\n",
+        "output \"vpc_id\" { value = module.network.vpc_id }\n",
+        "module \"network\" { source = \"./modules/network\" }\n",
+        "variable \"cidr\" { type = string }\n",
+        "module \"network\" { source = \"../../modules/network\" }\n",
+        "module \"network\" { source = \"../../modules/network\" }\n"
+      ]
+    ],
+    "branch_shas": [
+      "0aa11bb22cc33dd44ee55ff6677889900aabbcc1",
+      "19c8d7e6f5a40312b1c2d3e4f5a6b7c8d9e0f1a2",
+      "2a1b0c9d8e7f6051425364758697a8b9c0d1e2f3"
+    ],
+    "created_ts": "2023-08-01T07:00:00Z",
+    "updated_ts": "2023-12-04T09:00:00Z"
+  },
+  "security-group": {
+    "owner": "security-group",
+    "repo_name": "security-scanner",
+    "description_nullable": "SAST/DAST security scanning tools",
+    "private_flag": true,
+    "auto_init_flag": true,
+    "default_branch": "main",
+    "file_paths": [
+      "README.md",
+      "LICENSE",
+      "Cargo.toml",
+      "src/main.rs",
+      "src/scanner.rs",
+      "src/rules/xss.rs",
+      "src/rules/sqli.rs",
+      "tests/integration_test.rs",
+      "config/rules.yaml",
+      "docs/DEPLOYMENT.md"
+    ],
+    "file_contents": [
+      "# Security Scanner\n\nStatic and dynamic analysis tool.",
+      "Apache 2.0 License\n",
+      "[package]\nname = \"security-scanner\"\nversion = \"0.3.0\"",
+      "use scanner::Scanner;\nfn main() { Scanner::new().run(); }",
+      "pub struct Scanner;\nimpl Scanner { pub fn new() -> Self { Scanner } }",
+      "pub fn check_xss(code: &str) -> Vec<String> { vec![] }",
+      "pub fn check_sqli(code: &str) -> Vec<String> { vec![] }",
+      "#[test]\nfn test_scanner() { assert!(true); }",
+      "rules:\n  xss:\n    enabled: true\n  sqli:\n    enabled: true",
+      "# Deployment\n\nDocker-based deployment guide."
+    ],
+    "branches": [
+      "main",
+      "feature-sarif-output",
+      "perf-optimizations"
+    ],
+    "branch_files": [
+      [
+        "README.md",
+        "LICENSE",
+        "Cargo.toml",
+        "src/main.rs",
+        "src/scanner.rs",
+        "src/rules/xss.rs",
+        "src/rules/sqli.rs",
+        "tests/integration_test.rs",
+        "config/rules.yaml",
+        "docs/DEPLOYMENT.md"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "Cargo.toml",
+        "src/main.rs",
+        "src/scanner.rs",
+        "src/rules/xss.rs",
+        "src/rules/sqli.rs",
+        "src/output/sarif.rs",
+        "tests/integration_test.rs",
+        "config/rules.yaml"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "Cargo.toml",
+        "src/main.rs",
+        "src/scanner.rs",
+        "src/rules/xss.rs",
+        "src/rules/sqli.rs",
+        "src/cache.rs",
+        "tests/integration_test.rs",
+        "config/rules.yaml",
+        "docs/DEPLOYMENT.md"
+      ]
+    ],
+    "branch_contents": [
+      [
+        "# Security Scanner\n\nStatic and dynamic analysis tool.",
+        "Apache 2.0 License\n",
+        "[package]\nname = \"security-scanner\"\nversion = \"0.3.0\"",
+        "use scanner::Scanner;\nfn main() { Scanner::new().run(); }",
+        "pub struct Scanner;\nimpl Scanner { pub fn new() -> Self { Scanner } }",
+        "pub fn check_xss(code: &str) -> Vec<String> { vec![] }",
+        "pub fn check_sqli(code: &str) -> Vec<String> { vec![] }",
+        "#[test]\nfn test_scanner() { assert!(true); }",
+        "rules:\n  xss:\n    enabled: true\n  sqli:\n    enabled: true",
+        "# Deployment\n\nDocker-based deployment guide."
+      ],
+      [
+        "# Security Scanner\n\nStatic and dynamic analysis tool.",
+        "Apache 2.0 License\n",
+        "[package]\nname = \"security-scanner\"\nversion = \"0.3.1\"",
+        "use scanner::Scanner;\nfn main() { Scanner::new().run(); }",
+        "pub struct Scanner;\nimpl Scanner { pub fn new() -> Self { Scanner } }",
+        "pub fn check_xss(code: &str) -> Vec<String> { vec![] }",
+        "pub fn check_sqli(code: &str) -> Vec<String> { vec![] }",
+        "pub fn output_sarif(results: &[String]) -> String { String::new() }",
+        "#[test]\nfn test_scanner() { assert!(true); }",
+        "rules:\n  xss:\n    enabled: true\n  sqli:\n    enabled: true"
+      ],
+      [
+        "# Security Scanner\n\nStatic and dynamic analysis tool.",
+        "Apache 2.0 License\n",
+        "[package]\nname = \"security-scanner\"\nversion = \"0.3.0\"",
+        "use scanner::Scanner;\nfn main() { Scanner::new().run(); }",
+        "pub struct Scanner;\nimpl Scanner { pub fn new() -> Self { Scanner } }",
+        "pub fn check_xss(code: &str) -> Vec<String> { vec![] }",
+        "pub fn check_sqli(code: &str) -> Vec<String> { vec![] }",
+        "use std::collections::HashMap;\npub struct Cache(HashMap<String, String>);",
+        "#[test]\nfn test_scanner() { assert!(true); }",
+        "rules:\n  xss:\n    enabled: true\n  sqli:\n    enabled: true",
+        "# Deployment\n\nDocker-based deployment guide."
+      ]
+    ],
+    "branch_shas": [
+      "sec1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9",
+      "sec2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0",
+      "sec3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1"
+    ],
+    "created_ts": "2023-06-15T14:30:00Z",
+    "updated_ts": "2023-12-04T16:20:00Z"
+  },
+  "app-developer": {
+    "owner": "app-developer",
+    "repo_name": "flutter-finance-app",
+    "description_nullable": "Personal finance tracker built with Flutter",
+    "private_flag": false,
+    "auto_init_flag": true,
+    "default_branch": "main",
+    "file_paths": [
+      "README.md",
+      "LICENSE",
+      "pubspec.yaml",
+      "android/build.gradle",
+      "ios/Podfile",
+      "lib/main.dart",
+      "lib/models/transaction.dart",
+      "lib/screens/home_screen.dart",
+      "lib/widgets/chart_widget.dart",
+      "test/widget_test.dart"
+    ],
+    "file_contents": [
+      "# Flutter Finance App\n\nTrack expenses and income.",
+      "MIT License\n",
+      "name: finance_app\nversion: 1.2.0\nflutter:\n  sdk: \">=3.0.0\"",
+      "android {\n  compileSdkVersion 33\n}",
+      "platform :ios, '12.0'",
+      "import 'package:flutter/material.dart';\nvoid main() => runApp(MyApp());",
+      "class Transaction {\n  final String id;\n  final double amount;\n}",
+      "class HomeScreen extends StatelessWidget {\n  Widget build(context) => Scaffold();\n}",
+      "class ChartWidget extends StatelessWidget {\n  Widget build(context) => Container();\n}",
+      "import 'package:flutter_test/flutter_test.dart';\nvoid main() { testWidgets('test', (tester) async {}); }"
+    ],
+    "branches": [
+      "main",
+      "feature-dark-mode",
+      "release-v1.2"
+    ],
+    "branch_files": [
+      [
+        "README.md",
+        "LICENSE",
+        "pubspec.yaml",
+        "android/build.gradle",
+        "ios/Podfile",
+        "lib/main.dart",
+        "lib/models/transaction.dart",
+        "lib/screens/home_screen.dart",
+        "lib/widgets/chart_widget.dart",
+        "test/widget_test.dart"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "pubspec.yaml",
+        "android/build.gradle",
+        "ios/Podfile",
+        "lib/main.dart",
+        "lib/models/transaction.dart",
+        "lib/screens/home_screen.dart",
+        "lib/widgets/chart_widget.dart",
+        "lib/theme/dark_theme.dart",
+        "test/widget_test.dart"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "pubspec.yaml",
+        "android/build.gradle",
+        "ios/Podfile",
+        "lib/main.dart",
+        "lib/models/transaction.dart",
+        "lib/screens/home_screen.dart",
+        "lib/widgets/chart_widget.dart",
+        "test/widget_test.dart",
+        "CHANGELOG.md"
+      ]
+    ],
+    "branch_contents": [
+      [
+        "# Flutter Finance App\n\nTrack expenses and income.",
+        "MIT License\n",
+        "name: finance_app\nversion: 1.2.0\nflutter:\n  sdk: \">=3.0.0\"",
+        "android {\n  compileSdkVersion 33\n}",
+        "platform :ios, '12.0'",
+        "import 'package:flutter/material.dart';\nvoid main() => runApp(MyApp());",
+        "class Transaction {\n  final String id;\n  final double amount;\n}",
+        "class HomeScreen extends StatelessWidget {\n  Widget build(context) => Scaffold();\n}",
+        "class ChartWidget extends StatelessWidget {\n  Widget build(context) => Container();\n}",
+        "import 'package:flutter_test/flutter_test.dart';\nvoid main() { testWidgets('test', (tester) async {}); }"
+      ],
+      [
+        "# Flutter Finance App\n\nTrack expenses and income.",
+        "MIT License\n",
+        "name: finance_app\nversion: 1.2.1\nflutter:\n  sdk: \">=3.0.0\"",
+        "android {\n  compileSdkVersion 33\n}",
+        "platform :ios, '12.0'",
+        "import 'package:flutter/material.dart';\nvoid main() => runApp(MyApp());",
+        "class Transaction {\n  final String id;\n  final double amount;\n}",
+        "class HomeScreen extends StatelessWidget {\n  Widget build(context) => Scaffold();\n}",
+        "class ChartWidget extends StatelessWidget {\n  Widget build(context) => Container();\n}",
+        "class DarkTheme {\n  static ThemeData get theme => ThemeData.dark();\n}",
+        "import 'package:flutter_test/flutter_test.dart';\nvoid main() { testWidgets('test', (tester) async {}); }"
+      ],
+      [
+        "# Flutter Finance App\n\nTrack expenses and income.",
+        "MIT License\n",
+        "name: finance_app\nversion: 1.2.0\nflutter:\n  sdk: \">=3.0.0\"",
+        "android {\n  compileSdkVersion 33\n}",
+        "platform :ios, '12.0'",
+        "import 'package:flutter/material.dart';\nvoid main() => runApp(MyApp());",
+        "class Transaction {\n  final String id;\n  final double amount;\n}",
+        "class HomeScreen extends StatelessWidget {\n  Widget build(context) => Scaffold();\n}",
+        "class ChartWidget extends StatelessWidget {\n  Widget build(context) => Container();\n}",
+        "import 'package:flutter_test/flutter_test.dart';\nvoid main() { testWidgets('test', (tester) async {}); }",
+        "# Changelog\n## v1.2.0\n- Enhanced charts\n- Bug fixes"
+      ]
+    ],
+    "branch_shas": [
+      "flutter1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f",
+      "flutter2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9",
+      "flutter3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0"
+    ],
+    "created_ts": "2023-07-20T11:15:00Z",
+    "updated_ts": "2023-12-05T09:45:00Z"
+  },
+  "ui-developer": {
+    "owner": "ui-developer",
+    "repo_name": "react-dashboard",
+    "description_nullable": "Modern React dashboard with TypeScript",
+    "private_flag": false,
+    "auto_init_flag": true,
+    "default_branch": "main",
+    "file_paths": [
+      "README.md",
+      "LICENSE",
+      "package.json",
+      "tsconfig.json",
+      "src/App.tsx",
+      "src/components/Dashboard.tsx",
+      "src/components/Chart.tsx",
+      "src/hooks/useData.ts",
+      "src/styles/global.css",
+      "public/index.html"
+    ],
+    "file_contents": [
+      "# React Dashboard\n\nModern analytics dashboard.",
+      "MIT License\n",
+      "{\n  \"name\": \"react-dashboard\",\n  \"version\": \"2.1.0\"\n}",
+      "{\n  \"compilerOptions\": {\n    \"strict\": true\n  }\n}",
+      "import React from 'react';\nfunction App() { return <div />; }\nexport default App;",
+      "export const Dashboard = () => <div className='dashboard' />;",
+      "import { Line } from 'recharts';\nexport const Chart = () => <Line />;",
+      "export const useData = () => ({ data: [], loading: false });",
+      "body {\n  font-family: 'Inter', sans-serif;\n}",
+      "<!DOCTYPE html>\n<html>\n<head><title>Dashboard</title></head>\n</html>"
+    ],
+    "branches": [
+      "main",
+      "feature-real-time",
+      "upgrade-react-18"
+    ],
+    "branch_files": [
+      [
+        "README.md",
+        "LICENSE",
+        "package.json",
+        "tsconfig.json",
+        "src/App.tsx",
+        "src/components/Dashboard.tsx",
+        "src/components/Chart.tsx",
+        "src/hooks/useData.ts",
+        "src/styles/global.css",
+        "public/index.html"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "package.json",
+        "tsconfig.json",
+        "src/App.tsx",
+        "src/components/Dashboard.tsx",
+        "src/components/Chart.tsx",
+        "src/hooks/useData.ts",
+        "src/hooks/useWebSocket.ts",
+        "src/styles/global.css",
+        "public/index.html"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "package.json",
+        "tsconfig.json",
+        "src/App.tsx",
+        "src/components/Dashboard.tsx",
+        "src/components/Chart.tsx",
+        "src/hooks/useData.ts",
+        "src/styles/global.css",
+        "public/index.html"
+      ]
+    ],
+    "branch_contents": [
+      [
+        "# React Dashboard\n\nModern analytics dashboard.",
+        "MIT License\n",
+        "{\n  \"name\": \"react-dashboard\",\n  \"version\": \"2.1.0\"\n}",
+        "{\n  \"compilerOptions\": {\n    \"strict\": true\n  }\n}",
+        "import React from 'react';\nfunction App() { return <div />; }\nexport default App;",
+        "export const Dashboard = () => <div className='dashboard' />;",
+        "import { Line } from 'recharts';\nexport const Chart = () => <Line />;",
+        "export const useData = () => ({ data: [], loading: false });",
+        "body {\n  font-family: 'Inter', sans-serif;\n}",
+        "<!DOCTYPE html>\n<html>\n<head><title>Dashboard</title></head>\n</html>"
+      ],
+      [
+        "# React Dashboard\n\nModern analytics dashboard.",
+        "MIT License\n",
+        "{\n  \"name\": \"react-dashboard\",\n  \"version\": \"2.2.0\"\n}",
+        "{\n  \"compilerOptions\": {\n    \"strict\": true\n  }\n}",
+        "import React from 'react';\nfunction App() { return <div />; }\nexport default App;",
+        "export const Dashboard = () => <div className='dashboard' />;",
+        "import { Line } from 'recharts';\nexport const Chart = () => <Line />;",
+        "export const useData = () => ({ data: [], loading: false });",
+        "export const useWebSocket = (url: string) => ({ connected: false });",
+        "body {\n  font-family: 'Inter', sans-serif;\n}",
+        "<!DOCTYPE html>\n<html>\n<head><title>Dashboard</title></head>\n</html>"
+      ],
+      [
+        "# React Dashboard\n\nModern analytics dashboard.",
+        "MIT License\n",
+        "{\n  \"name\": \"react-dashboard\",\n  \"version\": \"2.1.0\",\n  \"dependencies\": {\n    \"react\": \"^18.0.0\"\n  }\n}",
+        "{\n  \"compilerOptions\": {\n    \"strict\": true\n  }\n}",
+        "import React from 'react';\nfunction App() { return <div />; }\nexport default App;",
+        "export const Dashboard = () => <div className='dashboard' />;",
+        "import { Line } from 'recharts';\nexport const Chart = () => <Line />;",
+        "export const useData = () => ({ data: [], loading: false });",
+        "body {\n  font-family: 'Inter', sans-serif;\n}",
+        "<!DOCTYPE html>\n<html>\n<head><title>Dashboard</title></head>\n</html>"
+      ]
+    ],
+    "branch_shas": [
+      "react1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9",
+      "react2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0",
+      "react3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1"
+    ],
+    "created_ts": "2023-08-10T13:20:00Z",
+    "updated_ts": "2023-12-05T14:30:00Z"
+  },
+  "ml-engineer": {
+    "owner": "ml-engineer",
+    "repo_name": "ml-pipeline",
+    "description_nullable": "End-to-end machine learning pipeline",
+    "private_flag": true,
+    "auto_init_flag": false,
+    "default_branch": "main",
+    "file_paths": [
+      "README.md",
+      "LICENSE",
+      "requirements.txt",
+      "setup.py",
+      "src/pipeline.py",
+      "src/preprocessing.py",
+      "src/models/classifier.py",
+      "src/evaluation.py",
+      "notebooks/data_exploration.ipynb",
+      "config/model_config.yaml"
+    ],
+    "file_contents": [
+      "# ML Pipeline\n\nScalable ML training and inference.",
+      "Apache 2.0 License\n",
+      "scikit-learn==1.3.0\npandas==2.0.3\nmlflow==2.7.1",
+      "from setuptools import setup\nsetup(name='ml-pipeline')",
+      "class MLPipeline:\n    def __init__(self):\n        pass",
+      "import pandas as pd\ndef preprocess(df): return df",
+      "from sklearn.ensemble import RandomForestClassifier\nclass Classifier:\n    def __init__(self): pass",
+      "from sklearn.metrics import accuracy_score\ndef evaluate(y_true, y_pred): return accuracy_score(y_true, y_pred)",
+      "{}",
+      "model:\n  type: random_forest\n  n_estimators: 100"
+    ],
+    "branches": [
+      "main",
+      "experiment-deep-learning",
+      "feature-mlflow-tracking"
+    ],
+    "branch_files": [
+      [
+        "README.md",
+        "LICENSE",
+        "requirements.txt",
+        "setup.py",
+        "src/pipeline.py",
+        "src/preprocessing.py",
+        "src/models/classifier.py",
+        "src/evaluation.py",
+        "notebooks/data_exploration.ipynb",
+        "config/model_config.yaml"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "requirements.txt",
+        "setup.py",
+        "src/pipeline.py",
+        "src/preprocessing.py",
+        "src/models/classifier.py",
+        "src/models/neural_net.py",
+        "src/evaluation.py",
+        "notebooks/data_exploration.ipynb",
+        "config/model_config.yaml"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "requirements.txt",
+        "setup.py",
+        "src/pipeline.py",
+        "src/preprocessing.py",
+        "src/models/classifier.py",
+        "src/evaluation.py",
+        "src/tracking.py",
+        "notebooks/data_exploration.ipynb",
+        "config/model_config.yaml"
+      ]
+    ],
+    "branch_contents": [
+      [
+        "# ML Pipeline\n\nScalable ML training and inference.",
+        "Apache 2.0 License\n",
+        "scikit-learn==1.3.0\npandas==2.0.3\nmlflow==2.7.1",
+        "from setuptools import setup\nsetup(name='ml-pipeline')",
+        "class MLPipeline:\n    def __init__(self):\n        pass",
+        "import pandas as pd\ndef preprocess(df): return df",
+        "from sklearn.ensemble import RandomForestClassifier\nclass Classifier:\n    def __init__(self): pass",
+        "from sklearn.metrics import accuracy_score\ndef evaluate(y_true, y_pred): return accuracy_score(y_true, y_pred)",
+        "{}",
+        "model:\n  type: random_forest\n  n_estimators: 100"
+      ],
+      [
+        "# ML Pipeline\n\nScalable ML training and inference.",
+        "Apache 2.0 License\n",
+        "scikit-learn==1.3.0\npandas==2.0.3\nmlflow==2.7.1\ntorch==2.0.1",
+        "from setuptools import setup\nsetup(name='ml-pipeline')",
+        "class MLPipeline:\n    def __init__(self):\n        pass",
+        "import pandas as pd\ndef preprocess(df): return df",
+        "from sklearn.ensemble import RandomForestClassifier\nclass Classifier:\n    def __init__(self): pass",
+        "import torch.nn as nn\nclass NeuralNet(nn.Module):\n    def __init__(self): super().__init__()",
+        "from sklearn.metrics import accuracy_score\ndef evaluate(y_true, y_pred): return accuracy_score(y_true, y_pred)",
+        "{}",
+        "model:\n  type: neural_net\n  layers: [128, 64, 32]"
+      ],
+      [
+        "# ML Pipeline\n\nScalable ML training and inference.",
+        "Apache 2.0 License\n",
+        "scikit-learn==1.3.0\npandas==2.0.3\nmlflow==2.7.1",
+        "from setuptools import setup\nsetup(name='ml-pipeline')",
+        "class MLPipeline:\n    def __init__(self):\n        pass",
+        "import pandas as pd\ndef preprocess(df): return df",
+        "from sklearn.ensemble import RandomForestClassifier\nclass Classifier:\n    def __init__(self): pass",
+        "from sklearn.metrics import accuracy_score\ndef evaluate(y_true, y_pred): return accuracy_score(y_true, y_pred)",
+        "import mlflow\ndef log_metrics(metrics): mlflow.log_metrics(metrics)",
+        "{}",
+        "model:\n  type: random_forest\n  n_estimators: 100\nmlflow:\n  tracking_uri: http://localhost:5000"
+      ]
+    ],
+    "branch_shas": [
+      "ml1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0",
+      "ml2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1",
+      "ml3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2"
+    ],
+    "created_ts": "2023-05-30T16:45:00Z",
+    "updated_ts": "2023-12-05T11:20:00Z"
+  },
+  "intern-emma": {
+    "owner": "intern-emma",
+    "repo_name": "portfolio-site",
+    "description_nullable": "Personal portfolio website",
+    "private_flag": false,
+    "auto_init_flag": true,
+    "default_branch": "main",
+    "file_paths": [
+      "README.md",
+      "index.html",
+      "styles.css",
+      "script.js",
+      "assets/photo.jpg",
+      "projects/index.html",
+      "contact.html"
+    ],
+    "file_contents": [
+      "# Sarah's Portfolio\n\nPersonal website showcasing projects.",
+      "<!DOCTYPE html>\n<html>\n<head><title>Sarah Portfolio</title></head>\n<body><h1>Welcome</h1></body>\n</html>",
+      "body {\n  font-family: Arial, sans-serif;\n  margin: 0;\n}",
+      "document.addEventListener('DOMContentLoaded', function() {\n  console.log('Portfolio loaded');\n});",
+      "binary-image-data",
+      "<!DOCTYPE html>\n<html>\n<head><title>Projects</title></head>\n</html>",
+      "<!DOCTYPE html>\n<html>\n<head><title>Contact</title></head>\n</html>"
+    ],
+    "branches": [
+      "main"
+    ],
+    "branch_files": [
+      [
+        "README.md",
+        "index.html",
+        "styles.css",
+        "script.js",
+        "assets/photo.jpg",
+        "projects/index.html",
+        "contact.html"
+      ]
+    ],
+    "branch_contents": [
+      [
+        "# Sarah's Portfolio\n\nPersonal website showcasing projects.",
+        "<!DOCTYPE html>\n<html>\n<head><title>Sarah Portfolio</title></head>\n<body><h1>Welcome</h1></body>\n</html>",
+        "body {\n  font-family: Arial, sans-serif;\n  margin: 0;\n}",
+        "document.addEventListener('DOMContentLoaded', function() {\n  console.log('Portfolio loaded');\n});",
+        "binary-image-data",
+        "<!DOCTYPE html>\n<html>\n<head><title>Projects</title></head>\n</html>",
+        "<!DOCTYPE html>\n<html>\n<head><title>Contact</title></head>\n</html>"
+      ]
+    ],
+    "branch_shas": [
+      "portfolio1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8"
+    ],
+    "created_ts": "2023-09-05T10:30:00Z",
+    "updated_ts": "2023-11-20T15:45:00Z"
+  },
+  "infra-lead": {
+    "owner": "infra-lead",
+    "repo_name": "k8s-monitoring",
+    "description_nullable": "Kubernetes monitoring stack with Prometheus",
+    "private_flag": true,
+    "auto_init_flag": true,
+    "default_branch": "main",
+    "file_paths": [
+      "README.md",
+      "LICENSE",
+      "docker-compose.yml",
+      "kubernetes/namespace.yaml",
+      "kubernetes/prometheus.yaml",
+      "kubernetes/grafana.yaml",
+      "config/prometheus.yml",
+      "config/grafana-dashboard.json",
+      "scripts/deploy.sh",
+      "docs/MONITORING.md"
+    ],
+    "file_contents": [
+      "# K8s Monitoring\n\nPrometheus + Grafana monitoring stack.",
+      "Apache 2.0 License\n",
+      "version: '3.8'\nservices:\n  prometheus:\n    image: prom/prometheus:latest",
+      "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: monitoring",
+      "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: prometheus",
+      "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: grafana",
+      "global:\n  scrape_interval: 15s\nscrape_configs:\n  - job_name: kubernetes",
+      "{\"dashboard\": {\"title\": \"Kubernetes Overview\"}}",
+      "#!/bin/bash\nkubectl apply -f kubernetes/",
+      "# Monitoring Guide\n\nSetup and configuration details."
+    ],
+    "branches": [
+      "main",
+      "feature-alertmanager",
+      "upgrade-prometheus"
+    ],
+    "branch_files": [
+      [
+        "README.md",
+        "LICENSE",
+        "docker-compose.yml",
+        "kubernetes/namespace.yaml",
+        "kubernetes/prometheus.yaml",
+        "kubernetes/grafana.yaml",
+        "config/prometheus.yml",
+        "config/grafana-dashboard.json",
+        "scripts/deploy.sh",
+        "docs/MONITORING.md"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "docker-compose.yml",
+        "kubernetes/namespace.yaml",
+        "kubernetes/prometheus.yaml",
+        "kubernetes/grafana.yaml",
+        "kubernetes/alertmanager.yaml",
+        "config/prometheus.yml",
+        "config/alertmanager.yml",
+        "config/grafana-dashboard.json",
+        "scripts/deploy.sh",
+        "docs/MONITORING.md"
+      ],
+      [
+        "README.md",
+        "LICENSE",
+        "docker-compose.yml",
+        "kubernetes/namespace.yaml",
+        "kubernetes/prometheus.yaml",
+        "kubernetes/grafana.yaml",
+        "config/prometheus.yml",
+        "config/grafana-dashboard.json",
+        "scripts/deploy.sh",
+        "docs/MONITORING.md"
+      ]
+    ],
+    "branch_contents": [
+      [
+        "# K8s Monitoring\n\nPrometheus + Grafana monitoring stack.",
+        "Apache 2.0 License\n",
+        "version: '3.8'\nservices:\n  prometheus:\n    image: prom/prometheus:latest",
+        "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: monitoring",
+        "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: prometheus",
+        "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: grafana",
+        "global:\n  scrape_interval: 15s\nscrape_configs:\n  - job_name: kubernetes",
+        "{\"dashboard\": {\"title\": \"Kubernetes Overview\"}}",
+        "#!/bin/bash\nkubectl apply -f kubernetes/",
+        "# Monitoring Guide\n\nSetup and configuration details."
+      ],
+      [
+        "# K8s Monitoring\n\nPrometheus + Grafana monitoring stack.",
+        "Apache 2.0 License\n",
+        "version: '3.8'\nservices:\n  prometheus:\n    image: prom/prometheus:latest\n  alertmanager:\n    image: prom/alertmanager:latest",
+        "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: monitoring",
+        "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: prometheus",
+        "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: grafana",
+        "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: alertmanager",
+        "global:\n  scrape_interval: 15s\nscrape_configs:\n  - job_name: kubernetes",
+        "global:\n  smtp_smarthost: 'localhost:587'\nroute:\n  receiver: 'default'",
+        "{\"dashboard\": {\"title\": \"Kubernetes Overview\"}}",
+        "#!/bin/bash\nkubectl apply -f kubernetes/",
+        "# Monitoring Guide\n\nSetup and configuration details."
+      ],
+      [
+        "# K8s Monitoring\n\nPrometheus + Grafana monitoring stack.",
+        "Apache 2.0 License\n",
+        "version: '3.8'\nservices:\n  prometheus:\n    image: prom/prometheus:v2.45.0",
+        "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: monitoring",
+        "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: prometheus\nspec:\n  template:\n    spec:\n      containers:\n      - image: prom/prometheus:v2.45.0",
+        "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: grafana",
+        "global:\n  scrape_interval: 15s\nscrape_configs:\n  - job_name: kubernetes",
+        "{\"dashboard\": {\"title\": \"Kubernetes Overview\"}}",
+        "#!/bin/bash\nkubectl apply -f kubernetes/",
+        "# Monitoring Guide\n\nSetup and configuration details."
+      ]
+    ],
+    "branch_shas": [
+      "k8s1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0",
+      "k8s2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1",
+      "k8s3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2"
+    ],
+    "created_ts": "2023-04-15T08:00:00Z",
+    "updated_ts": "2023-12-04T12:30:00Z"
+  }
+}

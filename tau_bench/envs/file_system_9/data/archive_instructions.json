@@ -1,0 +1,123 @@
+{
+  "arch_001": {
+    "archive_id": "arch_001",
+    "user_id": "user_001",
+    "destination_directory": "/tmp/archives",
+    "remote_address": "backup-server.company.com",
+    "ssh_key": "alice_rsa_key",
+    "archive_name": "project_backup_2024",
+    "created_at": "2024-01-15T16:00:00Z",
+    "status": "pending",
+    "filepaths": [
+      "/home/projects/webapp/src/main.js",
+      "/home/projects/webapp/src/utils.js",
+      "/home/projects/webapp/config/database.json",
+      "/home/projects/webapp/docs/readme.md",
+      "/home/projects/webapp/tests/unit_tests.py"
+    ],
+    "size_analysis": {
+      "original_total_bytes": 15678432,
+      "original_total_display": "14.9MB",
+      "estimated_archive_bytes": 12542746,
+      "estimated_archive_display": "12.0MB",
+      "compression_ratio": 0.8
+    }
+  },
+  "arch_002": {
+    "archive_id": "arch_002",
+    "user_id": "user_003",
+    "destination_directory": "/var/backups",
+    "remote_address": "storage-01.company.com",
+    "ssh_key": "carol_rsa_key",
+    "archive_name": "analytics_data_archive",
+    "created_at": "2024-01-16T10:30:00Z",
+    "status": "completed",
+    "completed_at": "2024-01-16T11:45:00Z",
+    "actual_archive_name": "analytics_data_archive_20240116_103000.tar.gz",
+    "filepaths": [
+      "/analytics/raw_data/user_events_2023.csv",
+      "/analytics/raw_data/page_views_2023.csv",
+      "/analytics/processed/monthly_reports_2023.json",
+      "/analytics/processed/yearly_summary_2023.pdf"
+    ],
+    "size_analysis": {
+      "original_total_bytes": 612567890,
+      "original_total_display": "584.4MB",
+      "actual_archive_bytes": 510654976,
+      "actual_archive_display": "487.0MB",
+      "compression_ratio": 0.834
+    }
+  },
+  "arch_003": {
+    "archive_id": "arch_003",
+    "user_id": "user_002",
+    "destination_directory": "/backup/logs",
+    "remote_address": "log-storage.company.com",
+    "ssh_key": "bob_rsa_key",
+    "archive_name": "system_logs_january",
+    "created_at": "2024-01-17T09:15:00Z",
+    "status": "in_progress",
+    "started_at": "2024-01-17T09:20:00Z",
+    "filepaths": [
+      "/var/log/application.log",
+      "/var/log/error.log",
+      "/var/log/access.log",
+      "/var/log/database.log",
+      "/var/log/security.log"
+    ],
+    "size_analysis": {
+      "original_total_bytes": 345678901,
+      "original_total_display": "329.7MB",
+      "estimated_archive_bytes": 67890123,
+      "estimated_archive_display": "64.7MB",
+      "compression_ratio": 0.196
+    }
+  },
+  "arch_004": {
+    "archive_id": "arch_004",
+    "user_id": "user_005",
+    "destination_directory": "/archive/documents",
+    "remote_address": "document-vault.company.com",
+    "ssh_key": "eve_rsa_key",
+    "archive_name": "q4_financial_docs",
+    "created_at": "2024-01-18T14:00:00Z",
+    "status": "pending",
+    "filepaths": [
+      "/finance/reports/q4_revenue.xlsx",
+      "/finance/reports/q4_expenses.xlsx",
+      "/finance/tax_documents/2023_tax_summary.pdf",
+      "/finance/contracts/vendor_agreements_q4.pdf"
+    ],
+    "size_analysis": {
+      "original_total_bytes": 28567890,
+      "original_total_display": "27.2MB",
+      "estimated_archive_bytes": 26123456,
+      "estimated_archive_display": "24.9MB",
+      "compression_ratio": 0.914
+    }
+  },
+  "arch_005": {
+    "archive_id": "arch_005",
+    "user_id": "user_004",
+    "destination_directory": "/tmp/user_archives",
+    "remote_address": "personal-backup.company.com",
+    "ssh_key": "dave_rsa_key",
+    "archive_name": "intern_project_files",
+    "created_at": "2024-01-19T11:30:00Z",
+    "status": "failed",
+    "failed_at": "2024-01-19T11:35:00Z",
+    "error": "Insufficient storage space on remote server",
+    "filepaths": [
+      "/home/intern/learning_materials/python_basics.pdf",
+      "/home/intern/projects/calculator_app.py",
+      "/home/intern/notes/daily_progress.txt"
+    ],
+    "size_analysis": {
+      "original_total_bytes": 245678901,
+      "original_total_display": "234.3MB",
+      "estimated_archive_bytes": 198765432,
+      "estimated_archive_display": "189.5MB",
+      "compression_ratio": 0.809
+    }
+  }
+}

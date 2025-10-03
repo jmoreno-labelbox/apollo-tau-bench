@@ -1,0 +1,292 @@
+{
+  "conf_001": {
+    "conflict_id": "conf_001",
+    "type": "competing_requests",
+    "status": "active",
+    "created_date": "2024-03-02T08:30:00Z",
+    "priority": "high",
+    "resources_involved": [
+      {
+        "employee_id": "emp_arch_01",
+        "employee_name": "Daniel Mitchell",
+        "current_utilization": 85
+      }
+    ],
+    "projects_involved": [
+      {
+        "project_id": "proj_enterprise_01",
+        "project_name": "Enterprise Platform",
+        "requested_hours": 40,
+        "priority": "critical"
+      },
+      {
+        "project_id": "proj_platform_02",
+        "project_name": "Platform Modernization",
+        "requested_hours": 40,
+        "priority": "high"
+      }
+    ],
+    "proposed_resolution": "split_allocation",
+    "resolution_details": {
+      "allocation_split": [
+        {
+          "project_id": "proj_enterprise_01",
+          "hours": 25
+        },
+        {
+          "project_id": "proj_platform_02",
+          "hours": 20
+        }
+      ]
+    }
+  },
+  "conf_002": {
+    "conflict_id": "conf_002",
+    "type": "overallocation",
+    "status": "resolved",
+    "created_date": "2024-02-28T14:00:00Z",
+    "resolved_date": "2024-02-28T16:00:00Z",
+    "priority": "critical",
+    "resources_involved": [
+      {
+        "employee_id": "emp_dev_05",
+        "employee_name": "Olivia Anderson",
+        "current_utilization": 120
+      }
+    ],
+    "allocations_involved": [
+      {
+        "allocation_id": "alloc_web_01",
+        "project_id": "proj_web_01",
+        "hours": 25,
+        "priority": "medium"
+      },
+      {
+        "allocation_id": "alloc_api_01",
+        "project_id": "proj_api_02",
+        "hours": 23,
+        "priority": "high"
+      }
+    ],
+    "resolution": "reduce_lower_priority",
+    "resolution_details": {
+      "reduced_allocation": "alloc_web_01",
+      "new_hours": 15,
+      "final_utilization": 95
+    }
+  },
+  "conf_003": {
+    "conflict_id": "conf_003",
+    "type": "skill_shortage",
+    "status": "active",
+    "created_date": "2024-03-03T10:00:00Z",
+    "priority": "high",
+    "projects_involved": [
+      {
+        "project_id": "proj_ai_01",
+        "project_name": "AI Platform",
+        "skill_required": "Machine Learning",
+        "hours_needed": 120,
+        "hours_allocated": 8
+      }
+    ],
+    "gap_analysis": {
+      "required_resources": 3,
+      "available_resources": 1,
+      "gap": 2,
+      "skills_missing": [
+        "Deep Learning",
+        "TensorFlow",
+        "PyTorch"
+      ]
+    },
+    "mitigation_options": [
+      "hire_contractors",
+      "upskill_existing",
+      "reduce_scope"
+    ]
+  },
+  "conf_004": {
+    "conflict_id": "conf_004",
+    "type": "role_duplication",
+    "status": "active",
+    "created_date": "2024-03-04T13:00:00Z",
+    "priority": "medium",
+    "resources_involved": [
+      {
+        "employee_id": "emp_dev_15",
+        "employee_name": "Justin Kim",
+        "current_roles": [
+          "Tech Lead - Alpha",
+          "Tech Lead - Beta"
+        ]
+      }
+    ],
+    "projects_involved": [
+      {
+        "project_id": "proj_alpha_01",
+        "project_name": "Alpha Module",
+        "role": "Tech Lead",
+        "hours": 20
+      },
+      {
+        "project_id": "proj_beta_02",
+        "project_name": "Beta Module",
+        "role": "Tech Lead",
+        "hours": 20
+      }
+    ],
+    "proposed_resolution": "consolidate_projects",
+    "merge_candidate": "proj_unified_01"
+  },
+  "conf_005": {
+    "conflict_id": "conf_005",
+    "type": "emergency_override",
+    "status": "resolved",
+    "created_date": "2024-03-03T02:00:00Z",
+    "resolved_date": "2024-03-03T03:00:00Z",
+    "priority": "critical",
+    "emergency_project": {
+      "project_id": "proj_security_01",
+      "project_name": "Security Patch",
+      "classification": "critical"
+    },
+    "affected_allocations": [
+      {
+        "employee_id": "emp_sec_dev_01",
+        "previous_project": "proj_banking_01",
+        "previous_hours": 40,
+        "new_hours": 20
+      },
+      {
+        "employee_id": "emp_sec_dev_02",
+        "previous_project": "proj_finance_01",
+        "previous_hours": 30,
+        "new_hours": 10
+      }
+    ],
+    "emergency_protocol": "EXEC-OVERRIDE-001"
+  },
+  "conf_006": {
+    "conflict_id": "conf_006",
+    "type": "cross_department_capacity",
+    "status": "pending",
+    "created_date": "2024-03-06T11:00:00Z",
+    "priority": "medium",
+    "departments_involved": [
+      {
+        "department_id": "dept_design",
+        "current_utilization": 70,
+        "requested_transfer_hours": 12
+      },
+      {
+        "department_id": "dept_eng",
+        "current_utilization": 85,
+        "receiving_hours": 12
+      }
+    ],
+    "resource_involved": {
+      "employee_id": "emp_ux_03",
+      "current_dept": "Design",
+      "requested_by": "Engineering"
+    },
+    "capacity_impact": {
+      "design_new_utilization": 67,
+      "eng_new_utilization": 86
+    }
+  },
+  "conf_007": {
+    "conflict_id": "conf_007",
+    "type": "budget_constraint",
+    "status": "active",
+    "created_date": "2024-03-07T09:00:00Z",
+    "priority": "high",
+    "project_involved": {
+      "project_id": "proj_enterprise_02",
+      "allocated_budget": 500000,
+      "current_burn": 480000,
+      "requested_resources_cost": 50000
+    },
+    "constraint_details": {
+      "budget_remaining": 20000,
+      "resource_gap": 30000,
+      "options": [
+        "reduce_hours",
+        "use_junior_resources",
+        "defer_features"
+      ]
+    }
+  },
+  "conf_008": {
+    "conflict_id": "conf_008",
+    "type": "skill_mismatch",
+    "status": "resolved",
+    "created_date": "2024-03-08T10:00:00Z",
+    "resolved_date": "2024-03-08T14:00:00Z",
+    "priority": "medium",
+    "allocation_involved": {
+      "allocation_id": "alloc_mismatch_01",
+      "employee_id": "emp_senior_02",
+      "employee_level": "senior",
+      "project_id": "proj_simple_01",
+      "project_complexity": "low"
+    },
+    "resolution": "reassign_to_complex",
+    "resolution_details": {
+      "new_project": "proj_complex_01",
+      "replacement_resource": "emp_junior_02",
+      "efficiency_gain": 25
+    }
+  },
+  "conf_009": {
+    "conflict_id": "conf_009",
+    "type": "timeline_conflict",
+    "status": "active",
+    "created_date": "2024-03-09T15:00:00Z",
+    "priority": "critical",
+    "resources_involved": [
+      {
+        "employee_id": "emp_dev_20",
+        "committed_end_date": "2024-03-31",
+        "new_project_start": "2024-03-15"
+      }
+    ],
+    "timeline_gap": {
+      "overlap_days": 16,
+      "critical_deliverables": "true",
+      "options": [
+        "delay_new_project",
+        "bring_in_contractor",
+        "accelerate_transition"
+      ]
+    }
+  },
+  "conf_010": {
+    "conflict_id": "conf_010",
+    "type": "team_imbalance",
+    "status": "pending",
+    "created_date": "2024-03-10T08:00:00Z",
+    "priority": "medium",
+    "teams_involved": [
+      {
+        "team_id": "team_analytics_01",
+        "utilization_range": "92-98%",
+        "status": "overloaded"
+      },
+      {
+        "team_id": "team_analytics_02",
+        "utilization_range": "45-65%",
+        "status": "underutilized"
+      }
+    ],
+    "proposed_resolution": "redistribute_workload",
+    "workload_transfer": {
+      "from_team": "team_analytics_01",
+      "to_team": "team_analytics_02",
+      "hours_to_transfer": 40,
+      "projects_affected": [
+        "proj_reporting_01"
+      ]
+    }
+  }
+}

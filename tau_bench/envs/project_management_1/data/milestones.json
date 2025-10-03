@@ -1,0 +1,91 @@
+{
+  "ms_001": {
+    "milestone_id": "ms_001",
+    "project_id": "proj_mobile_01",
+    "milestone_name": "Authentication Module Complete",
+    "milestone_type": "standard",
+    "start_date": "2024-03-01T00:00:00Z",
+    "target_date": "2024-03-31T00:00:00Z",
+    "description": "Complete implementation of OAuth2 authentication",
+    "deliverables": [
+      "OAuth2 integration",
+      "User session management",
+      "Security documentation"
+    ],
+    "gate_criteria": [],
+    "owner_id": "emp_dev_05",
+    "status": "completed",
+    "health": "green",
+    "progress_percentage": 100,
+    "float_days": 0,
+    "is_critical_path": true,
+    "buffer_consumed": 0,
+    "created_date": "2024-01-15T10:00:00Z",
+    "baseline_start": "2024-03-01T00:00:00Z",
+    "baseline_target": "2024-03-31T00:00:00Z",
+    "actual_completion_date": "2024-03-28T00:00:00Z",
+    "linked_tasks": [
+      "task_001",
+      "task_002"
+    ],
+    "linked_sprints": [
+      "sprint_001"
+    ]
+  },
+  "ms_002": {
+    "milestone_id": "ms_002",
+    "project_id": "proj_mobile_01",
+    "milestone_name": "Phase 1 Gate Review",
+    "milestone_type": "major",
+    "start_date": "2024-04-01T00:00:00Z",
+    "target_date": "2024-04-15T00:00:00Z",
+    "description": "Major phase gate review for initial release readiness",
+    "deliverables": [
+      "Core features complete",
+      "Security audit passed",
+      "Performance benchmarks met"
+    ],
+    "gate_criteria": [
+      "Code coverage > 80%",
+      "No critical security issues",
+      "Performance meets SLA",
+      "Architecture review approved"
+    ],
+    "owner_id": "emp_arch_01",
+    "status": "in_progress",
+    "health": "yellow",
+    "progress_percentage": 65,
+    "float_days": -2,
+    "is_critical_path": true,
+    "created_date": "2024-01-15T10:00:00Z",
+    "baseline_start": "2024-04-01T00:00:00Z",
+    "baseline_target": "2024-04-15T00:00:00Z"
+  },
+  "ms_003": {
+    "milestone_id": "ms_003",
+    "project_id": "proj_ai_01",
+    "milestone_name": "ML Model Training Complete",
+    "milestone_type": "phase_gate",
+    "start_date": "2024-05-01T00:00:00Z",
+    "target_date": "2024-06-30T00:00:00Z",
+    "description": "Complete initial model training and validation",
+    "deliverables": [
+      "Trained models",
+      "Validation reports",
+      "Performance metrics"
+    ],
+    "gate_criteria": [
+      "Model accuracy > 95%",
+      "Training data validated",
+      "Bias testing complete"
+    ],
+    "owner_id": "emp_data_01",
+    "status": "not_started",
+    "health": "green",
+    "float_days": 5,
+    "is_critical_path": false,
+    "created_date": "2024-03-01T10:00:00Z",
+    "baseline_start": "2024-05-01T00:00:00Z",
+    "baseline_target": "2024-06-30T00:00:00Z"
+  }
+}

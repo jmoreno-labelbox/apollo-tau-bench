@@ -1,0 +1,767 @@
+{
+  "7001": {
+    "inv_item_id": 7001,
+    "household_id": 201,
+    "ingredient_id": 1005,
+    "quantity": 300,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-01-01"
+  },
+  "7002": {
+    "inv_item_id": 7002,
+    "household_id": 201,
+    "ingredient_id": 1012,
+    "quantity": 250,
+    "unit": "ml",
+    "location_enum": "pantry",
+    "best_by_date": "2026-03-01"
+  },
+  "7003": {
+    "inv_item_id": 7003,
+    "household_id": 201,
+    "ingredient_id": 1011,
+    "quantity": 6,
+    "unit": "clove",
+    "location_enum": "produce_bin",
+    "best_by_date": "2025-09-01"
+  },
+  "7004": {
+    "inv_item_id": 7004,
+    "household_id": 201,
+    "ingredient_id": 1001,
+    "quantity": 400,
+    "unit": "g",
+    "location_enum": "freezer",
+    "best_by_date": "2025-12-01"
+  },
+  "7005": {
+    "inv_item_id": 7005,
+    "household_id": 201,
+    "ingredient_id": 1008,
+    "quantity": 10,
+    "unit": "pcs",
+    "location_enum": "pantry",
+    "best_by_date": "2025-10-01"
+  },
+  "7006": {
+    "inv_item_id": 7006,
+    "household_id": 201,
+    "ingredient_id": 1015,
+    "quantity": 200,
+    "unit": "ml",
+    "location_enum": "pantry",
+    "best_by_date": "2026-05-01"
+  },
+  "7007": {
+    "inv_item_id": 7007,
+    "household_id": 201,
+    "ingredient_id": 1027,
+    "quantity": 1000,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-07-01"
+  },
+  "7008": {
+    "inv_item_id": 7008,
+    "household_id": 201,
+    "ingredient_id": 1028,
+    "quantity": 800,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-07-01"
+  },
+  "7009": {
+    "inv_item_id": 7009,
+    "household_id": 201,
+    "ingredient_id": 1029,
+    "quantity": 300,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-05"
+  },
+  "7010": {
+    "inv_item_id": 7010,
+    "household_id": 201,
+    "ingredient_id": 1030,
+    "quantity": 0,
+    "unit": "pcs",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-28"
+  },
+  "7011": {
+    "inv_item_id": 7011,
+    "household_id": 201,
+    "ingredient_id": 1006,
+    "quantity": 500,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-02-01"
+  },
+  "7012": {
+    "inv_item_id": 7012,
+    "household_id": 201,
+    "ingredient_id": 1024,
+    "quantity": 200,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-15"
+  },
+  "7013": {
+    "inv_item_id": 7013,
+    "household_id": 201,
+    "ingredient_id": 1037,
+    "quantity": 1000,
+    "unit": "ml",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-30"
+  },
+  "7014": {
+    "inv_item_id": 7014,
+    "household_id": 201,
+    "ingredient_id": 1066,
+    "quantity": 300,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-28"
+  },
+  "7015": {
+    "inv_item_id": 7015,
+    "household_id": 201,
+    "ingredient_id": 1010,
+    "quantity": 3,
+    "unit": "pcs",
+    "location_enum": "produce_bin",
+    "best_by_date": "2025-09-05"
+  },
+  "7021": {
+    "inv_item_id": 7021,
+    "household_id": 202,
+    "ingredient_id": 1026,
+    "quantity": 10,
+    "unit": "slice",
+    "location_enum": "pantry",
+    "best_by_date": "2025-09-30"
+  },
+  "7022": {
+    "inv_item_id": 7022,
+    "household_id": 202,
+    "ingredient_id": 1039,
+    "quantity": 200,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-03"
+  },
+  "7023": {
+    "inv_item_id": 7023,
+    "household_id": 202,
+    "ingredient_id": 1038,
+    "quantity": 150,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-02"
+  },
+  "7024": {
+    "inv_item_id": 7024,
+    "household_id": 202,
+    "ingredient_id": 1040,
+    "quantity": 120,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-01-10"
+  },
+  "7025": {
+    "inv_item_id": 7025,
+    "household_id": 202,
+    "ingredient_id": 1041,
+    "quantity": 0,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-01-10"
+  },
+  "7026": {
+    "inv_item_id": 7026,
+    "household_id": 202,
+    "ingredient_id": 1132,
+    "quantity": 200,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-01-15"
+  },
+  "7027": {
+    "inv_item_id": 7027,
+    "household_id": 202,
+    "ingredient_id": 1023,
+    "quantity": 500,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-01"
+  },
+  "7028": {
+    "inv_item_id": 7028,
+    "household_id": 202,
+    "ingredient_id": 1051,
+    "quantity": 400,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-05-01"
+  },
+  "7029": {
+    "inv_item_id": 7029,
+    "household_id": 202,
+    "ingredient_id": 1004,
+    "quantity": 400,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-04-01"
+  },
+  "7030": {
+    "inv_item_id": 7030,
+    "household_id": 202,
+    "ingredient_id": 1092,
+    "quantity": 1000,
+    "unit": "ml",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-05"
+  },
+  "7031": {
+    "inv_item_id": 7031,
+    "household_id": 203,
+    "ingredient_id": 1003,
+    "quantity": 300,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-30"
+  },
+  "7032": {
+    "inv_item_id": 7032,
+    "household_id": 203,
+    "ingredient_id": 1007,
+    "quantity": 500,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-03-01"
+  },
+  "7033": {
+    "inv_item_id": 7033,
+    "household_id": 203,
+    "ingredient_id": 1094,
+    "quantity": 400,
+    "unit": "ml",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-10"
+  },
+  "7034": {
+    "inv_item_id": 7034,
+    "household_id": 203,
+    "ingredient_id": 1095,
+    "quantity": 150,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-05"
+  },
+  "7035": {
+    "inv_item_id": 7035,
+    "household_id": 203,
+    "ingredient_id": 1131,
+    "quantity": 250,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-02-01"
+  },
+  "7036": {
+    "inv_item_id": 7036,
+    "household_id": 203,
+    "ingredient_id": 1070,
+    "quantity": 200,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-27"
+  },
+  "7037": {
+    "inv_item_id": 7037,
+    "household_id": 203,
+    "ingredient_id": 1071,
+    "quantity": 150,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-29"
+  },
+  "7038": {
+    "inv_item_id": 7038,
+    "household_id": 203,
+    "ingredient_id": 1075,
+    "quantity": 250,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-30"
+  },
+  "7039": {
+    "inv_item_id": 7039,
+    "household_id": 203,
+    "ingredient_id": 1135,
+    "quantity": 50,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-06-01"
+  },
+  "7040": {
+    "inv_item_id": 7040,
+    "household_id": 204,
+    "ingredient_id": 1119,
+    "quantity": 500,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-04-01"
+  },
+  "7041": {
+    "inv_item_id": 7041,
+    "household_id": 204,
+    "ingredient_id": 1122,
+    "quantity": 8,
+    "unit": "slice",
+    "location_enum": "freezer",
+    "best_by_date": "2025-09-15"
+  },
+  "7042": {
+    "inv_item_id": 7042,
+    "household_id": 204,
+    "ingredient_id": 1065,
+    "quantity": 300,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-02-01"
+  },
+  "7043": {
+    "inv_item_id": 7043,
+    "household_id": 204,
+    "ingredient_id": 1092,
+    "quantity": 1000,
+    "unit": "ml",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-02"
+  },
+  "7044": {
+    "inv_item_id": 7044,
+    "household_id": 204,
+    "ingredient_id": 1093,
+    "quantity": 1000,
+    "unit": "ml",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-03"
+  },
+  "7045": {
+    "inv_item_id": 7045,
+    "household_id": 204,
+    "ingredient_id": 1095,
+    "quantity": 200,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-01"
+  },
+  "7046": {
+    "inv_item_id": 7046,
+    "household_id": 204,
+    "ingredient_id": 1051,
+    "quantity": 400,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-03-01"
+  },
+  "7047": {
+    "inv_item_id": 7047,
+    "household_id": 204,
+    "ingredient_id": 1073,
+    "quantity": 2,
+    "unit": "pcs",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-29"
+  },
+  "7048": {
+    "inv_item_id": 7048,
+    "household_id": 205,
+    "ingredient_id": 1053,
+    "quantity": 300,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-08-01"
+  },
+  "7049": {
+    "inv_item_id": 7049,
+    "household_id": 205,
+    "ingredient_id": 1135,
+    "quantity": 30,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-05-01"
+  },
+  "7050": {
+    "inv_item_id": 7050,
+    "household_id": 205,
+    "ingredient_id": 1136,
+    "quantity": 25,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-05-01"
+  },
+  "7051": {
+    "inv_item_id": 7051,
+    "household_id": 205,
+    "ingredient_id": 1098,
+    "quantity": 20,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-04-01"
+  },
+  "7052": {
+    "inv_item_id": 7052,
+    "household_id": 205,
+    "ingredient_id": 1078,
+    "quantity": 100,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-10"
+  },
+  "7053": {
+    "inv_item_id": 7053,
+    "household_id": 205,
+    "ingredient_id": 1104,
+    "quantity": 50,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-27"
+  },
+  "7054": {
+    "inv_item_id": 7054,
+    "household_id": 205,
+    "ingredient_id": 1058,
+    "quantity": 800,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-06-01"
+  },
+  "7055": {
+    "inv_item_id": 7055,
+    "household_id": 205,
+    "ingredient_id": 1080,
+    "quantity": 5,
+    "unit": "pcs",
+    "location_enum": "produce_bin",
+    "best_by_date": "2025-09-15"
+  },
+  "7056": {
+    "inv_item_id": 7056,
+    "household_id": 206,
+    "ingredient_id": 1123,
+    "quantity": 200,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-01-01"
+  },
+  "7057": {
+    "inv_item_id": 7057,
+    "household_id": 206,
+    "ingredient_id": 1124,
+    "quantity": 150,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-01-01"
+  },
+  "7058": {
+    "inv_item_id": 7058,
+    "household_id": 206,
+    "ingredient_id": 1110,
+    "quantity": 300,
+    "unit": "ml",
+    "location_enum": "pantry",
+    "best_by_date": "2026-04-01"
+  },
+  "7059": {
+    "inv_item_id": 7059,
+    "household_id": 206,
+    "ingredient_id": 1111,
+    "quantity": 250,
+    "unit": "ml",
+    "location_enum": "pantry",
+    "best_by_date": "2026-03-01"
+  },
+  "7060": {
+    "inv_item_id": 7060,
+    "household_id": 206,
+    "ingredient_id": 1002,
+    "quantity": 400,
+    "unit": "g",
+    "location_enum": "freezer",
+    "best_by_date": "2025-11-01"
+  },
+  "7061": {
+    "inv_item_id": 7061,
+    "household_id": 206,
+    "ingredient_id": 1086,
+    "quantity": 3,
+    "unit": "pcs",
+    "location_enum": "produce_bin",
+    "best_by_date": "2025-08-30"
+  },
+  "7062": {
+    "inv_item_id": 7062,
+    "household_id": 206,
+    "ingredient_id": 1013,
+    "quantity": 200,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-28"
+  },
+  "7063": {
+    "inv_item_id": 7063,
+    "household_id": 207,
+    "ingredient_id": 1037,
+    "quantity": 2000,
+    "unit": "ml",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-30"
+  },
+  "7064": {
+    "inv_item_id": 7064,
+    "household_id": 207,
+    "ingredient_id": 1026,
+    "quantity": 20,
+    "unit": "slice",
+    "location_enum": "pantry",
+    "best_by_date": "2025-09-05"
+  },
+  "7065": {
+    "inv_item_id": 7065,
+    "household_id": 207,
+    "ingredient_id": 1030,
+    "quantity": 18,
+    "unit": "pcs",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-10"
+  },
+  "7066": {
+    "inv_item_id": 7066,
+    "household_id": 207,
+    "ingredient_id": 1024,
+    "quantity": 400,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-08"
+  },
+  "7067": {
+    "inv_item_id": 7067,
+    "household_id": 207,
+    "ingredient_id": 1001,
+    "quantity": 800,
+    "unit": "g",
+    "location_enum": "freezer",
+    "best_by_date": "2025-12-01"
+  },
+  "7068": {
+    "inv_item_id": 7068,
+    "household_id": 207,
+    "ingredient_id": 1048,
+    "quantity": 300,
+    "unit": "g",
+    "location_enum": "freezer",
+    "best_by_date": "2025-11-01"
+  },
+  "7069": {
+    "inv_item_id": 7069,
+    "household_id": 207,
+    "ingredient_id": 1027,
+    "quantity": 2000,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-08-01"
+  },
+  "7070": {
+    "inv_item_id": 7070,
+    "household_id": 207,
+    "ingredient_id": 1116,
+    "quantity": 500,
+    "unit": "ml",
+    "location_enum": "pantry",
+    "best_by_date": "2026-05-01"
+  },
+  "7071": {
+    "inv_item_id": 7071,
+    "household_id": 208,
+    "ingredient_id": 1008,
+    "quantity": 20,
+    "unit": "pcs",
+    "location_enum": "pantry",
+    "best_by_date": "2025-10-01"
+  },
+  "7072": {
+    "inv_item_id": 7072,
+    "household_id": 208,
+    "ingredient_id": 1019,
+    "quantity": 30,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-06-01"
+  },
+  "7073": {
+    "inv_item_id": 7073,
+    "household_id": 208,
+    "ingredient_id": 1018,
+    "quantity": 25,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-06-01"
+  },
+  "7074": {
+    "inv_item_id": 7074,
+    "household_id": 208,
+    "ingredient_id": 1087,
+    "quantity": 5,
+    "unit": "pcs",
+    "location_enum": "produce_bin",
+    "best_by_date": "2025-09-05"
+  },
+  "7075": {
+    "inv_item_id": 7075,
+    "household_id": 208,
+    "ingredient_id": 1104,
+    "quantity": 80,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-28"
+  },
+  "7076": {
+    "inv_item_id": 7076,
+    "household_id": 208,
+    "ingredient_id": 1009,
+    "quantity": 4,
+    "unit": "pcs",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-02"
+  },
+  "7077": {
+    "inv_item_id": 7077,
+    "household_id": 208,
+    "ingredient_id": 1052,
+    "quantity": 400,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-04-01"
+  },
+  "7078": {
+    "inv_item_id": 7078,
+    "household_id": 209,
+    "ingredient_id": 1092,
+    "quantity": 1000,
+    "unit": "ml",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-03"
+  },
+  "7079": {
+    "inv_item_id": 7079,
+    "household_id": 209,
+    "ingredient_id": 1093,
+    "quantity": 1000,
+    "unit": "ml",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-05"
+  },
+  "7080": {
+    "inv_item_id": 7080,
+    "household_id": 209,
+    "ingredient_id": 1095,
+    "quantity": 180,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-09-01"
+  },
+  "7081": {
+    "inv_item_id": 7081,
+    "household_id": 209,
+    "ingredient_id": 1128,
+    "quantity": 100,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-03-01"
+  },
+  "7082": {
+    "inv_item_id": 7082,
+    "household_id": 209,
+    "ingredient_id": 1007,
+    "quantity": 400,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-02-01"
+  },
+  "7083": {
+    "inv_item_id": 7083,
+    "household_id": 209,
+    "ingredient_id": 1143,
+    "quantity": 300,
+    "unit": "g",
+    "location_enum": "freezer",
+    "best_by_date": "2026-08-01"
+  },
+  "7084": {
+    "inv_item_id": 7084,
+    "household_id": 210,
+    "ingredient_id": 1002,
+    "quantity": 400,
+    "unit": "g",
+    "location_enum": "freezer",
+    "best_by_date": "2025-11-01"
+  },
+  "7085": {
+    "inv_item_id": 7085,
+    "household_id": 210,
+    "ingredient_id": 1049,
+    "quantity": 300,
+    "unit": "g",
+    "location_enum": "freezer",
+    "best_by_date": "2025-10-15"
+  },
+  "7086": {
+    "inv_item_id": 7086,
+    "household_id": 210,
+    "ingredient_id": 1015,
+    "quantity": 300,
+    "unit": "ml",
+    "location_enum": "pantry",
+    "best_by_date": "2026-05-01"
+  },
+  "7087": {
+    "inv_item_id": 7087,
+    "household_id": 210,
+    "ingredient_id": 1056,
+    "quantity": 500,
+    "unit": "g",
+    "location_enum": "pantry",
+    "best_by_date": "2026-04-01"
+  },
+  "7088": {
+    "inv_item_id": 7088,
+    "household_id": 210,
+    "ingredient_id": 1066,
+    "quantity": 300,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-29"
+  },
+  "7089": {
+    "inv_item_id": 7089,
+    "household_id": 210,
+    "ingredient_id": 1068,
+    "quantity": 200,
+    "unit": "g",
+    "location_enum": "produce_bin",
+    "best_by_date": "2025-09-10"
+  },
+  "7090": {
+    "inv_item_id": 7090,
+    "household_id": 210,
+    "ingredient_id": 1023,
+    "quantity": 300,
+    "unit": "g",
+    "location_enum": "fridge",
+    "best_by_date": "2025-08-30"
+  }
+}

@@ -1,0 +1,41 @@
+from tau_bench.envs.tool import Tool
+import json
+import re
+from datetime import datetime, timezone
+from typing import Any
+
+class SearchChecklistItems(Tool):
+    """Filter checklist_items based on candidate_id, with optional status and optional due_date_lte."""
+
+    @staticmethod
+    def invoke(data: dict[str, Any], candidate_id: str, status: str = None, due_date_lte: str = None, message_id: Any = None) -> str:
+        rows = []
+        for it in data.get("checklist_items", []):
+            if it.get("candidate_id") != candidate_id:
+                continue
+            if status and it.get("status") != status:
+                continue
+            if due_date_lte and it.get("due_date") and it["due_date"] > due_date_lte:
+                continue
+            rows.append(it)
+        payload = {"items": rows}
+        out = json.dumps(payload, indent=2)
+        return out
+    @staticmethod
+    def get_info() -> dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "SearchChecklistItems",
+                "description": "Search checklist items for a candidate with simple filters.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "candidate_id": {"type": "string"},
+                        "status": {"type": "string"},
+                        "due_date_lte": {"type": "string"},
+                    },
+                    "required": ["candidate_id"],
+                },
+            },
+        }

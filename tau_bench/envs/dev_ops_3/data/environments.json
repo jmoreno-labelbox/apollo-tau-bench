@@ -1,0 +1,503 @@
+{
+  "env_001": {
+    "id": "env_001",
+    "project_id": "proj_001",
+    "name": "engine-development",
+    "tier": "development",
+    "is_production": false,
+    "environment_type": "game_engine_development",
+    "game_engine": "Custom C++ Engine",
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X"
+    ],
+    "development_tools": [
+      "Visual Studio",
+      "CMake",
+      "Vulkan SDK",
+      "DirectX SDK"
+    ],
+    "infrastructure": {
+      "compute": "high_performance_workstations",
+      "storage": "fast_ssd_storage",
+      "network": "high_bandwidth_lan",
+      "gpu": "rtx_4090_workstations"
+    },
+    "purpose": "Game engine core development and testing with real-time rendering capabilities",
+    "access_control": "engine_team_only",
+    "backup_strategy": "daily_code_backup",
+    "monitoring": "performance_metrics_tracking"
+  },
+  "env_002": {
+    "id": "env_002",
+    "project_id": "proj_001",
+    "name": "engine-staging",
+    "tier": "staging",
+    "is_production": false,
+    "environment_type": "game_engine_staging",
+    "game_engine": "Custom C++ Engine",
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X"
+    ],
+    "testing_tools": [
+      "Automated Test Suites",
+      "Performance Benchmarks",
+      "Memory Profilers"
+    ],
+    "infrastructure": {
+      "compute": "staging_servers",
+      "storage": "shared_storage",
+      "network": "isolated_test_network",
+      "gpu": "test_gpu_cluster"
+    },
+    "purpose": "Game engine integration testing and performance validation before production",
+    "access_control": "engine_team_and_qa",
+    "backup_strategy": "continuous_integration_backup",
+    "monitoring": "comprehensive_testing_metrics"
+  },
+  "env_003": {
+    "id": "env_003",
+    "project_id": "proj_001",
+    "name": "engine-production",
+    "tier": "production",
+    "is_production": true,
+    "environment_type": "game_engine_production",
+    "game_engine": "Custom C++ Engine",
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X"
+    ],
+    "production_tools": [
+      "Live Monitoring",
+      "Performance Analytics",
+      "Crash Reporting"
+    ],
+    "infrastructure": {
+      "compute": "production_cluster",
+      "storage": "high_availability_storage",
+      "network": "redundant_network",
+      "gpu": "production_gpu_farm"
+    },
+    "purpose": "Live game engine production environment serving millions of players",
+    "access_control": "production_team_only",
+    "backup_strategy": "real_time_replication",
+    "monitoring": "24_7_live_monitoring",
+    "sla": "99.9_percent_uptime"
+  },
+  "env_004": {
+    "id": "env_004",
+    "project_id": "proj_002",
+    "name": "build-pipeline-dev",
+    "tier": "development",
+    "is_production": false,
+    "environment_type": "build_pipeline_development",
+    "game_engine": "Multi-Engine",
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch",
+      "iOS",
+      "Android"
+    ],
+    "development_tools": [
+      "Jenkins",
+      "GitLab CI",
+      "Docker",
+      "Unreal Engine",
+      "Unity"
+    ],
+    "infrastructure": {
+      "compute": "build_farm",
+      "storage": "asset_storage",
+      "network": "high_bandwidth_build_network",
+      "gpu": "build_gpu_cluster"
+    },
+    "purpose": "Cross-platform game build pipeline development and testing",
+    "access_control": "build_team_and_developers",
+    "backup_strategy": "incremental_build_backup",
+    "monitoring": "build_performance_tracking",
+    "build_capacity": "parallel_50_builds"
+  },
+  "env_005": {
+    "id": "env_005",
+    "project_id": "proj_002",
+    "name": "build-pipeline-testing",
+    "tier": "testing",
+    "is_production": false,
+    "environment_type": "build_pipeline_testing",
+    "game_engine": "Multi-Engine",
+    "target_platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Nintendo Switch",
+      "iOS",
+      "Android"
+    ],
+    "testing_tools": [
+      "Automated Testing",
+      "Performance Benchmarks",
+      "Compatibility Testing",
+      "Regression Testing"
+    ],
+    "infrastructure": {
+      "compute": "test_build_farm",
+      "storage": "test_asset_storage",
+      "network": "isolated_test_network",
+      "gpu": "test_gpu_cluster"
+    },
+    "purpose": "Comprehensive testing of cross-platform build pipelines and asset processing",
+    "access_control": "build_team_and_qa",
+    "backup_strategy": "test_artifact_backup",
+    "monitoring": "test_result_tracking",
+    "test_coverage": "all_platforms_and_engines"
+  },
+  "env_006": {
+    "id": "env_006",
+    "project_id": "proj_002",
+    "name": "production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_007": {
+    "id": "env_007",
+    "project_id": "proj_003",
+    "name": "dev-aws",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_008": {
+    "id": "env_008",
+    "project_id": "proj_003",
+    "name": "dev-azure",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_009": {
+    "id": "env_009",
+    "project_id": "proj_003",
+    "name": "staging-multi",
+    "tier": "staging",
+    "is_production": false
+  },
+  "env_010": {
+    "id": "env_010",
+    "project_id": "proj_003",
+    "name": "production-aws",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_011": {
+    "id": "env_011",
+    "project_id": "proj_003",
+    "name": "production-azure",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_012": {
+    "id": "env_012",
+    "project_id": "proj_004",
+    "name": "compliance-test",
+    "tier": "testing",
+    "is_production": false
+  },
+  "env_013": {
+    "id": "env_013",
+    "project_id": "proj_004",
+    "name": "production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_014": {
+    "id": "env_014",
+    "project_id": "proj_005",
+    "name": "development",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_015": {
+    "id": "env_015",
+    "project_id": "proj_005",
+    "name": "staging",
+    "tier": "staging",
+    "is_production": false
+  },
+  "env_016": {
+    "id": "env_016",
+    "project_id": "proj_005",
+    "name": "production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_017": {
+    "id": "env_017",
+    "project_id": "proj_006",
+    "name": "dev-db",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_018": {
+    "id": "env_018",
+    "project_id": "proj_006",
+    "name": "staging-db",
+    "tier": "staging",
+    "is_production": false
+  },
+  "env_019": {
+    "id": "env_019",
+    "project_id": "proj_006",
+    "name": "production-db",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_020": {
+    "id": "env_020",
+    "project_id": "proj_007",
+    "name": "security-test",
+    "tier": "testing",
+    "is_production": false
+  },
+  "env_021": {
+    "id": "env_021",
+    "project_id": "proj_007",
+    "name": "production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_022": {
+    "id": "env_022",
+    "project_id": "proj_008",
+    "name": "development",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_023": {
+    "id": "env_023",
+    "project_id": "proj_008",
+    "name": "staging",
+    "tier": "staging",
+    "is_production": false
+  },
+  "env_024": {
+    "id": "env_024",
+    "project_id": "proj_008",
+    "name": "production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_025": {
+    "id": "env_025",
+    "project_id": "proj_009",
+    "name": "dr-test",
+    "tier": "testing",
+    "is_production": false
+  },
+  "env_026": {
+    "id": "env_026",
+    "project_id": "proj_009",
+    "name": "production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_027": {
+    "id": "env_027",
+    "project_id": "proj_010",
+    "name": "dev-iac",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_028": {
+    "id": "env_028",
+    "project_id": "proj_010",
+    "name": "staging-iac",
+    "tier": "staging",
+    "is_production": false
+  },
+  "env_029": {
+    "id": "env_029",
+    "project_id": "proj_010",
+    "name": "production-iac",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_030": {
+    "id": "env_030",
+    "project_id": "proj_011",
+    "name": "monitoring-dev",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_031": {
+    "id": "env_031",
+    "project_id": "proj_011",
+    "name": "monitoring-staging",
+    "tier": "staging",
+    "is_production": false
+  },
+  "env_032": {
+    "id": "env_032",
+    "project_id": "proj_011",
+    "name": "monitoring-production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_033": {
+    "id": "env_033",
+    "project_id": "proj_012",
+    "name": "cost-optimization-test",
+    "tier": "testing",
+    "is_production": false
+  },
+  "env_034": {
+    "id": "env_034",
+    "project_id": "proj_012",
+    "name": "production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_035": {
+    "id": "env_035",
+    "project_id": "proj_013",
+    "name": "api-gateway-dev",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_036": {
+    "id": "env_036",
+    "project_id": "proj_013",
+    "name": "api-gateway-staging",
+    "tier": "staging",
+    "is_production": false
+  },
+  "env_037": {
+    "id": "env_037",
+    "project_id": "proj_013",
+    "name": "api-gateway-production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_038": {
+    "id": "env_038",
+    "project_id": "proj_014",
+    "name": "registry-security-test",
+    "tier": "testing",
+    "is_production": false
+  },
+  "env_039": {
+    "id": "env_039",
+    "project_id": "proj_014",
+    "name": "production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_040": {
+    "id": "env_040",
+    "project_id": "proj_015",
+    "name": "testing-infra-dev",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_041": {
+    "id": "env_041",
+    "project_id": "proj_015",
+    "name": "testing-infra-staging",
+    "tier": "staging",
+    "is_production": false
+  },
+  "env_042": {
+    "id": "env_042",
+    "project_id": "proj_015",
+    "name": "testing-infra-production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_043": {
+    "id": "env_043",
+    "project_id": "proj_016",
+    "name": "legacy-modernization-dev",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_044": {
+    "id": "env_044",
+    "project_id": "proj_017",
+    "name": "mobile-infra-dev",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_045": {
+    "id": "env_045",
+    "project_id": "proj_017",
+    "name": "mobile-infra-staging",
+    "tier": "staging",
+    "is_production": false
+  },
+  "env_046": {
+    "id": "env_046",
+    "project_id": "proj_017",
+    "name": "mobile-infra-production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_047": {
+    "id": "env_047",
+    "project_id": "proj_018",
+    "name": "data-pipeline-dev",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_048": {
+    "id": "env_048",
+    "project_id": "proj_018",
+    "name": "data-pipeline-staging",
+    "tier": "staging",
+    "is_production": false
+  },
+  "env_049": {
+    "id": "env_049",
+    "project_id": "proj_018",
+    "name": "data-pipeline-production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_050": {
+    "id": "env_050",
+    "project_id": "proj_019",
+    "name": "green-computing-test",
+    "tier": "testing",
+    "is_production": false
+  },
+  "env_051": {
+    "id": "env_051",
+    "project_id": "proj_019",
+    "name": "production",
+    "tier": "production",
+    "is_production": true
+  },
+  "env_052": {
+    "id": "env_052",
+    "project_id": "proj_020",
+    "name": "edge-computing-dev",
+    "tier": "development",
+    "is_production": false
+  },
+  "env_053": {
+    "id": "env_053",
+    "project_id": "proj_020",
+    "name": "edge-computing-staging",
+    "tier": "staging",
+    "is_production": false
+  },
+  "env_054": {
+    "id": "env_054",
+    "project_id": "proj_020",
+    "name": "edge-computing-production",
+    "tier": "production",
+    "is_production": true
+  }
+}

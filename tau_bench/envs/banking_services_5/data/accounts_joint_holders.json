@@ -1,0 +1,9 @@
+{
+    "acc_chk_2001": {
+        "account_id": "acc_chk_2001",
+        "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "joint_holders": [
+            "cust_joint_005"
+        ]
+    }
+}

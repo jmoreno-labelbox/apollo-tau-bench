@@ -1,0 +1,272 @@
+{
+  "1": {
+    "rate_id": 1,
+    "lender_id": 1,
+    "region": "AZ",
+    "term_years": 15,
+    "apr_percent": 6.91,
+    "min_credit_score": 700,
+    "updated_at": "2025-07-15T05:22:57Z"
+  },
+  "2": {
+    "rate_id": 2,
+    "lender_id": 1,
+    "region": "AZ",
+    "term_years": 20,
+    "apr_percent": 5.768,
+    "min_credit_score": 620,
+    "updated_at": "2025-07-26T05:22:57Z"
+  },
+  "3": {
+    "rate_id": 3,
+    "lender_id": 1,
+    "region": "AZ",
+    "term_years": 30,
+    "apr_percent": 5.847,
+    "min_credit_score": 660,
+    "updated_at": "2025-07-07T05:22:57Z"
+  },
+  "4": {
+    "rate_id": 4,
+    "lender_id": 2,
+    "region": "AZ",
+    "term_years": 15,
+    "apr_percent": 4.004,
+    "min_credit_score": 620,
+    "updated_at": "2025-06-20T05:22:57Z"
+  },
+  "5": {
+    "rate_id": 5,
+    "lender_id": 2,
+    "region": "AZ",
+    "term_years": 20,
+    "apr_percent": 5.794,
+    "min_credit_score": 660,
+    "updated_at": "2025-06-04T05:22:57Z"
+  },
+  "6": {
+    "rate_id": 6,
+    "lender_id": 2,
+    "region": "AZ",
+    "term_years": 30,
+    "apr_percent": 6.395,
+    "min_credit_score": 660,
+    "updated_at": "2025-07-10T05:22:57Z"
+  },
+  "7": {
+    "rate_id": 7,
+    "lender_id": 3,
+    "region": "AZ",
+    "term_years": 15,
+    "apr_percent": 6.586,
+    "min_credit_score": 660,
+    "updated_at": "2025-07-30T05:22:57Z"
+  },
+  "8": {
+    "rate_id": 8,
+    "lender_id": 3,
+    "region": "AZ",
+    "term_years": 20,
+    "apr_percent": 5.165,
+    "min_credit_score": 620,
+    "updated_at": "2025-08-12T05:22:57Z"
+  },
+  "9": {
+    "rate_id": 9,
+    "lender_id": 3,
+    "region": "AZ",
+    "term_years": 30,
+    "apr_percent": 5.915,
+    "min_credit_score": 700,
+    "updated_at": "2025-05-25T05:22:57Z"
+  },
+  "10": {
+    "rate_id": 10,
+    "lender_id": 4,
+    "region": "AZ",
+    "term_years": 15,
+    "apr_percent": 4.385,
+    "min_credit_score": 700,
+    "updated_at": "2025-08-13T05:22:57Z"
+  },
+  "11": {
+    "rate_id": 11,
+    "lender_id": 4,
+    "region": "AZ",
+    "term_years": 20,
+    "apr_percent": 5.866,
+    "min_credit_score": 620,
+    "updated_at": "2025-06-14T05:22:57Z"
+  },
+  "12": {
+    "rate_id": 12,
+    "lender_id": 4,
+    "region": "AZ",
+    "term_years": 30,
+    "apr_percent": 5.687,
+    "min_credit_score": 620,
+    "updated_at": "2025-07-28T05:22:57Z"
+  },
+  "13": {
+    "rate_id": 13,
+    "lender_id": 5,
+    "region": "AZ",
+    "term_years": 15,
+    "apr_percent": 4.446,
+    "min_credit_score": 620,
+    "updated_at": "2025-06-02T05:22:57Z"
+  },
+  "14": {
+    "rate_id": 14,
+    "lender_id": 5,
+    "region": "AZ",
+    "term_years": 20,
+    "apr_percent": 4.937,
+    "min_credit_score": 620,
+    "updated_at": "2025-06-19T05:22:57Z"
+  },
+  "15": {
+    "rate_id": 15,
+    "lender_id": 5,
+    "region": "AZ",
+    "term_years": 30,
+    "apr_percent": 5.683,
+    "min_credit_score": 660,
+    "updated_at": "2025-05-22T05:22:57Z"
+  },
+  "16": {
+    "rate_id": 16,
+    "lender_id": 6,
+    "region": "AZ",
+    "term_years": 15,
+    "apr_percent": 5.146,
+    "min_credit_score": 700,
+    "updated_at": "2025-07-30T05:22:57Z"
+  },
+  "17": {
+    "rate_id": 17,
+    "lender_id": 6,
+    "region": "AZ",
+    "term_years": 20,
+    "apr_percent": 6.605,
+    "min_credit_score": 660,
+    "updated_at": "2025-08-01T05:22:57Z"
+  },
+  "18": {
+    "rate_id": 18,
+    "lender_id": 6,
+    "region": "AZ",
+    "term_years": 30,
+    "apr_percent": 4.801,
+    "min_credit_score": 700,
+    "updated_at": "2025-06-16T05:22:57Z"
+  },
+  "19": {
+    "rate_id": 19,
+    "lender_id": 7,
+    "region": "AZ",
+    "term_years": 15,
+    "apr_percent": 4.35,
+    "min_credit_score": 700,
+    "updated_at": "2025-08-12T05:22:57Z"
+  },
+  "20": {
+    "rate_id": 20,
+    "lender_id": 7,
+    "region": "AZ",
+    "term_years": 20,
+    "apr_percent": 6.409,
+    "min_credit_score": 660,
+    "updated_at": "2025-06-29T05:22:57Z"
+  },
+  "21": {
+    "rate_id": 21,
+    "lender_id": 7,
+    "region": "AZ",
+    "term_years": 30,
+    "apr_percent": 7.319,
+    "min_credit_score": 700,
+    "updated_at": "2025-07-02T05:22:57Z"
+  },
+  "22": {
+    "rate_id": 22,
+    "lender_id": 8,
+    "region": "AZ",
+    "term_years": 15,
+    "apr_percent": 5.353,
+    "min_credit_score": 660,
+    "updated_at": "2025-07-25T05:22:57Z"
+  },
+  "23": {
+    "rate_id": 23,
+    "lender_id": 8,
+    "region": "AZ",
+    "term_years": 20,
+    "apr_percent": 4.945,
+    "min_credit_score": 620,
+    "updated_at": "2025-08-03T05:22:57Z"
+  },
+  "24": {
+    "rate_id": 24,
+    "lender_id": 8,
+    "region": "AZ",
+    "term_years": 30,
+    "apr_percent": 4.286,
+    "min_credit_score": 620,
+    "updated_at": "2025-05-23T05:22:57Z"
+  },
+  "25": {
+    "rate_id": 25,
+    "lender_id": 9,
+    "region": "AZ",
+    "term_years": 15,
+    "apr_percent": 4.921,
+    "min_credit_score": 620,
+    "updated_at": "2025-08-17T05:22:57Z"
+  },
+  "26": {
+    "rate_id": 26,
+    "lender_id": 9,
+    "region": "AZ",
+    "term_years": 20,
+    "apr_percent": 7.411,
+    "min_credit_score": 700,
+    "updated_at": "2025-05-30T05:22:57Z"
+  },
+  "27": {
+    "rate_id": 27,
+    "lender_id": 9,
+    "region": "AZ",
+    "term_years": 30,
+    "apr_percent": 6.593,
+    "min_credit_score": 660,
+    "updated_at": "2025-05-28T05:22:57Z"
+  },
+  "28": {
+    "rate_id": 28,
+    "lender_id": 10,
+    "region": "AZ",
+    "term_years": 15,
+    "apr_percent": 5.282,
+    "min_credit_score": 660,
+    "updated_at": "2025-08-13T05:22:57Z"
+  },
+  "29": {
+    "rate_id": 29,
+    "lender_id": 10,
+    "region": "AZ",
+    "term_years": 20,
+    "apr_percent": 4.277,
+    "min_credit_score": 660,
+    "updated_at": "2025-08-01T05:22:57Z"
+  },
+  "30": {
+    "rate_id": 30,
+    "lender_id": 10,
+    "region": "AZ",
+    "term_years": 30,
+    "apr_percent": 5.892,
+    "min_credit_score": 700,
+    "updated_at": "2025-08-16T05:22:57Z"
+  }
+}

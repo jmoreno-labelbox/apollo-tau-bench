@@ -1,0 +1,47 @@
+{
+  "PUB001": {
+    "publisher_id": "PUB001",
+    "name": "Northern Star Publishers",
+    "address": "500 McGill Street, Montreal, QC H2Y 2E8",
+    "contact_email": "accounts@mapleleafpub.com",
+    "gst_number": "987654321RT0001",
+    "created_at": "2023-02-01T09:00:00Z",
+    "updated_at": "2024-10-15T16:45:00Z"
+  },
+  "PUB002": {
+    "publisher_id": "PUB002",
+    "name": "Aurora Academic Press",
+    "address": "1001 King Street, Suite 2500, Montreal, QC H3B 4L1",
+    "contact_email": "billing@northernlights-edu.ca",
+    "gst_number": "456789123RT0001",
+    "created_at": "2023-03-15T11:30:00Z",
+    "updated_at": "2024-11-01T10:20:00Z"
+  },
+  "PUB003": {
+    "publisher_id": "PUB003",
+    "name": "Summit Educational Publishing",
+    "address": "750 Saint-Laurent Blvd, Montreal, QC H2T 1S5",
+    "contact_email": "finance@horizonacademic.com",
+    "gst_number": "789123456RT0001",
+    "created_at": "2023-04-10T14:15:00Z",
+    "updated_at": "2024-09-20T13:30:00Z"
+  },
+  "PUB004": {
+    "publisher_id": "PUB004",
+    "name": "Maritime Learning Materials",
+    "address": "200 Saint-Catherine West, Montreal, QC H3B 0A7",
+    "contact_email": "ap@coastaleducational.ca",
+    "gst_number": "321654987RT0001",
+    "created_at": "2023-05-20T08:45:00Z",
+    "updated_at": "2024-11-10T15:00:00Z"
+  },
+  "PUB005": {
+    "publisher_id": "PUB005",
+    "name": "Midwest Education House",
+    "address": "88 Notre-Dame East, Montreal, QC H2Y 1B7",
+    "contact_email": "payments@prairieknowledge.com",
+    "gst_number": "654987321RT0001",
+    "created_at": "2023-06-05T12:00:00Z",
+    "updated_at": "2024-08-25T11:15:00Z"
+  }
+}

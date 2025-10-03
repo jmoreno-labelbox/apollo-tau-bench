@@ -1,0 +1,54 @@
+from tau_bench.envs.tool import Tool
+import json
+from datetime import datetime, timedelta
+from typing import Any
+
+class CreateMealPlan(Tool):
+    """Establishes a new meal plan for a family."""
+
+    @staticmethod
+    def invoke(data: dict[str, Any], household_id: int = None, week_start_date: str = None, created_by_user_id: int = None) -> str:
+        meal_plans = data.get("meal_plans", [])
+        # Automatically create the subsequent meal_plan_id
+        new_id = (
+            max([plan.get("meal_plan_id", 0) for plan in meal_plans]) + 1
+            if meal_plans
+            else 6001
+        )
+
+        new_plan = {
+            "meal_plan_id": new_id,
+            "household_id": household_id,
+            "week_start_date": week_start_date,
+            "created_by_user_id": created_by_user_id,
+            "created_at": "2025-08-20T11:00:00Z",  # Employing a constant timestamp for uniformity
+        }
+        data["meal_plans"].append(new_plan)
+        payload = new_plan
+        out = json.dumps(payload)
+        return out
+    @staticmethod
+    def get_info() -> dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "CreateMealPlan",
+                "description": "Creates a new meal plan for a household.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "household_id": {"type": "integer"},
+                        "week_start_date": {
+                            "type": "string",
+                            "description": "Start date of the week in YYYY-MM-DD format.",
+                        },
+                        "created_by_user_id": {"type": "integer"},
+                    },
+                    "required": [
+                        "household_id",
+                        "week_start_date",
+                        "created_by_user_id",
+                    ],
+                },
+            },
+        }

@@ -1,0 +1,132 @@
+{
+  "M100": {
+    "mentor_id": "M100",
+    "name": "Mentor 0",
+    "expertise": [
+      "Policy",
+      "Design"
+    ],
+    "location": "Berlin",
+    "availability": "Open",
+    "mentorship_capacity": 3,
+    "current_mentees_count": 1,
+    "mentoring_approach": "Work-Life Balance",
+    "mentoring_roles": [
+      "UX Designer",
+      "Policy Analyst",
+      "Brand Strategist"
+    ],
+    "preferred_mentoring_frequency": [
+      "Bi-weekly",
+      "Monthly"
+    ],
+    "preferred_mentoring_location": [
+      "Remote",
+      "Flexible"
+    ],
+    "languages_spoken": [
+      "English",
+      "German"
+    ],
+    "compatible_user_ids": [
+      "U304",
+      "U305",
+      "U307"
+    ]
+  },
+  "M101": {
+    "mentor_id": "M101",
+    "name": "Mentor 1",
+    "expertise": [
+      "Engineering",
+      "Career Growth"
+    ],
+    "location": "Nairobi",
+    "availability": "Limited",
+    "mentorship_capacity": 2,
+    "current_mentees_count": 2,
+    "mentoring_approach": "Technical Deep Dive",
+    "mentoring_roles": [
+      "Software Engineer",
+      "DevOps Engineer"
+    ],
+    "preferred_mentoring_frequency": [
+      "Monthly"
+    ],
+    "preferred_mentoring_location": [
+      "Remote"
+    ],
+    "languages_spoken": [
+      "English",
+      "Swahili"
+    ],
+    "compatible_user_ids": [
+      "U306",
+      "U312"
+    ]
+  },
+  "M102": {
+    "mentor_id": "M102",
+    "name": "Mentor 2",
+    "expertise": [
+      "Policy",
+      "Leadership"
+    ],
+    "location": "Oakland",
+    "availability": "Open",
+    "mentorship_capacity": 4,
+    "current_mentees_count": 1,
+    "mentoring_approach": "Career Strategy",
+    "mentoring_roles": [
+      "Compliance Specialist",
+      "Policy Lead",
+      "Director"
+    ],
+    "preferred_mentoring_frequency": [
+      "Weekly",
+      "Bi-weekly"
+    ],
+    "preferred_mentoring_location": [
+      "Onsite",
+      "Remote"
+    ],
+    "languages_spoken": [
+      "English"
+    ],
+    "compatible_user_ids": [
+      "U303",
+      "U301"
+    ]
+  },
+  "M103": {
+    "mentor_id": "M103",
+    "name": "Mentor 3",
+    "expertise": [
+      "Career Growth",
+      "Design"
+    ],
+    "location": "Berlin",
+    "availability": "Full",
+    "mentorship_capacity": 2,
+    "current_mentees_count": 2,
+    "mentoring_approach": "Work-Life Balance",
+    "mentoring_roles": [
+      "Design Manager",
+      "Career Coach"
+    ],
+    "preferred_mentoring_frequency": [
+      "Monthly"
+    ],
+    "preferred_mentoring_location": [
+      "Remote"
+    ],
+    "languages_spoken": [
+      "English",
+      "German"
+    ],
+    "compatible_user_ids": [
+      "U307",
+      "U305"
+    ]
+  }
+}

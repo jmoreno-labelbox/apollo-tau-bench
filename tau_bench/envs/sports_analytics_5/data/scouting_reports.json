@@ -1,0 +1,110 @@
+{
+  "1": {
+    "report_id": 1,
+    "report_type": "Opponent Analysis",
+    "game_pk": 2024000008,
+    "created_at": "2024-02-23 15:20:47",
+    "s3_pdf_path": "s3://reports/scouting/1.pdf",
+    "gslides_link": "https://docs.google.com/presentation/d/749945af-66b7-4dce-b9b3-0cd0ef9ad1d3",
+    "core_narrative_text": "Opponent analysis shows strong offensive capabilities in late innings. Primary weakness identified in left-handed pitching matchups.\nTeam exhibits aggressive base running strategy with above-average success rate. Recommend focus on fastball command and off-speed pitch sequencing.\nPitching staff shows vulnerability to contact hitting approach. Key players demonstrate consistent performance under pressure situations.\nOverall strategic approach favors power hitting and defensive positioning. Recommend targeting specific matchups for optimal game management."
+  },
+  "2": {
+    "report_id": 2,
+    "report_type": "Player Focus",
+    "game_pk": 2024000007,
+    "created_at": "2024-06-29 15:20:47",
+    "s3_pdf_path": "s3://reports/scouting/2.pdf",
+    "gslides_link": "https://docs.google.com/presentation/d/178069c7-0dd8-42df-85f4-92c1a17e3a8c",
+    "core_narrative_text": "Player focus report highlights exceptional plate discipline and contact ability. Shows marked improvement in situational hitting.\nDefensive skills demonstrate above-average range with consistent glove work. Demonstrates leadership qualities and strong baseball IQ.\nMental approach remains steady under pressure with good pitch recognition. Recommend continued development of power stroke.\nOverall assessment shows player ready for increased responsibility. Strong candidate for clutch situations and late-game scenarios."
+  },
+  "3": {
+    "report_id": 3,
+    "report_type": "Opponent Analysis",
+    "game_pk": 2024000002,
+    "created_at": "2024-03-08 15:20:47",
+    "s3_pdf_path": "s3://reports/scouting/3.pdf",
+    "gslides_link": "https://docs.google.com/presentation/d/dc0be474-8d2c-479e-8c8b-2e856503a358",
+    "core_narrative_text": "Opponent analysis reveals strong pitching depth with effective bullpen management. Team shows consistent execution of fundamental baseball.\nOffensive approach emphasizes situational hitting and run production. Pitching staff utilizes diverse repertoire with good command.\nDefensive positioning and communication appear well-coordinated. Recommend targeting specific pitch count advantages.\nOverall team chemistry and execution levels are high. Strategic adjustments needed for optimal competitive advantage."
+  },
+  "4": {
+    "report_id": 4,
+    "report_type": "Series Summary",
+    "game_pk": 2024000009,
+    "created_at": "2024-08-01 15:20:47",
+    "s3_pdf_path": "s3://reports/scouting/4.pdf",
+    "gslides_link": "https://docs.google.com/presentation/d/72c8e348-91fc-462b-8e6d-dae2925a6da9",
+    "core_narrative_text": "Series analysis reveals opponent's strength in late-game situations with a dominant closer posting 1.83 ERA in save situations. Team shows aggressive base running with 78% stolen base success rate.\nPitching staff relies heavily on fastball-slider combination from starters. Bullpen depth limited beyond setup man and closer roles.\nOffensive approach emphasizes contact hitting with low strikeout rates. Recommend targeting their weakness against left-handed breaking balls.\nKey strategic adjustment: exploit their aggressive first-pitch swinging tendency with off-speed strikes."
+  },
+  "5": {
+    "report_id": 5,
+    "report_type": "Opponent Analysis",
+    "game_pk": 2024000001,
+    "created_at": "2024-04-05 15:20:47",
+    "s3_pdf_path": "s3://reports/scouting/5.pdf",
+    "gslides_link": "https://docs.google.com/presentation/d/6a891742-8645-400d-b8d1-767682d1ce13",
+    "core_narrative_text": "Opponent analysis shows strong defensive fundamentals with only 0.87 errors per game this season. Infield turning double plays at 94% success rate.\nOffensive strategy centers on manufacturing runs through small ball tactics. Team batting .312 with runners in scoring position.\nPitching rotation features three quality starters with ERA under 3.50. Bullpen shows vulnerability in middle innings with 4.76 ERA from 6th-7th innings.\nRecommend attacking their #4 and #5 starters aggressively early in counts. Focus on drawing walks against their control-oriented approach."
+  },
+  "6": {
+    "report_id": 6,
+    "report_type": "Player Focus",
+    "game_pk": 2024000011,
+    "created_at": "2024-04-26 15:20:47",
+    "s3_pdf_path": "s3://reports/scouting/6.pdf",
+    "gslides_link": "https://docs.google.com/presentation/d/a65bef95-dd64-4fa1-a44a-908f6810ceee",
+    "core_narrative_text": "Player focus report on CF James Brown shows exceptional defensive instincts with 2.7 range factor. Arm strength rated 65/80 with accurate throws to all bases.\nOffensive development trending upward with improved plate discipline. Walk rate increased from 4.2% to 9.1% over last month.\nRecommend continued work on breaking ball recognition. Showing vulnerability to sliders low and away from right-handed pitching.\nOverall assessment indicates readiness for increased playing time against quality opposition. Strong leadership presence in clubhouse."
+  },
+  "7": {
+    "report_id": 7,
+    "report_type": "Series Summary",
+    "game_pk": 2024000002,
+    "created_at": "2024-05-20 15:20:47",
+    "s3_pdf_path": "s3://reports/scouting/7.pdf",
+    "gslides_link": "https://docs.google.com/presentation/d/4469da84-f80e-40fd-a0e3-cec71f37b98f",
+    "core_narrative_text": "Series summary reveals team's strong performance in clutch situations, going 8-4 in one-run games during this homestand. Bullpen posted 2.34 ERA across the series.\nStarting rotation maintained quality innings with average of 6.2 innings per start. Offense produced timely hitting with .289 average with runners in scoring position.\nDefensive miscues were minimal with only 2 errors in 6 games. Double-play combinations executed flawlessly.\nKey takeaway: Team showing maturity in high-pressure situations. Recommend maintaining current aggressive approach on basepaths."
+  },
+  "8": {
+    "report_id": 8,
+    "report_type": "Pre-Game",
+    "game_pk": 2024000001,
+    "created_at": "2024-03-16 15:20:47",
+    "s3_pdf_path": "s3://reports/scouting/8.pdf",
+    "gslides_link": "https://docs.google.com/presentation/d/bbf85c77-5587-48f6-837d-8a76d6bf5333",
+    "core_narrative_text": "Pre-game analysis indicates opponent's recent struggles against left-handed pitching, allowing .347 batting average over last 10 games. Recommend starting southpaw with confidence.\nBullpen usage patterns show heavy reliance on closer in non-save situations. Expect availability issues if game extends beyond 9 innings.\nOffensive gameplan should target their #3 starter's tendency to fall behind in counts. His first-pitch strike percentage down to 58% over last 3 starts.\nDefensive alignment should account for their aggressive base-stealing approach. Recommend slide-step timing and quick throws to second base."
+  },
+  "9": {
+    "report_id": 9,
+    "report_type": "Post-Game",
+    "game_pk": 2024000004,
+    "created_at": "2024-04-01 15:20:47",
+    "s3_pdf_path": "s3://reports/scouting/9.pdf",
+    "gslides_link": "https://docs.google.com/presentation/d/8546c473-431e-4faf-8d56-bcc320920925",
+    "core_narrative_text": "Post-game evaluation shows effective execution of strategic game plan. Starting pitcher held opponent to 2 runs over 7 innings with improved command of changeup.\nOffensive approach succeeded in working deep counts, resulting in 97 pitches through 5 innings for opposing starter. Three-run 6th inning proved decisive.\nDefensive positioning adjustments paid dividends with 2 double plays turned on hard-hit grounders. Outfield communication excellent throughout.\nKey learning: Aggressive early-count approach against this opponent's bullpen should continue. Their relievers struggle with first-pitch strikes."
+  },
+  "10": {
+    "report_id": 10,
+    "report_type": "Post-Game",
+    "game_pk": 2024000011,
+    "created_at": "2024-05-19 15:20:47",
+    "s3_pdf_path": "s3://reports/scouting/10.pdf",
+    "gslides_link": "https://docs.google.com/presentation/d/08433488-9c70-42c1-bc4d-23601442f912",
+    "core_narrative_text": "Post-game analysis reveals strong team performance in adverse weather conditions. Rain delay handled professionally with no momentum loss.\nPitching staff adapted well to wet conditions, maintaining grip and command throughout. Bullpen usage optimal with 1-2-3 ninth inning to secure victory.\nOffensive adjustments to shortened swing approach proved effective on wet field. Team avoided risky baserunning while still applying pressure.\nKey insight: Team shows excellent adaptability to changing game conditions. Mental toughness evident in late-inning execution."
+  },
+  "11": {
+    "report_id": 11,
+    "report_type": "Pre-Game",
+    "game_pk": 2024000010,
+    "created_at": "2024-05-17 15:20:47",
+    "s3_pdf_path": "s3://reports/scouting/11.pdf",
+    "gslides_link": "https://docs.google.com/presentation/d/83ce9982-25b8-4a3c-8c67-ef51a20e0611",
+    "core_narrative_text": "Pre-game scouting report for upcoming series emphasizes opponent's home field advantages. Their ballpark dimensions favor left-handed power hitters.\nPitching strategy should focus on keeping ball down in zone against their top 4 hitters. Historical success with low fastball-slider combinations.\nDefensive positioning needs adjustment for their spray hitting approach. Recommend shifting second baseman toward first base line.\nBullpen matchups favor our relievers in late innings. Their cleanup hitter struggles against our closer's slider (.184 career average)."
+  },
+  "12": {
+    "report_id": 12,
+    "report_type": "Series Summary",
+    "game_pk": 2024000005,
+    "created_at": "2024-05-09 15:20:47",
+    "s3_pdf_path": "s3://reports/scouting/12.pdf",
+    "gslides_link": "https://docs.google.com/presentation/d/ed7827e2-2f33-45c9-a7a3-5f0a17d880bf",
+    "core_narrative_text": "Series summary indicates strong overall team performance with 4-2 record against quality opposition. Starting rotation delivered 6+ innings in 5 of 6 games.\nOffensive production balanced with contributions throughout lineup. Team OPS of .798 during series shows improved plate approach.\nDefensive fundamentals solid with only 3 errors committed across 6 games. Outfield communication particularly strong.\nBullpen management optimal with no overuse concerns heading into next series.\nKey strategic success: Effective use of platoon advantages resulted in .312 average against opposing left-handed pitching."
+  }
+}

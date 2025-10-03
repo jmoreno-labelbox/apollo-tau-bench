@@ -1,0 +1,84 @@
+{
+  "hist_001": {
+    "history_id": "hist_001",
+    "task_id": "task_001",
+    "action": "status_changed",
+    "from_status": "todo",
+    "to_status": "in_progress",
+    "timestamp": "2024-03-04T09:00:00Z"
+  },
+  "hist_002": {
+    "history_id": "hist_002",
+    "task_id": "task_001",
+    "action": "status_changed",
+    "from_status": "in_progress",
+    "to_status": "done",
+    "timestamp": "2024-03-10T15:00:00Z"
+  },
+  "hist_003": {
+    "history_id": "hist_003",
+    "task_id": "task_005",
+    "action": "status_changed",
+    "from_status": "todo",
+    "to_status": "in_progress",
+    "timestamp": "2024-03-16T09:00:00Z"
+  },
+  "hist_004": {
+    "history_id": "hist_004",
+    "task_id": "task_005",
+    "action": "status_changed",
+    "from_status": "in_progress",
+    "to_status": "blocked",
+    "timestamp": "2024-03-18T10:00:00Z"
+  },
+  "hist_005": {
+    "history_id": "hist_005",
+    "task_id": "task_005",
+    "action": "priority_changed",
+    "from_priority": "high",
+    "to_priority": "critical",
+    "reason": "Security audit deadline approaching",
+    "timestamp": "2024-03-18T11:00:00Z"
+  },
+  "hist_006": {
+    "history_id": "hist_006",
+    "task_id": "task_003",
+    "action": "status_changed",
+    "from_status": "todo",
+    "to_status": "in_progress",
+    "timestamp": "2024-03-17T09:00:00Z"
+  },
+  "hist_007": {
+    "history_id": "hist_007",
+    "task_id": "task_008",
+    "action": "reassigned",
+    "from_assignee": "emp_qa_02",
+    "to_assignee": "emp_test_05",
+    "reason": "emp_qa_02 assigned to mobile testing",
+    "timestamp": "2024-03-16T14:00:00Z"
+  },
+  "hist_008": {
+    "history_id": "hist_008",
+    "task_id": "task_015",
+    "action": "status_changed",
+    "from_status": "todo",
+    "to_status": "blocked",
+    "timestamp": "2024-03-19T10:00:00Z"
+  },
+  "hist_009": {
+    "history_id": "hist_009",
+    "task_id": "task_012",
+    "action": "status_changed",
+    "from_status": "todo",
+    "to_status": "in_progress",
+    "timestamp": "2024-03-16T08:00:00Z"
+  },
+  "hist_010": {
+    "history_id": "hist_010",
+    "task_id": "task_002",
+    "action": "status_changed",
+    "from_status": "in_progress",
+    "to_status": "done",
+    "timestamp": "2024-03-08T12:00:00Z"
+  }
+}

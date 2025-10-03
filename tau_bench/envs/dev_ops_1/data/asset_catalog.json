@@ -1,0 +1,452 @@
+{
+  "asset_001": {
+    "id": "asset_001",
+    "asset_path": "assets/textures/characters/hero_character_diffuse.png",
+    "asset_type": "texture",
+    "asset_name": "Hero Character Diffuse Texture",
+    "description": "Diffuse texture for the main hero character model",
+    "created_at": "2025-01-27T10:00:00Z",
+    "updated_at": "2025-01-27T11:30:00Z",
+    "file_size_bytes": 16777216,
+    "checksum": "sha256:a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456",
+    "dimensions": {
+      "width": 2048,
+      "height": 2048
+    },
+    "format": "PNG",
+    "compression": "BC3",
+    "color_space": "sRGB",
+    "mipmap_levels": 11,
+    "texture_type": "diffuse",
+    "usage": "character_texture",
+    "performance_rating": "high",
+    "validation_status": "passed",
+    "validation_date": "2025-01-27T11:30:00Z",
+    "dcc_tool_info": {
+      "tool": "Maya",
+      "version": "2024.2",
+      "export_settings": "GameEngine_Texture_Standard"
+    },
+    "artist": "user_003",
+    "team": "team_013",
+    "project": "proj_021",
+    "tags": [
+      "character",
+      "hero",
+      "diffuse",
+      "texture"
+    ],
+    "metadata": {
+      "polygon_count": 15000,
+      "texture_resolution": "2048x2048",
+      "uv_coverage": 0.95,
+      "compression_quality": "high"
+    }
+  },
+  "asset_002": {
+    "id": "asset_002",
+    "asset_path": "assets/models/characters/hero_character.fbx",
+    "asset_type": "model",
+    "asset_name": "Hero Character Model",
+    "description": "3D model for the main hero character",
+    "created_at": "2025-01-27T10:15:00Z",
+    "updated_at": "2025-01-27T11:35:00Z",
+    "file_size_bytes": 52428800,
+    "checksum": "sha256:b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef1234567890",
+    "dimensions": {
+      "width": 0,
+      "height": 0
+    },
+    "format": "FBX",
+    "compression": "none",
+    "color_space": "linear",
+    "mipmap_levels": 0,
+    "texture_type": null,
+    "usage": "character_model",
+    "performance_rating": "medium",
+    "validation_status": "passed",
+    "validation_date": "2025-01-27T11:35:00Z",
+    "dcc_tool_info": {
+      "tool": "Maya",
+      "version": "2024.2",
+      "export_settings": "GameEngine_Model_Standard"
+    },
+    "artist": "user_003",
+    "team": "team_013",
+    "project": "proj_021",
+    "tags": [
+      "character",
+      "hero",
+      "model",
+      "3d"
+    ],
+    "metadata": {
+      "polygon_count": 15000,
+      "bone_count": 45,
+      "animation_count": 12,
+      "lod_levels": 3
+    }
+  },
+  "asset_003": {
+    "id": "asset_003",
+    "asset_path": "assets/textures/characters/hero_character_normal.png",
+    "asset_type": "texture",
+    "asset_name": "Hero Character Normal Map",
+    "description": "Normal map for the hero character model",
+    "created_at": "2025-01-27T10:20:00Z",
+    "updated_at": "2025-01-27T11:40:00Z",
+    "file_size_bytes": 8388608,
+    "checksum": "sha256:c3d4e5f6789012345678901234567890abcdef1234567890abcdef1234567890abcd",
+    "dimensions": {
+      "width": 2048,
+      "height": 2048
+    },
+    "format": "PNG",
+    "compression": "BC5",
+    "color_space": "linear",
+    "mipmap_levels": 11,
+    "texture_type": "normal",
+    "usage": "character_texture",
+    "performance_rating": "high",
+    "validation_status": "passed",
+    "validation_date": "2025-01-27T11:40:00Z",
+    "dcc_tool_info": {
+      "tool": "Maya",
+      "version": "2024.2",
+      "export_settings": "GameEngine_Texture_Standard"
+    },
+    "artist": "user_003",
+    "team": "team_013",
+    "project": "proj_021",
+    "tags": [
+      "character",
+      "hero",
+      "normal",
+      "texture"
+    ],
+    "metadata": {
+      "polygon_count": 15000,
+      "texture_resolution": "2048x2048",
+      "uv_coverage": 0.95,
+      "compression_quality": "high"
+    }
+  },
+  "asset_004": {
+    "id": "asset_004",
+    "asset_path": "assets/animations/characters/hero_idle.fbx",
+    "asset_type": "animation",
+    "asset_name": "Hero Idle Animation",
+    "description": "Idle animation for the hero character",
+    "created_at": "2025-01-27T10:25:00Z",
+    "updated_at": "2025-01-27T11:45:00Z",
+    "file_size_bytes": 2097152,
+    "checksum": "sha256:d4e5f6789012345678901234567890abcdef1234567890abcdef1234567890abcdef",
+    "dimensions": {
+      "width": 0,
+      "height": 0
+    },
+    "format": "FBX",
+    "compression": "none",
+    "color_space": "linear",
+    "mipmap_levels": 0,
+    "texture_type": null,
+    "usage": "character_animation",
+    "performance_rating": "high",
+    "validation_status": "passed",
+    "validation_date": "2025-01-27T11:45:00Z",
+    "dcc_tool_info": {
+      "tool": "Maya",
+      "version": "2024.2",
+      "export_settings": "GameEngine_Animation_Standard"
+    },
+    "artist": "user_003",
+    "team": "team_013",
+    "project": "proj_021",
+    "tags": [
+      "character",
+      "hero",
+      "animation",
+      "idle"
+    ],
+    "metadata": {
+      "frame_count": 120,
+      "fps": 30,
+      "duration_seconds": 4.0,
+      "bone_count": 45,
+      "root_motion": false
+    }
+  },
+  "asset_005": {
+    "id": "asset_005",
+    "asset_path": "assets/models/environment/castle_tower.fbx",
+    "asset_type": "model",
+    "asset_name": "Castle Tower Model",
+    "description": "3D model for castle tower environment piece",
+    "created_at": "2025-01-27T12:00:00Z",
+    "updated_at": "2025-01-27T13:30:00Z",
+    "file_size_bytes": 104857600,
+    "checksum": "sha256:e5f6789012345678901234567890abcdef1234567890abcdef1234567890abcdef12",
+    "dimensions": {
+      "width": 0,
+      "height": 0
+    },
+    "format": "FBX",
+    "compression": "none",
+    "color_space": "linear",
+    "mipmap_levels": 0,
+    "texture_type": null,
+    "usage": "environment_model",
+    "performance_rating": "medium",
+    "validation_status": "passed",
+    "validation_date": "2025-01-27T13:30:00Z",
+    "dcc_tool_info": {
+      "tool": "Maya",
+      "version": "2024.2",
+      "export_settings": "GameEngine_Model_Standard"
+    },
+    "artist": "user_012",
+    "team": "team_013",
+    "project": "proj_021",
+    "tags": [
+      "environment",
+      "castle",
+      "tower",
+      "model",
+      "3d"
+    ],
+    "metadata": {
+      "polygon_count": 25000,
+      "bone_count": 0,
+      "animation_count": 0,
+      "lod_levels": 3
+    }
+  },
+  "asset_006": {
+    "id": "asset_006",
+    "asset_path": "assets/textures/environment/castle_tower_diffuse.png",
+    "asset_type": "texture",
+    "asset_name": "Castle Tower Diffuse Texture",
+    "description": "Diffuse texture for castle tower model",
+    "created_at": "2025-01-27T12:05:00Z",
+    "updated_at": "2025-01-27T13:35:00Z",
+    "file_size_bytes": 33554432,
+    "checksum": "sha256:f6789012345678901234567890abcdef1234567890abcdef1234567890abcdef1234",
+    "dimensions": {
+      "width": 4096,
+      "height": 4096
+    },
+    "format": "PNG",
+    "compression": "BC3",
+    "color_space": "sRGB",
+    "mipmap_levels": 12,
+    "texture_type": "diffuse",
+    "usage": "environment_texture",
+    "performance_rating": "medium",
+    "validation_status": "failed",
+    "validation_date": "2025-01-27T13:35:00Z",
+    "dcc_tool_info": {
+      "tool": "Maya",
+      "version": "2024.2",
+      "export_settings": "GameEngine_Texture_Standard"
+    },
+    "artist": "user_012",
+    "team": "team_013",
+    "project": "proj_021",
+    "tags": [
+      "environment",
+      "castle",
+      "tower",
+      "diffuse",
+      "texture"
+    ],
+    "metadata": {
+      "polygon_count": 25000,
+      "texture_resolution": "4096x4096",
+      "uv_coverage": 0.9,
+      "compression_quality": "high",
+      "validation_issue": "Texture size exceeds maximum allowed size of 2048x2048"
+    }
+  },
+  "asset_007": {
+    "id": "asset_007",
+    "asset_path": "assets/textures/environment/castle_tower_normal.png",
+    "asset_type": "texture",
+    "asset_name": "Castle Tower Normal Map",
+    "description": "Normal map for castle tower model",
+    "created_at": "2025-01-27T12:10:00Z",
+    "updated_at": "2025-01-27T13:40:00Z",
+    "file_size_bytes": 16777216,
+    "checksum": "sha256:789012345678901234567890abcdef1234567890abcdef1234567890abcdef123456",
+    "dimensions": {
+      "width": 4096,
+      "height": 4096
+    },
+    "format": "PNG",
+    "compression": "BC5",
+    "color_space": "linear",
+    "mipmap_levels": 12,
+    "texture_type": "normal",
+    "usage": "environment_texture",
+    "performance_rating": "medium",
+    "validation_status": "failed",
+    "validation_date": "2025-01-27T13:40:00Z",
+    "dcc_tool_info": {
+      "tool": "Maya",
+      "version": "2024.2",
+      "export_settings": "GameEngine_Texture_Standard"
+    },
+    "artist": "user_012",
+    "team": "team_013",
+    "project": "proj_021",
+    "tags": [
+      "environment",
+      "castle",
+      "tower",
+      "normal",
+      "texture"
+    ],
+    "metadata": {
+      "polygon_count": 25000,
+      "texture_resolution": "4096x4096",
+      "uv_coverage": 0.9,
+      "compression_quality": "high",
+      "validation_issue": "Texture size exceeds maximum allowed size of 2048x2048"
+    }
+  },
+  "asset_008": {
+    "id": "asset_008",
+    "asset_path": "assets/materials/environment/castle_tower.mtl",
+    "asset_type": "material",
+    "asset_name": "Castle Tower Material",
+    "description": "Material definition for castle tower model",
+    "created_at": "2025-01-27T12:15:00Z",
+    "updated_at": "2025-01-27T13:45:00Z",
+    "file_size_bytes": 1024,
+    "checksum": "sha256:89012345678901234567890abcdef1234567890abcdef1234567890abcdef1234567",
+    "dimensions": {
+      "width": 0,
+      "height": 0
+    },
+    "format": "MTL",
+    "compression": "none",
+    "color_space": "linear",
+    "mipmap_levels": 0,
+    "texture_type": null,
+    "usage": "environment_material",
+    "performance_rating": "high",
+    "validation_status": "passed",
+    "validation_date": "2025-01-27T13:45:00Z",
+    "dcc_tool_info": {
+      "tool": "Maya",
+      "version": "2024.2",
+      "export_settings": "GameEngine_Material_Standard"
+    },
+    "artist": "user_012",
+    "team": "team_013",
+    "project": "proj_021",
+    "tags": [
+      "environment",
+      "castle",
+      "tower",
+      "material"
+    ],
+    "metadata": {
+      "shader_type": "pbr",
+      "texture_count": 3,
+      "parameter_count": 8,
+      "compatibility": "all_platforms"
+    }
+  },
+  "asset_009": {
+    "id": "asset_009",
+    "asset_path": "assets/audio/sfx/hero_sword_swing.wav",
+    "asset_type": "audio",
+    "asset_name": "Hero Sword Swing Sound Effect",
+    "description": "Sound effect for hero character sword swing",
+    "created_at": "2025-01-27T14:00:00Z",
+    "updated_at": "2025-01-27T14:30:00Z",
+    "file_size_bytes": 524288,
+    "checksum": "sha256:9012345678901234567890abcdef1234567890abcdef1234567890abcdef12345678",
+    "dimensions": {
+      "width": 0,
+      "height": 0
+    },
+    "format": "WAV",
+    "compression": "PCM",
+    "color_space": "none",
+    "mipmap_levels": 0,
+    "texture_type": null,
+    "usage": "sound_effect",
+    "performance_rating": "high",
+    "validation_status": "passed",
+    "validation_date": "2025-01-27T14:30:00Z",
+    "dcc_tool_info": {
+      "tool": "Audacity",
+      "version": "3.4.0",
+      "export_settings": "GameEngine_Audio_Standard"
+    },
+    "artist": "user_007",
+    "team": "team_014",
+    "project": "proj_021",
+    "tags": [
+      "audio",
+      "sfx",
+      "hero",
+      "sword",
+      "swing"
+    ],
+    "metadata": {
+      "sample_rate": 44100,
+      "bit_depth": 16,
+      "channels": 1,
+      "duration_seconds": 2.5,
+      "normalized": true
+    }
+  },
+  "asset_010": {
+    "id": "asset_010",
+    "asset_path": "assets/audio/music/main_theme.ogg",
+    "asset_type": "audio",
+    "asset_name": "Main Theme Music",
+    "description": "Main theme music for the game",
+    "created_at": "2025-01-27T14:15:00Z",
+    "updated_at": "2025-01-27T14:45:00Z",
+    "file_size_bytes": 2097152,
+    "checksum": "sha256:012345678901234567890abcdef1234567890abcdef1234567890abcdef123456789",
+    "dimensions": {
+      "width": 0,
+      "height": 0
+    },
+    "format": "OGG",
+    "compression": "Vorbis",
+    "color_space": "none",
+    "mipmap_levels": 0,
+    "texture_type": null,
+    "usage": "background_music",
+    "performance_rating": "high",
+    "validation_status": "passed",
+    "validation_date": "2025-01-27T14:45:00Z",
+    "dcc_tool_info": {
+      "tool": "Audacity",
+      "version": "3.4.0",
+      "export_settings": "GameEngine_Audio_Standard"
+    },
+    "artist": "user_007",
+    "team": "team_014",
+    "project": "proj_021",
+    "tags": [
+      "audio",
+      "music",
+      "main_theme",
+      "background"
+    ],
+    "metadata": {
+      "sample_rate": 44100,
+      "bit_depth": 16,
+      "channels": 2,
+      "duration_seconds": 180.0,
+      "normalized": true,
+      "loopable": true
+    }
+  }
+}

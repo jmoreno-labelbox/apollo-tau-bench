@@ -1,0 +1,180 @@
+{
+  "1": {
+    "neighborhood_id": 1,
+    "name": "Central City",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 64,
+    "transit_score": 90,
+    "bordering_ids_json": [
+      2
+    ]
+  },
+  "2": {
+    "neighborhood_id": 2,
+    "name": "Uptown",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 53,
+    "transit_score": 64,
+    "bordering_ids_json": [
+      1,
+      3
+    ]
+  },
+  "3": {
+    "neighborhood_id": 3,
+    "name": "Arcadia",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 42,
+    "transit_score": 50,
+    "bordering_ids_json": [
+      2,
+      4
+    ]
+  },
+  "4": {
+    "neighborhood_id": 4,
+    "name": "The Hills",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 74,
+    "transit_score": 77,
+    "bordering_ids_json": [
+      3,
+      5
+    ]
+  },
+  "5": {
+    "neighborhood_id": 5,
+    "name": "Desert Ridge",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 32,
+    "transit_score": 25,
+    "bordering_ids_json": [
+      4,
+      6
+    ]
+  },
+  "6": {
+    "neighborhood_id": 6,
+    "name": "Arts Quarter",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 33,
+    "transit_score": 47,
+    "bordering_ids_json": [
+      5,
+      7
+    ]
+  },
+  "7": {
+    "neighborhood_id": 7,
+    "name": "East College",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 80,
+    "transit_score": 53,
+    "bordering_ids_json": [
+      6,
+      8
+    ]
+  },
+  "8": {
+    "neighborhood_id": 8,
+    "name": "Fashion/Metro",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 47,
+    "transit_score": 69,
+    "bordering_ids_json": [
+      7,
+      9
+    ]
+  },
+  "9": {
+    "neighborhood_id": 9,
+    "name": "SoDo",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 70,
+    "transit_score": 55,
+    "bordering_ids_json": [
+      8,
+      10
+    ]
+  },
+  "10": {
+    "neighborhood_id": 10,
+    "name": "Pine Grove/Willow Gardens",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 58,
+    "transit_score": 54,
+    "bordering_ids_json": [
+      9,
+      11
+    ]
+  },
+  "11": {
+    "neighborhood_id": 11,
+    "name": "Autumn Creek",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 57,
+    "transit_score": 29,
+    "bordering_ids_json": [
+      10,
+      12
+    ]
+  },
+  "12": {
+    "neighborhood_id": 12,
+    "name": "Scottsdale",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 37,
+    "transit_score": 79,
+    "bordering_ids_json": [
+      11,
+      13
+    ]
+  },
+  "13": {
+    "neighborhood_id": 13,
+    "name": "Chandler",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 93,
+    "transit_score": 31,
+    "bordering_ids_json": [
+      12,
+      14
+    ]
+  },
+  "14": {
+    "neighborhood_id": 14,
+    "name": "Mesquite",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 60,
+    "transit_score": 78,
+    "bordering_ids_json": [
+      13,
+      15
+    ]
+  },
+  "15": {
+    "neighborhood_id": 15,
+    "name": "Wheat Veterans",
+    "city": "Phoenix",
+    "region": "AZ",
+    "walk_score": 85,
+    "transit_score": 33,
+    "bordering_ids_json": [
+      14
+    ]
+  }
+}

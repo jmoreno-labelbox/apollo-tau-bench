@@ -1,0 +1,26 @@
+{
+  "2.0": {
+    "classification_threshold_m_nullable": 2.0,
+    "precip_24h_threshold_mm_nullable": 25.0,
+    "test_split_fraction_nullable": 0.2,
+    "random_seed_nullable": 42,
+    "saved_json_path": "/config/model_config.json",
+    "created_ts": "2024-02-10T11:00:00Z"
+  },
+  "1.8": {
+    "classification_threshold_m_nullable": 1.8,
+    "precip_24h_threshold_mm_nullable": 30.0,
+    "test_split_fraction_nullable": 0.25,
+    "random_seed_nullable": 101,
+    "saved_json_path": "/processed_data/boston_model_config.json",
+    "created_ts": "2024-03-01T13:00:00Z"
+  },
+  "None": {
+    "classification_threshold_m_nullable": null,
+    "precip_24h_threshold_mm_nullable": null,
+    "test_split_fraction_nullable": 0.3,
+    "random_seed_nullable": 7,
+    "saved_json_path": "/config/regression_config.json",
+    "created_ts": "2024-03-01T09:20:00Z"
+  }
+}

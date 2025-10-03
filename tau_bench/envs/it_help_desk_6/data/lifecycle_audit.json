@@ -1,0 +1,156 @@
+{
+  "lcaud_00001": {
+    "audit_id": "lcaud_00001",
+    "lifecycle_id": "lcq_00001",
+    "event": "onboarding_created",
+    "timestamp": "2025-07-13T09:00:00+00:00",
+    "actor": "system_policy"
+  },
+  "lcaud_00002": {
+    "audit_id": "lcaud_00002",
+    "lifecycle_id": "lcq_00002",
+    "event": "onboarding_created",
+    "timestamp": "2025-07-13T09:00:00+00:00",
+    "actor": "system_policy"
+  },
+  "lcaud_00003": {
+    "audit_id": "lcaud_00003",
+    "lifecycle_id": "lcq_00002",
+    "event": "onboarding_started",
+    "timestamp": "2025-07-14T10:00:00+00:00",
+    "actor": "service_desk"
+  },
+  "lcaud_00004": {
+    "audit_id": "lcaud_00004",
+    "lifecycle_id": "lcq_00003",
+    "event": "onboarding_created",
+    "timestamp": "2025-07-13T09:00:00+00:00",
+    "actor": "system_policy"
+  },
+  "lcaud_00005": {
+    "audit_id": "lcaud_00005",
+    "lifecycle_id": "lcq_00003",
+    "event": "onboarding_started",
+    "timestamp": "2025-07-14T10:00:00+00:00",
+    "actor": "service_desk"
+  },
+  "lcaud_00006": {
+    "audit_id": "lcaud_00006",
+    "lifecycle_id": "lcq_00004",
+    "event": "onboarding_created",
+    "timestamp": "2025-07-13T09:00:00+00:00",
+    "actor": "system_policy"
+  },
+  "lcaud_00007": {
+    "audit_id": "lcaud_00007",
+    "lifecycle_id": "lcq_00004",
+    "event": "onboarding_started",
+    "timestamp": "2025-07-14T10:00:00+00:00",
+    "actor": "service_desk"
+  },
+  "lcaud_00008": {
+    "audit_id": "lcaud_00008",
+    "lifecycle_id": "lcq_00005",
+    "event": "onboarding_created",
+    "timestamp": "2025-07-13T09:00:00+00:00",
+    "actor": "system_policy"
+  },
+  "lcaud_00009": {
+    "audit_id": "lcaud_00009",
+    "lifecycle_id": "lcq_00005",
+    "event": "onboarding_started",
+    "timestamp": "2025-07-14T10:00:00+00:00",
+    "actor": "service_desk"
+  },
+  "lcaud_00010": {
+    "audit_id": "lcaud_00010",
+    "lifecycle_id": "lcq_00006",
+    "event": "onboarding_created",
+    "timestamp": "2025-07-13T09:00:00+00:00",
+    "actor": "system_policy"
+  },
+  "lcaud_00011": {
+    "audit_id": "lcaud_00011",
+    "lifecycle_id": "lcq_00006",
+    "event": "onboarding_started",
+    "timestamp": "2025-07-14T10:00:00+00:00",
+    "actor": "service_desk"
+  },
+  "lcaud_00012": {
+    "audit_id": "lcaud_00012",
+    "lifecycle_id": "lcq_00007",
+    "event": "onboarding_created",
+    "timestamp": "2025-07-13T09:00:00+00:00",
+    "actor": "system_policy"
+  },
+  "lcaud_00013": {
+    "audit_id": "lcaud_00013",
+    "lifecycle_id": "lcq_00007",
+    "event": "onboarding_started",
+    "timestamp": "2025-07-14T10:00:00+00:00",
+    "actor": "service_desk"
+  },
+  "lcaud_00014": {
+    "audit_id": "lcaud_00014",
+    "lifecycle_id": "lcq_00008",
+    "event": "onboarding_created",
+    "timestamp": "2025-07-13T09:00:00+00:00",
+    "actor": "system_policy"
+  },
+  "lcaud_00015": {
+    "audit_id": "lcaud_00015",
+    "lifecycle_id": "lcq_00008",
+    "event": "onboarding_started",
+    "timestamp": "2025-07-14T10:00:00+00:00",
+    "actor": "service_desk"
+  },
+  "lcaud_00016": {
+    "audit_id": "lcaud_00016",
+    "lifecycle_id": "lcq_00009",
+    "event": "offboarding_created",
+    "timestamp": "2025-07-05T11:00:00+00:00",
+    "actor": "system_policy"
+  },
+  "lcaud_00017": {
+    "audit_id": "lcaud_00017",
+    "lifecycle_id": "lcq_00009",
+    "event": "offboarding_started",
+    "timestamp": "2025-07-14T10:00:00+00:00",
+    "actor": "service_desk"
+  },
+  "lcaud_00018": {
+    "audit_id": "lcaud_00018",
+    "lifecycle_id": "lcq_00010",
+    "event": "offboarding_created",
+    "timestamp": "2025-07-05T11:00:00+00:00",
+    "actor": "system_policy"
+  },
+  "lcaud_00019": {
+    "audit_id": "lcaud_00019",
+    "lifecycle_id": "lcq_00010",
+    "event": "offboarding_started",
+    "timestamp": "2025-07-14T10:00:00+00:00",
+    "actor": "service_desk"
+  },
+  "lcaud_00020": {
+    "audit_id": "lcaud_00020",
+    "lifecycle_id": "lcq_00011",
+    "event": "offboarding_created",
+    "timestamp": "2025-07-05T11:00:00+00:00",
+    "actor": "system_policy"
+  },
+  "lcaud_00021": {
+    "audit_id": "lcaud_00021",
+    "lifecycle_id": "lcq_00011",
+    "event": "offboarding_started",
+    "timestamp": "2025-07-14T10:00:00+00:00",
+    "actor": "service_desk"
+  },
+  "lcaud_00022": {
+    "audit_id": "lcaud_00022",
+    "lifecycle_id": "lcq_00012",
+    "event": "offboarding_created",
+    "timestamp": "2025-07-05T11:00:00+00:00",
+    "actor": "system_policy"
+  }
+}

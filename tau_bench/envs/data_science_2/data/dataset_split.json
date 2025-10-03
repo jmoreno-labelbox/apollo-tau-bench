@@ -1,0 +1,10 @@
+{
+  "time_based": {
+    "method": "time_based",
+    "test_fraction": 0.25,
+    "train_index_count": 96,
+    "test_index_count": 24,
+    "split_summary_json_path": "/data/splits/boston_time_split_20240301.json",
+    "split_ts": "2024-03-01T13:18:00Z"
+  }
+}

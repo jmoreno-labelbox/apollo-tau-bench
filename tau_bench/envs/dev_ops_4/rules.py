@@ -1,0 +1,15 @@
+RULES = [
+    "Task instructions should always be written in SECOND PERSON ('You ...').",
+    "Each task MUST include at least one action that modifies the database (read-only actions alone are not sufficient).",
+    "Goals, constraints, and success criteria should be articulated directly, rather than using step-by-step or procedural language.",
+    "Parameters supplied to actions are required to be deterministically obtainable from the instruction text, outputs of previous tools, or the content of these rules.",
+    "Random IDs must not be fabricated; when a tool does not supply an ID, canonical deterministic IDs are to be used.",
+    "The deterministic automation run key is formatted as: 'AUTO::automation::{automation_type}::{input_ref}::canonical'.",
+    "The deterministic test run key uses the format: 'AUTO::test_run::{pipeline_id}::canonical'.",
+    "Permissible triage statuses are: in_progress, manual_review.",
+    "Permissible automation completion states are: completed, failed, and cancelled.",
+    "Automation timing must be deterministic, with started_at='2025-01-27T12:30:00Z', ended_at='2025-01-27T12:35:00Z', and duration_ms=300000.",
+    "When a test run summary contains a report_uri, the instruction MUST include the precise URI.",
+    "When an instruction involves ownership mapping, it is REQUIRED that the instruction explicitly specify the file path to map.",
+    "Asset performance ratings are REQUIRED to be either low, medium, or high.",
+]

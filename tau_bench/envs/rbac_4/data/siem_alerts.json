@@ -1,0 +1,98 @@
+{
+    "ALRT-001": {
+        "alert_id": "ALRT-001",
+        "timestamp": "2024-02-20 14:30:00+00:00",
+        "user_id": "U-001",
+        "resource_id": "RES-002",
+        "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "severity": "CRITICAL"
+    },
+    "ALRT-002": {
+        "alert_id": "ALRT-002",
+        "timestamp": "2024-05-01 16:15:00+00:00",
+        "user_id": "U-014",
+        "resource_id": "RES-021",
+        "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "severity": "CRITICAL"
+    },
+    "ALRT-003": {
+        "alert_id": "ALRT-003",
+        "timestamp": "2024-06-10 15:45:00+00:00",
+        "user_id": "U-009",
+        "resource_id": "RES-020",
+        "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "severity": "HIGH"
+    },
+    "ALRT-004": {
+        "alert_id": "ALRT-004",
+        "timestamp": "2024-07-15 18:00:00+00:00",
+        "user_id": "U-021",
+        "resource_id": "RES-026",
+        "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "severity": "CRITICAL"
+    },
+    "ALRT-005": {
+        "alert_id": "ALRT-005",
+        "timestamp": "2024-08-28 13:30:00+00:00",
+        "user_id": "U-002",
+        "resource_id": "RES-025",
+        "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "severity": "HIGH"
+    },
+    "ALRT-006": {
+        "alert_id": "ALRT-006",
+        "timestamp": "2024-10-05 22:20:00+00:00",
+        "user_id": "U-018",
+        "resource_id": "RES-002",
+        "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "severity": "HIGH"
+    },
+    "ALRT-007": {
+        "alert_id": "ALRT-007",
+        "timestamp": "2024-11-15 15:00:00+00:00",
+        "user_id": "U-016",
+        "resource_id": "RES-031",
+        "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "severity": "CRITICAL"
+    },
+    "ALRT-008": {
+        "alert_id": "ALRT-008",
+        "timestamp": "2025-01-05 19:40:00+00:00",
+        "user_id": "U-028",
+        "resource_id": "RES-009",
+        "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "severity": "MEDIUM"
+    },
+    "ALRT-009": {
+        "alert_id": "ALRT-009",
+        "timestamp": "2025-02-28 14:10:00+00:00",
+        "user_id": "U-012",
+        "resource_id": "RES-041",
+        "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "severity": "HIGH"
+    },
+    "ALRT-010": {
+        "alert_id": "ALRT-010",
+        "timestamp": "2025-03-25 19:00:00+00:00",
+        "user_id": "U-029",
+        "resource_id": "RES-038",
+        "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "severity": "HIGH"
+    },
+    "ALRT-011": {
+        "alert_id": "ALRT-011",
+        "timestamp": "2025-04-10 16:50:00+00:00",
+        "user_id": "U-007",
+        "resource_id": "RES-020",
+        "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "severity": "HIGH"
+    },
+    "ALRT-012": {
+        "alert_id": "ALRT-012",
+        "timestamp": "2025-06-02 21:30:00+00:00",
+        "user_id": "U-004",
+        "resource_id": "RES-014",
+        "alert_type": "UNAUTHORIZED_ACCESS_ATTEMPT",
+        "severity": "CRITICAL"
+    }
+}

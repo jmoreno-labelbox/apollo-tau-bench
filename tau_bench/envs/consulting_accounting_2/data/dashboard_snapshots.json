@@ -1,0 +1,30 @@
+{
+  "SNAP001": {
+    "snapshot_id": "SNAP001",
+    "snapshot_date": "2024-03-31",
+    "ytd_revenue": 3307.08,
+    "ytd_tax_reserve": 876.38,
+    "pdf_path": "/dashboards/2024/Q1_Dashboard_2024-03-31.pdf"
+  },
+  "SNAP002": {
+    "snapshot_id": "SNAP002",
+    "snapshot_date": "2024-06-30",
+    "ytd_revenue": 5555.58,
+    "ytd_tax_reserve": 1472.23,
+    "pdf_path": "/dashboards/2024/Q2_Dashboard_2024-06-30.pdf"
+  },
+  "SNAP003": {
+    "snapshot_id": "SNAP003",
+    "snapshot_date": "2024-09-30",
+    "ytd_revenue": 8683.78,
+    "ytd_tax_reserve": 2301.2,
+    "pdf_path": "/dashboards/2024/Q3_Dashboard_2024-09-30.pdf"
+  },
+  "SNAP004": {
+    "snapshot_id": "SNAP004",
+    "snapshot_date": "2024-11-30",
+    "ytd_revenue": 10313.78,
+    "ytd_tax_reserve": 2733.15,
+    "pdf_path": "/dashboards/2024/November_Dashboard_2024-11-30.pdf"
+  }
+}

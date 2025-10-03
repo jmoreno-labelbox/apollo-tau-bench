@@ -1,0 +1,73 @@
+{
+  "mod_001": {
+    "modification_id": "mod_001",
+    "project_id": "proj_mobile_01",
+    "current_budget": 2500000,
+    "modification_amount": 250000,
+    "modification_type": "increase",
+    "new_budget": 2750000,
+    "justification": "Additional features requested by client requiring more development resources",
+    "requestor_id": "emp_pm_03",
+    "status": "approved",
+    "requires_approval": [
+      "project_sponsor",
+      "finance_director"
+    ],
+    "is_emergency": false,
+    "created_date": "2024-02-20T10:00:00Z",
+    "approved_date": "2024-02-22T16:00:00Z",
+    "fiscal_year": 2024
+  },
+  "mod_002": {
+    "modification_id": "mod_002",
+    "project_id": "proj_ai_01",
+    "current_budget": 3200000,
+    "modification_amount": 150000,
+    "modification_type": "decrease",
+    "new_budget": 3050000,
+    "justification": "Reduced scope for initial release",
+    "requestor_id": "emp_pm_04",
+    "status": "approved",
+    "requires_approval": [
+      "project_sponsor"
+    ],
+    "is_emergency": false,
+    "created_date": "2024-03-01T09:00:00Z",
+    "fiscal_year": 2024
+  },
+  "mod_003": {
+    "modification_id": "mod_003",
+    "project_id": "proj_enterprise_01",
+    "current_budget": 4500000,
+    "modification_amount": 500000,
+    "modification_type": "increase",
+    "new_budget": 5000000,
+    "justification": "Critical security requirements added by compliance team",
+    "requestor_id": "emp_arch_01",
+    "status": "pending_approval",
+    "requires_approval": [
+      "cfo",
+      "department_head"
+    ],
+    "is_emergency": true,
+    "created_date": "2024-03-15T11:00:00Z",
+    "fiscal_year": 2024
+  },
+  "mod_004": {
+    "modification_id": "mod_004",
+    "project_id": "proj_web_01",
+    "current_budget": 850000,
+    "modification_amount": 75000,
+    "modification_type": "increase",
+    "new_budget": 925000,
+    "justification": "Additional UX improvements based on user testing",
+    "requestor_id": "emp_ux_03",
+    "status": "rejected",
+    "requires_approval": [
+      "project_sponsor"
+    ],
+    "rejection_reason": "Defer to next fiscal year",
+    "created_date": "2024-02-25T14:00:00Z",
+    "fiscal_year": 2024
+  }
+}

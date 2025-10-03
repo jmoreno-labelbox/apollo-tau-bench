@@ -1,0 +1,327 @@
+{
+  "runner_001": {
+    "id": "runner_001",
+    "type": "docker",
+    "name": "docker-runner-01",
+    "labels": [
+      "docker",
+      "linux",
+      "amd64",
+      "high-memory"
+    ],
+    "active": true,
+    "created_at": "2024-01-15T10:00:00Z"
+  },
+  "runner_002": {
+    "id": "runner_002",
+    "type": "docker",
+    "name": "docker-runner-02",
+    "labels": [
+      "docker",
+      "linux",
+      "amd64",
+      "high-cpu"
+    ],
+    "active": true,
+    "created_at": "2024-01-20T09:00:00Z"
+  },
+  "runner_003": {
+    "id": "runner_003",
+    "type": "kubernetes",
+    "name": "k8s-runner-01",
+    "labels": [
+      "kubernetes",
+      "linux",
+      "amd64",
+      "production"
+    ],
+    "active": true,
+    "created_at": "2024-02-01T14:00:00Z"
+  },
+  "runner_004": {
+    "id": "runner_004",
+    "type": "kubernetes",
+    "name": "k8s-runner-02",
+    "labels": [
+      "kubernetes",
+      "linux",
+      "amd64",
+      "staging"
+    ],
+    "active": true,
+    "created_at": "2024-02-05T11:00:00Z"
+  },
+  "runner_005": {
+    "id": "runner_005",
+    "type": "kubernetes",
+    "name": "k8s-runner-03",
+    "labels": [
+      "kubernetes",
+      "linux",
+      "amd64",
+      "development"
+    ],
+    "active": true,
+    "created_at": "2024-02-10T16:00:00Z"
+  },
+  "runner_006": {
+    "id": "runner_006",
+    "type": "shell",
+    "name": "shell-runner-01",
+    "labels": [
+      "shell",
+      "linux",
+      "amd64",
+      "legacy"
+    ],
+    "active": true,
+    "created_at": "2024-01-10T08:00:00Z"
+  },
+  "runner_007": {
+    "id": "runner_007",
+    "type": "shell",
+    "name": "shell-runner-02",
+    "labels": [
+      "shell",
+      "windows",
+      "amd64",
+      "windows-apps"
+    ],
+    "active": true,
+    "created_at": "2024-01-25T13:00:00Z"
+  },
+  "runner_008": {
+    "id": "runner_008",
+    "type": "docker",
+    "name": "docker-runner-03",
+    "labels": [
+      "docker",
+      "linux",
+      "arm64",
+      "mobile-builds"
+    ],
+    "active": true,
+    "created_at": "2024-03-01T10:00:00Z"
+  },
+  "runner_009": {
+    "id": "runner_009",
+    "type": "kubernetes",
+    "name": "k8s-runner-04",
+    "labels": [
+      "kubernetes",
+      "linux",
+      "amd64",
+      "security-scans"
+    ],
+    "active": true,
+    "created_at": "2024-03-05T15:00:00Z"
+  },
+  "runner_010": {
+    "id": "runner_010",
+    "type": "docker",
+    "name": "docker-runner-04",
+    "labels": [
+      "docker",
+      "linux",
+      "amd64",
+      "database-migrations"
+    ],
+    "active": true,
+    "created_at": "2024-03-10T12:00:00Z"
+  },
+  "runner_011": {
+    "id": "runner_011",
+    "type": "kubernetes",
+    "name": "k8s-runner-05",
+    "labels": [
+      "kubernetes",
+      "linux",
+      "amd64",
+      "load-testing"
+    ],
+    "active": true,
+    "created_at": "2024-03-15T09:00:00Z"
+  },
+  "runner_012": {
+    "id": "runner_012",
+    "type": "shell",
+    "name": "shell-runner-03",
+    "labels": [
+      "shell",
+      "linux",
+      "amd64",
+      "infrastructure"
+    ],
+    "active": true,
+    "created_at": "2024-03-20T14:00:00Z"
+  },
+  "runner_013": {
+    "id": "runner_013",
+    "type": "docker",
+    "name": "docker-runner-05",
+    "labels": [
+      "docker",
+      "linux",
+      "amd64",
+      "frontend-builds"
+    ],
+    "active": true,
+    "created_at": "2024-04-01T11:00:00Z"
+  },
+  "runner_014": {
+    "id": "runner_014",
+    "type": "kubernetes",
+    "name": "k8s-runner-06",
+    "labels": [
+      "kubernetes",
+      "linux",
+      "amd64",
+      "backend-builds"
+    ],
+    "active": true,
+    "created_at": "2024-04-05T16:00:00Z"
+  },
+  "runner_015": {
+    "id": "runner_015",
+    "type": "docker",
+    "name": "docker-runner-06",
+    "labels": [
+      "docker",
+      "linux",
+      "amd64",
+      "testing"
+    ],
+    "active": true,
+    "created_at": "2024-04-10T13:00:00Z"
+  },
+  "runner_016": {
+    "id": "runner_016",
+    "type": "shell",
+    "name": "shell-runner-04",
+    "labels": [
+      "shell",
+      "linux",
+      "amd64",
+      "monitoring"
+    ],
+    "active": true,
+    "created_at": "2024-04-15T10:00:00Z"
+  },
+  "runner_017": {
+    "id": "runner_017",
+    "type": "kubernetes",
+    "name": "k8s-runner-07",
+    "labels": [
+      "kubernetes",
+      "linux",
+      "amd64",
+      "data-pipelines"
+    ],
+    "active": true,
+    "created_at": "2024-04-20T15:00:00Z"
+  },
+  "runner_018": {
+    "id": "runner_018",
+    "type": "docker",
+    "name": "docker-runner-07",
+    "labels": [
+      "docker",
+      "linux",
+      "amd64",
+      "compliance-checks"
+    ],
+    "active": true,
+    "created_at": "2024-05-01T12:00:00Z"
+  },
+  "runner_019": {
+    "id": "runner_019",
+    "type": "shell",
+    "name": "shell-runner-05",
+    "labels": [
+      "shell",
+      "linux",
+      "amd64",
+      "backup-operations"
+    ],
+    "active": true,
+    "created_at": "2024-05-05T14:00:00Z"
+  },
+  "runner_020": {
+    "id": "runner_020",
+    "type": "kubernetes",
+    "name": "k8s-runner-08",
+    "labels": [
+      "kubernetes",
+      "linux",
+      "amd64",
+      "edge-computing"
+    ],
+    "active": true,
+    "created_at": "2024-05-10T11:00:00Z"
+  },
+  "runner_021": {
+    "id": "runner_021",
+    "type": "docker",
+    "name": "docker-runner-08",
+    "labels": [
+      "docker",
+      "linux",
+      "amd64",
+      "legacy-migration"
+    ],
+    "active": false,
+    "created_at": "2024-01-05T09:00:00Z"
+  },
+  "runner_022": {
+    "id": "runner_022",
+    "type": "shell",
+    "name": "shell-runner-06",
+    "labels": [
+      "shell",
+      "linux",
+      "amd64",
+      "deprecated"
+    ],
+    "active": false,
+    "created_at": "2024-01-08T10:00:00Z"
+  },
+  "runner_023": {
+    "id": "runner_023",
+    "type": "docker",
+    "name": "docker-runner-09",
+    "labels": [
+      "docker",
+      "linux",
+      "amd64",
+      "experimental"
+    ],
+    "active": true,
+    "created_at": "2025-01-15T08:00:00Z"
+  },
+  "runner_024": {
+    "id": "runner_024",
+    "type": "kubernetes",
+    "name": "k8s-runner-09",
+    "labels": [
+      "kubernetes",
+      "linux",
+      "amd64",
+      "ai-ml-pipelines"
+    ],
+    "active": true,
+    "created_at": "2025-01-20T13:00:00Z"
+  },
+  "runner_025": {
+    "id": "runner_025",
+    "type": "docker",
+    "name": "docker-runner-10",
+    "labels": [
+      "docker",
+      "linux",
+      "amd64",
+      "green-computing"
+    ],
+    "active": true,
+    "created_at": "2025-01-25T16:00:00Z"
+  }
+}

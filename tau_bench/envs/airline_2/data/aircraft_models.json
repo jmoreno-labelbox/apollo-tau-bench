@@ -1,0 +1,252 @@
+{
+  "B737-800": {
+    "model_id": "B737-800",
+    "manufacturer": "Boeing",
+    "model_name": "737-800",
+    "passenger_capacity": 189,
+    "cargo_capacity_kg": 4800,
+    "maximum_takeoff_weight_kg": 79015,
+    "range_km": 5436,
+    "engine_type": "CFM56-7B"
+  },
+  "A320neo": {
+    "model_id": "A320neo",
+    "manufacturer": "Airbus",
+    "model_name": "A320neo",
+    "passenger_capacity": 194,
+    "cargo_capacity_kg": 5200,
+    "maximum_takeoff_weight_kg": 73500,
+    "range_km": 6500,
+    "engine_type": "PW1100G"
+  },
+  "B787-9": {
+    "model_id": "B787-9",
+    "manufacturer": "Boeing",
+    "model_name": "787 Dreamliner",
+    "passenger_capacity": 290,
+    "cargo_capacity_kg": 16000,
+    "maximum_takeoff_weight_kg": 252650,
+    "range_km": 14140,
+    "engine_type": "GEnx-1B"
+  },
+  "A350-900": {
+    "model_id": "A350-900",
+    "manufacturer": "Airbus",
+    "model_name": "A350 XWB",
+    "passenger_capacity": 325,
+    "cargo_capacity_kg": 19500,
+    "maximum_takeoff_weight_kg": 280000,
+    "range_km": 15000,
+    "engine_type": "RR Trent XWB"
+  },
+  "E195-E2": {
+    "model_id": "E195-E2",
+    "manufacturer": "Embraer",
+    "model_name": "E195-E2",
+    "passenger_capacity": 146,
+    "cargo_capacity_kg": 3800,
+    "maximum_takeoff_weight_kg": 59400,
+    "range_km": 4815,
+    "engine_type": "PW1900G"
+  },
+  "B777-300ER": {
+    "model_id": "B777-300ER",
+    "manufacturer": "Boeing",
+    "model_name": "777-300ER",
+    "passenger_capacity": 396,
+    "cargo_capacity_kg": 23000,
+    "maximum_takeoff_weight_kg": 351534,
+    "range_km": 13649,
+    "engine_type": "GE90-115B"
+  },
+  "A220-300": {
+    "model_id": "A220-300",
+    "manufacturer": "Airbus",
+    "model_name": "A220-300",
+    "passenger_capacity": 160,
+    "cargo_capacity_kg": 4100,
+    "maximum_takeoff_weight_kg": 67585,
+    "range_km": 6297,
+    "engine_type": "PW1500G"
+  },
+  "ATR72-600": {
+    "model_id": "ATR72-600",
+    "manufacturer": "ATR",
+    "model_name": "ATR 72-600",
+    "passenger_capacity": 78,
+    "cargo_capacity_kg": 1850,
+    "maximum_takeoff_weight_kg": 23000,
+    "range_km": 1528,
+    "engine_type": "PW127M"
+  },
+  "CRJ900": {
+    "model_id": "CRJ900",
+    "manufacturer": "Bombardier",
+    "model_name": "CRJ900",
+    "passenger_capacity": 90,
+    "cargo_capacity_kg": 2500,
+    "maximum_takeoff_weight_kg": 38330,
+    "range_km": 2871,
+    "engine_type": "CF34-8C5"
+  },
+  "A330-900neo": {
+    "model_id": "A330-900neo",
+    "manufacturer": "Airbus",
+    "model_name": "A330neo",
+    "passenger_capacity": 287,
+    "cargo_capacity_kg": 17000,
+    "maximum_takeoff_weight_kg": 251000,
+    "range_km": 13334,
+    "engine_type": "RR Trent 7000"
+  },
+  "E175": {
+    "model_id": "E175",
+    "manufacturer": "Embraer",
+    "model_name": "E175",
+    "passenger_capacity": 88,
+    "cargo_capacity_kg": 2300,
+    "maximum_takeoff_weight_kg": 38800,
+    "range_km": 3704,
+    "engine_type": "CF34-8E"
+  },
+  "B737-MAX9": {
+    "model_id": "B737-MAX9",
+    "manufacturer": "Boeing",
+    "model_name": "737 MAX 9",
+    "passenger_capacity": 220,
+    "cargo_capacity_kg": 5500,
+    "maximum_takeoff_weight_kg": 88314,
+    "range_km": 6570,
+    "engine_type": "CFM LEAP-1B"
+  },
+  "A321neo": {
+    "model_id": "A321neo",
+    "manufacturer": "Airbus",
+    "model_name": "A321neo",
+    "passenger_capacity": 244,
+    "cargo_capacity_kg": 6000,
+    "maximum_takeoff_weight_kg": 97000,
+    "range_km": 7400,
+    "engine_type": "PW1100G"
+  },
+  "E190": {
+    "model_id": "E190",
+    "manufacturer": "Embraer",
+    "model_name": "E190",
+    "passenger_capacity": 114,
+    "cargo_capacity_kg": 3000,
+    "maximum_takeoff_weight_kg": 51800,
+    "range_km": 4537,
+    "engine_type": "CF34-10E"
+  },
+  "B747-8": {
+    "model_id": "B747-8",
+    "manufacturer": "Boeing",
+    "model_name": "747-8 Intercontinental",
+    "passenger_capacity": 467,
+    "cargo_capacity_kg": 28000,
+    "maximum_takeoff_weight_kg": 447700,
+    "range_km": 14320,
+    "engine_type": "GEnx-2B"
+  },
+  "A380-800": {
+    "model_id": "A380-800",
+    "manufacturer": "Airbus",
+    "model_name": "A380-800",
+    "passenger_capacity": 555,
+    "cargo_capacity_kg": 32000,
+    "maximum_takeoff_weight_kg": 575000,
+    "range_km": 15200,
+    "engine_type": "RR Trent 900"
+  },
+  "DH8-Q400": {
+    "model_id": "DH8-Q400",
+    "manufacturer": "De Havilland Canada",
+    "model_name": "Dash 8 Q400",
+    "passenger_capacity": 90,
+    "cargo_capacity_kg": 2400,
+    "maximum_takeoff_weight_kg": 29574,
+    "range_km": 2040,
+    "engine_type": "PW150A"
+  },
+  "C919": {
+    "model_id": "C919",
+    "manufacturer": "COMAC",
+    "model_name": "C919",
+    "passenger_capacity": 168,
+    "cargo_capacity_kg": 4500,
+    "maximum_takeoff_weight_kg": 75100,
+    "range_km": 4075,
+    "engine_type": "CFM LEAP-1C"
+  },
+  "SSJ100": {
+    "model_id": "SSJ100",
+    "manufacturer": "Sukhoi",
+    "model_name": "Superjet 100",
+    "passenger_capacity": 98,
+    "cargo_capacity_kg": 2200,
+    "maximum_takeoff_weight_kg": 45880,
+    "range_km": 3048,
+    "engine_type": "SaM146"
+  },
+  "B767-300ER": {
+    "model_id": "B767-300ER",
+    "manufacturer": "Boeing",
+    "model_name": "767-300ER",
+    "passenger_capacity": 269,
+    "cargo_capacity_kg": 15000,
+    "maximum_takeoff_weight_kg": 186880,
+    "range_km": 11070,
+    "engine_type": "PW4062"
+  },
+  "ATR42-600": {
+    "model_id": "ATR42-600",
+    "manufacturer": "ATR",
+    "model_name": "ATR 42-600",
+    "passenger_capacity": 50,
+    "cargo_capacity_kg": 1200,
+    "maximum_takeoff_weight_kg": 18600,
+    "range_km": 1345,
+    "engine_type": "PW127XT"
+  },
+  "A340-600": {
+    "model_id": "A340-600",
+    "manufacturer": "Airbus",
+    "model_name": "A340-600",
+    "passenger_capacity": 379,
+    "cargo_capacity_kg": 21000,
+    "maximum_takeoff_weight_kg": 380000,
+    "range_km": 14450,
+    "engine_type": "RR Trent 500"
+  },
+  "M90": {
+    "model_id": "M90",
+    "manufacturer": "Mitsubishi",
+    "model_name": "SpaceJet M90",
+    "passenger_capacity": 88,
+    "cargo_capacity_kg": 2100,
+    "maximum_takeoff_weight_kg": 42800,
+    "range_km": 3770,
+    "engine_type": "PW1200G"
+  },
+  "CRJ700": {
+    "model_id": "CRJ700",
+    "manufacturer": "Bombardier",
+    "model_name": "CRJ700",
+    "passenger_capacity": 78,
+    "cargo_capacity_kg": 2100,
+    "maximum_takeoff_weight_kg": 34019,
+    "range_km": 2553,
+    "engine_type": "CF34-8C1"
+  },
+  "B757-200": {
+    "model_id": "B757-200",
+    "manufacturer": "Boeing",
+    "model_name": "757-200",
+    "passenger_capacity": 239,
+    "cargo_capacity_kg": 8500,
+    "maximum_takeoff_weight_kg": 115680,
+    "range_km": 7250,
+    "engine_type": "RB211-535E4"
+  }
+}

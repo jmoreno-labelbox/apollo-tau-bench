@@ -1,0 +1,122 @@
+{
+  "1": {
+    "email_id": 1,
+    "client_id": 4,
+    "broker_id": 2,
+    "subject": "Your Comparative Market Analysis for 901 Main Street",
+    "body_uri": "https://storage.example.com/emails/email_001.html",
+    "template_code": "comp_report_delivery",
+    "sent_at": "2025-08-15T10:45:00Z",
+    "campaign_id": null
+  },
+  "2": {
+    "email_id": 2,
+    "client_id": 10,
+    "broker_id": 11,
+    "subject": "Market Update: New Listings CO Your Preferred Areas",
+    "body_uri": "https://storage.example.com/emails/email_002.html",
+    "template_code": "market_update",
+    "sent_at": "2025-08-18T09:30:00Z",
+    "campaign_id": 1
+  },
+  "3": {
+    "email_id": 3,
+    "client_id": 11,
+    "broker_id": 6,
+    "subject": "Welcome to Our Home Buying Program",
+    "body_uri": "https://storage.example.com/emails/email_003.html",
+    "template_code": "welcome_new_client",
+    "sent_at": "2025-08-01T14:20:00Z",
+    "campaign_id": 2
+  },
+  "4": {
+    "email_id": 4,
+    "client_id": 12,
+    "broker_id": 3,
+    "subject": "Your Property Analysis Report is Ready",
+    "body_uri": "https://storage.example.com/emails/email_004.html",
+    "template_code": "comp_report_delivery",
+    "sent_at": "2025-08-17T16:30:00Z",
+    "campaign_id": null
+  },
+  "5": {
+    "email_id": 5,
+    "client_id": 13,
+    "broker_id": 5,
+    "subject": "Price Reduction Alert: Properties CO Your Area",
+    "body_uri": "https://storage.example.com/emails/email_005.html",
+    "template_code": "price_alert",
+    "sent_at": "2025-08-19T11:15:00Z",
+    "campaign_id": 1
+  },
+  "6": {
+    "email_id": 6,
+    "client_id": 2,
+    "broker_id": 14,
+    "subject": "Upcoming Open Houses This Weekend",
+    "body_uri": "https://storage.example.com/emails/email_006.html",
+    "template_code": "open_house_alert",
+    "sent_at": "2025-08-16T17:45:00Z",
+    "campaign_id": 3
+  },
+  "7": {
+    "email_id": 7,
+    "client_id": 7,
+    "broker_id": 15,
+    "subject": "Congratulations on Your New Home Purchase!",
+    "body_uri": "https://storage.example.com/emails/email_007.html",
+    "template_code": "closing_congratulations",
+    "sent_at": "2025-08-10T12:00:00Z",
+    "campaign_id": 4
+  },
+  "8": {
+    "email_id": 8,
+    "client_id": 8,
+    "broker_id": 12,
+    "subject": "Your Mortgage Pre-approval Documents",
+    "body_uri": "https://storage.example.com/emails/email_008.html",
+    "template_code": "mortgage_docs",
+    "sent_at": "2025-08-12T08:45:00Z",
+    "campaign_id": null
+  },
+  "9": {
+    "email_id": 9,
+    "client_id": 15,
+    "broker_id": 8,
+    "subject": "Monthly Market Report: August 2025",
+    "body_uri": "https://storage.example.com/emails/email_009.html",
+    "template_code": "monthly_report",
+    "sent_at": "2025-08-01T09:00:00Z",
+    "campaign_id": 1
+  },
+  "10": {
+    "email_id": 10,
+    "client_id": 16,
+    "broker_id": 8,
+    "subject": "Schedule Your Property Tour",
+    "body_uri": "https://storage.example.com/emails/email_010.html",
+    "template_code": "tour_invitation",
+    "sent_at": "2025-08-14T15:30:00Z",
+    "campaign_id": null
+  },
+  "11": {
+    "email_id": 11,
+    "client_id": 17,
+    "broker_id": 10,
+    "subject": "First-Time Homebuyer Resources",
+    "body_uri": "https://storage.example.com/emails/email_011.html",
+    "template_code": "first_time_buyer",
+    "sent_at": "2025-08-05T10:15:00Z",
+    "campaign_id": 2
+  },
+  "12": {
+    "email_id": 12,
+    "client_id": 18,
+    "broker_id": 5,
+    "subject": "Investment Property Opportunities",
+    "body_uri": "https://storage.example.com/emails/email_012.html",
+    "template_code": "investment_alert",
+    "sent_at": "2025-08-11T13:20:00Z",
+    "campaign_id": 1
+  }
+}

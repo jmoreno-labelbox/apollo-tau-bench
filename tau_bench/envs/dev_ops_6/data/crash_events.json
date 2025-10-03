@@ -1,0 +1,707 @@
+{
+  "crash_001": {
+    "id": "crash_001",
+    "crash_fingerprint": "renderer_character_load_access_violation_xyz",
+    "issue_signature": "Access violation in GameEngine.dll at 0x00007FF6A1B2C456",
+    "crash_type": "access_violation",
+    "severity": "critical",
+    "timestamp": "2025-01-27T15:30:00Z",
+    "session_id": "session_abc123",
+    "user_id": "user_021",
+    "platform": "windows",
+    "os_version": "Windows 11 22H2",
+    "game_version": "1.2.3",
+    "build_number": "build_2025.01.27.001",
+    "hardware_info": {
+      "gpu": "RTX 4080",
+      "cpu": "Intel i9-13900K",
+      "ram": "32GB",
+      "driver_version": "546.33"
+    },
+    "crash_location": {
+      "module": "GameEngine.dll",
+      "address": "0x00007FF6A1B2C456",
+      "function": "Renderer::loadCharacterModel",
+      "offset": "0x456"
+    },
+    "stack_trace": [
+      {
+        "module": "GameEngine.dll",
+        "function": "Renderer::loadCharacterModel",
+        "address": "0x00007FF6A1B2C456",
+        "offset": "0x456",
+        "line_number": null
+      },
+      {
+        "module": "GameEngine.dll",
+        "function": "CharacterManager::loadCharacter",
+        "address": "0x00007FF6A1B2C234",
+        "offset": "0x234",
+        "line_number": null
+      },
+      {
+        "module": "GameEngine.dll",
+        "function": "GameState::initializeCharacter",
+        "address": "0x00007FF6A1B2C123",
+        "offset": "0x123",
+        "line_number": null
+      },
+      {
+        "module": "GameEngine.dll",
+        "function": "main",
+        "address": "0x00007FF6A1B2C089",
+        "offset": "0x89",
+        "line_number": null
+      }
+    ],
+    "symbolicated_stack": [
+      "GameEngine.dll!Renderer::loadCharacterModel() + 0x456",
+      "GameEngine.dll!CharacterManager::loadCharacter() + 0x234",
+      "GameEngine.dll!GameState::initializeCharacter() + 0x123",
+      "GameEngine.dll!main() + 0x89"
+    ],
+    "crash_context": {
+      "scene": "character_selection",
+      "action": "select_character",
+      "character_id": "hero_character",
+      "texture_loading": true,
+      "memory_usage": "2.1GB",
+      "cpu_usage": "45%",
+      "gpu_usage": "78%"
+    },
+    "memory_state": {
+      "total_physical": "32GB",
+      "available_physical": "28GB",
+      "total_virtual": "128GB",
+      "available_virtual": "120GB",
+      "heap_usage": "1.8GB",
+      "stack_usage": "2MB"
+    },
+    "registers": {
+      "rax": "0x0000000000000000",
+      "rbx": "0x00007FF6A1B2C456",
+      "rcx": "0x0000000000000000",
+      "rdx": "0x0000000000000000",
+      "rsi": "0x0000000000000000",
+      "rdi": "0x0000000000000000",
+      "rip": "0x00007FF6A1B2C456",
+      "rsp": "0x0000000000000000",
+      "rbp": "0x0000000000000000"
+    },
+    "crash_dump_uri": "https://crashes.techcorp.com/dump_001.dmp",
+    "minidump_uri": "https://crashes.techcorp.com/minidump_001.dmp",
+    "log_files": [
+      "https://logs.techcorp.com/game_001.log",
+      "https://logs.techcorp.com/renderer_001.log"
+    ],
+    "similar_crashes": [
+      "crash_002"
+    ],
+    "duplicate_of": null,
+    "status": "analyzed",
+    "analysis_result": {
+      "root_cause": "Null pointer dereference in texture loading",
+      "confidence": 0.95,
+      "suggested_fix": "Add null pointer check before texture access",
+      "affected_components": [
+        "renderer",
+        "texture_system"
+      ]
+    },
+    "metadata": {
+      "reporting_tool": "in_game_crash_reporter",
+      "automated_analysis": true,
+      "manual_review_required": false,
+      "crash_category": "texture_loading"
+    }
+  },
+  "crash_002": {
+    "id": "crash_002",
+    "crash_fingerprint": "renderer_character_load_access_violation_xyz",
+    "issue_signature": "Access violation in GameEngine.dll at 0x00007FF6A1B2C456",
+    "crash_type": "access_violation",
+    "severity": "critical",
+    "timestamp": "2025-01-27T16:15:00Z",
+    "session_id": "session_def456",
+    "user_id": "user_022",
+    "platform": "windows",
+    "os_version": "Windows 10 21H2",
+    "game_version": "1.2.3",
+    "build_number": "build_2025.01.27.001",
+    "hardware_info": {
+      "gpu": "RTX 3070",
+      "cpu": "AMD Ryzen 7 5800X",
+      "ram": "16GB",
+      "driver_version": "546.33"
+    },
+    "crash_location": {
+      "module": "GameEngine.dll",
+      "address": "0x00007FF6A1B2C456",
+      "function": "Renderer::loadCharacterModel",
+      "offset": "0x456"
+    },
+    "stack_trace": [
+      {
+        "module": "GameEngine.dll",
+        "function": "Renderer::loadCharacterModel",
+        "address": "0x00007FF6A1B2C456",
+        "offset": "0x456",
+        "line_number": null
+      },
+      {
+        "module": "GameEngine.dll",
+        "function": "CharacterManager::loadCharacter",
+        "address": "0x00007FF6A1B2C234",
+        "offset": "0x234",
+        "line_number": null
+      },
+      {
+        "module": "GameEngine.dll",
+        "function": "GameState::initializeCharacter",
+        "address": "0x00007FF6A1B2C123",
+        "offset": "0x123",
+        "line_number": null
+      },
+      {
+        "module": "GameEngine.dll",
+        "function": "main",
+        "address": "0x00007FF6A1B2C089",
+        "offset": "0x89",
+        "line_number": null
+      }
+    ],
+    "symbolicated_stack": [
+      "GameEngine.dll!Renderer::loadCharacterModel() + 0x456",
+      "GameEngine.dll!CharacterManager::loadCharacter() + 0x234",
+      "GameEngine.dll!GameState::initializeCharacter() + 0x123",
+      "GameEngine.dll!main() + 0x89"
+    ],
+    "crash_context": {
+      "scene": "character_selection",
+      "action": "select_character",
+      "character_id": "hero_character",
+      "texture_loading": true,
+      "memory_usage": "1.8GB",
+      "cpu_usage": "35%",
+      "gpu_usage": "65%"
+    },
+    "memory_state": {
+      "total_physical": "16GB",
+      "available_physical": "12GB",
+      "total_virtual": "64GB",
+      "available_virtual": "60GB",
+      "heap_usage": "1.5GB",
+      "stack_usage": "2MB"
+    },
+    "registers": {
+      "rax": "0x0000000000000000",
+      "rbx": "0x00007FF6A1B2C456",
+      "rcx": "0x0000000000000000",
+      "rdx": "0x0000000000000000",
+      "rsi": "0x0000000000000000",
+      "rdi": "0x0000000000000000",
+      "rip": "0x00007FF6A1B2C456",
+      "rsp": "0x0000000000000000",
+      "rbp": "0x0000000000000000"
+    },
+    "crash_dump_uri": "https://crashes.techcorp.com/dump_002.dmp",
+    "minidump_uri": "https://crashes.techcorp.com/minidump_002.dmp",
+    "log_files": [
+      "https://logs.techcorp.com/game_002.log",
+      "https://logs.techcorp.com/renderer_002.log"
+    ],
+    "similar_crashes": [
+      "crash_001"
+    ],
+    "duplicate_of": "crash_001",
+    "status": "duplicate",
+    "analysis_result": {
+      "root_cause": "Null pointer dereference in texture loading",
+      "confidence": 0.95,
+      "suggested_fix": "Add null pointer check before texture access",
+      "affected_components": [
+        "renderer",
+        "texture_system"
+      ]
+    },
+    "metadata": {
+      "reporting_tool": "in_game_crash_reporter",
+      "automated_analysis": true,
+      "manual_review_required": false,
+      "crash_category": "texture_loading"
+    }
+  },
+  "crash_003": {
+    "id": "crash_003",
+    "crash_fingerprint": "network_connection_timeout_30s_xyz",
+    "issue_signature": "Connection timeout: No response from server for 30 seconds",
+    "crash_type": "timeout",
+    "severity": "high",
+    "timestamp": "2025-01-27T16:30:00Z",
+    "session_id": "session_ghi789",
+    "user_id": "user_024",
+    "platform": "windows",
+    "os_version": "Windows 11 23H2",
+    "game_version": "1.2.3",
+    "build_number": "build_2025.01.27.001",
+    "hardware_info": {
+      "gpu": "RTX 4060",
+      "cpu": "Intel i7-13700K",
+      "ram": "16GB",
+      "driver_version": "546.33"
+    },
+    "crash_location": {
+      "module": "NetworkManager.dll",
+      "address": "0x00007FF6A1B3C123",
+      "function": "NetworkManager::checkConnection",
+      "offset": "0x123"
+    },
+    "stack_trace": [
+      {
+        "module": "NetworkManager.dll",
+        "function": "NetworkManager::checkConnection",
+        "address": "0x00007FF6A1B3C123",
+        "offset": "0x123",
+        "line_number": null
+      },
+      {
+        "module": "NetworkManager.dll",
+        "function": "NetworkManager::update",
+        "address": "0x00007FF6A1B3C456",
+        "offset": "0x456",
+        "line_number": null
+      },
+      {
+        "module": "GameEngine.dll",
+        "function": "GameLoop::update",
+        "address": "0x00007FF6A1B2C789",
+        "offset": "0x789",
+        "line_number": null
+      }
+    ],
+    "symbolicated_stack": [
+      "NetworkManager.dll!NetworkManager::checkConnection() + 0x123",
+      "NetworkManager.dll!NetworkManager::update() + 0x456",
+      "GameEngine.dll!GameLoop::update() + 0x789"
+    ],
+    "crash_context": {
+      "scene": "multiplayer_game",
+      "action": "network_timeout",
+      "session_duration": "00:12:30",
+      "network_latency": "150ms",
+      "server_location": "us_east",
+      "network_type": "wifi"
+    },
+    "memory_state": {
+      "total_physical": "16GB",
+      "available_physical": "12GB",
+      "total_virtual": "64GB",
+      "available_virtual": "60GB",
+      "heap_usage": "2.5GB",
+      "stack_usage": "2MB"
+    },
+    "registers": {
+      "rax": "0x0000000000000000",
+      "rbx": "0x00007FF6A1B3C123",
+      "rcx": "0x0000000000000000",
+      "rdx": "0x0000000000000000",
+      "rsi": "0x0000000000000000",
+      "rdi": "0x0000000000000000",
+      "rip": "0x00007FF6A1B3C123",
+      "rsp": "0x0000000000000000",
+      "rbp": "0x0000000000000000"
+    },
+    "crash_dump_uri": null,
+    "minidump_uri": null,
+    "log_files": [
+      "https://logs.techcorp.com/network_001.log",
+      "https://logs.techcorp.com/multiplayer_001.log"
+    ],
+    "similar_crashes": [
+      "crash_004"
+    ],
+    "duplicate_of": null,
+    "status": "analyzed",
+    "analysis_result": {
+      "root_cause": "Network timeout threshold too low",
+      "confidence": 0.9,
+      "suggested_fix": "Increase connection timeout from 30 to 60 seconds",
+      "affected_components": [
+        "network",
+        "multiplayer"
+      ]
+    },
+    "metadata": {
+      "reporting_tool": "in_game_crash_reporter",
+      "automated_analysis": true,
+      "manual_review_required": false,
+      "crash_category": "network_timeout"
+    }
+  },
+  "crash_004": {
+    "id": "crash_004",
+    "crash_fingerprint": "network_connection_timeout_30s_xyz",
+    "issue_signature": "Connection timeout: No response from server for 30 seconds",
+    "crash_type": "timeout",
+    "severity": "high",
+    "timestamp": "2025-01-27T16:45:00Z",
+    "session_id": "session_jkl012",
+    "user_id": "user_025",
+    "platform": "linux",
+    "os_version": "Arch Linux",
+    "game_version": "1.2.3",
+    "build_number": "build_2025.01.27.001",
+    "hardware_info": {
+      "gpu": "RTX 3090",
+      "cpu": "AMD Ryzen 9 7950X",
+      "ram": "64GB",
+      "driver_version": "545.29.06"
+    },
+    "crash_location": {
+      "module": "NetworkManager.so",
+      "address": "0x00007FF6A1B3C123",
+      "function": "NetworkManager::checkConnection",
+      "offset": "0x123"
+    },
+    "stack_trace": [
+      {
+        "module": "NetworkManager.so",
+        "function": "NetworkManager::checkConnection",
+        "address": "0x00007FF6A1B3C123",
+        "offset": "0x123",
+        "line_number": null
+      },
+      {
+        "module": "NetworkManager.so",
+        "function": "NetworkManager::update",
+        "address": "0x00007FF6A1B3C456",
+        "offset": "0x456",
+        "line_number": null
+      },
+      {
+        "module": "GameEngine.so",
+        "function": "GameLoop::update",
+        "address": "0x00007FF6A1B2C789",
+        "offset": "0x789",
+        "line_number": null
+      }
+    ],
+    "symbolicated_stack": [
+      "NetworkManager.so!NetworkManager::checkConnection() + 0x123",
+      "NetworkManager.so!NetworkManager::update() + 0x456",
+      "GameEngine.so!GameLoop::update() + 0x789"
+    ],
+    "crash_context": {
+      "scene": "multiplayer_game",
+      "action": "network_timeout",
+      "session_duration": "00:11:45",
+      "network_latency": "120ms",
+      "server_location": "us_west",
+      "network_type": "ethernet"
+    },
+    "memory_state": {
+      "total_physical": "64GB",
+      "available_physical": "58GB",
+      "total_virtual": "256GB",
+      "available_virtual": "250GB",
+      "heap_usage": "2.8GB",
+      "stack_usage": "2MB"
+    },
+    "registers": {
+      "rax": "0x0000000000000000",
+      "rbx": "0x00007FF6A1B3C123",
+      "rcx": "0x0000000000000000",
+      "rdx": "0x0000000000000000",
+      "rsi": "0x0000000000000000",
+      "rdi": "0x0000000000000000",
+      "rip": "0x00007FF6A1B3C123",
+      "rsp": "0x0000000000000000",
+      "rbp": "0x0000000000000000"
+    },
+    "crash_dump_uri": null,
+    "minidump_uri": null,
+    "log_files": [
+      "https://logs.techcorp.com/network_002.log",
+      "https://logs.techcorp.com/multiplayer_002.log"
+    ],
+    "similar_crashes": [
+      "crash_003"
+    ],
+    "duplicate_of": "crash_003",
+    "status": "duplicate",
+    "analysis_result": {
+      "root_cause": "Network timeout threshold too low",
+      "confidence": 0.9,
+      "suggested_fix": "Increase connection timeout from 30 to 60 seconds",
+      "affected_components": [
+        "network",
+        "multiplayer"
+      ]
+    },
+    "metadata": {
+      "reporting_tool": "in_game_crash_reporter",
+      "automated_analysis": true,
+      "manual_review_required": false,
+      "crash_category": "network_timeout"
+    }
+  },
+  "crash_005": {
+    "id": "crash_005",
+    "crash_fingerprint": "build_compilation_missing_declaration_xyz",
+    "issue_signature": "issue: 'TextureManager::loadTexture' was not declared in this scope",
+    "crash_type": "compilation_issue",
+    "severity": "high",
+    "timestamp": "2025-01-27T17:45:00Z",
+    "session_id": "session_bcd890",
+    "user_id": "user_001",
+    "platform": "ci_pipeline",
+    "os_version": "Windows Server 2022",
+    "game_version": "1.2.3",
+    "build_number": "build_2025.01.27.002",
+    "hardware_info": {
+      "gpu": "Azure Build Agent",
+      "cpu": "Azure Build Agent",
+      "ram": "8GB",
+      "driver_version": "n/a"
+    },
+    "crash_location": {
+      "module": "renderer.cpp",
+      "address": "line 245",
+      "function": "Renderer::loadTexture",
+      "offset": "n/a"
+    },
+    "stack_trace": [
+      {
+        "module": "renderer.cpp",
+        "function": "Renderer::loadTexture",
+        "address": "line 245",
+        "offset": "n/a",
+        "line_number": 245
+      },
+      {
+        "module": "texture_manager.h",
+        "function": "TextureManager::loadTexture",
+        "address": "missing declaration",
+        "offset": "n/a",
+        "line_number": null
+      }
+    ],
+    "symbolicated_stack": [
+      "renderer.cpp:245: issue: 'TextureManager::loadTexture' was not declared in this scope",
+      "renderer.cpp:245: note: suggested alternative: 'TextureManager::loadTextureAsync'"
+    ],
+    "crash_context": {
+      "scene": "build_pipeline",
+      "action": "compilation",
+      "platform": "windows",
+      "compiler": "MSVC 2022",
+      "build_type": "debug"
+    },
+    "memory_state": {
+      "total_physical": "8GB",
+      "available_physical": "6GB",
+      "total_virtual": "16GB",
+      "available_virtual": "14GB",
+      "heap_usage": "4GB",
+      "stack_usage": "1MB"
+    },
+    "registers": null,
+    "crash_dump_uri": null,
+    "minidump_uri": null,
+    "log_files": [
+      "https://logs.techcorp.com/build_001.log"
+    ],
+    "similar_crashes": [],
+    "duplicate_of": null,
+    "status": "analyzed",
+    "analysis_result": {
+      "root_cause": "Missing function declaration in header file",
+      "confidence": 0.95,
+      "suggested_fix": "Add missing function declaration in texture_manager.h",
+      "affected_components": [
+        "build_system",
+        "compilation"
+      ]
+    },
+    "metadata": {
+      "reporting_tool": "ci_monitor",
+      "automated_analysis": true,
+      "manual_review_required": false,
+      "crash_category": "compilation_issue"
+    }
+  },
+  "crash_006": {
+    "id": "crash_006",
+    "crash_fingerprint": "k8s_resource_allocation_insufficient_memory_xyz",
+    "issue_signature": "Kubernetes resource allocation failed: insufficient memory",
+    "crash_type": "resource_allocation_issue",
+    "severity": "medium",
+    "timestamp": "2025-01-27T17:30:00Z",
+    "session_id": "session_yza567",
+    "user_id": "user_014",
+    "platform": "staging",
+    "os_version": "Ubuntu 22.04 LTS",
+    "game_version": "1.2.3",
+    "build_number": "build_2025.01.27.001",
+    "hardware_info": {
+      "gpu": "Cloud Infrastructure",
+      "cpu": "Cloud Infrastructure",
+      "ram": "Cloud Infrastructure",
+      "driver_version": "n/a"
+    },
+    "crash_location": {
+      "module": "k8s_deployment.py",
+      "address": "line 123",
+      "function": "PodSpec::validateResources",
+      "offset": "n/a"
+    },
+    "stack_trace": [
+      {
+        "module": "k8s_deployment.py",
+        "function": "PodSpec::validateResources",
+        "address": "line 123",
+        "offset": "n/a",
+        "line_number": 123
+      },
+      {
+        "module": "k8s_deployment.py",
+        "function": "Deployment::create",
+        "address": "line 45",
+        "offset": "n/a",
+        "line_number": 45
+      }
+    ],
+    "symbolicated_stack": [
+      "k8s_deployment.py:123: issue: Pod failed to start",
+      "PodSpec::validateResources() at k8s_deployment.py:123",
+      "Deployment::create() at k8s_deployment.py:45"
+    ],
+    "crash_context": {
+      "scene": "staging_deployment",
+      "action": "resource_allocation",
+      "environment": "staging",
+      "deployment_method": "kubernetes",
+      "memory_requested": "1Gi",
+      "memory_required": "4Gi"
+    },
+    "memory_state": {
+      "total_physical": "8GB",
+      "available_physical": "2GB",
+      "total_virtual": "16GB",
+      "available_virtual": "10GB",
+      "heap_usage": "6GB",
+      "stack_usage": "1MB"
+    },
+    "registers": null,
+    "crash_dump_uri": null,
+    "minidump_uri": null,
+    "log_files": [
+      "https://logs.techcorp.com/k8s_deployment_001.log"
+    ],
+    "similar_crashes": [],
+    "duplicate_of": null,
+    "status": "analyzed",
+    "analysis_result": {
+      "root_cause": "Memory limits too low for game engine requirements",
+      "confidence": 0.9,
+      "suggested_fix": "Increase memory limits from 1Gi to 4Gi and add resource requests",
+      "affected_components": [
+        "infrastructure",
+        "deployment"
+      ]
+    },
+    "metadata": {
+      "reporting_tool": "kubernetes_monitor",
+      "automated_analysis": true,
+      "manual_review_required": false,
+      "crash_category": "resource_allocation"
+    }
+  },
+  "crash_007": {
+    "id": "crash_007",
+    "crash_fingerprint": "asset_validation_texture_size_exceeded_xyz",
+    "issue_signature": "Asset validation failed: Texture size 4096x4096 exceeds maximum 2048x2048",
+    "crash_type": "validation_issue",
+    "severity": "low",
+    "timestamp": "2025-01-27T17:15:00Z",
+    "session_id": "session_vwx234",
+    "user_id": "user_012",
+    "platform": "asset_pipeline",
+    "os_version": "Ubuntu 22.04 LTS",
+    "game_version": "1.2.3",
+    "build_number": "build_2025.01.27.001",
+    "hardware_info": {
+      "gpu": "RTX 4090",
+      "cpu": "AMD Ryzen 9 7950X",
+      "ram": "128GB",
+      "driver_version": "545.29.06"
+    },
+    "crash_location": {
+      "module": "asset_validator.py",
+      "address": "line 123",
+      "function": "validate_texture_size",
+      "offset": "n/a"
+    },
+    "stack_trace": [
+      {
+        "module": "asset_validator.py",
+        "function": "validate_texture_size",
+        "address": "line 123",
+        "offset": "n/a",
+        "line_number": 123
+      },
+      {
+        "module": "asset_validator.py",
+        "function": "validate_asset",
+        "address": "line 45",
+        "offset": "n/a",
+        "line_number": 45
+      }
+    ],
+    "symbolicated_stack": [
+      "asset_validator.py:123: issue: Texture size 4096x4096 exceeds maximum 2048x2048",
+      "validate_texture_size() at asset_validator.py:123",
+      "validate_asset() at asset_validator.py:45"
+    ],
+    "crash_context": {
+      "scene": "asset_validation",
+      "action": "texture_validation",
+      "asset_type": "texture",
+      "validation_tool": "maya_batch",
+      "texture_size": "4096x4096",
+      "max_allowed": "2048x2048"
+    },
+    "memory_state": {
+      "total_physical": "128GB",
+      "available_physical": "120GB",
+      "total_virtual": "512GB",
+      "available_virtual": "500GB",
+      "heap_usage": "512MB",
+      "stack_usage": "1MB"
+    },
+    "registers": null,
+    "crash_dump_uri": null,
+    "minidump_uri": null,
+    "log_files": [
+      "https://logs.techcorp.com/asset_validation_001.log"
+    ],
+    "similar_crashes": [],
+    "duplicate_of": null,
+    "status": "analyzed",
+    "analysis_result": {
+      "root_cause": "Texture size exceeds maximum allowed size",
+      "confidence": 0.95,
+      "suggested_fix": "Automatically resize texture from 4096x4096 to 2048x2048",
+      "affected_components": [
+        "assets",
+        "textures"
+      ]
+    },
+    "metadata": {
+      "reporting_tool": "asset_validator",
+      "automated_analysis": true,
+      "manual_review_required": false,
+      "crash_category": "asset_validation"
+    }
+  }
+}

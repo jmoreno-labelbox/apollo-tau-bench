@@ -1,0 +1,1710 @@
+{
+  "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e": {
+    "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
+    "personal_info": {
+      "first_name": "Kenji",
+      "last_name": "Tanaka",
+      "middle_name": "Michael",
+      "date_of_birth": "1985-05-15",
+      "ssn_last_4": "6789",
+      "nationality": "American",
+      "marital_status": "Married",
+      "occupation": "Software Engineer",
+      "employer": "Tech Solutions Inc."
+    },
+    "contact_info": {
+      "email_address": "kenji.tanaka@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "123-456-7890",
+          "is_primary": true
+        },
+        {
+          "type": "Work",
+          "number": "098-765-4321",
+          "is_primary": false
+        }
+      ],
+      "mailing_address": {
+        "street_address": "123 Main St",
+        "city": "Anytown",
+        "state": "CA",
+        "postal_code": "12345",
+        "country": "USA"
+      },
+      "residential_address": {
+        "street_address": "123 Main St",
+        "city": "Anytown",
+        "state": "CA",
+        "postal_code": "12345",
+        "country": "USA"
+      }
+    },
+    "account_ids": [
+      "acc_chk_1001",
+      "acc_sav_1002",
+      "acc_crd_1003"
+    ],
+    "financial_profile": {
+      "credit_score": 780,
+      "annual_income": 120000,
+      "net_worth": 250000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2015-01-20",
+      "customer_segment": "Retail",
+      "branch_code": "BR001",
+      "relationship_manager_id": "rm007"
+    },
+    "security": {
+      "security_question": "What was the name of your first pet?",
+      "last_login": "2023-10-26T10:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "a1b2c3d4-e5f6-7890-1234-567890abcdef": {
+    "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+    "personal_info": {
+      "first_name": "Elena",
+      "last_name": "Popescu",
+      "middle_name": "Maria",
+      "date_of_birth": "1990-08-21",
+      "ssn_last_4": "5432",
+      "nationality": "Canadian",
+      "marital_status": "Single",
+      "occupation": "Graphic Designer",
+      "employer": "Creative Minds LLC"
+    },
+    "contact_info": {
+      "email_address": "elena.popescu@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "555-123-4567",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "456 Oak Ave",
+        "city": "Anotherplace",
+        "state": "ON",
+        "postal_code": "M5V 2T6",
+        "country": "Canada"
+      },
+      "residential_address": {
+        "street_address": "456 Oak Ave",
+        "city": "Anotherplace",
+        "state": "ON",
+        "postal_code": "M5V 2T6",
+        "country": "Canada"
+      }
+    },
+    "account_ids": [
+      "acc_chk_2001",
+      "acc_sav_2002"
+    ],
+    "financial_profile": {
+      "credit_score": 820,
+      "annual_income": 85000,
+      "net_worth": 150000,
+      "risk_tolerance": "Low"
+    },
+    "bank_relationship": {
+      "date_joined": "2018-07-12",
+      "customer_segment": "Retail",
+      "branch_code": "BR002",
+      "relationship_manager_id": "rm009"
+    },
+    "security": {
+      "security_question": "In what city were you born?",
+      "last_login": "2023-10-25T14:30:00Z"
+    },
+    "preferences": {
+      "communication_channel": "SMS",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a": {
+    "customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
+    "personal_info": {
+      "first_name": "Zoltan",
+      "last_name": "Nagy",
+      "middle_name": "Wei",
+      "date_of_birth": "1978-11-30",
+      "ssn_last_4": "1122",
+      "nationality": "American",
+      "marital_status": "Married",
+      "occupation": "Doctor",
+      "employer": "City General Hospital"
+    },
+    "contact_info": {
+      "email_address": "zoltan.nagy@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "555-987-6543",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "789 Pine Ln",
+        "city": "Metropolis",
+        "state": "NY",
+        "postal_code": "10001",
+        "country": "USA"
+      },
+      "residential_address": {
+        "street_address": "789 Pine Ln",
+        "city": "Metropolis",
+        "state": "NY",
+        "postal_code": "10001",
+        "country": "USA"
+      }
+    },
+    "account_ids": [
+      "acc_chk_3001",
+      "acc_inv_3002"
+    ],
+    "financial_profile": {
+      "credit_score": 810,
+      "annual_income": 250000,
+      "net_worth": 1200000,
+      "risk_tolerance": "High"
+    },
+    "bank_relationship": {
+      "date_joined": "2010-05-15",
+      "customer_segment": "Private",
+      "branch_code": "BR001",
+      "relationship_manager_id": "rm005"
+    },
+    "security": {
+      "security_question": "What is your favorite book?",
+      "last_login": "2023-10-26T12:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9": {
+    "customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9",
+    "personal_info": {
+      "first_name": "Noah",
+      "last_name": "Kim",
+      "middle_name": "Isabel",
+      "date_of_birth": "1995-02-18",
+      "ssn_last_4": "3344",
+      "nationality": "Mexican",
+      "marital_status": "Single",
+      "occupation": "Student",
+      "employer": "State University"
+    },
+    "contact_info": {
+      "email_address": "noah.kim@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "555-111-2222",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "321 University Ave",
+        "city": "College Town",
+        "state": "TX",
+        "postal_code": "77840",
+        "country": "USA"
+      },
+      "residential_address": {
+        "street_address": "321 University Ave",
+        "city": "College Town",
+        "state": "TX",
+        "postal_code": "77840",
+        "country": "USA"
+      }
+    },
+    "account_ids": [
+      "acc_chk_4001"
+    ],
+    "financial_profile": {
+      "credit_score": 690,
+      "annual_income": 15000,
+      "net_worth": 2000,
+      "risk_tolerance": "Low"
+    },
+    "bank_relationship": {
+      "date_joined": "2022-08-20",
+      "customer_segment": "Retail",
+      "branch_code": "BR003",
+      "relationship_manager_id": "rm012"
+    },
+    "security": {
+      "security_question": "What is your mother's maiden name?",
+      "last_login": "2023-10-24T18:45:00Z"
+    },
+    "preferences": {
+      "communication_channel": "App",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Pending",
+      "aml_risk_level": "Medium"
+    }
+  },
+  "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4": {
+    "customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4",
+    "personal_info": {
+      "first_name": "Liam",
+      "last_name": "O'Connor",
+      "middle_name": "Patrick",
+      "date_of_birth": "1982-07-10",
+      "ssn_last_4": "5566",
+      "nationality": "Indian",
+      "marital_status": "Married",
+      "occupation": "IT Consultant",
+      "employer": "Global Tech Services"
+    },
+    "contact_info": {
+      "email_address": "liam.o'connor@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "444-555-6666",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "101 Tech Park",
+        "city": "Bangalore",
+        "state": "KA",
+        "postal_code": "560001",
+        "country": "India"
+      },
+      "residential_address": {
+        "street_address": "101 Tech Park",
+        "city": "Bangalore",
+        "state": "KA",
+        "postal_code": "560001",
+        "country": "India"
+      }
+    },
+    "account_ids": [
+      "acc_sav_5001",
+      "acc_chk_5002"
+    ],
+    "financial_profile": {
+      "credit_score": 790,
+      "annual_income": 3500000,
+      "net_worth": 7500000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2019-03-12",
+      "customer_segment": "Private",
+      "branch_code": "BR-IN-01",
+      "relationship_manager_id": "rm-in-01"
+    },
+    "security": {
+      "security_question": "What was the model of your first car?",
+      "last_login": "2023-10-27T08:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5": {
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5",
+    "personal_info": {
+      "first_name": "Maria",
+      "last_name": "Garcia",
+      "middle_name": "Isabel",
+      "date_of_birth": "2001-01-25",
+      "ssn_last_4": "7788",
+      "nationality": "British",
+      "marital_status": "Single",
+      "occupation": "Apprentice Electrician",
+      "employer": "Sparky & Co."
+    },
+    "contact_info": {
+      "email_address": "maria.garcia@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+44 7700 900123",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "221B Baker Street",
+        "city": "Manchester",
+        "state": "",
+        "postal_code": "NW1 6XE",
+        "country": "United Kingdom"
+      },
+      "residential_address": {
+        "street_address": "221B Baker Street",
+        "city": "Manchester",
+        "state": "",
+        "postal_code": "NW1 6XE",
+        "country": "United Kingdom"
+      }
+    },
+    "account_ids": [
+      "acc_chk_6001"
+    ],
+    "financial_profile": {
+      "credit_score": 650,
+      "annual_income": 22000,
+      "net_worth": 1500,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2023-01-10",
+      "customer_segment": "Retail",
+      "branch_code": "BR-UK-05",
+      "relationship_manager_id": "rm-uk-15"
+    },
+    "security": {
+      "security_question": "What is the name of your favorite sports team?",
+      "last_login": "2023-10-20T11:20:00Z"
+    },
+    "preferences": {
+      "communication_channel": "SMS",
+      "paperless_billing": false
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6": {
+    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6",
+    "personal_info": {
+      "first_name": "Oliver",
+      "last_name": "Williams",
+      "middle_name": "James",
+      "date_of_birth": "1988-04-12",
+      "ssn_last_4": "9900",
+      "nationality": "Emirati",
+      "marital_status": "Married",
+      "occupation": "Architect",
+      "employer": "Desert Designs"
+    },
+    "contact_info": {
+      "email_address": "oliver.williams@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+971 50 123 4567",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Villa 7, Palm Jumeirah",
+        "city": "Abu Dhabi",
+        "state": "",
+        "postal_code": "",
+        "country": "United Arab Emirates"
+      },
+      "residential_address": {
+        "street_address": "Villa 7, Palm Jumeirah",
+        "city": "Abu Dhabi",
+        "state": "",
+        "postal_code": "",
+        "country": "United Arab Emirates"
+      }
+    },
+    "account_ids": [
+      "acc_chk_7001",
+      "acc_sav_7002"
+    ],
+    "financial_profile": {
+      "credit_score": 830,
+      "annual_income": 600000,
+      "net_worth": 3500000,
+      "risk_tolerance": "High"
+    },
+    "bank_relationship": {
+      "date_joined": "2017-11-20",
+      "customer_segment": "Private",
+      "branch_code": "BR-AE-01",
+      "relationship_manager_id": "rm-ae-02"
+    },
+    "security": {
+      "security_question": "What is your favorite travel destination?",
+      "last_login": "2023-10-26T15:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1": {
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1",
+    "personal_info": {
+      "first_name": "Chloe",
+      "last_name": "Dubois",
+      "middle_name": "Marie",
+      "date_of_birth": "1965-09-03",
+      "ssn_last_4": "1123",
+      "nationality": "German",
+      "marital_status": "Divorced",
+      "occupation": "Mechanical Engineer",
+      "employer": "AutoFabrik GmbH"
+    },
+    "contact_info": {
+      "email_address": "chloe.dubois@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+49 171 1234567",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Hauptstraße 10",
+        "city": "Berlin",
+        "state": "",
+        "postal_code": "10115",
+        "country": "Germany"
+      },
+      "residential_address": {
+        "street_address": "Hauptstraße 10",
+        "city": "Berlin",
+        "state": "",
+        "postal_code": "10115",
+        "country": "Germany"
+      }
+    },
+    "account_ids": [
+      "acc_chk_8001",
+      "acc_sav_8002"
+    ],
+    "financial_profile": {
+      "credit_score": 800,
+      "annual_income": 95000,
+      "net_worth": 450000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2005-02-18",
+      "customer_segment": "Retail",
+      "branch_code": "BR-DE-02",
+      "relationship_manager_id": "rm-de-08"
+    },
+    "security": {
+      "security_question": "What high school did you attend?",
+      "last_login": "2023-10-25T09:10:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2": {
+    "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",
+    "personal_info": {
+      "first_name": "Olivia",
+      "last_name": "Jones",
+      "middle_name": "Grace",
+      "date_of_birth": "1998-06-22",
+      "ssn_last_4": "4455",
+      "nationality": "French",
+      "marital_status": "Single",
+      "occupation": "Pastry Chef",
+      "employer": "Le Croissant Doré"
+    },
+    "contact_info": {
+      "email_address": "olivia.jones@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+33 6 12 34 56 78",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "50 Rue de Rivoli",
+        "city": "Lyon",
+        "state": "",
+        "postal_code": "75001",
+        "country": "France"
+      },
+      "residential_address": {
+        "street_address": "50 Rue de Rivoli",
+        "city": "Lyon",
+        "state": "",
+        "postal_code": "75001",
+        "country": "France"
+      }
+    },
+    "account_ids": [
+      "acc_chk_9001",
+      "acc_crd_9002"
+    ],
+    "financial_profile": {
+      "credit_score": 710,
+      "annual_income": 45000,
+      "net_worth": 15000,
+      "risk_tolerance": "Low"
+    },
+    "bank_relationship": {
+      "date_joined": "2020-01-30",
+      "customer_segment": "Retail",
+      "branch_code": "BR-FR-01",
+      "relationship_manager_id": "rm-fr-03"
+    },
+    "security": {
+      "security_question": "What is your favorite color?",
+      "last_login": "2023-10-27T14:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "App",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3": {
+    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3",
+    "personal_info": {
+      "first_name": "Mei",
+      "last_name": "Lin",
+      "middle_name": "",
+      "date_of_birth": "1975-12-01",
+      "ssn_last_4": "6677",
+      "nationality": "Japanese",
+      "marital_status": "Married",
+      "occupation": "Project Manager",
+      "employer": "Cybernetics Corp"
+    },
+    "contact_info": {
+      "email_address": "mei.lin@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+81 90-1234-5678",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "1-1-2 Otemachi",
+        "city": "Chiyoda-ku",
+        "state": "Osaka",
+        "postal_code": "100-0004",
+        "country": "Japan"
+      },
+      "residential_address": {
+        "street_address": "1-1-2 Otemachi",
+        "city": "Chiyoda-ku",
+        "state": "Osaka",
+        "postal_code": "100-0004",
+        "country": "Japan"
+      }
+    },
+    "account_ids": [
+      "acc_chk_10001",
+      "acc_sav_10002"
+    ],
+    "financial_profile": {
+      "credit_score": 820,
+      "annual_income": 12000000,
+      "net_worth": 60000000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2010-08-10",
+      "customer_segment": "Private",
+      "branch_code": "BR-JP-01",
+      "relationship_manager_id": "rm-jp-01"
+    },
+    "security": {
+      "security_question": "What is the name of your elementary school?",
+      "last_login": "2023-10-23T23:50:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "a1b2c3d4-e5f6-7890-1234-567890abcdef-10": {
+    "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef-10",
+    "personal_info": {
+      "first_name": "Anja",
+      "last_name": "Novak",
+      "middle_name": "Sofia",
+      "date_of_birth": "1992-03-14",
+      "ssn_last_4": "1121",
+      "nationality": "Italian",
+      "marital_status": "Single",
+      "occupation": "Fashion Designer",
+      "employer": "Milano Couture"
+    },
+    "contact_info": {
+      "email_address": "anja.novak@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+39 333 1234567",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Via Monte Napoleone 20",
+        "city": "Milan",
+        "state": "",
+        "postal_code": "20121",
+        "country": "Italy"
+      },
+      "residential_address": {
+        "street_address": "Via Monte Napoleone 20",
+        "city": "Milan",
+        "state": "",
+        "postal_code": "20121",
+        "country": "Italy"
+      }
+    },
+    "account_ids": [
+      "acc_chk_11001"
+    ],
+    "financial_profile": {
+      "credit_score": 760,
+      "annual_income": 80000,
+      "net_worth": 150000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2018-02-20",
+      "customer_segment": "Retail",
+      "branch_code": "BR-IT-01",
+      "relationship_manager_id": "rm-it-05"
+    },
+    "security": {
+      "security_question": "What is your favorite movie?",
+      "last_login": "2023-10-26T18:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11": {
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11",
+    "personal_info": {
+      "first_name": "Alex",
+      "last_name": "Petrov",
+      "middle_name": "Ivanovich",
+      "date_of_birth": "1980-09-17",
+      "ssn_last_4": "5432",
+      "nationality": "Irish",
+      "marital_status": "Married",
+      "occupation": "Farmer",
+      "employer": "Green Acre Farms"
+    },
+    "contact_info": {
+      "email_address": "alex.petrov@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+353 87 123 4567",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Cottage 5, County Clare",
+        "city": "Ennis",
+        "state": "",
+        "postal_code": "V95 Y0F7",
+        "country": "Ireland"
+      },
+      "residential_address": {
+        "street_address": "Cottage 5, County Clare",
+        "city": "Ennis",
+        "state": "",
+        "postal_code": "V95 Y0F7",
+        "country": "Ireland"
+      }
+    },
+    "account_ids": [
+      "acc_chk_12001",
+      "acc_loan_12002"
+    ],
+    "financial_profile": {
+      "credit_score": 720,
+      "annual_income": 60000,
+      "net_worth": 200000,
+      "risk_tolerance": "Low"
+    },
+    "bank_relationship": {
+      "date_joined": "2002-11-05",
+      "customer_segment": "Business",
+      "branch_code": "BR-IE-02",
+      "relationship_manager_id": "rm-ie-02"
+    },
+    "security": {
+      "security_question": "What was the name of your first pet?",
+      "last_login": "2023-10-22T07:30:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Phone",
+      "paperless_billing": false
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-12": {
+    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-12",
+    "personal_info": {
+      "first_name": "Gabriel",
+      "last_name": "Silva",
+      "middle_name": "Lucas",
+      "date_of_birth": "1999-12-08",
+      "ssn_last_4": "8765",
+      "nationality": "Pakistani",
+      "marital_status": "Single",
+      "occupation": "Software Developer",
+      "employer": "Pioneer Technologies"
+    },
+    "contact_info": {
+      "email_address": "gabriel.silva@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+92 300 1234567",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "House 123, Sector F-7",
+        "city": "Islamabad",
+        "state": "",
+        "postal_code": "44000",
+        "country": "Pakistan"
+      },
+      "residential_address": {
+        "street_address": "House 123, Sector F-7",
+        "city": "Islamabad",
+        "state": "",
+        "postal_code": "44000",
+        "country": "Pakistan"
+      }
+    },
+    "account_ids": [
+      "acc_chk_13001"
+    ],
+    "financial_profile": {
+      "credit_score": 730,
+      "annual_income": 1800000,
+      "net_worth": 2500000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2021-06-15",
+      "customer_segment": "Retail",
+      "branch_code": "BR-PK-01",
+      "relationship_manager_id": "rm-pk-04"
+    },
+    "security": {
+      "security_question": "What is your favorite food?",
+      "last_login": "2023-10-27T11:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "App",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13": {
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13",
+    "personal_info": {
+      "first_name": "David",
+      "last_name": "Chen",
+      "middle_name": "Wei",
+      "date_of_birth": "1985-06-25",
+      "ssn_last_4": "2345",
+      "nationality": "Russian",
+      "marital_status": "Married",
+      "occupation": "Data Scientist",
+      "employer": "Global Analytics"
+    },
+    "contact_info": {
+      "email_address": "david.chen@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+7 916 123-45-67",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Tverskaya St, 1",
+        "city": "St. Petersburg",
+        "state": "",
+        "postal_code": "125009",
+        "country": "Russia"
+      },
+      "residential_address": {
+        "street_address": "Tverskaya St, 1",
+        "city": "St. Petersburg",
+        "state": "",
+        "postal_code": "125009",
+        "country": "Russia"
+      }
+    },
+    "account_ids": [
+      "acc_chk_14001",
+      "acc_sav_14002"
+    ],
+    "financial_profile": {
+      "credit_score": 780,
+      "annual_income": 4000000,
+      "net_worth": 15000000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2015-01-20",
+      "customer_segment": "Private",
+      "branch_code": "BR-RU-01",
+      "relationship_manager_id": "rm-ru-01"
+    },
+    "security": {
+      "security_question": "In what city was your first job?",
+      "last_login": "2023-10-25T14:30:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-14": {
+    "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-14",
+    "personal_info": {
+      "first_name": "Hans",
+      "last_name": "Müller",
+      "middle_name": "Jürgen",
+      "date_of_birth": "1996-08-19",
+      "ssn_last_4": "6543",
+      "nationality": "Swedish",
+      "marital_status": "Single",
+      "occupation": "UX Designer",
+      "employer": "Creative Tech"
+    },
+    "contact_info": {
+      "email_address": "hans.müller@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+46 70-123 45 67",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Drottninggatan 10",
+        "city": "Stockholm",
+        "state": "",
+        "postal_code": "111 51",
+        "country": "Sweden"
+      },
+      "residential_address": {
+        "street_address": "Drottninggatan 10",
+        "city": "Stockholm",
+        "state": "",
+        "postal_code": "111 51",
+        "country": "Sweden"
+      }
+    },
+    "account_ids": [
+      "acc_chk_15001"
+    ],
+    "financial_profile": {
+      "credit_score": 750,
+      "annual_income": 600000,
+      "net_worth": 800000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2019-09-01",
+      "customer_segment": "Retail",
+      "branch_code": "BR-SE-01",
+      "relationship_manager_id": "rm-se-03"
+    },
+    "security": {
+      "security_question": "What is your favorite band?",
+      "last_login": "2023-10-27T09:45:00Z"
+    },
+    "preferences": {
+      "communication_channel": "App",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15": {
+    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15",
+    "personal_info": {
+      "first_name": "Sofia",
+      "last_name": "Andersson",
+      "middle_name": "Linnea",
+      "date_of_birth": "1993-05-21",
+      "ssn_last_4": "8765",
+      "nationality": "Korean",
+      "marital_status": "Single",
+      "occupation": "Marketing Manager",
+      "employer": "Seoul Digital"
+    },
+    "contact_info": {
+      "email_address": "sofia.andersson@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+82 10-1234-5678",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Gangnam-daero 396",
+        "city": "Seoul",
+        "state": "",
+        "postal_code": "06132",
+        "country": "South Korea"
+      },
+      "residential_address": {
+        "street_address": "Gangnam-daero 396",
+        "city": "Seoul",
+        "state": "",
+        "postal_code": "06132",
+        "country": "South Korea"
+      }
+    },
+    "account_ids": [
+      "acc_chk_16001"
+    ],
+    "financial_profile": {
+      "credit_score": 790,
+      "annual_income": 85000000,
+      "net_worth": 200000000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2017-02-15",
+      "customer_segment": "Retail",
+      "branch_code": "BR-KR-01",
+      "relationship_manager_id": "rm-kr-02"
+    },
+    "security": {
+      "security_question": "What is your favorite dish?",
+      "last_login": "2023-10-26T22:15:00Z"
+    },
+    "preferences": {
+      "communication_channel": "App",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "a1b2c3d4-e5f6-7890-1234-567890abcdef-16": {
+    "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef-16",
+    "personal_info": {
+      "first_name": "John",
+      "last_name": "Doe",
+      "middle_name": "Michael",
+      "date_of_birth": "1989-11-02",
+      "ssn_last_4": "1122",
+      "nationality": "Australian",
+      "marital_status": "Married",
+      "occupation": "Marine Biologist",
+      "employer": "Oceanic Institute"
+    },
+    "contact_info": {
+      "email_address": "john.doe@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+61 412 345 678",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "100 Barrier Reef Drive",
+        "city": "Sydney",
+        "state": "NSW",
+        "postal_code": "2000",
+        "country": "Australia"
+      },
+      "residential_address": {
+        "street_address": "100 Barrier Reef Drive",
+        "city": "Sydney",
+        "state": "NSW",
+        "postal_code": "2000",
+        "country": "Australia"
+      }
+    },
+    "account_ids": [
+      "acc_chk_17001",
+      "acc_sav_17002"
+    ],
+    "financial_profile": {
+      "credit_score": 810,
+      "annual_income": 110000,
+      "net_worth": 450000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2014-07-21",
+      "customer_segment": "Retail",
+      "branch_code": "BR-AU-01",
+      "relationship_manager_id": "rm-au-06"
+    },
+    "security": {
+      "security_question": "What is the name of your first school?",
+      "last_login": "2023-10-24T05:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17": {
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17",
+    "personal_info": {
+      "first_name": "Mohammed",
+      "last_name": "Al-Masri",
+      "middle_name": "Ali",
+      "date_of_birth": "1994-01-15",
+      "ssn_last_4": "3344",
+      "nationality": "Brazilian",
+      "marital_status": "Single",
+      "occupation": "Football Player",
+      "employer": "Rio FC"
+    },
+    "contact_info": {
+      "email_address": "mohammed.al-masri@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+55 21 91234-5678",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Avenida Atlântica, 1702",
+        "city": "Rio de Janeiro",
+        "state": "RJ",
+        "postal_code": "22021-001",
+        "country": "Brazil"
+      },
+      "residential_address": {
+        "street_address": "Avenida Atlântica, 1702",
+        "city": "Rio de Janeiro",
+        "state": "RJ",
+        "postal_code": "22021-001",
+        "country": "Brazil"
+      }
+    },
+    "account_ids": [
+      "acc_chk_18001"
+    ],
+    "financial_profile": {
+      "credit_score": 770,
+      "annual_income": 1200000,
+      "net_worth": 5000000,
+      "risk_tolerance": "High"
+    },
+    "bank_relationship": {
+      "date_joined": "2016-11-10",
+      "customer_segment": "Private",
+      "branch_code": "BR-BR-01",
+      "relationship_manager_id": "rm-br-01"
+    },
+    "security": {
+      "security_question": "What is your favorite hobby?",
+      "last_login": "2023-10-27T12:30:00Z"
+    },
+    "preferences": {
+      "communication_channel": "App",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Medium"
+    }
+  },
+  "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18": {
+    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18",
+    "personal_info": {
+      "first_name": "Santiago",
+      "last_name": "Muñoz",
+      "middle_name": "Javier",
+      "date_of_birth": "1979-07-07",
+      "ssn_last_4": "5566",
+      "nationality": "Slovenian",
+      "marital_status": "Married",
+      "occupation": "Teacher",
+      "employer": "Ljubljana High School"
+    },
+    "contact_info": {
+      "email_address": "santiago.muñoz@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+386 40 123 456",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Prešernov trg 1",
+        "city": "Ljubljana",
+        "state": "",
+        "postal_code": "1000",
+        "country": "Slovenia"
+      },
+      "residential_address": {
+        "street_address": "Prešernov trg 1",
+        "city": "Ljubljana",
+        "state": "",
+        "postal_code": "1000",
+        "country": "Slovenia"
+      }
+    },
+    "account_ids": [
+      "acc_chk_19001"
+    ],
+    "financial_profile": {
+      "credit_score": 740,
+      "annual_income": 40000,
+      "net_worth": 120000,
+      "risk_tolerance": "Low"
+    },
+    "bank_relationship": {
+      "date_joined": "2008-04-12",
+      "customer_segment": "Retail",
+      "branch_code": "BR-SI-01",
+      "relationship_manager_id": "rm-si-04"
+    },
+    "security": {
+      "security_question": "What is the name of the street you grew up on?",
+      "last_login": "2023-10-23T16:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19": {
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19",
+    "personal_info": {
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "middle_name": "Elizabeth",
+      "date_of_birth": "1991-04-03",
+      "ssn_last_4": "7788",
+      "nationality": "Chilean",
+      "marital_status": "Single",
+      "occupation": "Astronomer",
+      "employer": "Atacama Observatory"
+    },
+    "contact_info": {
+      "email_address": "jane.smith@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+56 9 1234 5678",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Avenida Libertador Bernardo O'Higgins 108",
+        "city": "Santiago",
+        "state": "",
+        "postal_code": "8340518",
+        "country": "Chile"
+      },
+      "residential_address": {
+        "street_address": "Avenida Libertador Bernardo O'Higgins 108",
+        "city": "Santiago",
+        "state": "",
+        "postal_code": "8340518",
+        "country": "Chile"
+      }
+    },
+    "account_ids": [
+      "acc_chk_20001"
+    ],
+    "financial_profile": {
+      "credit_score": 800,
+      "annual_income": 60000000,
+      "net_worth": 150000000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2018-10-01",
+      "customer_segment": "Retail",
+      "branch_code": "BR-CL-01",
+      "relationship_manager_id": "rm-cl-03"
+    },
+    "security": {
+      "security_question": "What is your favorite planet?",
+      "last_login": "2023-10-27T02:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-20": {
+    "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-20",
+    "personal_info": {
+      "first_name": "Isabella",
+      "last_name": "Rossi",
+      "middle_name": "Sofia",
+      "date_of_birth": "1987-02-11",
+      "ssn_last_4": "9900",
+      "nationality": "Lebanese",
+      "marital_status": "Married",
+      "occupation": "Journalist",
+      "employer": "Beirut Times"
+    },
+    "contact_info": {
+      "email_address": "isabella.rossi@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+961 3 123 456",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Rue Gouraud",
+        "city": "Beirut",
+        "state": "",
+        "postal_code": "1103",
+        "country": "Lebanon"
+      },
+      "residential_address": {
+        "street_address": "Rue Gouraud",
+        "city": "Beirut",
+        "state": "",
+        "postal_code": "1103",
+        "country": "Lebanon"
+      }
+    },
+    "account_ids": [
+      "acc_chk_21001"
+    ],
+    "financial_profile": {
+      "credit_score": 750,
+      "annual_income": 70000,
+      "net_worth": 200000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2012-05-18",
+      "customer_segment": "Retail",
+      "branch_code": "BR-LB-01",
+      "relationship_manager_id": "rm-lb-02"
+    },
+    "security": {
+      "security_question": "What is your favorite author?",
+      "last_login": "2023-10-26T13:45:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Medium"
+    }
+  },
+  "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21": {
+    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21",
+    "personal_info": {
+      "first_name": "Aisha",
+      "last_name": "Khan",
+      "middle_name": "",
+      "date_of_birth": "1970-03-30",
+      "ssn_last_4": "1123",
+      "nationality": "Hungarian",
+      "marital_status": "Divorced",
+      "occupation": "Chef",
+      "employer": "Goulash King"
+    },
+    "contact_info": {
+      "email_address": "aisha.khan@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+36 30 123 4567",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Andrássy út 10",
+        "city": "Budapest",
+        "state": "",
+        "postal_code": "1061",
+        "country": "Hungary"
+      },
+      "residential_address": {
+        "street_address": "Andrássy út 10",
+        "city": "Budapest",
+        "state": "",
+        "postal_code": "1061",
+        "country": "Hungary"
+      }
+    },
+    "account_ids": [
+      "acc_chk_22001"
+    ],
+    "financial_profile": {
+      "credit_score": 720,
+      "annual_income": 15000000,
+      "net_worth": 40000000,
+      "risk_tolerance": "Low"
+    },
+    "bank_relationship": {
+      "date_joined": "2009-11-11",
+      "customer_segment": "Business",
+      "branch_code": "BR-HU-01",
+      "relationship_manager_id": "rm-hu-01"
+    },
+    "security": {
+      "security_question": "What is your favorite spice?",
+      "last_login": "2023-10-22T20:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Phone",
+      "paperless_billing": false
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "a1b2c3d4-e5f6-7890-1234-567890abcdef-22": {
+    "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef-22",
+    "personal_info": {
+      "first_name": "Adetokunbo",
+      "last_name": "Adebayor",
+      "middle_name": "Femi",
+      "date_of_birth": "2000-10-10",
+      "ssn_last_4": "4455",
+      "nationality": "Chinese",
+      "marital_status": "Single",
+      "occupation": "University Student",
+      "employer": "Beijing University"
+    },
+    "contact_info": {
+      "email_address": "adetokunbo.adebayor@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+86 138 1234 5678",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "No. 5 Yiheyuan Road",
+        "city": "Beijing",
+        "state": "",
+        "postal_code": "100871",
+        "country": "China"
+      },
+      "residential_address": {
+        "street_address": "No. 5 Yiheyuan Road",
+        "city": "Beijing",
+        "state": "",
+        "postal_code": "100871",
+        "country": "China"
+      }
+    },
+    "account_ids": [
+      "acc_chk_23001"
+    ],
+    "financial_profile": {
+      "credit_score": 680,
+      "annual_income": 0,
+      "net_worth": 10000,
+      "risk_tolerance": "Low"
+    },
+    "bank_relationship": {
+      "date_joined": "2022-09-01",
+      "customer_segment": "Retail",
+      "branch_code": "BR-CN-01",
+      "relationship_manager_id": "rm-cn-10"
+    },
+    "security": {
+      "security_question": "What is your favorite subject?",
+      "last_login": "2023-10-27T16:20:00Z"
+    },
+    "preferences": {
+      "communication_channel": "App",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Pending",
+      "aml_risk_level": "Low"
+    }
+  },
+  "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23": {
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23",
+    "personal_info": {
+      "first_name": "Fatima",
+      "last_name": "Al-Fassi",
+      "middle_name": "Zahra",
+      "date_of_birth": "1984-08-08",
+      "ssn_last_4": "6677",
+      "nationality": "Nigerian",
+      "marital_status": "Married",
+      "occupation": "Entrepreneur",
+      "employer": "Self-Employed"
+    },
+    "contact_info": {
+      "email_address": "fatima.al-fassi@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+234 801 234 5678",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "100 Awolowo Road, Ikoyi",
+        "city": "Lagos",
+        "state": "",
+        "postal_code": "101233",
+        "country": "Nigeria"
+      },
+      "residential_address": {
+        "street_address": "100 Awolowo Road, Ikoyi",
+        "city": "Lagos",
+        "state": "",
+        "postal_code": "101233",
+        "country": "Nigeria"
+      }
+    },
+    "account_ids": [
+      "acc_chk_24001",
+      "acc_sav_24002"
+    ],
+    "financial_profile": {
+      "credit_score": 760,
+      "annual_income": 40000000,
+      "net_worth": 150000000,
+      "risk_tolerance": "High"
+    },
+    "bank_relationship": {
+      "date_joined": "2013-03-15",
+      "customer_segment": "Business",
+      "branch_code": "BR-NG-01",
+      "relationship_manager_id": "rm-ng-01"
+    },
+    "security": {
+      "security_question": "What is your business's name?",
+      "last_login": "2023-10-25T10:10:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Email",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Medium"
+    }
+  },
+  "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24": {
+    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24",
+    "personal_info": {
+      "first_name": "Lakshmi",
+      "last_name": "Narayanan",
+      "middle_name": "Maria",
+      "date_of_birth": "1960-01-01",
+      "ssn_last_4": "9876",
+      "nationality": "Romanian",
+      "marital_status": "Widowed",
+      "occupation": "Retired",
+      "employer": ""
+    },
+    "contact_info": {
+      "email_address": "lakshmi.narayanan@example.com",
+      "phone_numbers": [
+        {
+          "type": "Home",
+          "number": "+40 21 123 45 67",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "Calea Victoriei 100",
+        "city": "Bucharest",
+        "state": "",
+        "postal_code": "010082",
+        "country": "Romania"
+      },
+      "residential_address": {
+        "street_address": "Calea Victoriei 100",
+        "city": "Bucharest",
+        "state": "",
+        "postal_code": "010082",
+        "country": "Romania"
+      }
+    },
+    "account_ids": [
+      "acc_sav_25001"
+    ],
+    "financial_profile": {
+      "credit_score": 790,
+      "annual_income": 36000,
+      "net_worth": 500000,
+      "risk_tolerance": "Low"
+    },
+    "bank_relationship": {
+      "date_joined": "1995-07-20",
+      "customer_segment": "Retail",
+      "branch_code": "BR-RO-01",
+      "relationship_manager_id": "rm-ro-08"
+    },
+    "security": {
+      "security_question": "What is the name of your oldest child?",
+      "last_login": "2023-10-20T13:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "Mail",
+      "paperless_billing": false
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  },
+  "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-25": {
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-25",
+    "personal_info": {
+      "first_name": "Yara",
+      "last_name": "Haddad",
+      "middle_name": "Ali",
+      "date_of_birth": "1983-12-12",
+      "ssn_last_4": "1111",
+      "nationality": "Egyptian",
+      "marital_status": "Married",
+      "occupation": "Civil Engineer",
+      "employer": "Nile Construction"
+    },
+    "contact_info": {
+      "email_address": "yara.haddad@example.com",
+      "phone_numbers": [
+        {
+          "type": "Mobile",
+          "number": "+20 100 123 4567",
+          "is_primary": true
+        }
+      ],
+      "mailing_address": {
+        "street_address": "26 July Corridor",
+        "city": "Cairo",
+        "state": "",
+        "postal_code": "11511",
+        "country": "Egypt"
+      },
+      "residential_address": {
+        "street_address": "26 July Corridor",
+        "city": "Cairo",
+        "state": "",
+        "postal_code": "11511",
+        "country": "Egypt"
+      }
+    },
+    "account_ids": [
+      "acc_chk_26001"
+    ],
+    "financial_profile": {
+      "credit_score": 750,
+      "annual_income": 900000,
+      "net_worth": 3000000,
+      "risk_tolerance": "Medium"
+    },
+    "bank_relationship": {
+      "date_joined": "2011-02-01",
+      "customer_segment": "Retail",
+      "branch_code": "BR-EG-01",
+      "relationship_manager_id": "rm-eg-03"
+    },
+    "security": {
+      "security_question": "What is your favorite historical site?",
+      "last_login": "2023-10-26T09:00:00Z"
+    },
+    "preferences": {
+      "communication_channel": "SMS",
+      "paperless_billing": true
+    },
+    "compliance": {
+      "kyc_status": "Verified",
+      "aml_risk_level": "Low"
+    }
+  }
+}

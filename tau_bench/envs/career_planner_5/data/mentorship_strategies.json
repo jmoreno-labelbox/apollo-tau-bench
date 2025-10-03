@@ -1,0 +1,76 @@
+{
+  "M100": {
+    "mentor_id": "M100",
+    "strategy_id": "MS001",
+    "strategy_name": "Bi-weekly career check-ins",
+    "description": "Regular 30-minute sessions to discuss progress, blockers, and upcoming opportunities.",
+    "frequency": "Bi-weekly",
+    "delivery_mode": "Remote",
+    "estimated_time_commitment_hours_per_month": 2,
+    "focus_areas": [
+      "Leadership",
+      "Communication"
+    ],
+    "mentoring_goals_supported": [
+      "Career Development",
+      "Promotion Readiness",
+      "Work-Life Balance"
+    ],
+    "mentoring_approach": "Career Strategy"
+  },
+  "M101": {
+    "mentor_id": "M101",
+    "strategy_id": "MS002",
+    "strategy_name": "Monthly project shadowing",
+    "description": "Allowing the mentee to observe live project work, team meetings, and decision-making.",
+    "frequency": "Monthly",
+    "delivery_mode": "Hybrid",
+    "estimated_time_commitment_hours_per_month": 3,
+    "focus_areas": [
+      "Technical Growth",
+      "Presentation Skills"
+    ],
+    "mentoring_goals_supported": [
+      "Skill Development",
+      "Cross-functional Exposure"
+    ],
+    "mentoring_approach": "Technical Deep Dive"
+  },
+  "M102": {
+    "mentor_id": "M102",
+    "strategy_id": "MS003",
+    "strategy_name": "Resume and interview coaching",
+    "description": "Mock interviews and resume reviews tailored to the target role or career transition.",
+    "frequency": "Flexible",
+    "delivery_mode": "Remote",
+    "estimated_time_commitment_hours_per_month": 1.5,
+    "focus_areas": [
+      "Confidence",
+      "Positioning"
+    ],
+    "mentoring_goals_supported": [
+      "Career Transition",
+      "Job Search Preparation"
+    ],
+    "mentoring_approach": "Career Strategy"
+  },
+  "M103": {
+    "mentor_id": "M103",
+    "strategy_id": "MS004",
+    "strategy_name": "Cross-functional collaboration sessions",
+    "description": "Joint sessions with mentees from other teams to practice interdisciplinary problem-solving.",
+    "frequency": "Monthly",
+    "delivery_mode": "Onsite",
+    "estimated_time_commitment_hours_per_month": 3,
+    "focus_areas": [
+      "Teamwork",
+      "Strategic Thinking"
+    ],
+    "mentoring_goals_supported": [
+      "Innovation Skills",
+      "Strategic Thinking",
+      "Leadership Exposure"
+    ],
+    "mentoring_approach": "Work-Life Balance"
+  }
+}

@@ -1,0 +1,35 @@
+from tau_bench.envs.tool import Tool
+import json
+from typing import Any
+
+class ReadStakeholderArtifact(Tool):
+    @staticmethod
+    def invoke(data: dict[str, Any], output_id: str = None, output_label: str = None) -> str:
+        outs = data.get("stakeholder_outputs", []) or []
+        oid = output_id
+        label = output_label
+        row = None
+        if oid is not None:
+            row = next((o for o in outs if str(o.get("output_id")) == str(oid)), None)
+        elif label:
+            row = next((o for o in outs if o.get("output_label") == label), None)
+        payload = row or {"error": "Stakeholder output not found"}
+        out = json.dumps(payload, indent=2)
+        return out
+    @staticmethod
+    def get_info() -> dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "ReadStakeholderArtifact",
+                "description": "Fetch a stakeholder artifact row by id or label.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "output_id": {"type": "string"},
+                        "output_label": {"type": "string"},
+                    },
+                    "required": [],
+                },
+            },
+        }

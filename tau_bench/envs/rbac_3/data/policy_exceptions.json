@@ -1,0 +1,222 @@
+{
+    "PE-001": {
+        "exception_id": "PE-001",
+        "user_id": "U-022",
+        "permission_id": "P-051",
+        "reviewed_by": "U-004",
+        "requested_on": "2024-06-25 15:00:00+00:00",
+        "reviewed_on": "2024-06-26 16:30:00+00:00",
+        "expires_on": "2024-07-01 04:59:59+00:00",
+        "reason": "Backup payroll processing in case of administrator absence.",
+        "status": "EXPIRED"
+    },
+    "PE-002": {
+        "exception_id": "PE-002",
+        "user_id": "U-009",
+        "permission_id": "P-042",
+        "reviewed_by": "U-003",
+        "requested_on": "2024-07-28 19:00:00+00:00",
+        "reviewed_on": "2024-07-29 14:00:00+00:00",
+        "expires_on": null,
+        "reason": "Needed to perform a mass cleanup of old sales leads.",
+        "status": "DENIED"
+    },
+    "PE-003": {
+        "exception_id": "PE-003",
+        "user_id": "U-025",
+        "permission_id": "P-064",
+        "reviewed_by": "U-005",
+        "requested_on": "2024-07-29 20:00:00+00:00",
+        "reviewed_on": "2024-07-30 15:00:00+00:00",
+        "expires_on": "2024-08-02 04:59:59+00:00",
+        "reason": "Temporary write access to production database for hotfix.",
+        "status": "EXPIRED"
+    },
+    "PE-004": {
+        "exception_id": "PE-004",
+        "user_id": "U-019",
+        "permission_id": "P-011",
+        "reviewed_by": "U-001",
+        "requested_on": "2024-08-25 16:00:00+00:00",
+        "reviewed_on": "2024-08-26 19:00:00+00:00",
+        "expires_on": "2024-09-02 04:59:59+00:00",
+        "reason": "Write access to the customer API for a one-time data migration script.",
+        "status": "EXPIRED"
+    },
+    "PE-005": {
+        "exception_id": "PE-005",
+        "user_id": "U-002",
+        "permission_id": "P-014",
+        "reviewed_by": "U-001",
+        "requested_on": "2024-09-05 14:00:00+00:00",
+        "reviewed_on": "2024-09-06 15:00:00+00:00",
+        "expires_on": null,
+        "reason": "Editing documentation on a shared resource owned by engineering.",
+        "status": "DENIED"
+    },
+    "PE-006": {
+        "exception_id": "PE-006",
+        "user_id": "U-010",
+        "permission_id": "P-050",
+        "reviewed_by": "U-004",
+        "requested_on": "2024-10-20 13:00:00+00:00",
+        "reviewed_on": "2024-10-21 16:00:00+00:00",
+        "expires_on": "2024-10-26 04:59:59+00:00",
+        "reason": "Edit an employee profile with updated certification data.",
+        "status": "EXPIRED"
+    },
+    "PE-007": {
+        "exception_id": "PE-007",
+        "user_id": "U-006",
+        "permission_id": "P-076",
+        "reviewed_by": "U-006",
+        "requested_on": "2024-10-28 18:00:00+00:00",
+        "reviewed_on": "2024-10-29 20:00:00+00:00",
+        "expires_on": "2024-11-02 04:59:59+00:00",
+        "reason": "Needed to post a manual entry to the general ledger.",
+        "status": "EXPIRED"
+    },
+    "PE-008": {
+        "exception_id": "PE-008",
+        "user_id": "U-013",
+        "permission_id": "P-018",
+        "reviewed_by": "U-001",
+        "requested_on": "2024-12-20 14:00:00+00:00",
+        "reviewed_on": "2024-12-22 15:00:00+00:00",
+        "expires_on": "2025-01-01 04:59:59+00:00",
+        "reason": "Needed to perform a critical schema migration outside of the standard role.",
+        "status": "EXPIRED"
+    },
+    "PE-009": {
+        "exception_id": "PE-009",
+        "user_id": "U-012",
+        "permission_id": "P-084",
+        "reviewed_by": "U-006",
+        "requested_on": "2024-12-21 19:00:00+00:00",
+        "reviewed_on": "2024-12-23 14:00:00+00:00",
+        "expires_on": null,
+        "reason": "Needed to file an amended tax report for the previous fiscal year.",
+        "status": "DENIED"
+    },
+    "PE-010": {
+        "exception_id": "PE-010",
+        "user_id": "U-008",
+        "permission_id": "P-021",
+        "reviewed_by": "U-002",
+        "requested_on": "2025-08-01 15:00:00+00:00",
+        "reviewed_on": "2025-08-02 16:00:00+00:00",
+        "expires_on": "2025-09-06 04:59:59+00:00",
+        "reason": "Manage social media accounts for a new product launch.",
+        "status": "ACTIVE"
+    },
+    "PE-011": {
+        "exception_id": "PE-011",
+        "user_id": "U-027",
+        "permission_id": "P-037",
+        "reviewed_by": "U-003",
+        "requested_on": "2025-08-03 17:00:00+00:00",
+        "reviewed_on": null,
+        "expires_on": "2025-09-16 04:59:59+00:00",
+        "reason": "Update a critical sales opportunity in CRM due to an urgent client request.",
+        "status": "PENDING_REVIEW"
+    },
+    "PE-012": {
+        "exception_id": "PE-012",
+        "user_id": "U-023",
+        "permission_id": "P-089",
+        "reviewed_by": "U-005",
+        "requested_on": "2025-08-04 18:00:00+00:00",
+        "reviewed_on": null,
+        "expires_on": "2025-09-21 04:59:59+00:00",
+        "reason": "Full administrative access to a specific production server for troubleshooting.",
+        "status": "PENDING_REVIEW"
+    },
+    "PE-013": {
+        "exception_id": "PE-013",
+        "user_id": "U-014",
+        "permission_id": "P-029",
+        "reviewed_by": "U-002",
+        "requested_on": "2025-08-05 14:00:00+00:00",
+        "reviewed_on": "2025-08-06 15:00:00+00:00",
+        "expires_on": "2025-10-01 04:59:59+00:00",
+        "reason": "Updating customer data for a special marketing campaign.",
+        "status": "ACTIVE"
+    },
+    "PE-014": {
+        "exception_id": "PE-014",
+        "user_id": "U-020",
+        "permission_id": "P-022",
+        "reviewed_by": "U-002",
+        "requested_on": "2025-08-05 19:00:00+00:00",
+        "reviewed_on": "2025-08-06 20:00:00+00:00",
+        "expires_on": "2025-10-06 04:59:59+00:00",
+        "reason": "Send a one-off email campaign to a segment of the customer list.",
+        "status": "ACTIVE"
+    },
+    "PE-015": {
+        "exception_id": "PE-015",
+        "user_id": "U-016",
+        "permission_id": "P-108",
+        "reviewed_by": "U-004",
+        "requested_on": "2025-08-06 21:00:00+00:00",
+        "reviewed_on": "2025-08-07 14:00:00+00:00",
+        "expires_on": "2025-10-11 04:59:59+00:00",
+        "reason": "Need to review candidates in a new hiring platform for a joint-department project.",
+        "status": "ACTIVE"
+    },
+    "PE-016": {
+        "exception_id": "PE-016",
+        "user_id": "U-028",
+        "permission_id": "P-056",
+        "reviewed_by": "U-004",
+        "requested_on": "2025-08-06 13:00:00+00:00",
+        "reviewed_on": null,
+        "expires_on": "2025-10-21 04:59:59+00:00",
+        "reason": "One-time enrollment of a new employee in a non-standard benefits program.",
+        "status": "PENDING_REVIEW"
+    },
+    "PE-017": {
+        "exception_id": "PE-017",
+        "user_id": "U-021",
+        "permission_id": "P-096",
+        "reviewed_by": "U-003",
+        "requested_on": "2025-08-06 17:00:00+00:00",
+        "reviewed_on": "2025-08-07 19:00:00+00:00",
+        "expires_on": "2025-11-01 04:59:59+00:00",
+        "reason": "Required to create support tickets in HubSpot for new sales tools.",
+        "status": "ACTIVE"
+    },
+    "PE-018": {
+        "exception_id": "PE-018",
+        "user_id": "U-007",
+        "permission_id": "P-005",
+        "reviewed_by": "U-001",
+        "requested_on": "2025-08-06 15:00:00+00:00",
+        "reviewed_on": null,
+        "expires_on": "2025-11-16 04:59:59+00:00",
+        "reason": "Emergency configuration change to the CI/CD pipeline.",
+        "status": "PENDING_REVIEW"
+    },
+    "PE-019": {
+        "exception_id": "PE-019",
+        "user_id": "U-024",
+        "permission_id": "P-088",
+        "reviewed_by": "U-006",
+        "requested_on": "2025-08-06 16:00:00+00:00",
+        "reviewed_on": null,
+        "expires_on": "2025-11-21 04:59:59+00:00",
+        "reason": "Approval of a large expense report for a new project.",
+        "status": "PENDING_REVIEW"
+    },
+    "PE-020": {
+        "exception_id": "PE-020",
+        "user_id": "U-017",
+        "permission_id": "P-070",
+        "reviewed_by": "U-005",
+        "requested_on": "2025-08-06 20:00:00+00:00",
+        "reviewed_on": "2025-08-07 15:00:00+00:00",
+        "expires_on": "2025-12-26 04:59:59+00:00",
+        "reason": "Temporary permission to delete outdated backups from storage.",
+        "status": "ACTIVE"
+    }
+}

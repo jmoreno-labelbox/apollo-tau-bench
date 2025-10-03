@@ -1,0 +1,168 @@
+{
+  "sensor_lr_thermometer": {
+    "id": "sensor_lr_thermometer",
+    "type": "sensor",
+    "name": "Living Room Thermometer",
+    "location": "Living Room",
+    "vendor": "Xiaomi",
+    "model": "Mi Temperature & Humidity Sensor 2",
+    "firmware_version": "1.0.7",
+    "state_params": [
+      "temperature_c",
+      "humidity_pct",
+      "battery_level"
+    ],
+    "state": {
+      "temperature_c": 22.3,
+      "humidity_pct": 45.2,
+      "battery_level": 95,
+      "last_updated": "2025-06-27T15:33:00-07:00"
+    }
+  },
+  "sensor_hall_motion": {
+    "id": "sensor_hall_motion",
+    "type": "sensor",
+    "name": "Hallway Motion Sensor",
+    "location": "Hallway",
+    "vendor": "Aqara",
+    "model": "P1 PIR",
+    "firmware_version": "1.4.5",
+    "state_params": [
+      "motion_detected",
+      "battery_level"
+    ],
+    "state": {
+      "motion_detected": false,
+      "battery_level": 88,
+      "last_updated": "2025-06-27T15:34:00-07:00"
+    }
+  },
+  "sensor_front_door": {
+    "id": "sensor_front_door",
+    "type": "sensor",
+    "name": "Front-Door Contact Sensor",
+    "location": "Entrance",
+    "vendor": "Ring",
+    "model": "Alarm Contact v2",
+    "firmware_version": "3.0.0",
+    "state_params": [
+      "door_open",
+      "tamper_alert",
+      "battery_level"
+    ],
+    "state": {
+      "door_open": false,
+      "tamper_alert": false,
+      "battery_level": 79,
+      "last_updated": "2025-06-27T15:35:00-07:00"
+    }
+  },
+  "sensor_bed_smoke": {
+    "id": "sensor_bed_smoke",
+    "type": "sensor",
+    "name": "Bedroom Smoke Detector",
+    "location": "Bedroom",
+    "vendor": "Google",
+    "model": "Nest Protect v3",
+    "firmware_version": "5.2.1",
+    "state_params": [
+      "smoke_detected",
+      "co_detected",
+      "battery_level"
+    ],
+    "state": {
+      "smoke_detected": false,
+      "co_detected": false,
+      "battery_level": 90,
+      "last_updated": "2025-06-27T15:35:30-07:00"
+    }
+  },
+  "sensor_lr_air_quality": {
+    "id": "sensor_lr_air_quality",
+    "type": "sensor",
+    "name": "Living Room Air-Quality Sensor",
+    "location": "Living Room",
+    "vendor": "Awair",
+    "model": "Element",
+    "firmware_version": "2.8.0",
+    "state_params": [
+      "co2_ppm",
+      "voc_ppb",
+      "pm25_ugm3"
+    ],
+    "state": {
+      "co2_ppm": 650,
+      "voc_ppb": 120,
+      "pm25_ugm3": 8,
+      "last_updated": "2025-06-27T15:36:00-07:00"
+    }
+  },
+  "sensor_sink_leak": {
+    "id": "sensor_sink_leak",
+    "type": "sensor",
+    "name": "Kitchen Sink Leak Sensor",
+    "location": "Kitchen",
+    "vendor": "Eve",
+    "model": "Water Guard v2",
+    "firmware_version": "1.1.9",
+    "state_params": [
+      "leak_detected",
+      "temperature_c",
+      "battery_level"
+    ],
+    "state": {
+      "leak_detected": false,
+      "temperature_c": 20.5,
+      "battery_level": 93,
+      "last_updated": "2025-06-27T15:36:30-07:00"
+    }
+  },
+  "camera_front_door": {
+    "id": "camera_front_door",
+    "type": "camera",
+    "name": "Front Door Security Camera",
+    "location": "Entrance",
+    "vendor": "Arlo",
+    "model": "Pro 5S",
+    "firmware_version": "3.2.1",
+    "state_params": [
+      "stream_online",
+      "motion_detected",
+      "person_detected",
+      "threat_detected",
+      "recording"
+    ],
+    "state": {
+      "stream_online": true,
+      "motion_detected": false,
+      "person_detected": false,
+      "threat_detected": false,
+      "recording": true,
+      "last_updated": "2025-06-27T15:37:00-07:00"
+    }
+  },
+  "camera_back_door": {
+    "id": "camera_back_door",
+    "type": "camera",
+    "name": "Back Door Security Camera",
+    "location": "Backyard",
+    "vendor": "Eufy",
+    "model": "Cam 3C",
+    "firmware_version": "2.3.4",
+    "state_params": [
+      "stream_online",
+      "motion_detected",
+      "person_detected",
+      "threat_detected",
+      "recording"
+    ],
+    "state": {
+      "stream_online": false,
+      "motion_detected": false,
+      "person_detected": false,
+      "threat_detected": false,
+      "recording": false,
+      "last_updated": "2025-06-27T15:37:30-07:00"
+    }
+  }
+}

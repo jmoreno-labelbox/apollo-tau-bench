@@ -1,0 +1,65 @@
+{
+  "PR5001": {
+    "review_id": "PR5001",
+    "employee_id": "E10001",
+    "period_start": "2024-01-01",
+    "period_end": "2024-12-31",
+    "rating": "Exceeds",
+    "manager_id": "null",
+    "summary": "Delivered cloud migration ahead of schedule."
+  },
+  "PR5002": {
+    "review_id": "PR5002",
+    "employee_id": "E10002",
+    "period_start": "2024-01-01",
+    "period_end": "2024-03-31",
+    "rating": "Meets",
+    "manager_id": "E10012",
+    "summary": "On track to hit Q2 quota."
+  },
+  "PR5003": {
+    "review_id": "PR5003",
+    "employee_id": "E10003",
+    "period_start": "2023-07-01",
+    "period_end": "2023-12-31",
+    "rating": "Exceeds",
+    "manager_id": "E10001",
+    "summary": "Led UI redesign improving conversion by 10%."
+  },
+  "PR5004": {
+    "review_id": "PR5004",
+    "employee_id": "E10004",
+    "period_start": "2023-01-01",
+    "period_end": "2023-12-31",
+    "rating": "Meets",
+    "manager_id": "E10003",
+    "summary": "Solid contributor; needs mentorship on architecture."
+  },
+  "PR5009": {
+    "review_id": "PR5009",
+    "employee_id": "E10004",
+    "period_start": "2024-01-01",
+    "period_end": "2024-12-31",
+    "rating": "Exceeds",
+    "manager_id": "E10003",
+    "summary": "Exceeds performance"
+  },
+  "PR5010": {
+    "review_id": "PR5010",
+    "employee_id": "E10003",
+    "period_start": "2024-01-01",
+    "period_end": "2024-06-30",
+    "rating": "Pending",
+    "manager_id": "E10001",
+    "summary": "On leave; review deferred."
+  },
+  "PR9999": {
+    "review_id": "PR9999",
+    "employee_id": "E99999",
+    "period_start": "2025-01-01",
+    "period_end": "2025-06-30",
+    "rating": "Pending",
+    "manager_id": "E99999",
+    "summary": "Mid-year review IND progress."
+  }
+}

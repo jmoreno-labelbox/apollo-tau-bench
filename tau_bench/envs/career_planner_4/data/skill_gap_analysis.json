@@ -1,0 +1,436 @@
+{
+  "SGA001": {
+    "analysis_id": "SGA001",
+    "user_id": "U301",
+    "target_role": "Director of Data Science",
+    "analysis_date": "2024-09-15",
+    "current_role": "Analytics Manager",
+    "skill_gaps": [
+      {
+        "skill_category": "Machine Learning",
+        "skill_name": "Machine Learning",
+        "current_proficiency": "Intermediate",
+        "required_proficiency": "Advanced",
+        "importance_level": "Critical",
+        "gap_severity": "High",
+        "recommended_courses": [
+          "C1005"
+        ],
+        "recommended_mentors": [
+          "M102"
+        ],
+        "estimated_time_to_proficiency": "6 months",
+        "priority": "High"
+      },
+      {
+        "skill_category": "Leadership",
+        "skill_name": "Team Leadership",
+        "current_proficiency": "Intermediate",
+        "required_proficiency": "Advanced",
+        "importance_level": "Critical",
+        "gap_severity": "Medium",
+        "recommended_courses": [
+          "C1004"
+        ],
+        "recommended_mentors": [
+          "M102"
+        ],
+        "estimated_time_to_proficiency": "12 months",
+        "priority": "High"
+      },
+      {
+        "skill_category": "Data Engineering",
+        "skill_name": "Data Engineering",
+        "current_proficiency": "None",
+        "required_proficiency": "Intermediate",
+        "importance_level": "Highly Recommended",
+        "gap_severity": "High",
+        "recommended_courses": [],
+        "recommended_mentors": [
+          "M101"
+        ],
+        "estimated_time_to_proficiency": "9 months",
+        "priority": "Medium"
+      }
+    ],
+    "overall_readiness_score": 65,
+    "recommended_action_plan": [
+      "Complete Machine Learning Specialization (C1005)",
+      "Enroll in leadership development program",
+      "Gain hands-on data engineering experience",
+      "Continue mentorship with M102"
+    ],
+    "timeline_to_target_role": "18 months"
+  },
+  "SGA002": {
+    "analysis_id": "SGA002",
+    "user_id": "U302",
+    "target_role": "Clinical Analytics Lead",
+    "analysis_date": "2024-09-15",
+    "current_role": "Clinical Analyst",
+    "skill_gaps": [
+      {
+        "skill_category": "Programming",
+        "skill_name": "Python",
+        "current_proficiency": "None",
+        "required_proficiency": "Intermediate",
+        "importance_level": "Critical",
+        "gap_severity": "High",
+        "recommended_courses": [
+          "C1001"
+        ],
+        "recommended_mentors": [
+          "M100"
+        ],
+        "estimated_time_to_proficiency": "6 months",
+        "priority": "High"
+      },
+      {
+        "skill_category": "Data Visualization",
+        "skill_name": "Power BI",
+        "current_proficiency": "None",
+        "required_proficiency": "Intermediate",
+        "importance_level": "Highly Recommended",
+        "gap_severity": "High",
+        "recommended_courses": [
+          "C1003"
+        ],
+        "recommended_mentors": [],
+        "estimated_time_to_proficiency": "3 months",
+        "priority": "Medium"
+      },
+      {
+        "skill_category": "Leadership",
+        "skill_name": "Project Leadership",
+        "current_proficiency": "Beginner",
+        "required_proficiency": "Intermediate",
+        "importance_level": "Highly Recommended",
+        "gap_severity": "Medium",
+        "recommended_courses": [
+          "C1004"
+        ],
+        "recommended_mentors": [
+          "M102"
+        ],
+        "estimated_time_to_proficiency": "9 months",
+        "priority": "Medium"
+      }
+    ],
+    "overall_readiness_score": 45,
+    "recommended_action_plan": [
+      "Complete Advanced Python course (C1001)",
+      "Learn Power BI for data visualization",
+      "Develop project leadership skills",
+      "Find new mentor for clinical analytics focus"
+    ],
+    "timeline_to_target_role": "24 months"
+  },
+  "SGA003": {
+    "analysis_id": "SGA003",
+    "user_id": "U304",
+    "target_role": "DesignOps Lead",
+    "analysis_date": "2024-09-15",
+    "current_role": "UX Designer",
+    "skill_gaps": [
+      {
+        "skill_category": "Design Operations",
+        "skill_name": "Design Operations",
+        "current_proficiency": "Intermediate",
+        "required_proficiency": "Advanced",
+        "importance_level": "Critical",
+        "gap_severity": "Medium",
+        "recommended_courses": [],
+        "recommended_mentors": [
+          "M100"
+        ],
+        "estimated_time_to_proficiency": "6 months",
+        "priority": "High"
+      },
+      {
+        "skill_category": "Leadership",
+        "skill_name": "Stakeholder Alignment",
+        "current_proficiency": "Beginner",
+        "required_proficiency": "Advanced",
+        "importance_level": "Critical",
+        "gap_severity": "High",
+        "recommended_courses": [
+          "C1004"
+        ],
+        "recommended_mentors": [
+          "M100"
+        ],
+        "estimated_time_to_proficiency": "12 months",
+        "priority": "High"
+      }
+    ],
+    "overall_readiness_score": 75,
+    "recommended_action_plan": [
+      "Continue DesignOps skill development",
+      "Enroll in project management course (C1004)",
+      "Practice stakeholder alignment in current role",
+      "Continue mentorship with M100"
+    ],
+    "timeline_to_target_role": "15 months"
+  },
+  "SGA004": {
+    "analysis_id": "SGA004",
+    "user_id": "U305",
+    "target_role": "Product Marketing Specialist",
+    "analysis_date": "2024-09-15",
+    "current_role": "Brand Strategist",
+    "skill_gaps": [
+      {
+        "skill_category": "Product Marketing",
+        "skill_name": "Product Marketing",
+        "current_proficiency": "Beginner",
+        "required_proficiency": "Intermediate",
+        "importance_level": "Critical",
+        "gap_severity": "Medium",
+        "recommended_courses": [
+          "C1006"
+        ],
+        "recommended_mentors": [
+          "M103"
+        ],
+        "estimated_time_to_proficiency": "6 months",
+        "priority": "High"
+      },
+      {
+        "skill_category": "Analytics",
+        "skill_name": "Data Analytics",
+        "current_proficiency": "None",
+        "required_proficiency": "Intermediate",
+        "importance_level": "Highly Recommended",
+        "gap_severity": "High",
+        "recommended_courses": [
+          "C1003"
+        ],
+        "recommended_mentors": [
+          "M103"
+        ],
+        "estimated_time_to_proficiency": "6 months",
+        "priority": "Medium"
+      }
+    ],
+    "overall_readiness_score": 60,
+    "recommended_action_plan": [
+      "Complete Agile Product Management course (C1006)",
+      "Learn data analytics fundamentals",
+      "Apply product marketing concepts to current projects",
+      "Continue mentorship with M103"
+    ],
+    "timeline_to_target_role": "18 months"
+  },
+  "SGA005": {
+    "analysis_id": "SGA005",
+    "user_id": "U306",
+    "target_role": "Staff SRE",
+    "analysis_date": "2024-09-15",
+    "current_role": "DevOps Engineer",
+    "skill_gaps": [
+      {
+        "skill_category": "Infrastructure as Code",
+        "skill_name": "Terraform",
+        "current_proficiency": "Beginner",
+        "required_proficiency": "Intermediate",
+        "importance_level": "Critical",
+        "gap_severity": "Medium",
+        "recommended_courses": [],
+        "recommended_mentors": [
+          "M101"
+        ],
+        "estimated_time_to_proficiency": "6 months",
+        "priority": "High"
+      },
+      {
+        "skill_category": "Reliability Engineering",
+        "skill_name": "Chaos Engineering",
+        "current_proficiency": "None",
+        "required_proficiency": "Intermediate",
+        "importance_level": "Highly Recommended",
+        "gap_severity": "High",
+        "recommended_courses": [],
+        "recommended_mentors": [
+          "M101"
+        ],
+        "estimated_time_to_proficiency": "9 months",
+        "priority": "Medium"
+      },
+      {
+        "skill_category": "Leadership",
+        "skill_name": "Technical Leadership",
+        "current_proficiency": "Beginner",
+        "required_proficiency": "Advanced",
+        "importance_level": "Critical",
+        "gap_severity": "High",
+        "recommended_courses": [
+          "C1004"
+        ],
+        "recommended_mentors": [
+          "M101"
+        ],
+        "estimated_time_to_proficiency": "18 months",
+        "priority": "High"
+      }
+    ],
+    "overall_readiness_score": 70,
+    "recommended_action_plan": [
+      "Master Terraform for infrastructure automation",
+      "Learn chaos engineering practices",
+      "Develop technical leadership skills",
+      "Continue mentorship with M101"
+    ],
+    "timeline_to_target_role": "24 months"
+  },
+  "SGA006": {
+    "analysis_id": "SGA006",
+    "user_id": "U308",
+    "target_role": "UX Writer",
+    "analysis_date": "2024-09-15",
+    "current_role": "Technical Writer",
+    "skill_gaps": [
+      {
+        "skill_category": "UX Writing",
+        "skill_name": "UX Writing",
+        "current_proficiency": "Intermediate",
+        "required_proficiency": "Advanced",
+        "importance_level": "Critical",
+        "gap_severity": "Medium",
+        "recommended_courses": [],
+        "recommended_mentors": [
+          "M102"
+        ],
+        "estimated_time_to_proficiency": "6 months",
+        "priority": "High"
+      },
+      {
+        "skill_category": "Information Architecture",
+        "skill_name": "Information Architecture",
+        "current_proficiency": "Intermediate",
+        "required_proficiency": "Advanced",
+        "importance_level": "Critical",
+        "gap_severity": "Medium",
+        "recommended_courses": [],
+        "recommended_mentors": [
+          "M102"
+        ],
+        "estimated_time_to_proficiency": "6 months",
+        "priority": "High"
+      }
+    ],
+    "overall_readiness_score": 80,
+    "recommended_action_plan": [
+      "Complete UX writing skill development",
+      "Master information architecture principles",
+      "Practice UX writing in current documentation",
+      "Continue mentorship with M102"
+    ],
+    "timeline_to_target_role": "15 months"
+  },
+  "SGA007": {
+    "analysis_id": "SGA007",
+    "user_id": "U310",
+    "target_role": "People Analytics Lead",
+    "analysis_date": "2024-09-15",
+    "current_role": "HR Partner",
+    "skill_gaps": [
+      {
+        "skill_category": "Data Analysis",
+        "skill_name": "Statistical Modeling",
+        "current_proficiency": "None",
+        "required_proficiency": "Advanced",
+        "importance_level": "Critical",
+        "gap_severity": "High",
+        "recommended_courses": [
+          "C1005"
+        ],
+        "recommended_mentors": [],
+        "estimated_time_to_proficiency": "12 months",
+        "priority": "High"
+      },
+      {
+        "skill_category": "Data Visualization",
+        "skill_name": "Data Visualization",
+        "current_proficiency": "Intermediate",
+        "required_proficiency": "Advanced",
+        "importance_level": "Critical",
+        "gap_severity": "Medium",
+        "recommended_courses": [
+          "C1003"
+        ],
+        "recommended_mentors": [],
+        "estimated_time_to_proficiency": "6 months",
+        "priority": "Medium"
+      }
+    ],
+    "overall_readiness_score": 55,
+    "recommended_action_plan": [
+      "Learn statistical modeling and predictive analytics",
+      "Enhance data visualization skills",
+      "Apply analytics to current HR projects",
+      "Find mentor with people analytics expertise"
+    ],
+    "timeline_to_target_role": "18 months"
+  },
+  "SGA008": {
+    "analysis_id": "SGA008",
+    "user_id": "U312",
+    "target_role": "Backend Tech Lead",
+    "analysis_date": "2024-09-15",
+    "current_role": "Software Engineer",
+    "skill_gaps": [
+      {
+        "skill_category": "Programming",
+        "skill_name": "Kotlin",
+        "current_proficiency": "Beginner",
+        "required_proficiency": "Intermediate",
+        "importance_level": "Highly Recommended",
+        "gap_severity": "Medium",
+        "recommended_courses": [],
+        "recommended_mentors": [
+          "M101"
+        ],
+        "estimated_time_to_proficiency": "6 months",
+        "priority": "Medium"
+      },
+      {
+        "skill_category": "Leadership",
+        "skill_name": "Team Leadership",
+        "current_proficiency": "Beginner",
+        "required_proficiency": "Advanced",
+        "importance_level": "Critical",
+        "gap_severity": "High",
+        "recommended_courses": [
+          "C1004"
+        ],
+        "recommended_mentors": [
+          "M101"
+        ],
+        "estimated_time_to_proficiency": "18 months",
+        "priority": "High"
+      },
+      {
+        "skill_category": "Architecture",
+        "skill_name": "Systems Design",
+        "current_proficiency": "Intermediate",
+        "required_proficiency": "Advanced",
+        "importance_level": "Critical",
+        "gap_severity": "Medium",
+        "recommended_courses": [],
+        "recommended_mentors": [
+          "M101"
+        ],
+        "estimated_time_to_proficiency": "12 months",
+        "priority": "High"
+      }
+    ],
+    "overall_readiness_score": 65,
+    "recommended_action_plan": [
+      "Master Kotlin programming language",
+      "Develop team leadership skills",
+      "Enhance systems design capabilities",
+      "Continue mentorship with M101"
+    ],
+    "timeline_to_target_role": "24 months"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "approval_001": {
+    "approval_id": "approval_001",
+    "cycle_id": "cycle_002",
+    "approver_email": "emma.creative@company.com",
+    "approved_ts": "2024-08-20T14:30:00Z",
+    "approval_comment_ref_nullable": "comment_003"
+  },
+  "approval_002": {
+    "approval_id": "approval_002",
+    "cycle_id": "cycle_002",
+    "approver_email": "chris.engineer@company.com",
+    "approved_ts": "2024-08-20T15:00:00Z",
+    "approval_comment_ref_nullable": null
+  },
+  "approval_003": {
+    "approval_id": "approval_003",
+    "cycle_id": "cycle_006",
+    "approver_email": "jake.design@company.com",
+    "approved_ts": "2024-08-21T11:30:00Z",
+    "approval_comment_ref_nullable": "comment_004"
+  },
+  "approval_004": {
+    "approval_id": "approval_004",
+    "cycle_id": "cycle_006",
+    "approver_email": "emma.creative@company.com",
+    "approved_ts": "2024-08-21T12:00:00Z",
+    "approval_comment_ref_nullable": null
+  },
+  "approval_005": {
+    "approval_id": "approval_005",
+    "cycle_id": "cycle_007",
+    "approver_email": "emma.creative@company.com",
+    "approved_ts": "2024-08-20T15:20:00Z",
+    "approval_comment_ref_nullable": "comment_007"
+  },
+  "approval_006": {
+    "approval_id": "approval_006",
+    "cycle_id": "cycle_010",
+    "approver_email": "emma.creative@company.com",
+    "approved_ts": "2024-08-21T16:30:00Z",
+    "approval_comment_ref_nullable": null
+  },
+  "approval_007": {
+    "approval_id": "approval_007",
+    "cycle_id": "cycle_010",
+    "approver_email": "anna.brand@company.com",
+    "approved_ts": "2024-08-21T17:00:00Z",
+    "approval_comment_ref_nullable": "comment_010"
+  },
+  "approval_008": {
+    "approval_id": "approval_008",
+    "cycle_id": "cycle_008",
+    "approver_email": "chris.engineer@company.com",
+    "approved_ts": "2024-08-22T14:30:00Z",
+    "approval_comment_ref_nullable": "comment_008"
+  },
+  "approval_009": {
+    "approval_id": "approval_009",
+    "cycle_id": "cycle_001",
+    "approver_email": "jake.design@company.com",
+    "approved_ts": "2024-08-21T10:30:00Z",
+    "approval_comment_ref_nullable": "comment_001"
+  },
+  "approval_010": {
+    "approval_id": "approval_010",
+    "cycle_id": "cycle_003",
+    "approver_email": "sophie.marketing@company.com",
+    "approved_ts": "2024-08-22T11:45:00Z",
+    "approval_comment_ref_nullable": null
+  },
+  "approval_011": {
+    "approval_id": "approval_011",
+    "cycle_id": "cycle_011",
+    "approver_email": "jake.design@company.com",
+    "approved_ts": "2024-08-23T14:30:00Z",
+    "approval_comment_ref_nullable": null
+  }
+}

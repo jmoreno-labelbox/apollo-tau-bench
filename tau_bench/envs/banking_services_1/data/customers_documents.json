@@ -1,0 +1,177 @@
+{
+  "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e": {
+    "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
+    "document": {
+      "type": "passport",
+      "number": "lF146011"
+    }
+  },
+  "a1b2c3d4-e5f6-7890-1234-567890abcdef": {
+    "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+    "document": {
+      "type": "national_id",
+      "number": "jd195515"
+    }
+  },
+  "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a": {
+    "customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
+    "document": {
+      "type": "driver_license",
+      "number": "VI933872"
+    }
+  },
+  "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4": {
+    "customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4",
+    "document": {
+      "type": "passport",
+      "number": "hI566779"
+    }
+  },
+  "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5": {
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5",
+    "document": {
+      "type": "driver_license",
+      "number": "fo611864"
+    }
+  },
+  "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6": {
+    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6",
+    "document": {
+      "type": "national_id",
+      "number": "IJ758739"
+    }
+  },
+  "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1": {
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1",
+    "document": {
+      "type": "driver_license",
+      "number": "Kt516858"
+    }
+  },
+  "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2": {
+    "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",
+    "document": {
+      "type": "driver_license",
+      "number": "im665671"
+    }
+  },
+  "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3": {
+    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3",
+    "document": {
+      "type": "national_id",
+      "number": "nh464131"
+    }
+  },
+  "a1b2c3d4-e5f6-7890-1234-567890abcdef-10": {
+    "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef-10",
+    "document": {
+      "type": "national_id",
+      "number": "EM506538"
+    }
+  },
+  "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11": {
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11",
+    "document": {
+      "type": "passport",
+      "number": "Se620000"
+    }
+  },
+  "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-12": {
+    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-12",
+    "document": {
+      "type": "passport",
+      "number": "kH614072"
+    }
+  },
+  "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13": {
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13",
+    "document": {
+      "type": "driver_license",
+      "number": "ER875871"
+    }
+  },
+  "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-14": {
+    "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-14",
+    "document": {
+      "type": "driver_license",
+      "number": "PF337862"
+    }
+  },
+  "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15": {
+    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15",
+    "document": {
+      "type": "passport",
+      "number": "rY031922"
+    }
+  },
+  "a1b2c3d4-e5f6-7890-1234-567890abcdef-16": {
+    "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef-16",
+    "document": {
+      "type": "passport",
+      "number": "kM178783"
+    }
+  },
+  "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17": {
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-17",
+    "document": {
+      "type": "driver_license",
+      "number": "mQ002650"
+    }
+  },
+  "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18": {
+    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18",
+    "document": {
+      "type": "national_id",
+      "number": "Ic156874"
+    }
+  },
+  "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19": {
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19",
+    "document": {
+      "type": "passport",
+      "number": "Pp345089"
+    }
+  },
+  "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-20": {
+    "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2-20",
+    "document": {
+      "type": "national_id",
+      "number": "UW784808"
+    }
+  },
+  "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21": {
+    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21",
+    "document": {
+      "type": "driver_license",
+      "number": "yy449809"
+    }
+  },
+  "a1b2c3d4-e5f6-7890-1234-567890abcdef-22": {
+    "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef-22",
+    "document": {
+      "type": "driver_license",
+      "number": "Qb140023"
+    }
+  },
+  "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23": {
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23",
+    "document": {
+      "type": "national_id",
+      "number": "uY143801"
+    }
+  },
+  "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24": {
+    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24",
+    "document": {
+      "type": "passport",
+      "number": "eE125799"
+    }
+  },
+  "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-25": {
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-25",
+    "document": {
+      "type": "national_id",
+      "number": "fy088462"
+    }
+  }
+}

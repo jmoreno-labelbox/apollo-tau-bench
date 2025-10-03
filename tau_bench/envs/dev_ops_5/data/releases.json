@@ -1,0 +1,122 @@
+{
+  "release_001": {
+    "id": "release_001",
+    "project_id": "project_001",
+    "version": "v1.2.0",
+    "notes": "User authentication system implementation with security fixes and Docker production configuration updates.",
+    "created_at": "2025-01-25T14:00:00Z",
+    "created_by": "user_001"
+  },
+  "release_002": {
+    "id": "release_002",
+    "project_id": "project_002",
+    "version": "v2.1.0",
+    "notes": "Helm charts for application deployment with Kubernetes manifests and updated documentation.",
+    "created_at": "2025-01-20T09:00:00Z",
+    "created_by": "user_005"
+  },
+  "release_003": {
+    "id": "release_003",
+    "project_id": "project_003",
+    "version": "v3.0.0",
+    "notes": "CI/CD pipeline modernization with GitLab CI integration and automated testing framework.",
+    "created_at": "2025-01-26T11:00:00Z",
+    "created_by": "user_007"
+  },
+  "release_004": {
+    "id": "release_004",
+    "project_id": "project_004",
+    "version": "v1.0.0",
+    "notes": "Jenkins pipeline templates with performance optimizations and shared libraries for automation.",
+    "created_at": "2025-01-20T09:00:00Z",
+    "created_by": "user_009"
+  },
+  "release_005": {
+    "id": "release_005",
+    "project_id": "project_005",
+    "version": "v3.0.0",
+    "notes": "Multi-cloud application architecture implementation with AWS ECS deployment configuration.",
+    "created_at": "2025-01-26T08:00:00Z",
+    "created_by": "user_011"
+  },
+  "release_006": {
+    "id": "release_006",
+    "project_id": "project_006",
+    "version": "v2.5.0",
+    "notes": "Monitoring stack deployment with Prometheus, Grafana dashboards, and alert configurations.",
+    "created_at": "2025-01-25T16:00:00Z",
+    "created_by": "user_013"
+  },
+  "release_007": {
+    "id": "release_007",
+    "project_id": "project_007",
+    "version": "v1.8.0",
+    "notes": "API Gateway implementation with Spring Cloud Gateway and rate limiting capabilities.",
+    "created_at": "2025-01-27T12:00:00Z",
+    "created_by": "user_015"
+  },
+  "release_008": {
+    "id": "release_008",
+    "project_id": "project_008",
+    "version": "v2.3.0",
+    "notes": "Mobile infrastructure backend with OAuth2 authentication for mobile APIs.",
+    "created_at": "2025-01-26T10:00:00Z",
+    "created_by": "user_017"
+  },
+  "release_009": {
+    "id": "release_009",
+    "project_id": "project_009",
+    "version": "v1.5.0",
+    "notes": "Edge computing runtime implementation with IoT capabilities and ML inference features.",
+    "created_at": "2025-01-25T18:00:00Z",
+    "created_by": "user_019"
+  },
+  "release_010": {
+    "id": "release_010",
+    "project_id": "project_010",
+    "version": "v4.2.0",
+    "notes": "ETL pipeline with Apache Spark, data transformation, and enrichment logic.",
+    "created_at": "2025-01-17T10:00:00Z",
+    "created_by": "user_002"
+  },
+  "release_011": {
+    "id": "release_011",
+    "project_id": "project_001",
+    "version": "v1.2.1",
+    "notes": "Hotfix release addressing database connection timeout issues and security vulnerabilities.",
+    "created_at": "2025-01-25T14:30:00Z",
+    "created_by": "user_003"
+  },
+  "release_012": {
+    "id": "release_012",
+    "project_id": "project_002",
+    "version": "v2.1.1",
+    "notes": "Documentation updates and minor fixes for Helm chart deployment process.",
+    "created_at": "2025-01-20T09:30:00Z",
+    "created_by": "user_006"
+  },
+  "release_013": {
+    "id": "release_013",
+    "project_id": "project_003",
+    "version": "v3.0.1",
+    "notes": "Integration testing framework and automated testing improvements for CI/CD pipeline.",
+    "created_at": "2025-01-26T12:00:00Z",
+    "created_by": "user_008"
+  },
+  "release_014": {
+    "id": "release_014",
+    "project_id": "project_004",
+    "version": "v1.0.1",
+    "notes": "Performance optimizations and shared library enhancements for Jenkins pipelines.",
+    "created_at": "2025-01-20T09:30:00Z",
+    "created_by": "user_010"
+  },
+  "release_015": {
+    "id": "release_015",
+    "project_id": "project_005",
+    "version": "v3.0.1",
+    "notes": "AWS ECS deployment configuration and multi-cloud architecture refinements.",
+    "created_at": "2025-01-26T09:00:00Z",
+    "created_by": "user_012"
+  }
+}

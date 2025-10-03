@@ -1,0 +1,62 @@
+{
+  "REV001": {
+    "row_id": "REV001",
+    "snapshot_id": "SNAP004",
+    "project_id": "PROJ001",
+    "ytd_revenue": 1827.5
+  },
+  "REV002": {
+    "row_id": "REV002",
+    "snapshot_id": "SNAP004",
+    "project_id": "PROJ002",
+    "ytd_revenue": 439.5
+  },
+  "REV003": {
+    "row_id": "REV003",
+    "snapshot_id": "SNAP004",
+    "project_id": "PROJ003",
+    "ytd_revenue": 2295.0
+  },
+  "REV004": {
+    "row_id": "REV004",
+    "snapshot_id": "SNAP004",
+    "project_id": "PROJ004",
+    "ytd_revenue": 25.0
+  },
+  "REV005": {
+    "row_id": "REV005",
+    "snapshot_id": "SNAP004",
+    "project_id": "PROJ005",
+    "ytd_revenue": 2180.0
+  },
+  "REV006": {
+    "row_id": "REV006",
+    "snapshot_id": "SNAP004",
+    "project_id": "PROJ006",
+    "ytd_revenue": 1425.0
+  },
+  "REV007": {
+    "row_id": "REV007",
+    "snapshot_id": "SNAP004",
+    "project_id": "PROJ007",
+    "ytd_revenue": 952.5
+  },
+  "REV008": {
+    "row_id": "REV008",
+    "snapshot_id": "SNAP004",
+    "project_id": "PROJ008",
+    "ytd_revenue": 1382.5
+  },
+  "REV009": {
+    "row_id": "REV009",
+    "snapshot_id": "SNAP004",
+    "project_id": "PROJ009",
+    "ytd_revenue": 0.0
+  },
+  "REV010": {
+    "row_id": "REV010",
+    "snapshot_id": "SNAP004",
+    "project_id": "PROJ010",
+    "ytd_revenue": 1445.0
+  }
+}

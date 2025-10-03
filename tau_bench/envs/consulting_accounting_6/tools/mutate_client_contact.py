@@ -1,0 +1,57 @@
+from tau_bench.envs.tool import Tool
+import json
+from datetime import datetime
+from typing import Any
+
+class MutateClientContact(Tool):
+    """Modify contact details for the client."""
+
+    @staticmethod
+    def invoke(
+        data: dict[str, Any],
+        publisher_id: str = None,
+        address: str = None,
+        contact_email: str = None,
+        gst_number: str = None
+    ) -> str:
+        row = next(
+            (p for p in data.get("publishers", []) if p.get("publisher_id") == publisher_id),
+            None,
+        )
+        if not row:
+            payload = {"error": f"publisher_id '{publisher_id}' not found"}
+            out = json.dumps(payload, indent=2)
+            return out
+        updates = {
+            k: v
+            for k, v in {
+                "address": address,
+                "contact_email": contact_email,
+                "gst_number": gst_number
+            }.items()
+            if v is not None
+        }
+        row.update(updates)
+        row["updated_at"] = _now_iso()
+        payload = {"publisher_id": publisher_id, "updated": updates}
+        out = json.dumps(payload, indent=2)
+        return out
+    @staticmethod
+    def get_info() -> dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "MutateClientContact",
+                "description": "Update a client's contact info.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "publisher_id": {"type": "string"},
+                        "address": {"type": "string"},
+                        "contact_email": {"type": "string"},
+                        "gst_number": {"type": "string"},
+                    },
+                    "required": ["publisher_id"],
+                },
+            },
+        }

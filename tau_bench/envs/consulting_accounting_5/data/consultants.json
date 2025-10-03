@@ -1,0 +1,12 @@
+{
+  "CONS001": {
+    "consultant_id": "CONS001",
+    "name": "Lisa Patel",
+    "address": "1234 Maple Avenue, Montreal, QC H3H 2N2",
+    "phone": "+1-416-555-0123",
+    "email": "lisa.patel@consultingpro.ca",
+    "gst_number": "123456789RT0001",
+    "created_at": "2023-01-15T10:00:00Z",
+    "updated_at": "2024-11-20T14:30:00Z"
+  }
+}

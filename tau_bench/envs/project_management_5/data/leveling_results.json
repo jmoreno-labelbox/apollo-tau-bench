@@ -1,0 +1,46 @@
+{
+  "level_001": {
+    "result_id": "level_001",
+    "project_id": "proj_mobile_01",
+    "resource_constraints": {
+      "Senior Developer": 2,
+      "React Native Developer": 1,
+      "QA Engineer": 1
+    },
+    "priority_method": "critical_path",
+    "conflicts_found": 3,
+    "milestones_shifted": 2,
+    "total_extension_days": 14,
+    "extension_percentage": 8.5,
+    "requires_approval": false,
+    "leveling_changes": [
+      {
+        "milestone_id": "ms_001",
+        "milestone_name": "Authentication Module Complete",
+        "original_start": "2024-03-01T00:00:00Z",
+        "original_end": "2024-03-31T00:00:00Z",
+        "new_start": "2024-03-08T00:00:00Z",
+        "new_end": "2024-04-07T00:00:00Z",
+        "shift_days": 7,
+        "reason": "Resource conflict - Senior Developer"
+      }
+    ],
+    "created_date": "2024-02-28T10:00:00Z"
+  },
+  "level_002": {
+    "result_id": "level_002",
+    "project_id": "proj_ai_01",
+    "resource_constraints": {
+      "Machine Learning": 2,
+      "Data Engineer": 2
+    },
+    "priority_method": "business_value",
+    "conflicts_found": 4,
+    "milestones_shifted": 3,
+    "total_extension_days": 21,
+    "extension_percentage": 12.3,
+    "requires_approval": true,
+    "leveling_changes": [],
+    "created_date": "2024-03-05T14:00:00Z"
+  }
+}

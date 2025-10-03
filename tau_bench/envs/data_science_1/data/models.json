@@ -1,0 +1,80 @@
+{
+  "simple_model": {
+    "model_name": "simple_model",
+    "model_type": "logistic_regression",
+    "training_ts": "2024-03-17T11:00:00Z",
+    "model_path": "/models/simple_model.joblib",
+    "feature_names": [
+      "precip_24h_mm",
+      "tide_anomaly_6h_max_m",
+      "pressure_drop_6h_hpa"
+    ],
+    "target_name": "high_risk_flag",
+    "train_metrics_json_path_nullable": null
+  },
+  "flood_risk_sf_v1": {
+    "model_name": "flood_risk_sf_v1",
+    "model_type": "logistic_regression",
+    "training_ts": "2024-03-17T09:30:00Z",
+    "model_path": "/models/flood_risk_sf_v1.pkl",
+    "feature_names": [
+      "tide_height_m",
+      "wind_speed_ms",
+      "precipitation_mm",
+      "pressure_hpa",
+      "tide_lag_1h",
+      "tide_lag_3h",
+      "precip_24h_sum",
+      "wind_speed_max_6h"
+    ],
+    "target_name": "high_risk_flag",
+    "train_metrics_json_path_nullable": "/results/train_metrics_sf_v1.json"
+  },
+  "flood_risk_miami_v1": {
+    "model_name": "flood_risk_miami_v1",
+    "model_type": "logistic_regression",
+    "training_ts": "2024-02-02T16:00:00Z",
+    "model_path": "/models/flood_risk_miami_v1.pkl",
+    "feature_names": [
+      "tide_height_m",
+      "wind_speed_ms",
+      "pressure_hpa",
+      "temperature_c",
+      "tide_range_24h"
+    ],
+    "target_name": "high_risk_flag",
+    "train_metrics_json_path_nullable": null
+  },
+  "flood_risk_sf_v2": {
+    "model_name": "flood_risk_sf_v2",
+    "model_type": "logistic_regression",
+    "training_ts": "2024-03-18T14:15:00Z",
+    "model_path": "/models/flood_risk_sf_v2.pkl",
+    "feature_names": [
+      "tide_height_m",
+      "wind_speed_ms",
+      "precipitation_mm",
+      "pressure_hpa",
+      "tide_lag_1h",
+      "tide_lag_3h",
+      "precip_24h_sum"
+    ],
+    "target_name": "high_risk_flag",
+    "train_metrics_json_path_nullable": "/results/train_metrics_sf_v2.json"
+  },
+  "boston_harbor_model": {
+    "model_name": "boston_harbor_model",
+    "model_type": "logistic_regression",
+    "training_ts": "2024-03-01T13:10:00Z",
+    "model_path": "/models/boston_harbor_model.joblib",
+    "feature_names": [
+      "timestamp",
+      "ice_coverage_pct",
+      "snow_depth_mm",
+      "temperature_feels_like_c",
+      "pressure_tendency_hpa_3h"
+    ],
+    "target_name": "high_risk_flag",
+    "train_metrics_json_path_nullable": "/data/processed/train_metrics_boston.json"
+  }
+}

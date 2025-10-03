@@ -1,0 +1,52 @@
+{
+  "1": {
+    "umpire_id": 1,
+    "full_name": "Emily Perez",
+    "years_experience": 20
+  },
+  "2": {
+    "umpire_id": 2,
+    "full_name": "William Johnson",
+    "years_experience": 7
+  },
+  "3": {
+    "umpire_id": 3,
+    "full_name": "Mia Rodriguez",
+    "years_experience": 4
+  },
+  "4": {
+    "umpire_id": 4,
+    "full_name": "Emma Wilson",
+    "years_experience": 2
+  },
+  "5": {
+    "umpire_id": 5,
+    "full_name": "Susan Garcia",
+    "years_experience": 4
+  },
+  "6": {
+    "umpire_id": 6,
+    "full_name": "Harper Moore",
+    "years_experience": 26
+  },
+  "7": {
+    "umpire_id": 7,
+    "full_name": "Abigail Lee",
+    "years_experience": 13
+  },
+  "8": {
+    "umpire_id": 8,
+    "full_name": "William Anderson",
+    "years_experience": 19
+  },
+  "9": {
+    "umpire_id": 9,
+    "full_name": "Daniel Thompson",
+    "years_experience": 17
+  },
+  "10": {
+    "umpire_id": 10,
+    "full_name": "Ethan Jackson",
+    "years_experience": 11
+  }
+}

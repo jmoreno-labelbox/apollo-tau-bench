@@ -1,0 +1,46 @@
+{
+  "del_001": {
+    "deliverable_id": "del_001",
+    "project_id": "proj_mobile_01",
+    "name": "User Authentication Module",
+    "description": "Complete authentication system with OAuth support",
+    "estimated_hours": 320,
+    "status": "in_progress",
+    "dependencies": [],
+    "change_history": []
+  },
+  "del_002": {
+    "deliverable_id": "del_002",
+    "project_id": "proj_mobile_01",
+    "name": "Payment Processing System",
+    "description": "Integrated payment gateway with multiple providers",
+    "estimated_hours": 480,
+    "status": "planned",
+    "dependencies": [
+      "del_001"
+    ],
+    "change_history": []
+  },
+  "del_003": {
+    "deliverable_id": "del_003",
+    "project_id": "proj_ai_01",
+    "name": "ML Model Training Pipeline",
+    "description": "Automated pipeline for model training and deployment",
+    "estimated_hours": 640,
+    "status": "planned",
+    "dependencies": [],
+    "change_history": []
+  },
+  "del_004": {
+    "deliverable_id": "del_004",
+    "project_id": "proj_mobile_01",
+    "name": "Push Notification System",
+    "description": "Real-time push notification infrastructure",
+    "estimated_hours": 240,
+    "status": "planned",
+    "dependencies": [
+      "del_001"
+    ],
+    "change_history": []
+  }
+}

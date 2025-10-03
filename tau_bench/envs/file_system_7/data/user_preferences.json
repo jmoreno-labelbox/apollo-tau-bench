@@ -1,0 +1,71 @@
+{
+  "user_001": {
+    "user_id": "user_001",
+    "username": "maya_admin",
+    "forename": "Maya",
+    "surname": "Johnson",
+    "contact": "user_001_contact",
+    "role": "system_admin",
+    "permissions": [
+      "read",
+      "write",
+      "execute",
+      "admin"
+    ],
+    "default_ssh_key": "alice_rsa_key"
+  },
+  "user_002": {
+    "user_id": "user_002",
+    "username": "ryan_dev",
+    "forename": "Ryan",
+    "surname": "Smith",
+    "contact": "user_002_contact",
+    "role": "developer",
+    "permissions": [
+      "read",
+      "write",
+      "execute"
+    ],
+    "default_ssh_key": "bob_rsa_key"
+  },
+  "user_003": {
+    "user_id": "user_003",
+    "username": "luna_analyst",
+    "forename": "Luna",
+    "surname": "Davis",
+    "contact": "user_003_contact",
+    "role": "data_analyst",
+    "permissions": [
+      "read",
+      "write"
+    ],
+    "default_ssh_key": "carol_rsa_key"
+  },
+  "user_004": {
+    "user_id": "user_004",
+    "username": "ethan_intern",
+    "forename": "Ethan",
+    "surname": "Wilson",
+    "contact": "user_004_contact",
+    "role": "intern",
+    "permissions": [
+      "read"
+    ],
+    "default_ssh_key": "dave_rsa_key"
+  },
+  "user_005": {
+    "user_id": "user_005",
+    "username": "aria_manager",
+    "forename": "Aria",
+    "surname": "Brown",
+    "contact": "user_005_contact",
+    "role": "project_manager",
+    "permissions": [
+      "read",
+      "write",
+      "execute",
+      "admin"
+    ],
+    "default_ssh_key": "eve_rsa_key"
+  }
+}

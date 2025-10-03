@@ -1,0 +1,90 @@
+{
+  "MON001": {
+    "row_id": "MON001",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-01",
+    "revenue": 892.5,
+    "tax_reserve": 236.51,
+    "profit_flag": "low"
+  },
+  "MON002": {
+    "row_id": "MON002",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-02",
+    "revenue": 760.0,
+    "tax_reserve": 201.4,
+    "profit_flag": "low"
+  },
+  "MON003": {
+    "row_id": "MON003",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-03",
+    "revenue": 1275.0,
+    "tax_reserve": 337.88,
+    "profit_flag": "normal"
+  },
+  "MON004": {
+    "row_id": "MON004",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-04",
+    "revenue": 510.0,
+    "tax_reserve": 135.15,
+    "profit_flag": "low"
+  },
+  "MON005": {
+    "row_id": "MON005",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-05",
+    "revenue": 975.0,
+    "tax_reserve": 258.38,
+    "profit_flag": "normal"
+  },
+  "MON006": {
+    "row_id": "MON006",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-06",
+    "revenue": 680.0,
+    "tax_reserve": 180.2,
+    "profit_flag": "normal"
+  },
+  "MON007": {
+    "row_id": "MON007",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-07",
+    "revenue": 1560.0,
+    "tax_reserve": 413.4,
+    "profit_flag": "high"
+  },
+  "MON008": {
+    "row_id": "MON008",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-08",
+    "revenue": 1520.0,
+    "tax_reserve": 402.8,
+    "profit_flag": "high"
+  },
+  "MON009": {
+    "row_id": "MON009",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-09",
+    "revenue": 612.0,
+    "tax_reserve": 162.18,
+    "profit_flag": "normal"
+  },
+  "MON010": {
+    "row_id": "MON010",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-10",
+    "revenue": 1360.0,
+    "tax_reserve": 360.4,
+    "profit_flag": "normal"
+  },
+  "MON011": {
+    "row_id": "MON011",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-11",
+    "revenue": 765.0,
+    "tax_reserve": 202.73,
+    "profit_flag": "normal"
+  }
+}

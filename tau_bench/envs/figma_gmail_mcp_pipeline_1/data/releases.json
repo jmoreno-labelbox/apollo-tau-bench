@@ -1,0 +1,122 @@
+{
+  "release_001": {
+    "release_id": "release_001",
+    "figma_file_id": "figd_abc123def456",
+    "version_id": "v1.2.0",
+    "version_tag": "release/design-system-v1.2.0",
+    "release_name": "Design System v1.2.0 - Enhanced Components",
+    "owner_email": "emma.creative@company.com",
+    "created_ts": "2024-08-22T16:45:00Z",
+    "thread_id_nullable": "thread_006"
+  },
+  "release_002": {
+    "release_id": "release_002",
+    "figma_file_id": "figd_xyz789ghi012",
+    "version_id": "v2.1.0",
+    "version_tag": "release/mobile-app-v2.1.0",
+    "release_name": "Mobile App v2.1.0 - User Profile & Dashboard",
+    "owner_email": "jake.design@company.com",
+    "created_ts": "2024-08-20T13:10:00Z",
+    "thread_id_nullable": "thread_007"
+  },
+  "release_003": {
+    "release_id": "release_003",
+    "figma_file_id": "figd_def456ghi789",
+    "version_id": "v1.0.0",
+    "version_tag": "release/marketing-website-v1.0.0",
+    "release_name": "Marketing Website v1.0.0 - Launch Ready",
+    "owner_email": "anna.brand@company.com",
+    "created_ts": "2024-08-22T10:45:00Z",
+    "thread_id_nullable": "thread_003"
+  },
+  "release_004": {
+    "release_id": "release_004",
+    "figma_file_id": "figd_jkl012mno345",
+    "version_id": "v3.0.0",
+    "version_tag": "admin-panel-v3.0.0",
+    "release_name": "Admin Panel v3.0.0 - Accessibility Improvements",
+    "owner_email": "chris.engineer@company.com",
+    "created_ts": "2024-08-19T16:55:00Z",
+    "thread_id_nullable": "thread_004"
+  },
+  "release_005": {
+    "release_id": "release_005",
+    "figma_file_id": "figd_pqr678stu901",
+    "version_id": "v2.0.0",
+    "version_tag": "brand-guidelines-v2.0.0",
+    "release_name": "Brand Guidelines v2.0.0 - Updated Palette",
+    "owner_email": "sophie.marketing@company.com",
+    "created_ts": "2024-08-20T12:00:00Z",
+    "thread_id_nullable": "thread_005"
+  },
+  "release_006": {
+    "release_id": "release_006",
+    "figma_file_id": "figd_abc123def456",
+    "version_id": "v1.1.0",
+    "version_tag": "design-system-v1.1.0",
+    "release_name": "Design System v1.1.0 - Navigation Components",
+    "owner_email": "emma.creative@company.com",
+    "created_ts": "2024-08-21T09:15:00Z",
+    "thread_id_nullable": "thread_010"
+  },
+  "release_007": {
+    "release_id": "release_007",
+    "figma_file_id": "figd_xyz789ghi012",
+    "version_id": "v2.0.0",
+    "version_tag": "mobile-app-v2.0.0",
+    "release_name": "Mobile App v2.0.0 - Dashboard Redesign",
+    "owner_email": "jake.design@company.com",
+    "created_ts": "2024-08-19T11:20:00Z",
+    "thread_id_nullable": "thread_002"
+  },
+  "release_008": {
+    "release_id": "release_008",
+    "figma_file_id": "figd_def456ghi789",
+    "version_id": "v0.9.0",
+    "version_tag": "marketing-website-v0.9.0",
+    "release_name": "Marketing Website v0.9.0 - Beta Release",
+    "owner_email": "anna.brand@company.com",
+    "created_ts": "2024-08-21T15:30:00Z",
+    "thread_id_nullable": null
+  },
+  "release_009": {
+    "release_id": "release_009",
+    "figma_file_id": "figd_jkl012mno345",
+    "version_id": "v2.5.0",
+    "version_tag": "admin-panel-v2.5.0",
+    "release_name": "Admin Panel v2.5.0 - Data Table Components",
+    "owner_email": "chris.engineer@company.com",
+    "created_ts": "2024-08-19T16:55:00Z",
+    "thread_id_nullable": "thread_009"
+  },
+  "release_010": {
+    "release_id": "release_010",
+    "figma_file_id": "figd_abc123def456",
+    "version_id": "v1.0.0",
+    "version_tag": "release/design-system-v1.0.0",
+    "release_name": "Design System v1.0.0 - Initial Release",
+    "owner_email": "emma.creative@company.com",
+    "created_ts": "2024-08-20T14:30:00Z",
+    "thread_id_nullable": "thread_001"
+  },
+  "release_011": {
+    "release_id": "release_011",
+    "figma_file_id": "figd_abc123def456",
+    "version_id": "v1.3.0",
+    "version_tag": "release/design-system-v1.3.0",
+    "release_name": "Design System v1.3.0 - Form Components & Accessibility",
+    "owner_email": "emma.creative@company.com",
+    "created_ts": "2024-08-23T11:00:00Z",
+    "thread_id_nullable": "thread_013"
+  },
+  "release_012": {
+    "release_id": "release_012",
+    "figma_file_id": "figd_xyz789ghi012",
+    "version_id": "v2.2.0",
+    "version_tag": "release/mobile-app-v2.2.0",
+    "release_name": "Mobile App v2.2.0 - Settings & Profile Enhancements",
+    "owner_email": "jake.design@company.com",
+    "created_ts": "2024-08-23T12:30:00Z",
+    "thread_id_nullable": "thread_014"
+  }
+}

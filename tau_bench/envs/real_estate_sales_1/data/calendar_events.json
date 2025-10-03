@@ -1,0 +1,167 @@
+{
+  "1": {
+    "event_id": 1,
+    "broker_id": 2,
+    "client_id": 4,
+    "title": "Initial Consultation - Angela Thomas",
+    "start_at": "2025-08-22T10:00:00Z",
+    "end_at": "2025-08-22T11:00:00Z",
+    "location": "7415 Carter Roads Apt. 829, North Ashton, CO 04702",
+    "notes": "Discuss budget, preferences, and timeline for Central City condo search",
+    "source": "client_meeting"
+  },
+  "2": {
+    "event_id": 2,
+    "broker_id": 2,
+    "client_id": 4,
+    "title": "Property Tour - Central City Condos",
+    "start_at": "2025-08-22T14:00:00Z",
+    "end_at": "2025-08-22T17:00:00Z",
+    "location": "901 Main Street Unit 1205, Phoenix, AZ 77002",
+    "notes": "Show HTX003, HTX017, HTX025, HTX034 - focus on amenities and city views",
+    "source": "viewing"
+  },
+  "3": {
+    "event_id": 3,
+    "broker_id": 11,
+    "client_id": 10,
+    "title": "Family Home Tour",
+    "start_at": "2025-08-23T13:00:00Z",
+    "end_at": "2025-08-23T16:00:00Z",
+    "location": "6666 Stella Link Road, Phoenix, AZ 77025",
+    "notes": "Tour family-friendly neighborhoods, check school districts",
+    "source": "viewing"
+  },
+  "4": {
+    "event_id": 4,
+    "broker_id": 6,
+    "client_id": 11,
+    "title": "Follow-up Call - Christina Johnson",
+    "start_at": "2025-08-24T11:00:00Z",
+    "end_at": "2025-08-24T11:30:00Z",
+    "location": "Phone",
+    "notes": "Discuss feedback from Arcadia tours, schedule next viewings",
+    "source": "follow_up"
+  },
+  "5": {
+    "event_id": 5,
+    "broker_id": 3,
+    "client_id": 12,
+    "title": "Townhouse Viewing Session",
+    "start_at": "2025-08-25T14:00:00Z",
+    "end_at": "2025-08-25T17:00:00Z",
+    "location": "3030 Caroline Street, Phoenix, AZ 77004",
+    "notes": "Show modern townhouses CO Arts Quarter and SoDo areas",
+    "source": "viewing"
+  },
+  "6": {
+    "event_id": 6,
+    "broker_id": 5,
+    "client_id": 13,
+    "title": "Mortgage Consultation Meeting",
+    "start_at": "2025-08-26T09:00:00Z",
+    "end_at": "2025-08-26T10:00:00Z",
+    "location": "USNV Strickland, FPO AP 98640",
+    "notes": "Review pre-approval status and discuss luxury condo financing options",
+    "source": "client_meeting"
+  },
+  "7": {
+    "event_id": 7,
+    "broker_id": 14,
+    "client_id": 2,
+    "title": "Urban Living Property Tour",
+    "start_at": "2025-08-27T15:00:00Z",
+    "end_at": "2025-08-27T18:00:00Z",
+    "location": "2222 Smith Street Unit 405, Phoenix, AZ 77002",
+    "notes": "Focus on walkability and transit access for Central City/Uptown units",
+    "source": "viewing"
+  },
+  "8": {
+    "event_id": 8,
+    "broker_id": 15,
+    "client_id": 7,
+    "title": "Contract Review - Mr. Sean Hardy",
+    "start_at": "2025-08-28T16:00:00Z",
+    "end_at": "2025-08-28T17:00:00Z",
+    "location": "5033 Parker Keys Suite 325, Old Williamsburg, VT 03979",
+    "notes": "Review purchase agreement for SoDo townhouse, discuss closing timeline",
+    "source": "client_meeting"
+  },
+  "9": {
+    "event_id": 9,
+    "broker_id": 12,
+    "client_id": 8,
+    "title": "Medical Center Condos Tour",
+    "start_at": "2025-08-29T11:00:00Z",
+    "end_at": "2025-08-29T14:00:00Z",
+    "location": "3535 Fannin Street Unit 2801, Phoenix, AZ 77004",
+    "notes": "Show luxury medical center properties, highlight proximity to hospitals",
+    "source": "viewing"
+  },
+  "10": {
+    "event_id": 10,
+    "broker_id": 8,
+    "client_id": 15,
+    "title": "Heights Historic Home Tour",
+    "start_at": "2025-08-30T14:00:00Z",
+    "end_at": "2025-08-30T17:00:00Z",
+    "location": "1234 Heights Boulevard, Phoenix, AZ 77008",
+    "notes": "Showcase historic charm and walkable neighborhood character",
+    "source": "viewing"
+  },
+  "11": {
+    "event_id": 11,
+    "broker_id": 8,
+    "client_id": 16,
+    "title": "Galleria Area Apartment Viewing",
+    "start_at": "2025-08-31T13:00:00Z",
+    "end_at": "2025-08-31T16:00:00Z",
+    "location": "5678 Richmond Avenue Unit 805, Phoenix, AZ 77057",
+    "notes": "Show upscale apartments with amenities, discuss lease vs buy options",
+    "source": "viewing"
+  },
+  "12": {
+    "event_id": 12,
+    "broker_id": 10,
+    "client_id": 17,
+    "title": "First-Time Buyer Education Session",
+    "start_at": "2025-08-21T18:00:00Z",
+    "end_at": "2025-08-21T19:30:00Z",
+    "location": "85158 Harrison Way, North Emma, UT 16735",
+    "notes": "Cover home buying process, financing options, and market conditions",
+    "source": "client_meeting"
+  },
+  "13": {
+    "event_id": 13,
+    "broker_id": 5,
+    "client_id": 18,
+    "title": "Investment Property Analysis",
+    "start_at": "2025-08-23T10:00:00Z",
+    "end_at": "2025-08-23T11:30:00Z",
+    "location": "USNV Strickland, FPO AP 98640",
+    "notes": "Review rental market data and investment property opportunities",
+    "source": "client_meeting"
+  },
+  "14": {
+    "event_id": 14,
+    "broker_id": 1,
+    "client_id": 1,
+    "title": "Follow-up Check-CO - Eric Lopez",
+    "start_at": "2025-08-25T09:00:00Z",
+    "end_at": "2025-08-25T09:30:00Z",
+    "location": "Phone",
+    "notes": "Check on client status, discuss potential reactivation of search",
+    "source": "follow_up"
+  },
+  "15": {
+    "event_id": 15,
+    "broker_id": 9,
+    "client_id": 9,
+    "title": "Market Update Meeting",
+    "start_at": "2025-08-26T15:00:00Z",
+    "end_at": "2025-08-26T16:00:00Z",
+    "location": "359 Thompson Meadows Suite 856, South Oakmont, UT 80149",
+    "notes": "Present Q3 market analysis and discuss timing for home search",
+    "source": "client_meeting"
+  }
+}

@@ -1,0 +1,323 @@
+{
+  "WF001": {
+    "workflow_id": "WF001",
+    "workflow_name": "Internal Promotion Process",
+    "workflow_type": "Promotion",
+    "initiated_by": "U301",
+    "initiated_date": "2024-09-15",
+    "status": "In Progress",
+    "current_stage": "Skills Assessment",
+    "employee_id": "U302",
+    "current_role": "Clinical Analyst",
+    "target_role": "Senior Data Scientist",
+    "job_posting_id": "J001",
+    "workflow_stages": [
+      {
+        "stage": "Initial Request",
+        "status": "Completed",
+        "date": "2024-09-15",
+        "approver": "U301",
+        "notes": "Employee expressed interest in data science role"
+      },
+      {
+        "stage": "Skills Assessment",
+        "status": "In Progress",
+        "date": "2024-09-16",
+        "assessor": "U301",
+        "notes": "Conducting skill gap analysis and development planning"
+      },
+      {
+        "stage": "Development Plan",
+        "status": "Pending",
+        "date": null,
+        "planner": "U310",
+        "notes": "Create personalized development plan"
+      },
+      {
+        "stage": "Training Assignment",
+        "status": "Pending",
+        "date": null,
+        "assigner": "U309",
+        "notes": "Assign required training courses"
+      },
+      {
+        "stage": "Final Assessment",
+        "status": "Pending",
+        "date": null,
+        "assessor": "U301",
+        "notes": "Reassess skills after training completion"
+      }
+    ],
+    "required_skills": [
+      "Machine Learning",
+      "Python",
+      "SQL",
+      "Statistical Analysis"
+    ],
+    "missing_skills": [
+      {
+        "skill": "Machine Learning",
+        "gap_severity": "High",
+        "development_plan": "Enroll in C1005 Machine Learning Specialization"
+      },
+      {
+        "skill": "Deep Learning",
+        "gap_severity": "Medium",
+        "development_plan": "Complete advanced ML course modules"
+      }
+    ],
+    "estimated_completion": "2025-03-15",
+    "budget_allocation": 5000
+  },
+  "WF002": {
+    "workflow_id": "WF002",
+    "workflow_name": "Succession Planning",
+    "workflow_type": "Leadership Development",
+    "initiated_by": "U310",
+    "initiated_date": "2024-09-10",
+    "status": "In Progress",
+    "current_stage": "Candidate Identification",
+    "target_role": "UX Design Lead",
+    "vacancy_date": "2024-12-01",
+    "workflow_stages": [
+      {
+        "stage": "Role Analysis",
+        "status": "Completed",
+        "date": "2024-09-10",
+        "analyst": "U310",
+        "notes": "Identified key requirements for UX Design Lead role"
+      },
+      {
+        "stage": "Candidate Identification",
+        "status": "In Progress",
+        "date": "2024-09-12",
+        "recruiter": "U310",
+        "notes": "Screening internal candidates: U307, U304"
+      },
+      {
+        "stage": "Skills Assessment",
+        "status": "Pending",
+        "date": null,
+        "assessor": "U304",
+        "notes": "Assess technical and leadership skills"
+      },
+      {
+        "stage": "Development Planning",
+        "status": "Pending",
+        "date": null,
+        "planner": "U309",
+        "notes": "Create leadership development program"
+      }
+    ],
+    "candidates": [
+      {
+        "employee_id": "U307",
+        "readiness_score": 85,
+        "development_needs": [
+          "Leadership",
+          "Design Operations"
+        ],
+        "timeline": "6 months"
+      },
+      {
+        "employee_id": "U304",
+        "readiness_score": 90,
+        "development_needs": [
+          "Stakeholder Alignment"
+        ],
+        "timeline": "3 months"
+      }
+    ],
+    "succession_plan": "Develop U307 for leadership role with mentorship from U304"
+  },
+  "WF003": {
+    "workflow_id": "WF003",
+    "workflow_name": "Talent Acquisition",
+    "workflow_type": "External Hiring",
+    "initiated_by": "U312",
+    "initiated_date": "2024-09-05",
+    "status": "Completed",
+    "current_stage": "Offer Accepted",
+    "job_posting_id": "J003",
+    "workflow_stages": [
+      {
+        "stage": "Job Posting",
+        "status": "Completed",
+        "date": "2024-09-05",
+        "poster": "U312",
+        "notes": "Posted DevOps Engineer position"
+      },
+      {
+        "stage": "Application Review",
+        "status": "Completed",
+        "date": "2024-09-08",
+        "reviewer": "U312",
+        "notes": "Reviewed 15 applications, shortlisted 5 candidates"
+      },
+      {
+        "stage": "Skills Assessment",
+        "status": "Completed",
+        "date": "2024-09-10",
+        "assessor": "U312",
+        "notes": "Conducted technical assessments"
+      },
+      {
+        "stage": "Interview",
+        "status": "Completed",
+        "date": "2024-09-12",
+        "interviewer": "U312",
+        "notes": "Interviewed top candidate U306"
+      },
+      {
+        "stage": "Offer Extended",
+        "status": "Completed",
+        "date": "2024-09-14",
+        "hiring_manager": "U312",
+        "notes": "Extended offer to U306"
+      },
+      {
+        "stage": "Offer Accepted",
+        "status": "Completed",
+        "date": "2024-09-15",
+        "hr_rep": "U310",
+        "notes": "U306 accepted offer, start date 2024-10-01"
+      }
+    ],
+    "applications_received": 15,
+    "candidates_interviewed": 3,
+    "final_candidate": "U306",
+    "offer_details": {
+      "salary": "$125,000",
+      "start_date": "2024-10-01",
+      "reporting_to": "U312"
+    }
+  },
+  "WF004": {
+    "workflow_id": "WF004",
+    "workflow_name": "Performance Management",
+    "workflow_type": "Performance Review",
+    "initiated_by": "U310",
+    "initiated_date": "2024-09-01",
+    "status": "In Progress",
+    "current_stage": "Goal Setting",
+    "employee_id": "U305",
+    "review_period": "Q3 2024",
+    "workflow_stages": [
+      {
+        "stage": "Self Assessment",
+        "status": "Completed",
+        "date": "2024-09-01",
+        "employee": "U305",
+        "notes": "Completed self-assessment with focus on product marketing skills"
+      },
+      {
+        "stage": "Manager Review",
+        "status": "Completed",
+        "date": "2024-09-05",
+        "manager": "U310",
+        "notes": "Reviewed performance and identified development areas"
+      },
+      {
+        "stage": "Goal Setting",
+        "status": "In Progress",
+        "date": "2024-09-10",
+        "planner": "U310",
+        "notes": "Setting SMART goals for Q4 2024"
+      },
+      {
+        "stage": "Development Plan",
+        "status": "Pending",
+        "date": null,
+        "planner": "U309",
+        "notes": "Create personalized development plan"
+      }
+    ],
+    "performance_rating": "Meets Expectations",
+    "key_achievements": [
+      "Led successful brand refresh campaign",
+      "Improved market research processes",
+      "Mentored junior marketing team member"
+    ],
+    "development_areas": [
+      "Product marketing strategy development",
+      "Data analytics skills",
+      "Cross-functional collaboration"
+    ],
+    "goals": [
+      "Complete product marketing certification by Q4",
+      "Lead 2 product launch campaigns",
+      "Develop analytics dashboard for marketing metrics"
+    ]
+  },
+  "WF005": {
+    "workflow_id": "WF005",
+    "workflow_name": "Skills Development Program",
+    "workflow_type": "Training Initiative",
+    "initiated_by": "U309",
+    "initiated_date": "2024-08-15",
+    "status": "In Progress",
+    "current_stage": "Training Delivery",
+    "program_name": "Data Science Upskilling",
+    "target_audience": [
+      "U302",
+      "U310"
+    ],
+    "workflow_stages": [
+      {
+        "stage": "Needs Assessment",
+        "status": "Completed",
+        "date": "2024-08-15",
+        "assessor": "U309",
+        "notes": "Identified data science skill gaps across organization"
+      },
+      {
+        "stage": "Program Design",
+        "status": "Completed",
+        "date": "2024-08-25",
+        "designer": "U309",
+        "notes": "Designed 6-month data science development program"
+      },
+      {
+        "stage": "Participant Selection",
+        "status": "Completed",
+        "date": "2024-09-01",
+        "selector": "U310",
+        "notes": "Selected 2 participants for pilot program"
+      },
+      {
+        "stage": "Training Delivery",
+        "status": "In Progress",
+        "date": "2024-09-10",
+        "instructor": "U301",
+        "notes": "Delivering machine learning fundamentals"
+      },
+      {
+        "stage": "Progress Assessment",
+        "status": "Pending",
+        "date": null,
+        "assessor": "U301",
+        "notes": "Monthly progress assessments"
+      },
+      {
+        "stage": "Program Evaluation",
+        "status": "Pending",
+        "date": null,
+        "evaluator": "U309",
+        "notes": "Final program evaluation and ROI assessment"
+      }
+    ],
+    "courses_assigned": [
+      "C1001",
+      "C1005"
+    ],
+    "mentors_assigned": [
+      "M102"
+    ],
+    "budget": 15000,
+    "success_metrics": [
+      "Complete machine learning certification",
+      "Apply skills to real projects",
+      "Transition to data science role"
+    ]
+  }
+}

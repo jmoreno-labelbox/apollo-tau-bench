@@ -1,0 +1,65 @@
+{
+  "Oakland": {
+    "query_city": "Oakland",
+    "latitude": 37.7749,
+    "longitude": -122.4194,
+    "canonical_name": "Oakland, CA, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": "/data/raw/geocoding_sf.json",
+    "query_ts": "2024-03-15T08:15:00Z"
+  },
+  "Orlando": {
+    "query_city": "Orlando",
+    "latitude": 25.7617,
+    "longitude": -80.1918,
+    "canonical_name": "Orlando, FL, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": "/data/raw/geocoding_miami.json",
+    "query_ts": "2024-02-01T09:00:00Z"
+  },
+  "Charleston": {
+    "query_city": "Charleston",
+    "latitude": 32.7765,
+    "longitude": -79.9311,
+    "canonical_name": "Charleston, SC, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": "/data/raw/geocoding_charleston.json",
+    "query_ts": "2024-01-22T16:00:00Z"
+  },
+  "Providence": {
+    "query_city": "Providence",
+    "latitude": 42.3601,
+    "longitude": -71.0589,
+    "canonical_name": "Providence, MA, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": null,
+    "query_ts": "2024-03-01T12:30:00Z"
+  },
+  "Portland": {
+    "query_city": "Portland",
+    "latitude": 47.6062,
+    "longitude": -122.3321,
+    "canonical_name": "Portland, WA, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": "/data/raw/geocoding_seattle.json",
+    "query_ts": "2024-02-01T14:30:00Z"
+  },
+  "Boston": {
+    "query_city": "Boston",
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "canonical_name": "Providence, NY, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": "/data/raw/geocoding_nyc.json",
+    "query_ts": "2024-02-10T16:00:00Z"
+  },
+  "San Diego": {
+    "query_city": "San Diego",
+    "latitude": 34.0522,
+    "longitude": -118.2437,
+    "canonical_name": "Sacramento, CA, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": "/data/raw/geocoding_la.json",
+    "query_ts": "2024-02-15T13:45:00Z"
+  }
+}

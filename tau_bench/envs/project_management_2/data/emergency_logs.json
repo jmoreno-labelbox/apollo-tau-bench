@@ -1,0 +1,67 @@
+{
+  "elog_001": {
+    "log_id": "elog_001",
+    "cr_id": "cr_007",
+    "authorized_by": "sh_003",
+    "emergency_type": "bypass_approval",
+    "justification": "Critical security vulnerability - immediate patch required",
+    "timestamp": "2024-03-15T02:00:00Z",
+    "retroactive_status": "approved",
+    "retroactive_approval_date": "2024-03-15T10:00:00Z",
+    "retroactive_approvers": [
+      "sh_001",
+      "sh_005"
+    ]
+  },
+  "elog_002": {
+    "log_id": "elog_002",
+    "cr_id": "ecr_prod_001",
+    "authorized_by": "sh_001",
+    "emergency_type": "production_fix",
+    "justification": "Production system down - payment processing failure",
+    "timestamp": "2024-02-28T23:30:00Z",
+    "retroactive_status": "approved",
+    "retroactive_approval_date": "2024-03-01T09:00:00Z",
+    "retroactive_approvers": [
+      "sh_003",
+      "sh_004"
+    ]
+  },
+  "elog_003": {
+    "log_id": "elog_003",
+    "cr_id": "ecr_compliance_001",
+    "authorized_by": "sh_005",
+    "emergency_type": "compliance_requirement",
+    "justification": "Regulatory requirement - must implement by deadline",
+    "timestamp": "2024-03-10T18:00:00Z",
+    "retroactive_status": "pending",
+    "retroactive_approval_date": null,
+    "retroactive_approvers": []
+  },
+  "elog_004": {
+    "log_id": "elog_004",
+    "cr_id": "ecr_data_001",
+    "authorized_by": "sh_003",
+    "emergency_type": "data_integrity",
+    "justification": "Data corruption detected - immediate fix required",
+    "timestamp": "2024-03-05T04:00:00Z",
+    "retroactive_status": "approved",
+    "retroactive_approval_date": "2024-03-05T14:00:00Z",
+    "retroactive_approvers": [
+      "sh_001"
+    ]
+  },
+  "elog_005": {
+    "log_id": "elog_005",
+    "cr_id": "ecr_perf_001",
+    "authorized_by": "sh_004",
+    "emergency_type": "performance_critical",
+    "justification": "System performance degradation affecting all users",
+    "timestamp": "2024-03-08T12:00:00Z",
+    "retroactive_status": "approved",
+    "retroactive_approval_date": "2024-03-08T16:00:00Z",
+    "retroactive_approvers": [
+      "sh_003"
+    ]
+  }
+}

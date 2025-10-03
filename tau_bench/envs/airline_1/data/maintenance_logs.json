@@ -1,0 +1,427 @@
+{
+  "ML001": {
+    "log_id": "ML001",
+    "aircraft": {
+      "aircraft_id": "AC004",
+      "tail_number": "PS-AEF"
+    },
+    "event_timestamp_utc": "2024-07-28T10:00:00Z",
+    "maintenance_type": "A-Check",
+    "description": "Routine A-Check inspection.",
+    "status": "In Progress",
+    "technician_id": "TECH012",
+    "work_order_id": "WO-2024-07-28-001",
+    "ata_chapter": "05",
+    "corrective_action": "Scheduled inspection of systems and components.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML002": {
+    "log_id": "ML002",
+    "aircraft": {
+      "aircraft_id": "AC011",
+      "tail_number": "PP-EJA"
+    },
+    "event_timestamp_utc": "2024-07-25T14:30:00Z",
+    "maintenance_type": "Engine Repair",
+    "description": "High oil temperature indication on Engine 2.",
+    "status": "Completed",
+    "technician_id": "TECH008",
+    "work_order_id": "WO-2024-07-25-003",
+    "ata_chapter": "72",
+    "corrective_action": "Replaced faulty oil temperature sensor and performed engine run-up test. All parameters normal.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML003": {
+    "log_id": "ML003",
+    "aircraft": {
+      "aircraft_id": "AC001",
+      "tail_number": "PR-GOL"
+    },
+    "event_timestamp_utc": "2024-07-20T08:00:00Z",
+    "maintenance_type": "Avionics Update",
+    "description": "Navigation database update.",
+    "status": "Completed",
+    "technician_id": "TECH005",
+    "work_order_id": "WO-2024-07-20-002",
+    "ata_chapter": "34",
+    "corrective_action": "Updated navigation database to latest cycle.",
+    "mel_cdl_reference": null,
+    "next_due": "2024-08-17"
+  },
+  "ML004": {
+    "log_id": "ML004",
+    "aircraft": {
+      "aircraft_id": "AC008",
+      "tail_number": "PP-PTM"
+    },
+    "event_timestamp_utc": "2024-06-15T09:00:00Z",
+    "maintenance_type": "Storage Preparation",
+    "description": "Preparing aircraft for long-term storage.",
+    "status": "Completed",
+    "technician_id": "TECH015",
+    "work_order_id": "WO-2024-06-15-001",
+    "ata_chapter": "10",
+    "corrective_action": "Aircraft systems preserved and stored in accordance with manufacturer guidelines.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML005": {
+    "log_id": "ML005",
+    "aircraft": {
+      "aircraft_id": "AC002",
+      "tail_number": "PR-XBE"
+    },
+    "event_timestamp_utc": "2024-07-29T11:00:00Z",
+    "maintenance_type": "Tire Replacement",
+    "description": "Nose gear tire worn beyond limits.",
+    "status": "Completed",
+    "technician_id": "TECH003",
+    "work_order_id": "WO-2024-07-29-001",
+    "ata_chapter": "32",
+    "corrective_action": "Replaced nose gear tire assembly.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML006": {
+    "log_id": "ML006",
+    "aircraft": {
+      "aircraft_id": "AC006",
+      "tail_number": "PT-MUI"
+    },
+    "event_timestamp_utc": "2024-08-01T16:00:00Z",
+    "maintenance_type": "Hydraulic System Check",
+    "description": "Minor hydraulic leak reported from right wing.",
+    "status": "In Progress",
+    "technician_id": "TECH009",
+    "work_order_id": "WO-2024-08-01-002",
+    "ata_chapter": "29",
+    "corrective_action": "Investigating source of leak and replacing seals as necessary.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML007": {
+    "log_id": "ML007",
+    "aircraft": {
+      "aircraft_id": "AC004",
+      "tail_number": "PS-AEF"
+    },
+    "event_timestamp_utc": "2024-07-29T09:00:00Z",
+    "maintenance_type": "B-Check",
+    "description": "Scheduled B-Check.",
+    "status": "Scheduled",
+    "technician_id": "TECH012",
+    "work_order_id": "WO-2024-07-29-002",
+    "ata_chapter": "05",
+    "corrective_action": "Detailed inspection of systems, components, and structure.",
+    "mel_cdl_reference": null,
+    "next_due": "2025-01-29"
+  },
+  "ML008": {
+    "log_id": "ML008",
+    "aircraft": {
+      "aircraft_id": "AC007",
+      "tail_number": "PR-YJB"
+    },
+    "event_timestamp_utc": "2024-08-05T13:00:00Z",
+    "maintenance_type": "Cabin System Repair",
+    "description": "In-flight entertainment system inoperative in several seats.",
+    "status": "Scheduled",
+    "technician_id": "TECH011",
+    "work_order_id": "WO-2024-08-05-001",
+    "ata_chapter": "44",
+    "corrective_action": "Troubleshoot and repair IFE system.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML009": {
+    "log_id": "ML009",
+    "aircraft": {
+      "aircraft_id": "AC011",
+      "tail_number": "PP-EJA"
+    },
+    "event_timestamp_utc": "2024-07-26T10:00:00Z",
+    "maintenance_type": "Flight Controls",
+    "description": "Rudder trim inoperative.",
+    "status": "Completed",
+    "technician_id": "TECH008",
+    "work_order_id": "WO-2024-07-26-001",
+    "ata_chapter": "27",
+    "corrective_action": "Replaced rudder trim actuator. System tested satisfactory.",
+    "mel_cdl_reference": 27.1,
+    "next_due": null
+  },
+  "ML010": {
+    "log_id": "ML010",
+    "aircraft": {
+      "aircraft_id": "AC003",
+      "tail_number": "PP-LTM"
+    },
+    "event_timestamp_utc": "2024-08-10T09:00:00Z",
+    "maintenance_type": "C-Check",
+    "description": "Scheduled heavy maintenance C-Check.",
+    "status": "Scheduled",
+    "technician_id": null,
+    "work_order_id": "WO-2024-08-10-001",
+    "ata_chapter": "05",
+    "corrective_action": "Extensive inspection of aircraft structures and systems.",
+    "mel_cdl_reference": null,
+    "next_due": "2026-08-10"
+  },
+  "ML011": {
+    "log_id": "ML011",
+    "aircraft": {
+      "aircraft_id": "AC001",
+      "tail_number": "PR-GOL"
+    },
+    "event_timestamp_utc": "2021-05-28T00:00:00Z",
+    "maintenance_type": "A-Check",
+    "description": "Routine A-Check inspection.",
+    "status": "In Progress",
+    "technician_id": "TECH018",
+    "work_order_id": "WO-2021-05-28-750",
+    "ata_chapter": "05",
+    "corrective_action": "Scheduled inspection of systems and components.",
+    "mel_cdl_reference": null,
+    "next_due": "2022-05-28"
+  },
+  "ML012": {
+    "log_id": "ML012",
+    "aircraft": {
+      "aircraft_id": "AC008",
+      "tail_number": "PP-PTM"
+    },
+    "event_timestamp_utc": "2016-09-21T00:00:00Z",
+    "maintenance_type": "Avionics",
+    "description": "Software update for FMS.",
+    "status": "Completed",
+    "technician_id": "TECH010",
+    "work_order_id": "WO-2016-09-21-353",
+    "ata_chapter": "34",
+    "corrective_action": "Updated Flight Management System to latest software version.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML013": {
+    "log_id": "ML013",
+    "aircraft": {
+      "aircraft_id": "AC006",
+      "tail_number": "PT-MUI"
+    },
+    "event_timestamp_utc": "2025-04-20T00:00:00Z",
+    "maintenance_type": "Unscheduled",
+    "description": "Bird strike inspection.",
+    "status": "In Progress",
+    "technician_id": "TECH006",
+    "work_order_id": "WO-2025-04-20-978",
+    "ata_chapter": "57",
+    "corrective_action": "Inspected right wing leading edge for damage. No damage found.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML014": {
+    "log_id": "ML014",
+    "aircraft": {
+      "aircraft_id": "AC003",
+      "tail_number": "PP-LTM"
+    },
+    "event_timestamp_utc": "2025-07-08T00:00:00Z",
+    "maintenance_type": "Unscheduled",
+    "description": "Bird strike inspection.",
+    "status": "Completed",
+    "technician_id": "TECH017",
+    "work_order_id": "WO-2025-07-08-260",
+    "ata_chapter": "57",
+    "corrective_action": "Inspected right wing leading edge for damage. No damage found.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML015": {
+    "log_id": "ML015",
+    "aircraft": {
+      "aircraft_id": "AC002",
+      "tail_number": "PR-XBE"
+    },
+    "event_timestamp_utc": "2021-06-06T00:00:00Z",
+    "maintenance_type": "A-Check",
+    "description": "Routine A-Check inspection.",
+    "status": "Completed",
+    "technician_id": "TECH005",
+    "work_order_id": "WO-2021-06-06-902",
+    "ata_chapter": "05",
+    "corrective_action": "Scheduled inspection of systems and components.",
+    "mel_cdl_reference": null,
+    "next_due": "2022-06-06"
+  },
+  "ML016": {
+    "log_id": "ML016",
+    "aircraft": {
+      "aircraft_id": "AC007",
+      "tail_number": "PR-YJB"
+    },
+    "event_timestamp_utc": "2024-03-28T00:00:00Z",
+    "maintenance_type": "A-Check",
+    "description": "Routine A-Check inspection.",
+    "status": "Completed",
+    "technician_id": "TECH015",
+    "work_order_id": "WO-2024-03-28-286",
+    "ata_chapter": "05",
+    "corrective_action": "Scheduled inspection of systems and components.",
+    "mel_cdl_reference": null,
+    "next_due": "2025-03-28"
+  },
+  "ML017": {
+    "log_id": "ML017",
+    "aircraft": {
+      "aircraft_id": "AC007",
+      "tail_number": "PR-YJB"
+    },
+    "event_timestamp_utc": "2023-08-11T00:00:00Z",
+    "maintenance_type": "Component Replacement",
+    "description": "Replaced main landing gear tire.",
+    "status": "In Progress",
+    "technician_id": "TECH010",
+    "work_order_id": "WO-2023-08-11-593",
+    "ata_chapter": "32",
+    "corrective_action": "Replaced worn tire on right main landing gear. Ops check good.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML018": {
+    "log_id": "ML018",
+    "aircraft": {
+      "aircraft_id": "AC003",
+      "tail_number": "PP-LTM"
+    },
+    "event_timestamp_utc": "2019-08-10T00:00:00Z",
+    "maintenance_type": "Avionics",
+    "description": "Software update for FMS.",
+    "status": "In Progress",
+    "technician_id": "TECH011",
+    "work_order_id": "WO-2019-08-10-950",
+    "ata_chapter": "34",
+    "corrective_action": "Updated Flight Management System to latest software version.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML019": {
+    "log_id": "ML019",
+    "aircraft": {
+      "aircraft_id": "AC004",
+      "tail_number": "PS-AEF"
+    },
+    "event_timestamp_utc": "2023-03-17T00:00:00Z",
+    "maintenance_type": "Avionics",
+    "description": "Software update for FMS.",
+    "status": "Completed",
+    "technician_id": "TECH015",
+    "work_order_id": "WO-2023-03-17-681",
+    "ata_chapter": "34",
+    "corrective_action": "Updated Flight Management System to latest software version.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML020": {
+    "log_id": "ML020",
+    "aircraft": {
+      "aircraft_id": "AC006",
+      "tail_number": "PT-MUI"
+    },
+    "event_timestamp_utc": "2017-11-06T00:00:00Z",
+    "maintenance_type": "Unscheduled",
+    "description": "Bird strike inspection.",
+    "status": "Completed",
+    "technician_id": "TECH009",
+    "work_order_id": "WO-2017-11-06-929",
+    "ata_chapter": "57",
+    "corrective_action": "Inspected right wing leading edge for damage. No damage found.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML021": {
+    "log_id": "ML021",
+    "aircraft": {
+      "aircraft_id": "AC004",
+      "tail_number": "PS-AEF"
+    },
+    "event_timestamp_utc": "2021-12-09T00:00:00Z",
+    "maintenance_type": "Avionics",
+    "description": "Software update for FMS.",
+    "status": "In Progress",
+    "technician_id": "TECH008",
+    "work_order_id": "WO-2021-12-09-786",
+    "ata_chapter": "34",
+    "corrective_action": "Updated Flight Management System to latest software version.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML022": {
+    "log_id": "ML022",
+    "aircraft": {
+      "aircraft_id": "AC002",
+      "tail_number": "PR-XBE"
+    },
+    "event_timestamp_utc": "2022-06-19T00:00:00Z",
+    "maintenance_type": "A-Check",
+    "description": "Routine A-Check inspection.",
+    "status": "In Progress",
+    "technician_id": "TECH018",
+    "work_order_id": "WO-2022-06-19-800",
+    "ata_chapter": "05",
+    "corrective_action": "Scheduled inspection of systems and components.",
+    "mel_cdl_reference": null,
+    "next_due": "2023-06-19"
+  },
+  "ML023": {
+    "log_id": "ML023",
+    "aircraft": {
+      "aircraft_id": "AC002",
+      "tail_number": "PR-XBE"
+    },
+    "event_timestamp_utc": "2023-05-30T00:00:00Z",
+    "maintenance_type": "B-Check",
+    "description": "Scheduled B-Check.",
+    "status": "Completed",
+    "technician_id": "TECH005",
+    "work_order_id": "WO-2023-05-30-264",
+    "ata_chapter": "05",
+    "corrective_action": "Detailed inspection of systems and structure.",
+    "mel_cdl_reference": null,
+    "next_due": "2024-05-29"
+  },
+  "ML024": {
+    "log_id": "ML024",
+    "aircraft": {
+      "aircraft_id": "AC005",
+      "tail_number": "PR-XTD"
+    },
+    "event_timestamp_utc": "2022-05-15T00:00:00Z",
+    "maintenance_type": "Unscheduled",
+    "description": "Bird strike inspection.",
+    "status": "Completed",
+    "technician_id": "TECH013",
+    "work_order_id": "WO-2022-05-15-622",
+    "ata_chapter": "57",
+    "corrective_action": "Inspected right wing leading edge for damage. No damage found.",
+    "mel_cdl_reference": null,
+    "next_due": null
+  },
+  "ML025": {
+    "log_id": "ML025",
+    "aircraft": {
+      "aircraft_id": "AC006",
+      "tail_number": "PT-MUI"
+    },
+    "event_timestamp_utc": "2024-07-14T00:00:00Z",
+    "maintenance_type": "B-Check",
+    "description": "Scheduled B-Check.",
+    "status": "Completed",
+    "technician_id": "TECH019",
+    "work_order_id": "WO-2024-07-14-150",
+    "ata_chapter": "05",
+    "corrective_action": "Detailed inspection of systems and structure.",
+    "mel_cdl_reference": null,
+    "next_due": "2025-07-14"
+  }
+}

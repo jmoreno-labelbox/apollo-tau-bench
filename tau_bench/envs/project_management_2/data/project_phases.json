@@ -1,0 +1,26 @@
+{
+  "phase_001": {
+    "phase_id": "phase_001",
+    "project_id": "proj_phased_01",
+    "phase_name": "design",
+    "start_week": 1,
+    "duration_weeks": 4,
+    "required_skills": [
+      "UI Design",
+      "UX Research"
+    ],
+    "status": "pending"
+  },
+  "phase_002": {
+    "phase_id": "phase_002",
+    "project_id": "proj_phased_01",
+    "phase_name": "development",
+    "start_week": 5,
+    "duration_weeks": 8,
+    "required_skills": [
+      "Full Stack",
+      "Backend"
+    ],
+    "status": "pending"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "sprint_001": {
+    "sprint_id": "sprint_001",
+    "sprint_name": "Sprint 1 - Foundation",
+    "start_date": "2024-03-01",
+    "end_date": "2024-03-14",
+    "sprint_goal": "Set up core infrastructure, authentication, and CI/CD pipeline",
+    "team_id": "team_analytics_01",
+    "status": "completed",
+    "planned_story_points": 28,
+    "completed_story_points": 28,
+    "velocity": 28,
+    "reviewed": "False"
+  },
+  "sprint_002": {
+    "sprint_id": "sprint_002",
+    "sprint_name": "Sprint 2 - User Features",
+    "start_date": "2024-03-15",
+    "end_date": "2024-03-28",
+    "sprint_goal": "Implement user profile, dashboard, and permissions system",
+    "team_id": "team_dev_01",
+    "status": "active",
+    "planned_story_points": 45,
+    "completed_story_points": 0,
+    "velocity": 0,
+    "reviewed": "False"
+  },
+  "sprint_003": {
+    "sprint_id": "sprint_003",
+    "sprint_name": "Sprint 3 - Mobile Integration",
+    "start_date": "2024-03-29",
+    "end_date": "2024-04-11",
+    "sprint_goal": "Complete mobile app integration and push notifications",
+    "team_id": "team_mobile_01",
+    "status": "planning",
+    "planned_story_points": 0,
+    "completed_story_points": 0,
+    "velocity": 0,
+    "reviewed": "False"
+  },
+  "sprint_004": {
+    "sprint_id": "sprint_004",
+    "sprint_name": "Sprint 4 - Security Enhancement",
+    "start_date": "2024-04-12",
+    "end_date": "2024-04-25",
+    "sprint_goal": "Security hardening and audit preparation",
+    "team_id": "team_security_01",
+    "status": "planning",
+    "planned_story_points": 0,
+    "completed_story_points": 0,
+    "velocity": 0,
+    "reviewed": "False"
+  },
+  "sprint_005": {
+    "sprint_id": "sprint_005",
+    "sprint_name": "Analytics Sprint 1",
+    "start_date": "2024-03-01",
+    "end_date": "2024-03-14",
+    "sprint_goal": "Data pipeline setup and initial reports",
+    "team_id": "team_dev_01",
+    "status": "completed",
+    "planned_story_points": 21,
+    "completed_story_points": 18,
+    "velocity": 18,
+    "reviewed": "False"
+  }
+}

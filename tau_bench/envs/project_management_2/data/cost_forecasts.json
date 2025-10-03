@@ -1,0 +1,129 @@
+{
+  "forecast_001": {
+    "forecast_id": "forecast_001",
+    "project_id": "proj_mobile_01",
+    "forecast_months": 3,
+    "monthly_burn_rate": 185000,
+    "forecast_data": [
+      {
+        "month": 1,
+        "personnel_cost": 150000,
+        "non_personnel_cost": 35000,
+        "total_cost": 185000,
+        "cumulative_cost": 185000
+      },
+      {
+        "month": 2,
+        "personnel_cost": 155000,
+        "non_personnel_cost": 36000,
+        "total_cost": 191000,
+        "cumulative_cost": 376000
+      },
+      {
+        "month": 3,
+        "personnel_cost": 160000,
+        "non_personnel_cost": 37000,
+        "total_cost": 197000,
+        "cumulative_cost": 573000
+      }
+    ],
+    "total_forecasted_cost": 573000,
+    "budget_exhaustion_month": 8,
+    "includes_contingency": true,
+    "created_date": "2024-03-15T10:00:00Z"
+  },
+  "forecast_002": {
+    "forecast_id": "forecast_002",
+    "project_id": "proj_ai_01",
+    "forecast_months": 6,
+    "monthly_burn_rate": 220000,
+    "forecast_data": [
+      {
+        "month": 1,
+        "personnel_cost": 180000,
+        "non_personnel_cost": 40000,
+        "total_cost": 220000,
+        "cumulative_cost": 220000
+      },
+      {
+        "month": 2,
+        "personnel_cost": 185000,
+        "non_personnel_cost": 42000,
+        "total_cost": 227000,
+        "cumulative_cost": 447000
+      },
+      {
+        "month": 3,
+        "personnel_cost": 190000,
+        "non_personnel_cost": 44000,
+        "total_cost": 234000,
+        "cumulative_cost": 681000
+      },
+      {
+        "month": 4,
+        "personnel_cost": 195000,
+        "non_personnel_cost": 46000,
+        "total_cost": 241000,
+        "cumulative_cost": 922000
+      },
+      {
+        "month": 5,
+        "personnel_cost": 200000,
+        "non_personnel_cost": 48000,
+        "total_cost": 248000,
+        "cumulative_cost": 1170000
+      },
+      {
+        "month": 6,
+        "personnel_cost": 205000,
+        "non_personnel_cost": 50000,
+        "total_cost": 255000,
+        "cumulative_cost": 1425000
+      }
+    ],
+    "total_forecasted_cost": 1425000,
+    "budget_exhaustion_month": 9,
+    "includes_contingency": true,
+    "created_date": "2024-03-10T14:00:00Z"
+  },
+  "forecast_003": {
+    "forecast_id": "forecast_003",
+    "project_id": "proj_enterprise_01",
+    "forecast_months": 4,
+    "monthly_burn_rate": 325000,
+    "forecast_data": [
+      {
+        "month": 1,
+        "personnel_cost": 260000,
+        "non_personnel_cost": 65000,
+        "total_cost": 325000,
+        "cumulative_cost": 325000
+      },
+      {
+        "month": 2,
+        "personnel_cost": 265000,
+        "non_personnel_cost": 67000,
+        "total_cost": 332000,
+        "cumulative_cost": 657000
+      },
+      {
+        "month": 3,
+        "personnel_cost": 270000,
+        "non_personnel_cost": 69000,
+        "total_cost": 339000,
+        "cumulative_cost": 996000
+      },
+      {
+        "month": 4,
+        "personnel_cost": 275000,
+        "non_personnel_cost": 71000,
+        "total_cost": 346000,
+        "cumulative_cost": 1342000
+      }
+    ],
+    "total_forecasted_cost": 1342000,
+    "budget_exhaustion_month": 10,
+    "includes_contingency": false,
+    "created_date": "2024-03-05T11:00:00Z"
+  }
+}

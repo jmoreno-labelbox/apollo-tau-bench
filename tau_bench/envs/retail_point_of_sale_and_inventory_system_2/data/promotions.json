@@ -1,0 +1,116 @@
+{
+  "PROMO-001": {
+    "promotion_id": "PROMO-001",
+    "name": "Summer Electronics Sale",
+    "type": "percentage",
+    "discount_value": 10.0,
+    "description": "10% off select electronics during summer season.",
+    "applicable_skus": [
+      "ELEC-4KTV55",
+      "AUDIO-BTSPKR02",
+      "ELEC-GAMLP15",
+      "ELEC-RCHAA04"
+    ],
+    "start_date": "2025-06-01",
+    "end_date": "2025-08-31",
+    "status": "active",
+    "usage_limit": null,
+    "times_used": 0
+  },
+  "PROMO-002": {
+    "promotion_id": "PROMO-002",
+    "name": "Kitchen Essentials Bundle",
+    "type": "fixed_bundle",
+    "discount_value": 15.0,
+    "description": "$15 off when purchasing the coffee maker and chef knife together.",
+    "applicable_skus": [
+      "HOM-COFMKR12",
+      "KITCH-CHEFKNF8"
+    ],
+    "start_date": "2025-05-15",
+    "end_date": "2025-07-15",
+    "status": "active",
+    "usage_limit": 500,
+    "times_used": 124
+  },
+  "PROMO-003": {
+    "promotion_id": "PROMO-003",
+    "name": "Buy One Yoga Mat Get 50% Off Second",
+    "type": "bogo_percentage",
+    "discount_value": 50.0,
+    "description": "Buy one FlexFit Yoga Mat and get 50% off the second mat.",
+    "applicable_skus": [
+      "SPORT-YOGMAT01"
+    ],
+    "start_date": "2025-06-10",
+    "end_date": "2025-07-10",
+    "status": "scheduled",
+    "usage_limit": null,
+    "times_used": 0
+  },
+  "PROMO-004": {
+    "promotion_id": "PROMO-004",
+    "name": "Tax-Free Books Weekend",
+    "type": "tax_free",
+    "discount_value": 0.0,
+    "description": "We pay the sales tax on all books this weekend.",
+    "applicable_skus": [
+      "BOOK-KDSSTY01"
+    ],
+    "start_date": "2025-09-05",
+    "end_date": "2025-09-07",
+    "status": "planned",
+    "usage_limit": null,
+    "times_used": 0
+  },
+  "PROMO-005": {
+    "promotion_id": "PROMO-005",
+    "name": "Clearance Apparel Markdown",
+    "type": "percentage",
+    "discount_value": 25.0,
+    "description": "25% off select clearance apparel.",
+    "applicable_skus": [
+      "CLTH-SLFJEAN34",
+      "CLTH-WINJKT01"
+    ],
+    "start_date": "2025-04-01",
+    "end_date": "2025-06-30",
+    "status": "active",
+    "usage_limit": null,
+    "times_used": 87
+  },
+  "PROMO-006": {
+    "promotion_id": "PROMO-006",
+    "name": "Smart Home Starter Discount",
+    "type": "percentage",
+    "discount_value": 12.0,
+    "description": "12% off all Smart Home devices.",
+    "applicable_skus": [
+      "SMRT-THERM02"
+    ],
+    "start_date": "2025-05-20",
+    "end_date": "2025-07-20",
+    "status": "active",
+    "usage_limit": null,
+    "times_used": 64
+  },
+  "PROMO-007": {
+    "promotion_id": "PROMO-007",
+    "name": "Weekend Flash Sale - Home & Kitchen",
+    "type": "percentage",
+    "discount_value": 18.0,
+    "description": "Flash sale offering 18% off Home & Kitchen category for 48 hours.",
+    "applicable_skus": [
+      "HOM-COFMKR12",
+      "KITCH-CHEFKNF8",
+      "HOME-BTHTWL01",
+      "HOME-DESKLMP01",
+      "KITCH-FRYPAN10"
+    ],
+    "start_date": "2025-06-14T00:00:00Z",
+    "end_date": "2025-06-15T23:59:59Z",
+    "status": "planned",
+    "usage_limit": null,
+    "times_used": 0
+  }
+}

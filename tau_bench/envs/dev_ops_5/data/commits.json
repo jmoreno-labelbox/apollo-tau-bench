@@ -1,0 +1,427 @@
+{
+  "commit_001": {
+    "id": "commit_001",
+    "repository_id": "repo_001",
+    "commit_hash": "a1b2c3d4e5f6789012345678901234567890abcd",
+    "author_id": "user_001",
+    "committer_id": "user_001",
+    "message": "feat: implement user authentication system",
+    "branch": "main",
+    "created_at": "2025-01-25T13:45:00Z",
+    "files_changed": 12,
+    "lines_added": 450,
+    "lines_deleted": 23,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_002"
+    ]
+  },
+  "commit_002": {
+    "id": "commit_002",
+    "repository_id": "repo_001",
+    "commit_hash": "b2c3d4e5f6789012345678901234567890abcde",
+    "author_id": "user_003",
+    "committer_id": "user_003",
+    "message": "fix: resolve database connection timeout issues",
+    "branch": "main",
+    "created_at": "2025-01-25T13:30:00Z",
+    "files_changed": 3,
+    "lines_added": 15,
+    "lines_deleted": 8,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_003"
+    ]
+  },
+  "commit_003": {
+    "id": "commit_003",
+    "repository_id": "repo_002",
+    "commit_hash": "c3d4e5f6789012345678901234567890abcdef",
+    "author_id": "user_005",
+    "committer_id": "user_005",
+    "message": "feat: add Helm chart for application deployment",
+    "branch": "feature/helm-deployment",
+    "created_at": "2025-01-20T08:45:00Z",
+    "files_changed": 8,
+    "lines_added": 320,
+    "lines_deleted": 0,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_004"
+    ]
+  },
+  "commit_004": {
+    "id": "commit_004",
+    "repository_id": "repo_003",
+    "commit_hash": "d4e5f6789012345678901234567890abcdef1",
+    "author_id": "user_007",
+    "committer_id": "user_007",
+    "message": "feat: modernize CI/CD pipeline with GitLab CI",
+    "branch": "main",
+    "created_at": "2025-01-26T10:15:00Z",
+    "files_changed": 15,
+    "lines_added": 280,
+    "lines_deleted": 45,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_005"
+    ]
+  },
+  "commit_005": {
+    "id": "commit_005",
+    "repository_id": "repo_004",
+    "commit_hash": "e5f6789012345678901234567890abcdef12",
+    "author_id": "user_009",
+    "committer_id": "user_009",
+    "message": "feat: create Jenkins pipeline templates",
+    "branch": "feature/jenkins-templates",
+    "created_at": "2025-01-20T08:30:00Z",
+    "files_changed": 20,
+    "lines_added": 650,
+    "lines_deleted": 0,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_006"
+    ]
+  },
+  "commit_006": {
+    "id": "commit_006",
+    "repository_id": "repo_005",
+    "commit_hash": "f6789012345678901234567890abcdef123",
+    "author_id": "user_011",
+    "committer_id": "user_011",
+    "message": "feat: implement multi-cloud application architecture",
+    "branch": "feature/multi-cloud",
+    "created_at": "2025-01-26T07:45:00Z",
+    "files_changed": 25,
+    "lines_added": 890,
+    "lines_deleted": 120,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_007"
+    ]
+  },
+  "commit_007": {
+    "id": "commit_007",
+    "repository_id": "repo_006",
+    "commit_hash": "6789012345678901234567890abcdef1234",
+    "author_id": "user_013",
+    "committer_id": "user_013",
+    "message": "feat: deploy monitoring stack with Prometheus and Grafana",
+    "branch": "main",
+    "created_at": "2025-01-25T15:45:00Z",
+    "files_changed": 18,
+    "lines_added": 420,
+    "lines_deleted": 15,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_008"
+    ]
+  },
+  "commit_008": {
+    "id": "commit_008",
+    "repository_id": "repo_007",
+    "commit_hash": "7890123456789012345678901234567890abc",
+    "author_id": "user_015",
+    "committer_id": "user_015",
+    "message": "feat: implement API Gateway with Spring Cloud Gateway",
+    "branch": "feature/api-gateway",
+    "created_at": "2025-01-27T11:45:00Z",
+    "files_changed": 22,
+    "lines_added": 780,
+    "lines_deleted": 45,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_009"
+    ]
+  },
+  "commit_009": {
+    "id": "commit_009",
+    "repository_id": "repo_008",
+    "commit_hash": "890123456789012345678901234567890abcd",
+    "author_id": "user_017",
+    "committer_id": "user_017",
+    "message": "feat: build mobile infrastructure backend",
+    "branch": "feature/mobile-backend",
+    "created_at": "2025-01-26T09:45:00Z",
+    "files_changed": 16,
+    "lines_added": 520,
+    "lines_deleted": 30,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_010"
+    ]
+  },
+  "commit_010": {
+    "id": "commit_010",
+    "repository_id": "repo_009",
+    "commit_hash": "90123456789012345678901234567890abcde",
+    "author_id": "user_019",
+    "committer_id": "user_019",
+    "message": "feat: implement edge computing runtime",
+    "branch": "feature/edge-computing",
+    "created_at": "2025-01-25T17:15:00Z",
+    "files_changed": 14,
+    "lines_added": 380,
+    "lines_deleted": 25,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_011"
+    ]
+  },
+  "commit_011": {
+    "id": "commit_011",
+    "repository_id": "repo_010",
+    "commit_hash": "0123456789012345678901234567890abcdef",
+    "author_id": "user_002",
+    "committer_id": "user_002",
+    "message": "feat: create ETL pipeline with Apache Spark",
+    "branch": "feature/data-pipeline",
+    "created_at": "2025-01-17T09:30:00Z",
+    "files_changed": 12,
+    "lines_added": 450,
+    "lines_deleted": 20,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_012"
+    ]
+  },
+  "commit_012": {
+    "id": "commit_012",
+    "repository_id": "repo_001",
+    "commit_hash": "123456789012345678901234567890abcdef1",
+    "author_id": "user_004",
+    "committer_id": "user_004",
+    "message": "fix: update Docker configuration for production",
+    "branch": "main",
+    "created_at": "2025-01-25T13:15:00Z",
+    "files_changed": 2,
+    "lines_added": 25,
+    "lines_deleted": 5,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_013"
+    ]
+  },
+  "commit_013": {
+    "id": "commit_013",
+    "repository_id": "repo_002",
+    "commit_hash": "23456789012345678901234567890abcdef12",
+    "author_id": "user_006",
+    "committer_id": "user_006",
+    "message": "docs: update Helm chart documentation",
+    "branch": "main",
+    "created_at": "2025-01-20T08:30:00Z",
+    "files_changed": 3,
+    "lines_added": 120,
+    "lines_deleted": 15,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_014"
+    ]
+  },
+  "commit_014": {
+    "id": "commit_014",
+    "repository_id": "repo_003",
+    "commit_hash": "3456789012345678901234567890abcdef123",
+    "author_id": "user_008",
+    "committer_id": "user_008",
+    "message": "test: add integration tests for CI/CD pipeline",
+    "branch": "feature/pipeline-tests",
+    "created_at": "2025-01-26T09:30:00Z",
+    "files_changed": 8,
+    "lines_added": 180,
+    "lines_deleted": 0,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_015"
+    ]
+  },
+  "commit_015": {
+    "id": "commit_015",
+    "repository_id": "repo_004",
+    "commit_hash": "456789012345678901234567890abcdef1234",
+    "author_id": "user_010",
+    "committer_id": "user_010",
+    "message": "refactor: optimize Jenkins pipeline performance",
+    "branch": "main",
+    "created_at": "2025-01-20T08:15:00Z",
+    "files_changed": 6,
+    "lines_added": 45,
+    "lines_deleted": 30,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_016"
+    ]
+  },
+  "commit_016": {
+    "id": "commit_016",
+    "repository_id": "repo_005",
+    "commit_hash": "56789012345678901234567890abcdef12345",
+    "author_id": "user_012",
+    "committer_id": "user_012",
+    "message": "feat: add AWS ECS deployment configuration",
+    "branch": "feature/aws-deployment",
+    "created_at": "2025-01-26T07:30:00Z",
+    "files_changed": 10,
+    "lines_added": 280,
+    "lines_deleted": 15,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_017"
+    ]
+  },
+  "commit_017": {
+    "id": "commit_017",
+    "repository_id": "repo_006",
+    "commit_hash": "6789012345678901234567890abcdef123456",
+    "author_id": "user_014",
+    "committer_id": "user_014",
+    "message": "feat: configure Grafana dashboards and alerts",
+    "branch": "feature/monitoring-config",
+    "created_at": "2025-01-25T15:30:00Z",
+    "files_changed": 12,
+    "lines_added": 350,
+    "lines_deleted": 20,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_018"
+    ]
+  },
+  "commit_018": {
+    "id": "commit_018",
+    "repository_id": "repo_007",
+    "commit_hash": "789012345678901234567890abcdef1234567",
+    "author_id": "user_016",
+    "committer_id": "user_016",
+    "message": "feat: implement rate limiting and authentication filters",
+    "branch": "feature/gateway-filters",
+    "created_at": "2025-01-27T11:30:00Z",
+    "files_changed": 8,
+    "lines_added": 220,
+    "lines_deleted": 10,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_019"
+    ]
+  },
+  "commit_019": {
+    "id": "commit_019",
+    "repository_id": "repo_008",
+    "commit_hash": "89012345678901234567890abcdef12345678",
+    "author_id": "user_018",
+    "committer_id": "user_018",
+    "message": "feat: add OAuth2 authentication for mobile APIs",
+    "branch": "feature/oauth2-auth",
+    "created_at": "2025-01-26T09:30:00Z",
+    "files_changed": 14,
+    "lines_added": 320,
+    "lines_deleted": 25,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_020"
+    ]
+  },
+  "commit_020": {
+    "id": "commit_020",
+    "repository_id": "repo_009",
+    "commit_hash": "9012345678901234567890abcdef123456789",
+    "author_id": "user_020",
+    "committer_id": "user_020",
+    "message": "feat: implement ML inference capabilities for edge runtime",
+    "branch": "feature/ml-inference",
+    "created_at": "2025-01-25T17:00:00Z",
+    "files_changed": 16,
+    "lines_added": 480,
+    "lines_deleted": 35,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_021"
+    ]
+  },
+  "commit_021": {
+    "id": "commit_021",
+    "repository_id": "repo_010",
+    "commit_hash": "012345678901234567890abcdef1234567890",
+    "author_id": "user_001",
+    "committer_id": "user_001",
+    "message": "feat: add data transformation and enrichment logic",
+    "branch": "feature/data-transformations",
+    "created_at": "2025-01-17T09:15:00Z",
+    "files_changed": 10,
+    "lines_added": 280,
+    "lines_deleted": 15,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_022"
+    ]
+  },
+  "commit_022": {
+    "id": "commit_022",
+    "repository_id": "repo_001",
+    "commit_hash": "12345678901234567890abcdef12345678901",
+    "author_id": "user_003",
+    "committer_id": "user_003",
+    "message": "fix: resolve security vulnerabilities in dependencies",
+    "branch": "hotfix/security-patches",
+    "created_at": "2025-01-25T12:45:00Z",
+    "files_changed": 4,
+    "lines_added": 35,
+    "lines_deleted": 12,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_023"
+    ]
+  },
+  "commit_023": {
+    "id": "commit_023",
+    "repository_id": "repo_002",
+    "commit_hash": "2345678901234567890abcdef123456789012",
+    "author_id": "user_005",
+    "committer_id": "user_005",
+    "message": "feat: add Kubernetes deployment manifests",
+    "branch": "feature/k8s-deployment",
+    "created_at": "2025-01-20T08:00:00Z",
+    "files_changed": 6,
+    "lines_added": 180,
+    "lines_deleted": 0,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_024"
+    ]
+  },
+  "commit_024": {
+    "id": "commit_024",
+    "repository_id": "repo_003",
+    "commit_hash": "345678901234567890abcdef1234567890123",
+    "author_id": "user_007",
+    "committer_id": "user_007",
+    "message": "feat: implement automated testing in CI/CD pipeline",
+    "branch": "feature/automated-testing",
+    "created_at": "2025-01-26T09:15:00Z",
+    "files_changed": 12,
+    "lines_added": 320,
+    "lines_deleted": 25,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_025"
+    ]
+  },
+  "commit_025": {
+    "id": "commit_025",
+    "repository_id": "repo_004",
+    "commit_hash": "45678901234567890abcdef12345678901234",
+    "author_id": "user_009",
+    "committer_id": "user_009",
+    "message": "feat: add shared libraries for Jenkins pipelines",
+    "branch": "feature/shared-libraries",
+    "created_at": "2025-01-20T07:45:00Z",
+    "files_changed": 8,
+    "lines_added": 250,
+    "lines_deleted": 0,
+    "merge_commit": false,
+    "parent_commits": [
+      "commit_026"
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "W": {
+    "ethnicity_code": "W",
+    "description": "White"
+  },
+  "B": {
+    "ethnicity_code": "B",
+    "description": "Black or African American"
+  },
+  "A": {
+    "ethnicity_code": "A",
+    "description": "Asian"
+  },
+  "H": {
+    "ethnicity_code": "H",
+    "description": "Hispanic or Latino"
+  },
+  "M": {
+    "ethnicity_code": "M",
+    "description": "Two or more races"
+  },
+  "N": {
+    "ethnicity_code": "N",
+    "description": "Not disclosed"
+  }
+}

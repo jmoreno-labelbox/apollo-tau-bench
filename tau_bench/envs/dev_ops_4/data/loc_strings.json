@@ -1,0 +1,820 @@
+{
+  "loc_string_001": {
+    "id": "loc_string_001",
+    "string_key": "ui.main_menu.start_game",
+    "context": "Main menu start game button text",
+    "description": "Text displayed on the start game button in the main menu",
+    "max_length": 20,
+    "ui_constraints": {
+      "max_width": "200px",
+      "max_height": "40px",
+      "font_size": "16px",
+      "font_family": "Arial"
+    },
+    "source_string": "Start Game",
+    "translations": {
+      "de": {
+        "translation": "Spiel starten",
+        "status": "translated",
+        "translator": "user_006",
+        "translated_at": "2025-01-27T10:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T10:30:00Z",
+        "validation_status": "failed",
+        "validation_issue": "Text exceeds maximum width constraint"
+      },
+      "fr": {
+        "translation": "Commencer",
+        "status": "translated",
+        "translator": "user_007",
+        "translated_at": "2025-01-27T10:15:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T10:45:00Z",
+        "validation_status": "passed"
+      },
+      "ja": {
+        "translation": "ゲーム開始",
+        "status": "translated",
+        "translator": "user_009",
+        "translated_at": "2025-01-27T10:30:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T11:00:00Z",
+        "validation_status": "passed"
+      },
+      "es": {
+        "translation": "Iniciar Juego",
+        "status": "translated",
+        "translator": "user_010",
+        "translated_at": "2025-01-27T10:45:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T11:15:00Z",
+        "validation_status": "passed"
+      },
+      "zh": {
+        "translation": "开始游戏",
+        "status": "translated",
+        "translator": "user_011",
+        "translated_at": "2025-01-27T11:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T11:30:00Z",
+        "validation_status": "passed"
+      }
+    },
+    "glossary_terms": [
+      "game",
+      "start",
+      "menu"
+    ],
+    "style_guide": "formal",
+    "priority": "high",
+    "component": "ui",
+    "subcomponent": "main_menu",
+    "created_at": "2025-01-27T09:00:00Z",
+    "updated_at": "2025-01-27T11:30:00Z",
+    "metadata": {
+      "project": "proj_021",
+      "version": "1.2.3",
+      "context_screenshot": "https://screenshots.techcorp.com/main_menu_001.png"
+    }
+  },
+  "loc_string_002": {
+    "id": "loc_string_002",
+    "string_key": "ui.settings.audio",
+    "context": "Settings menu audio section title",
+    "description": "Title for the audio settings section in the settings menu",
+    "max_length": 15,
+    "ui_constraints": {
+      "max_width": "150px",
+      "max_height": "30px",
+      "font_size": "14px",
+      "font_family": "Arial"
+    },
+    "source_string": "Audio",
+    "translations": {
+      "de": {
+        "translation": "Audio",
+        "status": "translated",
+        "translator": "user_006",
+        "translated_at": "2025-01-27T12:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T12:30:00Z",
+        "validation_status": "passed"
+      },
+      "fr": {
+        "translation": "Audio",
+        "status": "translated",
+        "translator": "user_007",
+        "translated_at": "2025-01-27T12:15:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T12:45:00Z",
+        "validation_status": "passed"
+      },
+      "ja": {
+        "translation": "オーディオ",
+        "status": "translated",
+        "translator": "user_009",
+        "translated_at": "2025-01-27T12:30:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T13:00:00Z",
+        "validation_status": "passed"
+      },
+      "es": {
+        "translation": "Audio",
+        "status": "translated",
+        "translator": "user_010",
+        "translated_at": "2025-01-27T12:45:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T13:15:00Z",
+        "validation_status": "passed"
+      },
+      "zh": {
+        "translation": "音频",
+        "status": "translated",
+        "translator": "user_011",
+        "translated_at": "2025-01-27T13:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T13:30:00Z",
+        "validation_status": "passed"
+      }
+    },
+    "glossary_terms": [
+      "audio",
+      "settings"
+    ],
+    "style_guide": "formal",
+    "priority": "medium",
+    "component": "ui",
+    "subcomponent": "settings",
+    "created_at": "2025-01-27T11:45:00Z",
+    "updated_at": "2025-01-27T13:30:00Z",
+    "metadata": {
+      "project": "proj_021",
+      "version": "1.2.3",
+      "context_screenshot": "https://screenshots.techcorp.com/settings_menu_001.png"
+    }
+  },
+  "loc_string_003": {
+    "id": "loc_string_003",
+    "string_key": "ui.settings.audio.master_volume",
+    "context": "Master volume slider label in audio settings",
+    "description": "Label for the master volume slider in audio settings",
+    "max_length": 25,
+    "ui_constraints": {
+      "max_width": "200px",
+      "max_height": "25px",
+      "font_size": "12px",
+      "font_family": "Arial"
+    },
+    "source_string": "Master Volume",
+    "translations": {
+      "de": {
+        "translation": "Hauptlautstärke",
+        "status": "translated",
+        "translator": "user_006",
+        "translated_at": "2025-01-27T14:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T14:30:00Z",
+        "validation_status": "passed"
+      },
+      "fr": {
+        "translation": "Volume Principal",
+        "status": "translated",
+        "translator": "user_007",
+        "translated_at": "2025-01-27T14:15:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T14:45:00Z",
+        "validation_status": "passed"
+      },
+      "ja": {
+        "translation": "マスターボリューム",
+        "status": "translated",
+        "translator": "user_009",
+        "translated_at": "2025-01-27T14:30:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T15:00:00Z",
+        "validation_status": "passed"
+      },
+      "es": {
+        "translation": "Volumen Principal",
+        "status": "translated",
+        "translator": "user_010",
+        "translated_at": "2025-01-27T14:45:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T15:15:00Z",
+        "validation_status": "passed"
+      },
+      "zh": {
+        "translation": "主音量",
+        "status": "translated",
+        "translator": "user_011",
+        "translated_at": "2025-01-27T15:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T15:30:00Z",
+        "validation_status": "passed"
+      }
+    },
+    "glossary_terms": [
+      "volume",
+      "audio",
+      "master"
+    ],
+    "style_guide": "formal",
+    "priority": "medium",
+    "component": "ui",
+    "subcomponent": "settings",
+    "created_at": "2025-01-27T13:45:00Z",
+    "updated_at": "2025-01-27T15:30:00Z",
+    "metadata": {
+      "project": "proj_021",
+      "version": "1.2.3",
+      "context_screenshot": "https://screenshots.techcorp.com/audio_settings_001.png"
+    }
+  },
+  "loc_string_004": {
+    "id": "loc_string_004",
+    "string_key": "ui.settings.audio.music_volume",
+    "context": "Music volume slider label in audio settings",
+    "description": "Label for the music volume slider in audio settings",
+    "max_length": 25,
+    "ui_constraints": {
+      "max_width": "200px",
+      "max_height": "25px",
+      "font_size": "12px",
+      "font_family": "Arial"
+    },
+    "source_string": "Music Volume",
+    "translations": {
+      "de": {
+        "translation": "Musiklautstärke",
+        "status": "translated",
+        "translator": "user_006",
+        "translated_at": "2025-01-27T16:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T16:30:00Z",
+        "validation_status": "passed"
+      },
+      "fr": {
+        "translation": "Volume Musique",
+        "status": "translated",
+        "translator": "user_007",
+        "translated_at": "2025-01-27T16:15:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T16:45:00Z",
+        "validation_status": "passed"
+      },
+      "ja": {
+        "translation": "音楽ボリューム",
+        "status": "translated",
+        "translator": "user_009",
+        "translated_at": "2025-01-27T16:30:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T17:00:00Z",
+        "validation_status": "passed"
+      },
+      "es": {
+        "translation": "Volumen Música",
+        "status": "translated",
+        "translator": "user_010",
+        "translated_at": "2025-01-27T16:45:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T17:15:00Z",
+        "validation_status": "passed"
+      },
+      "zh": {
+        "translation": "音乐音量",
+        "status": "translated",
+        "translator": "user_011",
+        "translated_at": "2025-01-27T17:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T17:30:00Z",
+        "validation_status": "passed"
+      }
+    },
+    "glossary_terms": [
+      "music",
+      "volume",
+      "audio"
+    ],
+    "style_guide": "formal",
+    "priority": "medium",
+    "component": "ui",
+    "subcomponent": "settings",
+    "created_at": "2025-01-27T15:45:00Z",
+    "updated_at": "2025-01-27T17:30:00Z",
+    "metadata": {
+      "project": "proj_021",
+      "version": "1.2.3",
+      "context_screenshot": "https://screenshots.techcorp.com/audio_settings_002.png"
+    }
+  },
+  "loc_string_005": {
+    "id": "loc_string_005",
+    "string_key": "ui.settings.audio.sfx_volume",
+    "context": "Sound effects volume slider label in audio settings",
+    "description": "Label for the sound effects volume slider in audio settings",
+    "max_length": 30,
+    "ui_constraints": {
+      "max_width": "250px",
+      "max_height": "25px",
+      "font_size": "12px",
+      "font_family": "Arial"
+    },
+    "source_string": "Sound Effects Volume",
+    "translations": {
+      "de": {
+        "translation": "Effektlautstärke",
+        "status": "translated",
+        "translator": "user_006",
+        "translated_at": "2025-01-27T18:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T18:30:00Z",
+        "validation_status": "passed"
+      },
+      "fr": {
+        "translation": "Volume Effets Sonores",
+        "status": "translated",
+        "translator": "user_007",
+        "translated_at": "2025-01-27T18:15:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T18:45:00Z",
+        "validation_status": "passed"
+      },
+      "ja": {
+        "translation": "効果音ボリューム",
+        "status": "translated",
+        "translator": "user_009",
+        "translated_at": "2025-01-27T18:30:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T19:00:00Z",
+        "validation_status": "passed"
+      },
+      "es": {
+        "translation": "Volumen Efectos",
+        "status": "translated",
+        "translator": "user_010",
+        "translated_at": "2025-01-27T18:45:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T19:15:00Z",
+        "validation_status": "passed"
+      },
+      "zh": {
+        "translation": "音效音量",
+        "status": "translated",
+        "translator": "user_011",
+        "translated_at": "2025-01-27T19:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T19:30:00Z",
+        "validation_status": "passed"
+      }
+    },
+    "glossary_terms": [
+      "sound_effects",
+      "volume",
+      "audio"
+    ],
+    "style_guide": "formal",
+    "priority": "medium",
+    "component": "ui",
+    "subcomponent": "settings",
+    "created_at": "2025-01-27T17:45:00Z",
+    "updated_at": "2025-01-27T19:30:00Z",
+    "metadata": {
+      "project": "proj_021",
+      "version": "1.2.3",
+      "context_screenshot": "https://screenshots.techcorp.com/audio_settings_003.png"
+    }
+  },
+  "loc_string_006": {
+    "id": "loc_string_006",
+    "string_key": "ui.settings.graphics",
+    "context": "Settings menu graphics section title",
+    "description": "Title for the graphics settings section in the settings menu",
+    "max_length": 15,
+    "ui_constraints": {
+      "max_width": "150px",
+      "max_height": "30px",
+      "font_size": "14px",
+      "font_family": "Arial"
+    },
+    "source_string": "Graphics",
+    "translations": {
+      "de": {
+        "translation": "Grafik",
+        "status": "translated",
+        "translator": "user_006",
+        "translated_at": "2025-01-27T20:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T20:30:00Z",
+        "validation_status": "passed"
+      },
+      "fr": {
+        "translation": "Graphiques",
+        "status": "translated",
+        "translator": "user_007",
+        "translated_at": "2025-01-27T20:15:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T20:45:00Z",
+        "validation_status": "passed"
+      },
+      "ja": {
+        "translation": "グラフィック",
+        "status": "translated",
+        "translator": "user_009",
+        "translated_at": "2025-01-27T20:30:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T21:00:00Z",
+        "validation_status": "passed"
+      },
+      "es": {
+        "translation": "Gráficos",
+        "status": "translated",
+        "translator": "user_010",
+        "translated_at": "2025-01-27T20:45:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T21:15:00Z",
+        "validation_status": "passed"
+      },
+      "zh": {
+        "translation": "图形",
+        "status": "translated",
+        "translator": "user_011",
+        "translated_at": "2025-01-27T21:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T21:30:00Z",
+        "validation_status": "passed"
+      }
+    },
+    "glossary_terms": [
+      "graphics",
+      "settings"
+    ],
+    "style_guide": "formal",
+    "priority": "medium",
+    "component": "ui",
+    "subcomponent": "settings",
+    "created_at": "2025-01-27T19:45:00Z",
+    "updated_at": "2025-01-27T21:30:00Z",
+    "metadata": {
+      "project": "proj_021",
+      "version": "1.2.3",
+      "context_screenshot": "https://screenshots.techcorp.com/graphics_settings_001.png"
+    }
+  },
+  "loc_string_007": {
+    "id": "loc_string_007",
+    "string_key": "ui.settings.graphics.resolution",
+    "context": "Resolution setting label in graphics settings",
+    "description": "Label for the resolution setting in graphics settings",
+    "max_length": 20,
+    "ui_constraints": {
+      "max_width": "180px",
+      "max_height": "25px",
+      "font_size": "12px",
+      "font_family": "Arial"
+    },
+    "source_string": "Resolution",
+    "translations": {
+      "de": {
+        "translation": "Auflösung",
+        "status": "translated",
+        "translator": "user_006",
+        "translated_at": "2025-01-27T22:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T22:30:00Z",
+        "validation_status": "passed"
+      },
+      "fr": {
+        "translation": "Résolution",
+        "status": "translated",
+        "translator": "user_007",
+        "translated_at": "2025-01-27T22:15:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T22:45:00Z",
+        "validation_status": "passed"
+      },
+      "ja": {
+        "translation": "解像度",
+        "status": "translated",
+        "translator": "user_009",
+        "translated_at": "2025-01-27T22:30:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T23:00:00Z",
+        "validation_status": "passed"
+      },
+      "es": {
+        "translation": "Resolución",
+        "status": "translated",
+        "translator": "user_010",
+        "translated_at": "2025-01-27T22:45:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T23:15:00Z",
+        "validation_status": "passed"
+      },
+      "zh": {
+        "translation": "分辨率",
+        "status": "translated",
+        "translator": "user_011",
+        "translated_at": "2025-01-27T23:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-27T23:30:00Z",
+        "validation_status": "passed"
+      }
+    },
+    "glossary_terms": [
+      "resolution",
+      "graphics"
+    ],
+    "style_guide": "formal",
+    "priority": "medium",
+    "component": "ui",
+    "subcomponent": "settings",
+    "created_at": "2025-01-27T21:45:00Z",
+    "updated_at": "2025-01-27T23:30:00Z",
+    "metadata": {
+      "project": "proj_021",
+      "version": "1.2.3",
+      "context_screenshot": "https://screenshots.techcorp.com/graphics_settings_002.png"
+    }
+  },
+  "loc_string_008": {
+    "id": "loc_string_008",
+    "string_key": "ui.settings.graphics.quality",
+    "context": "Graphics quality setting label",
+    "description": "Label for the graphics quality setting in graphics settings",
+    "max_length": 20,
+    "ui_constraints": {
+      "max_width": "180px",
+      "max_height": "25px",
+      "font_size": "12px",
+      "font_family": "Arial"
+    },
+    "source_string": "Graphics Quality",
+    "translations": {
+      "de": {
+        "translation": "Grafikqualität",
+        "status": "translated",
+        "translator": "user_006",
+        "translated_at": "2025-01-28T00:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T00:30:00Z",
+        "validation_status": "passed"
+      },
+      "fr": {
+        "translation": "Qualité Graphique",
+        "status": "translated",
+        "translator": "user_007",
+        "translated_at": "2025-01-28T00:15:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T00:45:00Z",
+        "validation_status": "passed"
+      },
+      "ja": {
+        "translation": "グラフィック品質",
+        "status": "translated",
+        "translator": "user_009",
+        "translated_at": "2025-01-28T00:30:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T01:00:00Z",
+        "validation_status": "passed"
+      },
+      "es": {
+        "translation": "Calidad Gráfica",
+        "status": "translated",
+        "translator": "user_010",
+        "translated_at": "2025-01-28T00:45:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T01:15:00Z",
+        "validation_status": "passed"
+      },
+      "zh": {
+        "translation": "图形质量",
+        "status": "translated",
+        "translator": "user_011",
+        "translated_at": "2025-01-28T01:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T01:30:00Z",
+        "validation_status": "passed"
+      }
+    },
+    "glossary_terms": [
+      "graphics",
+      "quality",
+      "settings"
+    ],
+    "style_guide": "formal",
+    "priority": "medium",
+    "component": "ui",
+    "subcomponent": "settings",
+    "created_at": "2025-01-27T23:45:00Z",
+    "updated_at": "2025-01-28T01:30:00Z",
+    "metadata": {
+      "project": "proj_021",
+      "version": "1.2.3",
+      "context_screenshot": "https://screenshots.techcorp.com/graphics_settings_003.png"
+    }
+  },
+  "loc_string_009": {
+    "id": "loc_string_009",
+    "string_key": "ui.game.hud.health",
+    "context": "Health display label in game HUD",
+    "description": "Label for the health display in the game HUD",
+    "max_length": 10,
+    "ui_constraints": {
+      "max_width": "80px",
+      "max_height": "20px",
+      "font_size": "10px",
+      "font_family": "Arial"
+    },
+    "source_string": "Health",
+    "translations": {
+      "de": {
+        "translation": "Leben",
+        "status": "translated",
+        "translator": "user_006",
+        "translated_at": "2025-01-28T02:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T02:30:00Z",
+        "validation_status": "passed"
+      },
+      "fr": {
+        "translation": "Santé",
+        "status": "translated",
+        "translator": "user_007",
+        "translated_at": "2025-01-28T02:15:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T02:45:00Z",
+        "validation_status": "passed"
+      },
+      "ja": {
+        "translation": "体力",
+        "status": "translated",
+        "translator": "user_009",
+        "translated_at": "2025-01-28T02:30:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T03:00:00Z",
+        "validation_status": "passed"
+      },
+      "es": {
+        "translation": "Salud",
+        "status": "translated",
+        "translator": "user_010",
+        "translated_at": "2025-01-28T02:45:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T03:15:00Z",
+        "validation_status": "passed"
+      },
+      "zh": {
+        "translation": "生命值",
+        "status": "translated",
+        "translator": "user_011",
+        "translated_at": "2025-01-28T03:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T03:30:00Z",
+        "validation_status": "passed"
+      }
+    },
+    "glossary_terms": [
+      "health",
+      "hud",
+      "game"
+    ],
+    "style_guide": "formal",
+    "priority": "high",
+    "component": "ui",
+    "subcomponent": "hud",
+    "created_at": "2025-01-28T01:45:00Z",
+    "updated_at": "2025-01-28T03:30:00Z",
+    "metadata": {
+      "project": "proj_021",
+      "version": "1.2.3",
+      "context_screenshot": "https://screenshots.techcorp.com/game_hud_001.png"
+    }
+  },
+  "loc_string_010": {
+    "id": "loc_string_010",
+    "string_key": "ui.game.hud.mana",
+    "context": "Mana display label in game HUD",
+    "description": "Label for the mana display in the game HUD",
+    "max_length": 10,
+    "ui_constraints": {
+      "max_width": "80px",
+      "max_height": "20px",
+      "font_size": "10px",
+      "font_family": "Arial"
+    },
+    "source_string": "Mana",
+    "translations": {
+      "de": {
+        "translation": "Mana",
+        "status": "translated",
+        "translator": "user_006",
+        "translated_at": "2025-01-28T04:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T04:30:00Z",
+        "validation_status": "passed"
+      },
+      "fr": {
+        "translation": "Mana",
+        "status": "translated",
+        "translator": "user_007",
+        "translated_at": "2025-01-28T04:15:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T04:45:00Z",
+        "validation_status": "passed"
+      },
+      "ja": {
+        "translation": "マナ",
+        "status": "translated",
+        "translator": "user_009",
+        "translated_at": "2025-01-28T04:30:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T05:00:00Z",
+        "validation_status": "passed"
+      },
+      "es": {
+        "translation": "Maná",
+        "status": "translated",
+        "translator": "user_010",
+        "translated_at": "2025-01-28T04:45:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T05:15:00Z",
+        "validation_status": "passed"
+      },
+      "zh": {
+        "translation": "法力",
+        "status": "translated",
+        "translator": "user_011",
+        "translated_at": "2025-01-28T05:00:00Z",
+        "reviewed": true,
+        "reviewer": "user_008",
+        "reviewed_at": "2025-01-28T05:30:00Z",
+        "validation_status": "passed"
+      }
+    },
+    "glossary_terms": [
+      "mana",
+      "hud",
+      "game"
+    ],
+    "style_guide": "formal",
+    "priority": "high",
+    "component": "ui",
+    "subcomponent": "hud",
+    "created_at": "2025-01-28T03:45:00Z",
+    "updated_at": "2025-01-28T05:30:00Z",
+    "metadata": {
+      "project": "proj_021",
+      "version": "1.2.3",
+      "context_screenshot": "https://screenshots.techcorp.com/game_hud_002.png"
+    }
+  }
+}

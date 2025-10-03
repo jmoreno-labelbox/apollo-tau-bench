@@ -1,0 +1,74 @@
+{
+  "team_001": {
+    "team_id": "team_001",
+    "user_id": "user_013",
+    "role": "engineer",
+    "added_at": "2020-05-12T11:00:00Z"
+  },
+  "team_002": {
+    "team_id": "team_002",
+    "user_id": "user_013",
+    "role": "engineer",
+    "added_at": "2020-05-15T11:00:00Z"
+  },
+  "team_003": {
+    "team_id": "team_003",
+    "user_id": "user_009",
+    "role": "engineer",
+    "added_at": "2020-03-20T10:30:00Z"
+  },
+  "team_004": {
+    "team_id": "team_004",
+    "user_id": "user_006",
+    "role": "engineer",
+    "added_at": "2020-04-15T16:45:00Z"
+  },
+  "team_005": {
+    "team_id": "team_005",
+    "user_id": "user_015",
+    "role": "engineer",
+    "added_at": "2020-05-25T12:45:00Z"
+  },
+  "team_006": {
+    "team_id": "team_006",
+    "user_id": "user_009",
+    "role": "engineer",
+    "added_at": "2020-07-01T10:30:00Z"
+  },
+  "team_007": {
+    "team_id": "team_007",
+    "user_id": "user_020",
+    "role": "senior_engineer",
+    "added_at": "2020-08-15T12:00:00Z"
+  },
+  "team_008": {
+    "team_id": "team_008",
+    "user_id": "user_001",
+    "role": "senior_engineer",
+    "added_at": "2020-09-05T10:00:00Z"
+  },
+  "team_009": {
+    "team_id": "team_009",
+    "user_id": "user_006",
+    "role": "engineer",
+    "added_at": "2020-10-01T16:45:00Z"
+  },
+  "team_010": {
+    "team_id": "team_010",
+    "user_id": "user_014",
+    "role": "engineer",
+    "added_at": "2020-11-01T08:30:00Z"
+  },
+  "team_011": {
+    "team_id": "team_011",
+    "user_id": "user_015",
+    "role": "engineer",
+    "added_at": "2020-11-20T12:45:00Z"
+  },
+  "team_012": {
+    "team_id": "team_012",
+    "user_id": "user_012",
+    "role": "engineer",
+    "added_at": "2020-12-17T14:20:00Z"
+  }
+}
