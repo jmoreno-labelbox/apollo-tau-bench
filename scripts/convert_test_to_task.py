@@ -2,7 +2,14 @@
 # Copyright Sierra
 
 """
-python3 scripts/convert_test_to_task.py --out tau_bench/envs/airline/tasks.py
+Convert a Pydantic-based tasks_test.py into dict-based tasks.py.
+
+Usage examples:
+  python3 scripts/convert_test_to_task.py \
+    --input tau_bench/envs/airline/tasks_test.py \
+    --output tau_bench/envs/airline/tasks.py
+
+If --output is omitted, the script writes next to the input file as tasks.py.
 """
 
 import argparse
@@ -18,7 +25,6 @@ from typing import Any, Dict, List
 REPO_ROOT = Path(__file__).resolve().parent.parent
 TAU_BENCH_DIR = REPO_ROOT / "tau_bench"
 TYPES_PATH = TAU_BENCH_DIR / "types.py"
-AIRLINE_TASKS_TEST_PATH = TAU_BENCH_DIR / "envs" / "airline" / "tasks_test.py"
 
 
 def _load_module_from_path(module_name: str, file_path: Path) -> ModuleType:
@@ -155,19 +161,27 @@ def render_tasks_py(tasks: List[Dict[str, Any]]) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Convert airline tasks_test (Pydantic) to tasks dict format")
+    parser = argparse.ArgumentParser(description="Convert tasks_test.py (Pydantic) to dict-based tasks.py")
     parser.add_argument(
-        "--out",
+        "--input",
         type=str,
-        default=str(Path(__file__).resolve().parent.parent / "tau_bench" / "envs" / "airline" / "tasks.py"),
-        help="Output path for generated tasks.py",
+        required=True,
+        help="Path to the input tasks_test.py file",
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        help="Output path for generated tasks.py (defaults to sibling of input as tasks.py)",
     )
     args = parser.parse_args()
+
+    input_path = Path(args.input).resolve()
+    if not input_path.exists():
+        raise FileNotFoundError(f"Input not found: {input_path}")
 
     # Prepare a lightweight package stub so that `from tau_bench.types import ...` resolves
     if "tau_bench" not in sys.modules:
         pkg = ModuleType("tau_bench")
-        # Mark as a namespace/package-like module
         setattr(pkg, "__path__", [str(TAU_BENCH_DIR)])
         sys.modules["tau_bench"] = pkg
 
@@ -175,14 +189,14 @@ def main() -> None:
     _load_module_from_path("tau_bench.types", TYPES_PATH)
 
     # Load tasks_test directly from file
-    tasks_test_mod = _load_module_from_path("airline_tasks_test", AIRLINE_TASKS_TEST_PATH)
+    tasks_test_mod = _load_module_from_path("_tasks_test_module", input_path)
     if not hasattr(tasks_test_mod, "TASKS"):
-        raise RuntimeError("Expected TASKS in airline tasks_test module")
+        raise RuntimeError("Expected TASKS list in the provided tasks_test.py module")
 
     converted: List[Dict[str, Any]] = [task_to_dict(t) for t in getattr(tasks_test_mod, "TASKS")]
     content = render_tasks_py(converted)
 
-    out_path = Path(args.out)
+    out_path = Path(args.output).resolve() if args.output else input_path.with_name("tasks.py")
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(content, encoding="utf-8")
     print(f"Wrote {len(converted)} tasks to {out_path}")
