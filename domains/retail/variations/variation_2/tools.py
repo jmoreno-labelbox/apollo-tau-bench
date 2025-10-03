@@ -30,7 +30,6 @@ class FindUserIdByNameZip(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -65,7 +64,6 @@ class GetUserDetails(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -96,7 +94,6 @@ class GetUserOrders(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -128,7 +125,6 @@ class UpdateUserAddress(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -165,7 +161,6 @@ class GetUserPaymentMethods(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -201,7 +196,6 @@ class GetOrderDetails(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -232,7 +226,6 @@ class GetOrderStatus(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -264,7 +257,6 @@ class UpdateOrderStatus(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -329,7 +321,6 @@ class AddOrderFulfillment(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -367,7 +358,6 @@ class GetOrderPaymentHistory(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -403,7 +393,6 @@ class GetProductDetails(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -437,7 +426,6 @@ class GetVariantDetails(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -470,7 +458,6 @@ class ListAvailableVariants(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -546,7 +533,6 @@ class UpdateVariantAvailability(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -626,7 +612,6 @@ class UpdateVariantPrice(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -666,7 +651,6 @@ class GetSupplierById(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -702,7 +686,6 @@ class GetSupplierProducts(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -741,7 +724,6 @@ class UpdateItemStock(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -787,7 +769,6 @@ class GetItemStock(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -826,7 +807,6 @@ class GetCourierById(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -861,7 +841,6 @@ class FindCourierByTrackingId(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -976,7 +955,6 @@ class AssignCourierToOrder(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1023,7 +1001,6 @@ class GetTrackingHistory(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1059,7 +1036,6 @@ class GetSupplyOrderDetails(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1095,7 +1071,6 @@ class UpdateSupplyOrderStatus(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1135,7 +1110,6 @@ class DeleteSupplyOrder(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

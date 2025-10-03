@@ -15,7 +15,6 @@ class GetJobPosting(Tool):
         return f"Job posting with ID {job_id} not found."
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -110,7 +109,6 @@ class GetRoleSkills(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -199,7 +197,6 @@ class SearchExternalCandidatesBySkills(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -246,7 +243,6 @@ class ShortlistExternalCandidate(Tool):
         return f"External candidate {candidate_id} shortlisted for job {job_id}."
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -283,7 +279,6 @@ class GetJobApplications(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -431,7 +426,6 @@ class AnalyzeApplicantSkillFit(Tool):
         return f"Skills match: {match_count}/{len(role_skill_names)} ({skill_percentage}%)\nMatched: {matched}\nMissing: {missing}"
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -463,7 +457,6 @@ class UpdateApplicationStatus(Tool):
         return "Application not found"
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -503,7 +496,6 @@ class ScheduleTechnicalInterview(Tool):
         return f"Technical interview scheduled for application {application_id}."
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -634,7 +626,6 @@ class AnalyzeExternalCandidateSkillFit(Tool):
         return f"Skills match: {match_count}/{len(role_skill_names)} ({skill_percentage}%)\nMatched: {matched}\nMissing: {missing}"
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -686,7 +677,6 @@ class RecommendSkillTraining(Tool):
         return f"{user_id} needs {skill} training"
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1360,7 +1350,6 @@ class AddGoal(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

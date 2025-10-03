@@ -100,7 +100,6 @@ class CreateUser(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -266,7 +265,6 @@ class UpdateUser(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -408,7 +406,6 @@ class GetUser(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -511,7 +508,6 @@ class GetRole(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -580,7 +576,6 @@ class UpdateRole(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -669,7 +664,6 @@ class GetUserRoles(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -752,7 +746,6 @@ class CreateRole(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -866,7 +859,6 @@ class IsAdmin(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -973,7 +965,6 @@ class CreateResource(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1066,7 +1057,6 @@ class GetResource(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1171,7 +1161,6 @@ class ListUsersWithAccessToResource(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1378,7 +1367,6 @@ class CanAccessResource(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1491,7 +1479,6 @@ class GetAccessRequest(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1667,7 +1654,6 @@ class DecideAccessRequest(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1781,7 +1767,6 @@ class EnsureUserRole(Tool):
             return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1917,7 +1902,6 @@ class UpdateUserRole(Tool):
             return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1993,7 +1977,6 @@ class GetBaseRoleByDepartment(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2214,7 +2197,6 @@ class CheckSoDConflicts(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2292,7 +2274,6 @@ class GetCertification(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2379,7 +2360,6 @@ class CompleteCertification(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2477,7 +2457,6 @@ class CreateCertification(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2561,7 +2540,6 @@ class GetPolicyException(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2657,7 +2635,6 @@ class CreatePolicyException(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2760,7 +2737,6 @@ class DecidePolicyException(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2834,7 +2810,6 @@ class GetPermission(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2918,7 +2893,6 @@ class CreatePermission(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2996,7 +2970,6 @@ class GetRolePermissions(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3078,7 +3051,6 @@ class AssignPermissionToRole(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3143,7 +3115,6 @@ class CreateAuditLogEntry(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3274,7 +3245,6 @@ class CreateHubSpotTicket(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3414,7 +3384,6 @@ class UpdateHubSpotTicket(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3521,7 +3490,6 @@ class GetHubSpotTicket(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3611,7 +3579,6 @@ class PostSlackMessage(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3680,7 +3647,6 @@ class SendEmail(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3783,7 +3749,6 @@ class CreateSiemAlert(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3863,7 +3828,6 @@ class GetSiemAlert(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3946,7 +3910,6 @@ class UpdateSession(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -4032,7 +3995,6 @@ class GetSession(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

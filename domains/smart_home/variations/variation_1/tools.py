@@ -44,7 +44,6 @@ class ListDevices(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -90,7 +89,6 @@ class GetDevice(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -209,7 +207,6 @@ class UpdateDeviceState(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -344,7 +341,6 @@ class UpdateDeviceStateTimer(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -441,7 +437,6 @@ class ScheduleDeviceUpdate(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -542,7 +537,6 @@ class CreateDevice(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -615,7 +609,6 @@ class DeleteDevice(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -667,7 +660,6 @@ class AddDeviceToRoom(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -719,7 +711,6 @@ class RemoveDeviceFromRoom(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -759,7 +750,6 @@ class ListRooms(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -789,7 +779,6 @@ class ListScenes(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -857,7 +846,6 @@ class UpsertScene(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -920,7 +908,6 @@ class DeleteScene(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -959,7 +946,6 @@ class ScheduleSceneRun(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -998,7 +984,6 @@ class ListMembers(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1037,7 +1022,6 @@ class UpsertMember(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1080,7 +1064,6 @@ class DeleteMember(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1120,7 +1103,6 @@ class ListSensorNamesIds(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1155,7 +1137,6 @@ class GetSensorState(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1303,7 +1284,6 @@ class ManageCustomList(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1433,7 +1413,6 @@ class ManageListItems(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1617,7 +1596,6 @@ class ManageReminders(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1734,7 +1712,6 @@ class ScheduleDeviceTimerUpdate(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

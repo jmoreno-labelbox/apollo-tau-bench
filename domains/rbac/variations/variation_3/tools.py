@@ -58,7 +58,6 @@ class GetAccessRequestTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -123,7 +122,6 @@ class ReviewAccessRequestTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -180,7 +178,6 @@ class GetUserRolesTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -250,7 +247,6 @@ class RevokeUserRoleTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -331,7 +327,6 @@ class ListAuditLogsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -384,7 +379,6 @@ class ListActiveSessionsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -447,7 +441,6 @@ class CreateAccessRequestTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -490,7 +483,6 @@ class ListAccessRequestsByStatusTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -526,7 +518,6 @@ class ListAccessRequestsByUserTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -588,7 +579,6 @@ class AssignUserRoleTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -644,7 +634,6 @@ class ListRolePermissionsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -689,7 +678,6 @@ class GetRoleNameTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -740,7 +728,6 @@ class AppendAuditLogTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -816,7 +803,6 @@ class LogRevokeDecisionTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -854,7 +840,6 @@ class GetAccessRequestDetailsTool(Tool):
         return GetAccessRequestTool.invoke(data)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -894,7 +879,6 @@ class UpdateAccessRequestStatusTool(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -945,7 +929,6 @@ class GrantRoleTool(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1006,7 +989,6 @@ class RevokeRoleTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1076,7 +1058,6 @@ class SendEmailTool(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1115,7 +1096,6 @@ class GetUserSessionsTool(Tool):
         return ListActiveSessionsTool.invoke(data, param1=param1, param2=param2)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1149,7 +1129,6 @@ class UpdateHubspotTicketStatusTool(Tool):
         
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1182,7 +1161,6 @@ class UpdateHubspotTicketAssigneeTool(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1211,7 +1189,6 @@ class GetCurrentTimeTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1237,7 +1214,6 @@ class GetUsersByRoleTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1265,7 +1241,6 @@ class GetRolePermissionsAliasTool(Tool):
         return ListRolePermissionsTool.invoke(data, param1=param1, param2=param2)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1290,7 +1265,6 @@ class GetHubspotTicketsByRequesterTool(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1320,7 +1294,6 @@ class GetHubspotTicketsByAssigneeTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1358,7 +1331,6 @@ class CompleteCertificationTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1406,7 +1378,6 @@ class StartCertificationTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1449,7 +1420,6 @@ class ListCertificationsByStatusTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1510,7 +1480,6 @@ class GetPermissionsForUserTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1939,7 +1908,6 @@ class CheckUserStatusTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2072,7 +2040,6 @@ class AssignRoleOnApprovalTool(Tool):
         return _json.dumps(out, indent=2)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2172,7 +2139,6 @@ class ListPolicyExceptionsTool(Tool):
         return _json.dumps(out, indent=2)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2299,7 +2265,6 @@ class GetTimeWindowTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2360,7 +2325,6 @@ class GetUserEmailTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2414,7 +2378,6 @@ class ListEmailsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2494,7 +2457,6 @@ class ListSiemAlertsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2575,7 +2537,6 @@ class AcknowledgeSiemAlertTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2646,7 +2607,6 @@ class ListHubspotTicketsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2771,7 +2731,6 @@ class UpdateHubspotTicketTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2837,7 +2796,6 @@ class ListSlackMessagesTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2910,7 +2868,6 @@ class ListUsersByMfaTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2978,7 +2935,6 @@ class SetUserMfaTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3060,7 +3016,6 @@ class UpsertEmailTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3126,7 +3081,6 @@ class ReviewPolicyExceptionTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3241,7 +3195,6 @@ class ProcessAccessRequestE2ETool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3324,7 +3277,6 @@ class RevokeRoleE2ETool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3384,7 +3336,6 @@ class CloseHubspotTicketBasicTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3450,7 +3401,6 @@ class CompleteCertificationsAndAuditTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3526,7 +3476,6 @@ class CreateAndReviewAccessRequestTool(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

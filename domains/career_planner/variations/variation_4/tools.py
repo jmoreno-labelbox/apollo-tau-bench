@@ -1489,7 +1489,6 @@ class ConditionalEnrollOrList(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

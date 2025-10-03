@@ -113,7 +113,6 @@ class AuthenticateUserTool(Tool):
             return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -188,7 +187,6 @@ class SearchRepositoriesTool(Tool):
             return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -260,7 +258,6 @@ class UpdateRepositoryNameTool(Tool):
             return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
 
         return {
             "type": "function",
@@ -308,7 +305,6 @@ class CreateRepositoryTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -426,7 +422,6 @@ class CreateOrUpdateFileTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -530,7 +525,6 @@ class GetFileContentsTool(Tool):
             return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -601,7 +595,6 @@ class ListCommitsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -683,7 +676,6 @@ class SearchCodeTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -753,7 +745,6 @@ class ListCodeScanningAlertsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -830,7 +821,6 @@ class CreateBranchTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -937,7 +927,6 @@ class CreatePullRequestTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1027,7 +1016,6 @@ class GetPullRequestTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1130,7 +1118,6 @@ class GetPullRequestFilesTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1197,7 +1184,6 @@ class ListPullRequestsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1284,7 +1270,6 @@ class GetPullRequestStatusTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1593,7 +1578,6 @@ class GetRepositoryMetadataTool(Tool):
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1636,7 +1620,6 @@ class ListRepositoriesTool(Tool):
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1708,7 +1691,6 @@ class CreateRepositoryTool(Tool):
         return _response("ok", new_repo)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1777,7 +1759,6 @@ class UpdateRepositoryDescriptionTool(Tool):
         return _response("ok", repo)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1858,7 +1839,6 @@ class GetRepositoryHealthSummaryTool(Tool):
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1936,7 +1916,6 @@ class ListCommitsByBranchTool(Tool):
         return _response("ok", branch_commits)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2019,7 +1998,6 @@ class GetCommitMetadataTool(Tool):
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2114,7 +2092,6 @@ class AddCommitToBranchTool(Tool):
         return _response("ok", new_commit)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2183,7 +2160,6 @@ class CountCommitsByAuthorTool(Tool):
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2258,7 +2234,6 @@ class ListCommitsByDateRangeTool(Tool):
         return _response("ok", filtered)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2335,7 +2310,6 @@ class GetOpenIssuesTool(Tool):
         return _response("ok", open_issues)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2403,7 +2377,6 @@ class GetClosedIssuesTool(Tool):
         return _response("ok", closed_issues)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2496,7 +2469,6 @@ class CreateIssueTool(Tool):
         return _response("ok", new_issue)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2571,7 +2543,6 @@ class CloseIssueTool(Tool):
         return _response("ok", issue)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2650,7 +2621,6 @@ class AssignIssueTool(Tool):
         return _response("ok", issue)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2722,7 +2692,6 @@ class ListIssuesByLabelTool(Tool):
         return _response("ok", labeled)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2795,7 +2764,6 @@ class GetIssueAgingReportTool(Tool):
         return _response("ok", aging)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2870,7 +2838,6 @@ class ListPullRequestsTool(Tool):
         return _response("ok", repo_prs)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2953,7 +2920,6 @@ class GetPullRequestMetadataTool(Tool):
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3036,7 +3002,6 @@ class OpenPullRequestTool(Tool):
         return _response("ok", new_pr)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3124,7 +3089,6 @@ class ClosePullRequestTool(Tool):
         return _response("ok", pr)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3196,7 +3160,6 @@ class MergePullRequestTool(Tool):
         return _response("ok", pr)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3275,7 +3238,6 @@ class RequestPullRequestReviewTool(Tool):
         return _response("ok", pr)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3351,7 +3313,6 @@ class LinkPullRequestToIssueTool(Tool):
         return _response("ok", pr)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3430,7 +3391,6 @@ class GetPullRequestMergeTimeReportTool(Tool):
         return _response("ok", report)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3503,7 +3463,6 @@ class GetOpenSecurityAlertsTool(Tool):
         return _response("ok", repo_alerts)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3572,7 +3531,6 @@ class GetResolvedSecurityAlertsTool(Tool):
         return _response("ok", resolved)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3663,7 +3621,6 @@ class CreateSecurityAlertTool(Tool):
         return _response("ok", new_alert)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3746,7 +3703,6 @@ class FixSecurityAlertTool(Tool):
         return _response("ok", alert)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3818,7 +3774,6 @@ class ListAlertsBySeverityTool(Tool):
         return _response("ok", filtered)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3889,7 +3844,6 @@ class GetRepositoryRiskScoreTool(Tool):
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3951,7 +3905,6 @@ class GetDeploymentStatusTool(Tool):
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3993,7 +3946,6 @@ class ListTerminalLogsTool(Tool):
         return _response("ok", deterministic_events)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -4055,7 +4007,6 @@ class GetReleasesByRepositoryTool(Tool):
         return _response("ok", filtered)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -4130,7 +4081,6 @@ class CreateReleaseTool(Tool):
         return _response("ok", new_release)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -4194,7 +4144,6 @@ class RegisterDeployEventTool(Tool):
         return _response("ok", new_event)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -4279,7 +4228,6 @@ class GetDeploymentFrequencyReportTool(Tool):
         return _response("ok", report)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -4366,7 +4314,6 @@ class GetCrossEntityReportTool(Tool):
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -4439,7 +4386,6 @@ class MapCommitsToPullRequestsTool(Tool):
         return _response("ok", mapping)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -4504,7 +4450,6 @@ class MapPullRequestsToIssuesTool(Tool):
         return _response("ok", mapping)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -4592,7 +4537,6 @@ class GetRepositoryActivityDashboardTool(Tool):
         return _response("ok", dashboard)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -4658,7 +4602,6 @@ class GetTeamContributionStatsTool(Tool):
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -4716,7 +4659,6 @@ class GetHotspotRepositoriesTool(Tool):
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -4789,7 +4731,6 @@ class GenerateEndToEndReportTool(Tool):
         return _response("ok", report)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

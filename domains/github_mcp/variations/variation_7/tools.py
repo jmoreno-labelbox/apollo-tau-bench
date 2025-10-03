@@ -72,7 +72,6 @@ class WhoAmI(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -95,7 +94,6 @@ class ListRepos(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -131,7 +129,6 @@ class CreateRepo(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -170,7 +167,6 @@ class DeleteRepo(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -200,7 +196,6 @@ class ListBranches(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -238,7 +233,6 @@ class CreateBranch(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -293,7 +287,6 @@ class OpenIssue(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -331,7 +324,6 @@ class ListIssues(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -370,7 +362,6 @@ class SetIssueState(Tool):
         raise RuntimeError("Issue not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -415,7 +406,6 @@ class CommentIssue(Tool):
         raise RuntimeError("Issue not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -457,7 +447,6 @@ class AddLabel(Tool):
         raise RuntimeError("Target not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -519,7 +508,6 @@ class OpenPR(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -557,7 +545,6 @@ class ListPRs(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -599,7 +586,6 @@ class MergePR(Tool):
         raise RuntimeError("PR not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -644,7 +630,6 @@ class SubmitReview(Tool):
         raise RuntimeError("PR not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -700,7 +685,6 @@ class AddCommit(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -738,7 +722,6 @@ class ListCommits(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -783,7 +766,6 @@ class SearchWork(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -818,7 +800,6 @@ class ListAlerts(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -856,7 +837,6 @@ class ResolveAlert(Tool):
         raise RuntimeError("Alert not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -918,7 +898,6 @@ class ActivityFeed(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -949,7 +928,6 @@ class AppendTerminal(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -975,7 +953,6 @@ class ListTerminal(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1011,7 +988,6 @@ class AssignUser(Tool):
         raise RuntimeError("Target not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1052,7 +1028,6 @@ class SetMilestone(Tool):
         raise RuntimeError("Target not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1095,7 +1070,6 @@ class RemoveLabel(Tool):
         raise RuntimeError("Target not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1136,7 +1110,6 @@ class ClosePR(Tool):
         raise RuntimeError("PR not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1175,7 +1148,6 @@ class ReopenPR(Tool):
         raise RuntimeError("PR not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1210,7 +1182,6 @@ class RepoTopics(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1244,7 +1215,6 @@ class TransferRepo(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

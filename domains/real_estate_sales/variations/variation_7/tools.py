@@ -269,7 +269,6 @@ class FetchClientFullContextTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -340,7 +339,6 @@ class FetchListingByPropertyIdTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -412,7 +410,6 @@ class FetchNeighborhoodDetailsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -467,7 +464,6 @@ class FetchBrokerDetailsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -586,7 +582,6 @@ class SearchListingsByCriteriaTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         #status_filter is mandated by prompt; permit null for adaptability
         return {
             "type": "function",
@@ -646,7 +641,6 @@ class FetchPropertySalesHistoryTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -726,7 +720,6 @@ class FetchMortgageRatesForClientTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         #The tool refrains from directly retrieving client profiles to maintain privacy layers
         return {
             "type": "function",
@@ -800,7 +793,6 @@ class CheckRecentEmailHistoryTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         #Helper for deduplication protocol step 1
         return {
             "type": "function",
@@ -972,7 +964,6 @@ class SearchCompsAndCreateReportTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1064,7 +1055,6 @@ class FetchOpenHouseOpportunitiesTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         #Facilitates Route Optimization Protocol (for planning viewings)
         return {
             "type": "function",
@@ -1133,7 +1123,6 @@ class CalculateMortgagePaymentTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         #Business Guideline: utilize real mortgage profile inputs upstream
         return {
             "type": "function",
@@ -1215,7 +1204,6 @@ class CalculateRouteOptimizationTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         #Route Optimization Protocol
         return {
             "type": "function",
@@ -1462,7 +1450,6 @@ class CalculatePropertyMetricsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1561,7 +1548,6 @@ class FetchPropertyDetailsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1649,7 +1635,6 @@ class FetchCompReportDetailsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1772,7 +1757,6 @@ class FindNearbyListingsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1847,7 +1831,6 @@ class FetchEmailsForClientTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1915,7 +1898,6 @@ class FetchCalendarEventsForClientTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1994,7 +1976,6 @@ class FetchListingsByIdsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2058,7 +2039,6 @@ class FetchRouteDetailsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2124,7 +2104,6 @@ class FetchCampaignDetailsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2174,7 +2153,6 @@ class GenerateClientBriefingDocumentTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2237,7 +2215,6 @@ class ValidateDriveTimeConstraintsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2287,7 +2264,6 @@ class CreateCompReportEntryTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2337,7 +2313,6 @@ class CreateComparableEntryTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2422,7 +2397,6 @@ class GenerateAttachCompReportDocumentTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2478,7 +2452,6 @@ class BulkCreateComparableEntriesTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2544,7 +2517,6 @@ class UpdateCompReportStatusTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2718,7 +2690,6 @@ class CreateEmailEntryTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2906,7 +2877,6 @@ class SendEmailTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2977,7 +2947,6 @@ class CreateRouteEntryTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3065,7 +3034,6 @@ class CreateCalendarEventEntryTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3151,7 +3119,6 @@ class CreateCampaignEntryTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3213,7 +3180,6 @@ class CreateAuditEventEntryTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3275,7 +3241,6 @@ class GenerateCompReportDocumentTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3452,7 +3417,6 @@ class GenerateEmailContentTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3548,7 +3512,6 @@ class VerifyCompReportWorkflowTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3609,7 +3572,6 @@ class VerifyRouteCreationTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3662,7 +3624,6 @@ class GenerateNextCompReportUriTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3769,7 +3730,6 @@ class CreateMortgageProfileTool(Tool):
             return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

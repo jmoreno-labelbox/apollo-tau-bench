@@ -51,7 +51,6 @@ class GetLocString(Tool):
         return _err(f"string_key not found: {string_key}")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -128,7 +127,6 @@ class CreateTmsJob(Tool):
         return _ok({"tms_job": job})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -208,7 +206,6 @@ class RecordTranslations(Tool):
         return _ok({"added_count": added})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -283,7 +280,6 @@ class UpdateLocaleValidation(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -343,7 +339,6 @@ class LinkWorkItems(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -398,7 +393,6 @@ class TagWorkItemWithLabel(Tool):
         return _ok({"tagged": {"work_item_id": work_item_id, "label_id": label_id}})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -460,7 +454,6 @@ class SendNotification(Tool):
         return _ok({"notification": record})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -512,7 +505,6 @@ class UpdateSubtitleTiming(Tool):
         return _ok({"updated_subtitle": {"id": sub_id, "applied_updates": updates}})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -572,7 +564,6 @@ class CreateLocalizationWorkflow(Tool):
         return _ok({"localization_workflow": record})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -622,7 +613,6 @@ class GetBuildRun(Tool):
         return _ok({"build_run": row}) if row else _err("build_run not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -657,7 +647,6 @@ class GetSourceChange(Tool):
         return _ok({"source_change": row}) if row else _err("source_change not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -686,7 +675,6 @@ class GetTestResult(Tool):
         return _ok({"test_result": row}) if row else _err("test_result not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -711,7 +699,6 @@ class GetAutomationRun(Tool):
         return _ok({"automation_run": row}) if row else _err("automation_run not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -737,7 +724,6 @@ class GetOwnershipForPath(Tool):
         return _ok({"ownership": row}) if row else _err("ownership not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -771,7 +757,6 @@ class GetAsset(Tool):
         return _ok({"asset": row}) if row else _err("asset not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -798,7 +783,6 @@ class GetTmsJob(Tool):
         return _ok({"tms_job": row}) if row else _err("tms_job not found")
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -827,7 +811,6 @@ class GetLocalizationWorkflow(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

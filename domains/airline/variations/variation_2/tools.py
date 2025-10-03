@@ -43,7 +43,6 @@ class GetAirportByCode(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -67,7 +66,6 @@ class GetAircraftByTail(Tool):
         return _j({})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -92,7 +90,6 @@ class GetAircraftByAirport(Tool):
         return _j(res)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -135,7 +132,6 @@ class LookupFlightDay(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -199,7 +195,6 @@ class ScanFlightsByDate(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -242,7 +237,6 @@ class GetFlightScheduledTimes(Tool):
         return _j({"error": "flight_not_found", "flight_number": flight_number})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -266,7 +260,6 @@ class FindReservationsByUser(Tool):
         return _j(res)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -297,7 +290,6 @@ class FindReservationsByFlightDay(Tool):
         return _j(out)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -324,7 +316,6 @@ class GetCrewMemberByEmployeeCode(Tool):
         return _j({})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -363,7 +354,6 @@ class GetCrewAssignments(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -397,7 +387,6 @@ class GetCrewCertifications(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -427,7 +416,6 @@ class EventsAtAirportOn(Tool):
         return _j(out)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -456,7 +444,6 @@ class MaintenanceLogsForAircraft(Tool):
         return _j(out)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -482,7 +469,6 @@ class MaintenanceLogs(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -523,7 +509,6 @@ class ComputeCrewDutyCounts(Tool):
         return _j({"crew_member_id": crew_member_id, "counts": counts})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -575,7 +560,6 @@ class CreateOperationalEvent(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -613,7 +597,6 @@ class SetAircraftStatus(Tool):
         return _j({"error": "aircraft_not_found", "aircraft_id": aircraft_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -655,7 +638,6 @@ class RelocateAircraft(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -711,7 +693,6 @@ class AppendMaintenanceLog(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -752,7 +733,6 @@ class UpdateCrewMemberStatus(Tool):
         return _j({"error": "crew_member_not_found", "crew_member_id": crew_member_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -792,7 +772,6 @@ class CreateCrewAssignment(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -845,7 +824,6 @@ class UpdateFlightStatusForDate(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -920,7 +898,6 @@ class DelayFlightActualTimesForDate(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1039,7 +1016,6 @@ class RefundReservationsByFlightDay(Tool):
         return _j(out)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1065,7 +1041,6 @@ class SendUserNotification(Tool):
         return _j({"notified": channel_or_user_id, "message": message})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1107,7 +1082,6 @@ class FindAvailableCrew(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1137,7 +1111,6 @@ class UpdateReservationStatus(Tool):
         return _j({"error": "reservation_not_found", "reservation_id": reservation_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1198,7 +1171,6 @@ class UpdateReservationDetails(Tool):
                 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1424,7 +1396,6 @@ class FindFlights(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1550,7 +1521,6 @@ class CreateReservation(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1633,7 +1603,6 @@ class FindUserByEmail(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1683,7 +1652,6 @@ class UpdateFlightScheduledTimes(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

@@ -208,7 +208,6 @@ class EditCustomersDb(Tool):  #CREATE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -320,7 +319,6 @@ class GetCustomersInfoByParam(Tool):  #VIEW
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -359,7 +357,6 @@ class GetTopNCustomersByLoyaltyPoints(Tool):  #VIEW
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -397,7 +394,6 @@ class GetCustomersWithBirthdayToday(Tool):  #VIEW
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -569,7 +565,6 @@ class EditEmployeesDb(Tool):  #CREATE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -666,7 +661,6 @@ class GetEmployeesInfoByParam(Tool):  #VIEW
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -899,7 +893,6 @@ class EditProductsDb(Tool):  #CREATE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1041,7 +1034,6 @@ class GetProductsInfoByParam(Tool):  #VIEW
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1085,7 +1077,6 @@ class GetTopNMostExpensiveProductsByStore(Tool):  #VIEW
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1281,7 +1272,6 @@ class EditInventoryDb(Tool):  #CREATE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1393,7 +1383,6 @@ class GetInventoryInfoByParam(Tool):  #VIEW
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1443,7 +1432,6 @@ class CheckLowStock(Tool):  #CREATE
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1507,7 +1495,6 @@ class UpdateInventoryItem(Tool):  #CREATE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1707,7 +1694,6 @@ class EditPromotionsDb(Tool):  #CREATE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1825,7 +1811,6 @@ class GetPromotionsInfoByParam(Tool):  #VIEW
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2036,7 +2021,6 @@ class EditTransactionsDb(Tool):  #CREATE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2191,7 +2175,6 @@ class GetTransactionsInfoByParam(Tool):  #VIEW
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2372,7 +2355,6 @@ class CreatePurchaseTransaction(Tool):  #CREATE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2514,7 +2496,6 @@ class CreateRefundTransaction(Tool):  #CREATE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2576,7 +2557,6 @@ class GetCustomerPurchaseCountsBySku(Tool):  #VIEW
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2615,7 +2595,6 @@ class GetCustomersAboveXSpend(Tool):  #VIEW
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2723,7 +2702,6 @@ class FilterAndSortIdsByDate(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

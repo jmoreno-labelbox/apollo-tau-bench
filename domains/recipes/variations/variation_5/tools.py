@@ -368,7 +368,6 @@ class GetUserByEmail(Tool):
         return _json_dump(user)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -397,7 +396,6 @@ class GetHouseholdByUserId(Tool):
         return _json_dump(hh)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -423,7 +421,6 @@ class ListHouseholdMembers(Tool):
         return _json_dump(rows)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -457,7 +454,6 @@ class GetMemberByName(Tool):
         return _json_dump(m)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -507,7 +503,6 @@ class ComputeAndSetMemberTargets(Tool):
         return _json_dump(m)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -537,7 +532,6 @@ class ListRecentMealHistory(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -566,7 +560,6 @@ class BuildRecipeFilters(Tool):
         return _json_dump({"filter_token": token})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -598,7 +591,6 @@ class ListRecipesByFilters(Tool):
         return _json_dump({"candidate_recipe_ids_json": json.dumps(out)})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -644,7 +636,6 @@ class ExcludeRecentRecipes(Tool):
         return _json_dump({"filtered_recipe_ids_json": json.dumps(filtered)})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -692,7 +683,6 @@ class ApplyCuisineLimit(Tool):
         return _json_dump({"cuisine_limited_recipe_ids_json": json.dumps(selected)})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -750,7 +740,6 @@ class RankRecipesForTargets(Tool):
         return _json_dump({"selected_recipe_ids_json": json.dumps(picked)})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -799,7 +788,6 @@ class GenerateChildModifications(Tool):
         return _json_dump({"child_mod_notes": notes})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -837,7 +825,6 @@ class CreateMealPlan(Tool):
         return _json_dump({"meal_plan_id": next_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -928,7 +915,6 @@ class BulkAddMealPlanEntries(Tool):
         
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -976,7 +962,6 @@ class UpdateMealPlanEntryNotes(Tool):
         return _json_dump({"updated_entries": updated})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1061,7 +1046,6 @@ class CreateGroceryListFromMealPlan(Tool):
         return _json_dump({"list_id": next_list, "created_item_ids": created_items})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1098,7 +1082,6 @@ class CategorizeGroceryListSections(Tool):
         return _json_dump({"updated_items": cnt})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1133,7 +1116,6 @@ class FlagPantryStaplesOnList(Tool):
         return _json_dump({"updated_items": cnt})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1174,7 +1156,6 @@ class FlagOverlapLastMonthOnList(Tool):
         return _json_dump({"updated_items": cnt})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1206,7 +1187,6 @@ class ListInventoryByHousehold(Tool):
         return _json_dump({"household_id": household_id, "inventory_items": rows})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1254,7 +1234,6 @@ class CheckStoreInventoryForList(Tool):
         return _json_dump({"flagged_items": flagged})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1316,7 +1295,6 @@ class FindSubstituteProducts(Tool):
         return _json_dump({"substitutions": suggestions})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1364,7 +1342,6 @@ class UpdateGroceryListWithSubstitutes(Tool):
         return _json_dump({"updated_items": replaced})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1422,7 +1399,6 @@ class CreateOrderFromList(Tool):
         return _json_dump({"order_id": next_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1509,7 +1485,6 @@ class AddOrderItemsFromList(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1543,7 +1518,6 @@ class UpdateOrderStatus(Tool):
         return _json_dump(order)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1611,7 +1585,6 @@ class LogAuditEvent(Tool):
         return _json_dump({"audit_id": next_a})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1645,7 +1618,6 @@ class GenerateRecipePacket(Tool):
         return _json_dump({"packet_uri": uri})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1681,7 +1653,6 @@ class GetMealPlanDetails(Tool):
         return _json_dump(row)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1713,7 +1684,6 @@ class GetGroceryListDetails(Tool):
         return _json_dump({"grocery_list": header, "items": items})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

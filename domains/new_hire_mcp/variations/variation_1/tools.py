@@ -377,7 +377,6 @@ class GetCandidateWithFullContextTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -490,7 +489,6 @@ class FindCandidatesByOnboardingStatusTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -557,7 +555,6 @@ class GetOverdueChecklistItemsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -641,7 +638,6 @@ class CheckEmailCommunicationGapsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -698,7 +694,6 @@ class QueryAvailableAssetsByTypeTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -774,7 +769,6 @@ class GetPendingAssetRequestsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -847,7 +841,6 @@ class AnalyzeSystemAccessFailuresTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -907,7 +900,6 @@ class GetDraftEmailsRequiringActionTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -958,7 +950,6 @@ class FindTemplateFilesByTypeTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1049,7 +1040,6 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1126,7 +1116,6 @@ class AnalyzeAttachmentFileInventoryTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1189,7 +1178,6 @@ class GetEmailThreadConversationsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1253,7 +1241,6 @@ class QueryLabelUsagePatternsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1324,7 +1311,6 @@ class CheckFileStorageOrganizationTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1380,7 +1366,6 @@ class GetManagerCandidateAssignmentsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1451,7 +1436,6 @@ class CreateNewCandidateRecordTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1532,7 +1516,6 @@ class UpdateCandidateOnboardingStatusTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1722,7 +1705,6 @@ class CreateRoleBasedChecklistTasksTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1800,7 +1782,6 @@ class AssignAssetToCandidateTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1961,7 +1942,6 @@ class SendEmailWithAttachmentsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2059,7 +2039,6 @@ class RunAndRecordSystemAccessChecksTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2113,7 +2092,6 @@ class UpdateTaskCompletionStatusTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2232,7 +2210,6 @@ class CreateAssetRequestWithNotificationTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2300,7 +2277,6 @@ class ApplyEmailLabelsAndThreadingTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2410,7 +2386,6 @@ class SendBatchReminderEmailsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2475,7 +2450,6 @@ class UpdateAssetRequestStatusTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2590,7 +2564,6 @@ class CreateOrientationInvitationEmailsTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2664,7 +2637,6 @@ class ArchiveCompletedCandidateFilesTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2729,7 +2701,6 @@ class ConsolidateEmailThreadsAndCleanupTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2774,7 +2745,6 @@ class UpdateCandidatesRecordTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2855,7 +2825,6 @@ class NotifyManagerTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2896,7 +2865,6 @@ class GetAvailableEmailTypesTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2975,7 +2943,6 @@ class ResolveSSOAccessIssueTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3025,7 +2992,6 @@ class UpdateAccessCheckStatusTool(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

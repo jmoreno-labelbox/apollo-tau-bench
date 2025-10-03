@@ -11,7 +11,6 @@ class FindIncompleteTasksTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -42,7 +41,6 @@ class ExtractTaskInstructionsTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -102,7 +100,6 @@ class SlackMessageDispatcherTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -147,7 +144,6 @@ class SshConnectivityVerifierTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -180,7 +176,6 @@ class TmuxSessionManagerTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -222,7 +217,6 @@ class GetIdleCpuCountTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -239,7 +233,6 @@ class GetIdleCpuCountTool(Tool):
 class FindAndStatFilesTool(Tool):
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -331,7 +324,6 @@ class FindAndStatFilesTool(Tool):
 class FilterFileLogTool(Tool):
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -375,7 +367,6 @@ class FilterFileLogTool(Tool):
 class AddHeaderToFileLogTool(Tool):
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -412,7 +403,6 @@ class ComputeChecksumTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -443,7 +433,6 @@ class CopyFileToHostTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -482,7 +471,6 @@ class VerifyLocalChecksumTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -521,7 +509,6 @@ class LocalCleanupTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -554,7 +541,6 @@ class LocalCleanupTool(Tool):
 class RemoteCleanupTool(Tool):
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -642,7 +628,6 @@ class UpdateTaskStatusTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -677,7 +662,6 @@ class ParseDirectoryRestructureInstructionsTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -728,7 +712,6 @@ class CreateFileListForMoveTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -796,7 +779,6 @@ class GetDiskSpaceTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -827,7 +809,6 @@ class VerifySpaceRequirementsTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -881,7 +862,6 @@ class PopulateChecksumsInFileListTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -907,7 +887,6 @@ class ComputeAndResolveDestinationPathsTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -959,7 +938,6 @@ class CopyAndVerifyFilesTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1001,7 +979,6 @@ class CleanOriginalDirectoryTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1033,7 +1010,6 @@ class CalculateTotalSizeTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1160,7 +1136,6 @@ class VerifyRemoteChecksumTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1222,7 +1197,6 @@ class LogTaskCompletionTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1264,7 +1238,6 @@ class UpdateArchiveStatusTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1310,7 +1283,6 @@ class ParseArchiveInstructionsTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1361,7 +1333,6 @@ class ValidateFilesExistTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1393,7 +1364,6 @@ class CreateTarArchiveTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1433,7 +1403,6 @@ class TransferArchiveRsyncTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1468,7 +1437,6 @@ class DeleteSourceFilesTool(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

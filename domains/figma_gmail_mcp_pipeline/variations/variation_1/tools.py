@@ -81,7 +81,6 @@ class CreateReviewCycle(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -178,7 +177,6 @@ class ExportFigmaArtifactsToAssets(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -252,7 +250,6 @@ class FilterFigmaArtifactsByTags(Tool):  #READ
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -337,7 +334,6 @@ class GetArtifactIdFromName(Tool):  #READ
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -406,7 +402,6 @@ class CreateGmailMessage(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -504,7 +499,6 @@ class CreateGmailThread(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -590,7 +584,6 @@ class CreateFigmaCommentFromGmailMessage(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -668,7 +661,6 @@ class CreateReviewApproval(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -754,7 +746,6 @@ class UpdateReviewCycleStatus(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -808,7 +799,6 @@ class DetectReleaseVersion(Tool):  #READ
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -942,7 +932,6 @@ class ComputeReleaseDiffs(Tool):  #READ
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1080,7 +1069,6 @@ class SaveReleaseDiffs(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1176,7 +1164,6 @@ class GenerateBeforeAfterVisuals(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1239,7 +1226,6 @@ class CreateAuditSession(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1351,7 +1337,6 @@ class IdentifyCustomGroupsAndMapToDsComponents(Tool):  #READ
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1470,7 +1455,6 @@ class EvaluateAccessibility(Tool):  #READ
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1587,7 +1571,6 @@ class RecordDsAuditFindings(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1722,7 +1705,6 @@ class RecordAccessibilityAuditFindings(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1847,7 +1829,6 @@ class GenerateAuditReport(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1918,7 +1899,6 @@ class UpdateAuditStatus(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1994,7 +1974,6 @@ class LinkAuditReportAsset(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2089,7 +2068,6 @@ class LoadAuditFindings(Tool):  #READ
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2226,7 +2204,6 @@ class PrioritizeAuditFindings(Tool):  #READ
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2304,7 +2281,6 @@ class CreateFixPlan(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2420,7 +2396,6 @@ class CreateFixItem(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2562,7 +2537,6 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2674,7 +2648,6 @@ class NotifyStakeholders(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

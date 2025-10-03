@@ -122,7 +122,6 @@ class find_gmail_threads(Tool):
         return _ok({"rows": rows})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -156,7 +155,6 @@ class get_gmail_thread(Tool):
         return _ok({"thread_id": p["thread_id"], "current_labels": []})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -195,7 +193,6 @@ class list_gmail_messages(Tool):
         return _ok({"rows": rows})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -234,7 +231,6 @@ class create_gmail_thread(Tool):
         return _ok({"thread_id": thread_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -299,7 +295,6 @@ class append_gmail_message(Tool):
         return _err("thread_not_found", {"thread_id": p["thread_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -344,7 +339,6 @@ class apply_gmail_labels(Tool):
         return _err("thread_not_found", {"thread_id": p["thread_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -389,7 +383,6 @@ class list_artifacts(Tool):
         return _ok({"rows": rows})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -415,7 +408,6 @@ class list_assets(Tool):
         return _ok({"rows": rows})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -457,7 +449,6 @@ class export_assets(Tool):
         return _ok({"asset_id": asset_id, "export_id": export_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -498,7 +489,6 @@ class list_figma_comments(Tool):
         return _ok({"rows": rows})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -549,7 +539,6 @@ class create_figma_comment(Tool):
         return _ok({"comment_id": comment_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -592,7 +581,6 @@ class list_audit_findings_ds(Tool):
         return _ok({"rows": rows})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -627,7 +615,6 @@ class list_audit_findings_a11y(Tool):
         return _ok({"rows": rows})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -681,7 +668,6 @@ class GenerateAuditReport(Tool):
         return _ok({"asset_id": asset_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -735,7 +721,6 @@ class update_audit_status(Tool):
         return _err("audit_not_found", {"audit_id": p["audit_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -769,7 +754,6 @@ class get_audit(Tool):
         return _err("audit_not_found", {"audit_id": p["audit_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -791,7 +775,6 @@ class list_review_cycles(Tool):
         return _ok({"rows": list(_ensure(data, "review_cycles", []))})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -859,7 +842,6 @@ class create_review_cycle(Tool):
         return _ok(c)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -901,7 +883,6 @@ class get_review_cycle(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -934,7 +915,6 @@ class list_review_approvals(Tool):
         return _ok({"rows": rows})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -988,7 +968,6 @@ class update_review_approval(Tool):
         return _err("cycle_not_found", {"cycle_id": p["cycle_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1028,7 +1007,6 @@ class attach_thread_to_review_cycle(Tool):
         return _err("cycle_not_found", {"cycle_id": p["cycle_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1074,7 +1052,6 @@ class update_review_cycle_status(Tool):
         return _err("cycle_not_found", {"cycle_id": p["cycle_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1108,7 +1085,6 @@ class verify_single_thread_per_cycle(Tool):
         return _ok({"ok": False, "cycle_id": p["cycle_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1130,7 +1106,6 @@ class list_releases(Tool):
         return _ok({"rows": list(_ensure(data, "releases", []))})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1154,7 +1129,6 @@ class get_release_diff(Tool):
         return _err("release_not_found", {"release_id": p["release_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1217,7 +1191,6 @@ class create_fix_plan(Tool):
         return _ok(plan)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1261,7 +1234,6 @@ class deliver_fix_plan(Tool):
         return _err("plan_not_found", {"plan_id": p["plan_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1298,7 +1270,6 @@ class upsert_fix_items(Tool):
         return _err("plan_not_found", {"plan_id": p["plan_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1344,7 +1315,6 @@ class update_fix_item_status(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1390,7 +1360,6 @@ class governance_update(Tool):
         return _err("artifact_not_found", {"artifact_id": p["artifact_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1447,7 +1416,6 @@ class record_automation_run(Tool):
         return _ok({"run_id": run_id, "status": p["status"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

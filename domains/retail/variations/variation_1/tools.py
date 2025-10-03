@@ -170,7 +170,6 @@ class GetInfoFromDB(Tool):  #READ
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -220,7 +219,6 @@ class UpdateDB(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -301,7 +299,6 @@ class UpdatePaymentHistory(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -351,7 +348,6 @@ class DeleteFromDB(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -401,7 +397,6 @@ class GetUserIdFromFullNameAndZip(Tool):  #READ
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -449,7 +444,6 @@ class GetUserIdFromEmail(Tool):  #READ
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -560,7 +554,6 @@ class CreateOrder(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -689,7 +682,6 @@ class CreateBulkOrder(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -797,7 +789,6 @@ class CreateTracking(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -887,7 +878,6 @@ class CreateSupplyOrder(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -935,7 +925,6 @@ class GetItemInfoFromId(Tool):  #READ
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1052,7 +1041,6 @@ class ProcessItemExchange(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1148,7 +1136,6 @@ class ProcessItemReturn(Tool):  #WRITE
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1236,7 +1223,6 @@ class AddPaymentMethod(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1317,7 +1303,6 @@ class AddMoneyToGiftCard(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

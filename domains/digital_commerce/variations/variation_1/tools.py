@@ -113,7 +113,6 @@ class GetEnvironmentNetworkDefaults(Tool):
         return _json(res)
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -167,7 +166,6 @@ class GetServiceSecurityGroup(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -403,7 +401,6 @@ class ProvisionOrUpdateRedisCluster(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -553,7 +550,6 @@ class CreateInterfaceEndpoint(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -722,7 +718,6 @@ class ConfigureCacheIntegration(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -774,7 +769,6 @@ class RunCacheWarmJobs(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -812,7 +806,6 @@ class SetCachePartitionKey(Tool):
         return _json({"applied_version": version})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -877,7 +870,6 @@ class ManageCacheMaintenance(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -921,7 +913,6 @@ class ConfigureTraceSampling(Tool):
         return _json({"policy_id": policy_id, "effective_rate": float(sample_rate)})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -971,7 +962,6 @@ class EnableDigitalCommerceGateway(Tool):
         )
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1079,7 +1069,6 @@ class ConfigureConnectedAppOAuth(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1147,7 +1136,6 @@ class PublishOpenAPISpec(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1191,7 +1179,6 @@ class RegisterApiEndpoints(Tool):
         return _json({"endpoint_ids": [endpoint_id], "route_map": route_map})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1614,7 +1601,6 @@ class InvalidateCacheByKeys(Tool):
         return _json({"invalidated_count": len(keys)})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1700,7 +1686,6 @@ class ResolveCatalogEntities(Tool):
         return _json({"entities": out})
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1812,7 +1797,6 @@ class UpsertPricebookEntriesBatch(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1928,7 +1912,6 @@ class SetPricingTierForCustomer(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2324,7 +2307,6 @@ class UpsertContextRule(Tool):
 
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {

@@ -132,7 +132,6 @@ class GetPlayerDetailsByName(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -177,7 +176,6 @@ class GetPlayerDetailsById(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -227,7 +225,6 @@ class GetAllPlayersOfTeam(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -288,7 +285,6 @@ class UpdatePlayerDetails(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -348,7 +344,6 @@ class GetTeamDetailsById(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -393,7 +388,6 @@ class GetTeamDetailsByName(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -442,7 +436,6 @@ class GetTeamDetailsByAbbreviation(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -488,7 +481,6 @@ class GetAllTeamsInLeague(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -533,7 +525,6 @@ class GetGameDetailsByGamePk(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -632,7 +623,6 @@ class UpdateGameDetails(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -728,7 +718,6 @@ class CreateNewGame(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -788,7 +777,6 @@ class FindGamesOnDate(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -866,7 +854,6 @@ class GetNextGame(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -951,7 +938,6 @@ class GetGameByHomeAway(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1000,7 +986,6 @@ class GetVenueById(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1045,7 +1030,6 @@ class GetVenueByName(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1091,7 +1075,6 @@ class GetAllVenueInCity(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1138,7 +1121,6 @@ class GetUmpiresDetailsByName(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1183,7 +1165,6 @@ class GetUmpiresDetailsById(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1249,7 +1230,6 @@ class GetUmpiresByExperience(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1309,7 +1289,6 @@ class GetAllEevntsByGamePk(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1392,7 +1371,6 @@ class CreateGameDayEvent(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1476,7 +1454,6 @@ class UpdateGameEventStatus(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1528,7 +1505,6 @@ class GetAllGoalsByForPlayer(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1618,7 +1594,6 @@ class CreateNewGoal(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1707,7 +1682,6 @@ class CreateNewReport(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1762,7 +1736,6 @@ class GetAllReportForPlayer(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1809,7 +1782,6 @@ class GetPitchDetailsById(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1879,7 +1851,6 @@ class GetAllPitchesByPitcherIds(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1942,7 +1913,6 @@ class GetAllPitchesByHitterIds(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -1998,7 +1968,6 @@ class GetAllPitchesForGame(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2103,7 +2072,6 @@ class CreateNewPitch(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         #Construct JSON schema properties
         props: dict[str, Any] = {
             "game_pk": {"type": "integer"},
@@ -2164,7 +2132,6 @@ class GetGradeByPitchId(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2222,7 +2189,6 @@ class GetGradesByPitchIds(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2322,7 +2288,6 @@ class GetFilteredGradesByPitchIds(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2415,7 +2380,6 @@ class CreateNewGrade(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2520,7 +2484,6 @@ class GetGradesByGradeForGame(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2584,7 +2547,6 @@ class GetHighlightsByName(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2670,7 +2632,6 @@ class AddNewHighlight(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2729,7 +2690,6 @@ class GetHighlightByReportId(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2810,7 +2770,6 @@ class GetPlayerInsightsByPlayeridAndType(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2902,7 +2861,6 @@ class CreateNewInsight(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -2975,7 +2933,6 @@ class GetInsightbyreportid(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3049,7 +3006,6 @@ class GetScoutingReportByGamepkAndType(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3129,7 +3085,6 @@ class CreateScoutingReport(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         props = {
             "report_type": {
                 "type": "string",
@@ -3185,7 +3140,6 @@ class GetScoutingReportById(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3251,7 +3205,6 @@ class CreateWorkflow(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3338,7 +3291,6 @@ class GetBullpenSessionInfoForPlayer(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3422,7 +3374,6 @@ class CreateIngestionLog(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
@@ -3495,7 +3446,6 @@ class GetModelDetailByGame(Tool):
         return out
     @staticmethod
     def get_info() -> dict[str, Any]:
-        pass
         return {
             "type": "function",
             "function": {
