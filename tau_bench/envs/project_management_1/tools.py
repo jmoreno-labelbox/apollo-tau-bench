@@ -1122,7 +1122,7 @@ class UpdateProjectRequiredHours(Tool):
                             "description": "The project ID",
                         },
                         "required_hours": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "Hours per week required by the project",
                         },
                     },
@@ -2141,7 +2141,7 @@ class CreateProject(Tool):
                             "description": "Project's end date",
                         },
                         "required_hours_per_week": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "Project's required allocation hours per week",
                         },
                         "department": {

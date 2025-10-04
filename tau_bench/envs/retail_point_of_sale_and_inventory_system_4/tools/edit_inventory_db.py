@@ -202,22 +202,22 @@ class EditInventoryDb(Tool):  #CREATE
                             "description": "Store ID.",
                         },
                         "quantity": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "Quantity in stock.",
                         },
                         "reserved_quantity": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "Reserved quantity.",
                         },
                         "reorder_level": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "Reorder level.",
                         },
                         "safety_stock": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "Safety stock.",
                         },

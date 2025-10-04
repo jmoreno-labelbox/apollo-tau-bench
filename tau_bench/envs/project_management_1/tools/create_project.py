@@ -83,7 +83,7 @@ class CreateProject(Tool):
                             "description": "Project's end date",
                         },
                         "required_hours_per_week": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "Project's required allocation hours per week",
                         },
                         "department": {

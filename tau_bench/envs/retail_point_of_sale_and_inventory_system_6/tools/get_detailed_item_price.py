@@ -59,7 +59,7 @@ class GetDetailedItemPrice(Tool):
                             "type": "string",
                             "description": "The barcode of the item",
                         },
-                        #"quantity": {"type": "int", "description": "The quantity of the item being bought"}
+                        #"quantity": {"type": \"integer\", "description": "The quantity of the item being bought"}
                     },
                 },
             },

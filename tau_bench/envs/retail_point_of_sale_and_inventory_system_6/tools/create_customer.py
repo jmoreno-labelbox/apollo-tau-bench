@@ -130,7 +130,7 @@ class create_customer(Tool):
                             "description": "The customer's birthdate. YYYY-MM-DD",
                         },
                         "loyalty_points": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "OPTIONAL. The number of loyalty points the customer has. This will normally be 0, but sometimes they can start with points as an incentive to create an account.",
                         },
                         "memebership_level": {

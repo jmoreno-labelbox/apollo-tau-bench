@@ -233,12 +233,12 @@ class EditPromotionsDb(Tool):  #CREATE
                             "description": "Status of the promotion.",
                         },
                         "usage_limit": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "Usage limit for the promotion.",
                         },
                         "times_used": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "Number of times the promotion has been used.",
                         },

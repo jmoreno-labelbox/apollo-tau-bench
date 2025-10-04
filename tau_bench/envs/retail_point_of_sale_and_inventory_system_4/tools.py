@@ -252,7 +252,7 @@ class EditCustomersDb(Tool):  #CREATE
                             "description": "The membership level of a customer to create or update a record with.",
                         },
                         "loyalty_points": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "The number of loyalty_points a customer has for creating or updating a record.",
                         },
@@ -1301,22 +1301,22 @@ class EditInventoryDb(Tool):  #CREATE
                             "description": "Store ID.",
                         },
                         "quantity": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "Quantity in stock.",
                         },
                         "reserved_quantity": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "Reserved quantity.",
                         },
                         "reorder_level": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "Reorder level.",
                         },
                         "safety_stock": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "Safety stock.",
                         },
@@ -1508,7 +1508,7 @@ class UpdateInventoryItem(Tool):  #CREATE
                             "description": "The inventory item's id to update.",
                         },
                         "quantity_change": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The amount to change the quantity by (can be negative).",
                         },
                         "current_time": {
@@ -1754,12 +1754,12 @@ class EditPromotionsDb(Tool):  #CREATE
                             "description": "Status of the promotion.",
                         },
                         "usage_limit": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "Usage limit for the promotion.",
                         },
                         "times_used": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "Number of times the promotion has been used.",
                         },
@@ -2604,7 +2604,7 @@ class GetCustomersAboveXSpend(Tool):  #VIEW
                     "type": "object",
                     "properties": {
                         "amount": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The minimum total spend threshold.",
                         }
                     },

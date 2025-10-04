@@ -107,7 +107,7 @@ class update_customer(Tool):
                             "description": "The customer's birthdate. YYYY-MM-DD",
                         },
                         "loyalty_points": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The number of loyalty points the customer has",
                         },
                         "memebership_level": {

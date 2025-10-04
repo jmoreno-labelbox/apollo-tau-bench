@@ -149,7 +149,7 @@ class find_customers(Tool):
                             "description": "address of the customer. Will do an approximate match",
                         },
                         "birth_month": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The month the person was born in. Will ignore year and day when matching to birth month",
                         },
                         "city": {

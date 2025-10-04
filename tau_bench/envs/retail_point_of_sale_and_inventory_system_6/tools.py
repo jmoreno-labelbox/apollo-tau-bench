@@ -118,11 +118,11 @@ class UpdateStockQuantity(Tool):
                             "description": "The specific sku for the item",
                         },
                         "quantity": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The quantity to set for the item. Overrides relative_quantity",
                         },
                         "relative_quantity": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "Will add or remove this much from the current quantity: 5 will add 5 and -2 will remove 2",
                         },
                     },
@@ -243,7 +243,7 @@ class GetDetailedItemPrice(Tool):
                             "type": "string",
                             "description": "The barcode of the item",
                         },
-                        #"quantity": {"type": "int", "description": "The quantity of the item being bought"}
+                        #"quantity": {"type": \"integer\", "description": "The quantity of the item being bought"}
                     },
                 },
             },
@@ -933,7 +933,7 @@ class create_promotion(Tool):
                             "description": "The type of promotion. 'fixed_bundle', 'tax_free', 'percentage', 'bogo_percentage'",
                         },
                         "discount_value": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The discount amount as an integer for percentage and bogo_percentage",
                         },
                         "description": {
@@ -957,7 +957,7 @@ class create_promotion(Tool):
                             "description": "The current status of the promotion. Should be 'active' if the sale is going or 'planned' if it is happening in the future",
                         },
                         "usage_limit": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The number of times the sale can be used.",
                         },
                     },
@@ -1201,7 +1201,7 @@ class create_customer(Tool):
                             "description": "The customer's birthdate. YYYY-MM-DD",
                         },
                         "loyalty_points": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "OPTIONAL. The number of loyalty points the customer has. This will normally be 0, but sometimes they can start with points as an incentive to create an account.",
                         },
                         "memebership_level": {
@@ -1405,7 +1405,7 @@ class find_customers(Tool):
                             "description": "address of the customer. Will do an approximate match",
                         },
                         "birth_month": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The month the person was born in. Will ignore year and day when matching to birth month",
                         },
                         "city": {
@@ -1522,7 +1522,7 @@ class update_customer(Tool):
                             "description": "The customer's birthdate. YYYY-MM-DD",
                         },
                         "loyalty_points": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The number of loyalty points the customer has",
                         },
                         "memebership_level": {
@@ -2050,19 +2050,19 @@ class create_inventory(Tool):
                             "description": "The id of the store adding the inventory",
                         },
                         "quantity": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The amount that the store starts with",
                         },
                         "reserved_quantity": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The amount in reserve",
                         },
                         "reorder_level": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The amount to start reordering products",
                         },
                         "safety_stock": {
-                            "type": "int",
+                            "type": \"integer\",
                             "description": "The amount to consider critical stock",
                         },
                         "location": {

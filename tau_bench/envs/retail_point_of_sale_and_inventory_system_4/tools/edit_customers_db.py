@@ -227,7 +227,7 @@ class EditCustomersDb(Tool):  #CREATE
                             "description": "The membership level of a customer to create or update a record with.",
                         },
                         "loyalty_points": {
-                            "type": "int",
+                            "type": \"integer\",
                             "default": None,
                             "description": "The number of loyalty_points a customer has for creating or updating a record.",
                         },
