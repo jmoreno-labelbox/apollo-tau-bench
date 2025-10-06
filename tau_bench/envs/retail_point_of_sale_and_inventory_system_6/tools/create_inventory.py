@@ -125,19 +125,19 @@ class create_inventory(Tool):
                             "description": "The id of the store adding the inventory",
                         },
                         "quantity": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The amount that the store starts with",
                         },
                         "reserved_quantity": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The amount in reserve",
                         },
                         "reorder_level": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The amount to start reordering products",
                         },
                         "safety_stock": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The amount to consider critical stock",
                         },
                         "location": {

@@ -52,7 +52,7 @@ class TransferFundsWithLimitCheckTool(Tool):
                             "description": "Target account",
                         },
                         "amount": {
-                            "type": "float",
+                            "type": "number",
                             "description": "Amount to transfer",
                         },
                     },

@@ -39,6 +39,7 @@ class PlaceGroceryOrderTool(Tool):
                         },
                         "substitutions": {
                             "type": "array",
+                            "items": {"type": "string"},
                             "description": "Optional list of substitutions for out-of-stock items.",
                         },
                     },

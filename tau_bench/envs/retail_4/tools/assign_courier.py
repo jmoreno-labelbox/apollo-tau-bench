@@ -301,10 +301,6 @@ class AssignCourier(Tool):
                         },
                     },
                     "required": ["destination_country"],
-                    "anyOf": [
-                        {"required": ["order_value"]},
-                        {"required": ["order_values"]},
-                    ],
-                },
+},
             },
         }

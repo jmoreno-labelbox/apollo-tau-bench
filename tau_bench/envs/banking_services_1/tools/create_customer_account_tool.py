@@ -83,7 +83,7 @@ class CreateCustomerAccountTool(Tool):
                         },
                         "currency": {"type": "string", "description": "Currency"},
                         "initial_limit": {
-                            "type": "float",
+                            "type": "number",
                             "description": "Initial limit",
                         },
                     },

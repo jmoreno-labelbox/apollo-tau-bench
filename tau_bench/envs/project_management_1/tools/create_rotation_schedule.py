@@ -163,11 +163,11 @@ class CreateRotationSchedule(Tool):
                             "description": "Hours to rotate",
                         },
                         "holiday_coverage": {
-                            "type": "bool",
+                            "type": \"boolean\",
                             "description": "Flag if the rotation is holiday coverage",
                         },
                         "skill_development_rotation": {
-                            "type": "bool",
+                            "type": \"boolean\",
                             "description": "Flag if the rotation is skill development rotation",
                         },
                     },

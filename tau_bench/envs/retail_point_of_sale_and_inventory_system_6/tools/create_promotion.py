@@ -88,7 +88,7 @@ class create_promotion(Tool):
                             "description": "The type of promotion. 'fixed_bundle', 'tax_free', 'percentage', 'bogo_percentage'",
                         },
                         "discount_value": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The discount amount as an integer for percentage and bogo_percentage",
                         },
                         "description": {
@@ -112,7 +112,7 @@ class create_promotion(Tool):
                             "description": "The current status of the promotion. Should be 'active' if the sale is going or 'planned' if it is happening in the future",
                         },
                         "usage_limit": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The number of times the sale can be used.",
                         },
                     },

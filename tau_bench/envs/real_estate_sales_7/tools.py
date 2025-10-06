@@ -1463,6 +1463,7 @@ class CalculatePropertyMetricsTool(Tool):
                         "subject_property_id": {"type": "string"},
                         "comparable_properties": {
                             "type": "array",
+                            "items": {"type": "string"},
                             "description": "List of property_ids WA dicts",
                         },
                         "client_budget": {
@@ -3194,7 +3195,13 @@ class CreateAuditEventEntryTool(Tool):
                         "action": {"type": "string"},
                         "entity_type": {"type": "string"},
                         "entity_id": {"type": "string"},
-                        "metadata_json": {"type": ["object", "array", "null"]},
+                        "metadata_json": {
+                            "oneOf": [
+                                {"type": "object"},
+                                {"type": "array", "items": {"type": "object"}},
+                                {"type": "null"}
+                            ]
+                        },
                     },
                     "required": ["actor_id", "action", "entity_type", "entity_id"],
                 },
@@ -3251,7 +3258,7 @@ class GenerateCompReportDocumentTool(Tool):
                     "properties": {
                         "report_id": {"type": "integer"},
                         "subject_property_data": {"type": "object"},
-                        "comparable_data": {"type": "array"},
+                        "comparable_data": {"type": "array", "items": {"type": "object"}},
                         "market_analysis": {"type": "object"},
                         "mortgage_calculations": {"type": "object"},
                     },
@@ -3428,7 +3435,7 @@ class GenerateEmailContentTool(Tool):
                         "template_code": {"type": "string"},
                         "recipient_data": {"type": "object"},
                         "context_data": {"type": "object"},
-                        "attachments": {"type": "array"},
+                        "attachments": {"type": "array", "items": {"type": "string"}},
                     },
                     "required": [
                         "template_code",

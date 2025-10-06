@@ -1456,6 +1456,7 @@ class AddNewRecipeTool(Tool):
                         },
                         "ingredients_list": {
                             "type": "array",
+                            "items": {"type": "string"},
                             "description": "A list of ingredient objects, each with ingredient_id, quantity, and unit.",
                         },
                         "user_id": {
@@ -3791,6 +3792,7 @@ class PlaceGroceryOrderTool(Tool):
                         },
                         "substitutions": {
                             "type": "array",
+                            "items": {"type": "string"},
                             "description": "Optional list of substitutions for out-of-stock items.",
                         },
                     },

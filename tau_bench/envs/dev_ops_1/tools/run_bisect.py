@@ -39,7 +39,7 @@ class RunBisect(Tool):
                     "type": "object",
                     "properties": {
                         "run_id": {"type": "string"},
-                        "suspects": {"type": "array"},
+                        "suspects": {"type": "array", "items": {"type": "object"}},
                         "test_target": {"type": "string"},
                     },
                     "required": ["run_id", "suspects", "test_target"],

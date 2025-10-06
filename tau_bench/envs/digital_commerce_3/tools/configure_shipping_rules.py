@@ -114,7 +114,7 @@ class ConfigureShippingRules(Tool):
                     "type": "object",
                     "properties": {
                         "rule_name": {"type": "string"},
-                        "tracking_enabled": {"type": "bool"},
+                        "tracking_enabled": {"type": \"boolean\"},
                         "customer_id": {"type": "string"},
                         "shipping_zone": {"type": "string"},
                     },

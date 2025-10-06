@@ -323,7 +323,7 @@ class RunBisect(Tool):
                     "type": "object",
                     "properties": {
                         "run_id": {"type": "string"},
-                        "suspects": {"type": "array"},
+                        "suspects": {"type": "array", "items": {"type": "object"}},
                         "test_target": {"type": "string"},
                     },
                     "required": ["run_id", "suspects", "test_target"],
@@ -789,8 +789,8 @@ class ApplyAssetAutofixes(Tool):
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "qa_json": {"type": "array"},
-                        "tex_report": {"type": "array"},
+                        "qa_json": {"type": "array", "items": {"type": "object"}},
+                        "tex_report": {"type": "array", "items": {"type": "object"}},
                     },
                     "required": ["qa_json", "tex_report"],
                 },
@@ -857,8 +857,8 @@ class UploadQaReports(Tool):
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "qa_json": {"type": "array"},
-                        "tex_report": {"type": "array"},
+                        "qa_json": {"type": "array", "items": {"type": "object"}},
+                        "tex_report": {"type": "array", "items": {"type": "object"}},
                         "engine_report": {"type": "object"},
                         "previews": {"type": "object"},
                     },

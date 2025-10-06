@@ -180,11 +180,7 @@ class SearchProductsByFilter(Tool):
                             "type": "object",
                             "description": "Filter by specific variant options. Values can be strings or arrays for multiple options (e.g., {'color': ['red', 'blue'], 'battery life': '20 hours', 'size': ['large', 'medium']})",
                             "additionalProperties": {
-                                "oneOf": [
-                                    {"type": "string"},
-                                    {"type": "array", "items": {"type": "string"}},
-                                ]
-                            },
+},
                         },
                         "price_flag": {
                             "type": "string",

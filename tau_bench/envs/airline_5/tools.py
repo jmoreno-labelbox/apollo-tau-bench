@@ -4139,60 +4139,7 @@ class GetAircraftProfile(Tool):
             },
         }
         return _json(out)
-        pass
-        #demand precisely one selector
-        if bool(aircraft_id) == bool(tail_number):
-            return _json(
-                {
-                    "error": "invalid_params",
-                    "reason": "Provide exactly one of aircraft_id or tail_number.",
-                }
-            )
-
-        #locate aircraft
-        ac = None
-        for a in data.get("aircraft", []):
-            if aircraft_id and a.get("aircraft_id") == aircraft_id:
-                ac = a
-                break
-            if tail_number and a.get("tail_number") == tail_number:
-                ac = a
-                break
-        if not ac:
-            return _json({"error": "aircraft_not_found"})
-
-        #enhance model
-        model_id = ((ac.get("model") or {}).get("model_id") or "").upper()
-        model = _get_aircraft_model_by_id(data, model_id) if model_id else None
-
-        #enhance airport
-        iata = ((ac.get("location") or {}).get("iata_code") or "").upper()
-        apt = _get_airport_by_iata(data, iata) if iata else None
-
-        out = {
-            "aircraft_id": ac.get("aircraft_id"),
-            "tail_number": ac.get("tail_number"),
-            "status": _norm_status(ac.get("status")),
-            "location": {
-                "iata_code": iata or None,
-                "airport_name": (apt or {}).get("airport_name"),
-                "icao_code": (apt or {}).get("icao_code"),
-                "timezone": (apt or {}).get("timezone"),
-            },
-            "model": {
-                "model_id": model_id or None,
-                "model_name": (ac.get("model") or {}).get("model_name"),
-                "manufacturer": (model or {}).get("manufacturer"),
-                "passenger_capacity": (model or {}).get("passenger_capacity"),
-                "cargo_capacity_kg": (model or {}).get("cargo_capacity_kg"),
-                "maximum_takeoff_weight_kg": (model or {}).get(
-                    "maximum_takeoff_weight_kg"
-                ),
-                "range_km": (model or {}).get("range_km"),
-                "engine_type": (model or {}).get("engine_type"),
-            },
-        }
-        return _json(out)
+        
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -4210,10 +4157,6 @@ class GetAircraftProfile(Tool):
                             "description": "e.g., PR-GOL",
                         },
                     },
-                    "oneOf": [
-                        {"required": ["aircraft_id"]},
-                        {"required": ["tail_number"]},
-                    ],
                     "additionalProperties": False,
                 },
             },
@@ -4279,53 +4222,8 @@ class ListAircraftAtAirport(Tool):
                 "aircraft": rows,
             }
         )
-        pass
-        iata = (iata_code or "").upper()
-        if not iata:
-            return _json({"error": "missing_params", "reason": "iata_code is required"})
-
-        status = status.strip() if isinstance(status, str) else None
-        model_id = (model_id or "").upper() if model_id else None
-
-        airport = _get_airport_by_iata(data, iata)
-
-        rows: list[dict[str, Any]] = []
-        for a in data.get("aircraft", []):
-            loc = (a.get("location") or {}).get("iata_code")
-            if (loc or "").upper() != iata:
-                continue
-
-            if status and _norm_status(a.get("status")) != status:
-                continue
-
-            ac_model_id = ((a.get("model") or {}).get("model_id") or "").upper()
-            if model_id and ac_model_id != model_id:
-                continue
-
-            rows.append(
-                {
-                    "aircraft_id": a.get("aircraft_id"),
-                    "tail_number": a.get("tail_number"),
-                    "status": _norm_status(a.get("status")),
-                    "model_id": ac_model_id or None,
-                    "model_name": (a.get("model") or {}).get("model_name"),
-                }
-            )
-
-        rows.sort(key=lambda r: (r.get("tail_number") or ""))
-
-        return _json(
-            {
-                "airport": {
-                    "iata_code": iata,
-                    "airport_name": (airport or {}).get("airport_name"),
-                    "icao_code": (airport or {}).get("icao_code"),
-                    "timezone": (airport or {}).get("timezone"),
-                },
-                "total": len(rows),
-                "aircraft": rows,
-            }
-        )
+        
+        
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -4513,10 +4411,7 @@ class RepositionAircraft(Tool):
                             "description": "Audit text (optional)",
                         },
                     },
-                    "oneOf": [
-                        {"required": ["aircraft_id", "to_iata"]},
-                        {"required": ["tail_number", "to_iata"]},
-                    ],
+                    # Removed top-level oneOf to satisfy provider schema rules.
                 },
             },
         }
@@ -4596,71 +4491,7 @@ class UpdateAircraftStatus(Tool):
                 "audit_id": audit_id,
             }
         )
-        pass
-        new_status = _norm_status(status) if isinstance(status, str) else ""
-        if not new_status:
-            return _json({"error": "missing_params", "reason": "status is required"})
-        if new_status not in AIRCRAFT_STATUS:
-            return _json(
-                {
-                    "error": "invalid_status",
-                    "entity": "aircraft",
-                    "provided": status,
-                    "allowed": sorted(list(AIRCRAFT_STATUS)),
-                }
-            )
-
-        if bool(aircraft_id) == bool(tail_number):
-            return _json(
-                {
-                    "error": "invalid_params",
-                    "reason": "Provide exactly one of aircraft_id or tail_number.",
-                }
-            )
-
-        ac = _find_aircraft(data, aircraft_id, tail_number)
-        if not ac:
-            return _json({"error": "aircraft_not_found"})
-
-        old_status = _norm_status(ac.get("status"))
-        if old_status == new_status:
-            return _json(
-                {
-                    "success": True,
-                    "aircraft_id": ac.get("aircraft_id"),
-                    "tail_number": ac.get("tail_number"),
-                    "old_status": old_status,
-                    "new_status": new_status,
-                    "no_change": True,
-                }
-            )
-
-        ac["status"] = new_status
-
-        audit_id = _next_change_id(data, prefix="AS")
-        (data.setdefault("aircraft_status_changes", [])).append(
-            {
-                "id": audit_id,
-                "type": "UpdateAircraftStatus",
-                "aircraft_id": ac.get("aircraft_id"),
-                "tail_number": ac.get("tail_number"),
-                "old_status": old_status,
-                "new_status": new_status,
-                "reason": reason,
-            }
-        )
-
-        return _json(
-            {
-                "success": True,
-                "aircraft_id": ac.get("aircraft_id"),
-                "tail_number": ac.get("tail_number"),
-                "old_status": old_status,
-                "new_status": new_status,
-                "no_change": False,
-                "audit_id": audit_id,
-            }
-        )
+        
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -4686,10 +4517,7 @@ class UpdateAircraftStatus(Tool):
                             "description": "Audit text (optional)",
                         },
                     },
-                    "oneOf": [
-                        {"required": ["aircraft_id", "status"]},
-                        {"required": ["tail_number", "status"]},
-                    ],
+                    # Removed top-level oneOf to satisfy provider schema rules.
                 },
             },
         }
@@ -4829,100 +4657,9 @@ class GetCrewCertifications(Tool):
                 "results": rows,
             }
         )
-        pass
-        #Check crew for validity
-        if not crew_member_id:
-            return _json(
-                {"error": "missing_params", "reason": "crew_member_id is required"}
-            )
-        crew = _find_crew_member(data, crew_member_id)
-        if not crew:
-            return _json(
-                {"error": "crew_member_not_found", "crew_member_id": crew_member_id}
-            )
-
-        #Translate certification_code (if given) to the standard one in the master list
-        resolved_code = None
-        if certification_code:
-            cert = _get_cert_by_code(data, certification_code)
-            if not cert:
-                return _json(
-                    {
-                        "error": "certification_not_found",
-                        "certification_code": certification_code,
-                    }
-                )
-            resolved_code = cert.get("certification_code")
-
-        #Standardize active_on if supplied
-        day = None
-        if active_on not in (None, "", "null"):
-            try:
-                #strict ISO; accept complete ISO datetime by utilizing a helper if needed
-                day = _to_iso_day(active_on)
-                from datetime import date as _date
-
-                _date.fromisoformat(day)
-            except Exception:
-                return _json(
-                    {
-                        "error": "invalid_date_format",
-                        "reason": "active_on must be YYYY-MM-DD",
-                    }
-                )
-
-        #Gather and filter
-        rows = []
-        for cc in data.get("crew_certifications", []):
-            cm = (cc.get("crew_member") or {}).get("crew_member_id")
-            cert = cc.get("certification") or {}
-            code = cert.get("certification_code")
-
-            if cm != crew_member_id:
-                continue
-            if resolved_code and code != resolved_code:
-                continue
-
-            i_date = cc.get("issue_date")
-            e_date = cc.get("expiry_date")
-
-            #Implement active_on filter
-            active_flag = None
-            if day:
-                active_flag = GetCrewCertifications._is_active_on(i_date, e_date, day)
-                if not active_flag and not include_history:
-                    continue
-
-            rows.append(
-                {
-                    "crew_certification_id": cc.get("crew_certification_id"),
-                    "crew_member_id": crew_member_id,
-                    "certification_code": code,
-                    "issue_date": i_date,
-                    "expiry_date": e_date,
-                    "active_on": active_flag,  #None if active_on is not supplied
-                }
-            )
-
-        #Predictable sorting
-        rows.sort(
-            key=lambda r: (
-                (r.get("certification_code") or ""),
-                (r.get("issue_date") or ""),
-            )
-        )
-
-        return _json(
-            {
-                "success": True,
-                "crew_member_id": crew_member_id,
-                "certification_code_filter": resolved_code,
-                "active_on": day,
-                "include_history": include_history,
-                "count": len(rows),
-                "results": rows,
-            }
-        )
+        
+        
+        
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -5178,187 +4915,7 @@ class UpsertCrewCertification(Tool):
                 "audit_id": audit_id,
             }
         )
-        pass
-        cert_id = certification_id
-        strategy = upsert_strategy
-
-        #check crew for validity
-        if not crew_member_id:
-            return _json(
-                {"error": "missing_params", "reason": "crew_member_id is required"}
-            )
-        crew = _find_crew_member(data, crew_member_id)
-        if not crew:
-            return _json(
-                {"error": "crew_member_not_found", "crew_member_id": crew_member_id}
-            )
-
-        #precisely one of code or id
-        if bool(certification_code) == bool(cert_id):
-            return _json(
-                {
-                    "error": "invalid_params",
-                    "reason": "Provide exactly one of certification_code or certification_id.",
-                }
-            )
-
-        #determine certification
-        cert = (
-            _get_cert_by_code(data, certification_code)
-            if certification_code
-            else _get_cert_by_id(data, cert_id)
-        )
-        if not cert:
-            return _json(
-                {
-                    "error": "certification_not_found",
-                    "certification_code": certification_code,
-                    "certification_id": cert_id,
-                }
-            )
-
-        resolved_code = cert.get("certification_code")
-        resolved_id = cert.get("certification_id")
-
-        #standardize and verify strategy
-        strategy = (
-            strategy.strip().lower() if isinstance(strategy, str) else "create_new"
-        )
-        if strategy not in ("create_new", "replace_if_overlap"):
-            return _json(
-                {
-                    "error": "invalid_params",
-                    "reason": "upsert_strategy must be 'create_new' or 'replace_if_overlap'.",
-                }
-            )
-
-        #date verification and standardization
-        if not issue_date:
-            return _json(
-                {"error": "missing_params", "reason": "issue_date is required"}
-            )
-        try:
-            issue_date = UpsertCrewCertification._normalize_date_str(issue_date)
-            expiry_date = UpsertCrewCertification._normalize_date_str(expiry_date)
-        except Exception:
-            return _json(
-                {
-                    "error": "invalid_date_format",
-                    "reason": "Dates must be YYYY-MM-DD or null",
-                }
-            )
-
-        #groups
-        existing_list = data.setdefault("crew_certifications", [])
-        audits = data.setdefault("crew_cert_audits", [])
-
-        #correspondences for this crew and cert_code
-        matches = [
-            cc
-            for cc in existing_list
-            if ((cc.get("crew_member") or {}).get("crew_member_id") == crew_member_id)
-            and (
-                (cc.get("certification") or {}).get("certification_code")
-                == resolved_code
-            )
-        ]
-
-        #predictable IDs
-        det_cc_id = f"CC-{crew_member_id}-{resolved_code}-{issue_date}"
-        audit_id = f"CA-{crew_member_id}-{issue_date}"
-
-        def _make_record():
-            pass
-            return {
-                "crew_certification_id": det_cc_id,
-                "crew_member": {
-                    "crew_member_id": crew_member_id,
-                    "employee_code": crew.get("employee_code"),
-                    "full_name": (
-                        crew.get("first_name", "") + " " + crew.get("last_name", "")
-                    ).strip(),
-                },
-                "certification": {
-                    "certification_id": resolved_id,
-                    "certification_code": resolved_code,
-                },
-                "issue_date": issue_date,
-                "expiry_date": expiry_date,
-            }
-
-        existing_by_id = next(
-            (
-                cc
-                for cc in existing_list
-                if cc.get("crew_certification_id") == det_cc_id
-            ),
-            None,
-        )
-
-        if matches:
-            overlapping = None
-            for cc in matches:
-                if UpsertCrewCertification._overlaps(
-                    cc.get("issue_date"), cc.get("expiry_date"), issue_date, expiry_date
-                ):
-                    overlapping = cc
-                    break
-
-            if overlapping and strategy == "replace_if_overlap":
-                overlapping["certification"] = {
-                    "certification_id": resolved_id,
-                    "certification_code": resolved_code,
-                }
-                overlapping["issue_date"] = issue_date
-                overlapping["expiry_date"] = expiry_date
-                overlapping["crew_certification_id"] = det_cc_id
-                new_cc_id = det_cc_id
-                action = "replaced"
-            else:
-                if existing_by_id:
-                    new_cc_id = det_cc_id
-                    action = "noop_exists"
-                else:
-                    existing_list.append(_make_record())
-                    new_cc_id = det_cc_id
-                    action = "created"
-        else:
-            if existing_by_id:
-                new_cc_id = det_cc_id
-                action = "noop_exists"
-            else:
-                existing_list.append(_make_record())
-                new_cc_id = det_cc_id
-                action = "created"
-
-        #predictable audit (prevent duplicate audits with the same id)
-        if not any(a.get("id") == audit_id for a in audits):
-            audits.append(
-                {
-                    "id": audit_id,
-                    "type": "UpsertCrewCertification",
-                    "crew_member_id": crew_member_id,
-                    "certification_code": resolved_code,
-                    "issue_date": issue_date,
-                    "expiry_date": expiry_date,
-                    "strategy": strategy,
-                    "reason": reason,
-                }
-            )
-
-        return _json(
-            {
-                "success": True,
-                "action": action,
-                "crew_certification_id": new_cc_id,
-                "crew_member_id": crew_member_id,
-                "certification_code": resolved_code,
-                "issue_date": issue_date,
-                "expiry_date": expiry_date,
-                "audit_id": audit_id,
-            }
-        )
-
+        
     @staticmethod
     def get_info() -> dict[str, Any]:
         return {
@@ -5401,22 +4958,6 @@ class UpsertCrewCertification(Tool):
                             "description": "Audit text (optional)",
                         },
                     },
-                    "oneOf": [
-                        {
-                            "required": [
-                                "crew_member_id",
-                                "certification_code",
-                                "issue_date",
-                            ]
-                        },
-                        {
-                            "required": [
-                                "crew_member_id",
-                                "certification_id",
-                                "issue_date",
-                            ]
-                        },
-                    ],
                 },
             },
         }
@@ -5542,89 +5083,7 @@ class UpdateFlightInventoryAndPrices(Tool):
                 # "existing_cabins": sorted(list(_cabins_existing))  # uncomment if beneficial
             }
         )
-        pass
-        if available_seats is None and prices is None and status is None:
-            return _json({"error": "no_update_fields_provided"})
-
-        route = _get_flight(data, flight_number)
-        if not route:
-            return _json({"error": "flight_not_found", "flight_number": flight_number})
-
-        dates = route.setdefault("dates", {})
-        date_info = dates.setdefault(
-            date, {"status": "available", "available_seats": {}, "prices": {}}
-        )
-
-        #Optional status (check if you enforce enumerations)
-        if status is not None:
-            s = _norm_status(status)
-            if s and s not in FLIGHT_STATUS:
-                return _json(
-                    {
-                        "error": "invalid_status",
-                        "entity": "flight",
-                        "provided": status,
-                        "allowed": sorted(list(FLIGHT_STATUS)),
-                    }
-                )
-            date_info["status"] = s
-
-        #Optional debugging of found cabins
-        UpdateFlightInventoryAndPrices._existing_cabins(route, date)
-
-        #Combine seats (only the supplied keys)
-        if available_seats is not None:
-            if not isinstance(available_seats, dict):
-                return _json({"error": "invalid_available_seats_type"})
-            seat_map = date_info.setdefault("available_seats", {})
-            for k, v in available_seats.items():
-                try:
-                    iv = int(v)
-                    if iv < 0:
-                        return _json({"error": "available_seats_negative", "cabin": k})
-                except Exception:
-                    return _json(
-                        {"error": "available_seats_not_int", "cabin": k, "value": v}
-                    )
-                seat_map[k] = iv
-
-        #Combine prices (only the supplied keys) with rounding
-        if prices is not None:
-            if not isinstance(prices, dict):
-                return _json({"error": "invalid_prices_type"})
-            price_map = date_info.setdefault("prices", {})
-            for k, v in prices.items():
-                try:
-                    fv = float(v)
-                    if fv < 0:
-                        return _json({"error": "prices_negative", "cabin": k})
-                except Exception:
-                    return _json({"error": "prices_not_number", "cabin": k, "value": v})
-                price_map[k] = _round2(fv)
-
-        updated = {
-            "status_updated": status is not None,
-            "available_seats_keys": (
-                sorted(list(available_seats.keys()))
-                if isinstance(available_seats, dict)
-                else []
-            ),
-            "prices_keys": (
-                sorted(list(prices.keys())) if isinstance(prices, dict) else []
-            ),
-        }
-
-        return _json(
-            {
-                "flight_number": flight_number,
-                "date": date,
-                "status": _norm_status(date_info.get("status")),
-                "available_seats": date_info.get("available_seats", {}),
-                "prices": date_info.get("prices", {}),
-                "updated": updated,
-                #"existing_cabins": sorted(list(_cabins_existing))  # uncomment if beneficial
-            }
-        )
+        
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -5688,26 +5147,7 @@ class AssignAircraftToFlight(Tool):
         payload = {"error": "Flight not found on the specified date."}
         out = json.dumps(payload)
         return out
-        pass
-        flights_data = data.get("flights", [])
-        for flight in flights_data:
-            if flight.get("flight_number") == flight_number:
-                if date in flight.get("dates", {}):
-                    flight["dates"][date][
-                        "notes"
-                    ] = f"Aircraft reassigned to {new_aircraft_id}"
-                    payload = {
-                            "status": "success",
-                            "flight_number": flight_number,
-                            "date": date,
-                            "new_aircraft_id": new_aircraft_id,
-                        }
-                    out = json.dumps(
-                        payload)
-                    return out
-        payload = {"error": "Flight not found on the specified date."}
-        out = json.dumps(payload)
-        return out
+        
 
     @staticmethod
     def get_info() -> dict[str, Any]:

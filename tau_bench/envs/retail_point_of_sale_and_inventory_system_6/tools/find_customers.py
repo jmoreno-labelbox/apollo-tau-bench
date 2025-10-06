@@ -133,7 +133,7 @@ class find_customers(Tool):
                             "description": "birth date of the customer. Will do an exact match",
                         },
                         "opt_in_marketing": {
-                            "type": "bool",
+                            "type": \"boolean\",
                             "description": "opt in marketing of the customer. Will do an exact match",
                         },
                         "name": {
@@ -149,7 +149,7 @@ class find_customers(Tool):
                             "description": "address of the customer. Will do an approximate match",
                         },
                         "birth_month": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The month the person was born in. Will ignore year and day when matching to birth month",
                         },
                         "city": {

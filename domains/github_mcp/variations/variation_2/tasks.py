@@ -675,7 +675,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"Label 'ops' added.\"",
                 "\"timestamp\": \"2025-08-21T12:00:00Z\", \"message\": \"Issue #1 closed: Nightly job failed on main\""
         ]
@@ -1114,7 +1114,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"number\": 1",
+                ""number": 1",
                 "\"title\": \"Fix crash on startup\"",
                 "\"state\": \"open\"",
                 "\"title\": \"Fix startup crash\""
@@ -1288,7 +1288,7 @@ tasks = [
                 "\"message\": \"Pull request merged.\", \"merged\": \"true\", \"merge_method\": \"merge\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"payments-service\", \"tag_name\": \"v0.3.0\", \"title\": \"Retry policy docs\"",
                 "\"tag_name\": \"v0.3.0\", \"body\": \"Publish retry policy documentation.\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"payments-service retry policy docs published and released as v0.3.0.\""
         ]
     }
@@ -1554,7 +1554,7 @@ tasks = [
                 "\"message\": \"Topic 'accessibility' added.\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"ui-kit\", \"tag_name\": \"v2.0.0\", \"title\": \"Accessibility docs\"",
                 "\"tag_name\": \"v2.0.0\", \"body\": \"Add accessibility documentation.\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"ui-kit accessibility docs published and released as v2.0.0.\""
         ]
     }
@@ -1616,7 +1616,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"Label 'ready-for-ci' added.\"",
                 "\"entries\": {\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"Issue #1 closed in acme-webapp: ready-for-ci triage complete\"}"
         ]
@@ -2373,7 +2373,7 @@ tasks = [
         "outputs": [
                 "\"message\": \"Label 'triage-urgent' added.\"",
                 "\"message\": \"Comment added.\"",
-                "\"message\": \"Issue updated\", \"number\": 3, \"state\": \"closed\""
+                "\"message\": \"Issue updated\", "number": 3, \"state\": \"closed\""
         ]
     }
     ,
@@ -2422,7 +2422,7 @@ tasks = [
         "outputs": [
                 "\"message\": \"Label 'needs-triage' added.\"",
                 "\"message\": \"Comment added.\"",
-                "\"message\": \"Issue updated\", \"number\": 4, \"state\": \"closed\""
+                "\"message\": \"Issue updated\", "number": 4, \"state\": \"closed\""
         ]
     }
     ,
@@ -2471,7 +2471,7 @@ tasks = [
         "outputs": [
                 "\"message\": \"Label 'investigate' added.\"",
                 "\"message\": \"Comment added.\"",
-                "\"message\": \"Issue updated\", \"number\": 25, \"state\": \"closed\""
+                "\"message\": \"Issue updated\", "number": 25, \"state\": \"closed\""
         ]
     }
     ,
@@ -2520,7 +2520,7 @@ tasks = [
         "outputs": [
                 "\"message\": \"Label 'investigate-oom' added.\"",
                 "\"message\": \"Comment added.\"",
-                "\"message\": \"Issue updated\", \"number\": 12, \"state\": \"closed\""
+                "\"message\": \"Issue updated\", "number": 12, \"state\": \"closed\""
         ]
     }
     ,
@@ -3757,7 +3757,7 @@ tasks = [
                 "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"security-scanner-pro\", \"tag_name\": \"v0.5.0\"",
                 "\"tag_name\": \"v0.5.0\", \"title\": \"SARIF support\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"security-scanner-pro v0.5.0 released.\""
         ]
     }
@@ -3881,7 +3881,7 @@ tasks = [
                 "\"message\": \"Pull request opened\", \"title\": \"Introduce alert routing\", \"pr_number\": 1",
                 "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
                 "\"message\": \"Branch protection enabled.\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"k8s-ci-pipelines protection enabled on main.\""
         ]
     }
@@ -4040,7 +4040,7 @@ tasks = [
                 "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"react-dashboard-pro\", \"tag_name\": \"v2.0.0\"",
                 "\"tag_name\": \"v2.0.0\", \"title\": \"Dark mode release\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"Branch protection enabled.\"",
                 "\"message\": \"react-dashboard-pro v2.0.0 released with dark mode.\""
         ]
@@ -4174,7 +4174,7 @@ tasks = [
                 "\"message\": \"Pull request opened\", \"title\": \"Add container registry\", \"pr_number\": 1",
                 "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"infra-containers\", \"tag_name\": \"v0.3.0\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"Branch protection enabled.\"",
                 "\"message\": \"infra-containers v0.3.0 released.\""
         ]
@@ -4335,7 +4335,7 @@ tasks = [
                 "\"message\": \"Branch protection enabled.\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"backend-payment-service\", \"tag_name\": \"v1.3.0\"",
                 "\"tag_name\": \"v1.3.0\", \"title\": \"Payment webhooks\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"backend-payment-service v1.3.0 released.\""
         ]
     }
@@ -4457,7 +4457,7 @@ tasks = [
                 "\"message\": \"Pull request opened\", \"title\": \"Add SQL sanitization\", \"pr_number\": 1",
                 "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"acme-sql-service\", \"tag_name\": \"v0.2.0\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"acme-sql-service v0.2.0 released.\""
         ]
     }
@@ -4571,7 +4571,7 @@ tasks = [
                 "\"message\": \"Pull request merged.\", \"merged\": \"true\", \"merge_method\": \"merge\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"payments-service\", \"tag_name\": \"v0.2.1\", \"title\": \"Timeout policy docs\"",
                 "\"tag_name\": \"v0.2.1\", \"title\": \"Timeout policy docs\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"timestamp\": \"2025-08-21T12:00:00Z\", \"message\": \"payments-service timeout policy docs published and released as v0.2.1.\""
         ]
     }
@@ -4651,7 +4651,7 @@ tasks = [
                 "\"message\": \"Repository created\", \"repo_name\": \"product-docs\"",
                 "\"message\": \"Branch protection enabled.\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"product-docs\", \"tag_name\": \"v1.0.0\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"product-docs v1.0.0 published.\""
         ]
     }
@@ -4748,7 +4748,7 @@ tasks = [
                 "\"message\": \"Pull request opened\", \"title\": \"Document Prometheus retention\", \"base\": \"main\", \"head\": \"feature-retention-policy\", \"pr_number\": 1",
                 "\"message\": \"Reviewers requested.\", \"pr_number\": 1",
                 "\"message\": \"Pull request merged.\", \"merged\": \"true\", \"merge_method\": \"merge\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"timestamp\": \"2025-08-21T12:00:00Z\", \"message\": \"k8s-monitoring retention policy docs merged and recorded.\""
         ]
     }
@@ -4809,7 +4809,7 @@ tasks = [
         "outputs": [
                 "\"message\": \"Repository created\", \"repo_name\": \"qa-tests\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"qa-tests\", \"tag_name\": \"v0.1.0\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"qa-tests v0.1.0 created.\""
         ]
     }
@@ -4940,7 +4940,7 @@ tasks = [
                 "\"message\": \"Pull request merged.\", \"merged\": \"true\", \"merge_method\": \"merge\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"ui-kit\", \"tag_name\": \"v1.0.1\", \"title\": \"Theme docs\"",
                 "\"tag_name\": \"v1.0.1\", \"body\": \"Add ThemeProvider documentation.\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"ui-kit ThemeProvider docs published and released as v1.0.1.\""
         ]
     }
@@ -4994,7 +4994,7 @@ tasks = [
         "outputs": [
                 "\"message\": \"Repository created\", \"repo_name\": \"tooling-maintenance\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"tooling-maintenance\", \"tag_name\": \"v0.1.0\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"tooling-maintenance v0.1.0 created.\""
         ]
     }
@@ -5099,7 +5099,7 @@ tasks = [
                 "\"message\": \"Repository created\", \"repo_name\": \"automation-ci\"",
                 "\"message\": \"Branch protection enabled.\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"automation-ci\", \"tag_name\": \"v0.1.0\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"automation-ci v0.1.0 released.\""
         ]
     }
@@ -5211,7 +5211,7 @@ tasks = [
                 "\"message\": \"Visibility updated\", \"repo_name\": \"design-system-pro\", \"visibility\": \"public\"",
                 "\"message\": \"Committed to branch\", \"commit_message\": \"Add initial guidelines and tokens\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"design-system-pro\", \"tag_name\": \"v1.0.0\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"design-system-pro v1.0.0 published.\""
         ]
     }
@@ -5343,7 +5343,7 @@ tasks = [
                 "\"message\": \"Topic 'observability' added.\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"k8s-monitoring\", \"tag_name\": \"v1.5.0\", \"title\": \"Logging docs\"",
                 "\"tag_name\": \"v1.5.0\", \"body\": \"Add logging documentation.\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"k8s-monitoring logging docs published and released as v1.5.0.\""
         ]
     }
@@ -5503,7 +5503,7 @@ tasks = [
                 "\"message\": \"Branch protection enabled.\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"ml-ops-pipeline\", \"tag_name\": \"v0.8.0\"",
                 "\"tag_name\": \"v0.8.0\", \"title\": \"Training pipeline\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"ml-ops-pipeline v0.8.0 released.\""
         ]
     }
@@ -5564,7 +5564,7 @@ tasks = [
         ],
         "outputs": [
                 "\"message\": \"Branch protection enabled.\", \"repo_name\": \"security-scanner\", \"branch\": \"main\", \"protected\": \"true\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"alerts\": [{\"alert_number\": 18, \"severity\": \"critical\", \"state\": \"open\", \"description\": \"Unsafe deserialization in rule configuration parser\"}, { \"alert_number\": 21, \"severity\": \"high\", \"state\": \"open\",\"description\": \"Potential buffer overflow in string handling\"}, {\"alert_number\": 24, \"severity\": \"medium\", \"state\": \"fixed\", \"description\": \"Use of deprecated crypto functions\"}, { \"alert_number\": 27, \"severity\": \"low\", \"state\": \"dismissed\", \"description\": \"Missing input validation in CLI arguments\"}]",
                 "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"security-scanner security audit scheduled with branch protection enforced.\""
         ]
@@ -5706,7 +5706,7 @@ tasks = [
                 "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
                 "\"message\": \"Branch protection enabled.\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"log-analyzer\", \"tag_name\": \"v1.2.0\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"log-analyzer v1.2.0 released.\""
         ]
     }
@@ -5793,7 +5793,7 @@ tasks = [
                 "\"message\": \"Visibility updated\", \"repo_name\": \"security-scanner\", \"visibility\": \"private\"",
                 "\"message\": \"Topic 'compliance' added.\"",
                 "\"topics\": [",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"Comment added.\"",
                 "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"security-scanner compliance baseline scheduled with protections enforced.\""
         ]
@@ -5935,7 +5935,7 @@ tasks = [
                 "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
                 "\"message\": \"Branch protection enabled.\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"automation-tests\", \"tag_name\": \"v0.5.0\"",
-                "\"message\": \"Issue created\", \"number\": 1",
+                "\"message\": \"Issue created\", "number": 1",
                 "\"message\": \"automation-tests v0.5.0 released.\""
         ]
     }
@@ -6239,7 +6239,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"pull_requests\": [{\"number\": 1, \"title\": \"Docs: add A\", \"state\": \"open\", \"base\": \"main\", \"head\": \"feature-docs-a\"}]",
+                "\"pull_requests\": [{"number": 1, \"title\": \"Docs: add A\", \"state\": \"open\", \"base\": \"main\", \"head\": \"feature-docs-a\"}]",
                 "\"most_recent_pr_files\": \"files\": [\"docs/A.md\"]"
         ]
     }

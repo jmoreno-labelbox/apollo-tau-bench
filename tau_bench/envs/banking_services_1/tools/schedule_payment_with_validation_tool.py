@@ -89,7 +89,7 @@ class SchedulePaymentWithValidationTool(Tool):
                             "description": "From account",
                         },
                         "to_account": {"type": "string", "description": "To account"},
-                        "amount": {"type": "float", "description": "Amount"},
+                        "amount": {"type": "number", "description": "Amount"},
                         "currency": {"type": "string", "description": "Currency"},
                         "date": {"type": "string", "description": "Date"},
                     },

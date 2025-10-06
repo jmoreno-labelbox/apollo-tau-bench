@@ -110,7 +110,7 @@ class CreateBulkOrder(Tool):
                         "item_ids": {
                             "type": "array",
                             "items": {
-                                "type": "dictionary",
+                                "type": \"object\",
                                 "keys": {
                                     "item_id": {
                                         "type": "string",

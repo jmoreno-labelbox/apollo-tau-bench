@@ -171,10 +171,6 @@ class UpdateAircraftStatus(Tool):
                             "description": "Audit text (optional)",
                         },
                     },
-                    "oneOf": [
-                        {"required": ["aircraft_id", "status"]},
-                        {"required": ["tail_number", "status"]},
-                    ],
-                },
+},
             },
         }

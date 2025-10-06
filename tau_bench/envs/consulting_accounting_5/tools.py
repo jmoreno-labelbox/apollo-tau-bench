@@ -1378,7 +1378,7 @@ class CalculateTotalInflows(Tool):
                     "type": "object", "properties": {
                         "start_date": {"type": "string", "description": "Start of the forecast period (YYYY-MM-DD)"},
                         "end_date": {"type": "string", "description": "End of the forecast period (YYYY-MM-DD)"},
-                        "invoices_to_consider": {"type": "array", "description": "List of invoices to consider" }
+                        "invoices_to_consider": {"type": "array", "items": {"type": "string"}, "description": "List of invoices to consider" }
                     }, "required": ["start_date", "end_date"],
                 },
             },

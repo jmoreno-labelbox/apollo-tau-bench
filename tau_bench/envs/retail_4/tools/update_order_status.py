@@ -235,10 +235,6 @@ class UpdateOrderStatus(Tool):
                             "description": "Courier identifier (required if tracking_id provided)",
                         },
                     },
-                    "anyOf": [
-                        {"required": ["order_id", "new_status"]},
-                        {"required": ["order_ids", "new_status"]},
-                    ],
-                },
+},
             },
         }

@@ -118,11 +118,11 @@ class UpdateStockQuantity(Tool):
                             "description": "The specific sku for the item",
                         },
                         "quantity": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The quantity to set for the item. Overrides relative_quantity",
                         },
                         "relative_quantity": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "Will add or remove this much from the current quantity: 5 will add 5 and -2 will remove 2",
                         },
                     },
@@ -243,7 +243,7 @@ class GetDetailedItemPrice(Tool):
                             "type": "string",
                             "description": "The barcode of the item",
                         },
-                        #"quantity": {"type": \"integer\", "description": "The quantity of the item being bought"}
+                        #"quantity": {"type": "integer", "description": "The quantity of the item being bought"}
                     },
                 },
             },
@@ -675,7 +675,7 @@ class make_transaction(Tool):
                             "description": "The payment type used. cash or credit_card",
                         },
                         "payment_amount": {
-                            "type": "float",
+                            "type": "number",
                             "description": "The amount given by the customer",
                         },
                         "status": {
@@ -683,11 +683,19 @@ class make_transaction(Tool):
                             "description": "Signifies if the transaction is a purchase or a refund. (completed, refunded)",
                         },
                         "item_list": {
-                            "type": "string",
-                            "description": "A list of items being purchased. This should be a json object with a structure like so: [{'sku' : XXX, 'quantity' : 1}, {'barcode' : YYY, 'quantity' : 2}]",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "sku": {"type": "string"},
+                                    "barcode": {"type": "string"},
+                                    "quantity": {"type": "integer"}
+                                }
+                            },
+                            "description": "A list of items being purchased. Each item has either sku or barcode and a quantity.",
                         },
                         "commit_transaction": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "If true, the transaction will be commited and processed. If false, the function will just do a dry run and return the transaction information. Defaults to True",
                         },
                     },
@@ -828,6 +836,7 @@ class cancel_promotion(Tool):
         payload = {"success": "complete"}
         out = json.dumps(payload)
         return out
+
     @staticmethod
     def get_info() -> dict[str, Any]:
         return {
@@ -914,6 +923,7 @@ class create_promotion(Tool):
         payload = {"success": "complete"}
         out = json.dumps(payload, indent=2)
         return out
+
     @staticmethod
     def get_info() -> dict[str, Any]:
         return {
@@ -933,7 +943,7 @@ class create_promotion(Tool):
                             "description": "The type of promotion. 'fixed_bundle', 'tax_free', 'percentage', 'bogo_percentage'",
                         },
                         "discount_value": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The discount amount as an integer for percentage and bogo_percentage",
                         },
                         "description": {
@@ -957,7 +967,7 @@ class create_promotion(Tool):
                             "description": "The current status of the promotion. Should be 'active' if the sale is going or 'planned' if it is happening in the future",
                         },
                         "usage_limit": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The number of times the sale can be used.",
                         },
                     },
@@ -1201,7 +1211,7 @@ class create_customer(Tool):
                             "description": "The customer's birthdate. YYYY-MM-DD",
                         },
                         "loyalty_points": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "OPTIONAL. The number of loyalty points the customer has. This will normally be 0, but sometimes they can start with points as an incentive to create an account.",
                         },
                         "memebership_level": {
@@ -1209,7 +1219,7 @@ class create_customer(Tool):
                             "description": "OPTIONAL. The membership tier the customer is starting on. This will default to 'basic'.",
                         },
                         "opt_in_marketing": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "OPTIONAL. If the customer is opting into marketing. This will default to False",
                         },
                     },
@@ -1389,7 +1399,7 @@ class find_customers(Tool):
                             "description": "birth date of the customer. Will do an exact match",
                         },
                         "opt_in_marketing": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "opt in marketing of the customer. Will do an exact match",
                         },
                         "name": {
@@ -1405,7 +1415,7 @@ class find_customers(Tool):
                             "description": "address of the customer. Will do an approximate match",
                         },
                         "birth_month": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The month the person was born in. Will ignore year and day when matching to birth month",
                         },
                         "city": {
@@ -1522,7 +1532,7 @@ class update_customer(Tool):
                             "description": "The customer's birthdate. YYYY-MM-DD",
                         },
                         "loyalty_points": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The number of loyalty points the customer has",
                         },
                         "memebership_level": {
@@ -1530,7 +1540,7 @@ class update_customer(Tool):
                             "description": "The membership tier of the customer",
                         },
                         "opt_in_marketing": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "OPTIONAL. If the customer is opting into marketing",
                         },
                     },
@@ -2050,19 +2060,19 @@ class create_inventory(Tool):
                             "description": "The id of the store adding the inventory",
                         },
                         "quantity": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The amount that the store starts with",
                         },
                         "reserved_quantity": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The amount in reserve",
                         },
                         "reorder_level": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The amount to start reordering products",
                         },
                         "safety_stock": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The amount to consider critical stock",
                         },
                         "location": {
@@ -2341,7 +2351,7 @@ class create_product(Tool):
                             "description": "The category of the product. Ex: Electronics",
                         },
                         "price": {
-                            "type": "float",
+                            "type": "number",
                             "description": "The base price the customer pays",
                         },
                         "description": {
@@ -2353,7 +2363,7 @@ class create_product(Tool):
                             "description": "The supplier id of the supplier that offers the product",
                         },
                         "weight_kg": {
-                            "type": "float",
+                            "type": "number",
                             "description": "The weight in kilos of the item",
                         },
                         "dimensions_cm": {
@@ -2365,7 +2375,7 @@ class create_product(Tool):
                             "description": "The brand of the product",
                         },
                         "cost": {
-                            "type": "string",
+                            "type": "number",
                             "description": "The cost the store pays for the product",
                         },
                         "barcode": {
@@ -2373,15 +2383,15 @@ class create_product(Tool):
                             "description": "The barcode of the product",
                         },
                         "tax_rate": {
-                            "type": "string",
+                            "type": "number",
                             "description": "The tax rate of the product",
                         },
                         "is_discountable": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "OPTIONAL. If the product has an active discount. Ensure that the promotions table is updated with this information. Defaults to False",
                         },
                         "discount_rate": {
-                            "type": "float",
+                            "type": "number",
                             "description": "OPTIONAL. The rate the product can be discounted at. Ensure that the promotions table is updated with this information. Defaults to 0",
                         },
                         "expiry_date": {
@@ -2389,7 +2399,8 @@ class create_product(Tool):
                             "description": "OPTIONAL. If this product has an expiration. Defaults to None",
                         },
                         "status": {
-                            "type": "status",
+                            "type": "string",
+                            "enum": ["active", "inactive"],
                             "description": "OPTIONAL. Status of the product. Defaults to 'active'",
                         },
                     },
@@ -2526,7 +2537,7 @@ class find_products(Tool):
                             "description": "The category of the item. Will do an exact match",
                         },
                         "is_discountable": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "If the product can be discounted. Will do an exact match",
                         },
                         "supplier_id": {
@@ -2687,7 +2698,7 @@ class get_profit_margins(Tool):
                             "description": "A json list of the skus to get the profit margins for",
                         },
                         "ignore_discounts": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "OPTIONAL. To calculate profits on the discounted total or not. Defaults to True",
                         },
                     },

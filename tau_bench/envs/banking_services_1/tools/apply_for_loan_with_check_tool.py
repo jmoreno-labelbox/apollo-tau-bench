@@ -55,7 +55,7 @@ class ApplyForLoanWithCheckTool(Tool):
                     "type": "object",
                     "properties": {
                         "customer_id": {"type": "string", "description": "Customer id"},
-                        "amount": {"type": "float", "description": "Amount"},
+                        "amount": {"type": "number", "description": "Amount"},
                         "purpose": {"type": "string", "description": "Purpose"},
                     },
                     "required": ["customer_id", "amount", "purpose"],

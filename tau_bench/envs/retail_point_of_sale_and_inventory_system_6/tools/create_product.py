@@ -141,7 +141,7 @@ class create_product(Tool):
                             "description": "The category of the product. Ex: Electronics",
                         },
                         "price": {
-                            "type": "float",
+                            "type": "number",
                             "description": "The base price the customer pays",
                         },
                         "description": {
@@ -153,7 +153,7 @@ class create_product(Tool):
                             "description": "The supplier id of the supplier that offers the product",
                         },
                         "weight_kg": {
-                            "type": "float",
+                            "type": "number",
                             "description": "The weight in kilos of the item",
                         },
                         "dimensions_cm": {
@@ -165,7 +165,7 @@ class create_product(Tool):
                             "description": "The brand of the product",
                         },
                         "cost": {
-                            "type": "string",
+                            "type": "number",
                             "description": "The cost the store pays for the product",
                         },
                         "barcode": {
@@ -173,15 +173,15 @@ class create_product(Tool):
                             "description": "The barcode of the product",
                         },
                         "tax_rate": {
-                            "type": "string",
+                            "type": "number",
                             "description": "The tax rate of the product",
                         },
                         "is_discountable": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "OPTIONAL. If the product has an active discount. Ensure that the promotions table is updated with this information. Defaults to False",
                         },
                         "discount_rate": {
-                            "type": "float",
+                            "type": "number",
                             "description": "OPTIONAL. The rate the product can be discounted at. Ensure that the promotions table is updated with this information. Defaults to 0",
                         },
                         "expiry_date": {
@@ -189,7 +189,8 @@ class create_product(Tool):
                             "description": "OPTIONAL. If this product has an expiration. Defaults to None",
                         },
                         "status": {
-                            "type": "status",
+                            "type": "string",
+                            "enum": ["active", "inactive"],
                             "description": "OPTIONAL. Status of the product. Defaults to 'active'",
                         },
                     },

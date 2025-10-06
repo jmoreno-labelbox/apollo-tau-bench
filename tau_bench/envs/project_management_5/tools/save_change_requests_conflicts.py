@@ -85,7 +85,8 @@ class SaveChangeRequestsConflicts(Tool):
                             "description": "Conflicting change request ID",
                         },
                         "conflicting_deliverables": {
-                            "type": "list",
+                            "type": "array",
+                            "items": {"type": "string"},
                             "description": "Conflicting deliverable IDs",
                         },
                         "severity": {

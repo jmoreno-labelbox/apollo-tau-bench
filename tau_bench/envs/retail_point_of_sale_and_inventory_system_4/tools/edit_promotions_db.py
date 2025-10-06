@@ -202,7 +202,7 @@ class EditPromotionsDb(Tool):  #CREATE
                             "description": "Type of promotion.",
                         },
                         "discount_value": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Discount value.",
                         },
@@ -212,7 +212,7 @@ class EditPromotionsDb(Tool):  #CREATE
                             "description": "Description of the promotion.",
                         },
                         "applicable_skus": {
-                            "type": "list",
+                            "type": "array",
                             "items": {"type": "string"},
                             "default": None,
                             "description": "SKUs to which the promotion applies. If empty, applies to all products.",
@@ -233,12 +233,12 @@ class EditPromotionsDb(Tool):  #CREATE
                             "description": "Status of the promotion.",
                         },
                         "usage_limit": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "default": None,
                             "description": "Usage limit for the promotion.",
                         },
                         "times_used": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "default": None,
                             "description": "Number of times the promotion has been used.",
                         },

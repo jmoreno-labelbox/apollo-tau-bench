@@ -125,7 +125,7 @@ def _apply_update(row, update_params):
 #"type": "object",
 #"properties": {
 #"filter_params": {"type": "object", "description": "Dictionary outlining methods to filter items in the database. For an item to pass the filter, it must match one of the possible values for all filtering parameters."},
-#"info_items": {"type": "list", "items": {"type": "string"}, "description": "A list of all keys of the information that should be returned by the function for the filtered database entries."}
+#"info_items": {"type": "array", "items": {"type": "string"}, "description": "A list of all keys of the information that should be returned by the function for the filtered database entries."}
 #},
 #"required": ["filter_params"]
 #}
@@ -187,7 +187,7 @@ class GetInfoFromDB(Tool):  #READ
                             "description": "Dictionary/List of ways to filter items in the database. Dictionaries are AND conditions, lists are OR conditions.",
                         },
                         "required_fields": {
-                            "type": "list",
+                            "type": "array",
                             "items": {"type": "string"},
                             "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries.",
                         },
@@ -697,19 +697,18 @@ class CreateBulkOrder(Tool):
                         "item_ids": {
                             "type": "array",
                             "items": {
-                                "type": "dictionary",
-                                "keys": {
+                                "type": "object",
+                                "properties": {
                                     "item_id": {
                                         "type": "string",
-                                        "description": "The item id, such as 'item_0001'.",
+                                        "description": "The item id, such as 'item_0001'."
                                     },
-                                },
-                                "values": {
                                     "quantity": {
                                         "type": "integer",
-                                        "description": "The quantity of the item to be included in the order.",
+                                        "description": "The quantity of the item to be included in the order."
                                     }
                                 },
+                                "required": ["item_id", "quantity"]
                             },
                             "description": (
                                 "The item ids to be included in the order."

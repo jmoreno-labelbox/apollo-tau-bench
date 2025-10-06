@@ -221,7 +221,7 @@ class ValidateAllocationsAgainstPolicy(Tool):
                     "type": "object",
                     "properties": {
                         "total_budget": {"type": "number"},
-                        "allocations": {"type": "array"},
+                        "allocations": {"type": "array", "items": {"type": "object"}},
                     },
                     "required": ["total_budget", "allocations"],
                 },
@@ -1350,7 +1350,7 @@ class CreatePlan(Tool):
                         "author": {"type": "string"},
                         "created_at": {"type": "string"},
                         "checksum": {"type": "string"},
-                        "allocations": {"type": "array"},
+                        "allocations": {"type": "array", "items": {"type": "object"}},
                     },
                     "required": [
                         "plan_id",

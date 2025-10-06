@@ -915,7 +915,7 @@ class FilterLicenses(Tool):
                     "type": "object",
                     "properties": {
                         "utilization": {
-                            "type": "float",
+                            "type": "number",
                             "description": "Filters liceses by utilization.",
                         },
                     },
@@ -1617,6 +1617,7 @@ class ReportRun(Tool):
                         },
                         "run_data": {
                             "type": "array",
+                            "items": {"type": "string"},
                             "item": {"type": "string"},
                             "description": "The data to include in the run.",
                         },

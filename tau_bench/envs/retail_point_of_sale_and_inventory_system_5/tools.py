@@ -24,10 +24,13 @@ class GetStoreInventory(Tool):
             "function": {
                 "name": "GetStoreInventory",
                 "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"},
+                        "sku": {"type": "string"}
+                    },
+                    "required": ["store_id", "sku"]
                 },
-                "required": ["store_id", "sku"],
             },
         }
 
@@ -62,11 +65,14 @@ class GetPhysicalCount(Tool):
             "function": {
                 "name": "GetPhysicalCount",
                 "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "auditor_id": {"type": "string"},
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"},
+                        "sku": {"type": "string"},
+                        "auditor_id": {"type": "string"}
+                    },
+                    "required": ["store_id", "sku", "auditor_id"]
                 },
-                "required": ["store_id", "sku", "auditor_id"],
             },
         }
 
@@ -84,11 +90,14 @@ class CompareInventoryCounts(Tool):
             "function": {
                 "name": "compareInventoryCounts",
                 "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "threshold_percent": {"type": "number"},
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"},
+                        "sku": {"type": "string"},
+                        "threshold_percent": {"type": "number"}
+                    },
+                    "required": ["store_id", "sku", "threshold_percent"]
                 },
-                "required": ["store_id", "sku", "threshold_percent"],
             },
         }
 
@@ -111,11 +120,14 @@ class TriggerRecountIfNeeded(Tool):
             "function": {
                 "name": "TriggerRecountIfNeeded",
                 "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "discrepancy_threshold": {"type": "number"},
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"},
+                        "sku": {"type": "string"},
+                        "discrepancy_threshold": {"type": "number"}
+                    },
+                    "required": ["store_id", "sku", "discrepancy_threshold"]
                 },
-                "required": ["store_id", "sku", "discrepancy_threshold"],
             },
         }
 
@@ -144,12 +156,15 @@ class LogAuditResult(Tool):
             "function": {
                 "name": "LogAuditResult",
                 "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "auditor_id": {"type": "string"},
-                    "result": {"type": "string"},
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"},
+                        "sku": {"type": "string"},
+                        "auditor_id": {"type": "string"},
+                        "result": {"type": "string"}
+                    },
+                    "required": ["store_id", "sku", "auditor_id"]
                 },
-                "required": ["store_id", "sku", "auditor_id"],
             },
         }
 
@@ -194,12 +209,15 @@ class CreateInventoryAdjustment(Tool):
             "function": {
                 "name": "CreateInventoryAdjustment",
                 "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "amount": {"type": "number"},
-                    "reason": {"type": "string"},
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"},
+                        "sku": {"type": "string"},
+                        "amount": {"type": "number"},
+                        "reason": {"type": "string"}
+                    },
+                    "required": ["store_id", "sku", "amount"]
                 },
-                "required": ["store_id", "sku", "amount"],
             },
         }
 
@@ -220,8 +238,14 @@ class DualApproval(Tool):
             "type": "function",
             "function": {
                 "name": "DualApproval",
-                "parameters": {"adjustment_id": {"type": "string"}},
-                "required": ["adjustment_id"],
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "adjustment_id": {"type": "string"},
+                        "approver_id": {"type": "string"}
+                    },
+                    "required": ["adjustment_id"]
+                },
             },
         }
 
@@ -245,12 +269,15 @@ class EscalateDiscrepancy(Tool):
             "function": {
                 "name": "EscalateDiscrepancy",
                 "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "amount": {"type": "number"},
-                    "escalation_level": {"type": "string"},
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"},
+                        "sku": {"type": "string"},
+                        "amount": {"type": "number"},
+                        "escalation_level": {"type": "string"}
+                    },
+                    "required": ["store_id", "sku", "amount", "escalation_level"]
                 },
-                "required": ["store_id", "sku", "amount", "escalation_level"],
             },
         }
 
@@ -273,11 +300,14 @@ class CheckSafetyStock(Tool):
             "function": {
                 "name": "CheckSafetyStock",
                 "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "min_percent": {"type": "number"},
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"},
+                        "sku": {"type": "string"},
+                        "min_percent": {"type": "number"}
+                    },
+                    "required": ["store_id", "sku", "min_percent"]
                 },
-                "required": ["store_id", "sku", "min_percent"],
             },
         }
 
@@ -311,12 +341,15 @@ class CreateTransferOrder(Tool):
             "function": {
                 "name": "CreateTransferOrder",
                 "parameters": {
-                    "from_store": {"type": "string"},
-                    "to_store": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "quantity": {"type": "number"},
+                    "type": "object",
+                    "properties": {
+                        "from_store": {"type": "string"},
+                        "to_store": {"type": "string"},
+                        "sku": {"type": "string"},
+                        "quantity": {"type": "number"}
+                    },
+                    "required": ["from_store", "to_store", "sku", "quantity"]
                 },
-                "required": ["from_store", "to_store", "sku", "quantity"],
             },
         }
 
@@ -333,8 +366,14 @@ class ComplianceReview(Tool):
             "type": "function",
             "function": {
                 "name": "ComplianceReview",
-                "parameters": {"transfer_id": {"type": "string"}},
-                "required": ["transfer_id"],
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "transfer_id": {"type": "string"},
+                        "adjustment_id": {"type": "string"}
+                    },
+                    "required": ["transfer_id"]
+                },
             },
         }
 
@@ -359,12 +398,15 @@ class LogTransfer(Tool):
             "function": {
                 "name": "LogTransfer",
                 "parameters": {
-                    "from_store": {"type": "string"},
-                    "to_store": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "quantity": {"type": "number"},
+                    "type": "object",
+                    "properties": {
+                        "from_store": {"type": "string"},
+                        "to_store": {"type": "string"},
+                        "sku": {"type": "string"},
+                        "quantity": {"type": "number"},
+                    },
+                    "required": ["from_store", "to_store", "sku", "quantity"],
                 },
-                "required": ["from_store", "to_store", "sku", "quantity"],
             },
         }
 
@@ -386,10 +428,13 @@ class UpdateTransferCompliance(Tool):
             "function": {
                 "name": "UpdateTransferCompliance",
                 "parameters": {
-                    "transfer_id": {"type": "string"},
-                    "status": {"type": "string"},
+                    "type": "object",
+                    "properties": {
+                        "transfer_id": {"type": "string"},
+                        "status": {"type": "string"}
+                    },
+                    "required": ["transfer_id", "status"]
                 },
-                "required": ["transfer_id", "status"],
             },
         }
 
@@ -408,11 +453,14 @@ class ComputeDiscrepancyAmount(Tool):
             "function": {
                 "name": "ComputeDiscrepancyAmount",
                 "parameters": {
-                    "system_count": {"type": "integer"},
-                    "physical_count": {"type": "integer"},
-                    "unit_cost": {"type": "number"},
+                    "type": "object",
+                    "properties": {
+                        "system_count": {"type": "integer"},
+                        "physical_count": {"type": "integer"},
+                        "unit_cost": {"type": "number"}
+                    },
+                    "required": ["system_count", "physical_count", "unit_cost"]
                 },
-                "required": ["system_count", "physical_count", "unit_cost"],
             },
         }
 
@@ -435,8 +483,13 @@ class GetProductInfo(Tool):
             "type": "function",
             "function": {
                 "name": "GetProductInfo",
-                "parameters": {"sku": {"type": "string"}},
-                "required": ["sku"],
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "sku": {"type": "string"}
+                    },
+                    "required": ["sku"]
+                },
             },
         }
 
@@ -483,8 +536,13 @@ class GetEmployeeInfo(Tool):
             "type": "function",
             "function": {
                 "name": "GetEmployeeInfo",
-                "parameters": {"employee_id": {"type": "string"}},
-                "required": ["employee_id"],
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "employee_id": {"type": "string"}
+                    },
+                    "required": ["employee_id"]
+                },
             },
         }
 
@@ -503,8 +561,13 @@ class ListStoreSKUs(Tool):
             "type": "function",
             "function": {
                 "name": "ListStoreSkus",
-                "parameters": {"store_id": {"type": "string"}},
-                "required": ["store_id"],
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"}
+                    },
+                    "required": ["store_id"]
+                },
             },
         }
 
@@ -523,8 +586,13 @@ class ListStoreEmployees(Tool):
             "type": "function",
             "function": {
                 "name": "ListStoreEmployees",
-                "parameters": {"store_id": {"type": "string"}},
-                "required": ["store_id"],
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"}
+                    },
+                    "required": ["store_id"]
+                },
             },
         }
 
@@ -550,8 +618,13 @@ class GetPromotionInfo(Tool):
             "type": "function",
             "function": {
                 "name": "getPromotionInfo",
-                "parameters": {"promotion_id": {"type": "string"}},
-                "required": ["promotion_id"],
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "promotion_id": {"type": "string"}
+                    },
+                    "required": ["promotion_id"]
+                },
             },
         }
 
@@ -575,8 +648,13 @@ class ListActivePromotions(Tool):
             "type": "function",
             "function": {
                 "name": "ListActivePromotions",
-                "parameters": {"store_id": {"type": "string"}},
-                "required": ["store_id"],
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"}
+                    },
+                    "required": ["store_id"]
+                },
             },
         }
 
@@ -599,8 +677,13 @@ class GetCustomerInfo(Tool):
             "type": "function",
             "function": {
                 "name": "GetCustomerInfo",
-                "parameters": {"customer_id": {"type": "string"}},
-                "required": ["customer_id"],
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "customer_id": {"type": "string"}
+                    },
+                    "required": ["customer_id"]
+                },
             },
         }
 
@@ -619,8 +702,13 @@ class ListStoreTransactions(Tool):
             "type": "function",
             "function": {
                 "name": "ListStoreTransactions",
-                "parameters": {"store_id": {"type": "string"}},
-                "required": ["store_id"],
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"}
+                    },
+                    "required": ["store_id"]
+                },
             },
         }
 
@@ -641,8 +729,13 @@ class GetTransactionDetails(Tool):
             "type": "function",
             "function": {
                 "name": "GetTransactionDetails",
-                "parameters": {"transaction_id": {"type": "string"}},
-                "required": ["transaction_id"],
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "transaction_id": {"type": "string"}
+                    },
+                    "required": ["transaction_id"]
+                },
             },
         }
 
@@ -702,11 +795,14 @@ class RestockLowInventory(Tool):
             "function": {
                 "name": "RestockLowInventory",
                 "parameters": {
-                    "store_id": {"type": "string"},
-                    "sku": {"type": "string"},
-                    "quantity": {"type": "number"},
+                    "type": "object",
+                    "properties": {
+                        "store_id": {"type": "string"},
+                        "sku": {"type": "string"},
+                        "quantity": {"type": "number"}
+                    },
+                    "required": ["store_id", "sku", "quantity"]
                 },
-                "required": ["store_id", "sku", "quantity"],
             },
         }
 

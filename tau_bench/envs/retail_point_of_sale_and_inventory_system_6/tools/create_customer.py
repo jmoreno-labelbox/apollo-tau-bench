@@ -130,7 +130,7 @@ class create_customer(Tool):
                             "description": "The customer's birthdate. YYYY-MM-DD",
                         },
                         "loyalty_points": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "OPTIONAL. The number of loyalty points the customer has. This will normally be 0, but sometimes they can start with points as an incentive to create an account.",
                         },
                         "memebership_level": {
@@ -138,7 +138,7 @@ class create_customer(Tool):
                             "description": "OPTIONAL. The membership tier the customer is starting on. This will default to 'basic'.",
                         },
                         "opt_in_marketing": {
-                            "type": "bool",
+                            "type": \"boolean\",
                             "description": "OPTIONAL. If the customer is opting into marketing. This will default to False",
                         },
                     },

@@ -25,8 +25,8 @@ class DeterministicAutofixV2(Tool):
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "qa_json": {"type": "array"},
-                        "tex_report": {"type": "array"},
+                        "qa_json": {"type": "array", "items": {"type": "object"}},
+                        "tex_report": {"type": "array", "items": {"type": "object"}},
                     },
                     "required": ["qa_json", "tex_report"],
                 },

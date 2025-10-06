@@ -79,7 +79,8 @@ class UpdateEmployeesUtilization(Tool):
                     "type": "object",
                     "properties": {
                         "employee_ids": {
-                            "type": "list",
+                            "type": "array",
+                            "items": {"type": "string"},
                             "description": "List of employee IDs",
                         }
                     },

@@ -144,7 +144,7 @@ class CreateCustomerAccountTool(Tool):
                         },
                         "currency": {"type": "string", "description": "Currency"},
                         "initial_limit": {
-                            "type": "float",
+                            "type": "number",
                             "description": "Initial limit",
                         },
                     },
@@ -210,7 +210,7 @@ class ApplyForLoanWithCheckTool(Tool):
                     "type": "object",
                     "properties": {
                         "customer_id": {"type": "string", "description": "Customer id"},
-                        "amount": {"type": "float", "description": "Amount"},
+                        "amount": {"type": "number", "description": "Amount"},
                         "purpose": {"type": "string", "description": "Purpose"},
                     },
                     "required": ["customer_id", "amount", "purpose"],
@@ -304,7 +304,7 @@ class SchedulePaymentWithValidationTool(Tool):
                             "description": "From account",
                         },
                         "to_account": {"type": "string", "description": "To account"},
-                        "amount": {"type": "float", "description": "Amount"},
+                        "amount": {"type": "number", "description": "Amount"},
                         "currency": {"type": "string", "description": "Currency"},
                         "date": {"type": "string", "description": "Date"},
                     },
@@ -1768,7 +1768,7 @@ class TransferFundsWithLimitCheckTool(Tool):
                             "description": "Target account",
                         },
                         "amount": {
-                            "type": "float",
+                            "type": "number",
                             "description": "Amount to transfer",
                         },
                     },

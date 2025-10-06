@@ -560,18 +560,7 @@ class CreateSupplyOrder(Tool):
                             "description": "Quantity to order for each item (not distributed - each item gets this full quantity)",
                         },
                         "unit_cost": {
-                            "oneOf": [
-                                {
-                                    "type": "number",
-                                    "description": "Single unit cost applied to all items",
-                                },
-                                {
-                                    "type": "array",
-                                    "items": {"type": "number"},
-                                    "description": "List of unit costs, each corresponding to an item in item_ids (same order)",
-                                },
-                            ],
-                            "description": "Cost per unit. Can be a single value or list of values matching item_ids order",
+"description": "Cost per unit. Can be a single value or list of values matching item_ids order",
                         },
                         "product_id": {
                             "type": "string",

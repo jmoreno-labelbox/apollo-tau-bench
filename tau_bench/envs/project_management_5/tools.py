@@ -987,8 +987,7 @@ class SaveChangeRequestsConflicts(Tool):
         severity: str = None,
         rule_violation: str = None,
         action_required: str = None,
-        recommendation: str = None
-,
+        recommendation: str = None,
     type: Any = None,
     ) -> str:
         if not cr_id or not conflicting_cr_id:
@@ -1034,6 +1033,7 @@ class SaveChangeRequestsConflicts(Tool):
         payload = {"error": f"It wasn't found any change request with the ID {cr_id}"}
         out = json.dumps(payload)
         return out
+
     @staticmethod
     def get_info() -> dict[str, Any]:
         return {
@@ -1057,7 +1057,8 @@ class SaveChangeRequestsConflicts(Tool):
                             "description": "Conflicting change request ID",
                         },
                         "conflicting_deliverables": {
-                            "type": "list",
+                            "type": "array",
+                            "items": {"type": "string"},
                             "description": "Conflicting deliverable IDs",
                         },
                         "severity": {

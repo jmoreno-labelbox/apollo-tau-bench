@@ -26,12 +26,22 @@ def discover_env_names() -> List[str]:
     return names
 
 
+def read_envs_file(path: Path) -> List[str]:
+    envs: List[str] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        s = line.strip()
+        if not s or s.startswith("#"):
+            continue
+        envs.append(s)
+    return envs
+
+
 def is_success(reward: float) -> bool:
     return (1 - 1e-6) <= reward <= (1 + 1e-6)
 
 
 def run_single_env(env_name: str, provider: str, user_provider: str, model: str, user_model: str) -> Tuple[str, bool, str]:
-    """Run one task for the env; return (env_name, passed, note)."""
+    """Run one task for the env; return (env_name, passed, note). Note includes short error summary if present."""
     try:
         from tau_bench.types import RunConfig
         from tau_bench.run import run
@@ -59,9 +69,24 @@ def run_single_env(env_name: str, provider: str, user_provider: str, model: str,
         results = run(config)
         total = len(results)
         succ = sum(1 for r in results if is_success(r.reward))
-        errs = sum(1 for r in results if isinstance(r.info, dict) and ("error" in r.info))
+        # Collect error messages if present
+        err_msgs = []
+        errs = 0
+        for r in results:
+            info = r.info if isinstance(r.info, dict) else None
+            if info and "error" in info:
+                errs += 1
+                msg = str(info.get("error", "")).strip()
+                if msg and msg not in err_msgs:
+                    err_msgs.append(msg)
         passed = succ > 0
         note = f"tasks={total}, success={succ}, errors={errs}"
+        if err_msgs:
+            # Keep the note short: include up to 2 unique error messages
+            preview = "; ".join(err_msgs[:2])
+            if len(err_msgs) > 2:
+                preview += f" (+{len(err_msgs)-2} more)"
+            note = f"{note}; {preview}"
         return env_name, passed, note
     except Exception as e:
         # Collapse long traces into short note lines
@@ -78,10 +103,15 @@ def main() -> None:
     parser.add_argument("--model", default="gpt-4o", help="Model name for agent (default: gpt-4o)")
     parser.add_argument("--user-model", default="gpt-4o", help="Model name for user (default: gpt-4o)")
     parser.add_argument("--envs", default=None, help="Comma-separated env names to run; default is discover all in tau_bench/envs")
+    parser.add_argument("--envs-file", default=None, help="Path to a text file with env names (one per line) to run")
+    parser.add_argument("--write-failures", default=None, help="Path to write failed env names (one per line)")
+    parser.add_argument("--write-failure-notes", default=None, help="Path to write failed env notes: 'env_name: note' per line")
     parser.add_argument("--max-workers", type=int, default=4, help="Run up to N envs concurrently (default: 4)")
     args = parser.parse_args()
 
-    if args.envs:
+    if args.envs_file:
+        env_names = read_envs_file(Path(args.envs_file))
+    elif args.envs:
         env_names = [e.strip() for e in args.envs.split(",") if e.strip()]
     else:
         env_names = discover_env_names()
@@ -110,6 +140,20 @@ def main() -> None:
         print("\n-- Failed --")
         for name, _, note in sorted(failed, key=lambda x: x[0]):
             print(f"  {name}: {note}")
+        if args.write_failures:
+            out_path = Path(args.write_failures)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(out_path, "w", encoding="utf-8") as f:
+                for name, _, _ in sorted(failed, key=lambda x: x[0]):
+                    f.write(name + "\n")
+            print(f"\nWritten failed envs to: {out_path}")
+        if args.write_failure_notes:
+            notes_path = Path(args.write_failure_notes)
+            notes_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(notes_path, "w", encoding="utf-8") as f:
+                for name, _, note in sorted(failed, key=lambda x: x[0]):
+                    f.write(f"{name}: {note}\n")
+            print(f"Written failed env notes to: {notes_path}")
 
 
 if __name__ == "__main__":

@@ -235,10 +235,6 @@ class ValidateUserIdentity(Tool):
                             "description": "Last name for user search or additional validation (required if user_id not provided)",
                         },
                     },
-                    "anyOf": [
-                        {"required": ["user_id"]},
-                        {"required": ["first_name", "last_name"]},
-                    ],
-                },
+},
             },
         }

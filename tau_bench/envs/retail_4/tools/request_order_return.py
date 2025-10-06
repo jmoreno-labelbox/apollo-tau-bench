@@ -252,10 +252,6 @@ class RequestOrderReturn(Tool):
                         },
                     },
                     "required": ["user_id", "order_id"],
-                    "oneOf": [
-                        {"required": ["return_items", "return_reason"]},
-                        {"required": ["item_id"]},
-                    ],
-                },
+},
             },
         }

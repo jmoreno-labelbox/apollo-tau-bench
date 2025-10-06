@@ -38,7 +38,7 @@ class UpdateProjectRequiredHours(Tool):
                             "description": "The project ID",
                         },
                         "required_hours": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "Hours per week required by the project",
                         },
                     },

@@ -163,10 +163,6 @@ class RepositionAircraft(Tool):
                             "description": "Audit text (optional)",
                         },
                     },
-                    "oneOf": [
-                        {"required": ["aircraft_id", "to_iata"]},
-                        {"required": ["tail_number", "to_iata"]},
-                    ],
-                },
+},
             },
         }

@@ -130,7 +130,7 @@ tasks = [
         ],
         "outputs": [
                 "\"street_address\": \"987 Birch St\", \"city\": \"New City\", \"postal_code\": \"L1V 2T7\"",
-                "\"number\": \"555-999-8888\"",
+                ""number": \"555-999-8888\"",
                 "\"transaction_id\": \"txn_5d4e7g1i-5e7c-8d3g-3e6i-9g1e3f7h8d4d\"",
                 "\"transaction_id\": \"txn_4e5f8h2j-6f8d-9e4h-4f7j-1h2f4g8i9e5e\""
         ]
@@ -677,7 +677,7 @@ tasks = [
         ],
         "outputs": [
                 "\"country\": \"United Kingdom\"",
-                "\"number\": \"+44 7890 123456\"",
+                ""number": \"+44 7890 123456\"",
                 "\"currency\": \"GBP\", \"available_account_types\": [\"Checking\", \"Savings\", \"ISA\"]",
                 "\"account_id\": \"acc_generated_40\", \"status\": \"Active\""
         ]
@@ -1973,7 +1973,7 @@ tasks = [
         ],
         "outputs": [
                 "\"last_name\": \"Horvat\", \"marital_status\": \"Married\"",
-                "\"number\": \"+386 51 987 654\"",
+                ""number": \"+386 51 987 654\"",
                 "\"balance\": 3500.0"
         ]
     }
@@ -3974,7 +3974,7 @@ tasks = [
                 "\"overdraft_limit\": \"500.00\"",
                 "\"account_id\": \"acc_sav_1002\", \"balance\": 15780.0",
                 "\"credit_score\": 780",
-                "\"type\": \"Work\", \"number\": \"310-555-1234\""
+                "\"type\": \"Work\", "number": \"310-555-1234\""
         ]
     }
     ,
@@ -4174,7 +4174,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"type\": \"Work\", \"number\": \"098-765-4741\"",
+                "\"type\": \"Work\", "number": \"098-765-4741\"",
                 "\"account_id\": \"acc_chk_2001\", \"balance\": 3100.75",
                 "\"credit_score\": 820",
                 "\"payment_id\": \"sp_generated_41\", \"status\": \"Active\""
@@ -5922,7 +5922,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"type\": \"Home\", \"number\": \"111-555-9999\"",
+                "\"type\": \"Home\", "number": \"111-555-9999\"",
                 "\"payment_id\": \"sp_b3a2c1d9-8e7f-6a5b-4c3d-2e1f0a9b8c7d\"",
                 "\"payment_id\": \"sp_c1d9b3a2-7f6a-5b4c-3d2e-1f0a9b8c7d6e\"",
                 "\"payment_id\": \"sp_d9b3a2c1-f0a9-b8c7-d6e5-f4a3b2c1d0e9\"",
@@ -6474,7 +6474,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"number\": \"+33 7 88 99 00 11\"",
+                ""number": \"+33 7 88 99 00 11\"",
                 "\"transaction_id\": \"txn_6e7f8g9h-0i1j-2k3l-4m5n-6o7p8q9r0s1t\"",
                 "\"balance\": -500.0"
         ]

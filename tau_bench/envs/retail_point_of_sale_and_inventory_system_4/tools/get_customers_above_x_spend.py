@@ -30,7 +30,7 @@ class GetCustomersAboveXSpend(Tool):  #VIEW
                     "type": "object",
                     "properties": {
                         "amount": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The minimum total spend threshold.",
                         }
                     },

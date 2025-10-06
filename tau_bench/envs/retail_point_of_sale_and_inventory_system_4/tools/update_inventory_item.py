@@ -55,7 +55,7 @@ class UpdateInventoryItem(Tool):  #CREATE
                             "description": "The inventory item's id to update.",
                         },
                         "quantity_change": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The amount to change the quantity by (can be negative).",
                         },
                         "current_time": {

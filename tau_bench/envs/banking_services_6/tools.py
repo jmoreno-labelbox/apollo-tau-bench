@@ -149,7 +149,7 @@ class CalculateSum(Tool):
                         "parameters": {
                                 "type": "object",
                                 "properties": {
-                                        "values": {"type": "array", "description": "The values to sum up."}
+                                        "values": {"type": "array", "items": {"type": "string"}, "description": "The values to sum up."}
                                 },
                                 "required": ["values"],
                         },

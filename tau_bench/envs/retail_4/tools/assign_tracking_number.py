@@ -340,7 +340,6 @@ class AssignTrackingNumber(Tool):
                             "description": "Optional destination country for delivery. If not provided, will use country from first order's delivery address.",
                         },
                     },
-                    "anyOf": [{"required": ["order_id"]}, {"required": ["order_ids"]}],
-                },
+},
             },
         }

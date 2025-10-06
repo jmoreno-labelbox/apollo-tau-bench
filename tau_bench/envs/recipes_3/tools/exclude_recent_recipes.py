@@ -34,7 +34,7 @@ class ExcludeRecentRecipes(Tool):
                     "type": "object",
                     "properties": {
                         "recipe_ids": {"type": "array", "items": {"type": "integer"}},
-                        "recent_history": {"type": "array"},
+                        "recent_history": {"type": "array", "items": {"type": "object"}},
                     },
                     "required": ["recipe_ids", "recent_history"],
                 },

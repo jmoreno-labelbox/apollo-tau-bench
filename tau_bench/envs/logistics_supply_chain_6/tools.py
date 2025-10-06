@@ -1249,7 +1249,8 @@ class FindSuppliers(Tool):
                     "type": "object",
                     "properties": {
                         "product_categories": {
-                            "type": "list",
+                            "type": "array",
+                            "items": {"type": "string"},
                             "description": "The product categories to search for (e.g., 'Electronics', 'Apparel').",
                         }
                     },
@@ -1390,7 +1391,8 @@ class FindWarehouses(Tool):
                             "description": "Filter by a special capability (e.g., 'Cold Storage', 'Hazmat Certified').",
                         },
                         "special_capabilities": {
-                            "type": "list",
+                            "type": "array",
+                            "items": {"type": "string"},
                             "description": "Filter by multiple special capabilities (e.g., 'Cold Storage', 'Hazmat Certified').",
                         },
                     },

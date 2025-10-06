@@ -113,7 +113,6 @@ class GetFixPlanItems(Tool):
                             "description": "Maximum number of items to return per plan",
                         },
                     },
-                    "anyOf": [{"required": ["plan_ids"]}, {"required": ["plan_id"]}],
-                },
+},
             },
         }

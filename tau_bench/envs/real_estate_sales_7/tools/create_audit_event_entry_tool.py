@@ -53,7 +53,13 @@ class CreateAuditEventEntryTool(Tool):
                         "action": {"type": "string"},
                         "entity_type": {"type": "string"},
                         "entity_id": {"type": "string"},
-                        "metadata_json": {"type": ["object", "array", "null"]},
+                        "metadata_json": {
+                            "oneOf": [
+                                {"type": "object"},
+                                {"type": "array", "items": {"type": "object"}},
+                                {"type": "null"}
+                            ]
+                        },
                     },
                     "required": ["actor_id", "action", "entity_type", "entity_id"],
                 },

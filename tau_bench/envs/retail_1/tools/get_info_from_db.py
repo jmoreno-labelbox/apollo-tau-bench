@@ -55,7 +55,7 @@ class GetInfoFromDB(Tool):  #READ
                             "description": "Dictionary/List of ways to filter items in the database. Dictionaries are AND conditions, lists are OR conditions.",
                         },
                         "required_fields": {
-                            "type": "list",
+                            "type": "array",
                             "items": {"type": "string"},
                             "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries.",
                         },

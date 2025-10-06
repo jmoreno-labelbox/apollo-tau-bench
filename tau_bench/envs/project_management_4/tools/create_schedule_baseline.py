@@ -176,7 +176,7 @@ class CreateScheduleBaseline(Tool):
                     "properties": {
                         "project_id": {"type": "string", "description": "Project ID"},
                         "baseline_id": {"type": "string", "description": "Baseline ID"},
-                        "create_date": {"type": "date", "description": "Creation date"},
+                        "create_date": {"type": "string", "description": "Creation date"},
                         "baseline_name": {
                             "type": "string",
                             "description": "Name of the baseline",

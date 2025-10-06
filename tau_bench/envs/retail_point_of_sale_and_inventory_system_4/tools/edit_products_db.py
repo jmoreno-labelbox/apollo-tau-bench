@@ -238,7 +238,7 @@ class EditProductsDb(Tool):  #CREATE
                             "description": "Category of the product.",
                         },
                         "price": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Price of the product.",
                         },
@@ -258,7 +258,7 @@ class EditProductsDb(Tool):  #CREATE
                             "description": "Supplier ID for the product.",
                         },
                         "weight_kg": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Weight in kg.",
                         },
@@ -273,7 +273,7 @@ class EditProductsDb(Tool):  #CREATE
                             "description": "Brand of the product.",
                         },
                         "cost": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Cost of the product.",
                         },
@@ -283,12 +283,12 @@ class EditProductsDb(Tool):  #CREATE
                             "description": "Barcode of the product.",
                         },
                         "tax_rate": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Tax rate for the product.",
                         },
                         "discount_rate": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Discount rate for the product.",
                         },

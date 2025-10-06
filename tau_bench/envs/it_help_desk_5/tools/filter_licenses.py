@@ -39,7 +39,7 @@ class FilterLicenses(Tool):
                     "type": "object",
                     "properties": {
                         "utilization": {
-                            "type": "float",
+                            "type": "number",
                             "description": "Filters liceses by utilization.",
                         },
                     },

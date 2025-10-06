@@ -446,22 +446,6 @@ class UpsertCrewCertification(Tool):
                             "description": "Audit text (optional)",
                         },
                     },
-                    "oneOf": [
-                        {
-                            "required": [
-                                "crew_member_id",
-                                "certification_code",
-                                "issue_date",
-                            ]
-                        },
-                        {
-                            "required": [
-                                "crew_member_id",
-                                "certification_id",
-                                "issue_date",
-                            ]
-                        },
-                    ],
-                },
+},
             },
         }

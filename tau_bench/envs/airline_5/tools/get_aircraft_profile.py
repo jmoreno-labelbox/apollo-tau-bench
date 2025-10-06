@@ -135,20 +135,16 @@ class GetAircraftProfile(Tool):
             "function": {
                 "name": "GetAircraftProfile",
                 "description": "Lookup an aircraft by ID or tail number, enriched with model specs and airport details.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "aircraft_id": {"type": "string", "description": "e.g., AC001"},
-                        "tail_number": {
-                            "type": "string",
-                            "description": "e.g., PR-GOL",
-                        },
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "aircraft_id": {"type": "string", "description": "e.g., AC001"},
+                    "tail_number": {
+                        "type": "string",
+                        "description": "e.g., PR-GOL",
                     },
-                    "oneOf": [
-                        {"required": ["aircraft_id"]},
-                        {"required": ["tail_number"]},
-                    ],
-                    "additionalProperties": False,
                 },
+                "additionalProperties": False,
+            },
             },
         }

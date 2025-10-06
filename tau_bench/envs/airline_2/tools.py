@@ -1185,8 +1185,8 @@ class UpdateReservationDetails(Tool):
                         "contact_email": {"type": "string"},
                         "contact_phone": {"type": "string"},
                         "insurance": {"type": "string"},
-                        "total_baggages": {"type": \"integer\"},
-                        "nonfree_baggages": {"type": \"integer\"},
+                        "total_baggages": {"type": "integer"},
+                        "nonfree_baggages": {"type": "integer"},
                         "flights": {
                             "type": "array",
                             "items": {

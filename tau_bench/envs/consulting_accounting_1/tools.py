@@ -922,8 +922,7 @@ class CalculateTotals(Tool):
                         "invoice_lines": {
                             "type": "array",
                             "items": {
-                                "anyOf": [{"type": "string"}, {"type": "object"}]
-                            },
+},
                         },
                         "hst_rate": {"type": "number"},
                     },

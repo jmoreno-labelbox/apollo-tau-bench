@@ -363,7 +363,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"customer_id\": \"f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9\", \"mailing_address\": {\"street_address\": \"789 Pine Street\", \"city\": \"College Town\", \"state\": \"TX\", \"postal_code\": \"77840\", \"country\": \"USA\"}, \"phone_numbers\": [{\"type\": \"Mobile\", \"number\": \"555-222-3333\", \"is_primary\": true}]"
+                "\"customer_id\": \"f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9\", \"mailing_address\": {\"street_address\": \"789 Pine Street\", \"city\": \"College Town\", \"state\": \"TX\", \"postal_code\": \"77840\", \"country\": \"USA\"}, \"phone_numbers\": [{\"type\": \"Mobile\", "number": \"555-222-3333\", \"is_primary\": true}]"
         ]
     }
     ,
@@ -1138,7 +1138,7 @@ tasks = [
         ],
         "outputs": [
                 "\"ticket_id\": \"tkt_1\"",
-                "\"contact_numbers\": [{\"type\":\"Mobile\",\"number\":\"480-555-1234\",\"is_primary\":false}, …]"
+                "\"contact_numbers\": [{\"type\":\"Mobile\","number":\"480-555-1234\",\"is_primary\":false}, …]"
         ]
     }
     ,

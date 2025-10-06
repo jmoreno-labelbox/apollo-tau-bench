@@ -107,7 +107,7 @@ class update_customer(Tool):
                             "description": "The customer's birthdate. YYYY-MM-DD",
                         },
                         "loyalty_points": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The number of loyalty points the customer has",
                         },
                         "memebership_level": {
@@ -115,7 +115,7 @@ class update_customer(Tool):
                             "description": "The membership tier of the customer",
                         },
                         "opt_in_marketing": {
-                            "type": "bool",
+                            "type": \"boolean\",
                             "description": "OPTIONAL. If the customer is opting into marketing",
                         },
                     },

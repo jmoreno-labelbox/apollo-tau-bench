@@ -630,7 +630,7 @@ class ExcludeRecentRecipes(Tool):
                     "type": "object",
                     "properties": {
                         "recipe_ids": {"type": "array", "items": {"type": "integer"}},
-                        "recent_history": {"type": "array"},
+                        "recent_history": {"type": "array", "items": {"type": "object"}},
                     },
                     "required": ["recipe_ids", "recent_history"],
                 },
@@ -872,9 +872,9 @@ class CategorizeAndFlag(Tool):
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "items": {"type": "array"},
+                        "items": {"type": "array", "items": {"type": "object"}},
                         "household_id": {"type": "integer"},
-                        "recent_30d": {"type": "array"},
+                        "recent_30d": {"type": "array", "items": {"type": "object"}},
                     },
                     "required": ["items", "household_id", "recent_30d"],
                 },
@@ -1030,7 +1030,7 @@ class FilterRecipesByInventory(Tool):
                         "recipe_ids": {"type": "array", "items": {"type": "integer"}},
                         "allow_pantry_staples": {"type": "boolean"},
                         "max_missing_ingredients": {"type": "integer"},
-                        "recent_history": {"type": "array"},
+                        "recent_history": {"type": "array", "items": {"type": "object"}},
                     },
                     "required": ["household_id", "recipe_ids"],
                 },
@@ -1315,7 +1315,7 @@ class ValidateRecipeSubstitutions(Tool):
                     "properties": {
                         "recipe_id": {"type": "integer"},
                         "household_id": {"type": "integer"},
-                        "substitutions": {"type": "array"},
+                        "substitutions": {"type": "array", "items": {"type": "object"}},
                         "require_peanut_free": {"type": "boolean"},
                         "preserve_section": {"type": "boolean"},
                     },
@@ -1909,7 +1909,7 @@ class AddGroceryListItems(Tool):
                     "type": "object",
                     "properties": {
                         "list_id": {"type": "integer"},
-                        "items": {"type": "array"},
+                        "items": {"type": "array", "items": {"type": "object"}},
                     },
                     "required": ["list_id", "items"],
                 },
@@ -2747,7 +2747,7 @@ class AddOrderItems(Tool):
                     "type": "object",
                     "properties": {
                         "order_id": {"type": "integer"},
-                        "items": {"type": "array"},
+                        "items": {"type": "array", "items": {"type": "object"}},
                     },
                     "required": ["order_id", "items"],
                 },

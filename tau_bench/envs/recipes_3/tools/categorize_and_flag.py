@@ -73,9 +73,9 @@ class CategorizeAndFlag(Tool):
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "items": {"type": "array"},
+                        "items": {"type": "array", "items": {"type": "object"}},
                         "household_id": {"type": "integer"},
-                        "recent_30d": {"type": "array"},
+                        "recent_30d": {"type": "array", "items": {"type": "object"}},
                     },
                     "required": ["items", "household_id", "recent_30d"],
                 },

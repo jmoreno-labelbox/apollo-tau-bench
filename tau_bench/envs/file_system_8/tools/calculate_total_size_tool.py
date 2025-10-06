@@ -20,8 +20,7 @@ class CalculateTotalSizeTool(Tool):
                         "file_paths": {
                             "type": "array",
                             "items": {
-                                "oneOf": [{"type": "string"}, {"type": "object"}]
-                            },
+},
                         },
                         "file_list_name": {"type": "string"},
                     },

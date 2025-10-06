@@ -226,18 +226,18 @@ class EditTransactionsDb(Tool):  #CREATE
                             "description": "Customer ID.",
                         },
                         "line_items": {
-                            "type": "list",
+                            "type": "array",
                             "items": {"type": "object"},
                             "default": None,
                             "description": "Line items for the transaction.",
                         },
                         "total_amount": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Total amount for the transaction.",
                         },
                         "tax_amount": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Tax amount for the transaction.",
                         },
@@ -247,17 +247,17 @@ class EditTransactionsDb(Tool):  #CREATE
                             "description": "Payment method.",
                         },
                         "tax_rate": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Tax rate.",
                         },
                         "discount_total": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Total discount applied.",
                         },
                         "change_given": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Change given to customer.",
                         },

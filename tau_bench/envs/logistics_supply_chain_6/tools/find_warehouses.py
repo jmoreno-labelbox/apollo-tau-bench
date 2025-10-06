@@ -93,7 +93,8 @@ class FindWarehouses(Tool):
                             "description": "Filter by a special capability (e.g., 'Cold Storage', 'Hazmat Certified').",
                         },
                         "special_capabilities": {
-                            "type": "list",
+                            "type": "array",
+                            "items": {"type": "string"},
                             "description": "Filter by multiple special capabilities (e.g., 'Cold Storage', 'Hazmat Certified').",
                         },
                     },

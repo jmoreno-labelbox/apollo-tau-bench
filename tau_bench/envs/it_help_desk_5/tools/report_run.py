@@ -51,6 +51,7 @@ class ReportRun(Tool):
                         },
                         "run_data": {
                             "type": "array",
+                            "items": {"type": "string"},
                             "item": {"type": "string"},
                             "description": "The data to include in the run.",
                         },

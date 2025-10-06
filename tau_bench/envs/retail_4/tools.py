@@ -283,8 +283,7 @@ class AllocateInventory(Tool):
                             "default": 1,
                         },
                     },
-                    "anyOf": [{"required": ["item_id"]}, {"required": ["item_ids"]}],
-                },
+},
             },
         }
 
@@ -587,11 +586,7 @@ class AssignCourier(Tool):
                         },
                     },
                     "required": ["destination_country"],
-                    "anyOf": [
-                        {"required": ["order_value"]},
-                        {"required": ["order_values"]},
-                    ],
-                },
+},
             },
         }
 
@@ -1067,11 +1062,7 @@ class SearchProductsByFilter(Tool):
                             "type": "object",
                             "description": "Filter by specific variant options. Values can be strings or arrays for multiple options (e.g., {'color': ['red', 'blue'], 'battery life': '20 hours', 'size': ['large', 'medium']})",
                             "additionalProperties": {
-                                "oneOf": [
-                                    {"type": "string"},
-                                    {"type": "array", "items": {"type": "string"}},
-                                ]
-                            },
+},
                         },
                         "price_flag": {
                             "type": "string",
@@ -3117,11 +3108,7 @@ class UpdateOrderStatus(Tool):
                             "description": "Courier identifier (required if tracking_id provided)",
                         },
                     },
-                    "anyOf": [
-                        {"required": ["order_id", "new_status"]},
-                        {"required": ["order_ids", "new_status"]},
-                    ],
-                },
+},
             },
         }
 
@@ -3932,18 +3919,7 @@ class CreateSupplyOrder(Tool):
                             "description": "Quantity to order for each item (not distributed - each item gets this full quantity)",
                         },
                         "unit_cost": {
-                            "oneOf": [
-                                {
-                                    "type": "number",
-                                    "description": "Single unit cost applied to all items",
-                                },
-                                {
-                                    "type": "array",
-                                    "items": {"type": "number"},
-                                    "description": "List of unit costs, each corresponding to an item in item_ids (same order)",
-                                },
-                            ],
-                            "description": "Cost per unit. Can be a single value or list of values matching item_ids order",
+"description": "Cost per unit. Can be a single value or list of values matching item_ids order",
                         },
                         "product_id": {
                             "type": "string",
@@ -4197,11 +4173,7 @@ class ValidateUserIdentity(Tool):
                             "description": "Last name for user search or additional validation (required if user_id not provided)",
                         },
                     },
-                    "anyOf": [
-                        {"required": ["user_id"]},
-                        {"required": ["first_name", "last_name"]},
-                    ],
-                },
+},
             },
         }
 
@@ -5040,11 +5012,7 @@ class RequestOrderReturn(Tool):
                         },
                     },
                     "required": ["user_id", "order_id"],
-                    "oneOf": [
-                        {"required": ["return_items", "return_reason"]},
-                        {"required": ["item_id"]},
-                    ],
-                },
+},
             },
         }
 
@@ -7867,11 +7835,7 @@ class GetProductItemsPerSupplier:
                             "description": "Optional stock filter: true = only items with stock, false = only out_of_stock/discontinued items, null/undefined = all items",
                         },
                         "product_type": {
-                            "oneOf": [
-                                {"type": "string"},
-                                {"type": "array", "items": {"type": "string"}},
-                            ],
-                            "description": "Optional product type(s) to filter by. Can be a single string (e.g., 'headphones') or list of strings (e.g., ['smartphone', 'laptop']). Matches product names containing these terms.",
+"description": "Optional product type(s) to filter by. Can be a single string (e.g., 'headphones') or list of strings (e.g., ['smartphone', 'laptop']). Matches product names containing these terms.",
                         },
                     },
                     "required": ["supplier_id"],
@@ -9249,8 +9213,7 @@ class AssignTrackingNumber(Tool):
                             "description": "Optional destination country for delivery. If not provided, will use country from first order's delivery address.",
                         },
                     },
-                    "anyOf": [{"required": ["order_id"]}, {"required": ["order_ids"]}],
-                },
+},
             },
         }
 

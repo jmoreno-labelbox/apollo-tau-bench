@@ -277,11 +277,7 @@ class GetProductItemsPerSupplier:
                             "description": "Optional stock filter: true = only items with stock, false = only out_of_stock/discontinued items, null/undefined = all items",
                         },
                         "product_type": {
-                            "oneOf": [
-                                {"type": "string"},
-                                {"type": "array", "items": {"type": "string"}},
-                            ],
-                            "description": "Optional product type(s) to filter by. Can be a single string (e.g., 'headphones') or list of strings (e.g., ['smartphone', 'laptop']). Matches product names containing these terms.",
+"description": "Optional product type(s) to filter by. Can be a single string (e.g., 'headphones') or list of strings (e.g., ['smartphone', 'laptop']). Matches product names containing these terms.",
                         },
                     },
                     "required": ["supplier_id"],

@@ -159,7 +159,6 @@ class AllocateInventory(Tool):
                             "default": 1,
                         },
                     },
-                    "anyOf": [{"required": ["item_id"]}, {"required": ["item_ids"]}],
-                },
+},
             },
         }

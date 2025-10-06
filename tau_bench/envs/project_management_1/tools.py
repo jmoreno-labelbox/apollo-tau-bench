@@ -452,7 +452,8 @@ class UpdateEmployeesUtilization(Tool):
                     "type": "object",
                     "properties": {
                         "employee_ids": {
-                            "type": "list",
+                            "type": "array",
+                            "items": {"type": "string"},
                             "description": "List of employee IDs",
                         }
                     },
@@ -1122,7 +1123,7 @@ class UpdateProjectRequiredHours(Tool):
                             "description": "The project ID",
                         },
                         "required_hours": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "Hours per week required by the project",
                         },
                     },
@@ -1773,11 +1774,11 @@ class CreateRotationSchedule(Tool):
                             "description": "Hours to rotate",
                         },
                         "holiday_coverage": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "Flag if the rotation is holiday coverage",
                         },
                         "skill_development_rotation": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "Flag if the rotation is skill development rotation",
                         },
                     },
@@ -2125,7 +2126,7 @@ class CreateProject(Tool):
                             "description": "ID for the project",
                         },
                         "priority": {
-                            "type": "str",
+                            "type": "string",
                             "description": "Project's priority",
                         },
                         "status": {
@@ -2141,7 +2142,7 @@ class CreateProject(Tool):
                             "description": "Project's end date",
                         },
                         "required_hours_per_week": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "Project's required allocation hours per week",
                         },
                         "department": {
@@ -2149,7 +2150,7 @@ class CreateProject(Tool):
                             "description": "Project's department",
                         },
                         "needs_resources": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "Indicates if the project need more allocation",
                         },
                     },

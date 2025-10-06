@@ -252,7 +252,7 @@ class EditCustomersDb(Tool):  #CREATE
                             "description": "The membership level of a customer to create or update a record with.",
                         },
                         "loyalty_points": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "default": None,
                             "description": "The number of loyalty_points a customer has for creating or updating a record.",
                         },
@@ -332,7 +332,7 @@ class GetCustomersInfoByParam(Tool):  #VIEW
                             "description": "Dictionary of ways to filter items in the database. To pass the filter an item must match one of the possible given values for all the filtering paramets",
                         },
                         "info_items": {
-                            "type": "list",
+                            "type": "array",
                             "items": {"type": "string"},
                             "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries.",
                         },
@@ -674,7 +674,7 @@ class GetEmployeesInfoByParam(Tool):  #VIEW
                             "description": "Dictionary of ways to filter items in the database. To pass the filter an item must match one of the possible given values for all the filtering paramets",
                         },
                         "info_items": {
-                            "type": "list",
+                            "type": "array",
                             "items": {"type": "string"},
                             "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries.",
                         },
@@ -799,97 +799,7 @@ class EditProductsDb(Tool):  #CREATE
             payload = {"result": new_row}
             out = json.dumps(payload)
             return out
-        pass
-        db = data.get("products", [])
-        if sku:
-            idx, row = _find_by_id(db, "sku", sku)
-            if row:
-                if delete:
-                    #--- REMOVE ---
-                    del db[idx]
-                    payload = {"result": "deleted"}
-                    out = json.dumps(payload)
-                    return out
-                else:
-                    #--- MODIFY ---
-                    if name is not None:
-                        row["name"] = name
-                    if category is not None:
-                        row["category"] = category
-                    if price is not None:
-                        row["price"] = price
-                    if is_discountable is not None:
-                        row["is_discountable"] = is_discountable
-                    if description is not None:
-                        row["description"] = description
-                    if supplier_id is not None:
-                        row["supplier_id"] = supplier_id
-                    if weight_kg is not None:
-                        row["weight_kg"] = weight_kg
-                    if dimensions_cm is not None:
-                        row["dimensions_cm"] = dimensions_cm
-                    if brand is not None:
-                        row["brand"] = brand
-                    if cost is not None:
-                        row["cost"] = cost
-                    if barcode is not None:
-                        row["barcode"] = barcode
-                    if tax_rate is not None:
-                        row["tax_rate"] = tax_rate
-                    if discount_rate is not None:
-                        row["discount_rate"] = discount_rate
-                    if status is not None:
-                        row["status"] = status
-                    if expiry_date is not None:
-                        row["expiry_date"] = expiry_date
-                    if current_time is not None:
-                        row["updated_at"] = current_time
-                    payload = {"result": row}
-                    out = json.dumps(payload)
-                    return out
-            else:
-                payload = {"error": f"Product {sku} not found"}
-                out = json.dumps(payload)
-                return out
-        else:
-            #--- ADD ---
-            if name is None or price is None or current_time is None:
-                payload = {
-                        "error": "Missing required field for creation (name, price, current_time)"
-                    }
-                out = json.dumps(
-                    payload)
-                return out
-            new_row = {
-                "sku": sku if sku is not None else f"SKU-{1000 + len(db) + 1}",
-                "name": name,
-                "category": category if category is not None else "Uncategorized",
-                "price": price,
-                "is_discountable": (
-                    is_discountable if is_discountable is not None else True
-                ),
-                "description": (
-                    description if description is not None else "No description"
-                ),
-                "supplier_id": supplier_id if supplier_id is not None else "Unknown",
-                "weight_kg": weight_kg if weight_kg is not None else 0.0,
-                "dimensions_cm": (
-                    dimensions_cm if dimensions_cm is not None else "Unknown"
-                ),
-                "brand": brand if brand is not None else "Unknown",
-                "cost": cost if cost is not None else 0.0,
-                "barcode": barcode if barcode is not None else "Unknown",
-                "tax_rate": tax_rate if tax_rate is not None else 0.0825,
-                "discount_rate": discount_rate if discount_rate is not None else 0.0,
-                "status": status if status is not None else "active",
-                "expiry_date": expiry_date if expiry_date is not None else "None",
-                "created_at": current_time,
-                "updated_at": current_time,
-            }
-            db.append(new_row)
-            payload = {"result": new_row}
-            out = json.dumps(payload)
-            return out
+        
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -922,7 +832,7 @@ class EditProductsDb(Tool):  #CREATE
                             "description": "Category of the product.",
                         },
                         "price": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Price of the product.",
                         },
@@ -942,7 +852,7 @@ class EditProductsDb(Tool):  #CREATE
                             "description": "Supplier ID for the product.",
                         },
                         "weight_kg": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Weight in kg.",
                         },
@@ -957,7 +867,7 @@ class EditProductsDb(Tool):  #CREATE
                             "description": "Brand of the product.",
                         },
                         "cost": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Cost of the product.",
                         },
@@ -967,12 +877,12 @@ class EditProductsDb(Tool):  #CREATE
                             "description": "Barcode of the product.",
                         },
                         "tax_rate": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Tax rate for the product.",
                         },
                         "discount_rate": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Discount rate for the product.",
                         },
@@ -1047,7 +957,7 @@ class GetProductsInfoByParam(Tool):  #VIEW
                             "description": "Dictionary of ways to filter items in the database. To pass the filter an item must match one of the possible given values for all the filtering paramets",
                         },
                         "info_items": {
-                            "type": "list",
+                            "type": "array",
                             "items": {"type": "string"},
                             "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries.",
                         },
@@ -1301,22 +1211,22 @@ class EditInventoryDb(Tool):  #CREATE
                             "description": "Store ID.",
                         },
                         "quantity": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "default": None,
                             "description": "Quantity in stock.",
                         },
                         "reserved_quantity": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "default": None,
                             "description": "Reserved quantity.",
                         },
                         "reorder_level": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "default": None,
                             "description": "Reorder level.",
                         },
                         "safety_stock": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "default": None,
                             "description": "Safety stock.",
                         },
@@ -1366,20 +1276,7 @@ class GetInventoryInfoByParam(Tool):  #VIEW
         ]
         out = json.dumps(payload)
         return out
-        pass
-        db = data.get("inventory", [])
-        filtered_db = _filter_db(db, filter_params)
-        if not info_items:
-            payload = filtered_db
-            out = json.dumps(payload)
-            return out
-        payload = [
-                {info_item: row.get(info_item) for info_item in info_items}
-                for row in filtered_db
-            ]
-        out = json.dumps(
-            payload)
-        return out
+        
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -1396,7 +1293,7 @@ class GetInventoryInfoByParam(Tool):  #VIEW
                             "description": "Dictionary of ways to filter items in the database. To pass the filter an item must match one of the possible given values for all the filtering paramets",
                         },
                         "info_items": {
-                            "type": "list",
+                            "type": "array",
                             "items": {"type": "string"},
                             "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries.",
                         },
@@ -1508,7 +1405,7 @@ class UpdateInventoryItem(Tool):  #CREATE
                             "description": "The inventory item's id to update.",
                         },
                         "quantity_change": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The amount to change the quantity by (can be negative).",
                         },
                         "current_time": {
@@ -1615,82 +1512,7 @@ class EditPromotionsDb(Tool):  #CREATE
             payload = {"result": new_row}
             out = json.dumps(payload)
             return out
-        pass
-        db = data.get("promotions", [])
-        if promotion_id:
-            idx, row = _find_by_id(db, "promotion_id", promotion_id)
-            if row:
-                if delete:
-                    #--- REMOVE ---
-                    del db[idx]
-                    payload = {"result": "deleted"}
-                    out = json.dumps(payload)
-                    return out
-                else:
-                    #--- MODIFY ---
-                    if name is not None:
-                        row["name"] = name
-                    if type is not None:
-                        row["type"] = type
-                    if discount_value is not None:
-                        row["discount_value"] = discount_value
-                    if description is not None:
-                        row["description"] = description
-                    if applicable_skus is not None:
-                        row["applicable_skus"] = applicable_skus
-                    if start_date is not None:
-                        row["start_date"] = start_date
-                    if end_date is not None:
-                        row["end_date"] = end_date
-                    if status is not None:
-                        row["status"] = status
-                    if usage_limit is not None:
-                        row["usage_limit"] = usage_limit
-                    if times_used is not None:
-                        row["times_used"] = times_used
-                    payload = {"result": row}
-                    out = json.dumps(payload)
-                    return out
-            else:
-                payload = {"error": f"Promotion {promotion_id} not found"}
-                out = json.dumps(payload)
-                return out
-        else:
-            #--- ADD ---
-            if not promotion_id:
-                promotion_id = f"PROMO-{1000 + len(db) + 1}"
-            if (
-                name is None
-                or type is None
-                or discount_value is None
-                or applicable_skus is None
-                or start_date is None
-            ):
-                payload = {
-                        "error": "Missing required field for creation (name, type, discount_value, applicable_skus)"
-                    }
-                out = json.dumps(
-                    payload)
-                return out
-            new_row = {
-                "promotion_id": promotion_id,
-                "name": name,
-                "type": type,
-                "discount_value": discount_value,
-                "description": (
-                    description if description is not None else "No description"
-                ),
-                "applicable_skus": applicable_skus,
-                "start_date": start_date if len(start_date) < 10 else start_date[:10],
-                "end_date": end_date if end_date is not None else "9999-12-31",
-                "status": status if status is not None else "active",
-                "usage_limit": usage_limit if usage_limit is not None else 0,
-                "times_used": times_used if times_used is not None else 0,
-            }
-            db.append(new_row)
-            payload = {"result": new_row}
-            out = json.dumps(payload)
-            return out
+        
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -1723,7 +1545,7 @@ class EditPromotionsDb(Tool):  #CREATE
                             "description": "Type of promotion.",
                         },
                         "discount_value": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Discount value.",
                         },
@@ -1733,7 +1555,7 @@ class EditPromotionsDb(Tool):  #CREATE
                             "description": "Description of the promotion.",
                         },
                         "applicable_skus": {
-                            "type": "list",
+                            "type": "array",
                             "items": {"type": "string"},
                             "default": None,
                             "description": "SKUs to which the promotion applies. If empty, applies to all products.",
@@ -1754,12 +1576,12 @@ class EditPromotionsDb(Tool):  #CREATE
                             "description": "Status of the promotion.",
                         },
                         "usage_limit": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "default": None,
                             "description": "Usage limit for the promotion.",
                         },
                         "times_used": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "default": None,
                             "description": "Number of times the promotion has been used.",
                         },
@@ -1794,20 +1616,7 @@ class GetPromotionsInfoByParam(Tool):  #VIEW
         ]
         out = json.dumps(payload)
         return out
-        pass
-        db = data.get("promotions", [])
-        filtered_db = _filter_db(db, filter_params)
-        if not info_items:
-            payload = filtered_db
-            out = json.dumps(payload)
-            return out
-        payload = [
-                {info_item: row.get(info_item) for info_item in info_items}
-                for row in filtered_db
-            ]
-        out = json.dumps(
-            payload)
-        return out
+        
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -1824,7 +1633,7 @@ class GetPromotionsInfoByParam(Tool):  #VIEW
                             "description": "Dictionary of ways to filter items in the database. To pass the filter an item must match one of the possible given values for all the filtering paramets",
                         },
                         "info_items": {
-                            "type": "list",
+                            "type": "array",
                             "items": {"type": "string"},
                             "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries.",
                         },
@@ -1936,88 +1745,7 @@ class EditTransactionsDb(Tool):  #CREATE
             payload = {"result": new_row}
             out = json.dumps(payload)
             return out
-        pass
-        db = data.get("transactions", [])
-        if transaction_id:
-            idx, row = _find_by_id(db, "transaction_id", transaction_id)
-            if row:
-                if delete:
-                    #--- REMOVE ---
-                    del db[idx]
-                    payload = {"result": "deleted"}
-                    out = json.dumps(payload)
-                    return out
-                else:
-                    #--- MODIFY ---
-                    if store_id is not None:
-                        row["store_id"] = store_id
-                    if employee_id is not None:
-                        row["employee_id"] = employee_id
-                    if current_time is not None:
-                        row["timestamp"] = current_time
-                    if customer_id is not None:
-                        row["customer_id"] = customer_id
-                    if line_items is not None:
-                        row["line_items"] = line_items
-                    if total_amount is not None:
-                        row["total_amount"] = total_amount
-                    if tax_amount is not None:
-                        row["tax_amount"] = tax_amount
-                    if payment_method is not None:
-                        row["payment_method"] = payment_method
-                    if tax_rate is not None:
-                        row["tax_rate"] = tax_rate
-                    if discount_total is not None:
-                        row["discount_total"] = discount_total
-                    if change_given is not None:
-                        row["change_given"] = change_given
-                    if status is not None:
-                        row["status"] = status
-                    payload = {"result": row}
-                    out = json.dumps(payload)
-                    return out
-            else:
-                payload = {"error": f"Transaction {transaction_id} not found"}
-                out = json.dumps(payload)
-                return out
-        else:
-            #--- ADD ---
-            if not transaction_id:
-                transaction_id = f"TXN-{1000 + len(db) + 1}"
-            if (
-                store_id is None
-                or employee_id is None
-                or current_time is None
-                or customer_id is None
-                or line_items is None
-            ):
-                payload = {
-                        "error": "Missing required field for creation (store_id, employee_id, current_time, customer_id, line_items)"
-                    }
-                out = json.dumps(
-                    payload)
-                return out
-            new_row = {
-                "transaction_id": transaction_id,
-                "store_id": store_id,
-                "employee_id": employee_id,
-                "timestamp": current_time,
-                "customer_id": customer_id,
-                "line_items": line_items,
-                "total_amount": total_amount if total_amount is not None else 0.0,
-                "tax_amount": tax_amount if tax_amount is not None else 0.0,
-                "payment_method": (
-                    payment_method if payment_method is not None else "Unknown"
-                ),
-                "tax_rate": tax_rate if tax_rate is not None else 0.0,
-                "discount_total": discount_total if discount_total is not None else 0.0,
-                "change_given": change_given if change_given is not None else 0.0,
-                "status": status if status is not None else "completed",
-            }
-            db.append(new_row)
-            payload = {"result": new_row}
-            out = json.dumps(payload)
-            return out
+        
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -2060,18 +1788,18 @@ class EditTransactionsDb(Tool):  #CREATE
                             "description": "Customer ID.",
                         },
                         "line_items": {
-                            "type": "list",
+                            "type": "array",
                             "items": {"type": "object"},
                             "default": None,
                             "description": "Line items for the transaction.",
                         },
                         "total_amount": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Total amount for the transaction.",
                         },
                         "tax_amount": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Tax amount for the transaction.",
                         },
@@ -2081,17 +1809,17 @@ class EditTransactionsDb(Tool):  #CREATE
                             "description": "Payment method.",
                         },
                         "tax_rate": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Tax rate.",
                         },
                         "discount_total": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Total discount applied.",
                         },
                         "change_given": {
-                            "type": "float",
+                            "type": "number",
                             "default": None,
                             "description": "Change given to customer.",
                         },
@@ -2188,7 +1916,7 @@ class GetTransactionsInfoByParam(Tool):  #VIEW
                             "description": "Dictionary of ways to filter items in the database. To pass the filter an item must match one of the possible given values for all the filtering paramets",
                         },
                         "info_items": {
-                            "type": "list",
+                            "type": "array",
                             "items": {"type": "string"},
                             "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries.",
                         },
@@ -2604,7 +2332,7 @@ class GetCustomersAboveXSpend(Tool):  #VIEW
                     "type": "object",
                     "properties": {
                         "amount": {
-                            "type": \"integer\",
+                            "type": "integer",
                             "description": "The minimum total spend threshold.",
                         }
                     },

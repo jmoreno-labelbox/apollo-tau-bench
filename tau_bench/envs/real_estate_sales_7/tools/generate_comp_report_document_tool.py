@@ -50,7 +50,7 @@ class GenerateCompReportDocumentTool(Tool):
                     "properties": {
                         "report_id": {"type": "integer"},
                         "subject_property_data": {"type": "object"},
-                        "comparable_data": {"type": "array"},
+                        "comparable_data": {"type": "array", "items": {"type": "object"}},
                         "market_analysis": {"type": "object"},
                         "mortgage_calculations": {"type": "object"},
                     },
