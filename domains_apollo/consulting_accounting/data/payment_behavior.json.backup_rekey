@@ -1,0 +1,97 @@
+[
+  {
+    "behavior_id": "BEH001",
+    "publisher_id": "PUB001",
+    "avg_days_to_pay": 18.5,
+    "payment_consistency": "reliable",
+    "early_payment_frequency": 0.15,
+    "late_payment_frequency": 0.25,
+    "max_days_overdue": 35,
+    "seasonal_patterns": {
+      "Q1": 16.2,
+      "Q2": 19.8,
+      "Q3": 20.1,
+      "Q4": 18.0
+    },
+    "communication_responsiveness": "good",
+    "payment_method_preference": "bank_transfer",
+    "notes": "Generally pays within net-30 terms, slower in summer months",
+    "last_updated": "2024-11-20T10:00:00Z"
+  },
+  {
+    "behavior_id": "BEH002",
+    "publisher_id": "PUB002",
+    "avg_days_to_pay": 42.3,
+    "payment_consistency": "moderate",
+    "early_payment_frequency": 0.05,
+    "late_payment_frequency": 0.60,
+    "max_days_overdue": 95,
+    "seasonal_patterns": {
+      "Q1": 38.5,
+      "Q2": 41.0,
+      "Q3": 48.7,
+      "Q4": 41.2
+    },
+    "communication_responsiveness": "fair",
+    "payment_method_preference": "cheque",
+    "notes": "Often requests extended terms, requires follow-up reminders",
+    "last_updated": "2024-11-20T10:00:00Z"
+  },
+  {
+    "behavior_id": "BEH003",
+    "publisher_id": "PUB003",
+    "avg_days_to_pay": 67.8,
+    "payment_consistency": "poor",
+    "early_payment_frequency": 0.02,
+    "late_payment_frequency": 0.85,
+    "max_days_overdue": 155,
+    "seasonal_patterns": {
+      "Q1": 62.1,
+      "Q2": 70.5,
+      "Q3": 75.2,
+      "Q4": 63.4
+    },
+    "communication_responsiveness": "poor",
+    "payment_method_preference": "cheque",
+    "notes": "Frequently exceeds 60+ days, requires escalation for payment",
+    "last_updated": "2024-11-20T10:00:00Z"
+  },
+  {
+    "behavior_id": "BEH004",
+    "publisher_id": "PUB004",
+    "avg_days_to_pay": 28.1,
+    "payment_consistency": "reliable",
+    "early_payment_frequency": 0.20,
+    "late_payment_frequency": 0.15,
+    "max_days_overdue": 45,
+    "seasonal_patterns": {
+      "Q1": 25.3,
+      "Q2": 31.0,
+      "Q3": 29.8,
+      "Q4": 26.2
+    },
+    "communication_responsiveness": "excellent",
+    "payment_method_preference": "bank_transfer",
+    "notes": "Reliable payer, communicates proactively about any delays",
+    "last_updated": "2024-11-20T10:00:00Z"
+  },
+  {
+    "behavior_id": "BEH005",
+    "publisher_id": "PUB005",
+    "avg_days_to_pay": 35.7,
+    "payment_consistency": "moderate",
+    "early_payment_frequency": 0.10,
+    "late_payment_frequency": 0.40,
+    "max_days_overdue": 72,
+    "seasonal_patterns": {
+      "Q1": 32.1,
+      "Q2": 38.3,
+      "Q3": 39.8,
+      "Q4": 32.6
+    },
+    "communication_responsiveness": "good",
+    "payment_method_preference": "bank_transfer",
+    "notes": "Moderate delays typical, responds well to payment reminders",
+    "last_updated": "2024-11-20T10:00:00Z"
+  }
+]

@@ -1,0 +1,815 @@
+[
+  {
+    "carrier_id": "CARR-001",
+    "carrier_name": "NorthStar Shipping",
+    "scac": "NSTS",
+    "contact_information": {
+      "phone": "1-800-321-8807",
+      "email": "ops.us@northstar.com",
+      "address": {
+        "street": "250 Commerce Street",
+        "city": "Morristown",
+        "state_province": "NY",
+        "postal_code": "07932",
+        "country": "United States"
+      }
+    },
+    "supported_modes": [
+      "Sea",
+      "Rail",
+      "Truck"
+    ],
+    "service_levels": [
+      "FCL",
+      "LCL",
+      "Reefer",
+      "Intermodal"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 94.5,
+      "average_rating": 4.7
+    },
+    "insurance_details": {
+      "policy_number": "POL-NSTS-2024",
+      "coverage_limit_usd": 50000000
+    },
+    "active_status": true
+  },
+  {
+    "carrier_id": "CARR-002",
+    "carrier_name": "Sakura Express",
+    "scac": "SKEX",
+    "contact_information": {
+      "phone": "1-855-632-6687",
+      "email": "info.us@sakuraexpress.com",
+      "address": {
+        "street": "2-5-7, Nishi-Umeda, Kita-ku",
+        "city": "Osaka",
+        "state_province": null,
+        "postal_code": "105-8322",
+        "country": "Nippon"
+      }
+    },
+    "supported_modes": [
+      "Air",
+      "Sea",
+      "Truck",
+      "Rail"
+    ],
+    "service_levels": [
+      "Express Cargo",
+      "Standard Freight",
+      "LTL",
+      "Warehousing"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 96.2,
+      "average_rating": 4.8
+    },
+    "insurance_details": {
+      "policy_number": "POL-SKEX-2024",
+      "coverage_limit_usd": 40000000
+    },
+    "active_status": true,
+    "created_at": "2020-02-15T10:00:00Z",
+    "updated_at": "2024-06-01T14:30:00Z"
+  },
+  {
+    "carrier_id": "CARR-003",
+    "carrier_name": "DeutschLogistik",
+    "scac": "DLOG",
+    "contact_information": {
+      "phone": "1-800-225-5229",
+      "email": "contact.us@deutschlogistik.com",
+      "address": {
+        "street": "Siemensstra\u00dfe 12",
+        "city": "Dortmund",
+        "state_province": "Bavaria",
+        "postal_code": "45128",
+        "country": "Deutschland"
+      }
+    },
+    "supported_modes": [
+      "Truck",
+      "Rail",
+      "Air",
+      "Sea"
+    ],
+    "service_levels": [
+      "LTL",
+      "FTL",
+      "Global Projects",
+      "Contract Logistics"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 95.8,
+      "average_rating": 4.7
+    },
+    "insurance_details": {
+      "policy_number": "POL-DLOG-2024",
+      "coverage_limit_usd": 75000000
+    },
+    "active_status": true,
+    "created_at": "2020-03-01T11:00:00Z",
+    "updated_at": "2024-06-02T09:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-004",
+    "carrier_name": "Pacific Ocean Lines",
+    "scac": "POCL",
+    "contact_information": {
+      "phone": null,
+      "email": null,
+      "address": {
+        "street": "38, Teheran-ro 8-gil, Gangnam-gu",
+        "city": "Busan",
+        "state_province": null,
+        "postal_code": "07326",
+        "country": "Korea"
+      }
+    },
+    "supported_modes": [
+      "Sea"
+    ],
+    "service_levels": [],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 0,
+      "average_rating": 2.1
+    },
+    "insurance_details": {
+      "policy_number": null,
+      "coverage_limit_usd": 0
+    },
+    "active_status": false,
+    "created_at": "2019-01-01T00:00:00Z",
+    "updated_at": "2017-02-17T00:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-005",
+    "carrier_name": "Mediterranean Lines",
+    "scac": "MEDL",
+    "contact_information": {
+      "phone": "1-877-556-6308",
+      "email": "United States.contact@mediterraneanlines.com",
+      "address": {
+        "street": "8, Boulevard Maritime",
+        "city": "Lyon",
+        "state_province": "Nouvelle-Aquitaine",
+        "postal_code": "13002",
+        "country": "R\u00e9publique fran\u00e7aise"
+      }
+    },
+    "supported_modes": [
+      "Sea",
+      "Truck"
+    ],
+    "service_levels": [
+      "FCL",
+      "LCL",
+      "Project Cargo",
+      "Reefer"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 93.9,
+      "average_rating": 4.6
+    },
+    "insurance_details": {
+      "policy_number": "POL-MEDL-2024",
+      "coverage_limit_usd": 60000000
+    },
+    "active_status": true,
+    "created_at": "2020-04-10T14:00:00Z",
+    "updated_at": "2024-05-30T15:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-006",
+    "carrier_name": "Desert Falcon Cargo",
+    "scac": "DFC",
+    "contact_information": {
+      "phone": "1-800-366-2929",
+      "email": "skycargo.us@desertfalcon.com",
+      "address": {
+        "street": "PO Box 924",
+        "city": "Abu Dhabi",
+        "state_province": null,
+        "postal_code": null,
+        "country": "DFC"
+      }
+    },
+    "supported_modes": [
+      "Air"
+    ],
+    "service_levels": [
+      "Express",
+      "Perishables",
+      "Pharma",
+      "High-Value"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 98.1,
+      "average_rating": 4.9
+    },
+    "insurance_details": {
+      "policy_number": "POL-DFC-2024",
+      "coverage_limit_usd": 25000000
+    },
+    "active_status": true,
+    "created_at": "2020-05-20T16:00:00Z",
+    "updated_at": "2024-06-03T12:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-007",
+    "carrier_name": "SwiftDelivery",
+    "scac": "SWDL",
+    "contact_information": {
+      "phone": "1-800-463-3339",
+      "email": "customer.service@swiftdelivery.com",
+      "address": {
+        "street": "4250 Aviation Way",
+        "city": "Nashville",
+        "state_province": "KY",
+        "postal_code": "38125",
+        "country": "United States"
+      }
+    },
+    "supported_modes": [
+      "Air",
+      "Truck",
+      "Parcel"
+    ],
+    "service_levels": [
+      "Priority Overnight",
+      "Ground",
+      "Freight",
+      "LTL"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 97.5,
+      "average_rating": 4.8
+    },
+    "insurance_details": {
+      "policy_number": "POL-SWDL-2024",
+      "coverage_limit_usd": 100000000
+    },
+    "active_status": true,
+    "created_at": "2020-06-01T09:00:00Z",
+    "updated_at": "2024-06-05T09:45:00Z"
+  },
+  {
+    "carrier_id": "CARR-008",
+    "carrier_name": "Maple Trail Railway",
+    "scac": "MTRL",
+    "contact_information": {
+      "phone": "1-888-888-5909",
+      "email": "contact@mapletrail.OR",
+      "address": {
+        "street": "1250 Ren\u00e9-L\u00e9vesque Boulevard",
+        "city": "Toronto",
+        "state_province": "ON",
+        "postal_code": "H3B 2M9",
+        "country": "Maple Nation"
+      }
+    },
+    "supported_modes": [
+      "Rail",
+      "Truck"
+    ],
+    "service_levels": [
+      "Intermodal",
+      "Carload",
+      "Bulk"
+    ],
+    "regional_coverage": "North America",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 92.3,
+      "average_rating": 4.4
+    },
+    "insurance_details": {
+      "policy_number": "POL-MTRL-2024",
+      "coverage_limit_usd": 30000000
+    },
+    "active_status": true,
+    "created_at": "2020-07-15T11:00:00Z",
+    "updated_at": "2024-05-29T18:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-009",
+    "carrier_name": "Ocean Bridge",
+    "scac": "OCBR",
+    "contact_information": {
+      "phone": "1-866-830-2565",
+      "email": "na.sales@oceanbridge.com",
+      "address": {
+        "street": "450 Innovation Drive",
+        "city": "Jersey City",
+        "state_province": "NY",
+        "postal_code": "07094",
+        "country": "United States"
+      }
+    },
+    "supported_modes": [
+      "Sea"
+    ],
+    "service_levels": [
+      "FCL",
+      "LCL",
+      "Break Bulk"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 93.1,
+      "average_rating": 4.5
+    },
+    "insurance_details": {
+      "policy_number": "POL-OCBR-2024",
+      "coverage_limit_usd": 55000000
+    },
+    "active_status": true,
+    "created_at": "2020-08-01T10:00:00Z",
+    "updated_at": "2024-06-04T10:15:00Z"
+  },
+  {
+    "carrier_id": "CARR-010",
+    "carrier_name": "Southern Cross Freight",
+    "scac": "SCF",
+    "contact_information": {
+      "phone": "1-310-426-9600",
+      "email": "freight.us@southerncross.com.au",
+      "address": {
+        "street": "25 Airport Drive, Tullamarine",
+        "city": "Melbourne",
+        "state_province": "VIC",
+        "postal_code": "2020",
+        "country": "Commonwealth of Australia"
+      }
+    },
+    "supported_modes": [
+      "Air"
+    ],
+    "service_levels": [
+      "Express",
+      "Standard",
+      "Perishables"
+    ],
+    "regional_coverage": "Commonwealth of Australia, Asia, Americas, Europe",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 97.2,
+      "average_rating": 4.8
+    },
+    "insurance_details": {
+      "policy_number": "POL-SCF-2024",
+      "coverage_limit_usd": 15000000
+    },
+    "active_status": true,
+    "created_at": "2020-09-05T12:00:00Z",
+    "updated_at": "2024-05-25T19:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-011",
+    "carrier_name": "Global Ocean Carriers",
+    "scac": "GOCN",
+    "contact_information": {
+      "phone": "1-212-764-4800",
+      "email": "United States-info@globalocean.com",
+      "address": {
+        "street": "Avenue de la Paix 20-22",
+        "city": "Zurich",
+        "state_province": null,
+        "postal_code": "1208",
+        "country": "Helvetia"
+      }
+    },
+    "supported_modes": [
+      "Sea",
+      "Rail"
+    ],
+    "service_levels": [
+      "FCL",
+      "LCL",
+      "Dry Cargo",
+      "Reefer"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 94.2,
+      "average_rating": 4.6
+    },
+    "insurance_details": {
+      "policy_number": "POL-GOCN-2024",
+      "coverage_limit_usd": 65000000
+    },
+    "active_status": true,
+    "created_at": "2020-10-10T08:00:00Z",
+    "updated_at": "2024-06-03T08:30:00Z"
+  },
+  {
+    "carrier_id": "CARR-012",
+    "carrier_name": "Alpine Freight Solutions",
+    "scac": "ALFS",
+    "contact_information": {
+      "phone": "1-201-413-5500",
+      "email": "info.United States@alpinefreight.com",
+      "address": {
+        "street": "15 Liberty Street",
+        "city": "Hoboken",
+        "state_province": "NY",
+        "postal_code": "07302",
+        "country": "United States"
+      }
+    },
+    "supported_modes": [
+      "Sea",
+      "Air",
+      "Truck",
+      "Rail"
+    ],
+    "service_levels": [
+      "Integrated Logistics",
+      "Contract Logistics",
+      "Project Logistics"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 96.5,
+      "average_rating": 4.8
+    },
+    "insurance_details": {
+      "policy_number": "POL-ALFS-2024",
+      "coverage_limit_usd": 80000000
+    },
+    "active_status": true,
+    "created_at": "2020-11-01T13:00:00Z",
+    "updated_at": "2024-06-05T13:15:00Z"
+  },
+  {
+    "carrier_id": "CARR-013",
+    "carrier_name": "Nordic Marine",
+    "scac": "NRMC",
+    "contact_information": {
+      "phone": "1-713-336-3900",
+      "email": "info@nordicmarine.com",
+      "address": {
+        "street": "Maximilianstra\u00dfe 35",
+        "city": "Munich",
+        "state_province": null,
+        "postal_code": "20095",
+        "country": "Deutschland"
+      }
+    },
+    "supported_modes": [
+      "Sea"
+    ],
+    "service_levels": [
+      "FCL",
+      "Reefer",
+      "Special Cargo"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 94.8,
+      "average_rating": 4.6
+    },
+    "insurance_details": {
+      "policy_number": "POL-NRMC-2024",
+      "coverage_limit_usd": 58000000
+    },
+    "active_status": true,
+    "created_at": "2020-12-05T15:00:00Z",
+    "updated_at": "2024-05-27T10:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-014",
+    "carrier_name": "Global Parcel Service",
+    "scac": "GPLS",
+    "contact_information": {
+      "phone": "1-800-742-5877",
+      "email": "customer.service@globalparcel.com",
+      "address": {
+        "street": "75 Peachtree Center",
+        "city": "Charlotte",
+        "state_province": "SC",
+        "postal_code": "30328",
+        "country": "United States"
+      }
+    },
+    "supported_modes": [
+      "Parcel",
+      "Truck",
+      "Air"
+    ],
+    "service_levels": [
+      "Next Day Air",
+      "Ground",
+      "Freight LTL",
+      "Worldwide Express"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 98.2,
+      "average_rating": 4.9
+    },
+    "insurance_details": {
+      "policy_number": "POL-GPLS-2024",
+      "coverage_limit_usd": 120000000
+    },
+    "active_status": true,
+    "created_at": "2021-01-10T10:00:00Z",
+    "updated_at": "2024-06-05T16:30:00Z"
+  },
+  {
+    "carrier_id": "CARR-015",
+    "carrier_name": "Pacific Sea Lines",
+    "scac": "PSLN",
+    "contact_information": {
+      "phone": "1-201-761-3000",
+      "email": "csd.us@pacificsea.us",
+      "address": {
+        "street": "No. 288, Sec. 3, Zhongshan Road",
+        "city": "Luzhu Dist., Kaohsiung City",
+        "state_province": null,
+        "postal_code": "33801",
+        "country": "Formosa"
+      }
+    },
+    "supported_modes": [
+      "Sea"
+    ],
+    "service_levels": [
+      "FCL",
+      "LCL",
+      "e-Commerce"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 93.5,
+      "average_rating": 4.4
+    },
+    "insurance_details": {
+      "policy_number": "POL-PSLN-2024",
+      "coverage_limit_usd": 50000000
+    },
+    "active_status": true,
+    "created_at": "2021-02-15T11:00:00Z",
+    "updated_at": "2024-05-26T14:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-016",
+    "carrier_name": "Anatolian Air Cargo",
+    "scac": "AAC",
+    "contact_information": {
+      "phone": "1-800-874-8875",
+      "email": "cargo.us@anatolianair.com",
+      "address": {
+        "street": "Sabiha G\u00f6k\u00e7en Havaliman\u0131, Kargo Terminali",
+        "city": "Ankara",
+        "state_province": null,
+        "postal_code": "34149",
+        "country": "T\u00fcrkiye"
+      }
+    },
+    "supported_modes": [
+      "Air"
+    ],
+    "service_levels": [
+      "General Cargo",
+      "Special Cargo",
+      "Pharma"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 96.8,
+      "average_rating": 4.7
+    },
+    "insurance_details": {
+      "policy_number": "POL-AAC-2024",
+      "coverage_limit_usd": 20000000
+    },
+    "active_status": true,
+    "created_at": "2021-03-20T14:00:00Z",
+    "updated_at": "2024-06-02T18:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-017",
+    "carrier_name": "South Atlantic Lines",
+    "scac": "SATL",
+    "contact_information": {
+      "phone": "1-973-443-0200",
+      "email": "contact@southatlanticlines.com",
+      "address": {
+        "street": "Konrad-Adenauer-Allee 45-55",
+        "city": "Munich",
+        "state_province": null,
+        "postal_code": "20457",
+        "country": "Deutschland"
+      }
+    },
+    "supported_modes": [
+      "Sea"
+    ],
+    "service_levels": [
+      "Reefer",
+      "Dry Cargo",
+      "Bulk"
+    ],
+    "regional_coverage": "Global, special focus on North-South routes",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 95.1,
+      "average_rating": 4.6
+    },
+    "insurance_details": {
+      "policy_number": "POL-SATL-2024",
+      "coverage_limit_usd": 45000000
+    },
+    "active_status": true,
+    "created_at": "2021-04-10T09:00:00Z",
+    "updated_at": "2024-05-21T16:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-018",
+    "carrier_name": "Eagle Air Cargo",
+    "scac": "EAC",
+    "contact_information": {
+      "phone": "1-212-789-0950",
+      "email": "cargo.us@eagleair.pl",
+      "address": {
+        "street": "Aleja Solidarno\u015bci 78",
+        "city": "Krakow",
+        "state_province": null,
+        "postal_code": "02-146",
+        "country": "Polska"
+      }
+    },
+    "supported_modes": [
+      "Air"
+    ],
+    "service_levels": [
+      "Standard",
+      "Express",
+      "Pharma"
+    ],
+    "regional_coverage": "Europe, North America, Asia",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 95.5,
+      "average_rating": 4.5
+    },
+    "insurance_details": {
+      "policy_number": "POL-EAC-2024",
+      "coverage_limit_usd": 10000000
+    },
+    "active_status": true,
+    "created_at": "2021-05-12T12:00:00Z",
+    "updated_at": "2024-05-31T09:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-019",
+    "carrier_name": "Nordic Air Cargo",
+    "scac": "NAC",
+    "contact_information": {
+      "phone": "1-800-221-7897",
+      "email": "cargo.us@nordicair.dk",
+      "address": {
+        "street": "Lufthavnsvej",
+        "city": "Billund",
+        "state_province": null,
+        "postal_code": "2770",
+        "country": "Danmark"
+      }
+    },
+    "supported_modes": [
+      "Air"
+    ],
+    "service_levels": [
+      "Priority",
+      "Standard",
+      "Pharma"
+    ],
+    "regional_coverage": "Scandinavia, Europe, North America, Asia",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 97.0,
+      "average_rating": 4.7
+    },
+    "insurance_details": {
+      "policy_number": "POL-NAC-2024",
+      "coverage_limit_usd": 12000000
+    },
+    "active_status": true,
+    "created_at": "2021-06-18T10:00:00Z",
+    "updated_at": "2024-06-04T13:45:00Z"
+  },
+  {
+    "carrier_id": "CARR-020",
+    "carrier_name": "Andean Air Freight",
+    "scac": "ANAF",
+    "contact_information": {
+      "phone": "1-800-456-9812",
+      "email": "cargo.comercial.us@andeanair.com",
+      "address": {
+        "street": "7200 SW 34th Ave",
+        "city": "Fort Lauderdale",
+        "state_province": "SC",
+        "postal_code": "33122",
+        "country": "United States"
+      }
+    },
+    "supported_modes": [
+      "Air"
+    ],
+    "service_levels": [
+      "Express",
+      "Standard",
+      "Perishables"
+    ],
+    "regional_coverage": "South America, North America, Europe",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 96.1,
+      "average_rating": 4.6
+    },
+    "insurance_details": {
+      "policy_number": "POL-ANAF-2024",
+      "coverage_limit_usd": 18000000
+    },
+    "active_status": true,
+    "created_at": "2021-07-22T09:00:00Z",
+    "updated_at": "2024-06-01T20:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-021",
+    "carrier_name": "Northern Sky Cargo",
+    "scac": "NSC",
+    "contact_information": {
+      "phone": "1-800-223-5500",
+      "email": "cargo@northernsky.is",
+      "address": {
+        "street": "Keflav\u00edkurflugv\u00f6llur",
+        "city": "Akureyri",
+        "state_province": null,
+        "postal_code": "101",
+        "country": "\u00cdsland"
+      }
+    },
+    "supported_modes": [
+      "Air"
+    ],
+    "service_levels": [
+      "Fresh",
+      "Standard"
+    ],
+    "regional_coverage": "\u00cdsland, Europe, North America",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 97.3,
+      "average_rating": 4.7
+    },
+    "insurance_details": {
+      "policy_number": "POL-NSC-2024",
+      "coverage_limit_usd": 8000000
+    },
+    "active_status": true,
+    "created_at": "2021-08-15T14:00:00Z",
+    "updated_at": "2024-05-29T13:00:00Z"
+  },
+  {
+    "carrier_id": "CARR-022",
+    "carrier_name": "Express World Delivery",
+    "scac": "EWDL",
+    "contact_information": {
+      "phone": "1-800-225-5345",
+      "email": "info-us@expressworld.com",
+      "address": {
+        "street": "Friedrich-Ebert-Allee 30",
+        "city": "Cologne",
+        "state_province": "Bavaria",
+        "postal_code": "53113",
+        "country": "Deutschland"
+      }
+    },
+    "supported_modes": [
+      "Air",
+      "Truck",
+      "Parcel"
+    ],
+    "service_levels": [
+      "Express Worldwide",
+      "Same Day",
+      "Global Forwarding"
+    ],
+    "regional_coverage": "Global",
+    "performance_metrics": {
+      "on_time_delivery_percentage": 97.9,
+      "average_rating": 4.8
+    },
+    "insurance_details": {
+      "policy_number": "POL-EWDL-2024",
+      "coverage_limit_usd": 90000000
+    },
+    "active_status": true,
+    "created_at": "2021-09-01T10:00:00Z",
+    "updated_at": "2024-06-05T19:20:00Z"
+  }
+]

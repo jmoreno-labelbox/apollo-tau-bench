@@ -1,0 +1,72 @@
+[
+    {
+        "category_id": "CAT101",
+        "catalog_id": "C100",
+        "parent_category_id": null,
+        "category_name": "Consumer Electronics",
+        "is_active": true
+    },
+    {
+        "category_id": "CAT102",
+        "catalog_id": "C100",
+        "parent_category_id": "CAT101",
+        "category_name": "Laptops & Tablets",
+        "is_active": true
+    },
+    {
+        "category_id": "CAT103",
+        "catalog_id": "C100",
+        "parent_category_id": "CAT101",
+        "category_name": "Computer Accessories",
+        "is_active": true
+    },
+    {
+        "category_id": "CAT104",
+        "catalog_id": "C100",
+        "parent_category_id": null,
+        "category_name": "Branded Merchandise",
+        "is_active": true
+    },
+    {
+        "category_id": "CAT201",
+        "catalog_id": "C200",
+        "parent_category_id": null,
+        "category_name": "Enterprise Hardware",
+        "is_active": true
+    },
+    {
+        "category_id": "CAT202",
+        "catalog_id": "C200",
+        "parent_category_id": "CAT201",
+        "category_name": "Workstations",
+        "is_active": true
+    },
+    {
+        "category_id": "CAT203",
+        "catalog_id": "C200",
+        "parent_category_id": "CAT201",
+        "category_name": "Bulk Office Equipment",
+        "is_active": true
+    },
+    {
+        "category_id": "CAT301",
+        "catalog_id": "C300",
+        "parent_category_id": null,
+        "category_name": "Top Tech Gifts",
+        "is_active": true
+    },
+    {
+        "category_id": "CAT302",
+        "catalog_id": "C300",
+        "parent_category_id": null,
+        "category_name": "Gifts Under $100",
+        "is_active": true
+    },
+    {
+        "category_id": "CAT401",
+        "catalog_id": "C400",
+        "parent_category_id": null,
+        "category_name": "Limited Time Deals",
+        "is_active": true
+    }
+]

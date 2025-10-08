@@ -1,0 +1,28 @@
+[
+  {
+    "payment_id": "pay_001",
+    "invoice_id": "inv_old_001",
+    "vendor_id": "vendor_001",
+    "amount": 45000,
+    "late_fee": 0,
+    "total_paid": 45000,
+    "payment_method": "wire",
+    "payment_date": "2024-02-28T15:00:00Z",
+    "processed_by": "emp_finance_01",
+    "is_late": false,
+    "days_late": 0
+  },
+  {
+    "payment_id": "pay_002",
+    "invoice_id": "inv_002",
+    "vendor_id": "vendor_003",
+    "amount": 85000,
+    "late_fee": 0,
+    "total_paid": 85000,
+    "payment_method": "ach",
+    "payment_date": "2024-02-28T14:00:00Z",
+    "processed_by": "emp_finance_01",
+    "is_late": false,
+    "days_late": 0
+  }
+]

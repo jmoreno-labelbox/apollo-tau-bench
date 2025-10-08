@@ -1,0 +1,18 @@
+{
+    "dcomm-uat-redis": {
+        "cluster_id": "dcomm-uat-redis",
+        "cluster_name": "UAT Redis Cache",
+        "endpoint_url": "dcomm-uat-redis.abcdef.ng.0001.use1.cache.amazonaws.com",
+        "status": "available",
+        "instance_type": "cache.t3.medium",
+        "security_group_id": "sg-0123456789abcdef0"
+    },
+    "dcomm-dev-redis": {
+        "cluster_id": "dcomm-dev-redis",
+        "cluster_name": "Dev Redis Cache (Provisioning Failed)",
+        "endpoint_url": "NULL",
+        "status": "failed",
+        "instance_type": "cache.t3.small",
+        "security_group_id": "sg-ffffffffffffffff"
+    }
+}

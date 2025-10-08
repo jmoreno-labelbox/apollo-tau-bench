@@ -12,17 +12,22 @@ def parse_args() -> RunConfig:
     parser = argparse.ArgumentParser()
     parser.add_argument("--num-trials", type=int, default=1)
     parser.add_argument(
-        "--env", type=str, choices=["retail", "airline"], default="retail"
+        "--env",
+        type=str,
+        default="retail",
+        help="Environment to run (e.g., retail, airline, retail_1, ...). Full list validated by tau_bench.run",
     )
     parser.add_argument(
         "--model",
         type=str,
+        default="gpt-4o-mini",
         help="The model to use for the agent",
     )
     parser.add_argument(
         "--model-provider",
         type=str,
         choices=provider_list,
+        default=provider_list[0] if provider_list else None,
         help="The model provider for the agent",
     )
     parser.add_argument(
@@ -35,6 +40,7 @@ def parse_args() -> RunConfig:
         "--user-model-provider",
         type=str,
         choices=provider_list,
+        default=provider_list[0] if provider_list else None,
         help="The model provider for the user simulator",
     )
     parser.add_argument(
@@ -60,6 +66,7 @@ def parse_args() -> RunConfig:
     parser.add_argument("--end-index", type=int, default=-1, help="Run all tasks if -1")
     parser.add_argument("--task-ids", type=int, nargs="+", help="(Optional) run only the tasks with the given IDs")
     parser.add_argument("--log-dir", type=str, default="results")
+    parser.add_argument("--envs-package", type=str, default="tau_bench.envs", help="Python package where envs are located (e.g., tau_bench_warrior.envs)")
     parser.add_argument(
         "--max-concurrency",
         type=int,
@@ -72,9 +79,18 @@ def parse_args() -> RunConfig:
     parser.add_argument("--few-shot-displays-path", type=str, help="Path to a jsonlines file containing few shot displays")
     args = parser.parse_args()
     print(args)
+    # Normalize provider values to strings compatible with tau_bench.run/provider_list
+    def _provider_to_str(p):
+        try:
+            return p.value  # Enum -> underlying string
+        except Exception:
+            return p  # already string
+
+    model_provider = _provider_to_str(args.model_provider)
+    user_model_provider = _provider_to_str(args.user_model_provider)
     return RunConfig(
-        model_provider=args.model_provider,
-        user_model_provider=args.user_model_provider,
+        model_provider=model_provider,
+        user_model_provider=user_model_provider,
         model=args.model,
         user_model=args.user_model,
         num_trials=args.num_trials,
@@ -91,6 +107,7 @@ def parse_args() -> RunConfig:
         shuffle=args.shuffle,
         user_strategy=args.user_strategy,
         few_shot_displays_path=args.few_shot_displays_path,
+        envs_package=args.envs_package,
     )
 
 
@@ -100,6 +117,10 @@ def main():
     if env_path:
         load_dotenv(env_path)
     config = parse_args()
+    # Publish envs package target for downstream dynamic import
+    if config.envs_package:
+        import os
+        os.environ["TAU_BENCH_ENVS_PACKAGE"] = config.envs_package
     run(config)
 
 

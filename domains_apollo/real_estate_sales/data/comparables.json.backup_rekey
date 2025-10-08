@@ -1,0 +1,122 @@
+[
+  {
+    "comp_id": 1,
+    "report_id": 1,
+    "comp_property_id": "HTX017",
+    "similarity_score": 0.92,
+    "selection_reason": "Similar Central City condo, 2BR/2BA, comparable square footage and amenities",
+    "tie_breaker_notes": "More recent construction gives better comparison baseline"
+  },
+  {
+    "comp_id": 2,
+    "report_id": 1,
+    "comp_property_id": "HTX025",
+    "similarity_score": 0.88,
+    "selection_reason": "Same neighborhood, similar unit size and building amenities",
+    "tie_breaker_notes": "Luxury building features justify higher price point"
+  },
+  {
+    "comp_id": 3,
+    "report_id": 1,
+    "comp_property_id": "HTX034",
+    "similarity_score": 0.85,
+    "selection_reason": "Recent sale CO same Central City area with similar finishes",
+    "tie_breaker_notes": "Slightly lower floor but similar city views"
+  },
+  {
+    "comp_id": 4,
+    "report_id": 2,
+    "comp_property_id": "HTX005",
+    "similarity_score": 0.89,
+    "selection_reason": "4BR single family home with pool, similar lot size and neighborhood character",
+    "tie_breaker_notes": "Memorial area provides good comp for Braeswood pricing"
+  },
+  {
+    "comp_id": 5,
+    "report_id": 2,
+    "comp_property_id": "HTX018",
+    "similarity_score": 0.84,
+    "selection_reason": "Similar home size and amenities, established neighborhood",
+    "tie_breaker_notes": "Rice Village premium location but older construction"
+  },
+  {
+    "comp_id": 6,
+    "report_id": 2,
+    "comp_property_id": "HTX050",
+    "similarity_score": 0.87,
+    "selection_reason": "East College location with similar home characteristics",
+    "tie_breaker_notes": "Comparable school district and family-oriented neighborhood"
+  },
+  {
+    "comp_id": 7,
+    "report_id": 3,
+    "comp_property_id": "HTX004",
+    "similarity_score": 0.91,
+    "selection_reason": "Arcadia area townhouse with similar bed/bath count and recent updates",
+    "tie_breaker_notes": "Both properties CO artsy, walkable neighborhoods"
+  },
+  {
+    "comp_id": 8,
+    "report_id": 3,
+    "comp_property_id": "HTX027",
+    "similarity_score": 0.86,
+    "selection_reason": "Recent construction townhouse CO similar trendy neighborhood",
+    "tie_breaker_notes": "Newer build commands premium over vintage charm"
+  },
+  {
+    "comp_id": 9,
+    "report_id": 4,
+    "comp_property_id": "HTX036",
+    "similarity_score": 0.93,
+    "selection_reason": "Very similar recent townhouse construction CO up-and-coming area",
+    "tie_breaker_notes": "Nearly identical specifications and finish quality"
+  },
+  {
+    "comp_id": 10,
+    "report_id": 4,
+    "comp_property_id": "HTX032",
+    "similarity_score": 0.88,
+    "selection_reason": "Brand new Central City townhouse with premium finishes",
+    "tie_breaker_notes": "Central City location premium vs Arts Quarter accessibility"
+  },
+  {
+    "comp_id": 11,
+    "report_id": 5,
+    "comp_property_id": "HTX003",
+    "similarity_score": 0.9,
+    "selection_reason": "Central City luxury condo with similar amenity package",
+    "tie_breaker_notes": "Both high-rise buildings with concierge and city views"
+  },
+  {
+    "comp_id": 12,
+    "report_id": 5,
+    "comp_property_id": "HTX034",
+    "similarity_score": 0.87,
+    "selection_reason": "Recently built Central City condo with modern finishes",
+    "tie_breaker_notes": "Similar target demographic and building quality"
+  },
+  {
+    "comp_id": 13,
+    "report_id": 6,
+    "comp_property_id": "HTX040",
+    "similarity_score": 0.85,
+    "selection_reason": "Compact Central City living with similar modern amenities",
+    "tie_breaker_notes": "Uptown vs Central City location affects walkability score"
+  },
+  {
+    "comp_id": 14,
+    "report_id": 7,
+    "comp_property_id": "HTX044",
+    "similarity_score": 0.92,
+    "selection_reason": "Recent construction townhouse with identical specifications",
+    "tie_breaker_notes": "Arts Quarter vs SoDo represents different buyer profiles"
+  },
+  {
+    "comp_id": 15,
+    "report_id": 8,
+    "comp_property_id": "HTX013",
+    "similarity_score": 0.89,
+    "selection_reason": "Medical Center luxury condo with similar high-end finishes",
+    "tie_breaker_notes": "Both properties target medical professionals with premium amenities"
+  }
+]

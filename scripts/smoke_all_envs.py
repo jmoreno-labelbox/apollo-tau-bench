@@ -12,8 +12,8 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 
-def discover_env_names() -> List[str]:
-    envs_dir = REPO_ROOT / "tau_bench" / "envs"
+def discover_env_names(envs_root: Path) -> List[str]:
+    envs_dir = envs_root
     names: List[str] = []
     for p in sorted(envs_dir.iterdir()):
         if not p.is_dir():
@@ -102,19 +102,24 @@ def main() -> None:
     parser.add_argument("--user-provider", default="openai", help="Provider for simulated user model (default: openai)")
     parser.add_argument("--model", default="gpt-4o", help="Model name for agent (default: gpt-4o)")
     parser.add_argument("--user-model", default="gpt-4o", help="Model name for user (default: gpt-4o)")
-    parser.add_argument("--envs", default=None, help="Comma-separated env names to run; default is discover all in tau_bench/envs")
+    parser.add_argument("--envs", default=None, help="Comma-separated env names to run; default is discover all in envs root")
     parser.add_argument("--envs-file", default=None, help="Path to a text file with env names (one per line) to run")
+    parser.add_argument("--envs-root", default=str(REPO_ROOT / "tau_bench" / "envs"), help="Path to envs root to discover from (affects --envs discovery)")
+    parser.add_argument("--envs-package", default=None, help="Python package path for envs (sets TAU_BENCH_ENVS_PACKAGE)")
     parser.add_argument("--write-failures", default=None, help="Path to write failed env names (one per line)")
     parser.add_argument("--write-failure-notes", default=None, help="Path to write failed env notes: 'env_name: note' per line")
     parser.add_argument("--max-workers", type=int, default=4, help="Run up to N envs concurrently (default: 4)")
     args = parser.parse_args()
+
+    if args.envs_package:
+        os.environ["TAU_BENCH_ENVS_PACKAGE"] = args.envs_package
 
     if args.envs_file:
         env_names = read_envs_file(Path(args.envs_file))
     elif args.envs:
         env_names = [e.strip() for e in args.envs.split(",") if e.strip()]
     else:
-        env_names = discover_env_names()
+        env_names = discover_env_names(Path(args.envs_root))
 
     results: List[Tuple[str, bool, str]] = []
 

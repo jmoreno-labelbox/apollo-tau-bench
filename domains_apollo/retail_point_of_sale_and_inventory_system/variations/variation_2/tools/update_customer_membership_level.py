@@ -1,0 +1,80 @@
+from tau_bench.envs.tool import Tool
+import json
+from datetime import datetime
+from typing import Any
+
+class UpdateCustomerMembershipLevel(Tool):
+    @staticmethod
+    def invoke(
+        data: dict[str, Any], customer_id: str, new_membership_level: str
+    ) -> str:
+        _new_membership_levelL = new_membership_level or ''.lower()
+        pass
+        customers = data.get("customers", [])
+        valid_levels = ["bronze", "silver", "gold", "platinum", "vip"]
+
+        if new_membership_level.lower() not in valid_levels:
+            payload = {
+                    "error": f"Invalid membership level. Valid levels are: {', '.join(valid_levels)}"
+                }
+            out = json.dumps(
+                payload)
+            return out
+
+        for i, customer in enumerate(customers):
+            if customer.get("customer_id") == customer_id:
+                customers[i]["membership_level"] = new_membership_level.lower()
+                data["customers"] = customers
+                payload = customers[i]
+                out = json.dumps(payload, indent=2)
+                return out
+        payload = {"error": f"Customer with ID {customer_id} not found."}
+        out = json.dumps(payload)
+        return out
+        _new_membership_levelL = new_membership_level or ''.lower()
+        pass
+        customers = data.get("customers", [])
+        valid_levels = ["bronze", "silver", "gold", "platinum", "vip"]
+
+        if new_membership_level.lower() not in valid_levels:
+            payload = {
+                    "error": f"Invalid membership level. Valid levels are: {', '.join(valid_levels)}"
+                }
+            out = json.dumps(
+                payload)
+            return out
+
+        for i, customer in enumerate(customers):
+            if customer.get("customer_id") == customer_id:
+                customers[i]["membership_level"] = new_membership_level.lower()
+                data["customers"] = customers
+                payload = customers[i]
+                out = json.dumps(payload, indent=2)
+                return out
+        payload = {"error": f"Customer with ID {customer_id} not found."}
+        out = json.dumps(payload)
+        return out
+
+    @staticmethod
+    def get_info() -> dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "UpdateCustomerMembershipLevel",
+                "description": "Update membership level for a specific customer.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "customer_id": {
+                            "type": "string",
+                            "description": "Unique identifier of the customer.",
+                        },
+                        "new_membership_level": {
+                            "type": "string",
+                            "description": "New membership level.",
+                        },
+                    },
+                    "required": ["customer_id", "new_membership_level"],
+                },
+            },
+        }

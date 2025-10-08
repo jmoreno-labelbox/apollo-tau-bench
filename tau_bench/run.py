@@ -142,8 +142,20 @@ def run(config: RunConfig) -> List[EnvRunResult]:
         "sports_analytics_3",
         "sports_analytics_4",
         "sports_analytics_5"], "Only retail, airline, and banking_services_{1,2,4,5,6} envs are supported"
-    assert config.model_provider in provider_list, "Invalid model provider"
-    assert config.user_model_provider in provider_list, "Invalid user model provider"
+    # Normalize provider values to strings for validation and downstream usage
+    provider_strs = [getattr(p, "value", p) for p in provider_list]
+    model_provider_str = getattr(config.model_provider, "value", config.model_provider)
+    user_model_provider_str = getattr(
+        config.user_model_provider, "value", config.user_model_provider
+    )
+    assert model_provider_str in provider_strs, "Invalid model provider"
+    assert user_model_provider_str in provider_strs, "Invalid user model provider"
+    # Ensure config uses normalized strings so agents/envs receive provider names they expect
+    try:
+        config.model_provider = model_provider_str
+        config.user_model_provider = user_model_provider_str
+    except Exception:
+        pass
     assert config.agent_strategy in ["tool-calling", "act", "react", "few-shot"], "Invalid agent strategy"
     assert config.task_split in ["train", "test", "dev"], "Invalid task split"
     assert config.user_strategy in [item.value for item in UserStrategy], "Invalid user strategy"

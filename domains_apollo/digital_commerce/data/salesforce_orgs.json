@@ -1,0 +1,20 @@
+{
+    "00D8d000000KxyzABC": {
+        "org_id": "00D8d000000KxyzABC",
+        "org_name": "Production",
+        "instance_url": "https://digitalcommerce-prod.my.salesforce.com",
+        "api_version": "58.0"
+    },
+    "00D8d000000LmnopQRS": {
+        "org_id": "00D8d000000LmnopQRS",
+        "org_name": "UAT",
+        "instance_url": "https://digitalcommerce-uat.my.salesforce.com",
+        "api_version": "58.0"
+    },
+    "00D8d000000MabcDEF": {
+        "org_id": "00D8d000000MabcDEF",
+        "org_name": "Staging",
+        "instance_url": "https://digitalcommerce-staging.my.salesforce.com",
+        "api_version": "58.0"
+    }
+}

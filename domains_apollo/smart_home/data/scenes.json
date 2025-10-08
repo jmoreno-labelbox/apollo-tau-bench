@@ -1,0 +1,146 @@
+{
+  "scene_good_morning": {
+    "id": "scene_good_morning",
+    "name": "Good Morning",
+    "description": "Get the house ready for morning.",
+    "actions": [
+      {
+        "device_id": "curtain_lr",
+        "update": {
+          "power": "on",
+          "position": 100
+        }
+      },
+      {
+        "device_id": "curtain_br",
+        "update": {
+          "power": "on",
+          "position": 100
+        }
+      },
+      {
+        "device_id": "light_lr_ceiling",
+        "update": {
+          "power": "on",
+          "brightness": 60,
+          "color": {
+            "kelvin": 4000
+          }
+        }
+      },
+      {
+        "device_id": "light_br_ceiling",
+        "update": {
+          "power": "on",
+          "brightness": 50
+        }
+      },
+      {
+        "device_id": "heater_home",
+        "update": {
+          "power": "on",
+          "mode": "heat",
+          "setpoint_c": 22
+        }
+      },
+      {
+        "device_id": "ac_home",
+        "update": {
+          "power": "off"
+        }
+      }
+    ],
+    "scheduled_runs": []
+  },
+  "scene_good_night": {
+    "id": "scene_good_night",
+    "name": "Good Night",
+    "description": "Wind down the house for bedtime.",
+    "actions": [
+      {
+        "device_id": "curtain_lr",
+        "update": {
+          "power": "on",
+          "position": 0
+        }
+      },
+      {
+        "device_id": "curtain_br",
+        "update": {
+          "power": "on",
+          "position": 0
+        }
+      },
+      {
+        "device_id": "light_lr_ceiling",
+        "update": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "light_br_ceiling",
+        "update": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "lamp_br_night",
+        "update": {
+          "power": "on",
+          "brightness": 15,
+          "color": {
+            "hue": 30
+          }
+        }
+      },
+      {
+        "device_id": "heater_home",
+        "update": {
+          "power": "on",
+          "mode": "heat",
+          "setpoint_c": 20
+        }
+      }
+    ],
+    "scheduled_runs": [
+      "2024-06-28T22:00:00-07:00"
+    ]
+  },
+  "scene_movie_time": {
+    "id": "scene_movie_time",
+    "name": "Movie Time",
+    "description": "Dim lights and close curtains for watching movies.",
+    "actions": [
+      {
+        "device_id": "curtain_lr",
+        "update": {
+          "power": "on",
+          "position": 0
+        }
+      },
+      {
+        "device_id": "light_lr_floor",
+        "update": {
+          "power": "on",
+          "brightness": 20
+        }
+      },
+      {
+        "device_id": "light_lr_ceiling",
+        "update": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "ac_home",
+        "update": {
+          "power": "on",
+          "fan_speed": "low"
+        }
+      }
+    ],
+    "scheduled_runs": [
+      "2025-06-28T22:00:00-07:00"
+    ]
+  }
+}

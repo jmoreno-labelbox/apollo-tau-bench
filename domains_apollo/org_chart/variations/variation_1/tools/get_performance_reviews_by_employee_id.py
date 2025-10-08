@@ -1,0 +1,30 @@
+from tau_bench.envs.tool import Tool
+import json
+from typing import Any
+
+class get_performance_reviews_by_employee_id(Tool):
+    @staticmethod
+    def invoke(data: dict[str, Any], employee_id: str = None) -> str:
+        pr = [
+            r
+            for r in data.get("performance_reviews", [])
+            if r["employee_id"] == employee_id
+        ]
+        payload = pr
+        out = json.dumps(payload, indent=2)
+        return out
+    @staticmethod
+    def get_info() -> dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "GetPerformanceReviewsByEmployeeId",
+                "description": "Return all reviews linked to the employee.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {"employee_id": {"type": "string"}},
+                    "required": ["employee_id"],
+                    "additionalProperties": False,
+                },
+            },
+        }

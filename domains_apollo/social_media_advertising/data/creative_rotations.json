@@ -1,0 +1,26 @@
+{
+  "CR-1": {
+    "rotation_id": "CR-1",
+    "adset_id": "102",
+    "old_ad_id": "1103",
+    "new_ad_id": "1104",
+    "rotated_at": "2025-08-14T03:00:00Z",
+    "rationale": "carousel 15% higher CTR"
+  },
+  "CR-2": {
+    "rotation_id": "CR-2",
+    "adset_id": "101",
+    "old_ad_id": "1101",
+    "new_ad_id": "1102",
+    "rotated_at": "2025-08-14T03:05:00Z",
+    "rationale": "activate video creative"
+  },
+  "CR-3": {
+    "rotation_id": "CR-3",
+    "adset_id": "104",
+    "old_ad_id": "1106",
+    "new_ad_id": "1107",
+    "rotated_at": "2025-08-13T03:00:00Z",
+    "rationale": "video 10% lower CPA"
+  }
+}

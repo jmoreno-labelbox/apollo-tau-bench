@@ -1,0 +1,68 @@
+[
+  {
+    "request_id": "asset_req_1",
+    "candidate_id": "cand_2",
+    "asset_type": "Laptop",
+    "status": "Completed",
+    "email_message_id_nullable": "msg_3",
+    "inventory_checked_flag": true,
+    "asset_tag_nullable": "LT-DELL-003",
+    "requested_ts": "2024-07-17T09:00:00Z",
+    "updated_ts": "2024-07-18T14:30:00Z"
+  },
+  {
+    "request_id": "asset_req_2",
+    "candidate_id": "cand_3",
+    "asset_type": "Laptop",
+    "status": "Completed",
+    "email_message_id_nullable": "msg_4",
+    "inventory_checked_flag": true,
+    "asset_tag_nullable": "LT-DELL-002",
+    "requested_ts": "2024-07-11T14:00:00Z",
+    "updated_ts": "2024-07-12T10:00:00Z"
+  },
+  {
+    "request_id": "asset_req_3",
+    "candidate_id": "cand_4",
+    "asset_type": "Laptop",
+    "status": "Sent",
+    "email_message_id_nullable": "msg_9",
+    "inventory_checked_flag": false,
+    "asset_tag_nullable": null,
+    "requested_ts": "2024-07-21T10:30:00Z",
+    "updated_ts": "2024-07-21T10:35:00Z"
+  },
+  {
+    "request_id": "asset_req_4",
+    "candidate_id": "cand_5",
+    "asset_type": "Laptop",
+    "status": "Completed",
+    "email_message_id_nullable": "msg_10",
+    "inventory_checked_flag": true,
+    "asset_tag_nullable": "LT-MBP-002",
+    "requested_ts": "2024-07-26T11:15:00Z",
+    "updated_ts": "2024-07-27T09:45:00Z"
+  },
+  {
+    "request_id": "asset_req_5",
+    "candidate_id": "cand_7",
+    "asset_type": "Laptop",
+    "status": "Pending",
+    "email_message_id_nullable": "msg_11",
+    "inventory_checked_flag": true,
+    "asset_tag_nullable": "LT-MBP-001",
+    "requested_ts": "2024-08-06T14:20:00Z",
+    "updated_ts": "2024-08-06T14:25:00Z"
+  },
+  {
+    "request_id": "asset_req_6",
+    "candidate_id": "cand_4",
+    "asset_type": "Phone",
+    "status": "Reserved",
+    "email_message_id_nullable": "msg_12",
+    "inventory_checked_flag": true,
+    "asset_tag_nullable": "PH-IPHONE-002",
+    "requested_ts": "2024-07-22T15:00:00Z",
+    "updated_ts": "2024-07-22T15:10:00Z"
+  }
+]

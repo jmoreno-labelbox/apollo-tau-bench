@@ -1,6 +1,8 @@
 # Copyright Sierra
 
 from typing import Optional, Union
+import importlib
+import os
 from tau_bench.envs.base import Env
 from tau_bench.envs.user import UserStrategy
 
@@ -13,20 +15,31 @@ def get_env(
     user_provider: Optional[str] = None,
     task_index: Optional[int] = None,
 ) -> Env:
-    if env_name == "retail":
-        from tau_bench.envs.retail import MockRetailDomainEnv
-
-        return MockRetailDomainEnv(
-            user_strategy=user_strategy,
-            user_model=user_model,
-            task_split=task_split,
-            user_provider=user_provider,
-            task_index=task_index,
-        )
-    elif env_name == "airline":
-        from tau_bench.envs.airline import MockAirlineDomainEnv
-
-        return MockAirlineDomainEnv(
+    # Dynamic import path: allow alternate envs package via env var
+    envs_pkg = os.environ.get("TAU_BENCH_ENVS_PACKAGE", "tau_bench.envs")
+    try:
+        module = importlib.import_module(f"{envs_pkg}.{env_name}")
+        # Find an exported Env class ending with 'DomainEnv'
+        for attr in dir(module):
+            if attr.endswith("DomainEnv"):
+                EnvCls = getattr(module, attr)
+                return EnvCls(
+                    user_strategy=user_strategy,
+                    user_model=user_model,
+                    task_split=task_split,
+                    user_provider=user_provider,
+                    task_index=task_index,
+                )
+    except Exception:
+        # Fall back to static mapping below
+        pass
+    # dynamic import root
+    envs_pkg = os.environ.get("TAU_BENCH_ENVS_PACKAGE", "tau_bench.envs")
+    # fast path for retail/airline for backwards-compat
+    if env_name in ["retail", "airline"]:
+        module = importlib.import_module(f"{envs_pkg}.{env_name}")
+        EnvCls = getattr(module, "MockRetailDomainEnv" if env_name.startswith("retail") else "MockAirlineDomainEnv")
+        return EnvCls(
             user_strategy=user_strategy,
             user_model=user_model,
             task_split=task_split,
@@ -134,9 +147,8 @@ def get_env(
             task_index=task_index,
         )
     elif env_name == "airline_1":
-        from tau_bench.envs.airline_1 import MockAirlineDomainEnv
-
-        return MockAirlineDomainEnv(
+        module = importlib.import_module(f"{envs_pkg}.airline_1")
+        return getattr(module, "MockAirlineDomainEnv")(
             user_strategy=user_strategy,
             user_model=user_model,
             task_split=task_split,

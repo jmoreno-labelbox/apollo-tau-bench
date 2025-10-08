@@ -1,0 +1,242 @@
+[
+  {
+    "allocation_id": "alloc_web_01",
+    "employee_id": "emp_dev_05",
+    "project_id": "proj_web_01",
+    "hours_per_week": 25,
+    "role": "Full Stack Developer",
+    "start_date": "2024-01-01",
+    "end_date": "2024-05-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_api_01",
+    "employee_id": "emp_dev_05",
+    "project_id": "proj_api_02",
+    "hours_per_week": 23,
+    "role": "Full Stack Developer",
+    "start_date": "2024-02-15",
+    "end_date": "2024-05-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_bank_01",
+    "employee_id": "emp_sec_dev_01",
+    "project_id": "proj_banking_01",
+    "hours_per_week": 40,
+    "role": "Security Developer",
+    "start_date": "2024-01-01",
+    "end_date": "2024-08-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_finance_01",
+    "employee_id": "emp_sec_dev_02",
+    "project_id": "proj_finance_01",
+    "hours_per_week": 30,
+    "role": "Security Developer",
+    "start_date": "2024-02-01",
+    "end_date": "2024-07-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_audit_01",
+    "employee_id": "emp_sec_test_01",
+    "project_id": "proj_audit_01",
+    "hours_per_week": 28,
+    "role": "Security Tester",
+    "start_date": "2024-01-15",
+    "end_date": "2024-06-30",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_report_01",
+    "employee_id": "emp_analyst_01",
+    "project_id": "proj_reporting_01",
+    "hours_per_week": 30,
+    "role": "Business Analyst",
+    "start_date": "2024-01-15",
+    "end_date": "2024-06-30",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_report_02",
+    "employee_id": "emp_analyst_02",
+    "project_id": "proj_reporting_01",
+    "hours_per_week": 10,
+    "role": "Data Analyst",
+    "start_date": "2024-01-15",
+    "end_date": "2024-06-30",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_alpha_01",
+    "employee_id": "emp_dev_15",
+    "project_id": "proj_alpha_01",
+    "hours_per_week": 40,
+    "role": "Full Stack Developer",
+    "start_date": "2024-01-01",
+    "end_date": "2024-06-30",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_beta_01",
+    "employee_id": "emp_dev_15",
+    "project_id": "proj_beta_02",
+    "hours_per_week": 20,
+    "role": "Full Stack Developer",
+    "start_date": "2024-01-15",
+    "end_date": "2024-06-30",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_gamma_01",
+    "employee_id": "emp_qa_02",
+    "project_id": "proj_gamma_03",
+    "hours_per_week": 24,
+    "role": "QA Engineer",
+    "start_date": "2024-02-01",
+    "end_date": "2024-07-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_client_01",
+    "employee_id": "emp_dev_20",
+    "project_id": "proj_client_01",
+    "hours_per_week": 40,
+    "role": "Frontend Developer",
+    "start_date": "2024-01-01",
+    "end_date": "2024-12-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_client_02",
+    "employee_id": "emp_dev_21",
+    "project_id": "proj_client_01",
+    "hours_per_week": 40,
+    "role": "Backend Developer",
+    "start_date": "2024-01-01",
+    "end_date": "2024-12-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_client_03",
+    "employee_id": "emp_test_05",
+    "project_id": "proj_client_01",
+    "hours_per_week": 40,
+    "role": "Test Engineer",
+    "start_date": "2024-01-01",
+    "end_date": "2024-12-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_data_01",
+    "employee_id": "emp_data_01",
+    "project_id": "proj_ai_01",
+    "hours_per_week": 32,
+    "role": "Senior Data Analyst",
+    "start_date": "2024-01-15",
+    "end_date": "2024-12-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_data_02",
+    "employee_id": "emp_data_02",
+    "project_id": "proj_platform_02",
+    "hours_per_week": 26,
+    "role": "Data Engineer",
+    "start_date": "2024-02-01",
+    "end_date": "2024-10-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_analyst_03",
+    "employee_id": "emp_analyst_03",
+    "project_id": "proj_gamma_03",
+    "hours_per_week": 24,
+    "role": "Junior Analyst",
+    "start_date": "2024-02-01",
+    "end_date": "2024-07-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_mobile_03",
+    "employee_id": "emp_dev_03",
+    "project_id": "proj_mobile_01",
+    "hours_per_week": 30,
+    "role": "React Native Developer",
+    "start_date": "2024-03-15",
+    "end_date": "2024-06-30",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_insights_02",
+    "employee_id": "emp_analyst_01",
+    "project_id": "proj_insights_01",
+    "hours_per_week": 8,
+    "role": "Business Analyst",
+    "start_date": "2024-02-01",
+    "end_date": "2024-08-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_devops_01",
+    "employee_id": "emp_devops_02",
+    "project_id": "proj_enterprise_01",
+    "hours_per_week": 36,
+    "role": "DevOps Engineer",
+    "start_date": "2024-01-01",
+    "end_date": "2024-12-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_devops_02",
+    "employee_id": "emp_devops_04",
+    "project_id": "proj_platform_02",
+    "hours_per_week": 24,
+    "role": "DevOps Engineer",
+    "start_date": "2024-02-01",
+    "end_date": "2024-10-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_insights_03",
+    "employee_id": "emp_analyst_02",
+    "project_id": "proj_insights_01",
+    "hours_per_week": 22,
+    "role": "Data Analyst",
+    "start_date": "2024-02-01",
+    "end_date": "2024-08-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_arch_01",
+    "employee_id": "emp_arch_01",
+    "project_id": "proj_enterprise_01",
+    "hours_per_week": 20,
+    "role": "Senior Architect",
+    "start_date": "2024-01-01",
+    "end_date": "2024-12-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_arch_02",
+    "employee_id": "emp_arch_01",
+    "project_id": "proj_platform_02",
+    "hours_per_week": 20,
+    "role": "Senior Architect",
+    "start_date": "2024-02-01",
+    "end_date": "2024-10-31",
+    "status": "active"
+  },
+  {
+    "allocation_id": "alloc_eng_20",
+    "employee_id": "emp_eng_20",
+    "project_id": "proj_web_03",
+    "hours_per_week": 32,
+    "role": "Senior Developer",
+    "start_date": "2024-02-01",
+    "end_date": "2024-10-31",
+    "status": "active"
+  }
+]

@@ -1,0 +1,184 @@
+from tau_bench.types import Action, Task
+
+
+TASKS = [
+    Task(
+        annotator="0",
+        user_id="USER_001",
+        instruction=(
+            "Execute HQ Ops+Pricing analysis duties. You want flight HAT001 to be available on 2024-05-03, and—on "
+            "2024-05-17—you want it available with available_seats={'basic_economy':16,'economy':13,'business':9} "
+            "and prices={'basic_economy':76,'economy':189,'business':498}. You want confirmation of the "
+            "flight_status for 2024-05-03 and—for 2024-05-17—the available_seats and prices above."
+        ),
+        actions=[
+            Action(name="UpdateFlightSchedule", kwargs={
+                "flight_number": "HAT001",
+                "dates": ["2024-05-03"],
+                "status": "available"
+            }),
+            Action(name="UpdateFlightSchedule", kwargs={
+                "flight_number": "HAT001",
+                "dates": ["2024-05-17"],
+                "status": "available"
+            }),
+            Action(name="UpdateFlightInventoryAndPrices", kwargs={
+                "flight_number": "HAT001",
+                "date": "2024-05-17",
+                "status": "available",
+                "available_seats": {"basic_economy": 16, "economy": 13, "business": 9},
+                "prices": {"basic_economy": 76, "economy": 189, "business": 498}
+            }),
+            Action(name="GetFlightStatusByDate", kwargs={
+                "flight_number": "HAT001",
+                "date": "2024-05-03"
+            }),
+            Action(name="GetAvailableSeat", kwargs={
+                "flight_number": "HAT001",
+                "date": "2024-05-17",
+                "cabin": "basic_economy"
+            }),
+        ],
+        outputs=[]
+    ),
+    Task(
+        annotator="0",
+        user_id="USER_002",
+        instruction=(
+            "Execute HQ Pricing analysis duties. You want an audit snapshot for flight HAT197 on 2024-05-17. You need the flight to be operating (status ‘available’) with base fares on that date exactly: Basic Economy = 76, Economy = 189, Business = 498. You also need the Economy average price for 2024-05-16..2024-05-18 (min_samples = 1). Return only a concise verification summary with: operating_date, flight_status, the prices for 2024-05-17, and the computed average_price. Limit scope strictly to HAT197 and those dates."
+        ),
+        actions=[
+            Action(name="UpdateFlightSchedule", kwargs={
+                "flight_number": "HAT197",
+                "dates": ["2024-05-17"],
+                "status": "available"
+            }),
+            Action(name="GetFlightStatusByDate", kwargs={
+                "flight_number": "HAT197", "date": "2024-05-17"
+            }),
+            Action(name="SetTicketPrice", kwargs={
+                "flight_number": "HAT197", "date": "2024-05-17",
+                "fare_class": "basic_economy", "price": 76
+            }),
+            Action(name="SetTicketPrice", kwargs={
+                "flight_number": "HAT197", "date": "2024-05-17",
+                "fare_class": "economy", "price": 189
+            }),
+            Action(name="SetTicketPrice", kwargs={
+                "flight_number": "HAT197", "date": "2024-05-17",
+                "fare_class": "business", "price": 498
+            }),
+            Action(name="GetAverageTicketPrice", kwargs={
+                "flight_number": "HAT197",
+                "fare_class": "economy",
+                "start_date": "2024-05-16",
+                "end_date": "2024-05-18",
+                "min_samples": 1
+            }),
+        ],
+        outputs=[]
+    ),
+    Task(
+        annotator="0",
+        user_id="USER_003",
+        instruction=(
+            "Execute HQ Pricing analysis duties. You want HAT090 and HAT223 seasonally neutral on base_fare "
+            "for 2024-05-24 through 2024-05-26 (multiplier 1.00); where not neutral, you need them normalized "
+            "idempotently to neutrality. After this you want a cheapest-leg audit for reservation 'PGAGLM' using the "
+            "reservation’s cabin, constrained to operating legs only (status 'available' with seats>0) and "
+            "without deriving from flight buckets when leg prices already exist (fallback_to_flights=false). "
+            "Return only: reservation_id, cabin, and a single cheapest_leg with flight_number, date (ISO), price, "
+            "and price_source. Scope is strictly those flights/dates and the given reservation."
+        ),
+        actions=[
+            Action(name="AdjustSeasonalPricing", kwargs={
+                "flight_number": "HAT090",
+                "start_date": "2024-05-24",
+                "end_date":   "2024-05-26",
+                "multiplier": 1.00
+            }),
+            Action(name="AdjustSeasonalPricing", kwargs={
+                "flight_number": "HAT223",
+                "start_date": "2024-05-24",
+                "end_date": "2024-05-26",
+                "multiplier": 1.00
+            }),
+            Action(name="GetCheapestFlightFromReservation", kwargs={
+                "reservation_id": "PGAGLM",
+                "require_available": True,
+                "fallback_to_flights": False
+            }),
+        ],
+        outputs=[]
+    ),
+    Task(
+        annotator="0",
+        user_id="USER_004",
+        instruction=(
+            "Execute Pricing analysis duties at HQ. You want flight HAT010 to be scheduled as available on 2024-05-16 with "
+            "aircraft A320, treating schedule updates as additive and idempotent (no removals; no crew changes). You want "
+            "confirmation of the current base fares on 2024-05-16 for Basic Economy, Economy, and Business. Return only the "
+            "date and the base fares for those cabins. Limit scope strictly to HAT010 and this date."
+        ),
+        actions=[
+            Action(name="UpdateFlightSchedule", kwargs={
+                "flight_number": "HAT010",
+                "dates": ["2024-05-16"],
+                "status": "available",
+                "aircraft": "A320"
+            }),
+            Action(name="GetCurrentTicketPrice", kwargs={
+                "flight_number": "HAT010",
+                "date": "2024-05-16",
+                "fare_class": "basic_economy"
+            }),
+            Action(name="GetCurrentTicketPrice", kwargs={
+                "flight_number": "HAT010",
+                "date": "2024-05-16",
+                "fare_class": "economy"
+            }),
+            Action(name="GetCurrentTicketPrice", kwargs={
+                "flight_number": "HAT010",
+                "date": "2024-05-16",
+                "fare_class": "business"
+            }),
+        ],
+        outputs=[]
+    ),
+    Task(
+        annotator="0",
+        user_id="USER_005",
+        instruction=(
+            "Lead HQ pricing operations. You want an ATL→JFK corridor snapshot for 2024-05-23 through 2024-05-30 "
+            "that shows the authoritative cheapest-by-date for Basic Economy on base_fare, restricted to operating "
+            "options (status 'available' with seats >0) and applying policy tie-breakers including lexicographic flight number. "
+            "For HAT233, you need its schedule normalized so that it is 'cancelled' on 2024-05-17 and 2024-05-19, "
+            "with explicit readbacks of the status for those two dates. Scope is limited strictly to the ATL→JFK corridor "
+            "and HAT233; return only the minimal verification fields."
+        ),
+        actions=[
+            Action(name="UpdateFlightSchedule", kwargs={
+                "flight_number": "HAT233",
+                "dates": ["2024-05-17", "2024-05-19"],
+                "status": "cancelled"
+            }),
+            Action(name="GetFlightStatusByDate", kwargs={
+                "flight_number": "HAT233",
+                "date": "2024-05-17"
+            }),
+            Action(name="GetFlightStatusByDate", kwargs={
+                "flight_number": "HAT233",
+                "date": "2024-05-19"
+            }),
+            Action(name="ComputeCheapestByDateForRoute", kwargs={
+                "origin": "ATL",
+                "destination": "JFK",
+                "fare_class": "basic_economy",
+                "price_component": "base_fare",
+                "require_available": True,
+                "tie_breaker": "lexicographic_flight_number",
+                "start_date": "2024-05-23",
+                "end_date": "2024-05-30"
+            }),
+        ],
+        outputs=[]

@@ -1,0 +1,50 @@
+[
+  {
+    "order_item_id": 10101,
+    "order_id": 10001,
+    "product_id": 9101,
+    "requested_qty": 1,
+    "fulfilled_qty": 1,
+    "substitute_product_id": null
+  },
+  {
+    "order_item_id": 10102,
+    "order_id": 10001,
+    "product_id": 9102,
+    "requested_qty": 1,
+    "fulfilled_qty": 1,
+    "substitute_product_id": null
+  },
+  {
+    "order_item_id": 10103,
+    "order_id": 10001,
+    "product_id": 9104,
+    "requested_qty": 1,
+    "fulfilled_qty": 0,
+    "substitute_product_id": 9103
+  },
+  {
+    "order_item_id": 10111,
+    "order_id": 10002,
+    "product_id": 9111,
+    "requested_qty": 1,
+    "fulfilled_qty": 1,
+    "substitute_product_id": null
+  },
+  {
+    "order_item_id": 10112,
+    "order_id": 10002,
+    "product_id": 9112,
+    "requested_qty": 1,
+    "fulfilled_qty": 1,
+    "substitute_product_id": null
+  },
+  {
+    "order_item_id": 10113,
+    "order_id": 10002,
+    "product_id": 9113,
+    "requested_qty": 1,
+    "fulfilled_qty": 1,
+    "substitute_product_id": null
+  }
+]

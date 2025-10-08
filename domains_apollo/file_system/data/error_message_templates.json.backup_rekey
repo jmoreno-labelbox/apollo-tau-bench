@@ -1,0 +1,92 @@
+[
+  {
+    "error_type": "ssh_connection",
+    "template": "Failed to establish SSH connection to {remote_server}. {details}. Task {task_id} cannot proceed.",
+    "severity": "critical",
+    "suggested_action": "Check server status and network connectivity"
+  },
+  {
+    "error_type": "ssh_authentication",
+    "template": "SSH authentication failed for {username} on {remote_server}. Key {ssh_key} may be invalid or expired. Task {task_id} aborted.",
+    "severity": "critical",
+    "suggested_action": "Verify SSH key permissions and server authorization"
+  },
+  {
+    "error_type": "insufficient_local_storage",
+    "template": "Insufficient local storage space. Required: {required_bytes} ({required_display}), Available: {available_bytes} ({available_display}). Task {task_id} cannot proceed.",
+    "severity": "critical",
+    "suggested_action": "Free up disk space or choose a different working directory"
+  },
+  {
+    "error_type": "insufficient_remote_storage",
+    "template": "Insufficient remote storage space on {remote_server}. Required: {required_bytes} ({required_display}), Available: {available_bytes} ({available_display}). Task {task_id} cannot proceed.",
+    "severity": "critical",
+    "suggested_action": "Free up space on remote server or choose a different destination"
+  },
+  {
+    "error_type": "checksum_mismatch",
+    "template": "File integrity check failed for task {task_id}. Checksum mismatch detected for {filename}. Expected: {expected_checksum}, Actual: {actual_checksum}.",
+    "severity": "critical",
+    "suggested_action": "Retry the operation or check for file corruption"
+  },
+  {
+    "error_type": "file_not_found",
+    "template": "Required file not found: {filepath}. Task {task_id} cannot proceed with archival.",
+    "severity": "critical",
+    "suggested_action": "Verify file paths and permissions"
+  },
+  {
+    "error_type": "permission_denied",
+    "template": "Permission denied accessing {filepath}. User {username} lacks required permissions. Task {task_id} failed.",
+    "severity": "critical",
+    "suggested_action": "Check file permissions and user privileges"
+  },
+  {
+    "error_type": "tmux_session_failed",
+    "template": "Failed to create or attach to tmux session '{session_name}' on {remote_server}. Task {task_id} cannot proceed.",
+    "severity": "high",
+    "suggested_action": "Check tmux installation and session conflicts"
+  },
+  {
+    "error_type": "server_maintenance",
+    "template": "Target server {remote_server} is in maintenance mode. Task {task_id} has been deferred.",
+    "severity": "medium",
+    "suggested_action": "Wait for maintenance completion or use alternative server"
+  },
+  {
+    "error_type": "low_storage_warning",
+    "template": "Warning: Low storage space detected. Available: {available_bytes} ({available_display}), Required: {required_bytes} ({required_display}). Task {task_id} may fail.",
+    "severity": "warning",
+    "suggested_action": "Monitor disk usage during operation"
+  },
+  {
+    "error_type": "network_timeout",
+    "template": "Network timeout occurred while transferring {filename} to {remote_server}. Task {task_id} interrupted.",
+    "severity": "high",
+    "suggested_action": "Check network connectivity and retry operation"
+  },
+  {
+    "error_type": "archive_creation_failed",
+    "template": "Failed to create archive {archive_name} for task {task_id}. {details}",
+    "severity": "critical",
+    "suggested_action": "Check file permissions and available disk space"
+  },
+  {
+    "error_type": "rsync_failed",
+    "template": "Rsync transfer failed for task {task_id}. Source: {source_path}, Destination: {destination_path}. Error: {details}",
+    "severity": "critical",
+    "suggested_action": "Check network connectivity and destination permissions"
+  },
+  {
+    "error_type": "file_scan_timeout",
+    "template": "File scanning operation timed out after {duration} seconds for directory {target_directory}. Task {task_id} incomplete.",
+    "severity": "high",
+    "suggested_action": "Consider breaking down large directories or increasing timeout"
+  },
+  {
+    "error_type": "json_validation_failed",
+    "template": "Generated file database failed JSON validation for task {task_id}. {validation_error}",
+    "severity": "medium",
+    "suggested_action": "Check data formatting and retry scan operation"
+  }
+]

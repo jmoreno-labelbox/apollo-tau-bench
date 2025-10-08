@@ -1,0 +1,167 @@
+[
+  {
+    "ticket_id": "tkt_c1d0e9f8-a9b8-c7d6-e5f4-a3b2c1d0e9f8",
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1",
+    "status": "Resolved",
+    "priority": "Medium",
+    "channel": "Phone",
+    "category": "Scheduled Payment",
+    "request_details": {
+      "target_entity": "ScheduledPayment",
+      "target_id": "sp_d9b3a2c1-b4c3-d2e1-f0a9-b8c7d6e5f4a3",
+      "operation": "UPDATE",
+      "parameters": {
+        "field": "status",
+        "new_value": "Cancelled"
+      }
+    }
+  },
+  {
+    "ticket_id": "tkt_e9f8c7d6-c7d6-e5f4-a3b2-c1d0e9f8g7h6",
+    "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+    "status": "Open",
+    "priority": "Medium",
+    "channel": "Email",
+    "category": "Account Management",
+    "request_details": {
+      "target_entity": "Account",
+      "target_id": "acc_sav_5001",
+      "operation": "UPDATE",
+      "parameters": {
+        "field": "nickname",
+        "new_value": "Vacation Fund"
+      }
+    }
+  },
+  {
+    "ticket_id": "tkt_f8c7d6e5-d6e5-f4a3-b2c1-d0e9f8g7h6i5",
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5",
+    "status": "Open",
+    "priority": "High",
+    "channel": "Phone",
+    "category": "Security",
+    "request_details": {
+      "target_entity": "Account",
+      "target_id": "acc_chk_6001",
+      "operation": "UPDATE",
+      "parameters": {
+        "field": "status",
+        "new_value": "Frozen",
+        "reason": "Customer reported lost debit card. A new card has been issued."
+      }
+    }
+  },
+  {
+    "ticket_id": "tkt_c7d6e5f4-e5f4-a3b2-c1d0-e9f8g7h6i5j4",
+    "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",
+    "status": "Open",
+    "priority": "Medium",
+    "channel": "Email",
+    "category": "Beneficiary Management",
+    "request_details": {
+      "target_entity": "Beneficiary",
+      "target_id": null,
+      "operation": "CREATE",
+      "parameters": {
+        "beneficiary_name": "Jean-Pierre Dubois",
+        "beneficiary_type": "Personal",
+        "relationship": "Father",
+        "account_details": {
+            "iban": "FR7630002005500000157845Z25",
+            "bank_name": "Societe Generale",
+            "bic_swift": "SOGEFRPP",
+            "country": "France"
+        }
+      }
+    }
+  },
+    {
+    "ticket_id": "tkt_d6e5f4a3-f4a3-b2c1-d0e9-f8g7h6i5j4k3",
+    "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
+    "status": "Open",
+    "priority": "Medium",
+    "channel": "Web Portal",
+    "category": "Scheduled Payment",
+    "request_details": {
+      "target_entity": "ScheduledPayment",
+      "target_id": "sp_b3a2c1d9-8e7f-6a5b-4c3d-2e1f0a9b8c7d",
+      "operation": "UPDATE",
+      "parameters": {
+        "field": "amount",
+        "new_value": 130.00
+      }
+    }
+  },
+  {
+    "ticket_id": "tkt_a3b2c1d0-c1d0-e9f8-g7h6-i5j4k3l2m1n0",
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23",
+    "status": "Resolved",
+    "priority": "Medium",
+    "channel": "Email",
+    "category": "Scheduled Payment",
+    "request_details": {
+      "target_entity": "ScheduledPayment",
+      "target_id": "sp_f4n6a5m7-l2m1-n0o9-p8q7-r6s5t4u3v2w1",
+      "operation": "UPDATE",
+      "parameters": {
+        "field": "status",
+        "new_value": "Paused"
+      }
+    }
+  },
+    {
+    "ticket_id": "tkt_b2c1d0e9-d0e9-f8g7-h6i5-j4k3l2m1n0o9",
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-13",
+    "status": "Resolved",
+    "priority": "Low",
+    "channel": "Email",
+    "category": "Beneficiary Management",
+    "request_details": {
+      "target_entity": "Beneficiary",
+      "target_id": "bene_9d8e7f6a-5b4c-3d2e-1f0a-9b8c7d6e5f4a",
+      "operation": "DELETE",
+      "parameters": {}
+    }
+  },
+  {
+    "ticket_id": "tkt_c1d0e9f8-e9f8-g7h6-i5j4-k3l2m1n0o9p8",
+    "customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4",
+    "status": "Open",
+    "priority": "High",
+    "channel": "Phone",
+    "category": "Security",
+    "request_details": {
+      "target_entity": "Account",
+      "target_id": "acc_chk_5002",
+      "operation": "UPDATE",
+      "parameters": {
+        "field": "status",
+        "new_value": "Frozen",
+        "reason": "Suspicious transaction detected. Awaiting customer confirmation."
+      }
+    }
+  },
+  {
+    "ticket_id": "tkt_d0e9f8c7-f8g7-h6i5-j4k3-l2m1n0o9p8q7",
+    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24",
+    "status": "Open",
+    "priority": "Medium",
+    "channel": "Web Portal",
+    "category": "Account Management",
+    "request_details": {
+      "target_entity": "Customer",
+      "target_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24",
+      "operation": "UPDATE",
+      "parameters": {
+        "field": "contact_info.mailing_address",
+        "new_value": {
+            "street_address": "Strada Nouă 20",
+            "city": "Bucharest",
+            "state": "",
+            "postal_code": "010085",
+            "country": "Romania"
+        }
+      }
+    }
+  }
+]

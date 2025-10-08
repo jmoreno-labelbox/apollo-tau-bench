@@ -1,0 +1,76 @@
+{
+  "notion_sf_run_001": {
+    "page_id": "notion_sf_run_001",
+    "title": "Oakland Flood Risk Analysis - Run 2024-03-17",
+    "url_nullable": "https://notion.so/team/sf-flood-analysis-xyz789",
+    "properties_json_nullable": "{\"City\": \"Oakland\", \"Station\": \"9414290\", \"Run Date\": \"2024-03-17\", \"Status\": \"Complete\", \"Predictions CSV\": \"https://files.notion.so/processed_data/predictions_final.csv\", \"Metrics CSV\": \"https://files.notion.so/processed_data/metrics_summary.csv\", \"Artifacts\": \"https://files.notion.so/artifacts/sf_run_artifacts.zip\"}",
+    "sections_present": [
+      "Executive Summary",
+      "Data & Methods",
+      "Results",
+      "Limitations",
+      "Next Steps",
+      "References"
+    ],
+    "created_ts": "2024-03-17T12:15:00Z",
+    "updated_ts": "2024-03-17T12:45:00Z"
+  },
+  "notion_001": {
+    "page_id": "notion_001",
+    "title": "Coastal Flood Risk Prediction Project",
+    "url_nullable": "https://notion.so/team/coastal-flood-prediction-abc123",
+    "properties_json_nullable": "{\"Status\": \"In Progress\", \"Priority\": \"High\", \"Owner\": \"Research Team\", \"Due Date\": \"2024-03-31\"}",
+    "sections_present": [
+      "Executive Summary",
+      "Project Overview",
+      "Data Sources",
+      "Methodology",
+      "Results",
+      "Next Steps"
+    ],
+    "created_ts": "2024-01-15T16:00:00Z",
+    "updated_ts": "2024-03-18T09:30:00Z"
+  },
+  "notion_002": {
+    "page_id": "notion_002",
+    "title": "Model Performance Analysis",
+    "url_nullable": "https://notion.so/team/model-performance-def456",
+    "properties_json_nullable": "{\"Type\": \"Analysis\", \"Related Project\": \"Flood Prediction\", \"Status\": \"Complete\"}",
+    "sections_present": [
+      "Model Comparison",
+      "Performance Metrics",
+      "Feature Importance",
+      "Recommendations"
+    ],
+    "created_ts": "2024-03-17T14:00:00Z",
+    "updated_ts": "2024-03-18T16:30:00Z"
+  },
+  "notion_003": {
+    "page_id": "notion_003",
+    "title": "Data Collection and Processing Pipeline",
+    "url_nullable": null,
+    "properties_json_nullable": null,
+    "sections_present": [
+      "API Integration",
+      "Data Cleaning Steps",
+      "Quality Control Procedures"
+    ],
+    "created_ts": "2024-02-05T11:15:00Z",
+    "updated_ts": "2024-03-16T15:45:00Z"
+  },
+  "notion_boston_run_001": {
+    "page_id": "notion_boston_run_001",
+    "title": "Providence Harbor Ice Impact Analysis - Winter Storm Assessment",
+    "url_nullable": "https://notion.so/team/boston-harbor-analysis-abc123",
+    "properties_json_nullable": "{\"predictions_file\": \"/data/processed/predictions_boston.csv\", \"metrics_file\": \"/data/processed/metrics_boston.csv\", \"model_file\": \"models/boston_harbor_model.joblib\", \"ice_coverage_threshold\": \"15%\"}",
+    "sections_present": [
+      "Executive Summary",
+      "Winter Weather Analysis",
+      "Ice Coverage Impact",
+      "Harbor Safety Recommendations",
+      "Emergency Response Planning"
+    ],
+    "created_ts": "2024-03-01T13:45:00Z",
+    "updated_ts": "2024-03-01T14:00:00Z"
+  }
+}

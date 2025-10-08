@@ -1,0 +1,158 @@
+[
+  {
+    "review_id": "rev_001",
+    "review_type": "quarterly",
+    "project_id": "proj_mobile_01",
+    "review_date": "2024-03-25T14:00:00Z",
+    "participants": [
+      "sh_001",
+      "sh_002",
+      "sh_003",
+      "sh_004"
+    ],
+    "scheduled_by": "sh_003",
+    "scheduled_date": "2024-03-10T10:00:00Z",
+    "status": "scheduled",
+    "review_items": [
+      {
+        "item_type": "change_request",
+        "item_id": "cr_001",
+        "status": "approved",
+        "priority": "high"
+      },
+      {
+        "item_type": "change_request",
+        "item_id": "cr_003",
+        "status": "pending_approval",
+        "priority": "medium"
+      },
+      {
+        "item_type": "cumulative_review",
+        "description": "Review cumulative changes for potential rebaseline"
+      }
+    ],
+    "agenda": {
+      "pending_changes": 2,
+      "topics": [
+        "Review pending change requests",
+        "Assess cumulative impact on baseline",
+        "Evaluate resource availability for changes",
+        "Review risk assessments",
+        "Determine if rebaseline is needed"
+      ]
+    }
+  },
+  {
+    "review_id": "rev_002",
+    "review_type": "adhoc",
+    "project_id": "proj_ai_01",
+    "review_date": "2024-03-22T10:00:00Z",
+    "participants": [
+      "sh_003",
+      "sh_004",
+      "emp_pm_04"
+    ],
+    "scheduled_by": "emp_pm_04",
+    "scheduled_date": "2024-03-15T14:00:00Z",
+    "status": "scheduled",
+    "review_items": [
+      {
+        "item_type": "change_request",
+        "item_id": "cr_002",
+        "status": "in_review",
+        "priority": "medium"
+      }
+    ],
+    "agenda": {
+      "pending_changes": 1,
+      "topics": [
+        "Review change requests",
+        "Assess impacts",
+        "Make approval decisions"
+      ]
+    }
+  },
+  {
+    "review_id": "rev_003",
+    "review_type": "milestone",
+    "project_id": "proj_enterprise_01",
+    "review_date": "2024-04-01T15:00:00Z",
+    "participants": [
+      "sh_001",
+      "sh_003",
+      "emp_arch_01"
+    ],
+    "scheduled_by": "emp_arch_01",
+    "scheduled_date": "2024-03-18T11:00:00Z",
+    "status": "scheduled",
+    "review_items": [],
+    "agenda": {
+      "pending_changes": 0,
+      "topics": [
+        "Review milestone achievements",
+        "Assess need for changes",
+        "Plan next phase"
+      ]
+    }
+  },
+  {
+    "review_id": "rev_004",
+    "review_type": "quarterly",
+    "project_id": "proj_client_01",
+    "review_date": "2024-03-30T09:00:00Z",
+    "participants": [
+      "sh_001",
+      "sh_002",
+      "sh_003",
+      "emp_pm_03"
+    ],
+    "scheduled_by": "sh_003",
+    "scheduled_date": "2024-03-05T10:00:00Z",
+    "status": "scheduled",
+    "review_items": [
+      {
+        "item_type": "change_request",
+        "item_id": "cr_005",
+        "status": "approved",
+        "priority": "high"
+      },
+      {
+        "item_type": "cumulative_review",
+        "description": "Review cumulative changes for potential rebaseline"
+      }
+    ],
+    "agenda": {
+      "pending_changes": 0,
+      "topics": [
+        "Review approved changes implementation",
+        "Assess cumulative impact on baseline",
+        "Evaluate timeline acceleration success",
+        "Review risk assessments",
+        "Determine if rebaseline is needed"
+      ]
+    }
+  },
+  {
+    "review_id": "rev_005",
+    "review_type": "adhoc",
+    "project_id": "proj_banking_01",
+    "review_date": "2024-03-28T11:00:00Z",
+    "participants": [
+      "sh_003",
+      "sh_005",
+      "emp_sec_dev_01"
+    ],
+    "scheduled_by": "emp_sec_dev_01",
+    "scheduled_date": "2024-03-20T13:00:00Z",
+    "status": "scheduled",
+    "review_items": [],
+    "agenda": {
+      "pending_changes": 0,
+      "topics": [
+        "Security compliance review",
+        "Assess potential changes needed",
+        "Review risk landscape"
+      ]
+    }
+  }
+]

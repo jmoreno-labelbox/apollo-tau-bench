@@ -1,0 +1,89 @@
+{
+  "gate_001": {
+    "review_id": "gate_001",
+    "milestone_id": "ms_002",
+    "review_date": "2024-04-10T00:00:00Z",
+    "criteria_results": {
+      "Code coverage > 80%": "pass",
+      "No critical security issues": "fail",
+      "Performance meets SLA": "pass",
+      "Architecture review approved": "pass"
+    },
+    "overall_decision": "conditional_pass",
+    "review_notes": "Minor security issues need resolution within 5 days",
+    "reviewers": [
+      "emp_arch_01",
+      "emp_sec_dev_01",
+      "emp_pm_03"
+    ],
+    "action_items": [
+      "Fix SQL injection vulnerability",
+      "Update security documentation"
+    ],
+    "consecutive_failures": 0,
+    "created_date": "2024-04-10T16:00:00Z"
+  },
+  "gate_002": {
+    "review_id": "gate_002",
+    "milestone_id": "ms_004",
+    "review_date": "2024-04-25T00:00:00Z",
+    "criteria_results": {
+      "Scalability requirements met": "pass",
+      "Security architecture approved": "pass",
+      "Performance targets defined": "pass"
+    },
+    "overall_decision": "pass",
+    "review_notes": "All criteria met, proceed to next phase",
+    "reviewers": [
+      "sh_004",
+      "emp_arch_01",
+      "sh_003"
+    ],
+    "action_items": [],
+    "consecutive_failures": 0,
+    "created_date": "2024-04-25T15:00:00Z"
+  },
+  "gate_003": {
+    "review_id": "gate_003",
+    "milestone_id": "ms_006",
+    "review_date": "2024-05-10T00:00:00Z",
+    "criteria_results": {
+      "Zero critical vulnerabilities": "pass",
+      "PCI DSS compliant": "pass",
+      "SOC2 requirements met": "fail"
+    },
+    "overall_decision": "fail",
+    "review_notes": "SOC2 requirements not fully met, need remediation",
+    "reviewers": [
+      "emp_sec_dev_01",
+      "sh_005",
+      "emp_sec_test_01"
+    ],
+    "action_items": [
+      "Complete SOC2 documentation",
+      "Schedule re-review"
+    ],
+    "consecutive_failures": 1,
+    "created_date": "2024-05-10T14:00:00Z"
+  },
+  "gate_004": {
+    "review_id": "gate_004",
+    "milestone_id": "ms_003",
+    "review_date": "2024-06-20T00:00:00Z",
+    "criteria_results": {
+      "Model accuracy > 95%": "pass",
+      "Training data validated": "pass",
+      "Bias testing complete": "pass"
+    },
+    "overall_decision": "pass",
+    "review_notes": "ML models meet all criteria",
+    "reviewers": [
+      "emp_data_01",
+      "sh_004",
+      "emp_analyst_01"
+    ],
+    "action_items": [],
+    "consecutive_failures": 0,
+    "created_date": "2024-06-20T11:00:00Z"
+  }
+}

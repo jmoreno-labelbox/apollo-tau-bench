@@ -1,0 +1,18 @@
+RULES = [
+    "Confirm that user identity is present prior to handling any user requests.",
+    "Always verify the product availability status prior to allocation—do not allocate items that are unavailable.",
+    "Ensure that gift card payments do not surpass the available balance—confirm balance sufficiency before proceeding with processing.",
+    "Process orders exclusively if their status is valid: pending, processed, delivered, cancelled, or for return.",
+    "Couriers may be assigned solely when the destination country aligns with their designated coverage areas.",
+    "Apply the precise variant pricing as listed in the product catalog; do not permit any unauthorized alterations to prices.",
+    "Tracking numbers must be allocated exclusively from the courier’s current pool of available tracking numbers.",
+    "Ensure that all mandatory address fields—address1, city, country, state, and zip—are validated.",
+    "Verify that item_id is present within product variants prior to adding it to orders.",
+    "Accept payment methods only if they are a valid type: credit_card, paypal, or gift_card with adequate balance.",
+    "Confirmation of multi-item orders is permitted only when every item is available.",
+    "Supply orders are required to include a valid supplier_id and an existing product_id as references.",
+    "Order fulfillments must utilize a valid tracking_id provided by the assigned courier.",
+    "The last_four digits and brand type of credit card payments must correspond to the user's stored payment methods for validation.",
+    "Customer service requests should be given precedence over internal operations.",
+    "Ensure data integrity by verifying that order totals equal the sum of item prices.",
+]

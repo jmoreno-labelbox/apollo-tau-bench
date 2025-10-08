@@ -1,0 +1,211 @@
+[
+  {
+    "team_id": "T001",
+    "team_name": "Data Analytics Team",
+    "team_lead_user_id": "U301",
+    "team_focus_area": "Data Analytics",
+    "department": "Analytics",
+    "location": "Portland",
+    "team_size": 8,
+    "team_members": [
+      "U301",
+      "U302"
+    ],
+    "key_projects": [
+      "Customer Analytics Dashboard",
+      "Predictive Modeling Initiative"
+    ],
+    "skill_requirements": [
+      "SQL",
+      "Python",
+      "Tableau",
+      "Machine Learning"
+    ],
+    "mentor_assignments": {
+      "U301": "M102",
+      "U302": null
+    }
+  },
+  {
+    "team_id": "T002",
+    "team_name": "Product Design Team",
+    "team_lead_user_id": "U304",
+    "team_focus_area": "UX Design",
+    "department": "Product Design",
+    "location": "Remote",
+    "team_size": 6,
+    "team_members": [
+      "U304",
+      "U307"
+    ],
+    "key_projects": [
+      "Design System Overhaul",
+      "Accessibility Initiative"
+    ],
+    "skill_requirements": [
+      "Figma",
+      "User Research",
+      "Prototyping",
+      "Accessibility"
+    ],
+    "mentor_assignments": {
+      "U304": "M100",
+      "U307": "M100"
+    }
+  },
+  {
+    "team_id": "T003",
+    "team_name": "Engineering Team",
+    "team_lead_user_id": "U312",
+    "team_focus_area": "Software Development",
+    "department": "Engineering",
+    "location": "Portland",
+    "team_size": 12,
+    "team_members": [
+      "U306",
+      "U312"
+    ],
+    "key_projects": [
+      "Microservices Migration",
+      "DevOps Automation"
+    ],
+    "skill_requirements": [
+      "Java",
+      "Python",
+      "Docker",
+      "Kubernetes",
+      "AWS"
+    ],
+    "mentor_assignments": {
+      "U306": "M101",
+      "U312": "M101"
+    }
+  },
+  {
+    "team_id": "T004",
+    "team_name": "Marketing Team",
+    "team_lead_user_id": "U305",
+    "team_focus_area": "Brand Strategy",
+    "department": "Marketing",
+    "location": "San Diego",
+    "team_size": 5,
+    "team_members": [
+      "U305"
+    ],
+    "key_projects": [
+      "Brand Refresh",
+      "Product Marketing Launch"
+    ],
+    "skill_requirements": [
+      "Brand Positioning",
+      "Market Research",
+      "Product Marketing",
+      "Analytics"
+    ],
+    "mentor_assignments": {
+      "U305": "M103"
+    }
+  },
+  {
+    "team_id": "T005",
+    "team_name": "Compliance Team",
+    "team_lead_user_id": "U303",
+    "team_focus_area": "Risk & Compliance",
+    "department": "Risk & Compliance",
+    "location": "Milwaukee",
+    "team_size": 4,
+    "team_members": [
+      "U303"
+    ],
+    "key_projects": [
+      "Cloud Security Compliance",
+      "Regulatory Framework Update"
+    ],
+    "skill_requirements": [
+      "Regulatory Research",
+      "GRC Tools",
+      "Cloud Security",
+      "Policy Writing"
+    ],
+    "mentor_assignments": {
+      "U303": "M102"
+    }
+  },
+  {
+    "team_id": "T006",
+    "team_name": "Documentation Team",
+    "team_lead_user_id": "U308",
+    "team_focus_area": "Technical Documentation",
+    "department": "Documentation",
+    "location": "Boulder",
+    "team_size": 3,
+    "team_members": [
+      "U308"
+    ],
+    "key_projects": [
+      "API Documentation Overhaul",
+      "UX Writing Integration"
+    ],
+    "skill_requirements": [
+      "API Docs",
+      "Markdown",
+      "Information Architecture",
+      "UX Writing"
+    ],
+    "mentor_assignments": {
+      "U308": null
+    }
+  },
+  {
+    "team_id": "T007",
+    "team_name": "Learning & Development Team",
+    "team_lead_user_id": "U309",
+    "team_focus_area": "Employee Development",
+    "department": "L&D",
+    "location": "Charlotte",
+    "team_size": 4,
+    "team_members": [
+      "U309",
+      "U311"
+    ],
+    "key_projects": [
+      "AR/VR Training Module",
+      "Learning Analytics Implementation"
+    ],
+    "skill_requirements": [
+      "Instructional Design",
+      "eLearning",
+      "AR/VR Training",
+      "Learning Analytics"
+    ],
+    "mentor_assignments": {
+      "U309": null,
+      "U311": null
+    }
+  },
+  {
+    "team_id": "T008",
+    "team_name": "People Operations Team",
+    "team_lead_user_id": "U310",
+    "team_focus_area": "HR Analytics",
+    "department": "People Ops",
+    "location": "Oakland",
+    "team_size": 6,
+    "team_members": [
+      "U310"
+    ],
+    "key_projects": [
+      "People Analytics Platform",
+      "Talent Retention Analysis"
+    ],
+    "skill_requirements": [
+      "Employee Relations",
+      "People Analytics",
+      "Data Visualization",
+      "Statistical Modeling"
+    ],
+    "mentor_assignments": {
+      "U310": null
+    }
+  }
+]

@@ -17,7 +17,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-ENVS_DIR = REPO_ROOT / "tau_bench" / "envs"
+DEFAULT_ENVS_DIR = REPO_ROOT / "tau_bench" / "envs"
 
 
 TYPE_FIX_PATTERNS = [
@@ -133,12 +133,14 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--write", action="store_true")
+    ap.add_argument("--envs-root", type=str, default=str(DEFAULT_ENVS_DIR), help="Path to envs root (default: tau_bench/envs)")
     args = ap.parse_args()
 
     scanned = 0
     changed_files = 0
     changes = 0
-    for path in ENVS_DIR.rglob("*.py"):
+    envs_dir = Path(args.envs_root)
+    for path in envs_dir.rglob("*.py"):
         try:
             fixed, n = fix_file(path)
         except Exception:

@@ -1,0 +1,253 @@
+{
+  "E10001": {
+    "employee_id": "E10001",
+    "first_name": "Sophia",
+    "last_name": "Nguyen",
+    "preferred_name": "Sophia",
+    "date_of_birth": "1978-02-16",
+    "gender": "Female",
+    "ethnicity_code": "W",
+    "nationality": "USA",
+    "marital_status": "Married",
+    "hire_date": "2010-08-02",
+    "termination_date": null,
+    "status": "Active",
+    "position_id": "POS3001",
+    "department_id": "DEPT1001",
+    "level_id": "L.C",
+    "manager_id": null,
+    "work_location": "Seattle HQ",
+    "work_email": "isabella.chen@example.com",
+    "work_phone": "+1-415-555-0100",
+    "compensation_id": "COMP2001",
+    "benefit_plan_ids": [
+      "BEN4001",
+      "BEN4002",
+      "BEN4003"
+    ],
+    "performance_review_ids": [
+      "PR5001"
+    ],
+    "skills": [
+      "Leadership",
+      "Cloud Architecture",
+      "Python"
+    ],
+    "role_description": "Chief Technology Officer overseeing all engineering functions.",
+    "notes": "Founder-level equity grant."
+  },
+  "E10002": {
+    "employee_id": "E10002",
+    "first_name": "Daniel",
+    "last_name": "Kim",
+    "preferred_name": "Dan",
+    "date_of_birth": "1982-09-04",
+    "gender": "Male",
+    "ethnicity_code": "A",
+    "nationality": "USA",
+    "marital_status": "Single",
+    "hire_date": "2015-03-17",
+    "termination_date": null,
+    "status": "Active",
+    "position_id": "POS3004",
+    "department_id": "DEPT1002",
+    "level_id": "L.5",
+    "manager_id": "E10012",
+    "work_location": "New York Office",
+    "work_email": "michael.park@example.com",
+    "work_phone": "+1‑212‑555‑0144",
+    "compensation_id": "COMP2002",
+    "benefit_plan_ids": [
+      "BEN4001",
+      "BEN4002"
+    ],
+    "performance_review_ids": [
+      "PR5002"
+    ],
+    "skills": [
+      "Sales Strategy",
+      "CRM",
+      "Negotiation"
+    ],
+    "role_description": "Regional VP of Sales for the Eastern territory.",
+    "notes": "High performer—President's Club 2023."
+  },
+  "E10003": {
+    "employee_id": "E10003",
+    "first_name": "Amelia",
+    "last_name": "Garcia",
+    "preferred_name": "Amy",
+    "date_of_birth": "1990-11-22",
+    "gender": "Female",
+    "ethnicity_code": "H",
+    "nationality": "USA",
+    "marital_status": "Partnered",
+    "hire_date": "2019-06-10",
+    "termination_date": null,
+    "status": "Active",
+    "position_id": "POS3006",
+    "department_id": "DEPT1005",
+    "level_id": "L.3",
+    "manager_id": "E10001",
+    "work_location": "Remote – Austin, TX",
+    "work_email": "emma.rodriguez@example.com",
+    "work_phone": "+1‑737‑555‑0188",
+    "compensation_id": "COMP2003",
+    "benefit_plan_ids": [
+      "BEN4001",
+      "BEN4003",
+      "BEN4004"
+    ],
+    "performance_review_ids": [
+      "PR5003",
+      "PR5010"
+    ],
+    "skills": [
+      "TypeScript",
+      "React",
+      "Accessibility"
+    ],
+    "role_description": "Senior Front‑end Engineer on the web platform team.",
+    "notes": "On parental leave 2024‑11‑01 → 2025‑02‑01."
+  },
+  "E10004": {
+    "employee_id": "E10004",
+    "first_name": "Rahul",
+    "last_name": "Singh",
+    "preferred_name": "Rahul",
+    "date_of_birth": "1988-05-02",
+    "gender": "Male",
+    "ethnicity_code": "A",
+    "nationality": "IND",
+    "marital_status": "Married",
+    "hire_date": "2022-02-14",
+    "termination_date": null,
+    "status": "Active",
+    "position_id": "POS3007",
+    "department_id": "DEPT1001",
+    "level_id": "L.2",
+    "manager_id": "E10003",
+    "work_location": "Remote – Bangalore",
+    "work_email": "arjun.patel@example.com",
+    "work_phone": "+91‑80‑5550‑1122",
+    "compensation_id": "COMP2004",
+    "benefit_plan_ids": [
+      "BEN4001",
+      "BEN4003"
+    ],
+    "performance_review_ids": [
+      "PR5004",
+      "PR5009"
+    ],
+    "skills": [
+      "Go",
+      "Kubernetes",
+      "CI/CD"
+    ],
+    "role_description": "Backend Engineer focusing on micro‑services.",
+    "notes": "Visa sponsored (H‑1B)."
+  },
+  "E10005": {
+    "employee_id": "E10005",
+    "first_name": "Elena",
+    "last_name": "Rodriguez",
+    "preferred_name": "Elena",
+    "date_of_birth": "1995-01-30",
+    "gender": "Female",
+    "ethnicity_code": "H",
+    "nationality": "ESP",
+    "marital_status": "Single",
+    "hire_date": "2024-09-01",
+    "termination_date": null,
+    "status": "Active",
+    "position_id": "POS3010",
+    "department_id": "DEPT1004",
+    "level_id": "L.1",
+    "manager_id": "E10011",
+    "work_location": "Madrid Office",
+    "work_email": "olivia.martinez@example.com",
+    "work_phone": "+34‑91‑555‑0200",
+    "compensation_id": "COMP2005",
+    "benefit_plan_ids": [
+      "BEN4001",
+      "BEN4005"
+    ],
+    "performance_review_ids": [],
+    "skills": [
+      "Financial Modeling",
+      "SQL",
+      "Excel"
+    ],
+    "role_description": "Junior Financial Analyst supporting quarterly forecasts.",
+    "notes": "Recent graduate—ESADE Business School."
+  },
+  "E10006": {
+    "employee_id": "E10006",
+    "first_name": "Marcus",
+    "last_name": "Chen",
+    "preferred_name": "Marcus",
+    "date_of_birth": "1991-08-12",
+    "gender": "Male",
+    "ethnicity_code": "A",
+    "nationality": "CAN",
+    "marital_status": "Married",
+    "hire_date": "2023-11-15",
+    "termination_date": null,
+    "status": "Active",
+    "position_id": "POS3008",
+    "department_id": "DEPT1004",
+    "level_id": "L.4",
+    "manager_id": "E10012",
+    "work_location": "Barcelona Office",
+    "work_email": "william.liu@example.com",
+    "work_phone": "+1-604-555-0166",
+    "compensation_id": "COMP2006",
+    "benefit_plan_ids": [
+      "BEN4001",
+      "BEN4002",
+      "BEN4003"
+    ],
+    "performance_review_ids": [
+      "PR5011"
+    ],
+    "skills": [
+      "Product Strategy",
+      "User Research",
+      "Data Analytics"
+    ],
+    "role_description": "Senior Product Manager leading the analytics platform initiatives.",
+    "notes": "Previously led successful product launches at major tech companies."
+  },
+  "E99999": {
+    "employee_id": "E99999",
+    "first_name": "Andrian",
+    "last_name": "Roberts",
+    "preferred_name": "Andrian",
+    "date_of_birth": "1992-07-15",
+    "gender": "Male",
+    "ethnicity_code": "W",
+    "nationality": "GBR",
+    "marital_status": "Single",
+    "hire_date": "2025-06-24",
+    "termination_date": "2025-06-30",
+    "status": "Terminated",
+    "position_id": "POS3007",
+    "department_id": "DEPT1003",
+    "level_id": "L.2",
+    "manager_id": "E10003",
+    "work_location": "Seattle HQ",
+    "work_email": "adrian.thompson@example.com",
+    "work_phone": "+1-415-555-0199",
+    "compensation_id": "COMP2999",
+    "benefit_plan_ids": [
+      "BEN9999"
+    ],
+    "performance_review_ids": [],
+    "skills": [
+      "Go",
+      "Kubernetes"
+    ],
+    "role_description": "Backend Engineer (contract-to-hire).",
+    "notes": ""
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "dep_001": {
+    "id": "dep_001",
+    "project_id": "project_001",
+    "dependency_name": "log4j-core",
+    "dependency_type": "library",
+    "version": "2.14.1",
+    "vulnerability_status": "vulnerable",
+    "cve_id": "CVE-2024-1234",
+    "severity": "critical",
+    "last_updated": "2025-01-25T11:00:00Z"
+  },
+  "dep_002": {
+    "id": "dep_002",
+    "project_id": "project_001",
+    "dependency_name": "postgresql-jdbc",
+    "dependency_type": "library",
+    "version": "42.6.0",
+    "vulnerability_status": "secure",
+    "cve_id": null,
+    "severity": null,
+    "last_updated": "2025-01-20T10:00:00Z"
+  },
+  "dep_003": {
+    "id": "dep_003",
+    "project_id": "project_002",
+    "dependency_name": "nginx-ingress-controller",
+    "dependency_type": "service",
+    "version": "1.8.0",
+    "vulnerability_status": "secure",
+    "cve_id": null,
+    "severity": null,
+    "last_updated": "2025-01-18T09:00:00Z"
+  },
+  "dep_004": {
+    "id": "dep_004",
+    "project_id": "project_003",
+    "dependency_name": "maven",
+    "dependency_type": "tool",
+    "version": "3.8.6",
+    "vulnerability_status": "secure",
+    "cve_id": null,
+    "severity": null,
+    "last_updated": "2025-01-22T11:00:00Z"
+  },
+  "dep_005": {
+    "id": "dep_005",
+    "project_id": "project_004",
+    "dependency_name": "jenkins",
+    "dependency_type": "tool",
+    "version": "2.414.3",
+    "vulnerability_status": "vulnerable",
+    "cve_id": "CVE-2024-5678",
+    "severity": "medium",
+    "last_updated": "2025-01-19T08:00:00Z"
+  },
+  "dep_006": {
+    "id": "dep_006",
+    "project_id": "project_005",
+    "dependency_name": "aws-ecs-agent",
+    "dependency_type": "service",
+    "version": "1.74.0",
+    "vulnerability_status": "secure",
+    "cve_id": null,
+    "severity": null,
+    "last_updated": "2025-01-21T10:00:00Z"
+  },
+  "dep_007": {
+    "id": "dep_007",
+    "project_id": "project_006",
+    "dependency_name": "prometheus",
+    "dependency_type": "tool",
+    "version": "2.47.2",
+    "vulnerability_status": "secure",
+    "cve_id": null,
+    "severity": null,
+    "last_updated": "2025-01-23T14:00:00Z"
+  },
+  "dep_008": {
+    "id": "dep_008",
+    "project_id": "project_007",
+    "dependency_name": "spring-cloud-gateway",
+    "dependency_type": "framework",
+    "version": "4.0.4",
+    "vulnerability_status": "secure",
+    "cve_id": null,
+    "severity": null,
+    "last_updated": "2025-01-24T12:00:00Z"
+  },
+  "dep_009": {
+    "id": "dep_009",
+    "project_id": "project_008",
+    "dependency_name": "oauth2-server",
+    "dependency_type": "library",
+    "version": "1.2.0",
+    "vulnerability_status": "vulnerable",
+    "cve_id": "CVE-2024-9012",
+    "severity": "high",
+    "last_updated": "2025-01-22T15:00:00Z"
+  },
+  "dep_010": {
+    "id": "dep_010",
+    "project_id": "project_009",
+    "dependency_name": "docker-runtime",
+    "dependency_type": "tool",
+    "version": "24.0.7",
+    "vulnerability_status": "secure",
+    "cve_id": null,
+    "severity": null,
+    "last_updated": "2025-01-23T16:00:00Z"
+  },
+  "dep_011": {
+    "id": "dep_011",
+    "project_id": "project_010",
+    "dependency_name": "apache-spark",
+    "dependency_type": "framework",
+    "version": "3.5.0",
+    "vulnerability_status": "secure",
+    "cve_id": null,
+    "severity": null,
+    "last_updated": "2025-01-16T10:00:00Z"
+  },
+  "dep_012": {
+    "id": "dep_012",
+    "project_id": "project_006",
+    "dependency_name": "grafana",
+    "dependency_type": "tool",
+    "version": "10.1.5",
+    "vulnerability_status": "secure",
+    "cve_id": null,
+    "severity": null,
+    "last_updated": "2025-01-23T14:00:00Z"
+  }
+}

@@ -1,0 +1,60 @@
+[
+  {
+    "msg_id": "comp_001",
+    "task_id": "fc_task_003",
+    "task_type": "file_check",
+    "user_id": "user_003",
+    "msg": "Task fc_task_003 completed successfully. File check log available at /tmp/file_check_log_fc_task_003.json. Found 3 files (CSV reports) totaling 37.2MB. All files were created by analyst users and accessed within the last 14 days.",
+    "created_at": "2024-01-12T16:30:00Z",
+    "details": {
+      "files_found": 3,
+      "total_size": "37208875",
+      "file_types": ["csv"],
+      "log_path": "/tmp/file_check_log_fc_task_003.json"
+    }
+  },
+  {
+    "msg_id": "comp_002",
+    "task_id": "fc_task_005",
+    "task_type": "file_check",
+    "user_id": "user_004",
+    "msg": "Task fc_task_005 completed successfully. File check log available at /tmp/file_check_log_fc_task_005.json. Found 3 document files (TXT, DOCX, PDF) totaling 14.5MB. All files were accessed within the last 24 hours.",
+    "created_at": "2024-01-14T15:45:00Z",
+    "details": {
+      "files_found": 3,
+      "total_size": "14506689",
+      "file_types": ["txt", "docx", "pdf"],
+      "log_path": "/tmp/file_check_log_fc_task_005.json"
+    }
+  },
+  {
+    "msg_id": "comp_003",
+    "task_id": "dir_op_002",
+    "task_type": "file_organization",
+    "user_id": "user_001",
+    "msg": "File organization task completed successfully. Moved 8 project files from /tmp/project_files to /archive/projects with categorization by file type. New directory structure created at /archive/projects with subdirectories: documents, source_code, data_files. Total size processed: 45.7MB.",
+    "created_at": "2024-01-16T13:20:00Z",
+    "details": {
+      "files_processed": 8,
+      "total_size": "45678901",
+      "source_path": "/tmp/project_files",
+      "destination_path": "/archive/projects",
+      "subdirectories_created": ["documents", "source_code", "data_files"]
+    }
+  },
+  {
+    "msg_id": "comp_004",
+    "task_id": "arch_002",
+    "task_type": "archive",
+    "user_id": "user_003",
+    "msg": "Archive task completed successfully. Created archive 'analytics_data_archive_20240116_103000.tar.gz' containing 4 analytics files. Archive size: 487MB. Successfully transferred to storage-01.company.com:/storage/archives/. Checksum verification passed.",
+    "created_at": "2024-01-16T11:45:00Z",
+    "details": {
+      "archive_name": "analytics_data_archive_20240116_103000.tar.gz",
+      "files_archived": 4,
+      "archive_size": "510654976",
+      "remote_location": "storage-01.company.com:/storage/archives/",
+      "checksum": "g7h8i9j0k1l23456789012345678901234ghij"
+    }
+  }
+]

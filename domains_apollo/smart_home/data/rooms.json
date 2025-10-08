@@ -1,0 +1,66 @@
+{
+  "living_room": {
+    "id": "living_room",
+    "name": "Living Room",
+    "floor": 1,
+    "devices": [
+      "light_lr_ceiling",
+      "light_lr_floor",
+      "curtain_lr",
+      "ac_home",
+      "sensor_lr_thermometer"
+    ]
+  },
+  "bedroom_master": {
+    "id": "bedroom_master",
+    "name": "Master Bedroom",
+    "floor": 2,
+    "devices": [
+      "light_br_ceiling",
+      "lamp_br_night",
+      "curtain_br"
+    ]
+  },
+  "bedroom_west": {
+    "id": "bedroom_west",
+    "name": "West Bedroom",
+    "floor": 2,
+    "devices": [
+      "light_bw_ceiling",
+      "lamp_bw_desk",
+      "curtain_bw"
+    ]
+  },
+  "bedroom_east": {
+    "id": "bedroom_east",
+    "name": "East Bedroom",
+    "floor": 2,
+    "devices": [
+      "light_be_ceiling",
+      "lamp_be_bedside",
+      "curtain_be"
+    ]
+  },
+  "kitchen": {
+    "id": "kitchen",
+    "name": "Kitchen",
+    "floor": 1,
+    "devices": [
+      "dishwasher_kt"
+    ]
+  },
+  "garage": {
+    "id": "garage",
+    "name": "Garage",
+    "floor": 1,
+    "devices": []
+  },
+  "basement": {
+    "id": "basement",
+    "name": "Basement",
+    "floor": -1,
+    "devices": [
+      "heater_home"
+    ]
+  }
+}

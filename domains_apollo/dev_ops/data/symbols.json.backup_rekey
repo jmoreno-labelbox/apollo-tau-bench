@@ -1,0 +1,172 @@
+[
+  {
+    "id": "symbol_001",
+    "build_id": "build_001",
+    "module_name": "GameEngine.dll",
+    "platform": "windows",
+    "sym_uri": "https://symbols.techcorp.com/build_001/GameEngine.pdb",
+    "uploaded_at": "2025-01-27T10:00:00Z",
+    "symbol_version": "1.0.0",
+    "file_size_bytes": 52428800,
+    "checksum": "sha256:a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456",
+    "status": "uploaded",
+    "metadata": {
+      "compiler": "MSVC 2022",
+      "build_type": "debug",
+      "architecture": "x64"
+    }
+  },
+  {
+    "id": "symbol_002",
+    "build_id": "build_001",
+    "module_name": "Renderer.dll",
+    "platform": "windows",
+    "sym_uri": "https://symbols.techcorp.com/build_001/Renderer.pdb",
+    "uploaded_at": "2025-01-27T10:00:00Z",
+    "symbol_version": "1.0.0",
+    "file_size_bytes": 31457280,
+    "checksum": "sha256:b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef1234567890",
+    "status": "uploaded",
+    "metadata": {
+      "compiler": "MSVC 2022",
+      "build_type": "debug",
+      "architecture": "x64"
+    }
+  },
+  {
+    "id": "symbol_003",
+    "build_id": "build_002",
+    "module_name": "GameEngine.so",
+    "platform": "linux",
+    "sym_uri": "https://symbols.techcorp.com/build_002/GameEngine.debug",
+    "uploaded_at": "2025-01-27T11:00:00Z",
+    "symbol_version": "1.0.0",
+    "file_size_bytes": 67108864,
+    "checksum": "sha256:c3d4e5f6789012345678901234567890abcdef1234567890abcdef1234567890abcd",
+    "status": "uploaded",
+    "metadata": {
+      "compiler": "GCC 11.2",
+      "build_type": "debug",
+      "architecture": "x64"
+    }
+  },
+  {
+    "id": "symbol_004",
+    "build_id": "build_002",
+    "module_name": "libRenderer.so",
+    "platform": "linux",
+    "sym_uri": "https://symbols.techcorp.com/build_002/libRenderer.debug",
+    "uploaded_at": "2025-01-27T11:00:00Z",
+    "symbol_version": "1.0.0",
+    "file_size_bytes": 41943040,
+    "checksum": "sha256:d4e5f6789012345678901234567890abcdef1234567890abcdef1234567890abcdef",
+    "status": "uploaded",
+    "metadata": {
+      "compiler": "GCC 11.2",
+      "build_type": "debug",
+      "architecture": "x64"
+    }
+  },
+  {
+    "id": "symbol_005",
+    "build_id": "build_003",
+    "module_name": "GameEngine.dylib",
+    "platform": "macos",
+    "sym_uri": "https://symbols.techcorp.com/build_003/GameEngine.dSYM",
+    "uploaded_at": "2025-01-27T12:00:00Z",
+    "symbol_version": "1.0.0",
+    "file_size_bytes": 58720256,
+    "checksum": "sha256:e5f6789012345678901234567890abcdef1234567890abcdef1234567890abcdef12",
+    "status": "uploaded",
+    "metadata": {
+      "compiler": "Clang 15.0",
+      "build_type": "debug",
+      "architecture": "arm64"
+    }
+  },
+  {
+    "id": "symbol_006",
+    "build_id": "build_003",
+    "module_name": "Renderer.dylib",
+    "platform": "macos",
+    "sym_uri": "https://symbols.techcorp.com/build_003/Renderer.dSYM",
+    "uploaded_at": "2025-01-27T12:00:00Z",
+    "symbol_version": "1.0.0",
+    "file_size_bytes": 33554432,
+    "checksum": "sha256:f6789012345678901234567890abcdef1234567890abcdef1234567890abcdef1234",
+    "status": "uploaded",
+    "metadata": {
+      "compiler": "Clang 15.0",
+      "build_type": "debug",
+      "architecture": "arm64"
+    }
+  },
+  {
+    "id": "symbol_007",
+    "build_id": "build_004",
+    "module_name": "AudioEngine.dll",
+    "platform": "windows",
+    "sym_uri": "https://symbols.techcorp.com/build_004/AudioEngine.pdb",
+    "uploaded_at": "2025-01-27T13:00:00Z",
+    "symbol_version": "1.0.0",
+    "file_size_bytes": 20971520,
+    "checksum": "sha256:789012345678901234567890abcdef1234567890abcdef1234567890abcdef123456",
+    "status": "uploaded",
+    "metadata": {
+      "compiler": "MSVC 2022",
+      "build_type": "debug",
+      "architecture": "x64"
+    }
+  },
+  {
+    "id": "symbol_008",
+    "build_id": "build_004",
+    "module_name": "libAudioEngine.so",
+    "platform": "linux",
+    "sym_uri": "https://symbols.techcorp.com/build_004/libAudioEngine.debug",
+    "uploaded_at": "2025-01-27T13:00:00Z",
+    "symbol_version": "1.0.0",
+    "file_size_bytes": 26214400,
+    "checksum": "sha256:89012345678901234567890abcdef1234567890abcdef1234567890abcdef1234567",
+    "status": "uploaded",
+    "metadata": {
+      "compiler": "GCC 11.2",
+      "build_type": "debug",
+      "architecture": "x64"
+    }
+  },
+  {
+    "id": "symbol_009",
+    "build_id": "build_005",
+    "module_name": "PhysicsEngine.dll",
+    "platform": "windows",
+    "sym_uri": "https://symbols.techcorp.com/build_005/PhysicsEngine.pdb",
+    "uploaded_at": "2025-01-27T14:00:00Z",
+    "symbol_version": "1.0.0",
+    "file_size_bytes": 15728640,
+    "checksum": "sha256:9012345678901234567890abcdef1234567890abcdef1234567890abcdef12345678",
+    "status": "uploaded",
+    "metadata": {
+      "compiler": "MSVC 2022",
+      "build_type": "debug",
+      "architecture": "x64"
+    }
+  },
+  {
+    "id": "symbol_010",
+    "build_id": "build_005",
+    "module_name": "libPhysicsEngine.so",
+    "platform": "linux",
+    "sym_uri": "https://symbols.techcorp.com/build_005/libPhysicsEngine.debug",
+    "uploaded_at": "2025-01-27T14:00:00Z",
+    "symbol_version": "1.0.0",
+    "file_size_bytes": 20971520,
+    "checksum": "sha256:012345678901234567890abcdef1234567890abcdef1234567890abcdef123456789",
+    "status": "uploaded",
+    "metadata": {
+      "compiler": "GCC 11.2",
+      "build_type": "debug",
+      "architecture": "x64"
+    }
+  }
+]

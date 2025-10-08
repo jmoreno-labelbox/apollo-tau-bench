@@ -1,0 +1,58 @@
+[
+  {
+    "campaign_id": 1,
+    "name": "August 2025 Market Intelligence",
+    "type": "general_update",
+    "created_by": 1,
+    "created_at": "2025-07-28T14:30:00Z"
+  },
+  {
+    "campaign_id": 2,
+    "name": "New Client Onboarding Q3 2025",
+    "type": "new_homeowner",
+    "created_by": 6,
+    "created_at": "2025-07-15T09:20:00Z"
+  },
+  {
+    "campaign_id": 3,
+    "name": "Weekend Open House Circuit",
+    "type": "likely_buyer",
+    "created_by": 14,
+    "created_at": "2025-08-10T16:45:00Z"
+  },
+  {
+    "campaign_id": 4,
+    "name": "Post-Closing Client Care",
+    "type": "new_homeowner",
+    "created_by": 15,
+    "created_at": "2025-08-01T11:00:00Z"
+  },
+  {
+    "campaign_id": 5,
+    "name": "Fall Market Preparation",
+    "type": "general_update",
+    "created_by": 3,
+    "created_at": "2025-08-05T13:15:00Z"
+  },
+  {
+    "campaign_id": 6,
+    "name": "First-Time Buyer Education Series",
+    "type": "likely_buyer",
+    "created_by": 10,
+    "created_at": "2025-07-22T10:30:00Z"
+  },
+  {
+    "campaign_id": 7,
+    "name": "Luxury Market Updates",
+    "type": "general_update",
+    "created_by": 11,
+    "created_at": "2025-08-12T15:45:00Z"
+  },
+  {
+    "campaign_id": 8,
+    "name": "Investment Property Alerts",
+    "type": "likely_buyer",
+    "created_by": 5,
+    "created_at": "2025-08-08T12:20:00Z"
+  }
+]

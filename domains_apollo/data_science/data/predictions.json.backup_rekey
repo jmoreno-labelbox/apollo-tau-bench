@@ -1,0 +1,37 @@
+[
+  {
+    "model_name": "simple_model",
+    "predictions_csv_path": "/processed_data/predictions_simple.csv",
+    "row_count": 34,
+    "columns": ["proba", "pred"],
+    "generated_ts": "2024-03-17T11:15:00Z"
+  },
+  {
+    "model_name": "flood_risk_sf_v1",
+    "predictions_csv_path": "/results/predictions_sf_v1.csv",
+    "row_count": 34,
+    "columns": ["timestamp", "tide_height_m", "predicted_prob", "predicted_class", "actual_class"],
+    "generated_ts": "2024-03-17T11:15:00Z"
+  },
+  {
+    "model_name": "flood_risk_miami_v1",
+    "predictions_csv_path": "/results/predictions_miami_v1.csv",
+    "row_count": 24,
+    "columns": ["timestamp", "tide_height_m", "predicted_prob", "predicted_class"],
+    "generated_ts": "2024-02-02T16:30:00Z"
+  },
+  {
+    "model_name": "flood_risk_sf_v2",
+    "predictions_csv_path": "/results/predictions_sf_v2.csv",
+    "row_count": 34,
+    "columns": ["timestamp", "tide_height_m", "predicted_prob", "predicted_class", "actual_class", "confidence_interval"],
+    "generated_ts": "2024-03-18T15:45:00Z"
+  },
+  {
+    "model_name": "boston_harbor_model",
+    "predictions_csv_path": "/data/processed/predictions_boston.csv",
+    "row_count": 24,
+    "columns": ["proba", "pred"],
+    "generated_ts": "2024-03-01T13:15:00Z"
+  }
+]

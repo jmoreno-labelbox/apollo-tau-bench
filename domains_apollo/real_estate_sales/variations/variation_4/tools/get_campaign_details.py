@@ -1,0 +1,50 @@
+from tau_bench.envs.tool import Tool
+import json
+from typing import Any
+
+class GetCampaignDetails(Tool):
+    @staticmethod
+    def invoke(data: dict[str, Any], campaign_id: str = None) -> str:
+        if not campaign_id:
+            payload = {"error": "campaign_id is required"}
+            out = json.dumps(payload, indent=2)
+            return out
+
+        campaigns = data.get("campaigns", [])
+        campaign = next(
+            (c for c in campaigns if c.get("campaign_id") == campaign_id), None
+        )
+
+        if not campaign:
+            mock_campaign = {
+                "campaign_id": campaign_id,
+                "name": f"Campaign {campaign_id}",
+                "type": "general_update",
+                "status": "active",
+                "created_at": "2024-08-21T00:00:00Z",
+            }
+            payload = mock_campaign
+            out = json.dumps(payload, indent=2)
+            return out
+        payload = campaign
+        out = json.dumps(payload, indent=2)
+        return out
+    @staticmethod
+    def get_info() -> dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "getCampaignDetails",
+                "description": "Get details about a specific marketing campaign",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "campaign_id": {
+                            "type": "integer",
+                            "description": "Campaign ID to get details for",
+                        }
+                    },
+                    "required": ["campaign_id"],
+                },
+            },
+        }

@@ -1,0 +1,386 @@
+[
+  {
+    "id": "light_lr_ceiling",
+    "type": "light",
+    "name": "Living Room Ceiling Light",
+    "location": "Living Room",
+    "vendor": "Philips",
+    "model": "Hue White and Color Ambiance",
+    "firmware_version": "1.23.4",
+    "state_params": [
+      "power",
+      "brightness",
+      "color"
+    ],
+    "state": {
+      "power": "off",
+      "brightness": 0,
+      "color": {
+        "hue": 0,
+        "saturation": 0,
+        "kelvin": 2700
+      },
+      "last_updated": "2025-06-27T15:30:00-07:00"
+    },
+    "scheduled_updates": [
+      {
+        "timestamp": "2025-06-29T22:00:00-07:00",
+        "update": {
+          "power": "off"
+        },
+        "rrule": "FREQ=DAILY"
+      },
+      {
+        "timestamp": "2025-06-30T07:00:00-07:00",
+        "update": {
+          "power": "on",
+          "brightness": 70
+        },
+        "rrule": "FREQ=DAILY"
+      }
+    ]
+  },
+  {
+    "id": "light_lr_floor",
+    "type": "light",
+    "name": "Living Room Floor Lamp",
+    "location": "Living Room",
+    "vendor": "Ikea",
+    "model": "Tradfri Bulb",
+    "firmware_version": "2.1.0",
+    "state_params": [
+      "power",
+      "brightness"
+    ],
+    "state": {
+      "power": "on",
+      "brightness": 60,
+      "last_updated": "2025-06-27T15:31:00-07:00"
+    },
+    "scheduled_updates": []
+  },
+  {
+    "id": "curtain_lr",
+    "type": "curtain",
+    "name": "Living Room Curtain",
+    "location": "Living Room",
+    "vendor": "SwitchBot",
+    "model": "Curtain 3",
+    "firmware_version": "1.2.5",
+    "state_params": [
+      "position",
+      "power"
+    ],
+    "state": {
+      "position": 0,
+      "power": "on",
+      "last_updated": "2025-06-27T15:28:00-07:00"
+    },
+    "scheduled_updates": [
+      {
+        "timestamp": "2025-06-29T09:00:00-07:00",
+        "update": {
+          "position": 100
+        }
+      }
+    ]
+  },
+  {
+    "id": "dishwasher_kt",
+    "type": "dishwasher",
+    "name": "Kitchen Dishwasher",
+    "location": "Kitchen",
+    "vendor": "Bosch",
+    "model": "Series 8",
+    "firmware_version": "5.4.1",
+    "state_params": [
+      "power",
+      "cycle",
+      "time_remaining_min",
+      "door"
+    ],
+    "state": {
+      "power": "off",
+      "cycle": "auto",
+      "time_remaining_min": 0,
+      "door": "closed",
+      "last_updated": "2025-06-27T15:27:00-07:00"
+    },
+    "scheduled_updates": []
+  },
+  {
+    "id": "heater_home",
+    "type": "heater",
+    "name": "Central Heater",
+    "location": "Basement",
+    "vendor": "Nest",
+    "model": "Nest Thermostat E",
+    "firmware_version": "4.2.0",
+    "state_params": [
+      "power",
+      "mode",
+      "setpoint_c"
+    ],
+    "state": {
+      "power": "off",
+      "mode": "heat",
+      "setpoint_c": 21,
+      "last_updated": "2025-06-27T15:25:00-07:00"
+    },
+    "scheduled_updates": []
+  },
+  {
+    "id": "ac_home",
+    "type": "ac",
+    "name": "Central AC",
+    "location": "Living Room",
+    "vendor": "HomeTech",
+    "model": "AC-1004",
+    "firmware_version": "2.1.0",
+    "state_params": [
+      "power",
+      "mode",
+      "setpoint_c",
+      "fan_speed"
+    ],
+    "state": {
+      "power": "off",
+      "mode": "cool",
+      "setpoint_c": 24,
+      "fan_speed": "auto",
+      "last_updated": "2025-06-27T15:26:00-07:00"
+    },
+    "scheduled_updates": []
+  },
+  {
+    "id": "light_br_ceiling",
+    "type": "light",
+    "name": "Master Bedroom Ceiling Light",
+    "location": "Master Bedroom",
+    "vendor": "Nanoleaf",
+    "model": "Essentials A19",
+    "firmware_version": "3.0.2",
+    "state_params": [
+      "power",
+      "brightness",
+      "color"
+    ],
+    "state": {
+      "power": "off",
+      "brightness": 0,
+      "color": {
+        "hue": 0,
+        "saturation": 0
+      },
+      "last_updated": "2025-06-27T15:29:00-07:00"
+    },
+    "scheduled_updates": []
+  },
+  {
+    "id": "lamp_br_night",
+    "type": "light",
+    "name": "Master Bedroom Night Lamp",
+    "location": "Master Bedroom",
+    "vendor": "Philips",
+    "model": "Hue Go",
+    "firmware_version": "1.9.0",
+    "state_params": [
+      "power",
+      "brightness",
+      "color",
+      "battery_level"
+    ],
+    "state": {
+      "power": "on",
+      "brightness": 30,
+      "color": {
+        "hue": 30,
+        "saturation": 60
+      },
+      "battery_level": 87,
+      "last_updated": "2025-06-27T15:32:00-07:00"
+    },
+    "scheduled_updates": []
+  },
+  {
+    "id": "curtain_br",
+    "type": "curtain",
+    "name": "Master Bedroom Curtain",
+    "location": "Master Bedroom",
+    "vendor": "Aqara",
+    "model": "Smart Curtain Driver E1",
+    "firmware_version": "2.0.1",
+    "state_params": [
+      "position",
+      "power"
+    ],
+    "state": {
+      "position": 100,
+      "power": "on",
+      "last_updated": "2025-06-27T15:28:30-07:00"
+    },
+    "scheduled_updates": [
+      {
+        "timestamp": "2025-06-29T21:00:00-07:00",
+        "update": {
+          "position": 0
+        }
+      },
+      {
+        "timestamp": "2025-06-30T07:15:00-07:00",
+        "update": {
+          "position": 100
+        }
+      }
+    ]
+  },
+  {
+    "id": "light_bw_ceiling",
+    "type": "light",
+    "name": "West Bedroom Ceiling Light",
+    "location": "West Bedroom",
+    "vendor": "Philips",
+    "model": "Hue White Ambiance",
+    "firmware_version": "2.2.1",
+    "state_params": [
+      "power",
+      "brightness"
+    ],
+    "state": {
+      "power": "on",
+      "brightness": 70,
+      "last_updated": "2025-06-28T10:05:00-07:00"
+    },
+    "scheduled_updates": []
+  },
+  {
+    "id": "lamp_bw_desk",
+    "type": "light",
+    "name": "West Bedroom Desk Lamp",
+    "location": "West Bedroom",
+    "vendor": "Ikea",
+    "model": "Forsa LED",
+    "firmware_version": "1.0.0",
+    "state_params": [
+      "power",
+      "brightness",
+      "color_temperature"
+    ],
+    "state": {
+      "power": "off",
+      "brightness": 0,
+      "color_temperature": 4000,
+      "last_updated": "2025-06-28T10:04:30-07:00"
+    },
+    "scheduled_updates": []
+  },
+  {
+    "id": "curtain_bw",
+    "type": "curtain",
+    "name": "West Bedroom Curtain",
+    "location": "West Bedroom",
+    "vendor": "SwitchBot",
+    "model": "Curtain 3",
+    "firmware_version": "1.2.5",
+    "state_params": [
+      "position",
+      "power"
+    ],
+    "state": {
+      "position": 100,
+      "power": "on",
+      "last_updated": "2025-06-28T10:04:00-07:00"
+    },
+    "scheduled_updates": []
+  },
+  {
+    "id": "light_be_ceiling",
+    "type": "light",
+    "name": "East Bedroom Ceiling Light",
+    "location": "East Bedroom",
+    "vendor": "Govee",
+    "model": "Smart RGB Bulb B600",
+    "firmware_version": "1.6.0",
+    "state_params": [
+      "power",
+      "brightness",
+      "color"
+    ],
+    "state": {
+      "power": "on",
+      "brightness": 80,
+      "color": {
+        "hue": 210,
+        "saturation": 50
+      },
+      "last_updated": "2025-06-28T10:06:00-07:00"
+    },
+    "scheduled_updates": []
+  },
+  {
+    "id": "lamp_be_bedside",
+    "type": "light",
+    "name": "East Bedroom Bedside Lamp",
+    "location": "East Bedroom",
+    "vendor": "Govee",
+    "model": "Aura HLB",
+    "firmware_version": "1.3.4",
+    "state_params": [
+      "power",
+      "brightness",
+      "color"
+    ],
+    "state": {
+      "power": "off",
+      "brightness": 0,
+      "color": {
+        "hue": 30,
+        "saturation": 100
+      },
+      "last_updated": "2025-06-28T10:05:30-07:00"
+    },
+    "scheduled_updates": []
+  },
+  {
+    "id": "curtain_be",
+    "type": "curtain",
+    "name": "East Bedroom Curtain",
+    "location": "East Bedroom",
+    "vendor": "Aqara",
+    "model": "Smart Curtain Driver E1",
+    "firmware_version": "2.0.1",
+    "state_params": [
+      "position",
+      "power"
+    ],
+    "state": {
+      "position": 0,
+      "power": "on",
+      "last_updated": "2025-06-28T10:05:00-07:00"
+    },
+    "scheduled_updates": []
+  },
+  {
+    "id": "air_purifier_lr",
+    "type": "air_purifier",
+    "name": "Living Room Air Purifier",
+    "location": "Living Room",
+    "vendor": "Dyson",
+    "model": "Purifier Cool",
+    "firmware_version": "1.0.0",
+    "state_params": [
+      "power",
+      "mode",
+      "fan_speed",
+      "filter_life_pct"
+    ],
+    "state": {
+      "power": "off",
+      "mode": "auto",
+      "fan_speed": "low",
+      "filter_life_pct": 100,
+      "last_updated": "2025-06-28T17:50:00-07:00"
+    },
+    "scheduled_updates": []
+  }
+]

@@ -1,0 +1,296 @@
+[
+    {
+        "resource_id": "RES-001",
+        "name": "global-all-systems",
+        "owner_id": "U-005",
+        "criticality": "CRITICAL",
+        "compliance_scope": "ALL"
+    },
+    {
+        "resource_id": "RES-002",
+        "name": "main-application-repo",
+        "owner_id": "U-001",
+        "criticality": "HIGH",
+        "compliance_scope": "ISO-27001"
+    },
+    {
+        "resource_id": "RES-003",
+        "name": "cicd-pipeline-main",
+        "owner_id": "U-007",
+        "criticality": "CRITICAL",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-004",
+        "name": "jira-project-management",
+        "owner_id": "U-001",
+        "criticality": "MEDIUM",
+        "compliance_scope": "ISO-27001"
+    },
+    {
+        "resource_id": "RES-005",
+        "name": "customer-facing-api",
+        "owner_id": "U-019",
+        "criticality": "HIGH",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-006",
+        "name": "internal-documentation-wiki",
+        "owner_id": "U-007",
+        "criticality": "LOW",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-007",
+        "name": "dev-database-server",
+        "owner_id": "U-019",
+        "criticality": "MEDIUM",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-008",
+        "name": "social-media-platform",
+        "owner_id": "U-002",
+        "criticality": "MEDIUM",
+        "compliance_scope": "GDPR"
+    },
+    {
+        "resource_id": "RES-009",
+        "name": "email-marketing-service",
+        "owner_id": "U-014",
+        "criticality": "HIGH",
+        "compliance_scope": "GDPR"
+    },
+    {
+        "resource_id": "RES-010",
+        "name": "marketing-analytics-dashboard",
+        "owner_id": "U-026",
+        "criticality": "LOW",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-011",
+        "name": "customer-data-list",
+        "owner_id": "U-002",
+        "criticality": "HIGH",
+        "compliance_scope": "GDPR"
+    },
+    {
+        "resource_id": "RES-012",
+        "name": "blog-cms",
+        "owner_id": "U-014",
+        "criticality": "MEDIUM",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-013",
+        "name": "seo-tooling-suite",
+        "owner_id": "U-026",
+        "criticality": "LOW",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-014",
+        "name": "salesforce-crm-prod",
+        "owner_id": "U-003",
+        "criticality": "CRITICAL",
+        "compliance_scope": "GDPR"
+    },
+    {
+        "resource_id": "RES-015",
+        "name": "sales-reporting-dashboard",
+        "owner_id": "U-015",
+        "criticality": "HIGH",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-016",
+        "name": "lead-generation-db",
+        "owner_id": "U-021",
+        "criticality": "HIGH",
+        "compliance_scope": "GDPR"
+    },
+    {
+        "resource_id": "RES-017",
+        "name": "commission-calculation-tool",
+        "owner_id": "U-003",
+        "criticality": "HIGH",
+        "compliance_scope": "SOX"
+    },
+    {
+        "resource_id": "RES-018",
+        "name": "customer-contract-storage",
+        "owner_id": "U-015",
+        "criticality": "CRITICAL",
+        "compliance_scope": "GDPR"
+    },
+    {
+        "resource_id": "RES-019",
+        "name": "sales-territory-map",
+        "owner_id": "U-021",
+        "criticality": "LOW",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-020",
+        "name": "employee-data-portal",
+        "owner_id": "U-004",
+        "criticality": "CRITICAL",
+        "compliance_scope": "GDPR"
+    },
+    {
+        "resource_id": "RES-021",
+        "name": "payroll-system",
+        "owner_id": "U-010",
+        "criticality": "CRITICAL",
+        "compliance_scope": "SOX"
+    },
+    {
+        "resource_id": "RES-022",
+        "name": "recruitment-portal",
+        "owner_id": "U-016",
+        "criticality": "MEDIUM",
+        "compliance_scope": "GDPR"
+    },
+    {
+        "resource_id": "RES-023",
+        "name": "benefits-administration-system",
+        "owner_id": "U-004",
+        "criticality": "CRITICAL",
+        "compliance_scope": "SOX"
+    },
+    {
+        "resource_id": "RES-024",
+        "name": "training-and-onboarding-docs",
+        "owner_id": "U-010",
+        "criticality": "LOW",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-025",
+        "name": "production-web-server-1",
+        "owner_id": "U-005",
+        "criticality": "CRITICAL",
+        "compliance_scope": "ISO-27001"
+    },
+    {
+        "resource_id": "RES-026",
+        "name": "database-cluster-primary",
+        "owner_id": "U-011",
+        "criticality": "CRITICAL",
+        "compliance_scope": "ISO-27001"
+    },
+    {
+        "resource_id": "RES-027",
+        "name": "network-firewall-main",
+        "owner_id": "U-017",
+        "criticality": "CRITICAL",
+        "compliance_scope": "PCI-DSS"
+    },
+    {
+        "resource_id": "RES-028",
+        "name": "backup-storage-server",
+        "owner_id": "U-005",
+        "criticality": "HIGH",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-029",
+        "name": "log-management-system",
+        "owner_id": "U-011",
+        "criticality": "MEDIUM",
+        "compliance_scope": "ISO-27001"
+    },
+    {
+        "resource_id": "RES-030",
+        "name": "monitoring-dashboard-main",
+        "owner_id": "U-017",
+        "criticality": "MEDIUM",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-031",
+        "name": "general-ledger-db",
+        "owner_id": "U-006",
+        "criticality": "CRITICAL",
+        "compliance_scope": "SOX"
+    },
+    {
+        "resource_id": "RES-032",
+        "name": "invoicing-system",
+        "owner_id": "U-012",
+        "criticality": "HIGH",
+        "compliance_scope": "PCI-DSS"
+    },
+    {
+        "resource_id": "RES-033",
+        "name": "budgeting-tool",
+        "owner_id": "U-018",
+        "criticality": "MEDIUM",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-034",
+        "name": "tax-compliance-software",
+        "owner_id": "U-006",
+        "criticality": "HIGH",
+        "compliance_scope": "SOX"
+    },
+    {
+        "resource_id": "RES-035",
+        "name": "quarterly-financial-reports",
+        "owner_id": "U-012",
+        "criticality": "LOW",
+        "compliance_scope": "SOX"
+    },
+    {
+        "resource_id": "RES-036",
+        "name": "expense-reporting-tool",
+        "owner_id": "U-018",
+        "criticality": "MEDIUM",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-037",
+        "name": "HubSpot ticket system",
+        "owner_id": "U-003",
+        "criticality": "HIGH",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-038",
+        "name": "Slack",
+        "owner_id": "U-005",
+        "criticality": "MEDIUM",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-039",
+        "name": "Email",
+        "owner_id": "U-005",
+        "criticality": "MEDIUM",
+        "compliance_scope": null
+    },
+    {
+        "resource_id": "RES-040",
+        "name": "SIEM",
+        "owner_id": "U-005",
+        "criticality": "CRITICAL",
+        "compliance_scope": "All"
+    },
+    {
+        "resource_id": "RES-041",
+        "name": "Hiring platform",
+        "owner_id": "U-004",
+        "criticality": "HIGH",
+        "compliance_scope": "GDPR"
+    },
+    {
+        "resource_id": "RES-042",
+        "name": "IAM / RBAC portal",
+        "owner_id": "U-005",
+        "criticality": "CRITICAL",
+        "compliance_scope": "All"
+    }
+]

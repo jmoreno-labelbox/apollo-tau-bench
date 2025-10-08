@@ -1,0 +1,173 @@
+[
+  {
+    "message_id": "msg_001",
+    "thread_id": "thread_001",
+    "sender_email": "emma.creative@company.com",
+    "body_html": "<p>Hi team,</p><p>I've completed the homepage hero section design. Please review the attached Figma file and let me know your feedback.</p><p>Key changes:</p><ul><li>Updated CTA button styling</li><li>Improved responsive layout</li><li>Enhanced typography hierarchy</li></ul><p>Best regards,<br>Sophie</p>",
+    "body_text_stripped": "Hi team, I've completed the homepage hero section design. Please review the attached Figma file and let me know your feedback. Key changes: Updated CTA button styling, Improved responsive layout, Enhanced typography hierarchy. Best regards, Sophie",
+    "sent_ts": "2024-08-20T15:00:00Z",
+    "attachments_asset_ids": [
+      "asset_001",
+      "asset_002"
+    ]
+  },
+  {
+    "message_id": "msg_002",
+    "thread_id": "thread_001",
+    "sender_email": "jake.design@company.com",
+    "body_html": "<p>Sophie,</p><p>Great work on the hero section! I have a few suggestions:</p><ul><li>The CTA button could be more prominent</li><li>Consider adding a subtle animation</li><li>The mobile layout looks good</li></ul><p>Can we schedule a quick call to discuss?</p><p>Thanks,<br>Jake</p>",
+    "body_text_stripped": "Sophie, Great work on the hero section! I have a few suggestions: The CTA button could be more prominent, Consider adding a subtle animation, The mobile layout looks good. Can we schedule a quick call to discuss? Thanks, Jake",
+    "sent_ts": "2024-08-20T16:30:00Z",
+    "attachments_asset_ids": []
+  },
+  {
+    "message_id": "msg_003",
+    "thread_id": "thread_002",
+    "sender_email": "jake.design@company.com",
+    "body_html": "<p>Team,</p><p>I've created the mobile app dashboard mockup. Please check the attached files and provide feedback on the user flow and visual design.</p><p>Key features:</p><ul><li>Dashboard overview</li><li>Quick actions</li><li>Recent activity feed</li></ul><p>Regards,<br>Jake</p>",
+    "body_text_stripped": "Team, I've created the mobile app dashboard mockup. Please check the attached files and provide feedback on the user flow and visual design. Key features: Dashboard overview, Quick actions, Recent activity feed. Regards, Jake",
+    "sent_ts": "2024-08-19T12:00:00Z",
+    "attachments_asset_ids": [
+      "asset_004"
+    ]
+  },
+  {
+    "message_id": "msg_004",
+    "thread_id": "thread_003",
+    "sender_email": "anna.brand@company.com",
+    "body_html": "<p>Hi everyone,</p><p>We're ready to launch the new marketing website. Please review the final designs and approve for production.</p><p>Launch timeline:</p><ul><li>Design approval: Today</li><li>Development: 3 days</li><li>Testing: 2 days</li><li>Launch: Next week</li></ul><p>Thanks,<br>Anna</p>",
+    "body_text_stripped": "Hi everyone, We're ready to launch the new marketing website. Please review the final designs and approve for production. Launch timeline: Design approval: Today, Development: 3 days, Testing: 2 days, Launch: Next week. Thanks, Anna",
+    "sent_ts": "2024-08-21T16:00:00Z",
+    "attachments_asset_ids": [
+      "asset_006"
+    ]
+  },
+  {
+    "message_id": "msg_005",
+    "thread_id": "thread_004",
+    "sender_email": "chris.engineer@company.com",
+    "body_html": "<p>Sophie, Jake,</p><p>I've completed the accessibility audit for the admin panel. Found several issues that need attention:</p><ul><li>Color contrast issues</li><li>Missing ARIA labels</li><li>Keyboard navigation problems</li></ul><p>Please review the detailed report attached.</p><p>Best,<br>Chris</p>",
+    "body_text_stripped": "Sophie, Jake, I've completed the accessibility audit for the admin panel. Found several issues that need attention: Color contrast issues, Missing ARIA labels, Keyboard navigation problems. Please review the detailed report attached. Best, Chris",
+    "sent_ts": "2024-08-18T15:30:00Z",
+    "attachments_asset_ids": [
+      "asset_007"
+    ]
+  },
+  {
+    "message_id": "msg_006",
+    "thread_id": "thread_005",
+    "sender_email": "sophie.marketing@company.com",
+    "body_html": "<p>Sophie, Anna,</p><p>I've updated the brand guidelines with our new color palette and typography rules. The changes include:</p><ul><li>New primary colors</li><li>Updated font hierarchy</li><li>Logo usage guidelines</li></ul><p>Please review and let me know if any adjustments are needed.</p><p>Cheers,<br>Sophie</p>",
+    "body_text_stripped": "Sophie, Anna, I've updated the brand guidelines with our new color palette and typography rules. The changes include: New primary colors, Updated font hierarchy, Logo usage guidelines. Please review and let me know if any adjustments are needed. Cheers, Sophie",
+    "sent_ts": "2024-08-20T13:00:00Z",
+    "attachments_asset_ids": [
+      "asset_009"
+    ]
+  },
+  {
+    "message_id": "msg_007",
+    "thread_id": "thread_006",
+    "sender_email": "emma.creative@company.com",
+    "body_html": "<p>Jake, Chris,</p><p>I've created a comprehensive component library for our design system. This includes:</p><ul><li>Button components</li><li>Form elements</li><li>Navigation components</li><li>Data display components</li></ul><p>Please review the Figma file and let me know your thoughts.</p><p>Best,<br>Sophie</p>",
+    "body_text_stripped": "Jake, Chris, I've created a comprehensive component library for our design system. This includes: Button components, Form elements, Navigation components, Data display components. Please review the Figma file and let me know your thoughts. Best, Sophie",
+    "sent_ts": "2024-08-22T17:00:00Z",
+    "attachments_asset_ids": [
+      "asset_010"
+    ]
+  },
+  {
+    "message_id": "msg_008",
+    "thread_id": "thread_007",
+    "sender_email": "chris.engineer@company.com",
+    "body_html": "<p>Jake, Sophie,</p><p>I've implemented the user profile screen based on the design. The implementation includes:</p><ul><li>Responsive layout</li><li>Form validation</li><li>Image upload functionality</li></ul><p>Please test the functionality and let me know if any changes are needed.</p><p>Thanks,<br>Chris</p>",
+    "body_text_stripped": "Jake, Sophie, I've implemented the user profile screen based on the design. The implementation includes: Responsive layout, Form validation, Image upload functionality. Please test the functionality and let me know if any changes are needed. Thanks, Chris",
+    "sent_ts": "2024-08-20T14:00:00Z",
+    "attachments_asset_ids": [
+      "asset_005"
+    ]
+  },
+  {
+    "message_id": "msg_009",
+    "thread_id": "thread_008",
+    "sender_email": "anna.brand@company.com",
+    "body_html": "<p>Sophie, Jake,</p><p>Great news! The A/B testing results for the pricing page are in:</p><ul><li>Version A: 12% conversion rate</li><li>Version B: 18% conversion rate</li><li>Statistical significance: 95%</li></ul><p>Version B is the clear winner. Should we proceed with implementation?</p><p>Best,<br>Anna</p>",
+    "body_text_stripped": "Sophie, Jake, Great news! The A/B testing results for the pricing page are in: Version A: 12% conversion rate, Version B: 18% conversion rate, Statistical significance: 95%. Version B is the clear winner. Should we proceed with implementation? Best, Anna",
+    "sent_ts": "2024-08-22T12:00:00Z",
+    "attachments_asset_ids": []
+  },
+  {
+    "message_id": "msg_010",
+    "thread_id": "thread_009",
+    "sender_email": "chris.engineer@company.com",
+    "body_html": "<p>Sophie,</p><p>I've reviewed the data table component design. It looks great! A few technical questions:</p><ul><li>Should we support sorting on all columns?</li><li>What's the maximum number of rows to display?</li><li>Do we need pagination?</li></ul><p>Let me know your thoughts.</p><p>Thanks,<br>Chris</p>",
+    "body_text_stripped": "Sophie, I've reviewed the data table component design. It looks great! A few technical questions: Should we support sorting on all columns? What's the maximum number of rows to display? Do we need pagination? Let me know your thoughts. Thanks, Chris",
+    "sent_ts": "2024-08-19T18:00:00Z",
+    "attachments_asset_ids": [
+      "asset_008"
+    ]
+  },
+  {
+    "message_id": "msg_011",
+    "thread_id": "thread_011",
+    "sender_email": "design-automation@company.com",
+    "body_html": "<p>Hi team,</p><p>Please review the attached design frame:</p><ul><li><strong>Contact Form Component</strong> by Sophie Designer</li><li>Figma link: <a href=\"https://www.figma.com/file/abc123def456/Design-System?node-id=1%3A5\">View in Figma</a></li></ul><p>Please respond with APPROVE, CHANGES, or BLOCKER followed by your feedback.</p><p>Thanks,<br>Design Automation System</p>",
+    "body_text_stripped": "Hi team, Please review the attached design frame: Contact Form Component by Sophie Designer. Figma link: https://www.figma.com/file/abc123def456/Design-System?node-id=1%3A5. Please respond with APPROVE, CHANGES, or BLOCKER followed by your feedback. Thanks, Design Automation System",
+    "sent_ts": "2024-08-23T09:05:00Z",
+    "attachments_asset_ids": [
+      "asset_011"
+    ]
+  },
+  {
+    "message_id": "msg_012",
+    "thread_id": "thread_012",
+    "sender_email": "design-automation@company.com",
+    "body_html": "<p>Hi team,</p><p>Please review the attached design frame:</p><ul><li><strong>Settings Screen</strong> by Jake UX</li><li>Figma link: <a href=\"https://www.figma.com/file/xyz789ghi012/Mobile-App?node-id=2%3A4\">View in Figma</a></li></ul><p>Please respond with APPROVE, CHANGES, or BLOCKER followed by your feedback.</p><p>Thanks,<br>Design Automation System</p>",
+    "body_text_stripped": "Hi team, Please review the attached design frame: Settings Screen by Jake UX. Figma link: https://www.figma.com/file/xyz789ghi012/Mobile-App?node-id=2%3A4. Please respond with APPROVE, CHANGES, or BLOCKER followed by your feedback. Thanks, Design Automation System",
+    "sent_ts": "2024-08-23T10:35:00Z",
+    "attachments_asset_ids": [
+      "asset_012"
+    ]
+  },
+  {
+    "message_id": "msg_013",
+    "thread_id": "thread_011",
+    "sender_email": "jake.design@company.com",
+    "body_html": "<p>APPROVE - The contact form component looks great! The layout is clean and the validation states are well designed.</p>",
+    "body_text_stripped": "APPROVE - The contact form component looks great! The layout is clean and the validation states are well designed.",
+    "sent_ts": "2024-08-23T14:30:00Z",
+    "attachments_asset_ids": []
+  },
+  {
+    "message_id": "msg_014",
+    "thread_id": "thread_012",
+    "sender_email": "chris.engineer@company.com",
+    "body_html": "<p>CHANGES - The settings screen needs some adjustments. The spacing between sections could be improved and we should add better visual hierarchy.</p>",
+    "body_text_stripped": "CHANGES - The settings screen needs some adjustments. The spacing between sections could be improved and we should add better visual hierarchy.",
+    "sent_ts": "2024-08-23T15:45:00Z",
+    "attachments_asset_ids": []
+  },
+  {
+    "message_id": "msg_015",
+    "thread_id": "thread_013",
+    "sender_email": "design-automation@company.com",
+    "body_html": "<h2>\ud83c\udfa8 Design System v1.3.0 - Form Components & Accessibility</h2><p><strong>Release Date:</strong> August 23, 2024<br><strong>Designer:</strong> Sophie Designer<br><strong>Figma File:</strong> <a href=\"https://www.figma.com/file/abc123def456/Design-System\">View in Figma</a></p><h3>\ud83d\ude80 Key Highlights</h3><table style=\"width:100%; border-collapse: collapse;\"><tr style=\"background-color: #f8f9fa;\"><th style=\"padding: 12px; text-align: left; border: 1px solid #dee2e6;\">Change</th><th style=\"padding: 12px; text-align: left; border: 1px solid #dee2e6;\">Impact</th></tr><tr><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Added comprehensive form components</td><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Streamlined form development</td></tr><tr><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Enhanced button accessibility</td><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Improved WCAG compliance</td></tr><tr><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Improved input validation states</td><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Better user experience</td></tr><tr><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Updated color contrast ratios</td><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Enhanced readability</td></tr><tr><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Added ARIA labels to all interactive elements</td><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Screen reader support</td></tr></table><h3>\ud83d\udcf8 Before & After</h3><p><img src=\"gs://company-assets/figma-exports/before-after-form-components-2x.png\" alt=\"Before and after comparison of form components\" style=\"max-width: 100%; height: auto;\"></p><h3>\ud83d\udd17 Prototype Links</h3><ul><li><a href=\"https://www.figma.com/proto/abc123def456/Design-System?node-id=1%3A5\">Contact Form Component</a></li><li><a href=\"https://www.figma.com/proto/abc123def456/Design-System?node-id=1%3A6\">Enhanced Button States</a></li><li><a href=\"https://www.figma.com/proto/abc123def456/Design-System?node-id=1%3A7\">Input Validation Demo</a></li></ul><p>Best regards,<br>Design Automation System</p>",
+    "body_text_stripped": "Design System v1.3.0 - Form Components & Accessibility. Release Date: August 23, 2024. Designer: Sophie Designer. Key Highlights: Added comprehensive form components, Enhanced button accessibility, Improved input validation states, Updated color contrast ratios, Added ARIA labels to all interactive elements. View in Figma: https://www.figma.com/file/abc123def456/Design-System",
+    "sent_ts": "2024-08-23T11:15:00Z",
+    "attachments_asset_ids": [
+      "asset_013",
+      "asset_014"
+    ]
+  },
+  {
+    "message_id": "msg_016",
+    "thread_id": "thread_014",
+    "sender_email": "design-automation@company.com",
+    "body_html": "<h2>\ud83d\udcf1 Mobile App v2.2.0 - Settings & Profile Enhancements</h2><p><strong>Release Date:</strong> August 23, 2024<br><strong>Designer:</strong> Jake UX<br><strong>Figma File:</strong> <a href=\"https://www.figma.com/file/xyz789ghi012/Mobile-App\">View in Figma</a></p><h3>\ud83d\ude80 Key Highlights</h3><table style=\"width:100%; border-collapse: collapse;\"><tr style=\"background-color: #f8f9fa;\"><th style=\"padding: 12px; text-align: left; border: 1px solid #dee2e6;\">Change</th><th style=\"padding: 12px; text-align: left; border: 1px solid #dee2e6;\">Impact</th></tr><tr><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Added new settings screen</td><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Improved user control</td></tr><tr><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Enhanced user profile layout</td><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Better information hierarchy</td></tr><tr><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Improved mobile navigation</td><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Faster user flows</td></tr><tr><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Added dark mode support</td><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Enhanced user preference</td></tr><tr><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Optimized touch targets for accessibility</td><td style=\"padding: 12px; border: 1px solid #dee2e6;\">Better mobile usability</td></tr></table><h3>\ud83d\udcf8 Before & After</h3><p><img src=\"gs://company-assets/figma-exports/before-after-mobile-screens-2x.png\" alt=\"Before and after comparison of mobile screens\" style=\"max-width: 100%; height: auto;\"></p><h3>\ud83d\udd17 Prototype Links</h3><ul><li><a href=\"https://www.figma.com/proto/xyz789ghi012/Mobile-App?node-id=2%3A4\">Settings Screen</a></li><li><a href=\"https://www.figma.com/proto/xyz789ghi012/Mobile-App?node-id=2%3A5\">Enhanced Profile</a></li></ul><p>Best regards,<br>Design Automation System</p>",
+    "body_text_stripped": "Mobile App v2.2.0 - Settings & Profile Enhancements. Release Date: August 23, 2024. Designer: Jake UX. Key Highlights: Added new settings screen, Enhanced user profile layout, Improved mobile navigation, Added dark mode support, Optimized touch targets for accessibility. View in Figma: https://www.figma.com/file/xyz789ghi012/Mobile-App",
+    "sent_ts": "2024-08-23T12:45:00Z",
+    "attachments_asset_ids": [
+      "asset_015",
+      "asset_016"
+    ]
+  }
+]

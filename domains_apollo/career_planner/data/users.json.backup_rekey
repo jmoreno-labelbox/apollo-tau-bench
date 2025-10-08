@@ -1,0 +1,617 @@
+[
+  {
+    "user_id": "U301",
+    "name": "Ava Nguyen",
+    "current_role": "Analytics Manager",
+    "department": "Analytics",
+    "location": "Portland",
+    "manager_id": null,
+    "team_id": "T001",
+    "skills_current": [
+      {
+        "skill": "SQL",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-01-15"
+      },
+      {
+        "skill": "Python",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-03-15"
+      },
+      {
+        "skill": "Tableau",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-02-01"
+      }
+    ],
+    "skills_learning": [
+      {
+        "skill": "Machine Learning",
+        "target_proficiency": "Advanced",
+        "start_date": "2024-04-01",
+        "progress_percent": 45
+      }
+    ],
+    "skills_desired": [
+      "AWS Lambda",
+      "Data Engineering"
+    ],
+    "certifications": [
+      "Google Data Analytics"
+    ],
+    "career_goals": [
+      "Promoted to Director of Analytics by Q3 2026"
+    ],
+    "mentor_status": "seeking",
+    "years_experience": 8,
+    "hire_date": "2020-03-15"
+  },
+  {
+    "user_id": "U302",
+    "name": "Harper Bennett",
+    "current_role": "Clinical Analyst",
+    "department": "Healthcare Analytics",
+    "location": "Providence",
+    "manager_id": "U301",
+    "team_id": "T001",
+    "skills_current": [
+      {
+        "skill": "R",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-01-10"
+      },
+      {
+        "skill": "SAS",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2023-12-01"
+      },
+      {
+        "skill": "Clinical Data Management",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-02-15"
+      }
+    ],
+    "skills_learning": [
+      {
+        "skill": "Python",
+        "target_proficiency": "Intermediate",
+        "start_date": "2024-05-01",
+        "progress_percent": 0
+      }
+    ],
+    "skills_desired": [
+      "Power BI",
+      "Machine Learning"
+    ],
+    "certifications": [
+      "Certified Clinical Data Manager"
+    ],
+    "career_goals": [
+      "Lead clinical-analytics projects within 2 years"
+    ],
+    "mentor_status": "seeking",
+    "years_experience": 4,
+    "hire_date": "2022-06-01"
+  },
+  {
+    "user_id": "U303",
+    "name": "David Kim",
+    "current_role": "Compliance Specialist",
+    "department": "Risk & Compliance",
+    "location": "Milwaukee",
+    "manager_id": null,
+    "team_id": "T005",
+    "skills_current": [
+      {
+        "skill": "Regulatory Research",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-03-01"
+      },
+      {
+        "skill": "Audit",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-01-20"
+      },
+      {
+        "skill": "Policy Writing",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-02-01"
+      }
+    ],
+    "skills_learning": [
+      {
+        "skill": "GRC Tools",
+        "target_proficiency": "Intermediate",
+        "start_date": "2024-06-01",
+        "progress_percent": 30
+      },
+      {
+        "skill": "Cloud Security",
+        "target_proficiency": "Intermediate",
+        "start_date": "2024-07-01",
+        "progress_percent": 20
+      }
+    ],
+    "skills_desired": [
+      "AWS Security",
+      "Terraform"
+    ],
+    "certifications": [
+      "CCEP"
+    ],
+    "career_goals": [
+      "Transition into Cloud-Security compliance"
+    ],
+    "mentor_status": "seeking",
+    "years_experience": 6,
+    "hire_date": "2019-09-15"
+  },
+  {
+    "user_id": "U304",
+    "name": "Mason Desai",
+    "current_role": "UX Designer",
+    "department": "Product Design",
+    "location": "Remote",
+    "manager_id": null,
+    "team_id": "T002",
+    "skills_current": [
+      {
+        "skill": "Figma",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-02-15"
+      },
+      {
+        "skill": "User Research",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-01-10"
+      },
+      {
+        "skill": "Prototyping",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-03-01"
+      },
+      {
+        "skill": "Mentorship",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-04-01"
+      }
+    ],
+    "skills_learning": [
+      {
+        "skill": "Design Operations",
+        "target_proficiency": "Advanced",
+        "start_date": "2024-05-01",
+        "progress_percent": 60
+      }
+    ],
+    "skills_desired": [
+      "Design Ops",
+      "Stakeholder Alignment"
+    ],
+    "certifications": [
+      "NN/g UX Certification"
+    ],
+    "career_goals": [
+      "Lead a DesignOps program next fiscal year"
+    ],
+    "mentor_status": "available",
+    "years_experience": 7,
+    "hire_date": "2018-11-01"
+  },
+  {
+    "user_id": "U305",
+    "name": "Jack Wang",
+    "current_role": "Brand Strategist",
+    "department": "Marketing",
+    "location": "San Diego",
+    "manager_id": null,
+    "team_id": "T004",
+    "skills_current": [
+      {
+        "skill": "Brand Positioning",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-02-01"
+      },
+      {
+        "skill": "Market Research",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-01-15"
+      },
+      {
+        "skill": "Storytelling",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-03-01"
+      }
+    ],
+    "skills_learning": [
+      {
+        "skill": "Product Marketing",
+        "target_proficiency": "Intermediate",
+        "start_date": "2024-03-01",
+        "progress_percent": 60
+      },
+      {
+        "skill": "Analytics",
+        "target_proficiency": "Beginner",
+        "start_date": "2024-04-01",
+        "progress_percent": 25
+      }
+    ],
+    "skills_desired": [
+      "Product Marketing",
+      "Analytics"
+    ],
+    "certifications": [],
+    "career_goals": [
+      "Move into Product-Marketing within 18 months"
+    ],
+    "mentor_status": "seeking",
+    "years_experience": 5,
+    "hire_date": "2020-08-15"
+  },
+  {
+    "user_id": "U306",
+    "name": "Sarah Chen",
+    "current_role": "DevOps Engineer",
+    "department": "Engineering",
+    "location": "Nashville",
+    "manager_id": "U312",
+    "team_id": "T003",
+    "skills_current": [
+      {
+        "skill": "CI/CD",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-02-01"
+      },
+      {
+        "skill": "Docker",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-01-15"
+      },
+      {
+        "skill": "Kubernetes",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-03-01"
+      },
+      {
+        "skill": "AWS",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-02-15"
+      }
+    ],
+    "skills_learning": [
+      {
+        "skill": "Site Reliability Engineering",
+        "target_proficiency": "Advanced",
+        "start_date": "2024-05-01",
+        "progress_percent": 40
+      },
+      {
+        "skill": "Terraform",
+        "target_proficiency": "Intermediate",
+        "start_date": "2024-06-01",
+        "progress_percent": 20
+      }
+    ],
+    "skills_desired": [
+      "Site Reliability Engineering",
+      "Terraform"
+    ],
+    "certifications": [
+      "AWS SAA"
+    ],
+    "career_goals": [
+      "Become Staff SRE by 2027"
+    ],
+    "mentor_status": "available",
+    "years_experience": 6,
+    "hire_date": "2019-03-01"
+  },
+  {
+    "user_id": "U307",
+    "name": "Alexander Adams",
+    "current_role": "UX Designer",
+    "department": "Product Design",
+    "location": "Boston",
+    "manager_id": "U304",
+    "team_id": "T002",
+    "skills_current": [
+      {
+        "skill": "Sketch",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-01-20"
+      },
+      {
+        "skill": "Persona Development",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-02-01"
+      },
+      {
+        "skill": "Accessibility",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-03-15"
+      }
+    ],
+    "skills_learning": [
+      {
+        "skill": "Motion Design",
+        "target_proficiency": "Intermediate",
+        "start_date": "2024-04-01",
+        "progress_percent": 30
+      },
+      {
+        "skill": "Service Design",
+        "target_proficiency": "Beginner",
+        "start_date": "2024-05-01",
+        "progress_percent": 15
+      }
+    ],
+    "skills_desired": [
+      "Motion Design",
+      "Service Design"
+    ],
+    "certifications": [],
+    "career_goals": [
+      "Deepen accessibility expertise; mentor juniors"
+    ],
+    "mentor_status": "seeking",
+    "years_experience": 4,
+    "hire_date": "2021-09-01"
+  },
+  {
+    "user_id": "U308",
+    "name": "Emily Johnson",
+    "current_role": "Technical Writer",
+    "department": "Documentation",
+    "location": "Boulder",
+    "manager_id": null,
+    "team_id": "T006",
+    "skills_current": [
+      {
+        "skill": "API Docs",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-02-01"
+      },
+      {
+        "skill": "Markdown",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-01-15"
+      },
+      {
+        "skill": "DITA",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-03-01"
+      }
+    ],
+    "skills_learning": [
+      {
+        "skill": "Information Architecture",
+        "target_proficiency": "Intermediate",
+        "start_date": "2024-02-01",
+        "progress_percent": 75
+      },
+      {
+        "skill": "UX Writing",
+        "target_proficiency": "Advanced",
+        "start_date": "2024-03-01",
+        "progress_percent": 60
+      }
+    ],
+    "skills_desired": [
+      "Information Architecture",
+      "UX Writing"
+    ],
+    "certifications": [
+      "Certified Technical Writer (STC)"
+    ],
+    "career_goals": [
+      "Transition to UX-Writer track in 2 years"
+    ],
+    "mentor_status": "available",
+    "years_experience": 8,
+    "hire_date": "2017-05-15"
+  },
+  {
+    "user_id": "U309",
+    "name": "Logan Garcia",
+    "current_role": "Training Specialist",
+    "department": "L&D",
+    "location": "Charlotte",
+    "manager_id": null,
+    "team_id": "T007",
+    "skills_current": [
+      {
+        "skill": "Instructional Design",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-01-10"
+      },
+      {
+        "skill": "eLearning",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-02-01"
+      },
+      {
+        "skill": "LMS Administration",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-03-01"
+      }
+    ],
+    "skills_learning": [
+      {
+        "skill": "AR/VR Training",
+        "target_proficiency": "Intermediate",
+        "start_date": "2024-06-01",
+        "progress_percent": 0
+      },
+      {
+        "skill": "Data Analytics",
+        "target_proficiency": "Beginner",
+        "start_date": "2024-07-01",
+        "progress_percent": 0
+      }
+    ],
+    "skills_desired": [
+      "AR/VR Training",
+      "Data Analytics"
+    ],
+    "certifications": [
+      "ATD CPTD"
+    ],
+    "career_goals": [
+      "Launch AR-based onboarding module"
+    ],
+    "mentor_status": "seeking",
+    "years_experience": 6,
+    "hire_date": "2019-01-15"
+  },
+  {
+    "user_id": "U310",
+    "name": "Chloe Scott",
+    "current_role": "HR Partner",
+    "department": "People Ops",
+    "location": "Oakland",
+    "manager_id": null,
+    "team_id": "T008",
+    "skills_current": [
+      {
+        "skill": "Employee Relations",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-02-01"
+      },
+      {
+        "skill": "Performance Management",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-01-15"
+      },
+      {
+        "skill": "Talent Brokerage",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-03-01"
+      }
+    ],
+    "skills_learning": [
+      {
+        "skill": "People Analytics",
+        "target_proficiency": "Advanced",
+        "start_date": "2024-04-01",
+        "progress_percent": 40
+      }
+    ],
+    "skills_desired": [
+      "People Analytics"
+    ],
+    "certifications": [
+      "SHRM-SCP"
+    ],
+    "career_goals": [
+      "Lead People-Analytics function"
+    ],
+    "mentor_status": "available",
+    "years_experience": 9,
+    "hire_date": "2016-07-01"
+  },
+  {
+    "user_id": "U311",
+    "name": "Owen Walker",
+    "current_role": "Instructional Designer",
+    "department": "L&D",
+    "location": "Montreal",
+    "manager_id": "U309",
+    "team_id": "T007",
+    "skills_current": [
+      {
+        "skill": "Curriculum Design",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-01-20"
+      },
+      {
+        "skill": "Storyboarding",
+        "proficiency_level": "Intermediate",
+        "last_assessed": "2024-02-01"
+      },
+      {
+        "skill": "Articulate 360",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-03-01"
+      }
+    ],
+    "skills_learning": [
+      {
+        "skill": "Learning Analytics",
+        "target_proficiency": "Intermediate",
+        "start_date": "2024-05-01",
+        "progress_percent": 25
+      },
+      {
+        "skill": "Game-Based Learning",
+        "target_proficiency": "Beginner",
+        "start_date": "2024-06-01",
+        "progress_percent": 10
+      }
+    ],
+    "skills_desired": [
+      "Learning Analytics",
+      "Game-Based Learning"
+    ],
+    "certifications": [],
+    "career_goals": [
+      "Earn Learning-Analytics certificate"
+    ],
+    "mentor_status": "seeking",
+    "years_experience": 3,
+    "hire_date": "2022-03-01"
+  },
+  {
+    "user_id": "U312",
+    "name": "Michael Rodriguez",
+    "current_role": "Software Engineer",
+    "department": "Engineering",
+    "location": "Portland",
+    "manager_id": null,
+    "team_id": "T003",
+    "skills_current": [
+      {
+        "skill": "Java",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-02-01"
+      },
+      {
+        "skill": "Spring Boot",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-01-15"
+      },
+      {
+        "skill": "Microservices",
+        "proficiency_level": "Advanced",
+        "last_assessed": "2024-03-01"
+      }
+    ],
+    "skills_learning": [
+      {
+        "skill": "Kotlin",
+        "target_proficiency": "Intermediate",
+        "start_date": "2024-04-01",
+        "progress_percent": 30
+      },
+      {
+        "skill": "AWS Serverless",
+        "target_proficiency": "Intermediate",
+        "start_date": "2024-05-01",
+        "progress_percent": 20
+      }
+    ],
+    "skills_desired": [
+      "Kotlin",
+      "AWS Serverless"
+    ],
+    "certifications": [
+      "Oracle Java SE 11 Developer"
+    ],
+    "career_goals": [
+      "Become Backend Tech Lead"
+    ],
+    "mentor_status": "seeking",
+    "years_experience": 7,
+    "hire_date": "2018-06-01"
+  }
+]

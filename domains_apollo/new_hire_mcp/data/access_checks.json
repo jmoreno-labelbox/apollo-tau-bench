@@ -1,0 +1,44 @@
+{
+  "cand_2": {
+    "candidate_id": "cand_2",
+    "system_name": "GitHub",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-18T10:03:00Z"
+  },
+  "cand_3": {
+    "candidate_id": "cand_3",
+    "system_name": "VPN",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-07-25T15:03:00Z"
+  },
+  "cand_4": {
+    "candidate_id": "cand_4",
+    "system_name": "GitHub",
+    "status": "Pending",
+    "note_nullable": "Waiting for SSO fix before account creation.",
+    "checked_ts": "2024-07-22T11:03:00Z"
+  },
+  "cand_5": {
+    "candidate_id": "cand_5",
+    "system_name": "AWS Console",
+    "status": "Success",
+    "note_nullable": "DevOps role requires AWS access",
+    "checked_ts": "2024-07-27T16:05:00Z"
+  },
+  "cand_7": {
+    "candidate_id": "cand_7",
+    "system_name": "VPN",
+    "status": "Success",
+    "note_nullable": null,
+    "checked_ts": "2024-08-07T14:04:00Z"
+  },
+  "cand_1": {
+    "candidate_id": "cand_1",
+    "system_name": "Email",
+    "status": "Pending",
+    "note_nullable": "Account creation scheduled for start date",
+    "checked_ts": "2024-07-30T09:00:00Z"
+  }
+}

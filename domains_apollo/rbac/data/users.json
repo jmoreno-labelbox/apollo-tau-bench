@@ -1,0 +1,266 @@
+{
+    "U-001": {
+        "user_id": "U-001",
+        "username": "rmartinez",
+        "email": "Mason.martinez@sigmatech.com",
+        "department": "Engineering",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-002": {
+        "user_id": "U-002",
+        "username": "edavis",
+        "email": "Sophia.Rodriguez@sigmatech.com",
+        "department": "Marketing",
+        "status": "ACTIVE",
+        "mfa_enabled": false
+    },
+    "U-003": {
+        "user_id": "U-003",
+        "username": "mwilson",
+        "email": "Noah.Johnson@sigmatech.com",
+        "department": "Sales",
+        "status": "PENDING_ACCESS",
+        "mfa_enabled": true
+    },
+    "U-004": {
+        "user_id": "U-004",
+        "username": "staylor",
+        "email": "sophia.Thompson@sigmatech.com",
+        "department": "Human Resources",
+        "status": "SUSPENDED",
+        "mfa_enabled": true
+    },
+    "U-005": {
+        "user_id": "U-005",
+        "username": "drodriguez",
+        "email": "Noah.Thompson@sigmatech.com",
+        "department": "Operations",
+        "status": "ACTIVE",
+        "mfa_enabled": false
+    },
+    "U-006": {
+        "user_id": "U-006",
+        "username": "oanderson",
+        "email": "olivia.Lee@sigmatech.com",
+        "department": "Finance",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-007": {
+        "user_id": "U-007",
+        "username": "wthompson",
+        "email": "william.thompson@sigmatech.com",
+        "department": "Engineering",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-008": {
+        "user_id": "U-008",
+        "username": "imartinez",
+        "email": "isabella.martinez@sigmatech.com",
+        "department": "Marketing",
+        "status": "SUSPENDED",
+        "mfa_enabled": false
+    },
+    "U-009": {
+        "user_id": "U-009",
+        "username": "aclark",
+        "email": "alexander.clark@sigmatech.com",
+        "department": "Sales",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-010": {
+        "user_id": "U-010",
+        "username": "ejohnson",
+        "email": "emma.Martinez@sigmatech.com",
+        "department": "Human Resources",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-011": {
+        "user_id": "U-011",
+        "username": "bharris",
+        "email": "benjamin.Wilson@sigmatech.com",
+        "department": "Operations",
+        "status": "DISABLED",
+        "mfa_enabled": false
+    },
+    "U-012": {
+        "user_id": "U-012",
+        "username": "vlee",
+        "email": "victoria.lee@sigmatech.com",
+        "department": "Finance",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-013": {
+        "user_id": "U-013",
+        "username": "nwhite",
+        "email": "nathan.Thompson@sigmatech.com",
+        "department": "Engineering",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-014": {
+        "user_id": "U-014",
+        "username": "mjackson",
+        "email": "madison.Johnson@sigmatech.com",
+        "department": "Marketing",
+        "status": "ACTIVE",
+        "mfa_enabled": false
+    },
+    "U-015": {
+        "user_id": "U-015",
+        "username": "ebrown",
+        "email": "ethan.Wilson@sigmatech.com",
+        "department": "Sales",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-016": {
+        "user_id": "U-016",
+        "username": "ejohnson",
+        "email": "ava.Johnson@sigmatech.com",
+        "department": "Human Resources",
+        "status": "ACTIVE",
+        "mfa_enabled": false
+    },
+    "U-017": {
+        "user_id": "U-017",
+        "username": "lthompson",
+        "email": "lucas.thompson@sigmatech.com",
+        "department": "Operations",
+        "status": "PENDING_ACCESS",
+        "mfa_enabled": true
+    },
+    "U-018": {
+        "user_id": "U-018",
+        "username": "mrobinson",
+        "email": "mia.robinson@sigmatech.com",
+        "department": "Finance",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-019": {
+        "user_id": "U-019",
+        "username": "nmartinez",
+        "email": "noah.martinez@sigmatech.com",
+        "department": "Engineering",
+        "status": "ACTIVE",
+        "mfa_enabled": false
+    },
+    "U-020": {
+        "user_id": "U-020",
+        "username": "cwalker",
+        "email": "charlotte.walker@sigmatech.com",
+        "department": "Marketing",
+        "status": "SUSPENDED",
+        "mfa_enabled": true
+    },
+    "U-021": {
+        "user_id": "U-021",
+        "username": "lhall",
+        "email": "logan.Scott@sigmatech.com",
+        "department": "Sales",
+        "status": "ACTIVE",
+        "mfa_enabled": false
+    },
+    "U-022": {
+        "user_id": "U-022",
+        "username": "gyoung",
+        "email": "grace.young@sigmatech.com",
+        "department": "Human Resources",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-023": {
+        "user_id": "U-023",
+        "username": "jallen",
+        "email": "jacob.allen@sigmatech.com",
+        "department": "Operations",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-024": {
+        "user_id": "U-024",
+        "username": "cscott",
+        "email": "chloe.scott@sigmatech.com",
+        "department": "Finance",
+        "status": "ACTIVE",
+        "mfa_enabled": false
+    },
+    "U-025": {
+        "user_id": "U-025",
+        "username": "mwright",
+        "email": "mason.wright@sigmatech.com",
+        "department": "Engineering",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-026": {
+        "user_id": "U-026",
+        "username": "sturner",
+        "email": "sophie.turner@sigmatech.com",
+        "department": "Marketing",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-027": {
+        "user_id": "U-027",
+        "username": "amoore",
+        "email": "aiden.Harris@sigmatech.com",
+        "department": "Sales",
+        "status": "DISABLED",
+        "mfa_enabled": false
+    },
+    "U-028": {
+        "user_id": "U-028",
+        "username": "lmartin",
+        "email": "lily.martin@sigmatech.com",
+        "department": "Human Resources",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-029": {
+        "user_id": "U-029",
+        "username": "olewis",
+        "email": "oliver.lewis@sigmatech.com",
+        "department": "Operations",
+        "status": "ACTIVE",
+        "mfa_enabled": true
+    },
+    "U-030": {
+        "user_id": "U-030",
+        "username": "ahill",
+        "email": "aria.hill@sigmatech.com",
+        "department": "Finance",
+        "status": "PENDING_ACCESS",
+        "mfa_enabled": false
+    },
+    "U-031": {
+        "user_id": "U-031",
+        "username": "RBAC_BOT",
+        "email": "rbac@sigmatech.com",
+        "department": "Operations",
+        "status": "ACTIVE",
+        "mfa_enabled": false
+    },
+    "U-032": {
+        "user_id": "U-032",
+        "username": "HR_ONBOARD_BOT",
+        "email": "onboarding@sigmatech.com",
+        "department": "Human Resources",
+        "status": "ACTIVE",
+        "mfa_enabled": false
+    },
+    "U-033": {
+        "user_id": "U-033",
+        "username": "CERTIFICATION_BOT",
+        "email": "certifications@sigmatech.com",
+        "department": "Operations",
+        "status": "ACTIVE",
+        "mfa_enabled": false
+    }
+}

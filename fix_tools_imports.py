@@ -7,6 +7,7 @@ This solves the Python import precedence issue where tools/ directory shadows to
 
 import os
 from pathlib import Path
+import argparse
 
 
 def fix_tools_init(variation_path: Path, domain_name: str, variation_name: str):
@@ -63,7 +64,10 @@ TOOLS = _tools_module.TOOLS
 
 def main():
     """Main function to process all variations."""
-    domains_path = Path("/Users/sebastianalgharaballi-yanow/apollo-tau-bench/domains")
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--domains-root", type=str, required=True, help="Path to domains root (e.g., tau_bench_warrior/domains)")
+    args = ap.parse_args()
+    domains_path = Path(args.domains_root)
     
     total_updated = 0
     

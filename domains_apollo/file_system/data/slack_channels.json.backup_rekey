@@ -1,0 +1,55 @@
+[
+  {
+    "channel_id": "ch_001",
+    "name": "File Check",
+    "description": "Channel for file checking task notifications and status updates",
+    "type": "public",
+    "created_at": "2024-01-01T00:00:00Z",
+    "members": [
+      {"user_id": "user_001", "role": "admin"},
+      {"user_id": "user_002", "role": "member"},
+      {"user_id": "user_003", "role": "member"},
+      {"user_id": "user_005", "role": "member"}
+    ]
+  },
+  {
+    "channel_id": "ch_002",
+    "name": "AI Agent",
+    "description": "Channel for AI agents to report workflow improvements and optimizations",
+    "type": "public",
+    "created_at": "2024-01-01T00:00:00Z",
+    "members": [
+      {"user_id": "user_001", "role": "admin"},
+      {"user_id": "user_002", "role": "member"},
+      {"user_id": "user_003", "role": "member"},
+      {"user_id": "user_004", "role": "member"},
+      {"user_id": "user_005", "role": "admin"}
+    ]
+  },
+  {
+    "channel_id": "ch_003",
+    "name": "System Alerts",
+    "description": "Channel for system alerts and error notifications",
+    "type": "public",
+    "created_at": "2024-01-01T00:00:00Z",
+    "members": [
+      {"user_id": "user_001", "role": "admin"},
+      {"user_id": "user_002", "role": "member"},
+      {"user_id": "user_005", "role": "admin"}
+    ]
+  },
+  {
+    "channel_id": "ch_004",
+    "name": "Operations",
+    "description": "Channel for general operations and task coordination",
+    "type": "public",
+    "created_at": "2024-01-01T00:00:00Z",
+    "members": [
+      {"user_id": "user_001", "role": "admin"},
+      {"user_id": "user_002", "role": "member"},
+      {"user_id": "user_003", "role": "member"},
+      {"user_id": "user_004", "role": "member"},
+      {"user_id": "user_005", "role": "admin"}
+    ]
+  }
+]

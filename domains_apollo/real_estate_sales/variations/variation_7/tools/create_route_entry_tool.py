@@ -1,0 +1,73 @@
+from tau_bench.envs.tool import Tool
+import json
+import math
+import re
+from typing import Any
+
+class CreateRouteEntryTool(Tool):
+    """Inserts a record into the routes table."""
+
+    @staticmethod
+    def invoke(
+        data: dict[str, Any],
+        client_id: int = None,
+        route_date: str = None,
+        stops_ordered_json: list = None,
+        map_url: str = None,
+        created_by_broker_id: int = None
+    ) -> str:
+        if (
+            client_id is None
+            or not route_date
+            or not isinstance(stops_ordered_json, list)
+            or not map_url
+            or created_by_broker_id is None
+        ):
+            return _err(
+                "client_id, route_date, stops_ordered_json(list), map_url, created_by_broker_id are required"
+            )
+
+        rows = data.setdefault("routes", [])
+        route_id = _next_int_id(rows, "route_id")
+        rec = {
+            "route_id": route_id,
+            "client_id": int(client_id),
+            "date": str(route_date),
+            "stops_ordered_json": stops_ordered_json,
+            "map_url": str(map_url),
+            "created_by_broker_id": int(created_by_broker_id),
+            "created_at": HARD_TS,
+        }
+        rows.append(rec)
+        payload = rec
+        out = json.dumps(payload, indent=2)
+        return out
+    @staticmethod
+    def get_info() -> dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "CreateRouteEntry",
+                "description": "Creates entry in routes table.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "client_id": {"type": "integer"},
+                        "route_date": {"type": "string"},
+                        "stops_ordered_json": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                        },
+                        "map_url": {"type": "string"},
+                        "created_by_broker_id": {"type": "integer"},
+                    },
+                    "required": [
+                        "client_id",
+                        "route_date",
+                        "stops_ordered_json",
+                        "map_url",
+                        "created_by_broker_id",
+                    ],
+                },
+            },
+        }

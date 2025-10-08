@@ -1,0 +1,506 @@
+[
+  {
+    "account_id": "acc_dc71c8",
+    "employee_id": "emp_0001",
+    "username": "alee",
+    "status": "enabled",
+    "group_ids": [
+      "grp_hr_82f8",
+      "grp_hr_all"
+    ],
+    "created_at": "2024-02-09T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_287fb8",
+    "employee_id": "emp_0002",
+    "username": "jgarcia",
+    "status": "enabled",
+    "group_ids": [
+      "grp_marketing_719b",
+      "grp_marketing_all"
+    ],
+    "created_at": "2025-02-27T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_55687f",
+    "employee_id": "emp_0003",
+    "username": "tpatel",
+    "status": "enabled",
+    "group_ids": [
+      "grp_operations_772e",
+      "grp_operations_all"
+    ],
+    "created_at": "2023-11-26T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_38d007",
+    "employee_id": "emp_0004",
+    "username": "mnguyen",
+    "status": "enabled",
+    "group_ids": [
+      "grp_it_6b89",
+      "grp_it_all"
+    ],
+    "created_at": "2023-12-18T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_28d3fa",
+    "employee_id": "emp_0005",
+    "username": "csmith",
+    "status": "enabled",
+    "group_ids": [
+      "grp_support_a407",
+      "grp_support_all"
+    ],
+    "created_at": "2023-10-11T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_e7e9ee",
+    "employee_id": "emp_0006",
+    "username": "rjohnson",
+    "status": "enabled",
+    "group_ids": [
+      "grp_sales_4bcb",
+      "grp_sales_all"
+    ],
+    "created_at": "2023-07-29T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_e2a5e9",
+    "employee_id": "emp_0007",
+    "username": "pdavis",
+    "status": "disabled",
+    "group_ids": [
+      "grp_it_6b89",
+      "grp_it_all"
+    ],
+    "created_at": "2024-03-20T09:00:00+00:00",
+    "disabled_at": "2025-07-10T09:00:00+00:00"
+  },
+  {
+    "account_id": "acc_8abc91",
+    "employee_id": "emp_0008",
+    "username": "abrown",
+    "status": "enabled",
+    "group_ids": [
+      "grp_hr_82f8",
+      "grp_hr_all"
+    ],
+    "created_at": "2023-12-06T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_9e0388",
+    "employee_id": "emp_0009",
+    "username": "qmartinez",
+    "status": "enabled",
+    "group_ids": [
+      "grp_engineering_4162",
+      "grp_engineering_all"
+    ],
+    "created_at": "2024-09-13T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_4d16c0",
+    "employee_id": "emp_0010",
+    "username": "rlopez",
+    "status": "enabled",
+    "group_ids": [
+      "grp_operations_772e",
+      "grp_operations_all"
+    ],
+    "created_at": "2023-11-10T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_51e138",
+    "employee_id": "emp_0011",
+    "username": "cwilson",
+    "status": "enabled",
+    "group_ids": [
+      "grp_support_ada3",
+      "grp_support_all"
+    ],
+    "created_at": "2024-07-04T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_f63934",
+    "employee_id": "emp_0012",
+    "username": "randerson",
+    "status": "enabled",
+    "group_ids": [
+      "grp_marketing_c05f",
+      "grp_marketing_all"
+    ],
+    "created_at": "2024-02-24T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_78fb5c",
+    "employee_id": "emp_0013",
+    "username": "ethomas",
+    "status": "enabled",
+    "group_ids": [
+      "grp_sales_4bcb",
+      "grp_sales_all"
+    ],
+    "created_at": "2024-06-18T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_88c4f4",
+    "employee_id": "emp_0014",
+    "username": "ptaylor",
+    "status": "enabled",
+    "group_ids": [
+      "grp_hr_a74e",
+      "grp_hr_all"
+    ],
+    "created_at": "2024-10-13T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_3818d8",
+    "employee_id": "emp_0015",
+    "username": "hmoore",
+    "status": "enabled",
+    "group_ids": [
+      "grp_operations_dcb3",
+      "grp_operations_all"
+    ],
+    "created_at": "2023-09-21T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_0099f1",
+    "employee_id": "emp_0016",
+    "username": "djackson",
+    "status": "enabled",
+    "group_ids": [
+      "grp_marketing_719b",
+      "grp_marketing_all"
+    ],
+    "created_at": "2023-09-28T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_82aecf",
+    "employee_id": "emp_0017",
+    "username": "bmartin",
+    "status": "enabled",
+    "group_ids": [
+      "grp_finance_c147",
+      "grp_finance_all"
+    ],
+    "created_at": "2023-05-28T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_8d4bcb",
+    "employee_id": "emp_0018",
+    "username": "sthompson",
+    "status": "enabled",
+    "group_ids": [
+      "grp_marketing_719b",
+      "grp_marketing_all"
+    ],
+    "created_at": "2024-02-22T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_1d0980",
+    "employee_id": "emp_0019",
+    "username": "rwhite",
+    "status": "enabled",
+    "group_ids": [
+      "grp_operations_9079",
+      "grp_operations_all"
+    ],
+    "created_at": "2023-10-24T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_401a71",
+    "employee_id": "emp_0020",
+    "username": "lharris",
+    "status": "enabled",
+    "group_ids": [
+      "grp_hr_92d4",
+      "grp_hr_all"
+    ],
+    "created_at": "2023-12-15T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_43980f",
+    "employee_id": "emp_0021",
+    "username": "ssanchez",
+    "status": "enabled",
+    "group_ids": [
+      "grp_marketing_c05f",
+      "grp_marketing_all"
+    ],
+    "created_at": "2023-06-10T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_51ba73",
+    "employee_id": "emp_0022",
+    "username": "kclark",
+    "status": "enabled",
+    "group_ids": [
+      "grp_operations_772e",
+      "grp_operations_all"
+    ],
+    "created_at": "2025-01-21T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_696506",
+    "employee_id": "emp_0023",
+    "username": "dramirez",
+    "status": "enabled",
+    "group_ids": [
+      "grp_it_2990",
+      "grp_it_all"
+    ],
+    "created_at": "2024-08-02T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_9071d5",
+    "employee_id": "emp_0024",
+    "username": "elewis",
+    "status": "enabled",
+    "group_ids": [
+      "grp_marketing_719b",
+      "grp_marketing_all"
+    ],
+    "created_at": "2024-09-05T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_1e8432",
+    "employee_id": "emp_0025",
+    "username": "frobinson",
+    "status": "enabled",
+    "group_ids": [
+      "grp_marketing_719b",
+      "grp_marketing_all"
+    ],
+    "created_at": "2023-05-14T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_bac647",
+    "employee_id": "emp_0026",
+    "username": "jwalker",
+    "status": "enabled",
+    "group_ids": [
+      "grp_support_ada3",
+      "grp_support_all"
+    ],
+    "created_at": "2025-05-15T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_5494f2",
+    "employee_id": "emp_0027",
+    "username": "kyoung",
+    "status": "enabled",
+    "group_ids": [
+      "grp_marketing_231e",
+      "grp_marketing_all"
+    ],
+    "created_at": "2023-12-02T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_81d8d5",
+    "employee_id": "emp_0028",
+    "username": "lallen",
+    "status": "enabled",
+    "group_ids": [
+      "grp_sales_4bcb",
+      "grp_sales_all"
+    ],
+    "created_at": "2023-05-06T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_48efe8",
+    "employee_id": "emp_0029",
+    "username": "mking",
+    "status": "enabled",
+    "group_ids": [
+      "grp_finance_5d50",
+      "grp_finance_all"
+    ],
+    "created_at": "2023-05-01T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_db017d",
+    "employee_id": "emp_0030",
+    "username": "nwright",
+    "status": "enabled",
+    "group_ids": [
+      "grp_engineering_4162",
+      "grp_engineering_all"
+    ],
+    "created_at": "2023-12-04T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_351bb4",
+    "employee_id": "emp_0031",
+    "username": "rscott",
+    "status": "enabled",
+    "group_ids": [
+      "grp_marketing_719b",
+      "grp_marketing_all"
+    ],
+    "created_at": "2023-07-18T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_f06213",
+    "employee_id": "emp_0032",
+    "username": "storres",
+    "status": "enabled",
+    "group_ids": [
+      "grp_marketing_231e",
+      "grp_marketing_all"
+    ],
+    "created_at": "2023-12-24T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_f589dc",
+    "employee_id": "emp_0033",
+    "username": "tng",
+    "status": "disabled",
+    "group_ids": [
+      "grp_finance_7304",
+      "grp_finance_all"
+    ],
+    "created_at": "2023-05-06T09:00:00+00:00",
+    "disabled_at": "2025-07-10T09:00:00+00:00"
+  },
+  {
+    "account_id": "acc_baacc3",
+    "employee_id": "emp_0034",
+    "username": "whill",
+    "status": "enabled",
+    "group_ids": [
+      "grp_marketing_719b",
+      "grp_marketing_all"
+    ],
+    "created_at": "2025-02-07T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_d89d5c",
+    "employee_id": "emp_0035",
+    "username": "zgreen",
+    "status": "enabled",
+    "group_ids": [
+      "grp_operations_9079",
+      "grp_operations_all"
+    ],
+    "created_at": "2024-02-26T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_f9a6bc",
+    "employee_id": "emp_0036",
+    "username": "nadams",
+    "status": "enabled",
+    "group_ids": [
+      "grp_engineering_4162",
+      "grp_engineering_all"
+    ],
+    "created_at": "2024-06-21T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_451983",
+    "employee_id": "emp_0037",
+    "username": "sbaker",
+    "status": "enabled",
+    "group_ids": [
+      "grp_engineering_cbaf",
+      "grp_engineering_all"
+    ],
+    "created_at": "2025-02-13T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_839501",
+    "employee_id": "emp_0038",
+    "username": "bgonzalez",
+    "status": "enabled",
+    "group_ids": [
+      "grp_support_ada3",
+      "grp_support_all"
+    ],
+    "created_at": "2024-03-29T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_c42c15",
+    "employee_id": "emp_0039",
+    "username": "dnelson",
+    "status": "enabled",
+    "group_ids": [
+      "grp_support_ada3",
+      "grp_support_all"
+    ],
+    "created_at": "2023-06-17T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_54337a",
+    "employee_id": "emp_0040",
+    "username": "ecarter",
+    "status": "enabled",
+    "group_ids": [
+      "grp_engineering_cbaf",
+      "grp_engineering_all"
+    ],
+    "created_at": "2023-04-23T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_6f9008",
+    "employee_id": "emp_0041",
+    "username": "hmitchell",
+    "status": "enabled",
+    "group_ids": [
+      "grp_marketing_719b",
+      "grp_marketing_all"
+    ],
+    "created_at": "2023-03-23T09:00:00+00:00",
+    "disabled_at": null
+  },
+  {
+    "account_id": "acc_f76658",
+    "employee_id": "emp_0042",
+    "username": "jperez",
+    "status": "enabled",
+    "group_ids": [
+      "grp_operations_9079",
+      "grp_operations_all"
+    ],
+    "created_at": "2025-02-26T09:00:00+00:00",
+    "disabled_at": null
+  }
+]

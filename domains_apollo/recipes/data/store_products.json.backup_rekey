@@ -1,0 +1,702 @@
+[
+  {
+    "product_id": 9101,
+    "store_id": 9001,
+    "ingredient_id": 1005,
+    "product_name": "Durum Spaghetti 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 299,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9102,
+    "store_id": 9001,
+    "ingredient_id": 1012,
+    "product_name": "Tomato Sauce 680ml",
+    "package_size_qty": 680,
+    "package_unit": "ml",
+    "price_cents": 399,
+    "stock_status_enum": "low"
+  },
+  {
+    "product_id": 9103,
+    "store_id": 9001,
+    "ingredient_id": 1001,
+    "product_name": "Chicken Breast 1lb",
+    "package_size_qty": 454,
+    "package_unit": "g",
+    "price_cents": 599,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9104,
+    "store_id": 9001,
+    "ingredient_id": 1002,
+    "product_name": "Atlantic Salmon 600g",
+    "package_size_qty": 600,
+    "package_unit": "g",
+    "price_cents": 1299,
+    "stock_status_enum": "out_of_stock"
+  },
+  {
+    "product_id": 9105,
+    "store_id": 9001,
+    "ingredient_id": 1015,
+    "product_name": "Extra Virgin Olive Oil 500ml",
+    "package_size_qty": 500,
+    "package_unit": "ml",
+    "price_cents": 899,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9106,
+    "store_id": 9001,
+    "ingredient_id": 1066,
+    "product_name": "Fresh Broccoli 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 249,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9107,
+    "store_id": 9001,
+    "ingredient_id": 1070,
+    "product_name": "Baby Spinach 200g",
+    "package_size_qty": 200,
+    "package_unit": "g",
+    "price_cents": 329,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9108,
+    "store_id": 9001,
+    "ingredient_id": 1006,
+    "product_name": "Jasmine White Rice 1kg",
+    "package_size_qty": 1000,
+    "package_unit": "g",
+    "price_cents": 549,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9111,
+    "store_id": 9002,
+    "ingredient_id": 1026,
+    "product_name": "Whole Wheat Sandwich Bread",
+    "package_size_qty": 1,
+    "package_unit": "loaf",
+    "price_cents": 449,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9112,
+    "store_id": 9002,
+    "ingredient_id": 1039,
+    "product_name": "Sliced Turkey 300g",
+    "package_size_qty": 300,
+    "package_unit": "g",
+    "price_cents": 799,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9113,
+    "store_id": 9002,
+    "ingredient_id": 1038,
+    "product_name": "Classic Hummus 200g",
+    "package_size_qty": 200,
+    "package_unit": "g",
+    "price_cents": 399,
+    "stock_status_enum": "low"
+  },
+  {
+    "product_id": 9114,
+    "store_id": 9002,
+    "ingredient_id": 1041,
+    "product_name": "Peanut Butter 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 499,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9115,
+    "store_id": 9002,
+    "ingredient_id": 1045,
+    "product_name": "Ground Beef 80/20 1lb",
+    "package_size_qty": 454,
+    "package_unit": "g",
+    "price_cents": 699,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9116,
+    "store_id": 9002,
+    "ingredient_id": 1075,
+    "product_name": "Mixed Mushrooms 250g",
+    "package_size_qty": 250,
+    "package_unit": "g",
+    "price_cents": 399,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9121,
+    "store_id": 9003,
+    "ingredient_id": 1003,
+    "product_name": "Organic Firm Tofu 400g",
+    "package_size_qty": 400,
+    "package_unit": "g",
+    "price_cents": 549,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9122,
+    "store_id": 9003,
+    "ingredient_id": 1007,
+    "product_name": "Organic Quinoa 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 799,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9123,
+    "store_id": 9003,
+    "ingredient_id": 1015,
+    "product_name": "Cold-Pressed Olive Oil 250ml",
+    "package_size_qty": 250,
+    "package_unit": "ml",
+    "price_cents": 1299,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9124,
+    "store_id": 9003,
+    "ingredient_id": 1094,
+    "product_name": "Organic Coconut Milk 400ml",
+    "package_size_qty": 400,
+    "package_unit": "ml",
+    "price_cents": 349,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9125,
+    "store_id": 9003,
+    "ingredient_id": 1092,
+    "product_name": "Organic Almond Milk 1L",
+    "package_size_qty": 1000,
+    "package_unit": "ml",
+    "price_cents": 449,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9126,
+    "store_id": 9003,
+    "ingredient_id": 1095,
+    "product_name": "Organic Vegan Cheese 200g",
+    "package_size_qty": 200,
+    "package_unit": "g",
+    "price_cents": 649,
+    "stock_status_enum": "low"
+  },
+  {
+    "product_id": 9131,
+    "store_id": 9004,
+    "ingredient_id": 1005,
+    "product_name": "Budget Spaghetti 1kg",
+    "package_size_qty": 1000,
+    "package_unit": "g",
+    "price_cents": 199,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9132,
+    "store_id": 9004,
+    "ingredient_id": 1027,
+    "product_name": "All-Purpose Flour 2kg",
+    "package_size_qty": 2000,
+    "package_unit": "g",
+    "price_cents": 299,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9133,
+    "store_id": 9004,
+    "ingredient_id": 1028,
+    "product_name": "White Sugar 1kg",
+    "package_size_qty": 1000,
+    "package_unit": "g",
+    "price_cents": 199,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9134,
+    "store_id": 9004,
+    "ingredient_id": 1051,
+    "product_name": "Black Beans 400g Can",
+    "package_size_qty": 400,
+    "package_unit": "g",
+    "price_cents": 129,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9135,
+    "store_id": 9004,
+    "ingredient_id": 1052,
+    "product_name": "Kidney Beans 400g Can",
+    "package_size_qty": 400,
+    "package_unit": "g",
+    "price_cents": 129,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9136,
+    "store_id": 9004,
+    "ingredient_id": 1004,
+    "product_name": "Chickpeas 400g Can",
+    "package_size_qty": 400,
+    "package_unit": "g",
+    "price_cents": 139,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9141,
+    "store_id": 9005,
+    "ingredient_id": 1133,
+    "product_name": "Premium Miso Paste 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 1199,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9142,
+    "store_id": 9005,
+    "ingredient_id": 1134,
+    "product_name": "Fish Sauce 200ml",
+    "package_size_qty": 200,
+    "package_unit": "ml",
+    "price_cents": 799,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9143,
+    "store_id": 9005,
+    "ingredient_id": 1135,
+    "product_name": "Curry Powder Blend 100g",
+    "package_size_qty": 100,
+    "package_unit": "g",
+    "price_cents": 599,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9144,
+    "store_id": 9005,
+    "ingredient_id": 1136,
+    "product_name": "Garam Masala 50g",
+    "package_size_qty": 50,
+    "package_unit": "g",
+    "price_cents": 449,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9145,
+    "store_id": 9005,
+    "ingredient_id": 1130,
+    "product_name": "Tahini 250g",
+    "package_size_qty": 250,
+    "package_unit": "g",
+    "price_cents": 849,
+    "stock_status_enum": "low"
+  },
+  {
+    "product_id": 9146,
+    "store_id": 9005,
+    "ingredient_id": 1064,
+    "product_name": "Rice Noodles 200g",
+    "package_size_qty": 200,
+    "package_unit": "g",
+    "price_cents": 399,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9151,
+    "store_id": 9006,
+    "ingredient_id": 1119,
+    "product_name": "Gluten-Free Flour Blend 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 699,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9152,
+    "store_id": 9006,
+    "ingredient_id": 1122,
+    "product_name": "Gluten-Free Bread Loaf",
+    "package_size_qty": 1,
+    "package_unit": "loaf",
+    "price_cents": 549,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9153,
+    "store_id": 9006,
+    "ingredient_id": 1065,
+    "product_name": "Gluten-Free Pasta 250g",
+    "package_size_qty": 250,
+    "package_unit": "g",
+    "price_cents": 449,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9154,
+    "store_id": 9006,
+    "ingredient_id": 1120,
+    "product_name": "Almond Flour 400g",
+    "package_size_qty": 400,
+    "package_unit": "g",
+    "price_cents": 899,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9155,
+    "store_id": 9006,
+    "ingredient_id": 1128,
+    "product_name": "Chia Seeds 200g",
+    "package_size_qty": 200,
+    "package_unit": "g",
+    "price_cents": 649,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9156,
+    "store_id": 9006,
+    "ingredient_id": 1131,
+    "product_name": "Almond Butter 350g",
+    "package_size_qty": 350,
+    "package_unit": "g",
+    "price_cents": 849,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9161,
+    "store_id": 9007,
+    "ingredient_id": 1081,
+    "product_name": "Farm Fresh Apples 1kg",
+    "package_size_qty": 1000,
+    "package_unit": "g",
+    "price_cents": 399,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9162,
+    "store_id": 9007,
+    "ingredient_id": 1068,
+    "product_name": "Organic Carrots 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 199,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9163,
+    "store_id": 9007,
+    "ingredient_id": 1079,
+    "product_name": "Sweet Potatoes 1kg",
+    "package_size_qty": 1000,
+    "unit": "g",
+    "price_cents": 299,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9164,
+    "store_id": 9007,
+    "ingredient_id": 1086,
+    "product_name": "Ripe Avocados 4pk",
+    "package_size_qty": 4,
+    "package_unit": "pcs",
+    "price_cents": 599,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9165,
+    "store_id": 9007,
+    "ingredient_id": 1084,
+    "product_name": "Fresh Strawberries 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 449,
+    "stock_status_enum": "low"
+  },
+  {
+    "product_id": 9166,
+    "store_id": 9007,
+    "ingredient_id": 1103,
+    "product_name": "Fresh Basil 50g",
+    "package_size_qty": 50,
+    "package_unit": "g",
+    "price_cents": 299,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9171,
+    "store_id": 9008,
+    "ingredient_id": 1037,
+    "product_name": "Whole Milk 1L",
+    "package_size_qty": 1000,
+    "package_unit": "ml",
+    "price_cents": 299,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9172,
+    "store_id": 9008,
+    "ingredient_id": 1030,
+    "product_name": "Large Eggs 12pk",
+    "package_size_qty": 12,
+    "package_unit": "pcs",
+    "price_cents": 399,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9173,
+    "store_id": 9008,
+    "ingredient_id": 1024,
+    "product_name": "Cheddar Cheese 200g",
+    "package_size_qty": 200,
+    "package_unit": "g",
+    "price_cents": 449,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9174,
+    "store_id": 9008,
+    "ingredient_id": 1029,
+    "product_name": "Unsalted Butter 250g",
+    "package_size_qty": 250,
+    "package_unit": "g",
+    "price_cents": 349,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9175,
+    "store_id": 9008,
+    "ingredient_id": 1023,
+    "product_name": "Greek Yogurt 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 449,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9181,
+    "store_id": 9001,
+    "ingredient_id": 1048,
+    "product_name": "Jumbo Shrimp 400g",
+    "package_size_qty": 400,
+    "package_unit": "g",
+    "price_cents": 999,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9182,
+    "store_id": 9001,
+    "ingredient_id": 1049,
+    "product_name": "Cod Fillets 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 899,
+    "stock_status_enum": "low"
+  },
+  {
+    "product_id": 9183,
+    "store_id": 9001,
+    "ingredient_id": 1050,
+    "product_name": "Tuna in Water 2x150g",
+    "package_size_qty": 300,
+    "package_unit": "g",
+    "price_cents": 399,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9191,
+    "store_id": 9003,
+    "ingredient_id": 1054,
+    "product_name": "Organic Tempeh 200g",
+    "package_size_qty": 200,
+    "package_unit": "g",
+    "price_cents": 449,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9192,
+    "store_id": 9003,
+    "ingredient_id": 1055,
+    "product_name": "Plant-Based Beyond Meat 300g",
+    "package_size_qty": 300,
+    "package_unit": "g",
+    "price_cents": 799,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9193,
+    "store_id": 9003,
+    "ingredient_id": 1096,
+    "product_name": "Nutritional Yeast 100g",
+    "package_size_qty": 100,
+    "package_unit": "g",
+    "price_cents": 599,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9201,
+    "store_id": 9004,
+    "ingredient_id": 1141,
+    "product_name": "Frozen Peas 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 199,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9202,
+    "store_id": 9004,
+    "ingredient_id": 1142,
+    "product_name": "Frozen Corn 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 199,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9203,
+    "store_id": 9004,
+    "ingredient_id": 1143,
+    "product_name": "Frozen Mixed Berries 400g",
+    "package_size_qty": 400,
+    "package_unit": "g",
+    "price_cents": 399,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9211,
+    "store_id": 9002,
+    "ingredient_id": 1056,
+    "product_name": "Brown Rice 1kg",
+    "package_size_qty": 1000,
+    "package_unit": "g",
+    "price_cents": 449,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9212,
+    "store_id": 9002,
+    "ingredient_id": 1058,
+    "product_name": "Basmati Rice 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 399,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9213,
+    "store_id": 9002,
+    "ingredient_id": 1062,
+    "product_name": "Penne Pasta 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 249,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9221,
+    "store_id": 9005,
+    "ingredient_id": 1123,
+    "product_name": "Raw Almonds 250g",
+    "package_size_qty": 250,
+    "package_unit": "g",
+    "price_cents": 699,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9222,
+    "store_id": 9005,
+    "ingredient_id": 1124,
+    "product_name": "Walnut Halves 200g",
+    "package_size_qty": 200,
+    "package_unit": "g",
+    "price_cents": 899,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9223,
+    "store_id": 9005,
+    "ingredient_id": 1125,
+    "product_name": "Cashews 300g",
+    "package_size_qty": 300,
+    "package_unit": "g",
+    "price_cents": 1199,
+    "stock_status_enum": "low"
+  },
+  {
+    "product_id": 9231,
+    "store_id": 9007,
+    "ingredient_id": 1014,
+    "product_name": "English Cucumbers 2pk",
+    "package_size_qty": 2,
+    "package_unit": "pcs",
+    "price_cents": 299,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9232,
+    "store_id": 9007,
+    "ingredient_id": 1044,
+    "product_name": "Cherry Tomatoes 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 399,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9233,
+    "store_id": 9007,
+    "ingredient_id": 1013,
+    "product_name": "Romaine Hearts 3pk",
+    "package_size_qty": 3,
+    "package_unit": "pcs",
+    "price_cents": 349,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9241,
+    "store_id": 9008,
+    "ingredient_id": 1115,
+    "product_name": "Honey 500ml",
+    "package_size_qty": 500,
+    "package_unit": "ml",
+    "price_cents": 799,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9242,
+    "store_id": 9008,
+    "ingredient_id": 1116,
+    "product_name": "Pure Maple Syrup 250ml",
+    "package_size_qty": 250,
+    "package_unit": "ml",
+    "price_cents": 899,
+    "stock_status_enum": "in_stock"
+  },
+  {
+    "product_id": 9243,
+    "store_id": 9008,
+    "ingredient_id": 1118,
+    "product_name": "Brown Sugar 500g",
+    "package_size_qty": 500,
+    "package_unit": "g",
+    "price_cents": 299,
+    "stock_status_enum": "in_stock"
+  }
+]

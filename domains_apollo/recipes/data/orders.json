@@ -1,0 +1,26 @@
+{
+  "10001": {
+    "order_id": 10001,
+    "household_id": 201,
+    "store_id": 9001,
+    "list_id": 8001,
+    "status_enum": "placed",
+    "subtotal_cents": 2596,
+    "total_cents": 2796,
+    "placed_ts": "2025-08-21T09:00:00Z",
+    "scheduled_slot_start_ts": "2025-08-22T18:00:00Z",
+    "scheduled_slot_end_ts": "2025-08-22T20:00:00Z"
+  },
+  "10002": {
+    "order_id": 10002,
+    "household_id": 202,
+    "store_id": 9002,
+    "list_id": 8002,
+    "status_enum": "delivered",
+    "subtotal_cents": 1647,
+    "total_cents": 1747,
+    "placed_ts": "2025-08-21T10:00:00Z",
+    "scheduled_slot_start_ts": "2025-08-21T14:00:00Z",
+    "scheduled_slot_end_ts": "2025-08-21T16:00:00Z"
+  }
+}

@@ -1,0 +1,66 @@
+[
+  {
+    "item_ids": [
+      "zot_001", "zot_003", "zot_005", "zot_006", "zot_007", "zot_008"
+    ],
+    "file_paths": [
+      "/data/external/zotero_papers/zhang_2023_coastal_flood_ml_comprehensive_review.pdf",
+      "/data/external/zotero_papers/johnson_2024_weather_tidal_integration_hybrid_approach.pdf",
+      "/data/external/zotero_papers/lee_2023_iot_flood_warning_urban_environments.pdf",
+      "/data/external/zotero_papers/chen_2022_neural_networks_extreme_weather_prediction.pdf",
+      "/data/external/zotero_papers/adams_2021_bayesian_networks_coastal_hazard_assessment.pdf",
+      "/data/external/zotero_papers/turner_2023_transfer_learning_marine_science.pdf"
+    ],
+    "fetched_ts": "2024-01-25T12:00:00Z"
+  },
+  {
+    "item_ids": [
+      "zot_011", "zot_013", "zot_014", "zot_015"
+    ],
+    "file_paths": [
+      "/data/external/zotero_papers/peterson_2022_noaa_analysis_30_year_retrospective.pdf",
+      "/data/external/zotero_papers/adams_2021_east_coast_trends_infrastructure_planning.pdf",
+      "/data/external/zotero_papers/wilson_2022_multi_decadal_tidal_constituents.pdf",
+      "/data/external/zotero_papers/chen_2023_satellite_altimetry_tide_gauge_integration.pdf"
+    ],
+    "fetched_ts": "2024-02-01T11:30:00Z"
+  },
+  {
+    "item_ids": [
+      "zot_017", "zot_018", "zot_019", "zot_020"
+    ],
+    "file_paths": [
+      "/data/external/zotero_papers/garcia_2022_ml_environmental_prediction_theory_practice.pdf",
+      "/data/external/zotero_papers/anderson_2020_flood_risk_stats_uncertainty_analysis.pdf",
+      "/data/external/zotero_papers/obrien_2019_boston_harbor_ice_climate_adaptation.pdf",
+      "/data/external/zotero_papers/patel_2021_harbor_infrastructure_winter_flood_engineering.pdf"
+    ],
+    "fetched_ts": "2024-03-05T10:15:00Z"
+  },
+  {
+    "item_ids": [
+      "zot_021", "zot_022", "zot_023", "zot_024", "zot_025", "zot_026", "zot_027"
+    ],
+    "file_paths": [
+      "/data/external/zotero_papers/nordstrom_2018_maritime_safety_ice_coverage_guidelines.pdf",
+      "/data/external/zotero_papers/williams_2020_marine_transportation_climate_adaptation.pdf",
+      "/data/external/zotero_papers/williams_2020_puget_sound_waves_high_resolution_simulations.pdf",
+      "/data/external/zotero_papers/chen_2022_rainfall_wave_height_variations_enclosed_bays.pdf",
+      "/data/external/zotero_papers/johnson_2021_pacific_northwest_storm_surge_wave_interaction.pdf",
+      "/data/external/zotero_papers/taylor_2022_coastal_erosion_modeling_pacific_northwest.pdf",
+      "/data/external/zotero_papers/roberts_2023_marine_spatial_planning_climate_adaptation.pdf"
+    ],
+    "fetched_ts": "2024-03-01T11:45:00Z"
+  },
+  {
+    "item_ids": [
+      "zot_002", "zot_004", "zot_012"
+    ],
+    "file_paths": [
+      "/data/external/zotero_papers/kim_2022_deep_learning_sea_level_prediction_multi_source.pdf",
+      "/data/external/zotero_papers/anderson_2021_logistic_regression_climate_risk_comparative.pdf",
+      "/data/external/zotero_papers/martinez_2023_tidal_harmonic_analysis_modern_statistical.pdf"
+    ],
+    "fetched_ts": "2024-02-01T14:00:00Z"
+  }
+]

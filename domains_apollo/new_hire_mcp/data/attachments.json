@@ -1,0 +1,209 @@
+{
+  "attach_1": {
+    "attachment_id": "attach_1",
+    "message_id": "msg_1",
+    "filename": "Company-Policies.pdf",
+    "mime_type": "application/pdf",
+    "file_path": "/onboarding/Jane_Smith/Company-Policies.pdf",
+    "size_bytes": 1024000,
+    "stored_ts": "2024-07-16T10:59:00Z"
+  },
+  "attach_2": {
+    "attachment_id": "attach_2",
+    "message_id": "msg_1",
+    "filename": "Benefits-Guide.pdf",
+    "mime_type": "application/pdf",
+    "file_path": "/onboarding/Jane_Smith/Benefits-Guide.pdf",
+    "size_bytes": 2048000,
+    "stored_ts": "2024-07-16T10:59:00Z"
+  },
+  "attach_welcome_jane": {
+    "attachment_id": "attach_welcome_jane",
+    "message_id": "msg_1",
+    "filename": "welcome_Jane_Smith.md",
+    "mime_type": "text/markdown",
+    "file_path": "/onboarding/Jane_Smith/welcome_Jane_Smith.md",
+    "size_bytes": 3500,
+    "stored_ts": "2024-07-16T10:58:00Z"
+  },
+  "attach_3": {
+    "attachment_id": "attach_3",
+    "message_id": "msg_2",
+    "filename": "Company-Policies.pdf",
+    "mime_type": "application/pdf",
+    "file_path": "/onboarding/Peter_Jones/Company-Policies.pdf",
+    "size_bytes": 1024000,
+    "stored_ts": "2024-07-10T11:59:00Z"
+  },
+  "attach_4": {
+    "attachment_id": "attach_4",
+    "message_id": "msg_2",
+    "filename": "Benefits-Guide.pdf",
+    "mime_type": "application/pdf",
+    "file_path": "/onboarding/Peter_Jones/Benefits-Guide.pdf",
+    "size_bytes": 2048000,
+    "stored_ts": "2024-07-10T11:59:00Z"
+  },
+  "attach_welcome_peter": {
+    "attachment_id": "attach_welcome_peter",
+    "message_id": "msg_2",
+    "filename": "welcome_Peter_Jones.md",
+    "mime_type": "text/markdown",
+    "file_path": "/onboarding/Peter_Jones/welcome_Peter_Jones.md",
+    "size_bytes": 3200,
+    "stored_ts": "2024-07-10T11:58:00Z"
+  },
+  "attach_5": {
+    "attachment_id": "attach_5",
+    "message_id": "msg_3",
+    "filename": "asset_request.json",
+    "mime_type": "application/json",
+    "file_path": "/onboarding/Jane_Smith/asset_request.json",
+    "size_bytes": 512,
+    "stored_ts": "2024-07-17T09:04:00Z"
+  },
+  "attach_6": {
+    "attachment_id": "attach_6",
+    "message_id": "msg_4",
+    "filename": "asset_request.json",
+    "mime_type": "application/json",
+    "file_path": "/onboarding/Peter_Jones/asset_request.json",
+    "size_bytes": 512,
+    "stored_ts": "2024-07-11T14:04:00Z"
+  },
+  "attach_pending_peter": {
+    "attachment_id": "attach_pending_peter",
+    "message_id": "msg_5",
+    "filename": "pending_tasks.md",
+    "mime_type": "text/markdown",
+    "file_path": "/onboarding/Peter_Jones/pending_tasks.md",
+    "size_bytes": 1200,
+    "stored_ts": "2024-08-05T10:59:00Z"
+  },
+  "attach_7": {
+    "attachment_id": "attach_7",
+    "message_id": "msg_6",
+    "filename": "Company-Policies.pdf",
+    "mime_type": "application/pdf",
+    "file_path": "/onboarding/Maria_Rodriguez/Company-Policies.pdf",
+    "size_bytes": 1024000,
+    "stored_ts": "2024-07-20T15:29:00Z"
+  },
+  "attach_8": {
+    "attachment_id": "attach_8",
+    "message_id": "msg_6",
+    "filename": "Benefits-Guide.pdf",
+    "mime_type": "application/pdf",
+    "file_path": "/onboarding/Maria_Rodriguez/Benefits-Guide.pdf",
+    "size_bytes": 2048000,
+    "stored_ts": "2024-07-20T15:29:00Z"
+  },
+  "attach_welcome_maria": {
+    "attachment_id": "attach_welcome_maria",
+    "message_id": "msg_6",
+    "filename": "welcome_Maria_Rodriguez.md",
+    "mime_type": "text/markdown",
+    "file_path": "/onboarding/Maria_Rodriguez/welcome_Maria_Rodriguez.md",
+    "size_bytes": 3800,
+    "stored_ts": "2024-07-20T15:28:00Z"
+  },
+  "attach_9": {
+    "attachment_id": "attach_9",
+    "message_id": "msg_7",
+    "filename": "Company-Policies.pdf",
+    "mime_type": "application/pdf",
+    "file_path": "/onboarding/Alex_Thompson/Company-Policies.pdf",
+    "size_bytes": 1024000,
+    "stored_ts": "2024-07-25T10:44:00Z"
+  },
+  "attach_10": {
+    "attachment_id": "attach_10",
+    "message_id": "msg_7",
+    "filename": "Benefits-Guide.pdf",
+    "mime_type": "application/pdf",
+    "file_path": "/onboarding/Alex_Thompson/Benefits-Guide.pdf",
+    "size_bytes": 2048000,
+    "stored_ts": "2024-07-25T10:44:00Z"
+  },
+  "attach_welcome_alex": {
+    "attachment_id": "attach_welcome_alex",
+    "message_id": "msg_7",
+    "filename": "welcome_Alex_Thompson.md",
+    "mime_type": "text/markdown",
+    "file_path": "/onboarding/Alex_Thompson/welcome_Alex_Thompson.md",
+    "size_bytes": 3600,
+    "stored_ts": "2024-07-25T10:43:00Z"
+  },
+  "attach_11": {
+    "attachment_id": "attach_11",
+    "message_id": "msg_8",
+    "filename": "Company-Policies.pdf",
+    "mime_type": "application/pdf",
+    "file_path": "/onboarding/Robert_Singh/Company-Policies.pdf",
+    "size_bytes": 1024000,
+    "stored_ts": "2024-08-05T17:14:00Z"
+  },
+  "attach_12": {
+    "attachment_id": "attach_12",
+    "message_id": "msg_8",
+    "filename": "Benefits-Guide.pdf",
+    "mime_type": "application/pdf",
+    "file_path": "/onboarding/Robert_Singh/Benefits-Guide.pdf",
+    "size_bytes": 2048000,
+    "stored_ts": "2024-08-05T17:14:00Z"
+  },
+  "attach_welcome_robert": {
+    "attachment_id": "attach_welcome_robert",
+    "message_id": "msg_8",
+    "filename": "welcome_Robert_Singh.md",
+    "mime_type": "text/markdown",
+    "file_path": "/onboarding/Robert_Singh/welcome_Robert_Singh.md",
+    "size_bytes": 4100,
+    "stored_ts": "2024-08-05T17:13:00Z"
+  },
+  "attach_13": {
+    "attachment_id": "attach_13",
+    "message_id": "msg_9",
+    "filename": "asset_request.json",
+    "mime_type": "application/json",
+    "file_path": "/onboarding/Maria_Rodriguez/asset_request.json",
+    "size_bytes": 580,
+    "stored_ts": "2024-07-21T10:34:00Z"
+  },
+  "attach_14": {
+    "attachment_id": "attach_14",
+    "message_id": "msg_10",
+    "filename": "asset_request.json",
+    "mime_type": "application/json",
+    "file_path": "/onboarding/Alex_Thompson/asset_request.json",
+    "size_bytes": 620,
+    "stored_ts": "2024-07-26T11:19:00Z"
+  },
+  "attach_15": {
+    "attachment_id": "attach_15",
+    "message_id": "msg_11",
+    "filename": "asset_request.json",
+    "mime_type": "application/json",
+    "file_path": "/onboarding/Robert_Singh/asset_request.json",
+    "size_bytes": 650,
+    "stored_ts": "2024-08-06T14:24:00Z"
+  },
+  "attach_16": {
+    "attachment_id": "attach_16",
+    "message_id": "msg_12",
+    "filename": "phone_request.json",
+    "mime_type": "application/json",
+    "file_path": "/onboarding/Maria_Rodriguez/phone_request.json",
+    "size_bytes": 420,
+    "stored_ts": "2024-07-22T15:09:00Z"
+  },
+  "attach_overdue_emily": {
+    "attachment_id": "attach_overdue_emily",
+    "message_id": "msg_13",
+    "filename": "overdue_tasks.md",
+    "mime_type": "text/markdown",
+    "file_path": "/onboarding/Emily_Chen/overdue_tasks.md",
+    "size_bytes": 900,
+    "stored_ts": "2024-08-30T09:59:00Z"
+  }
+}
