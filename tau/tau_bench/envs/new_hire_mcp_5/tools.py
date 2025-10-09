@@ -722,7 +722,7 @@ class ModifyEmailLabels(Tool):
         db: dict[str, Any], candidate_id: str, subject: str, date_ts: str
     ) -> dict[str, Any] | None:
         pass
-        emails = db.get("emails", [])
+        emails = _get_table(db, "emails")
         matches = [
             e
             for e in emails
@@ -757,7 +757,7 @@ class ModifyEmailLabels(Tool):
         email = None
         if message_id:
             email = next(
-                (e for e in db.get("emails", []) if e.get("message_id") == message_id), None
+                (e for e in _get_table(db, "emails") if e.get("message_id") == message_id), None
             )
         else:
             date_ts = _fixed_ts(date_ts)
@@ -787,7 +787,7 @@ class ModifyEmailLabels(Tool):
             existing = next(
                 (
                     lab.get("label_id")
-                    for lab in db.get("email_labels", [])
+                    for lab in _get_table(db, "email_labels")
                     if lab.get("name") == nm
                 ),
                 None,
@@ -1232,7 +1232,7 @@ class UpdateAssetRequestStatus(Tool):
     @staticmethod
     def _find_email(db, candidate_id: str, subject: str, date_ts: str):
         pass
-        emails = db.get("emails", [])
+        emails = _get_table(db, "emails")
         matches = [
             e
             for e in emails
@@ -1344,7 +1344,7 @@ class AllocateFirstAvailableAsset(Tool):
     def invoke(db: dict[str, Any], request_id: str, updated_ts: str = None) -> str:
         rid = request_id
         req = next(
-            (r for r in db.get("asset_requests", []) if r.get("request_id") == rid),
+            (r for r in _get_table(db, "asset_requests") if r.get("request_id") == rid),
             None,
         )
         if not req:
@@ -1353,7 +1353,7 @@ class AllocateFirstAvailableAsset(Tool):
             return out
         cand_id = req.get("candidate_id")
         a_type = req.get("asset_type")
-        inv = db.get("inventory_assets", [])
+        inv = _get_table(db, "inventory_assets")
 
         def is_free(row):
             st = (row.get("status") or "").lower()
@@ -1381,7 +1381,7 @@ class AllocateFirstAvailableAsset(Tool):
         chosen = free[0]
         chosen["assigned_candidate_id_nullable"] = cand_id
         chosen["status"] = "allocated"
-        for c in db.get("candidates", []):
+        for c in _get_table(db, "candidates"):
             if c.get("candidate_id") == cand_id:
                 c["allocated_asset_tag_nullable"] = chosen.get("asset_tag")
                 break
@@ -1428,7 +1428,7 @@ class ReplyToEmailThread(Tool):
     @staticmethod
     def _find_email_by_keys(db, candidate_id, subject, date_ts):
         pass
-        emails = db.get("emails", [])
+        emails = _get_table(db, "emails")
         matches = [
             e
             for e in emails
@@ -1462,7 +1462,7 @@ class ReplyToEmailThread(Tool):
         date_ts = _fixed_ts(date_ts)
         base = ReplyToEmailThread._find_email_by_keys(db, candidate_id, subject, date_ts)
         cand_row = next(
-            (r for r in db.get("candidates", []) if r.get("candidate_id") == candidate_id),
+            (r for r in _get_table(db, "candidates") if r.get("candidate_id") == candidate_id),
             None,
         )
         to_emails = to_emails or (base.get("to_emails") if base else [])
@@ -1547,12 +1547,12 @@ class SummarizeAccessChecks(Tool):
     def invoke(db: dict[str, Any], candidate_id: str) -> str:
         cand_id = candidate_id
         cand_row = next(
-            (r for r in db.get("candidates", []) if r.get("candidate_id") == cand_id),
+            (r for r in _get_table(db, "candidates") if r.get("candidate_id") == cand_id),
             None,
         )
         name = cand_row.get("candidate_name") if cand_row else cand_id
         checks = [
-            r for r in db.get("access_checks", []) if r.get("candidate_id") == cand_id
+            r for r in _get_table(db, "access_checks") if r.get("candidate_id") == cand_id
         ]
         by_sys: dict[str, dict[str, int]] = {}
         for r in checks:
@@ -1607,7 +1607,7 @@ class AuditAttachmentsForEmail(Tool):
     @staticmethod
     def _find_email_by_keys(db, candidate_id, subject, date_ts):
         pass
-        emails = db.get("emails", [])
+        emails = _get_table(db, "emails")
         return next(
             (
                 e
@@ -1625,7 +1625,7 @@ class AuditAttachmentsForEmail(Tool):
         subject = subject
         date_ts = _fixed_ts(date_ts)
         cand_row = next(
-            (r for r in db.get("candidates", []) if r.get("candidate_id") == cand_id),
+            (r for r in _get_table(db, "candidates") if r.get("candidate_id") == cand_id),
             None,
         )
         name = cand_row.get("candidate_name") if cand_row else cand_id
@@ -1633,7 +1633,7 @@ class AuditAttachmentsForEmail(Tool):
         email = AuditAttachmentsForEmail._find_email_by_keys(
             db, cand_id, subject, date_ts
         )
-        att_rows = db.get("attachments", [])
+        att_rows = _get_table(db, "attachments")
         items = []
         if email:
             for att_id in email.get("attachments_ids", []):
@@ -1698,7 +1698,7 @@ class CloseCompletedChecklistItems(Tool):
 
     @staticmethod
     def invoke(db: dict[str, Any], candidate_id: str, due_date_lte: str = None) -> str:
-        items = db.get("checklist_items", [])
+        items = _get_table(db, "checklist_items")
         updated = 0
         for it in items:
             if it.get("candidate_id") != candidate_id:
