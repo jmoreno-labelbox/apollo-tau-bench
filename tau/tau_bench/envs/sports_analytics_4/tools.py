@@ -591,7 +591,7 @@ class ForecastMatchOutcome(Tool):
                 for g in games if g.get("home_team_id") == team or g.get("away_team_id") == team
             ]
             return sum(
-                g.get("final_score", {}).get(str(team), 0) for g in team_games
+                (g.get("final_score") or {}).get(str(team), 0) if isinstance(g.get("final_score"), dict) else 0 for g in team_games
             ) / max(len(team_games), 1)
 
         winner = home_team if avg_runs(home_team) >= avg_runs(away_team) else away_team
@@ -1088,7 +1088,7 @@ class CompareTeamStats(Tool):
                 for g in games if g.get("home_team_id") == team or g.get("away_team_id") == team
             ]
             return sum(
-                g.get("final_score", {}).get(str(team), 0) for g in team_games
+                (g.get("final_score") or {}).get(str(team), 0) if isinstance(g.get("final_score"), dict) else 0 for g in team_games
             ) / max(len(team_games), 1)
         
         payload = {"team_a_avg_runs": avg_runs(team_a), "team_b_avg_runs": avg_runs(team_b)}

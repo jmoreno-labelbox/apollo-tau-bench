@@ -18,18 +18,24 @@ def _convert_db_to_list(db):
     return db
 
 
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
+
+
 def _collect_sales_history(
     data: dict[str, Any], property_id: str
 ) -> list[dict[str, Any]]:
     pass
     return [
-        s for s in data.get("sales", {}).values() if str(s.get("property_id")) == property_id
+        s for s in _get_table(data, "sales") if str(s.get("property_id")) == property_id
     ]
 
 
 def _require_active_broker(data: dict[str, Any], broker_id: int) -> str | None:
     pass
-    brokers = data.get("brokers", {}).values()
+    brokers = _get_table(data, "brokers")
     b = next((x for x in brokers.values() if _as_int(x.get("broker_id")) == broker_id), None)
     if not b:
         return f"broker_id {broker_id} not found"
@@ -55,7 +61,7 @@ def _get_client_prefs(data: dict[str, Any], client_id: int) -> dict[str, Any] | 
     return next(
         (
             p
-            for p in data.get("client_preferences", {}).values()
+            for p in _get_table(data, "client_preferences")
             if _as_int(p.get("client_id")) == client_id
         ),
         None,
@@ -84,7 +90,7 @@ def _collect_listing_by_property(
 ) -> dict[str, Any] | None:
     pass
     candidates = [
-        l for l in data.get("listings", {}).values() if str(l.get("property_id")) == property_id
+        l for l in _get_table(data, "listings") if str(l.get("property_id")) == property_id
     ]
     return _latest(candidates, "updated_at") or (candidates[0] if candidates else None)
 
@@ -200,7 +206,7 @@ class FetchClientFullContextTool(Tool):
         #1) Latest comp_report for this client
         crs = [
             r
-            for r in data.get("comp_reports", {}).values()
+            for r in _get_table(data, "comp_reports")
             if _as_int(r.get("client_id")) == client_id
         ]
         if crs:
@@ -218,7 +224,7 @@ class FetchClientFullContextTool(Tool):
         if assigned_broker_id is None:
             evs = [
                 e
-                for e in data.get("calendar_events", {}).values()
+                for e in _get_table(data, "calendar_events")
                 if _as_int(e.get("client_id")) == client_id
             ]
             if evs:
@@ -243,17 +249,17 @@ class FetchClientFullContextTool(Tool):
         #--- Counts of recent activities ---
         emails_cnt = sum(
             1
-            for e in data.get("emails", {}).values()
+            for e in _get_table(data, "emails")
             if _as_int(e.get("client_id")) == client_id
         )
         reports_cnt = sum(
             1
-            for r in data.get("comp_reports", {}).values()
+            for r in _get_table(data, "comp_reports")
             if _as_int(r.get("client_id")) == client_id
         )
         events_cnt = sum(
             1
-            for e in data.get("calendar_events", {}).values()
+            for e in _get_table(data, "calendar_events")
             if _as_int(e.get("client_id")) == client_id
         )
 
@@ -380,7 +386,7 @@ class FetchNeighborhoodDetailsTool(Tool):
             rec = next(
                 (
                     n
-                    for n in data.get("neighborhoods", {}).values()
+                    for n in _get_table(data, "neighborhoods")
                     if _as_int(n.get("neighborhood_id")) == neighborhood_id
                 ),
                 None,
@@ -389,7 +395,7 @@ class FetchNeighborhoodDetailsTool(Tool):
             # Conduct a case-insensitive partial name search
             name_lower = name.lower()
             rec = None
-            for n in data.get("neighborhoods", {}).values():
+            for n in _get_table(data, "neighborhoods"):
                 n_name = n.get("name", "").lower()
                 # Verify if the search name exists within the neighborhood name or the other way around
                 # This accommodates scenarios such as "Heights" corresponding to "The Hills"
@@ -451,7 +457,7 @@ class FetchBrokerDetailsTool(Tool):
         rec = next(
             (
                 b
-                for b in data.get("brokers", {}).values()
+                for b in _get_table(data, "brokers")
                 if _as_int(b.get("broker_id")) == broker_id
             ),
             None,
@@ -535,7 +541,7 @@ class SearchListingsByCriteriaTool(Tool):
 
         # Note: Neighborhood filtering has been eliminated - no mapping from property to neighborhood in the data
         matches: list[dict[str, Any]] = []
-        for l in data.get("listings", {}).values():
+        for l in _get_table(data, "listings"):
             pid = str(l.get("property_id"))
 
             # Omit listings that lack a property_id
@@ -681,10 +687,10 @@ class FetchMortgageRatesForClientTool(Tool):
         rates = []
         # Establish a lender lookup map for effective name resolution
         lenders_map = {
-            l.get("lender_id"): l.get("name") for l in data.get("lenders", {}).values()
+            l.get("lender_id"): l.get("name") for l in _get_table(data, "lenders")
         }
 
-        for r in data.get("mortgage_rates", {}).values():
+        for r in _get_table(data, "mortgage_rates"):
             if str(r.get("region")) != str(region):
                 continue
             qualifies = credit_score >= _as_int(r.get("min_credit_score") or 0)
@@ -765,7 +771,7 @@ class CheckRecentEmailHistoryTool(Tool):
 
         emails = [
             e
-            for e in data.get("emails", {}).values()
+            for e in _get_table(data, "emails")
             if _as_int(e.get("client_id")) == client_id
             and e.get("template_code") == template_code
         ]
@@ -872,7 +878,7 @@ class SearchCompsAndCreateReportTool(Tool):
             )
         subject_price = subject_listing.get("list_price")
 
-        listings_map = {str(l.get("property_id")): l for l in data.get("listings", {}).values()}
+        listings_map = {str(l.get("property_id")): l for l in _get_table(data, "listings")}
         candidate_ids = set(listings_map.keys())
 
         candidates = []
@@ -951,7 +957,7 @@ class SearchCompsAndCreateReportTool(Tool):
         }
 
         #--- Logic for Report Creation (from CreateCompReportEntryTool) ---
-        rows = data.setdefault("comp_reports", [])
+        rows = _get_table(data, "comp_reports")
         report_id = _next_int_id(rows, "report_id")
         report_rec = {
             "report_id": report_id,
@@ -962,7 +968,7 @@ class SearchCompsAndCreateReportTool(Tool):
             "doc_uri": None,
             "status": "draft",
         }
-        data["comp_reports"][report_rec["comp_report_id"]] = report_rec
+        _get_table(data, "comp_reports")[report_rec["comp_report_id"]] = report_rec
         payload = {
                 "report_entry": report_rec,
                 "search_results": search_and_rank_output,
@@ -1046,7 +1052,7 @@ class FetchOpenHouseOpportunitiesTool(Tool):
 
         prop_set = set(property_candidates)
         open_houses = []
-        for oh in data.get("open_houses", {}).values():
+        for oh in _get_table(data, "open_houses"):
             if str(oh.get("property_id")) in prop_set:
                 # Verify if open house dates coincide with the search range
                 oh_start = oh.get("start_at", "")
@@ -1333,7 +1339,7 @@ class CalculatePropertyMetricsTool(Tool):
 
         #---- Construct market pool (simplified - consider all listings as market) ----
         market_prices, market_ppsf = [], []
-        for l in data.get("listings", {}).values():
+        for l in _get_table(data, "listings"):
             if l.get("list_price"):
                 market_prices.append(float(l["list_price"]))
             if l.get("price_per_sqft"):
@@ -1509,7 +1515,7 @@ class FetchPropertyDetailsTool(Tool):
         # Available open house times for this property
         open_houses = [
             oh
-            for oh in data.get("open_houses", {}).values()
+            for oh in _get_table(data, "open_houses")
             if str(oh.get("property_id")) == str(property_id)
         ]
         open_houses_sorted = sorted(
@@ -1588,7 +1594,7 @@ class FetchCompReportDetailsTool(Tool):
         report = next(
             (
                 r
-                for r in data.get("comp_reports", {}).values()
+                for r in _get_table(data, "comp_reports")
                 if _as_int(r.get("report_id")) == report_id
             ),
             None,
@@ -1598,12 +1604,12 @@ class FetchCompReportDetailsTool(Tool):
 
         comps = [
             c
-            for c in data.get("comparables", {}).values()
+            for c in _get_table(data, "comparables")
             if _as_int(c.get("report_id")) == report_id
         ]
         docs = [
             d
-            for d in data.get("documents", {}).values()
+            for d in _get_table(data, "documents")
             if d.get("entity_type") == "comp_report"
             and str(d.get("entity_id")) == str(report_id)
         ]
@@ -1612,7 +1618,7 @@ class FetchCompReportDetailsTool(Tool):
         client_id = _as_int(report.get("client_id"))
         emails = [
             e
-            for e in data.get("emails", {}).values()
+            for e in _get_table(data, "emails")
             if _as_int(e.get("client_id")) == client_id
         ]
         emails_sorted = sorted(
@@ -1622,7 +1628,7 @@ class FetchCompReportDetailsTool(Tool):
         #audit trail records for this report
         audits = [
             a
-            for a in data.get("audit_events", {}).values()
+            for a in _get_table(data, "audit_events")
             if a.get("entity_type") == "comp_report"
             and str(a.get("entity_id")) == str(report_id)
         ]
@@ -1735,7 +1741,7 @@ class FindNearbyListingsTool(Tool):
 
         lat1, lon1 = subj_ll
         candidates = []
-        for l in data.get("listings", {}).values():
+        for l in _get_table(data, "listings"):
             pid = str(l.get("property_id"))
             if not pid or pid == subject_property_id:
                 continue
@@ -1818,7 +1824,7 @@ class FetchEmailsForClientTool(Tool):
 
         emails = [
             e
-            for e in data.get("emails", {}).values()
+            for e in _get_table(data, "emails")
             if _as_int(e.get("client_id")) == client_id
         ]
         if template_filter:
@@ -1877,7 +1883,7 @@ class FetchCalendarEventsForClientTool(Tool):
 
         events = [
             e
-            for e in data.get("calendar_events", {}).values()
+            for e in _get_table(data, "calendar_events")
             if _as_int(e.get("client_id")) == client_id
         ]
         if start_at:
@@ -1940,7 +1946,7 @@ class FetchListingsByIdsTool(Tool):
         if not isinstance(ids, list) or not ids:
             return _err("property_ids must be a non-empty array")
 
-        listings_map = {str(l.get("property_id")): l for l in data.get("listings", {}).values()}
+        listings_map = {str(l.get("property_id")): l for l in _get_table(data, "listings")}
         out_items: list[dict[str, Any]] = []
         for pid in [str(x) for x in ids]:
             l = listings_map.get(pid)
@@ -2017,7 +2023,7 @@ class FetchRouteDetailsTool(Tool):
         if route_id is None and client_id is None:
             return _err("route_id WA client_id is required")
 
-        routes = data.get("routes", {}).values()
+        routes = _get_table(data, "routes")
         route = None
         if route_id is not None:
             route = next(
@@ -2081,7 +2087,7 @@ class FetchCampaignDetailsTool(Tool):
         campaign = next(
             (
                 c
-                for c in data.get("campaigns", {}).values()
+                for c in _get_table(data, "campaigns")
                 if _as_int(c.get("campaign_id")) == campaign_id
             ),
             None,
@@ -2091,12 +2097,12 @@ class FetchCampaignDetailsTool(Tool):
 
         emails = [
             e
-            for e in data.get("emails", {}).values()
+            for e in _get_table(data, "emails")
             if _as_int(e.get("campaign_id")) == campaign_id
         ]
         audits = [
             a
-            for a in data.get("audit_events", {}).values()
+            for a in _get_table(data, "audit_events")
             if a.get("entity_type") == "campaign"
             and _as_int(a.get("entity_id")) == campaign_id
         ]
@@ -2143,7 +2149,7 @@ class GenerateClientBriefingDocumentTool(Tool):
         if client_id is None or created_by is None:
             return _err("client_id and created_by are required")
 
-        docs = data.setdefault("documents", [])
+        docs = _get_table(data, "documents")
         document_id = _next_int_id(docs, "document_id")
         padded = str(client_id).zfill(3)
         uri = f"https://storage.example.com/briefings/client_briefing_{padded}.pdf"
@@ -2157,7 +2163,7 @@ class GenerateClientBriefingDocumentTool(Tool):
             "created_by": int(created_by),
             "created_at": HARD_TS,
         }
-        data["documents"][doc_row["document_id"]] = doc_row
+        _get_table(data, "documents")[doc_row["document_id"]] = doc_row
         payload = {"document": doc_row}
         out = json.dumps(payload, indent=2)
         return out
@@ -2257,7 +2263,7 @@ class CreateCompReportEntryTool(Tool):
                 "client_id, subject_property_id, created_by_broker_id are required"
             )
 
-        rows = data.setdefault("comp_reports", [])
+        rows = _get_table(data, "comp_reports")
         report_id = _next_int_id(rows, "report_id")
         rec = {
             "report_id": report_id,
@@ -2268,7 +2274,7 @@ class CreateCompReportEntryTool(Tool):
             "doc_uri": None,
             "status": "draft",
         }
-        data["comp_reports"][rec["comp_report_id"]] = rec
+        _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -2307,7 +2313,7 @@ class CreateComparableEntryTool(Tool):
         if report_id is None or not comp_property_id or similarity_score is None:
             return _err("report_id, comp_property_id, similarity_score are required")
 
-        rows = data.setdefault("comparables", [])
+        rows = _get_table(data, "comparables")
         comp_id = _next_int_id(rows, "comp_id")
         rec = {
             "comp_id": comp_id,
@@ -2317,7 +2323,7 @@ class CreateComparableEntryTool(Tool):
             "selection_reason": selection_reason,
             "tie_breaker_notes": None,
         }
-        data["comp_reports"][rec["comp_report_id"]] = rec
+        _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -2354,7 +2360,7 @@ class GenerateAttachCompReportDocumentTool(Tool):
         if report_id is None or created_by is None:
             return _err("report_id and created_by are required")
 
-        reports = data.setdefault("comp_reports", [])
+        reports = _get_table(data, "comp_reports")
         r = next((x for x in reports if _as_int(x.get("report_id")) == report_id), None)
         if not r:
             return _err(f"report_id {report_id} not found", code="not_found")
@@ -2365,7 +2371,7 @@ class GenerateAttachCompReportDocumentTool(Tool):
         r["doc_uri"] = uri
         r["updated_at"] = HARD_TS
 
-        docs = data.setdefault("documents", [])
+        docs = _get_table(data, "documents")
         document_id = _next_int_id(docs, "document_id")
         doc_row = {
             "document_id": document_id,
@@ -2376,10 +2382,10 @@ class GenerateAttachCompReportDocumentTool(Tool):
             "created_by": created_by,
             "created_at": HARD_TS,
         }
-        data["documents"][doc_row["document_id"]] = doc_row
+        _get_table(data, "documents")[doc_row["document_id"]] = doc_row
 
         #--- Generate Audit Event Entry ---
-        audit_rows = data.setdefault("audit_events", [])
+        audit_rows = _get_table(data, "audit_events")
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
             "event_id": audit_event_id,
@@ -2390,7 +2396,7 @@ class GenerateAttachCompReportDocumentTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"new_uri": uri},
         }
-        audit_data["comp_reports"][audit_rec["comp_report_id"]] = audit_rec
+        audit__get_table(data, "comp_reports")[audit_rec["comp_report_id"]] = audit_rec
         payload = {
                 "document_uri": uri,
                 "report": {
@@ -2439,7 +2445,7 @@ class BulkCreateComparableEntriesTool(Tool):
         if not isinstance(items, list) or not items:
             return _err("comparables must be a non-empty list")
 
-        rows = data.setdefault("comparables", [])
+        rows = _get_table(data, "comparables")
         created = []
         for it in items:
             pid = (it or {}).get("comp_property_id")
@@ -2453,7 +2459,7 @@ class BulkCreateComparableEntriesTool(Tool):
                 "selection_reason": (it or {}).get("selection_reason") or "",
                 "tie_breaker_notes": (it or {}).get("tie_breaker_notes"),
             }
-            data["comp_reports"][rec["comp_report_id"]] = rec
+            _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
             created.append(rec)
         payload = {"created_count": len(created), "comparables": created}
         out = json.dumps(
@@ -2490,7 +2496,7 @@ class UpdateCompReportStatusTool(Tool):
         if report_id is None or not new_status or actor_id is None:
             return _err("report_id, new_status, and actor_id are required")
 
-        rows = data.get("comp_reports", {}).values()
+        rows = _get_table(data, "comp_reports")
         rec = next(
             (r for r in rows.values() if int(r.get("report_id", -1)) == int(report_id)), None
         )
@@ -2502,7 +2508,7 @@ class UpdateCompReportStatusTool(Tool):
         rec["updated_at"] = HARD_TS
 
         #--- Generate Audit Event Entry ---
-        audit_rows = data.setdefault("audit_events", [])
+        audit_rows = _get_table(data, "audit_events")
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
             "event_id": audit_event_id,
@@ -2513,7 +2519,7 @@ class UpdateCompReportStatusTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"new_status": new_status, "previous_status": prev},
         }
-        audit_data["comp_reports"][audit_rec["comp_report_id"]] = audit_rec
+        audit__get_table(data, "comp_reports")[audit_rec["comp_report_id"]] = audit_rec
         payload = {
                 "report_id": int(report_id),
                 "previous_status": prev,
@@ -2571,7 +2577,7 @@ class CreateEmailEntryTool(Tool):
         if not subject or not body_uri:
             comp_reports = [
                 r
-                for r in data.get("comp_reports", {}).values()
+                for r in _get_table(data, "comp_reports")
                 if _as_int(r.get("client_id")) == int(client_id)
             ]
             if comp_reports:
@@ -2668,7 +2674,7 @@ class CreateEmailEntryTool(Tool):
                     body_uri = f"https://storage.example.com/emails/email_comp_{int(client_id):03d}.html"
 
         #--- Generate Email Entry ---
-        email_rows = data.setdefault("emails", [])
+        email_rows = _get_table(data, "emails")
         email_id = _next_int_id(email_rows, "email_id")
         email_rec = {
             "email_id": email_id,
@@ -2680,10 +2686,10 @@ class CreateEmailEntryTool(Tool):
             "sent_at": HARD_TS,
             "campaign_id": campaign_id,
         }
-        email_data["comp_reports"][email_rec["comp_report_id"]] = email_rec
+        email__get_table(data, "comp_reports")[email_rec["comp_report_id"]] = email_rec
 
         #--- Generate Audit Event Entry ---
-        audit_rows = data.setdefault("audit_events", [])
+        audit_rows = _get_table(data, "audit_events")
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
             "event_id": audit_event_id,
@@ -2694,7 +2700,7 @@ class CreateEmailEntryTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"client_id": int(client_id), "template": template_code},
         }
-        audit_data["comp_reports"][audit_rec["comp_report_id"]] = audit_rec
+        audit__get_table(data, "comp_reports")[audit_rec["comp_report_id"]] = audit_rec
         payload = {"email": email_rec, "audit_event": audit_rec}
         out = json.dumps(payload, indent=2)
         return out
@@ -2760,7 +2766,7 @@ class SendEmailTool(Tool):
             # Automatically create property_id if absent
             comp_reports = [
                 r
-                for r in data.get("comp_reports", {}).values()
+                for r in _get_table(data, "comp_reports")
                 if _as_int(r.get("client_id")) == int(client_id)
             ]
             if comp_reports:
@@ -2777,7 +2783,7 @@ class SendEmailTool(Tool):
         if not subject or not body_uri:
             comp_reports = [
                 r
-                for r in data.get("comp_reports", {}).values()
+                for r in _get_table(data, "comp_reports")
                 if _as_int(r.get("client_id")) == int(client_id)
             ]
             if comp_reports:
@@ -2856,7 +2862,7 @@ class SendEmailTool(Tool):
                     body_uri = f"https://storage.example.com/emails/email_comp_{int(client_id):03d}.html"
 
         # Generate Email Entry
-        email_rows = data.setdefault("emails", [])
+        email_rows = _get_table(data, "emails")
         email_id = _next_int_id(email_rows, "email_id")
         email_rec = {
             "email_id": email_id,
@@ -2868,9 +2874,9 @@ class SendEmailTool(Tool):
             "sent_at": HARD_TS,
             "campaign_id": campaign_id,
         }
-        email_data["comp_reports"][email_rec["comp_report_id"]] = email_rec
+        email__get_table(data, "comp_reports")[email_rec["comp_report_id"]] = email_rec
 
-        audit_rows = data.setdefault("audit_events", [])
+        audit_rows = _get_table(data, "audit_events")
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
             "event_id": audit_event_id,
@@ -2881,7 +2887,7 @@ class SendEmailTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"client_id": int(client_id), "template": template_code},
         }
-        audit_data["comp_reports"][audit_rec["comp_report_id"]] = audit_rec
+        audit__get_table(data, "comp_reports")[audit_rec["comp_report_id"]] = audit_rec
         payload = {"email": email_rec, "audit_event": audit_rec}
         out = json.dumps(payload, indent=2)
         return out
@@ -2940,7 +2946,7 @@ class CreateRouteEntryTool(Tool):
                 "client_id, route_date, stops_ordered_json(list), map_url, created_by_broker_id are required"
             )
 
-        rows = data.setdefault("routes", [])
+        rows = _get_table(data, "routes")
         route_id = _next_int_id(rows, "route_id")
         rec = {
             "route_id": route_id,
@@ -2951,7 +2957,7 @@ class CreateRouteEntryTool(Tool):
             "created_by_broker_id": int(created_by_broker_id),
             "created_at": HARD_TS,
         }
-        data["comp_reports"][rec["comp_report_id"]] = rec
+        _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -3026,7 +3032,7 @@ class CreateCalendarEventEntryTool(Tool):
                 "broker_id, client_id, title, start_at, end_at, location, source are required"
             )
 
-        rows = data.setdefault("calendar_events", [])
+        rows = _get_table(data, "calendar_events")
         event_id = _next_int_id(rows, "event_id")
         rec = {
             "event_id": event_id,
@@ -3038,7 +3044,7 @@ class CreateCalendarEventEntryTool(Tool):
             "location": str(location),
             "source": str(source),
         }
-        data["comp_reports"][rec["comp_report_id"]] = rec
+        _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -3095,7 +3101,7 @@ class CreateCampaignEntryTool(Tool):
             return _err("campaign_name, campaign_type, and created_by are required")
 
         #--- Generate Campaign Entry ---
-        campaign_rows = data.setdefault("campaigns", [])
+        campaign_rows = _get_table(data, "campaigns")
         campaign_id = _next_int_id(campaign_rows, "campaign_id")
         campaign_rec = {
             "campaign_id": campaign_id,
@@ -3104,10 +3110,10 @@ class CreateCampaignEntryTool(Tool):
             "created_by": int(created_by),
             "created_at": HARD_TS,
         }
-        campaign_data["comp_reports"][campaign_rec["comp_report_id"]] = campaign_rec
+        campaign__get_table(data, "comp_reports")[campaign_rec["comp_report_id"]] = campaign_rec
 
         #--- Generate Audit Event Entry ---
-        audit_rows = data.setdefault("audit_events", [])
+        audit_rows = _get_table(data, "audit_events")
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
             "event_id": audit_event_id,
@@ -3121,7 +3127,7 @@ class CreateCampaignEntryTool(Tool):
                 "campaign_type": campaign_type,
             },
         }
-        audit_data["comp_reports"][audit_rec["comp_report_id"]] = audit_rec
+        audit__get_table(data, "comp_reports")[audit_rec["comp_report_id"]] = audit_rec
         payload = {"campaign": campaign_rec, "audit_event": audit_rec}
         out = json.dumps(
             payload, indent=2
@@ -3173,7 +3179,7 @@ class CreateAuditEventEntryTool(Tool):
         if metadata_json is not None and not isinstance(metadata_json, (dict, list)):
             return _err("metadata_json must be an object WA array if provided")
 
-        rows = data.setdefault("audit_events", [])
+        rows = _get_table(data, "audit_events")
         event_id = _next_int_id(rows, "event_id")
         rec = {
             "event_id": event_id,
@@ -3184,7 +3190,7 @@ class CreateAuditEventEntryTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": metadata_json if metadata_json is not None else {},
         }
-        data["comp_reports"][rec["comp_report_id"]] = rec
+        _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -3470,7 +3476,7 @@ class VerifyCompReportWorkflowTool(Tool):
 
         reports = {
             int(r.get("report_id")): r
-            for r in data.get("comp_reports", {}).values()
+            for r in _get_table(data, "comp_reports")
             if r.get("report_id") is not None
         }
         r = reports.get(int(report_id))
@@ -3480,12 +3486,12 @@ class VerifyCompReportWorkflowTool(Tool):
 
         comps = [
             c
-            for c in data.get("comparables", {}).values()
+            for c in _get_table(data, "comparables")
             if int(c.get("report_id", -1)) == int(report_id)
         ]
         comparables_count = len(comps)
 
-        emails = data.get("emails", {}).values()
+        emails = _get_table(data, "emails")
         emails_sent = sum(
             1
             for e in emails.values() if r and int(e.get("client_id", -1)) == int(r.get("client_id", -2))
@@ -3493,7 +3499,7 @@ class VerifyCompReportWorkflowTool(Tool):
 
         audits = [
             a
-            for a in data.get("audit_events", {}).values()
+            for a in _get_table(data, "audit_events")
             if a.get("entity_type") == "comp_report"
             and str(a.get("entity_id")) == str(report_id)
         ]
@@ -3554,14 +3560,14 @@ class VerifyRouteCreationTool(Tool):
 
         routes = {
             int(r.get("route_id")): r
-            for r in data.get("routes", {}).values()
+            for r in _get_table(data, "routes")
             if r.get("route_id") is not None
         }
         route = routes.get(int(route_id))
         route_exists = route is not None
         properties_count = len(route.get("stops_ordered_json") or []) if route else 0
 
-        #events = {int(e.get("event_id")): e for e in data.get("calendar_events", {}).values() if e.get("event_id") is not None}
+        #events = {int(e.get("event_id")): e for e in _get_table(data, "calendar_events") if e.get("event_id") is not None}
         #event = events.get(int(event_id))
         #event_created = event is not None
 
@@ -3618,7 +3624,7 @@ class GenerateNextCompReportUriTool(Tool):
         pass
         # Locate the current maximum report_id
         max_id = 0
-        for r in data.get("comp_reports", {}).values():
+        for r in _get_table(data, "comp_reports"):
             rid = _as_int(r.get("report_id") or r.get("id") or r.get("entity_id"))
             if rid is not None and rid > max_id:
                 max_id = rid
@@ -3702,9 +3708,9 @@ class CreateMortgageProfileTool(Tool):
 
         # Accept misspelling "mortage_profiles"
         if "mortgage_profiles" in data:
-            rows = data.setdefault("mortgage_profiles", [])
+            rows = _get_table(data, "mortgage_profiles")
         else:
-            rows = data.setdefault("mortage_profiles", [])
+            rows = _get_table(data, "mortage_profiles")
 
         existing = _get_mortgage_profile(data, client_id)
         if existing:
@@ -3739,7 +3745,7 @@ class CreateMortgageProfileTool(Tool):
                 "region": region,
                 "last_reviewed_at": HARD_TS,
             }
-            data["comp_reports"][rec["comp_report_id"]] = rec
+            _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
             payload = rec
             out = json.dumps(payload, indent=2)
             return out

@@ -14,6 +14,12 @@ def _convert_db_to_list(db):
     return db
 
 
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
+
+
 def _terminal(data: dict[str, Any]) -> list[dict[str, Any]]:
     pass
     return data.setdefault("terminal", [])
@@ -143,7 +149,7 @@ def _prs(data: dict[str, Any]) -> list[dict[str, Any]]:
 def _auth(data: dict[str, Any]) -> dict[str, Any]:
     """
     Provide the acting identity as {"username": "...", "email": "..."}.
-    Requires get_me(username=...) to have populated data["_me"].
+    Requires get_me(username=...) to have populated _get_table(data, "_me").
     """
     pass
     me = data.get("_me")
@@ -2622,7 +2628,7 @@ class CreateRepository(Tool):
             "topics": [],
             "releases": [],
         }
-        data["repositories"][new_repo["repositorie_id"]] = new_repo
+        _get_table(data, "repositories")[new_repo["repositorie_id"]] = new_repo
         payload = {"message": "Repository created", "repo_name": repo_name}
         out = json.dumps(
             payload, indent=2
@@ -2870,7 +2876,7 @@ class GetMe(Tool):
                 out = json.dumps(payload, indent=2)
                 return out
             me = {"username": match.get("username"), "email": match.get("email")}
-            data["_me"] = me
+            _get_table(data, "_me") = me
             payload = me
             out = json.dumps(payload, indent=2)
             return out

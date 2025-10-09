@@ -892,7 +892,7 @@ class AssignAssetToCandidate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_tag: str, candidate_id: str) -> str:
         inv = _get_table(data, "inventory_assets")
-        row = next((a for a in inv.values() if a.get("asset_tag") == asset_tag), None)
+        row = next((a for a in inv if a.get("asset_tag") == asset_tag), None)
         if not row:
             payload = {"error": f"asset_tag {asset_tag} not found"}
             out = json.dumps(payload, indent=2)
@@ -1211,9 +1211,7 @@ class UpsertCandidateRecord(Tool):
             )
             return out
 
-        candidate_id = _get_or_create_label_id(
-            "cand", {"email": email, "start": start, "name": name}
-        )
+        candidate_id = _get_or_create_label_id(data, "cand")
         new_row = {
             "candidate_id": candidate_id,
             "candidate_name": name,
@@ -1741,9 +1739,9 @@ class CreateCandidate(Tool):
             payload = {"error": "missing_candidate_id"}
             out = json.dumps(payload, indent=2)
             return out
-        _get_table(data, "candidates")
+        candidates = _get_table(data, "candidates")
         # insert or update using candidate_id
-        for i, existing in enumerate(data["candidates"]):
+        for i, existing in enumerate(candidates):
             if existing.get("candidate_id") == c["candidate_id"]:
                 updated = dict(existing)
                 updated.update({k: v for k, v in c.items() if v is not None})
@@ -1796,9 +1794,9 @@ class AddChecklistItemForCandidate(Tool):
             payload = {"error": "missing_required_fields"}
             out = json.dumps(payload, indent=2)
             return out
-        _get_table(data, "checklist_items")
+        checklist_items = _get_table(data, "checklist_items")
         #insert or update using item_id
-        for i, it in enumerate(data["checklist_items"]):
+        for i, it in enumerate(checklist_items):
             if it.get("item_id") == item["item_id"]:
                 updated = dict(it)
                 updated.update({k: v for k, v in item.items() if v is not None})
@@ -1849,8 +1847,8 @@ class CreateOnboardingFile(Tool):
             payload = {"error": "missing_required_fields"}
             out = json.dumps(payload, indent=2)
             return out
-        _get_table(data, "onboarding_files")
-        for i, existing in enumerate(data["onboarding_files"]):
+        onboarding_files = _get_table(data, "onboarding_files")
+        for i, existing in enumerate(onboarding_files):
             if existing.get("file_id") == f["file_id"]:
                 updated = dict(existing)
                 updated.update({k: v for k, v in f.items() if v is not None})

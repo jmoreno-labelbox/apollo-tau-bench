@@ -13,6 +13,12 @@ def _convert_db_to_list(db):
     return db
 
 
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
+
+
 def _index_by(items: list[dict[str, Any]], key: str) -> dict[Any, dict[str, Any]]:
     pass
     
@@ -41,7 +47,7 @@ class GetClientPreferences(Tool):
         prefs = next(
             (
                 p
-                for p in data.get("client_preferences", {}).values()
+                for p in _get_table(data, "client_preferences")
                 if p.get("client_id") == client_id
             ),
             None,
@@ -111,7 +117,7 @@ class GetPropertyAndListing(Tool):
         prop = next(
             (
                 p
-                for p in data.get("properties", {}).values()
+                for p in _get_table(data, "properties")
                 if p.get("property_id") == property_id
             ),
             None,
@@ -123,7 +129,7 @@ class GetPropertyAndListing(Tool):
             )
             return out
         listings = [
-            l for l in data.get("listings", {}).values() if l.get("property_id") == property_id
+            l for l in _get_table(data, "listings") if l.get("property_id") == property_id
         ]
         listing = None
         if listings:
@@ -164,9 +170,9 @@ class SearchListings(Tool):
         property_type: str = None,
         limit: int = 15
     ) -> str:
-        props = _index_by(list(data.get("properties", {}).values()), "property_id")
+        props = _index_by(list(_get_table(data, "properties")), "property_id")
         results: list[dict[str, Any]] = []
-        for lst in data.get("listings", {}).values() or []:
+        for lst in _get_table(data, "listings") or []:
             if lst.get("status") != "active":
                 continue
             pr = props.get(lst.get("property_id"))
@@ -282,7 +288,7 @@ class GetNeighborhoodDetails(Tool):
         n = next(
             (
                 n
-                for n in data.get("neighborhoods", {}).values()
+                for n in _get_table(data, "neighborhoods")
                 if n.get("neighborhood_id") == neighborhood_id
             ),
             None,
@@ -319,7 +325,7 @@ class GetBorderingNeighborhoods(Tool):
         n = next(
             (
                 n
-                for n in data.get("neighborhoods", {}).values()
+                for n in _get_table(data, "neighborhoods")
                 if n.get("neighborhood_id") == nid
             ),
             None,
@@ -353,7 +359,7 @@ class GetBrokerDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], broker_id: str = None) -> str:
         br = next(
-            (b for b in data.get("brokers", {}).values() if b.get("broker_id") == broker_id),
+            (b for b in _get_table(data, "brokers") if b.get("broker_id") == broker_id),
             None,
         )
         if not br:
@@ -394,7 +400,7 @@ class ComputeMortgageEstimate(Tool):
         region = region_override or profile.get("region")
 
         best = None
-        for r in data.get("mortgage_rates", {}).values() or []:
+        for r in _get_table(data, "mortgage_rates") or []:
             if region and r.get("region") != region:
                 continue
             if r.get("term_years") != term_years:
@@ -451,7 +457,7 @@ class FetchRecentSalesByProperty(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], property_id: str, limit: int = 3) -> str:
         sales = [
-            s for s in data.get("sales", {}).values() if s.get("property_id") == property_id
+            s for s in _get_table(data, "sales") if s.get("property_id") == property_id
         ]
         sales = sorted(sales, key=lambda s: s.get("sale_date") or "", reverse=True)[
             :limit
@@ -487,7 +493,7 @@ class SaveCompReport(Tool):
         created_by_broker_id: str,
         final_status: str = "draft"
     ) -> str:
-        reports = data.get("comp_reports", {}).values()
+        reports = _get_table(data, "comp_reports")
         new_report_id = _next_int_id(reports, "report_id")
         doc_uri = f"https://storage.example.com/reports/comp_{new_report_id:03d}.pdf"
         rpt = {
@@ -499,13 +505,13 @@ class SaveCompReport(Tool):
             "doc_uri": doc_uri,
             "status": final_status,
         }
-        data["comp_reports"][rpt["comp_report_id"]] = rpt
+        _get_table(data, "comp_reports")[rpt["comp_report_id"]] = rpt
 
-        comps_table = data.get("comparables", {}).values()
-        props = _index_by(list(data.get("properties", {}).values()), "property_id")
-        _index_by(list(data.get("listings", {}).values()), "property_id")
+        comps_table = _get_table(data, "comparables")
+        props = _index_by(list(_get_table(data, "properties")), "property_id")
+        _index_by(list(_get_table(data, "listings")), "property_id")
         candidates = []
-        for lst in data.get("listings", {}).values() or []:
+        for lst in _get_table(data, "listings") or []:
             if lst.get("status") != "active":
                 continue
             pid = lst.get("property_id")
@@ -524,7 +530,7 @@ class SaveCompReport(Tool):
             comp_id = _next_int_id(comps_table, "comp_id")
             comps_table.append({"comp_id": comp_id, "report_id": new_report_id, **comp})
 
-        documents = data.get("documents", {}).values()
+        documents = _get_table(data, "documents")
         new_doc_id = _next_int_id(documents, "document_id")
         documents.append(
             {
@@ -538,7 +544,7 @@ class SaveCompReport(Tool):
             }
         )
 
-        audits = data.get("audit_events", {}).values()
+        audits = _get_table(data, "audit_events")
         new_audit_id = _next_int_id(audits, "event_id")
         audits.append(
             {
@@ -594,7 +600,7 @@ class GetCompReportDetails(Tool):
         rpt = next(
             (
                 r
-                for r in data.get("comp_reports", {}).values()
+                for r in _get_table(data, "comp_reports")
                 if r.get("report_id") == int(report_id)
             ),
             None,
@@ -605,12 +611,12 @@ class GetCompReportDetails(Tool):
             return out
         comps = [
             c
-            for c in data.get("comparables", {}).values()
+            for c in _get_table(data, "comparables")
             if c.get("report_id") == int(report_id)
         ]
         docs = [
             d
-            for d in data.get("documents", {}).values()
+            for d in _get_table(data, "documents")
             if d.get("entity_type") == "comp_report"
             and d.get("entity_id") == int(report_id)
         ]
@@ -641,7 +647,7 @@ class UpdateCompReportStatus(Tool):
         rpt = next(
             (
                 r
-                for r in data.get("comp_reports", {}).values()
+                for r in _get_table(data, "comp_reports")
                 if r.get("report_id") == int(report_id)
             ),
             None,
@@ -678,7 +684,7 @@ class CreateCampaign(Tool):
     def invoke(data: dict[str, Any], name: str = None, ctype: str = None, created_by: str = None,
     type: Any = None,
     ) -> str:
-        c = data.get("campaigns", {}).values()
+        c = _get_table(data, "campaigns")
         new_id = _next_int_id(c, "campaign_id")
         row = {
             "campaign_id": new_id,
@@ -687,7 +693,7 @@ class CreateCampaign(Tool):
             "created_by": created_by,
             "created_at": _fixed_now_iso(),
         }
-        data["campaigns"][campaign_id] = row
+        _get_table(data, "campaigns")[campaign_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -715,7 +721,7 @@ class GetCampaignDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], campaign_id: str, type: Any = None) -> str:
         c = next(
-            (x for x in data.get("campaigns", {}).values() if x.get("campaign_id") == campaign_id), None
+            (x for x in _get_table(data, "campaigns") if x.get("campaign_id") == campaign_id), None
         )
         if not c:
             payload = {"error": f"campaign_id {campaign_id} not found"}
@@ -789,7 +795,7 @@ class SendEmail(Tool):
         template_code: str = None,
         campaign_id: str = None
     ) -> str:
-        emails = data.get("emails", {}).values()
+        emails = _get_table(data, "emails")
         new_email_id = _next_int_id(emails, "email_id")
         row = {
             "email_id": new_email_id,
@@ -801,7 +807,7 @@ class SendEmail(Tool):
             "sent_at": _fixed_now_iso(),
             "campaign_id": campaign_id,
         }
-        data["emails"][email_id] = row
+        _get_table(data, "emails")[email_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -837,7 +843,7 @@ class SendEmail(Tool):
 class GetEmailsForClient(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], client_id: str = None) -> str:
-        rows = [e for e in (data.get("emails") or []) if e.get("client_id") == client_id]
+        rows = [e for e in _get_table(data, "emails") if e.get("client_id") == client_id]
         payload = {"client_id": client_id, "emails": rows}
         out = json.dumps(payload, indent=2)
         return out
@@ -860,7 +866,7 @@ class GetEmailsForClient(Tool):
 class CreateCalendarEvent(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], broker_id: str = None, client_id: str = None, title: str = None, start_at: str = None, end_at: str = None, location: str = None, notes: str = None, source: str = None) -> str:
-        events = data.get("calendar_events", {}).values()
+        events = _get_table(data, "calendar_events")
         new_id = _next_int_id(events, "event_id")
         row = {
             "event_id": new_id,
@@ -873,7 +879,7 @@ class CreateCalendarEvent(Tool):
             "notes": notes,
             "source": source,
         }
-        data["calendar_events"][row["calendar_event_id"]] = row
+        _get_table(data, "calendar_events")[row["calendar_event_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -913,7 +919,7 @@ class CreateCalendarEvent(Tool):
 class GetCalendarEventsForClient(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], client_id: str = None) -> str:
-        rows = [e for e in data.get("calendar_events", {}).values() if e.get("client_id") == client_id]
+        rows = [e for e in _get_table(data, "calendar_events") if e.get("client_id") == client_id]
         payload = {"client_id": client_id, "events": rows}
         out = json.dumps(payload, indent=2)
         return out
@@ -938,7 +944,7 @@ class FetchOpenHousesByProperties(Tool):
     def invoke(data: dict[str, Any], property_ids: list = None, date_from: str = None, date_to: str = None) -> str:
         pids = set(property_ids or [])
         rows = []
-        for oh in data.get("open_houses", {}).values() or []:
+        for oh in _get_table(data, "open_houses") or []:
             if pids and oh.get("property_id") not in pids:
                 continue
             dt = oh.get("start_at", "")
@@ -980,7 +986,7 @@ class BuildRoute(Tool):
         map_url: str = None,
         created_by_broker_id: str = None
     ) -> str:
-        routes = data.get("routes", {}).values()
+        routes = _get_table(data, "routes")
         new_id = _next_int_id(routes, "route_id")
         row = {
             "route_id": new_id,
@@ -991,7 +997,7 @@ class BuildRoute(Tool):
             "created_by_broker_id": created_by_broker_id,
             "created_at": _fixed_now_iso(),
         }
-        data["routes"][route_id] = row
+        _get_table(data, "routes")[route_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -1029,7 +1035,7 @@ class GetRouteDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], route_id: str = None) -> str:
         rid = route_id
-        r = next((x for x in data.get("routes", {}).values() if x.get("route_id") == rid), None)
+        r = next((x for x in _get_table(data, "routes") if x.get("route_id") == rid), None)
         if not r:
             payload = {"error": f"route_id {rid} not found"}
             out = json.dumps(payload, indent=2)
@@ -1092,7 +1098,7 @@ class PostAuditEvent(Tool):
         entity_id: str = None,
         metadata_json: dict = None
     ) -> str:
-        audits = data.get("audit_events", {}).values()
+        audits = _get_table(data, "audit_events")
         new_id = _next_int_id(audits, "event_id")
         row = {
             "event_id": new_id,
@@ -1103,7 +1109,7 @@ class PostAuditEvent(Tool):
             "occurred_at": _fixed_now_iso(),
             "metadata_json": metadata_json or {},
         }
-        data["audit_events"][row["audit_event_id"]] = row
+        _get_table(data, "audit_events")[row["audit_event_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -1133,9 +1139,9 @@ class ListListingsByIds(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], listing_ids: list = None) -> str:
         ids = set(listing_ids or [])
-        props = _index_by(list(data.get("properties", {}).values()), "property_id")
+        props = _index_by(list(_get_table(data, "properties")), "property_id")
         out = []
-        for lst in data.get("listings", {}).values() or []:
+        for lst in _get_table(data, "listings") or []:
             if ids and lst.get("listing_id") not in ids:
                 continue
             pr = props.get(lst.get("property_id")) or {}
@@ -1166,12 +1172,12 @@ class GetOpenHouseWindowsForNeighborhoods(Tool):
     def invoke(data: dict[str, Any], neighborhood_ids: list[int] = None) -> str:
         nids = set(neighborhood_ids or [])
         props = [
-            p for p in data.get("properties", {}).values() if p.get("neighborhood_id") in nids
+            p for p in _get_table(data, "properties") if p.get("neighborhood_id") in nids
         ]
         prop_ids = {p.get("property_id") for p in props}
         rows = [
             oh
-            for oh in data.get("open_houses", {}).values()
+            for oh in _get_table(data, "open_houses")
             if oh.get("property_id") in prop_ids
         ]
         payload = {"neighborhood_ids": list(nids), "open_houses": rows}
@@ -1239,7 +1245,7 @@ class GenerateBriefingDoc(Tool):
     property_id: Any = None,
     doc_type: Any = None
     ) -> str:
-        documents = data.get("documents", {}).values()
+        documents = _get_table(data, "documents")
         new_id = _next_int_id(documents, "document_id")
         file_uri = f"https://storage.example.com/briefings/client_briefing_{client_id:03d}_{version_tag}.pdf"
         row = {
@@ -1251,7 +1257,7 @@ class GenerateBriefingDoc(Tool):
             "created_by": broker_id,
             "created_at": _fixed_now_iso(),
         }
-        data["documents"][document_id] = row
+        _get_table(data, "documents")[document_id] = row
         payload = {"document_id": new_id, "file_uri": file_uri}
         out = json.dumps(payload, indent=2)
         return out
@@ -1280,7 +1286,7 @@ class AttachDocumentToClient(Tool):
     def invoke(data: dict[str, Any], client_id: str, doc_type: str = "briefing_doc", file_uri: str = None, created_by: str = None, property_id: Any = None,
     document_id: Any = None,
     ) -> str:
-        documents = data.get("documents", {}).values()
+        documents = _get_table(data, "documents")
         new_id = _next_int_id(documents, "document_id")
         row = {
             "document_id": new_id,
@@ -1291,7 +1297,7 @@ class AttachDocumentToClient(Tool):
             "created_by": created_by,
             "created_at": _fixed_now_iso(),
         }
-        data["documents"][document_id] = row
+        _get_table(data, "documents")[document_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out

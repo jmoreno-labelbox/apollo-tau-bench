@@ -13,6 +13,12 @@ def _convert_db_to_list(db):
     return db
 
 
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
+
+
 def _find_product_by_item(data, item_id):
     pass
     for p in data.get("products", {}).values():
@@ -933,7 +939,7 @@ class SplitOrderFulfillment(Tool):
                 "order_id": order_id,
                 "tracking_history": {},
             }
-            data["tracking"][tr["tracking_id"]] = tr
+            _get_table(data, "tracking")[tr["tracking_id"]] = tr
         else:
             tr["item_ids"] = item_ids
             tr["delivery_carrier"] = courier_id
@@ -1045,7 +1051,7 @@ class PlaceSupplyOrder(Tool):
                 payload, indent=2,
             )
             return out
-        so_list = data.setdefault("supply_orders", [])
+        so_list = _get_table(data, "supply_orders")
         existing = next(
             (s for s in so_list if s.get("supply_order_id") == supply_order_id), None
         )
@@ -1063,7 +1069,7 @@ class PlaceSupplyOrder(Tool):
         if existing:
             existing.update(record)
         else:
-            data["supply_orders"][record["supply_order_id"]] = record
+            _get_table(data, "supply_orders")[record["supply_order_id"]] = record
         payload = {"success": True, "supply_order_id": supply_order_id}
         out = json.dumps(
             payload, indent=2
