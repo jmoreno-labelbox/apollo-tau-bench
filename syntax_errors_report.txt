@@ -1,14 +1,8 @@
 airline_3
-  Line: 280
+  Line: 401
   Error: invalid syntax
-  Text: for i, user in enumerate(users.values():
+  Text: for i, flight in enumerate(flights.values():
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_3/tools.py
-
-airline_4
-  Line: 4456
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 4453
-  Text: "model": aircraft.get("model", {}).values()),
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_4/tools.py
 
 banking_services_4
   Line: 968
@@ -16,41 +10,11 @@ banking_services_4
   Text: total_balance = sum(a.get('balance', 0) for a in customer_accounts.values()
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/banking_services_4/tools.py
 
-career_planner_2
-  Line: 219
-  Error: closing parenthesis ']' does not match opening parenthesis '(' on line 218
-  Text: ]
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/career_planner_2/tools.py
-
 career_planner_4
-  Line: 2377
-  Error: invalid syntax
-  Text: average = total_progress / len(user_courses)
+  Line: 2906
+  Error: '(' was never closed
+  Text: avg_progress = (
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/career_planner_4/tools.py
-
-consulting_accounting_2
-  Line: 626
-  Error: invalid syntax
-  Text: tax_reserve = round(total_revenue * tax_rate, 2)
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_2/tools.py
-
-digital_commerce_3
-  Line: 2836
-  Error: invalid syntax
-  Text: avg_order_value = (
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/digital_commerce_3/tools.py
-
-figma_gmail_mcp_pipeline_1
-  Line: 1531
-  Error: invalid syntax
-  Text: if not audit_exists:
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/figma_gmail_mcp_pipeline_1/tools.py
-
-figma_gmail_mcp_pipeline_4
-  Line: 740
-  Error: invalid syntax
-  Text: if not any(keyword.lower() in subject for keyword in subject_keywords.values():
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/figma_gmail_mcp_pipeline_4/tools.py
 
 github_mcp_1
   Line: 591

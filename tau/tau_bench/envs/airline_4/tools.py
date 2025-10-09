@@ -1215,7 +1215,7 @@ class UpdateCrewFlightLog(Tool):
         target_crew_member = None
         crew_member_index = None
 
-        for i, crew_member in enumerate(crew_members.values():
+        for i, crew_member in enumerate(crew_members.values()):
             if crew_member.get("crew_member_id") == crew_member_id:
                 target_crew_member = crew_member
                 crew_member_index = i
@@ -1502,7 +1502,7 @@ class CreateReservation(Tool):
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users.values():
+        for i, user in enumerate(users.values()):
             if user.get("email") == user_email:
                 target_user = user
                 user_index = i
@@ -1521,7 +1521,7 @@ class CreateReservation(Tool):
             out = json.dumps(payload)
             return out
 
-        for i, flight in enumerate(flights.values():
+        for i, flight in enumerate(flights.values()):
             required_flight_fields = [
                 "origin",
                 "destination",
@@ -1607,7 +1607,7 @@ class CreateReservation(Tool):
         payment_method = payment_methods[payment_method_id]
 
         #Compute the total amount
-        total_amount = sum(flight["price"] for flight in flights.values()
+        total_amount = sum(flight["price"] for flight in flights.values())
 
         #Ensure the payment method has adequate funds (for gift cards and certificates)
         if payment_method["source"] in ["gift_card", "certificate"]:
@@ -1882,7 +1882,7 @@ class GetReservationDetails(Tool):
         #Utilize the reservation's total_cost if present (includes upgrades), otherwise total the flight prices
         calculated_total = target_reservation.get(
             "total_cost", sum(flight.get("price", 0) for flight in flights.values()
-        )
+        ))
         trip_summary = {
             "total_flights": len(flights),
             "total_cost": calculated_total,
@@ -1900,7 +1900,7 @@ class GetReservationDetails(Tool):
 
         #Retrieve payment information
         payment_history = target_reservation.get("payment_history", [])
-        total_paid = sum(payment.get("amount", 0) for payment in payment_history.values()
+        total_paid = sum(payment.get("amount", 0) for payment in payment_history.values())
 
         #Formulate an improved response
         response = {
@@ -2206,7 +2206,7 @@ class GetUserReservations(Tool):
             #Subsequently, locate the user profile that includes these reservations
             for user in users.values():
                 user_reservations = user.get("reservations", [])
-                if any(res_id in user_reservation_ids for res_id in user_reservations.values():
+                if any(res_id in user_reservation_ids for res_id in user_reservations.values()):
                     target_user = user
                     break
 
@@ -2228,7 +2228,7 @@ class GetUserReservations(Tool):
                 #Generate a summary for each reservation
                 flights = reservation.get("flights", [])
                 passengers = reservation.get("passengers", [])
-                total_cost = sum(flight.get("price", 0) for flight in flights.values()
+                total_cost = sum(flight.get("price", 0) for flight in flights.values())
 
                 reservation_summary = {
                     "reservation_id": reservation.get("reservation_id"),
@@ -2328,7 +2328,7 @@ class UpdateReservation(Tool):
         target_reservation = None
         reservation_index = None
 
-        for i, reservation in enumerate(reservations.values():
+        for i, reservation in enumerate(reservations.values()):
             if reservation.get("reservation_id") == reservation_id:
                 target_reservation = reservation
                 reservation_index = i
@@ -2346,7 +2346,7 @@ class UpdateReservation(Tool):
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users.values():
+        for i, user in enumerate(users.values()):
             user_reservations = user.get("reservations", [])
             if reservation_id in user_reservations:
                 target_user = user
@@ -2461,7 +2461,7 @@ class UpdateReservation(Tool):
                 out = json.dumps(payload)
                 return out
 
-            for i, flight in enumerate(flights.values():
+            for i, flight in enumerate(flights.values()):
                 required_flight_fields = [
                     "origin",
                     "destination",
@@ -2503,7 +2503,7 @@ class UpdateReservation(Tool):
 
             #Revise flights and compute the new total cost
             target_reservation["flights"] = flights
-            new_total_cost = sum(flight["price"] for flight in flights.values()
+            new_total_cost = sum(flight["price"] for flight in flights.values())
             updates_made.append("flights")
 
             #Revise origin and destination according to new flights
@@ -3195,7 +3195,7 @@ class UpdateMaintenanceStatus(Tool):
         target_entry = None
         entry_index = None
 
-        for i, entry in enumerate(maintenance_logs.values():
+        for i, entry in enumerate(maintenance_logs.values()):
             if entry.get("log_id") == log_id:
                 target_entry = entry
                 entry_index = i
@@ -3764,7 +3764,7 @@ class UpdateOperationalEventStatus(Tool):
         target_event = None
         event_index = None
 
-        for i, event in enumerate(operational_events.values():
+        for i, event in enumerate(operational_events.values()):
             if event.get("event_id") == event_id:
                 target_event = event
                 event_index = i
@@ -4453,7 +4453,7 @@ class GetAirportOperationalStatus(Tool):
                     {
                         "aircraft_id": aircraft.get("aircraft_id"),
                         "tail_number": aircraft.get("tail_number"),
-                        "model": aircraft.get("model", {}).values()),
+                        "model": aircraft.get("model", {}),
                         "status": aircraft.get("status"),
                     }
                 )
@@ -4779,7 +4779,7 @@ class GetFleetUtilization(Tool):
                     {
                         "aircraft_id": aircraft_id,
                         "tail_number": aircraft.get("tail_number"),
-                        "model": aircraft.get("model", {}).values()),
+                        "model": aircraft.get("model", {}),
                         "status": aircraft.get("status"),
                         "issues": issues,
                     }

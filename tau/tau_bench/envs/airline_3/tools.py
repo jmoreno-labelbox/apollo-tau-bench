@@ -277,7 +277,7 @@ class UpdateReservation(Tool):
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users.values():
+        for i, user in enumerate(users.values()):
             user_reservations = user.get("reservations", [])
             if reservation_id in user_reservations:
                 target_user = user
@@ -2899,7 +2899,7 @@ class UpdateUserMembership(Tool):
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users.values():
+        for i, user in enumerate(users.values()):
             if user.get("email") == user_email:
                 target_user = user
                 user_index = i

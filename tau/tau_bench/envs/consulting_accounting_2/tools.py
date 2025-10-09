@@ -622,7 +622,7 @@ class CaV2CalculateYtdRevenue(Tool):
             inv for inv in invoices.values() if inv.get("invoice_date", "").startswith(year)
         ]
 
-        total_revenue = sum(inv.get("subtotal", 0) for inv in ytd_invoices.values()
+        total_revenue = sum(inv.get("subtotal", 0) for inv in ytd_invoices.values())
         tax_reserve = round(total_revenue * tax_rate, 2)
 
         revenue_by_month = {}
@@ -676,8 +676,8 @@ class CaV2CalculateProjectProfitability(Tool):
         # Compute income from invoices
         invoice_lines = data.get("invoice_lines", {}).values()
         project_lines = _find_all(invoice_lines, "project_id", project_id)
-        total_revenue = sum(line.get("line_amount", 0) for line in project_lines.values()
-        total_hours = sum(line.get("hours_billed", 0) for line in project_lines.values()
+        total_revenue = sum(line.get("line_amount", 0) for line in project_lines.values())
+        total_hours = sum(line.get("hours_billed", 0) for line in project_lines.values())
 
         # Determine actual hourly rate
         effective_rate = total_revenue / total_hours if total_hours > 0 else 0
@@ -1582,7 +1582,7 @@ class CaV2CalculateHoursWorkedInPeriod(Tool):
                     filtered_entries.append(entry)
 
         # Compute overall totals
-        total_hours = sum(entry.get("hours_worked", 0) for entry in filtered_entries.values()
+        total_hours = sum(entry.get("hours_worked", 0) for entry in filtered_entries.values())
 
         # Categorize by project
         hours_by_project = {}

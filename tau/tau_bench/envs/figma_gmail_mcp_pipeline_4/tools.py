@@ -737,7 +737,7 @@ class GetGmailThreadsByLabels(Tool):
 
             if subject_keywords:
                 subject = thread.get("subject", "").lower()
-                if not any(keyword.lower() in subject for keyword in subject_keywords.values():
+                if not any(keyword.lower() in subject for keyword in subject_keywords.values()):
                     continue
 
             # Enforce date filters
@@ -1393,7 +1393,7 @@ class GetFigmaCommentsByArtifact(Tool):
 
             if content_keywords:
                 content = comment.get("content", "").lower()
-                if not any(keyword.lower() in content for keyword in content_keywords.values():
+                if not any(keyword.lower() in content for keyword in content_keywords.values()):
                     continue
 
             # Enforce date filters
@@ -1799,7 +1799,7 @@ class GetTerminalLogsSummary(Tool):
 
             if message_keywords:
                 message = log.get("message", "").lower()
-                if not any(keyword.lower() in message for keyword in message_keywords.values():
+                if not any(keyword.lower() in message for keyword in message_keywords.values()):
                     continue
 
             # Enforce date filters
@@ -2213,7 +2213,7 @@ class GetGmailMessagesByThread(Tool):
 
             if content_keywords:
                 content = message.get("body_text_stripped", "").lower()
-                if not any(keyword.lower() in content for keyword in content_keywords.values():
+                if not any(keyword.lower() in content for keyword in content_keywords.values()):
                     continue
 
             if has_attachments is not None:

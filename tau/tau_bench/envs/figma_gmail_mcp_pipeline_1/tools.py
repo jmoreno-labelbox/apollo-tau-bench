@@ -1527,7 +1527,7 @@ class RecordDsAuditFindings(Tool):  #WRITE
 
         #Check if the audit_id is present
         audits = data.get("audits", {}).values()
-        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values()
+        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values())
         if not audit_exists:
             payload = {"error": f"Audit with ID '{audit_id}' not found"}
             out = json.dumps(payload)
@@ -1678,7 +1678,7 @@ class RecordAccessibilityAuditFindings(Tool):  #WRITE
 
         #Check if the audit_id is present
         audits = data.get("audits", {}).values()
-        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values()
+        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values())
         if not audit_exists:
             payload = {"error": f"Audit with ID '{audit_id}' not found"}
             out = json.dumps(payload)
@@ -1948,7 +1948,7 @@ class LinkAuditReportAsset(Tool):  #WRITE
         assets = data.get("assets", {}).values()
 
         #Check for the existence of the asset
-        asset_exists = any(asset.get("asset_id") == report_asset_id for asset in assets.values()
+        asset_exists = any(asset.get("asset_id") == report_asset_id for asset in assets.values())
         if not asset_exists:
             payload = {"error": f"Asset with ID '{report_asset_id}' not found"}
             out = json.dumps(payload)
@@ -2252,7 +2252,7 @@ class CreateFixPlan(Tool):  #WRITE
 
         #Verify the existence of the audit
         audits = data.get("audits", {}).values()
-        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values()
+        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values())
         if not audit_exists:
             payload = {"error": f"Audit with ID '{audit_id}' not found"}
             out = json.dumps(payload)
@@ -2327,7 +2327,7 @@ class CreateFixItem(Tool):  #WRITE
 
         #Verify the existence of the plan
         fix_plans = data.get("fix_plans", {}).values()
-        plan_exists = any(plan.get("plan_id") == plan_id for plan in fix_plans.values()
+        plan_exists = any(plan.get("plan_id") == plan_id for plan in fix_plans.values())
         if not plan_exists:
             payload = {"error": f"Fix plan with ID '{plan_id}' not found"}
             out = json.dumps(payload)

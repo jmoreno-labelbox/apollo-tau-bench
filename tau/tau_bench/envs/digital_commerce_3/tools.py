@@ -2832,7 +2832,7 @@ class AnalyzeCustomerBehavior(Tool):
         ]
 
         total_orders = len(customer_orders)
-        total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders.values()
+        total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders.values())
         avg_order_value = (
             round(total_value / total_orders, 2) if total_orders > 0 else 0.0
         )
@@ -2873,7 +2873,7 @@ class AnalyzeCustomerBehavior(Tool):
         ]
 
         total_orders = len(customer_orders)
-        total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders.values()
+        total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders.values())
         avg_order_value = (
             round(total_value / total_orders, 2) if total_orders > 0 else 0.0
         )
@@ -3752,7 +3752,7 @@ class GetNextCartId(Tool):
         if not carts:
             next_id = 706
         else:
-            max_id = max(int(c.get("cart_id", "0")) for c in carts.values()
+            max_id = max(int(c.get("cart_id", "0")) for c in carts.values())
             next_id = max_id + 1
         payload = {"next_cart_id": f"{next_id}"}
         out = json.dumps(payload, indent=2)
@@ -3777,7 +3777,7 @@ class GetNextOrderId(Tool):
         if not orders:
             next_id = 9017
         else:
-            max_id = max(int(o.get("order_id", "0")) for o in orders.values()
+            max_id = max(int(o.get("order_id", "0")) for o in orders.values())
             next_id = max_id + 1
         payload = {"next_order_id": f"{next_id}"}
         out = json.dumps(payload, indent=2)
