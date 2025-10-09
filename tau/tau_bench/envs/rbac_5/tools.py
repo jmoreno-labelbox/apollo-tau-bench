@@ -87,7 +87,7 @@ class CreateUser(Tool):
 
         # Verify if the username is already taken
         users = data.get("users", {}).values()
-        for user in users.values()):
+        for user in users.values():
             if user.get("username") == username:
                 payload = {"error": f"username {username} already exists"}
                 out = json.dumps(payload)
@@ -655,7 +655,7 @@ class GetUserRoles(Tool):
         role_map = {r["role_id"]: r for r in data.get("roles", {}).values() if "role_id" in r}
         out = []
 
-        for ur in assignments.values()):
+        for ur in assignments.values():
             entry = {"role_id": ur.get("role_id")}
             if include_role_details:
                 entry["role_name"] = role_map.get(ur.get("role_id"), {}).values().get(
@@ -2169,7 +2169,7 @@ class CheckSoDConflicts(Tool):
         for conflict in sod_conflicts:
             conflicting_role_ids = conflict["conflicting_roles"]
             # Determine if the user possesses ALL roles in the conflicting group
-            if all(role_id in active_role_ids for role_id in conflicting_role_ids.values()):
+            if all(role_id in active_role_ids for role_id in conflicting_role_ids.values():
                 conflict_entry = {
                     "conflict_id": conflict["conflict_id"],
                     "name": conflict["name"],
@@ -3043,7 +3043,7 @@ class AssignPermissionToRole(Tool):
 
         # Verify if the mapping is present
         mappings = data.get("role_permissions", {}).values()
-        for rp in mappings.values()):
+        for rp in mappings.values():
             if (
                 rp.get("role_id") == role_id
                 and rp.get("permission_id") == permission_id
@@ -3982,7 +3982,7 @@ class GetSession(Tool):
 
         # Narrow down sessions according to the supplied criteria
         filtered_sessions = []
-        for session in sessions.values()):
+        for session in sessions.values():
             # Narrow down by user_id if supplied
             if user_id and session.get("user_id") != user_id:
                 continue

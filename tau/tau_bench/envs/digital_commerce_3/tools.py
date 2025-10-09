@@ -310,7 +310,7 @@ class CreateOrderFromCart(Tool):
         ]
 
         subtotal = 0.0
-        for item in cart_items.values()):
+        for item in cart_items.values():
             entry = next(
                 (
                     e
@@ -363,7 +363,7 @@ class CreateOrderFromCart(Tool):
         }
         data["orders"][order_id] = order
 
-        for item in cart_items.values()):
+        for item in cart_items.values():
             entry = next(
                 (
                     e
@@ -430,7 +430,7 @@ class CreateOrderFromCart(Tool):
         ]
 
         subtotal = 0.0
-        for item in cart_items.values()):
+        for item in cart_items.values():
             entry = next(
                 (
                     e
@@ -483,7 +483,7 @@ class CreateOrderFromCart(Tool):
         }
         data["orders"][order_id] = order
 
-        for item in cart_items.values()):
+        for item in cart_items.values():
             entry = next(
                 (
                     e
@@ -2034,7 +2034,7 @@ class OptimizeSecurityGroupRules(Tool):
         changes = []
 
         rules_to_remove = []
-        for rule in rules.values()):
+        for rule in rules.values():
             if (
                 f"{rule.get('security_group_id')}" == f"{security_group_id}"
                 and int(rule.get("port")) == target_port
@@ -2098,7 +2098,7 @@ class OptimizeSecurityGroupRules(Tool):
         changes = []
 
         rules_to_remove = []
-        for rule in rules.values()):
+        for rule in rules.values():
             if (
                 f"{rule.get('security_group_id')}" == f"{security_group_id}"
                 and int(rule.get("port")) == target_port

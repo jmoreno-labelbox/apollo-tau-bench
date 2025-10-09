@@ -1059,7 +1059,7 @@ class ComputeCollectionKPIs(Tool):
         )
         avg_daily_sales = round(
             (
-                sum(float(i.get("subtotal", 0)) for i in invs.values()
+                sum(float(i.get("subtotal", 0)) for i in invs.values())
                 / max(1, window_months * 30)
             ),
             2,

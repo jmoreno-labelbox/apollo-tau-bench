@@ -663,7 +663,7 @@ class CancelOutboundOrder(Tool):
         """Run the tool using the specified parameters."""
         orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", {}).values()
         inventory = inventory if inventory is not None else data.get("inventory", {}).values()
-        for order in orders.values()):
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 # if order["status"] is in ["Shipped", "Delivered"]:
                 # return json.dumps({"error": f"Order {order_id} cannot be canceled due to status '{order['status']}'"}, indent=2)

@@ -1628,7 +1628,7 @@ class GetSecurityGroupRuleById(Tool):
     def invoke(data: dict[str, Any], rule_id: Any, aws_security_group_rules: list = None) -> str:
         rule_id = _idstr(rule_id)
         rules = aws_security_group_rules if aws_security_group_rules is not None else []
-        for r in rules.values()):
+        for r in rules.values():
             if r.get("rule_id") == rule_id:
                 payload = r
                 out = json.dumps(payload, indent=2)
@@ -1816,7 +1816,7 @@ class SetElastiCacheSubnetGroup(Tool):
 
         # Check if the subnet group is present
         groups = aws_subnet_groups or []
-        if not any(g.get("subnet_group_id") == subnet_group_id for g in groups.values()):
+        if not any(g.get("subnet_group_id") == subnet_group_id for g in groups.values():
             payload = {"error": f"No subnet group found with ID '{subnet_group_id}'"}
             out = json.dumps(
                 payload, indent=2,
@@ -2368,7 +2368,7 @@ class ApplyClusterPlanStep(Tool):
                 tag_norm = (
                     tag if tag.startswith("[") and tag.endswith("]") else f"[{tag}]"
                 )
-                for r in rules.values()):
+                for r in rules.values():
                     if r.get("security_group_id") == sg_id and r.get("port") == 6379:
                         d = r.get("description", "")
                         if tag_norm not in d:

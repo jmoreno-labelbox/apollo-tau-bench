@@ -349,7 +349,7 @@ class FindCollaborationNetwork(Tool):
 
         # Tally all collaborators associated with those articles
         all_collaborators = Counter()
-        for article in articles.values()):
+        for article in articles:
             for author in article.get("authors", []):
                 if author != author_name:
                     all_collaborators[author] += 1

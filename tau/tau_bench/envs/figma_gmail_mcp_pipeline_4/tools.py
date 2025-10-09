@@ -202,7 +202,7 @@ class GetFigmaArtifactsByStatus(Tool):
 
             if tags:
                 artifact_tags = artifact.get("current_tags", [])
-                if not any(tag in artifact_tags for tag in tags.values()):
+                if not any(tag in artifact_tags for tag in tags.values():
                     continue
 
             # Augment with review cycle details
@@ -728,7 +728,7 @@ class GetGmailThreadsByLabels(Tool):
             # Implement filters
             if labels:
                 thread_labels = thread.get("current_labels", [])
-                if not any(label in thread_labels for label in labels.values()):
+                if not any(label in thread_labels for label in labels.values():
                     continue
 
             if sender_email:
@@ -737,7 +737,7 @@ class GetGmailThreadsByLabels(Tool):
 
             if subject_keywords:
                 subject = thread.get("subject", "").lower()
-                if not any(keyword.lower() in subject for keyword in subject_keywords.values()):
+                if not any(keyword.lower() in subject for keyword in subject_keywords.values():
                     continue
 
             # Enforce date filters
@@ -1393,7 +1393,7 @@ class GetFigmaCommentsByArtifact(Tool):
 
             if content_keywords:
                 content = comment.get("content", "").lower()
-                if not any(keyword.lower() in content for keyword in content_keywords.values()):
+                if not any(keyword.lower() in content for keyword in content_keywords.values():
                     continue
 
             # Enforce date filters
@@ -1799,7 +1799,7 @@ class GetTerminalLogsSummary(Tool):
 
             if message_keywords:
                 message = log.get("message", "").lower()
-                if not any(keyword.lower() in message for keyword in message_keywords.values()):
+                if not any(keyword.lower() in message for keyword in message_keywords.values():
                     continue
 
             # Enforce date filters
@@ -2213,7 +2213,7 @@ class GetGmailMessagesByThread(Tool):
 
             if content_keywords:
                 content = message.get("body_text_stripped", "").lower()
-                if not any(keyword.lower() in content for keyword in content_keywords.values()):
+                if not any(keyword.lower() in content for keyword in content_keywords.values():
                     continue
 
             if has_attachments is not None:
@@ -4010,7 +4010,7 @@ class GetAuditFindingsByType(Tool):
 
         # Handle design system findings
         if not violation_type:  # Check design system findings only if no violation_type is given
-            for finding in audit_findings_ds.values()):
+            for finding in audit_findings_ds.values():
                 if finding_type and finding.get("finding_type") != finding_type:
                     continue
                 if severity and finding.get("severity") != severity:
@@ -4022,7 +4022,7 @@ class GetAuditFindingsByType(Tool):
 
         # Handle accessibility findings
         if not finding_type:  # Check accessibility findings only if no finding_type is given
-            for finding in audit_findings_a11y.values()):
+            for finding in audit_findings_a11y.values():
                 if violation_type and finding.get("violation_type") != violation_type:
                     continue
                 if severity and finding.get("severity") != severity:

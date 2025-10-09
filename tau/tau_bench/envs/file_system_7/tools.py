@@ -31,7 +31,7 @@ class ScanIncompleteTasksTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], file_list_directory: Any = None) -> str:
-        db = _convert_db_to_list(data.get("file_check_db", {}).values()
+        db = _convert_db_to_list(data.get("file_check_db", {}).values())
         for task in db:
             if not task.get("completed", True):
                 payload = {"task_id": task.get("task_id"), "task": task}

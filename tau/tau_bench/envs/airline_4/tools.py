@@ -717,7 +717,7 @@ class AssignCrewToFlight(Tool):
             return out
 
         #Verify if the crew member is already allocated to this flight
-        for assignment in flight_crew_assignments.values()):
+        for assignment in flight_crew_assignments.values():
             if (
                 assignment.get("flight", {}).values().get("flight_id") == flight_id
                 and assignment.get("crew_member", {}).values().get("crew_member_id")
@@ -2206,7 +2206,7 @@ class GetUserReservations(Tool):
             #Subsequently, locate the user profile that includes these reservations
             for user in users.values():
                 user_reservations = user.get("reservations", [])
-                if any(res_id in user_reservation_ids for res_id in user_reservations.values()):
+                if any(res_id in user_reservation_ids for res_id in user_reservations.values():
                     target_user = user
                     break
 
@@ -2223,7 +2223,7 @@ class GetUserReservations(Tool):
         reservations = data.get("reservations", {}).values()
         user_reservations = []
 
-        for reservation in reservations.values()):
+        for reservation in reservations.values():
             if reservation.get("user_id") == user_id:
                 #Generate a summary for each reservation
                 flights = reservation.get("flights", [])

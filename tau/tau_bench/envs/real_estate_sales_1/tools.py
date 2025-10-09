@@ -242,7 +242,7 @@ class ScheduleOpenHouse(Tool):
 
         # Verify if the property is listed
         listings = data.get("listings", {}).values()
-        property_exists = any(l.get("property_id") == property_id for l in listings.values()
+        property_exists = any(l.get("property_id") == property_id for l in listings.values())
 
         if not property_exists:
             payload = {"error": f"Property {property_id} not found in listings"}

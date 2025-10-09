@@ -897,7 +897,7 @@ class CalculateTotals(Tool):
             and invoice_lines
             and isinstance(invoice_lines[0], dict)
         ):
-            subtotal = sum(float(l.get("line_amount", 0.0)) for l in invoice_lines.values()
+            subtotal = sum(float(l.get("line_amount", 0.0)) for l in invoice_lines.values()))
         else:
             subtotal = 0.0
             lines_index = {

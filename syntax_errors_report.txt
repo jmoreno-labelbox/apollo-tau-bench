@@ -1,0 +1,360 @@
+academic_search_1
+  Line: 107
+  Error: unexpected indent
+  Text: data.get("articles", {}).values()),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/academic_search_1/tools.py
+
+academic_search_3
+  Line: 969
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 968
+  Text: "article": (data.get("articles", {}).values()), "article_id"),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/academic_search_3/tools.py
+
+academic_search_4
+  Line: 165
+  Error: invalid syntax
+  Text: if not any(u["person_id"] == author_user_id for u in data.get("users", {}).values():
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/academic_search_4/tools.py
+
+airline_1
+  Line: 1521
+  Error: unmatched ')'
+  Text: payload = list({v["crew_member_id"]: v for v in crew_results}.values()))
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_1/tools.py
+
+airline_3
+  Line: 1406
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 1394
+  Text: "prices": date_info.get("prices", {}).values()),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_3/tools.py
+
+airline_4
+  Line: 4371
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 4366
+  Text: "location": target_airport.get("location", {}).values()),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_4/tools.py
+
+airline_5
+  Line: 5089
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 5085
+  Text: "available_seats": date_info.get("available_seats", {}).values()),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_5/tools.py
+
+banking_services_2
+  Line: 1511
+  Error: invalid syntax
+  Text: if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values():
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/banking_services_2/tools.py
+
+banking_services_4
+  Line: 913
+  Error: invalid syntax
+  Text: if abs(sum(s['amount'] for s in splits) != abs(orig_txn['amount']):
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/banking_services_4/tools.py
+
+banking_services_5
+  Line: 1596
+  Error: invalid syntax
+  Text: for i, beneficiary in enumerate(beneficiaries.values():
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/banking_services_5/tools.py
+
+career_planner_2
+  Line: 219
+  Error: closing parenthesis ']' does not match opening parenthesis '(' on line 218
+  Text: ]
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/career_planner_2/tools.py
+
+career_planner_4
+  Line: 2377
+  Error: invalid syntax
+  Text: average = total_progress / len(user_courses)
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/career_planner_4/tools.py
+
+consulting_accounting_1
+  Line: 900
+  Error: unmatched ')'
+  Text: subtotal = sum(float(l.get("line_amount", 0.0)) for l in invoice_lines.values()))
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_1/tools.py
+
+consulting_accounting_2
+  Line: 626
+  Error: invalid syntax
+  Text: tax_reserve = round(total_revenue * tax_rate, 2)
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_2/tools.py
+
+consulting_accounting_4
+  Line: 21
+  Error: 'return' outside function
+  Text: return {i.get(key): i for i in items or []}
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_4/tools.py
+
+consulting_accounting_5
+  Line: 1562
+  Error: invalid syntax. Perhaps you forgot a comma?
+  Text: avg_daily_sales = round((sum(float(i.get("subtotal", 0)) for i in invs.values() / max(1, window_months * 30)), 2)
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_5/tools.py
+
+consulting_accounting_6
+  Line: 1102
+  Error: '(' was never closed
+  Text: avg_daily_sales = round(
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_6/tools.py
+
+data_science_3
+  Line: 20
+  Error: 'return' outside function
+  Text: return {i.get(key): i for i in items or []}
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/data_science_3/tools.py
+
+digital_commerce_2
+  Line: 1819
+  Error: invalid syntax
+  Text: if not any(g.get("subnet_group_id") == subnet_group_id for g in groups.values():
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/digital_commerce_2/tools.py
+
+digital_commerce_3
+  Line: 2836
+  Error: invalid syntax
+  Text: avg_order_value = (
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/digital_commerce_3/tools.py
+
+digital_commerce_4
+  Line: 1582
+  Error: invalid syntax
+  Text: all_match = all(c["matches"] for c in checks.values() if checks else False
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/digital_commerce_4/tools.py
+
+figma_gmail_mcp_pipeline_1
+  Line: 1531
+  Error: invalid syntax
+  Text: if not audit_exists:
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/figma_gmail_mcp_pipeline_1/tools.py
+
+figma_gmail_mcp_pipeline_4
+  Line: 205
+  Error: invalid syntax
+  Text: if not any(tag in artifact_tags for tag in tags.values():
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/figma_gmail_mcp_pipeline_4/tools.py
+
+file_system_1
+  Line: 460
+  Error: invalid syntax. Perhaps you forgot a comma?
+  Text: db = _convert_db_to_list(data.get("archive_instructions", {}).values()
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/file_system_1/tools.py
+
+file_system_8
+  Line: 100
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 95
+  Text: "users": instruction_data.get("user_filter", {}).values()),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/file_system_8/tools.py
+
+github_mcp_1
+  Line: 495
+  Error: expected 'else' after 'if' expression
+  Text: for i, r in enumerate(repos.values()
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/github_mcp_1/tools.py
+
+github_mcp_5
+  Line: 669
+  Error: unmatched ')'
+  Text: ):
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/github_mcp_5/tools.py
+
+github_mcp_6
+  Line: 2124
+  Error: closing parenthesis '}' does not match opening parenthesis '(' on line 2117
+  Text: }
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/github_mcp_6/tools.py
+
+logistics_supply_chain_5
+  Line: 1212
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 1209
+  Text: "performance_metrics": carrier.get("performance_metrics", {}).values()),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/logistics_supply_chain_5/tools.py
+
+new_hire_mcp_1
+  Line: 1106
+  Error: invalid syntax
+  Text: file_type_distribution = {}
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/new_hire_mcp_1/tools.py
+
+new_hire_mcp_2
+  Line: 29
+  Error: '(' was never closed
+  Text: return (
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/new_hire_mcp_2/tools.py
+
+org_chart_5
+  Line: 671
+  Error: invalid syntax
+  Text: ethnicity_counts = Counter(e.get("ethnicity_code") for e in employees_to_scan.values()
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/org_chart_5/tools.py
+
+project_management_1
+  Line: 401
+  Error: closing parenthesis '}' does not match opening parenthesis '(' on line 400
+  Text: }
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_1/tools.py
+
+project_management_2
+  Line: 2400
+  Error: closing parenthesis ']' does not match opening parenthesis '(' on line 2399
+  Text: ]
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_2/tools.py
+
+project_management_3
+  Line: 185
+  Error: closing parenthesis ']' does not match opening parenthesis '(' on line 184
+  Text: ]
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_3/tools.py
+
+project_management_4
+  Line: 399
+  Error: invalid syntax
+  Text: succ_exists = any(m.get("milestone_id") == successor_id for m in milestones.values()
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_4/tools.py
+
+project_management_5
+  Line: 1989
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 1986
+  Text: "impact": cr.get("impact_assessment", {}).values()),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_5/tools.py
+
+rbac_2
+  Line: 699
+  Error: invalid syntax
+  Text: for i, assignment in enumerate(user_roles.values():
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/rbac_2/tools.py
+
+rbac_3
+  Line: 241
+  Error: cannot assign to function call here. Maybe you meant '==' instead of '='?
+  Text: _get_table(data, "user_roles") = kept
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/rbac_3/tools.py
+
+rbac_4
+  Line: 1404
+  Error: invalid syntax
+  Text: if keywords and not any(kw in msg["message"] for kw in keywords.values():
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/rbac_4/tools.py
+
+rbac_5
+  Line: 949
+  Error: unmatched ')'
+  Text: if not _find_by_id(data.get("users", {}).values()), "user_id", owner_id):
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/rbac_5/tools.py
+
+real_estate_sales_3
+  Line: 1210
+  Error: '(' was never closed
+  Text: ok = all(h["minutes"] <= max_minutes for h in hops.values()
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/real_estate_sales_3/tools.py
+
+real_estate_sales_4
+  Line: 230
+  Error: '(' was never closed
+  Text: property_exists = any(l.get("property_id") == property_id for l in listings.values()
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/real_estate_sales_4/tools.py
+
+real_estate_sales_7
+  Line: 1210
+  Error: closing parenthesis '}' does not match opening parenthesis '(' on line 1203
+  Text: }
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/real_estate_sales_7/tools.py
+
+recipes_1
+  Line: 336
+  Error: invalid syntax
+  Text: y, m, d = (int(x) for x in md.split("-"))
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/recipes_1/tools.py
+
+recipes_4
+  Line: 194
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 187
+  Text: "payload_json": kwargs.get("payload_json", {}).values()),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/recipes_4/tools.py
+
+recipes_5
+  Line: 60
+  Error: '(' was never closed
+  Text: return max(int(r.get(key, default)) for r in records.values()
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/recipes_5/tools.py
+
+retail_1
+  Line: 550
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 546
+  Text: "address": user.get("address", {}).values()),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_1/tools.py
+
+retail_2
+  Line: 1004
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 1000
+  Text: "tracking_history": rec.get("tracking_history", {}).values()),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_2/tools.py
+
+retail_3
+  Line: 145
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 140
+  Text: "options": variant_data.get("options", {}).values()),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_3/tools.py
+
+retail_4
+  Line: 239
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 232
+  Text: "variant_options": variant_found.get("options", {}).values()),
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_4/tools.py
+
+retail_5
+  Line: 1204
+  Error: unmatched ')'
+  Text: )
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_5/tools.py
+
+retail_6
+  Line: 1359
+  Error: '(' was never closed
+  Text: total = sum(len(o.get("items", [])) for o in user_orders.values()
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_6/tools.py
+
+retail_point_of_sale_and_inventory_system_2
+  Line: 313
+  Error: invalid syntax
+  Text: total_reserved = sum(
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_2/tools.py
+
+retail_point_of_sale_and_inventory_system_4
+  Line: 57
+  Error: invalid syntax
+  Text: if customer_id:
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_4/tools.py
+
+smart_home_2
+  Line: 572
+  Error: unmatched ')'
+  Text: _, scene = _find(data.get("scenes", {}).values()), scene_id)
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/smart_home_2/tools.py
+
+smart_home_3
+  Line: 363
+  Error: closing parenthesis ']' does not match opening parenthesis '(' on line 362
+  Text: ]
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/smart_home_3/tools.py
+
+smart_home_5
+  Line: 130
+  Error: invalid syntax
+  Text: if any(d.get("id") == new_device_id for d in devices.values():
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/smart_home_5/tools.py
+
+social_media_advertising_1
+  Line: 2463
+  Error: invalid syntax
+  Text: payload = {"all_zeros": all_zeros}
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/social_media_advertising_1/tools.py
+
+sports_analytics_4
+  Line: 1021
+  Error: closing parenthesis '}' does not match opening parenthesis '(' on line 1019
+  Text: }
+  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/sports_analytics_4/tools.py
+

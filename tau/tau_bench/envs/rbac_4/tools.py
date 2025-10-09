@@ -1401,7 +1401,7 @@ class SearchSlackMessagesTool(Tool):
                 continue
             if end_time and msg["timestamp"] > end_time:
                 continue
-            if keywords and not any(kw in msg["message"] for kw in keywords.values()):
+            if keywords and not any(kw in msg["message"] for kw in keywords.values():
                 continue
             if regex and not re.search(regex, msg["message"]):
                 continue
@@ -1848,7 +1848,7 @@ class GetRoleMembersTool(Tool):
             ur["user_id"] for ur in user_roles.values() if ur.get("role_id") == role_id
         }
         results = []
-        for u in users.values()):
+        for u in users.values():
             if u.get("user_id") in member_user_ids:
                 if status and u.get("status") != status:
                     continue
@@ -1929,7 +1929,7 @@ class AssignCertificationTool(Tool):
             return out
 
         #Verify that certification_id is distinct
-        if any(c.get("certification_id") == certification_id for c in certifications.values()):
+        if any(c.get("certification_id") == certification_id for c in certifications.values():
             payload = {"error": f"certification_id {certification_id} already exists"}
             out = json.dumps(
                 payload, indent=2,
@@ -2331,7 +2331,7 @@ class ListUserSessionsTool(Tool):
             return out
 
         results = []
-        for s in sessions.values()):
+        for s in sessions.values():
             if s.get("user_id") != user_id:
                 continue
             if active_only and s.get("end_time") is not None:
@@ -2404,11 +2404,11 @@ class AssignRoleToUserTool(Tool):
                 out = json.dumps(payload, indent=2)
                 return out
 
-        if not any(u.get("user_id") == user_id for u in users.values()):
+        if not any(u.get("user_id") == user_id for u in users.values():
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
-        if not any(r.get("role_id") == role_id for r in roles.values()):
+        if not any(r.get("role_id") == role_id for r in roles.values():
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
@@ -2498,7 +2498,7 @@ class ListPermissionsForRoleTool(Tool):
             return out
 
         roles = data.get("roles", {}).values()
-        if not any(r.get("role_id") == role_id for r in roles.values()):
+        if not any(r.get("role_id") == role_id for r in roles.values():
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
@@ -2836,7 +2836,7 @@ class UpdateAccessRequestTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        if not any(u.get("user_id") == updated_by for u in users.values()):
+        if not any(u.get("user_id") == updated_by for u in users.values():
             payload = {"error": f"Unknown updated_by '{updated_by}'"}
             out = json.dumps(payload, indent=2)
             return out

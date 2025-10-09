@@ -439,7 +439,7 @@ class LocateFundingSources(Tool):
         status = status.lower() if status else ""
         source_name = source_name.lower() if source_name else ""
 
-        for s in sources.values()):
+        for s in sources.values():
             match_area = not area or area in s.get("focus_area", "").lower()
             match_status = not status or status == s.get("status", "").lower()
             match_id = not funding_source_id or funding_source_id == s.get("sponsor_id")

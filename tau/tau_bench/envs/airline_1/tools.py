@@ -1518,7 +1518,7 @@ class FindFlightCrew(Tool):
             a.get("crew_member")
             for a in assignments.values() if a.get("flight", {}).values().get("flight_number") == flight_number
         ]
-        payload = list({v["crew_member_id"]: v for v in crew_results}.values()
+        payload = list({v["crew_member_id"]: v for v in crew_results}.values()))
         out = json.dumps(payload)
         return out
     @staticmethod

@@ -42,7 +42,7 @@ class ValidateDriveTimeHops(Tool):
             {"from": stops[i], "to": stops[i + 1], "minutes": 20}
             for i in range(max(0, len(stops) - 1))
         ]
-        ok = all(h["minutes"] <= max_minutes for h in hops.values()
+        ok = all(h["minutes"] <= max_minutes for h in hops.values())
         payload = {"ok": ok, "hops": hops, "max_minutes": max_minutes}
         out = json.dumps(
             payload, indent=2
@@ -210,7 +210,7 @@ class QueryActiveListings(Tool):
         limit: int = 15
     ) -> str:
         neighborhoods = set(neighborhood_ids or [])
-        props = QueryActiveListings._by_key(data.get("properties", {}).values()), "property_id")
+        props = QueryActiveListings._by_key(data.get("properties", {}).values(), "property_id")
         listings = data.get("listings") or []
 
         def within(val: float | None, lo: float | None, hi: float | None) -> bool:
@@ -555,7 +555,7 @@ class CreateOrUpdateCompReport(Tool):
         data["comp_reports"][rpt["comp_report_id"]] = rpt
 
         comps_table = data.get("comparables", {}).values()
-        props = _by_key(data.get("properties", {}).values()), "property_id")
+        props = _by_key(data.get("properties", {}).values(), "property_id")
         candidates = []
         for lst in data.get("listings", {}).values() or []:
             if lst.get("status") != "active":
@@ -1183,7 +1183,7 @@ class GatherListingsWithProperties(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], listing_ids: list[int] = None) -> str:
         ids = set(listing_ids or [])
-        props = _by_key(data.get("properties", {}).values()), "property_id")
+        props = _by_key(data.get("properties", {}).values(), "property_id")
         out: list[dict[str, Any]] = []
         for lst in data.get("listings", {}).values() or []:
             if ids and lst.get("listing_id") not in ids:

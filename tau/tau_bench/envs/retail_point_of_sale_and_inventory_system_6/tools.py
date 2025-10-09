@@ -346,7 +346,7 @@ class TransactionPriceInfo(Tool):
                 sku = product["sku"]
 
                 #Retrieve the promotional details
-                for promotion in promotions.values()):
+                for promotion in promotions.values():
                     if sku in promotion["applicable_skus"]:
                         break
 
@@ -495,7 +495,7 @@ class make_transaction(Tool):
                 sku = product["sku"]
 
                 #Acquire the promotional information
-                for promotion in promotions.values()):
+                for promotion in promotions.values():
                     if sku in promotion["applicable_skus"]:
                         break
 
@@ -2726,7 +2726,7 @@ class get_top_selling_items(Tool):
         filter_values = {k: params_dict.get(k) for k in filter_cols if params_dict.get(k) is not None}
 
         item_tracker = defaultdict(int)
-        for transaction in transactions.values()):
+        for transaction in transactions.values():
             # Apply filters based on any provided values
             if all([filter_values[k] == transaction[k] for k in filter_values.keys()]):
                 line_items = transaction["line_items"]

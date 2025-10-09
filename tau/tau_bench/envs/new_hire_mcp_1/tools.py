@@ -1104,7 +1104,7 @@ class AnalyzeAttachmentFileInventoryTool(Tool):
         # Evaluation
         total_size = sum(att.get("size_bytes", 0) for att in attachments.values()
         file_type_distribution = {}
-        for att in attachments.values()):
+        for att in attachments.values():
             mime_type = att.get("mime_type", "unknown")
             file_type_distribution[mime_type] = (
                 file_type_distribution.get(mime_type, 0) + 1
@@ -1282,7 +1282,7 @@ class CheckFileStorageOrganizationTool(Tool):
         # Evaluate duplicates based on content_text
         content_map = {}
         duplicates = []
-        for file in files.values()):
+        for file in files.values():
             content = file.get("content_text")
             if content:
                 if content in content_map:
@@ -1350,7 +1350,7 @@ class GetManagerCandidateAssignmentsTool(Tool):
             ]
 
         manager_workload = {}
-        for candidate in candidates.values()):
+        for candidate in candidates.values():
             manager = candidate.get("manager_email_nullable")
             if manager:
                 if manager not in manager_workload:
@@ -1410,7 +1410,7 @@ class CreateNewCandidateRecordTool(Tool):
         candidates = data.setdefault("candidates", [])
 
         # Check for duplicates
-        if any(c.get("candidate_email") == candidate_email for c in candidates.values()):
+        if any(c.get("candidate_email") == candidate_email for c in candidates.values():
             return _err(
                 f"Candidate with email '{candidate_email}' already exists.",
                 code="conflict",
@@ -1910,7 +1910,7 @@ class SendEmailWithAttachmentsTool(Tool):
 
         if template_name == "welcome":
             welcome_packet_path = f"/onboarding/{candidate_id}/welcome_packet.md"
-            if any(f.get("file_path") == welcome_packet_path for f in onboarding_files.values()):
+            if any(f.get("file_path") == welcome_packet_path for f in onboarding_files.values():
                 attachment_file_paths.append(welcome_packet_path)
 
         for file_path in attachment_file_paths:

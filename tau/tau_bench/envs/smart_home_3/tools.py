@@ -52,7 +52,7 @@ class DeviceManager(Tool):
                 return out
             # Use updates if provided, otherwise fall back to state_updates
             actual_updates = updates if updates is not None else state_updates
-            for device in devices.values()):
+            for device in devices.values():
                 if device["id"] == device_id:
                     device["state"].update(actual_updates)
                     device["state"]["last_updated"] = _now_iso()

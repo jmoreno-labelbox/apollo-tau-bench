@@ -113,7 +113,7 @@ class find_gmail_threads(Tool):
             ok = True
             if label_q:
                 labels = t.get("labels", [])
-                ok &= any(label_q.lower() in (lab or "").lower() for lab in labels.values()
+                ok &= any(label_q.lower() in (lab or "").lower() for lab in labels.values())
             if subj_q:
                 ok &= subj_q.lower() in (t.get("subject", "").lower())
             if party_q:

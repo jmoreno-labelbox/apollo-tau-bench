@@ -252,7 +252,7 @@ class ModifyDeviceState(Tool):
             out = json.dumps(payload, indent=2)
             return out
         allowed = set(device.get("state_params", []))
-        if any(k not in allowed for k in update.values()):
+        if any(k not in allowed for k in update.values():
             payload = {"error": "one or more params not allowed for this device"}
             out = json.dumps(
                 payload, indent=2
@@ -349,7 +349,7 @@ class ModifyDeviceStateTimer(Tool):
             out = json.dumps(payload, indent=2)
             return out
         allowed = set(device.get("state_params", []))
-        if any(k not in allowed for k in update.values()):
+        if any(k not in allowed for k in update.values():
             payload = {"error": "one or more params not allowed for this device"}
             out = json.dumps(
                 payload, indent=2
@@ -865,7 +865,7 @@ class ModifySensorState(Tool):
             out = json.dumps(payload, indent=2)
             return out
         allowed = set(sensor.get("state_params", []))
-        if any(k not in allowed for k in update.values()):
+        if any(k not in allowed for k in update.values():
             payload = {"error": "one or more params not allowed for this sensor"}
             out = json.dumps(
                 payload, indent=2

@@ -747,7 +747,7 @@ class GetFileContents(Tool):
         last_author = owner
 
         #Locate commits that altered this file
-        for commit_entry in commits_data.values()):
+        for commit_entry in commits_data.values():
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 for branch_messages in commit_entry.get("commit_messages", []):
                     for j, message in enumerate(branch_messages):
@@ -1849,7 +1849,7 @@ class CreatePullRequest(Tool):
 
         #Identify commits present in the head branch but absent in the base
         commits_in_pr = []
-        for commit_entry in commits_data.values()):
+        for commit_entry in commits_data.values():
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 if head in commit_entry.get("branch_names", []):
                     head_branch_idx = commit_entry["branch_names"].index(head)
@@ -2168,7 +2168,7 @@ class CheckPullRequestMergeability(Tool):
         pass
         pull_requests = data.get("pull_requests", {}).values()
 
-        for pr_entry in pull_requests.values()):
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
@@ -2522,7 +2522,7 @@ class CreateIssue(Tool):
 
         #Locate the existing issue entry for this repository
         repo_issues = None
-        for issue_entry in issues_data.values()):
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 repo_issues = issue_entry
                 break
@@ -3109,7 +3109,7 @@ class ListIssues(Tool):
                         continue
 
                     #Apply filter based on labels (if provided and not empty)
-                    if labels and not any(label in issue_labels for label in labels.values()):
+                    if labels and not any(label in issue_labels for label in labels.values():
                         continue
 
                     issues.append(

@@ -1298,7 +1298,7 @@ class RetrieveScheduledPaymentsTool(Tool):
         scheduled_payments = data.get("scheduled_payments", {}).values()
         results = []
 
-        for payment in scheduled_payments.values()):
+        for payment in scheduled_payments.values():
             if payment.get('customer_id') != customer_id:
                 continue
             if payment.get('from_account_id', None) != source_account_id:
@@ -1508,7 +1508,7 @@ class GetSupportTicketsForAccountTool(Tool):
                 subject = ticket.get('subject', '').lower()
                 description = ticket.get('description', '').lower()
                 category = ticket.get('category', '').lower()
-                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values()):
+                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values():
                     continue
             created_date = ticket.get('created_date', '')
             resolved_date = ticket.get('resolved_date', '')
@@ -1573,7 +1573,7 @@ class GetSupportTicketsForAccountsTool(Tool):
         support_tickets = data.get("support_tickets", {}).values()
         results = []
 
-        for ticket in support_tickets.values()):
+        for ticket in support_tickets.values():
             ticket_account_id = ticket.get('account_id', None)
             if ticket_account_id not in account_ids:
                 continue
@@ -1581,7 +1581,7 @@ class GetSupportTicketsForAccountsTool(Tool):
                 subject = ticket.get('subject', '').lower()
                 description = ticket.get('description', '').lower()
                 category = ticket.get('category', '').lower()
-                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values()):
+                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values():
                     continue
             created_date = ticket.get('created_date', '')
             resolved_date = ticket.get('resolved_date', '')
@@ -1903,7 +1903,7 @@ class GetAccountChangesFromTicketsTool(Tool):
             category = ticket.get('category', '').lower()
 
             keywords = ["update", "change", "modify", "freeze", "close", "re-open", "unlock", "limit", "restriction", "address", "contact", "status", "name"]
-            if any(kw in subject or kw in description or kw in category for kw in keywords.values()):
+            if any(kw in subject or kw in description or kw in category for kw in keywords.values():
                 change_types.append("change_detected")
 
             changes.append({
@@ -1990,7 +1990,7 @@ class CalculateTotalPaymentsTool(Tool):
         # Use transaction_type parameter if provided, otherwise default to 'payment'
         filter_type = transaction_type.lower() if transaction_type else 'payment'
 
-        for txn in transactions.values()):
+        for txn in transactions.values():
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')

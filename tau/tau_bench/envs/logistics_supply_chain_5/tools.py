@@ -178,10 +178,10 @@ class SearchInboundShipments(Tool):
 
         # Narrow down the shipments that match
         results = []
-        for shipment in inbound_shipments.values()):
+        for shipment in inbound_shipments.values():
             match = True
             # Verify if the shipment includes the SKU by searching the data structure
-            if sku and not any(sku in str(value) for value in shipment.values()):
+            if sku and not any(sku in str(value) for value in shipment.values():
                 match = False
             if destination_warehouse_id and shipment.get("destination_warehouse_id") != destination_warehouse_id:
                 match = False

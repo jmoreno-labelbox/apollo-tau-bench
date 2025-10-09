@@ -70,7 +70,7 @@ class SetDeviceState(Tool):
             # attempt to use sensors if devices are not available
             sensors = data.get("sensors", {}).values()
             sensor_found = False
-            for sensor in sensors.values()):
+            for sensor in sensors.values():
                 if sensor.get("id") == device_id:
                     sensor["state"].update(state_update)
                     sensor["state"]["last_updated"] = _now_iso()
@@ -127,7 +127,7 @@ class AddDevice(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        if any(d.get("id") == new_device_id for d in devices.values()):
+        if any(d.get("id") == new_device_id for d in devices.values():
             payload = {"error": f"Device with ID '{new_device_id}' already exists."}
             out = json.dumps(
                 payload, indent=2,
@@ -187,7 +187,7 @@ class RemoveDevice(Tool):
 
         # Additionally, eliminate from rooms
         rooms = rooms if rooms is not None else data.get("rooms", {}).values()
-        for room in rooms.values()):
+        for room in rooms.values():
             if device_id in room.get("devices", []):
                 room["devices"].remove(device_id)
         payload = {"success": f"Device '{device_id}' removed."}
@@ -370,7 +370,7 @@ class ActivateScene(Tool):
         scenes = scenes if scenes is not None else data.get("scenes", {}).values()
         devices = devices if devices is not None else data.get("devices", {}).values()
         scene_found = False
-        for scene in scenes.values()):
+        for scene in scenes.values():
             if scene.get("id") == scene_id:
                 scene_found = True
                 for action in scene.get("actions", []):
@@ -423,7 +423,7 @@ class CreateScene(Tool):
             payload = {"error": "New scene must have an 'id'."}
             out = json.dumps(payload, indent=2)
             return out
-        if any(s.get("id") == new_scene_id for s in scenes.values()):
+        if any(s.get("id") == new_scene_id for s in scenes.values():
             payload = {"error": f"Scene with ID '{new_scene_id}' already exists."}
             out = json.dumps(
                 payload, indent=2,

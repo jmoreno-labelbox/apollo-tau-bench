@@ -830,7 +830,7 @@ class UpdateUserSubscriptions(Tool):
         subscriptions = data.get("subscriptions", {}).values()
         if action.lower() == "add":
             # Verify if the subscription is already present
-            for sub in subscriptions.values()):
+            for sub in subscriptions.values():
                 if (
                     sub.get("user_id") == user_id
                     and sub.get("topic", "").lower() == topic.lower()
