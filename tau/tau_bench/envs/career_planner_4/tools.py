@@ -114,7 +114,9 @@ class EnrollInCourse(Tool):
             "completion_date": None,
             "current_progress_percent": 0,
         }
-        data.setdefault("user_course_progress", []).append(enrollment)
+        table = data.setdefault("user_course_progress", {})
+        key = f"{user_id}_{course_id}_{len(table)}"
+        table[key] = enrollment
         payload = {"success": f"User {user_id} enrolled in course {course_id}"}
         out = json.dumps(
             payload, indent=2
@@ -253,7 +255,9 @@ class AddUserCertification(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str, cert: dict) -> str:
         cert["user_id"] = user_id
-        data.setdefault("user_certification", []).append(cert)
+        table = data.setdefault("user_certification", {})
+        key = f"{len(table)}"
+        table[key] = cert
         payload = {"success": f"Certification {cert['cert_name']} added for user {user_id}"}
         out = json.dumps(
             payload, indent=2,
@@ -338,7 +342,9 @@ class AddUserEducation(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str, education: dict) -> str:
         education["user_id"] = user_id
-        data.setdefault("user_education", []).append(education)
+        table = data.setdefault("user_education", {})
+        key = f"{len(table)}"
+        table[key] = education
         payload = {"success": f"Education record added for user {user_id}"}
         out = json.dumps(
             payload, indent=2
@@ -440,7 +446,9 @@ class LogMentoringSession(Tool):
             "session_date": session_date,
             "notes": notes,
         }
-        data.setdefault("mentoring_sessions", []).append(session)
+        table = data.setdefault("mentoring_sessions", {})
+        key = f"{len(table)}"
+        table[key] = session
         payload = {"success": f"Mentoring session logged for {mentee_id} with {mentor_id}"}
         out = json.dumps(
             payload, indent=2,
@@ -551,7 +559,9 @@ class LogCourseProgress(Tool):
             "progress": progress,
             "update_date": update_date,
         }
-        data.setdefault("course_progress_log", []).append(record)
+        table = data.setdefault("course_progress_log", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {
             "success": f"Course progress logged for {user_id} in {course_id}: {progress}%"
         }
@@ -603,7 +613,9 @@ class RecommendLearningPath(Tool):
             "goal_id": goal_id,
             "progress_percent": progress_percent,
         }
-        data.setdefault("learning_path_recommendations", []).append(recommendation)
+        table = data.setdefault("learning_path_recommendations", {})
+        key = f"{len(table)}"
+        table[key] = recommendation
         payload = {"success": f"Learning path recommended for {user_id} in {soft_skill}"}
         out = json.dumps(
             payload, indent=2,
@@ -778,7 +790,9 @@ class GetTeamMembers(Tool):
 class LogTeamTraining(Tool):
     @staticmethod
     def invoke(data: dict, team_id: str, training_session: dict) -> str:
-        data.setdefault("team_training_log", []).append(training_session)
+        table = data.setdefault("team_training_log", {})
+        key = f"{len(table)}"
+        table[key] = training_session
         payload = {
             "success": f"Training session {training_session['training_session_id']} logged for team {team_id}"
         }
@@ -848,7 +862,9 @@ class UpdateUserTrainingProgress(Tool):
             "training_session_id": training_session_id,
             "progress": progress,
         }
-        data.setdefault("user_training_progress", []).append(record)
+        table = data.setdefault("user_training_progress", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {
             "success": f"Training progress for {user_id} on session {training_session_id} set to {progress}"
         }
@@ -911,7 +927,9 @@ class GetMentor(Tool):
 class ScheduleMentorshipSession(Tool):
     @staticmethod
     def invoke(data: dict, relationship: dict) -> str:
-        data.setdefault("user_mentorship_relationships", []).append(relationship)
+        table = data.setdefault("user_mentorship_relationships", {})
+        key = f"{len(table)}"
+        table[key] = relationship
         payload = {
             "success": f"Mentorship session {relationship['relationship_id']} scheduled"
         }
@@ -1003,7 +1021,9 @@ class UpdateCourseProgress(Tool):
             "course_id": course_id,
             "progress_percent": progress_percent,
         }
-        data.setdefault("course_progress_updates", []).append(record)
+        table = data.setdefault("course_progress_updates", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {
             "success": f"Course {course_id} progress for {user_id} updated to {progress_percent}%."
         }
@@ -1036,7 +1056,9 @@ class UpdateCourseProgress(Tool):
 class LogSoftSkillGap(Tool):
     @staticmethod
     def invoke(data, user_id: str, analysis: dict) -> str:
-        data.setdefault("skill_gap_analysis", []).append(analysis)
+        table = data.setdefault("skill_gap_analysis", {})
+        key = f"{len(table)}"
+        table[key] = analysis
         payload = {
                 "success": f"Soft skill gap analysis {analysis['analysis_id']} logged for {user_id}"
             }
@@ -1115,7 +1137,9 @@ class AnalyzeSkillGap(Tool):
             "required_proficiency": required_level,
             "recommended_courses": recommended_courses,
         }
-        data.setdefault("skill_gap_analysis", []).append(analysis)
+        table = data.setdefault("skill_gap_analysis", {})
+        key = f"{len(table)}"
+        table[key] = analysis
         payload = analysis
         out = json.dumps(payload, indent=2)
         return out
@@ -1226,7 +1250,9 @@ class LogJobApplication(Tool):
             "apply_date": apply_date,
             "skill_match_score": skill_match_score,
         }
-        data.setdefault("job_applications", []).append(application)
+        table = data.setdefault("job_applications", {})
+        key = f"{len(table)}"
+        table[key] = application
         payload = {
             "success": f"Application {application['application_id']} logged for candidate {candidate_id}"
         }
@@ -1320,7 +1346,9 @@ class ScheduleInterview(Tool):
             "application_id": application_id,
             "interview_date": interview_date,
         }
-        data.setdefault("interview_schedule", []).append(record)
+        table = data.setdefault("interview_schedule", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {
             "success": f"Interview scheduled for application {application_id} on {interview_date}"
         }
@@ -1427,7 +1455,9 @@ class ReassignMentor(Tool):
             "reassigned_from": old_mentor_id,
             "updated_date": "2023-10-05",
         }
-        data.setdefault("mentorship_reassignments", []).append(record)
+        table = data.setdefault("mentorship_reassignments", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {
             "success": f"Mentor reassigned for {user_id}: now under mentor {new_mentor_id}"
         }
@@ -1820,7 +1850,9 @@ class AddJobApplication(Tool):
             "apply_date": apply_date,
             "status": "Applied",
         }
-        data.setdefault("job_applications", []).append(application)
+        table = data.setdefault("job_applications", {})
+        key = f"{len(table)}"
+        table[key] = application
         payload = {"success": f"Application {application_id} created for user {user_id}"}
         out = json.dumps(
             payload, indent=2,
@@ -1970,7 +2002,9 @@ class PerformSoftSkillGapAnalysis(Tool):
             "readiness_score": 65,  # Simulated score
             "date": "2025-07-04",
         }
-        data.setdefault("skill_gap_analysis", []).append(analysis)
+        table = data.setdefault("skill_gap_analysis", {})
+        key = f"{len(table)}"
+        table[key] = analysis
         payload = {"success": f"Analysis completed for user {user_id}", "analysis": analysis}
         out = json.dumps(
             payload, indent=2,
@@ -2042,7 +2076,9 @@ class AssignMentor(Tool):
             "start_date": start_date,
             "status": "Active",
         }
-        data.setdefault("user_mentorship_relationships", []).append(relationship)
+        table = data.setdefault("user_mentorship_relationships", {})
+        key = f"{len(table)}"
+        table[key] = relationship
         payload = {"success": f"Mentor {mentor_id} assigned to {mentee}"}
         out = json.dumps(
             payload, indent=2
@@ -2176,7 +2212,9 @@ class UpdateMentorshipNote(Tool):
             "note": note,
             "date": "2025-07-04",
         }
-        data.setdefault("mentorship_notes", []).append(note_record)
+        table = data.setdefault("mentorship_notes", {})
+        key = f"{len(table)}"
+        table[key] = note_record
         payload = {"success": "Note added to mentorship record"}
         out = json.dumps(payload, indent=2)
         return out
@@ -2403,7 +2441,9 @@ class NotifyHr(Tool):
             "timestamp": "2025-07-04",
             "type": "HR_NOTIFICATION",
         }
-        data.setdefault("hr_notifications", []).append(notification)
+        table = data.setdefault("hr_notifications", {})
+        key = f"{len(table)}"
+        table[key] = notification
         payload = {"success": "HR notified", "message": message}
         out = json.dumps(payload, indent=2)
         return out
@@ -2433,7 +2473,9 @@ class SendEmailToUser(Tool):
             "body": body,
             "timestamp": "2025-07-04",
         }
-        data.setdefault("emails_sent", []).append(email)
+        table = data.setdefault("emails_sent", {})
+        key = f"{len(table)}"
+        table[key] = email
         payload = {"success": f"Email sent to user {user_id}"}
         out = json.dumps(payload, indent=2)
         return out
@@ -2501,7 +2543,9 @@ class UpdateTeamTrainingLog(Tool):
             "completion_date": completion_date,
             "skills_gained": skills_gained,
         }
-        data.setdefault("team_training_log", []).append(log_entry)
+        table = data.setdefault("team_training_log", {})
+        key = f"{len(table)}"
+        table[key] = log_entry
         payload = {"success": f"Training log updated for {user_id}"}
         out = json.dumps(payload, indent=2)
         return out
@@ -2572,7 +2616,9 @@ class ScheduleTeamTraining(Tool):
             "session_date": session_date,
             "status": "Scheduled",
         }
-        data.setdefault("team_training_sessions", []).append(training_session)
+        table = data.setdefault("team_training_sessions", {})
+        key = f"{len(table)}"
+        table[key] = training_session
         payload = {"success": f"Training session scheduled for team {team_id}"}
         out = json.dumps(
             payload, indent=2
@@ -2605,7 +2651,9 @@ class AddTeamTrainingSession(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], team_id: str, training: dict) -> str:
         training["team_id"] = team_id
-        data.setdefault("team_training_sessions", []).append(training)
+        table = data.setdefault("team_training_sessions", {})
+        key = f"{len(table)}"
+        table[key] = training
         payload = {"success": f"Training session added for team {team_id}"}
         out = json.dumps(
             payload, indent=2
@@ -2739,7 +2787,9 @@ class BulkEnrollCourse(Tool):
                 "start_date": enroll_date,
                 "current_progress_percent": 0,
             }
-            data.setdefault("user_course_progress", []).append(enrollment)
+            table = data.setdefault("user_course_progress", {})
+            key = f"{len(table)}"
+            table[key] = enrollment
         payload = {"success": f"Bulk enrolled {len(members)} members in course {course_id}"}
         out = json.dumps(
             payload, indent=2,
@@ -2958,7 +3008,9 @@ class BulkEnrollTeam(Tool):
                 "completion_date": None,
                 "current_progress_percent": 0,
             }
-            data.setdefault("user_course_progress", []).append(enrollment)
+            table = data.setdefault("user_course_progress", {})
+            key = f"{len(table)}"
+            table[key] = enrollment
             enrolled_members.append(member_id)
         payload = {
             "success": f"Team {team_id} enrolled in course {course_id}",
@@ -3786,7 +3838,9 @@ class CreateSkillDevelopmentPlan(Tool):
             "status": "Active",
         }
 
-        data.setdefault("skill_development_plans", []).append(plan)
+        table = data.setdefault("skill_development_plans", {})
+        key = f"{len(table)}"
+        table[key] = plan
         payload = {
             "success": f"Skill development plan created for user {user_id}",
             "plan": plan,

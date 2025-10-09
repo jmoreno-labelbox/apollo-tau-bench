@@ -103,7 +103,9 @@ class CreateUser(Tool):
             "mfa_enabled": mfa_enabled,
         }
 
-        data.setdefault("users", []).append(new_user)
+        table = data.setdefault("users", {})
+        key = f"{len(table)}"
+        table[key] = new_user
         payload = {"ok": True, "user": new_user}
         out = json.dumps(payload)
         return out
@@ -748,7 +750,9 @@ class CreateRole(Tool):
             "is_temporary": bool(is_temporary),
         }
 
-        data.setdefault("roles", []).append(new_role)
+        table = data.setdefault("roles", {})
+        key = f"{len(table)}"
+        table[key] = new_role
         payload = {"ok": True, "role": new_role}
         out = json.dumps(payload)
         return out
@@ -967,7 +971,9 @@ class CreateResource(Tool):
             "compliance_scope": compliance_scope,
         }
 
-        data.setdefault("resources", []).append(new_resource)
+        table = data.setdefault("resources", {})
+        key = f"{len(table)}"
+        table[key] = new_resource
         payload = {"ok": True, "resource": new_resource}
         out = json.dumps(payload)
         return out
@@ -1884,7 +1890,9 @@ class UpdateUserRole(Tool):
                     "assigned_on": assigned_on,
                     "expires_on": expires_on,
                 }
-                data.setdefault("user_roles", []).append(new_ur)
+                table = data.setdefault("user_roles", {})
+                key = f"{len(table)}"
+                table[key] = new_ur
                 payload = {"ok": True, "assignment": new_ur, "action": "created"}
                 out = json.dumps(payload)
                 return out
@@ -2459,7 +2467,9 @@ class CreateCertification(Tool):
             "completed_on": completed_on,
         }
 
-        data.setdefault("certifications", []).append(new_cert)
+        table = data.setdefault("certifications", {})
+        key = f"{len(table)}"
+        table[key] = new_cert
         payload = {"ok": True, "certification": new_cert}
         out = json.dumps(payload)
         return out
@@ -2637,7 +2647,9 @@ class CreatePolicyException(Tool):
             "status": "PENDING_REVIEW",
         }
 
-        data.setdefault("policy_exceptions", []).append(new_exception)
+        table = data.setdefault("policy_exceptions", {})
+        key = f"{len(table)}"
+        table[key] = new_exception
         payload = {"ok": True, "policy_exception": new_exception}
         out = json.dumps(payload)
         return out
@@ -2895,7 +2907,9 @@ class CreatePermission(Tool):
             "description": description,
         }
 
-        data.setdefault("permissions", []).append(new_perm)
+        table = data.setdefault("permissions", {})
+        key = f"{len(table)}"
+        table[key] = new_perm
         payload = {"ok": True, "permission": new_perm}
         out = json.dumps(payload)
         return out
@@ -3053,7 +3067,9 @@ class AssignPermissionToRole(Tool):
                 return out
 
         new_mapping = {"role_id": role_id, "permission_id": permission_id}
-        data.setdefault("role_permissions", []).append(new_mapping)
+        table = data.setdefault("role_permissions", {})
+        key = f"{len(table)}"
+        table[key] = new_mapping
         payload = {"ok": True, "role_permission": new_mapping, "action": "created"}
         out = json.dumps(payload)
         return out
@@ -3117,7 +3133,9 @@ class CreateAuditLogEntry(Tool):
             "details": details,
         }
 
-        data.setdefault("audit_logs", []).append(log)
+        table = data.setdefault("audit_logs", {})
+        key = f"{len(table)}"
+        table[key] = log
         payload = {"ok": True, "audit_log": log}
         out = json.dumps(payload)
         return out
@@ -3247,7 +3265,9 @@ class CreateHubSpotTicket(Tool):
             "closed_at": None if status != "CLOSED" else timestamp,
         }
 
-        data.setdefault("hubspot_tickets", []).append(ticket_record)
+        table = data.setdefault("hubspot_tickets", {})
+        key = f"{len(table)}"
+        table[key] = ticket_record
         payload = {"ok": True, "ticket": ticket_record}
         out = json.dumps(payload)
         return out
@@ -3581,7 +3601,9 @@ class PostSlackMessage(Tool):
             "updated_at": timestamp,
         }
 
-        data.setdefault("slack_messages", []).append(rec)
+        table = data.setdefault("slack_messages", {})
+        key = f"{len(table)}"
+        table[key] = rec
         payload = {"ok": True, "slack_message": rec}
         out = json.dumps(payload)
         return out
@@ -3649,7 +3671,9 @@ class SendEmail(Tool):
             "text_content": text_content,
         }
 
-        data.setdefault("emails", []).append(email)
+        table = data.setdefault("emails", {})
+        key = f"{len(table)}"
+        table[key] = email
         payload = {"ok": True, "email": email}
         out = json.dumps(payload)
         return out
@@ -3751,7 +3775,9 @@ class CreateSiemAlert(Tool):
             "severity": severity,
         }
 
-        data.setdefault("siem_alerts", []).append(alert_record)
+        table = data.setdefault("siem_alerts", {})
+        key = f"{len(table)}"
+        table[key] = alert_record
         payload = {"ok": True, "siem_alert": alert_record}
         out = json.dumps(payload)
         return out

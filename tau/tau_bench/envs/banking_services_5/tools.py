@@ -114,7 +114,9 @@ class AddNewCustomer(Tool):
             "financial_profile": {"annual_income": annual_income}
         }
 
-        data.setdefault("customers", []).append(new_customer)
+        table = data.setdefault("customers", {})
+        key = f"{len(table)}"
+        table[key] = new_customer
         return json.dumps(new_customer, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -208,7 +210,9 @@ class AddNewBeneficiaryForCustomer(Tool):
             "date_added": date_added,
         }
 
-        data.setdefault("beneficiaries", []).append(new_beneficiary)
+        table = data.setdefault("beneficiaries", {})
+        key = f"{len(table)}"
+        table[key] = new_beneficiary
         return json.dumps(new_beneficiary, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -294,7 +298,9 @@ class CreateNewAccountForCustomer(Tool):
             new_account["rewards_points"] = 0
 
         # Add to DB
-        data.setdefault("accounts", []).append(new_account)
+        table = data.setdefault("accounts", {})
+        key = f"{len(table)}"
+        table[key] = new_account
 
         # add to customer's account_ids
         customers = data.get("customers", {}).values()
@@ -414,7 +420,9 @@ class CreateNewLoanApplication(Tool):
             "decision": "Pending"
         }
 
-        data.setdefault("loan_applications", []).append(new_application)
+        table = data.setdefault("loan_applications", {})
+        key = f"{len(table)}"
+        table[key] = new_application
 
         return json.dumps({
             "application_id": application_id,
@@ -524,7 +532,9 @@ class CreateNewSchedulePayment(Tool):
             "status": status
         }
 
-        data.setdefault("scheduled_payments", []).append(new_payment)
+        table = data.setdefault("scheduled_payments", {})
+        key = f"{len(table)}"
+        table[key] = new_payment
 
         return json.dumps({
             "message": "Scheduled payment created successfully.",
@@ -613,7 +623,9 @@ class AddNewLoanForCustomer(Tool):
             "status": "Active"
         }
 
-        data.setdefault("accounts", []).append(new_account)
+        table = data.setdefault("accounts", {})
+        key = f"{len(table)}"
+        table[key] = new_account
         customer.setdefault("account_ids", []).append(loan_account_id)
 
         # Loan fields based on DB structure
@@ -652,7 +664,9 @@ class AddNewLoanForCustomer(Tool):
             "purpose": loan_details.get("purpose")
         }
 
-        data.setdefault("loans", []).append(new_loan)
+        table = data.setdefault("loans", {})
+        key = f"{len(table)}"
+        table[key] = new_loan
 
         return json.dumps({
             "status": "Loan successfully added.",
@@ -733,7 +747,9 @@ class AddSupportTicketForCustomerId(Tool):
             "last_updated": now
         }
 
-        data.setdefault("support_tickets", []).append(new_ticket)
+        table = data.setdefault("support_tickets", {})
+        key = f"{len(table)}"
+        table[key] = new_ticket
         return json.dumps(new_ticket, indent=2)
     
     @staticmethod
@@ -839,7 +855,9 @@ class CreateNewTransaction(Tool):
             "status": transaction_status
         }
 
-        data.setdefault("transactions", []).append(new_transaction)
+        table = data.setdefault("transactions", {})
+        key = f"{len(table)}"
+        table[key] = new_transaction
 
         return json.dumps({
             "transaction_id": transaction_id,

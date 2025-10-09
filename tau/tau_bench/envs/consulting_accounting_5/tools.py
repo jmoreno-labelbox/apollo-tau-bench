@@ -761,7 +761,9 @@ class AddMonthlyExpense(Tool):
             "month_year": month,
             "amount": amount
         }
-        data.setdefault("monthly_expenses", []).append(record)
+        table = data.setdefault("monthly_expenses", {})
+        key = f"{len(table)}"
+        table[key] = record
 
         return json.dumps(record["row_id"])
     @staticmethod
@@ -821,7 +823,9 @@ class AddMonthlyAudit(Tool):
             "month_year": month,
             "amount": amount
         }
-        data.setdefault("monthly_expenses", []).append(record)
+        table = data.setdefault("monthly_expenses", {})
+        key = f"{len(table)}"
+        table[key] = record
 
         return json.dumps(record["row_id"])
     @staticmethod

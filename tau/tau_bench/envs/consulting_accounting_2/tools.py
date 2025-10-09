@@ -876,7 +876,9 @@ class CaV2CreateInvoice(Tool):
         }
 
         # Insert into data
-        data.setdefault("invoices", []).append(new_invoice)
+        table = data.setdefault("invoices", {})
+        key = f"{len(table)}"
+        table[key] = new_invoice
 
         return _ok(
             invoice_id=invoice_id,
@@ -954,7 +956,9 @@ class CaV2CreateInvoiceLine(Tool):
         }
 
         # Insert into data
-        data.setdefault("invoice_lines", []).append(new_line)
+        table = data.setdefault("invoice_lines", {})
+        key = f"{len(table)}"
+        table[key] = new_line
 
         return _ok(invoice_line_id=invoice_line_id, line_amount=line_amount)
 
@@ -1050,7 +1054,9 @@ class CaV2CreateInvoiceAuditEntry(Tool):
             "notes": notes,
         }
 
-        data.setdefault("invoice_audit", []).append(audit_entry)
+        table = data.setdefault("invoice_audit", {})
+        key = f"{len(table)}"
+        table[key] = audit_entry
 
         return _ok(audit_id=audit_id, event_type=event_type)
 
@@ -1132,7 +1138,9 @@ class CaV2CreateExpense(Tool):
             "created_at": created_at or expense_date + "T00:00:00Z",
         }
 
-        data.setdefault("expenses", []).append(new_expense)
+        table = data.setdefault("expenses", {})
+        key = f"{len(table)}"
+        table[key] = new_expense
 
         return _ok(
             expense_id=expense_id,
@@ -1307,7 +1315,9 @@ class CaV2CreateDashboardSnapshot(Tool):
             or f"/dashboards/{snapshot_date[:4]}/dashboard_{snapshot_date}.pdf",
         }
 
-        data.setdefault("dashboard_snapshots", []).append(snapshot)
+        table = data.setdefault("dashboard_snapshots", {})
+        key = f"{len(table)}"
+        table[key] = snapshot
 
         return _ok(snapshot_id=snapshot_id, snapshot_date=snapshot_date)
 
@@ -1382,7 +1392,9 @@ class CaV2CreateProjectRevenue(Tool):
             "ytd_revenue": ytd_revenue,
         }
 
-        data.setdefault("project_revenue", []).append(project_revenue)
+        table = data.setdefault("project_revenue", {})
+        key = f"{len(table)}"
+        table[key] = project_revenue
 
         return _ok(row_id=row_id, project_id=project_id, ytd_revenue=ytd_revenue)
 
@@ -1433,7 +1445,9 @@ class CaV2CreateMonthlyRevenue(Tool):
             "profit_flag": profit_flag,
         }
 
-        data.setdefault("monthly_revenue", []).append(monthly_revenue)
+        table = data.setdefault("monthly_revenue", {})
+        key = f"{len(table)}"
+        table[key] = monthly_revenue
 
         return _ok(
             row_id=monthly_revenue["row_id"], month_year=month_year, revenue=revenue
@@ -1479,7 +1493,9 @@ class CaV2CreateSchedulerRun(Tool):
             "log_path": log_path,
         }
 
-        data.setdefault("scheduler_runs", []).append(scheduler_run)
+        table = data.setdefault("scheduler_runs", {})
+        key = f"{len(table)}"
+        table[key] = scheduler_run
 
         return _ok(run_id=run_id, task_name=task_name, status=status)
 

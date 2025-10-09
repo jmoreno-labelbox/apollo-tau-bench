@@ -950,7 +950,9 @@ class CreateAutomationRun(Tool):
             "input_ref": input_ref,
             "errors_json": errors_json,
         }
-        data.setdefault("automation_runs", []).append(rec)
+        table = data.setdefault("automation_runs", {})
+        key = f"{len(table)}"
+        table[key] = rec
         payload = rec
         out = json.dumps(payload)
         return out
@@ -1339,7 +1341,9 @@ class CreatePlan(Tool):
             "checksum": checksum,
             "allocations": allocations,
         }
-        data.setdefault("plans", []).append(rec)
+        table = data.setdefault("plans", {})
+        key = f"{len(table)}"
+        table[key] = rec
         payload = rec
         out = json.dumps(payload)
         return out

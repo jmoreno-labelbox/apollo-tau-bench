@@ -729,7 +729,9 @@ class AddFileDirectoryRecord(Tool):
             "created_ts": created_ts,
             "updated_ts": updated_ts,
         }
-        data.setdefault("file_directory", []).append(row)
+        table = data.setdefault("file_directory", {})
+        key = f"{len(table)}"
+        table[key] = row
         payload = {"status": "inserted", "record": row}
         out = json.dumps(payload)
         return out
@@ -920,7 +922,9 @@ class RecordGeocodingResult(Tool):
             payload = {"error": "missing required fields"}
             out = json.dumps(payload)
             return out
-        data.setdefault("geocoding_results", []).append(record)
+        table = data.setdefault("geocoding_results", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {"status": "inserted", "record": record}
         out = json.dumps(payload)
         return out
@@ -1011,7 +1015,9 @@ class InsertWeatherForecast(Tool):
                 payload = {"error": "array length mismatch", "field": k}
                 out = json.dumps(payload)
                 return out
-        data.setdefault("weather_forecasts", []).append(record)
+        table = data.setdefault("weather_forecasts", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {
             "status": "inserted",
             "record": {
@@ -1053,7 +1059,9 @@ class RegisterEtlRun(Tool):
             payload = {"error": "missing required fields"}
             out = json.dumps(payload)
             return out
-        data.setdefault("etl_runs", []).append(record)
+        table = data.setdefault("etl_runs", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {"status": "inserted", "run_id": record.get("run_id")}
         out = json.dumps(payload)
         return out
@@ -1111,7 +1119,9 @@ class RegisterProcessedTimeseries(Tool):
             payload = {"error": "missing required fields"}
             out = json.dumps(payload)
             return out
-        data.setdefault("processed_timeseries", []).append(record)
+        table = data.setdefault("processed_timeseries", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {"status": "inserted", "csv_path": csv_path}
         out = json.dumps(payload)
         return out
@@ -1176,7 +1186,9 @@ class GenerateFeaturesFromProcessed(Tool):
             "definitions_nullable": definitions,
             "generated_ts": generated_ts,
         }
-        data.setdefault("features", []).append(rec)
+        table = data.setdefault("features", {})
+        key = f"{len(table)}"
+        table[key] = rec
         payload = {"status": "inserted", "record": rec}
         out = json.dumps(payload)
         return out
@@ -1217,7 +1229,9 @@ class SaveModelConfig(Tool):
             payload = {"error": "missing required fields"}
             out = json.dumps(payload)
             return out
-        data.setdefault("model_config", []).append(record)
+        table = data.setdefault("model_config", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {"status": "inserted", "saved_json_path": record.get("saved_json_path")}
         out = json.dumps(payload)
         return out
@@ -1277,7 +1291,9 @@ class CreateTimeBasedDatasetSplit(Tool):
             "split_summary_json_path": split_summary_json_path,
             "split_ts": split_ts,
         }
-        data.setdefault("dataset_split", []).append(rec)
+        table = data.setdefault("dataset_split", {})
+        key = f"{len(table)}"
+        table[key] = rec
         payload = {"status": "inserted", "record": rec}
         out = json.dumps(payload)
         return out
@@ -1325,7 +1341,9 @@ class SaveModelRecord(Tool):
             payload = {"error": "missing required fields"}
             out = json.dumps(payload)
             return out
-        data.setdefault("models", []).append(record)
+        table = data.setdefault("models", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {"status": "inserted", "model_name": record.get("model_name")}
         out = json.dumps(payload)
         return out
@@ -1367,7 +1385,9 @@ class SavePredictionsRecord(Tool):
             payload = {"error": "missing required fields"}
             out = json.dumps(payload)
             return out
-        data.setdefault("predictions", []).append(record)
+        table = data.setdefault("predictions", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {
             "status": "inserted",
             "model_name": model_name,
@@ -1405,7 +1425,9 @@ class SaveMetricsRecord(Tool):
             payload = {"error": "missing required fields"}
             out = json.dumps(payload)
             return out
-        data.setdefault("metrics", []).append(record)
+        table = data.setdefault("metrics", {})
+        key = f"{len(table)}"
+        table[key] = record
         payload = {
             "status": "inserted",
             "model_name": record.get("model_name"),
@@ -1463,7 +1485,9 @@ class PublishStakeholderOutputs(Tool):
             "metrics_summary_csv_path": metrics_summary_csv_path,
             "generated_ts": generated_ts,
         }
-        data.setdefault("stakeholder_outputs", []).append(rec)
+        table = data.setdefault("stakeholder_outputs", {})
+        key = f"{len(table)}"
+        table[key] = rec
         payload = {"status": "inserted", "record": rec}
         out = json.dumps(payload)
         return out

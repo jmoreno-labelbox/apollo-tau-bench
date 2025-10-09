@@ -117,7 +117,9 @@ class StartAutomationRun(Tool):
             "outputs_json": {},
             "errors_json": None,
         }
-        data.setdefault("automation_runs", []).append(run)
+        table = data.setdefault("automation_runs", {})
+        key = f"{len(table)}"
+        table[key] = run
         payload = {"automation_run": run}
         out = json.dumps(payload, indent=2)
         return out
@@ -469,7 +471,9 @@ class CreateAssetQaResult(Tool):
             "timestamp": FIXED_NOW,
             "metadata": {},
         }
-        data.setdefault("asset_qa_results", []).append(rec)
+        table = data.setdefault("asset_qa_results", {})
+        key = f"{len(table)}"
+        table[key] = rec
         payload = {"asset_qa_result": rec}
         out = json.dumps(payload, indent=2)
         return out
@@ -653,7 +657,9 @@ class CreateTestRunSummary(Tool):
             "report_uri": report_uri,
             "created_at": FIXED_NOW,
         }
-        data.setdefault("test_runs", []).append(row)
+        table = data.setdefault("test_runs", {})
+        key = f"{len(table)}"
+        table[key] = row
         payload = {"test_run": row}
         out = json.dumps(payload, indent=2)
         return out
@@ -712,7 +718,9 @@ class AddTestResultToRun(Tool):
             "timestamp": FIXED_NOW,
             "metadata": {},
         }
-        data.setdefault("test_results", []).append(rec)
+        table = data.setdefault("test_results", {})
+        key = f"{len(table)}"
+        table[key] = rec
         payload = {"test_result": rec}
         out = json.dumps(payload, indent=2)
         return out
