@@ -7394,8 +7394,7 @@ tasks = [
                 {"price_updated_item_id": "7381052709"},
                 {"new_price": 199.99}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "USER_088",
@@ -7515,11 +7514,11 @@ tasks = [
                 {"final_order_status": "cancelled"},
                 {"corrected_item_id": "1586641416"},
                 {"corrected_item_new_stock": 10},
-                {"restocked_items": [}
+                {"restocked_items": [
                     "1725100896",
                     "5312063289",
                     "6117189161"
-                ]
+                ]}
         ]
     }
     ,
@@ -7819,12 +7818,11 @@ tasks = [
                 {"corrected_stock_level": 142},
                 {"new_price": 199.99}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "USER_093",
-        "instruction": \As a returns manager, handle a return from customer Ella White (ZIP: 75215) concerning her order #W9077205. The returned item is the 'Dumbbell Set' (item #3877338112). After your inspection, it\u2019s evident that consistent quality issues from the supplier warrant discontinuing this product line. Please trace the product to the supplier, change the item's stock status to 'discontinued' in their inventory, and make the product variant unavailable in the main product catalog. Lastly, update the customer\u2019s order status to confirm the return's completion.\"",
+        "instruction": "As a returns manager, handle a return from customer Ella White (ZIP: 75215) concerning her order #W9077205. The returned item is the 'Dumbbell Set' (item #3877338112). After your inspection, it\u2019s evident that consistent quality issues from the supplier warrant discontinuing this product line. Please trace the product to the supplier, change the item's stock status to 'discontinued' in their inventory, and make the product variant unavailable in the main product catalog. Lastly, update the customer\u2019s order status to confirm the return's completion.\"",
         "actions": [
             {
                 "name": "FindUserIdByNameZip",
