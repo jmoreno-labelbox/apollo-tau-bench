@@ -67,7 +67,7 @@ class AssignCrewToFlight(Tool):
             return out
 
         #Verify if the crew member is already allocated to this flight
-        for assignment in flight_crew_assignments.values()):
+        for assignment in flight_crew_assignments.values():
             if (
                 assignment.get("flight", {}).values().get("flight_id") == flight_id
                 and assignment.get("crew_member", {}).values().get("crew_member_id")

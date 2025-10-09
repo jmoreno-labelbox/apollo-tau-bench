@@ -20,7 +20,7 @@ class CalculateTotalPaymentsTool(Tool):
         # Use transaction_type parameter if provided, otherwise default to 'payment'
         filter_type = transaction_type.lower() if transaction_type else 'payment'
 
-        for txn in transactions.values()):
+        for txn in transactions.values():
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')

@@ -184,7 +184,7 @@ class ValidateUserIdentity(Tool):
         #Check if location supports delivery (based on available couriers)
         couriers = data.get("couriers", {}).values()
         supported_countries = set()
-        for courier in couriers.values()):
+        for courier in couriers.values():
             supported_countries.update(courier.get("coverage_area", []))
 
         destination_country = user_address.get("country", "")

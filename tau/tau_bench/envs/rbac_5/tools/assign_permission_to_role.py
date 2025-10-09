@@ -31,11 +31,11 @@ class AssignPermissionToRole(Tool):
             return out
 
         # Confirm presence
-        if not _find_by_id(data.get("roles", {}).values()), "role_id", role_id):
+        if not _find_by_id(data.get("roles", {}).values(), "role_id", role_id):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("permissions", {}).values()), "permission_id", permission_id):
+        if not _find_by_id(data.get("permissions", {}).values(), "permission_id", permission_id):
             payload = {"error": f"permission_id {permission_id} not found"}
             out = json.dumps(payload)
             return out

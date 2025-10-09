@@ -59,7 +59,7 @@ class ScheduleChangeReview(Tool):
         ]
 
         emergency_changes_pending = []
-        for cr in change_requests.values()):
+        for cr in change_requests.values():
             if cr.get("project_id") == project_id and cr.get(
                 "requires_emergency_approval"
             ):

@@ -1216,7 +1216,7 @@ class WritePlayerDevGoals(Tool):
         active_players = kwargs.get("active_players")
         data.setdefault("player_dev_goals", []).append(
             {
-                "goal_id": f"goal_{len(data.get("player_dev_goals", {}))+1}",
+                "goal_id": f"goal_{len(data.get('player_dev_goals', {}))+1}",
                 "week_of": week_of,
                 "active_players": active_players,
             }
@@ -1252,7 +1252,7 @@ class WritePlayerDevReports(Tool):
         report_count = kwargs.get("report_count")
         data.setdefault("player_dev_reports", []).append(
             {
-                "dev_report_id": f"dev_{len(data.get("player_dev_reports", {}))+1}",
+                "dev_report_id": f"dev_{len(data.get('player_dev_reports', {}))+1}",
                 "week_of": week_of,
                 "report_count": report_count,
             }

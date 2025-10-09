@@ -101,7 +101,7 @@ class UpdateCrewFlightLog(Tool):
         target_crew_member = None
         crew_member_index = None
 
-        for i, crew_member in enumerate(crew_members.values():
+        for i, crew_member in enumerate(crew_members.values()):
             if crew_member.get("crew_member_id") == crew_member_id:
                 target_crew_member = crew_member
                 crew_member_index = i

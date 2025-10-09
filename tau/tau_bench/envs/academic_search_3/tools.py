@@ -286,7 +286,7 @@ class GenerateNewReview(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], submission_id: str = None, reviewer_user_id: str = None, score: int = None, comments: str = None) -> str:
-        review_id = f"rev_{len(data.get("reviews", {})) + 1:02d}"
+        review_id = f"rev_{len(data.get('reviews', {})) + 1:02d}"
         new_review = {
             "review_id": review_id,
             "submission_id": submission_id,

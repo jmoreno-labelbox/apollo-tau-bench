@@ -34,7 +34,7 @@ class AnalyzeCustomerBehavior(Tool):
 
         total_orders = len(customer_orders)
         total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders.values()
-        avg_order_value = (
+        avg_order_value = ()
             round(total_value / total_orders, 2) if total_orders > 0 else 0.0
         )
 

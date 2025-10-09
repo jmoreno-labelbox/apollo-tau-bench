@@ -13,7 +13,7 @@ def _convert_db_to_list(db):
 class RunScene(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], scene_id: str) -> str:
-        _, scene = _find(data.get("scenes", {}).values()), scene_id)
+        _, scene = _find(data.get("scenes", {}).values(), scene_id)
         if not scene:
             payload = {"error": f"scene '{scene_id}' not found"}
             out = json.dumps(payload, indent=2)

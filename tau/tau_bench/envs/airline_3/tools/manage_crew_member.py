@@ -66,7 +66,7 @@ class ManageCrewMember(Tool):
         target_crew = None
         crew_index = None
 
-        for i, crew in enumerate(crew_members.values():
+        for i, crew in enumerate(crew_members.values()):
             if crew.get("crew_member_id") == crew_id:
                 target_crew = crew
                 crew_index = i
@@ -114,7 +114,7 @@ class ManageCrewMember(Tool):
             #Verify if the crew member is currently assigned to this flight
             flight_crew_assignments = data.get("flight_crew_assignments", {}).values()
             existing_assignment = None
-            for assignment in flight_crew_assignments.values()):
+            for assignment in flight_crew_assignments.values():
                 if (
                     assignment.get("flight", {}).values().get("flight_number") == flight_number
                     and assignment.get("crew_member", {}).values().get("crew_member_id")

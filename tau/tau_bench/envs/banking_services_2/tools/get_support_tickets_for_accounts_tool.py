@@ -24,7 +24,7 @@ class GetSupportTicketsForAccountsTool(Tool):
         support_tickets = data.get('support_tickets', {}).values()
         results = []
 
-        for ticket in support_tickets.values()):
+        for ticket in support_tickets.values():
             ticket_account_id = ticket.get('account_id', None)
             if ticket_account_id not in account_ids:
                 continue

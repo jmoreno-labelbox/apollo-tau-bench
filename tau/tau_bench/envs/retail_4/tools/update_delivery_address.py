@@ -36,7 +36,7 @@ class UpdateDeliveryAddress(Tool):
         order_to_update = None
         order_index = None
 
-        for i, order in enumerate(orders.values():
+        for i, order in enumerate(orders.values()):
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_update = order
                 order_index = i
@@ -80,7 +80,7 @@ class UpdateDeliveryAddress(Tool):
         # Rule: Assign couriers only if destination country matches their coverage areas
         couriers = data.get("couriers", {}).values()
         supported_countries = set()
-        for courier in couriers.values()):
+        for courier in couriers.values():
             supported_countries.update(courier.get("coverage_area", []))
 
         destination_country = new_address.get("country")

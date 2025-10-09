@@ -26,7 +26,7 @@ class VerifyInventoryAllocation(Tool):
 
         # Basic allocation verification - a real system would assess line items
         warehouse_inventory = [item for item in inventory.values() if item.get("warehouse_id") == warehouse_id]
-        total_available = sum(item.get("quantity_available", 0) for item in warehouse_inventory.values()
+        total_available = sum(item.get("quantity_available", 0) for item in warehouse_inventory.values())
 
         allocation_status = "fully_allocated" if total_available >= total_units else "insufficient_inventory"
 

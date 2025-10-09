@@ -69,7 +69,7 @@ class ValidateChangeCompliance(Tool):
 
             elif check == "has_risk_assessment":
                 risk_assessments = data.get("risk_assessments", {}).values()
-                has_risk = any(ra.get("cr_id") == cr_id for ra in risk_assessments.values()
+                has_risk = any(ra.get("cr_id") == cr_id for ra in risk_assessments.values())
                 if cr.get("priority") in ["high", "critical"] and not has_risk:
                     warnings.append("High priority change without risk assessment")
 

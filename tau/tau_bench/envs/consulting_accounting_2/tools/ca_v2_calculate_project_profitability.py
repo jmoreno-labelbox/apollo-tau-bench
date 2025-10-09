@@ -28,8 +28,8 @@ class CaV2CalculateProjectProfitability(Tool):
         # Compute income from invoices
         invoice_lines = data.get("invoice_lines", {}).values()
         project_lines = _find_all(invoice_lines, "project_id", project_id)
-        total_revenue = sum(line.get("line_amount", 0) for line in project_lines.values()
-        total_hours = sum(line.get("hours_billed", 0) for line in project_lines.values()
+        total_revenue = sum(line.get("line_amount", 0) for line in project_lines.values())
+        total_hours = sum(line.get("hours_billed", 0) for line in project_lines.values())
 
         # Determine actual hourly rate
         effective_rate = total_revenue / total_hours if total_hours > 0 else 0

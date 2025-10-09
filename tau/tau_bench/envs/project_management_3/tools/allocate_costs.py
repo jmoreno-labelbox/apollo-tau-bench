@@ -44,7 +44,7 @@ class AllocateCosts(Tool):
                 payload)
             return out
 
-        total_allocated = sum(split.get("amount", 0) for split in allocation_splits.values()
+        total_allocated = sum(split.get("amount", 0) for split in allocation_splits.values())
         if abs(total_allocated - expense["amount"]) > 0.01:
             payload = {
                     "error": f"Allocated amounts must match expense total ${expense['amount']}"

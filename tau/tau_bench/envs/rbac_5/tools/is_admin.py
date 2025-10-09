@@ -33,7 +33,7 @@ class IsAdmin(Tool):
             return out
 
         # Confirm the existence of the user
-        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out

@@ -14,7 +14,7 @@ def _convert_db_to_list(db):
 class get_compensation_records(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        if not find_employee(data.get("employees", {}).values()), employee_id):
+        if not find_employee(data.get("employees", {}).values(), employee_id):
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(
                 payload, indent=2

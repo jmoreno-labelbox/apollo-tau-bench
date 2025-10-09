@@ -94,7 +94,7 @@ class GenerateDepartmentFinancialReport(Tool):
                     and a.get("status") == "active"
                 ]
 
-                total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values()
+                total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values())
                 hourly_rate = (
                     150 if "senior" in employee.get("role", "").lower() else 100
                 )

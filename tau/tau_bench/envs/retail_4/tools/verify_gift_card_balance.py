@@ -91,7 +91,7 @@ class VerifyGiftCardBalance(Tool):
             return out
 
         #Calculate total gift card balance
-        total_balance = sum(card["balance"] for card in gift_cards.values()
+        total_balance = sum(card["balance"] for card in gift_cards.values())
 
         result = {
             "status": "success",

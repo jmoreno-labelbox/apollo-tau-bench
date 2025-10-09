@@ -24,7 +24,7 @@ class DeleteDepartment(Tool):
 
         departments = data.get("departments", {}).values()
 
-        for i, department in enumerate(departments.values():
+        for i, department in enumerate(departments.values()):
             if department.get("department_name") == department_name:
                 departments.pop(i)
                 payload = {"success": True}

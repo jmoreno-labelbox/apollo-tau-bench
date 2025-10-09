@@ -52,12 +52,12 @@ class GetAccessRequest(Tool):
             out = {"access_request": ar}
             if include_user:
                 uid = ar.get("user_id") or ""
-                user = _find_by_id(data.get("users", {}).values()), "user_id", uid)
+                user = _find_by_id(data.get("users", {}).values(), "user_id", uid)
                 if user is not None:
                     out["user"] = user
             if include_role:
                 rid = ar.get("requested_role_id") or ""
-                role = _find_by_id(data.get("roles", {}).values()), "role_id", rid)
+                role = _find_by_id(data.get("roles", {}).values(), "role_id", rid)
                 if role is not None:
                     out["role"] = role
             if include_resource:

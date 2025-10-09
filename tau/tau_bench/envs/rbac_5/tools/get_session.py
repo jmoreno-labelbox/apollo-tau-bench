@@ -39,7 +39,7 @@ class GetSession(Tool):
 
         # Narrow down sessions according to the supplied criteria
         filtered_sessions = []
-        for session in sessions.values()):
+        for session in sessions.values():
             # Narrow down by user_id if supplied
             if user_id and session.get("user_id") != user_id:
                 continue

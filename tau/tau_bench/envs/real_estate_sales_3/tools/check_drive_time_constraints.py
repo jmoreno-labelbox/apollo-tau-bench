@@ -10,7 +10,7 @@ class CheckDriveTimeConstraints(Tool):
             {"from": stops[i], "to": stops[i + 1], "minutes": 20}
             for i in range(max(0, len(stops) - 1))
         ]
-        ok = all(h["minutes"] <= max_minutes for h in hops.values()
+        ok = all(h["minutes"] <= max_minutes for h in hops.values())
         payload = {"ok": ok, "hops": hops, "max_minutes": max_minutes}
         out = json.dumps(
             payload, indent=2

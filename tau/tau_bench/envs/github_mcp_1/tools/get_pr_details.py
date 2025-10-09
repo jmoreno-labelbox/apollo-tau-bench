@@ -41,7 +41,7 @@ class GetPRDetails(Tool):
             return out
 
         # Load PR DB (supports dict with 'pull_requests' or a top-level list)
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values())
 
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}

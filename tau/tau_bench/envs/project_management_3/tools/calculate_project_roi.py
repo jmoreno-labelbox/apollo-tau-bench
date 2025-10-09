@@ -84,7 +84,7 @@ class CalculateProjectROI(Tool):
             for e in expenses.values() if e.get("project_id") == project_id and e.get("status") == "approved"
         ]
 
-        total_expense_cost = sum(e.get("amount", 0) for e in project_expenses.values()
+        total_expense_cost = sum(e.get("amount", 0) for e in project_expenses.values())
 
         total_actual_cost = actual_personnel_cost + total_expense_cost
 

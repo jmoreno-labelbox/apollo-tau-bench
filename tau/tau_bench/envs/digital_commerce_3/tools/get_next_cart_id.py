@@ -10,7 +10,7 @@ class GetNextCartId(Tool):
         if not carts:
             next_id = 706
         else:
-            max_id = max(int(c.get("cart_id", "0")) for c in carts.values()
+            max_id = max(int(c.get("cart_id", "0")) for c in carts.values())
             next_id = max_id + 1
         payload = {"next_cart_id": f"{next_id}"}
         out = json.dumps(payload, indent=2)

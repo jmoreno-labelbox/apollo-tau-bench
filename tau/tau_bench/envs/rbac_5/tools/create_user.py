@@ -34,7 +34,7 @@ class CreateUser(Tool):
 
         # Verify if the username is already taken
         users = data.get("users", {}).values()
-        for user in users.values()):
+        for user in users.values():
             if user.get("username") == username:
                 payload = {"error": f"username {username} already exists"}
                 out = json.dumps(payload)

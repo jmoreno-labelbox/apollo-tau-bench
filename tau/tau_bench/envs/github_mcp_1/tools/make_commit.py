@@ -48,7 +48,7 @@ class MakeCommit(Tool):
         # Load commits DB (prefer dict["commits"], fallback to top-level list)
         commits_db = None
         if isinstance(data, dict):
-            commits_db = _convert_db_to_list(data.get("commits", {}).values()
+            commits_db = _convert_db_to_list(data.get("commits", {}).values())
         elif isinstance(data, list):
             commits_db = data
         else:

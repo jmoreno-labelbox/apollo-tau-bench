@@ -110,7 +110,7 @@ class CreateReservation(Tool):
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users.values():
+        for i, user in enumerate(users.values()):
             if user.get("email") == user_email:
                 target_user = user
                 user_index = i
@@ -215,7 +215,7 @@ class CreateReservation(Tool):
         payment_method = payment_methods[payment_method_id]
 
         #Compute the total amount
-        total_amount = sum(flight["price"] for flight in flights.values()
+        total_amount = sum(flight["price"] for flight in flights.values())
 
         #Ensure the payment method has adequate funds (for gift cards and certificates)
         if payment_method["source"] in ["gift_card", "certificate"]:

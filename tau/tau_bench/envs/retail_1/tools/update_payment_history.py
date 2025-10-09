@@ -19,7 +19,7 @@ class UpdatePaymentHistory(Tool):  #WRITE
         payment_info_to_update: dict[str, Any],
     ) -> str:
         pass
-        db = _convert_db_to_list(data.get("orders", {}).values()
+        db = _convert_db_to_list(data.get("orders", {}).values())
         order = [row for row in db.values() if row["order_id"] == order_id]
 
         if len(order) > 1:

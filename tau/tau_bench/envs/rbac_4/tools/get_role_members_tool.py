@@ -31,7 +31,7 @@ class GetRoleMembersTool(Tool):
             ur["user_id"] for ur in user_roles.values() if ur.get("role_id") == role_id
         }
         results = []
-        for u in users.values()):
+        for u in users.values():
             if u.get("user_id") in member_user_ids:
                 if status and u.get("status") != status:
                     continue

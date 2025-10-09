@@ -174,7 +174,7 @@ class GetFileContents(Tool):
         last_author = owner
 
         #Locate commits that altered this file
-        for commit_entry in commits_data.values()):
+        for commit_entry in commits_data.values():
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 for branch_messages in commit_entry.get("commit_messages", []):
                     for j, message in enumerate(branch_messages):

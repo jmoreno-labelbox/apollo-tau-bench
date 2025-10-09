@@ -50,7 +50,7 @@ class UpdateUser(Tool):
         # Locate the user
         users = data.get("users", {}).values()
         user_index = None
-        for i, user in enumerate(users.values():
+        for i, user in enumerate(users.values()):
             if user.get("user_id") == user_id:
                 user_index = i
                 break

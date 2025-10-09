@@ -40,11 +40,11 @@ class CreateCertification(Tool):
             return out
 
         # Confirm the presence of the reviewer and resource
-        if not _find_by_id(data.get("users", {}).values()), "user_id", reviewer_id):
+        if not _find_by_id(data.get("users", {}).values(), "user_id", reviewer_id):
             payload = {"error": f"reviewer_id {reviewer_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("resources", {}).values()), "resource_id", resource_id):
+        if not _find_by_id(data.get("resources", {}).values(), "resource_id", resource_id):
             payload = {"error": f"resource_id {resource_id} not found"}
             out = json.dumps(payload)
             return out

@@ -30,7 +30,7 @@ class LinkAuditReportAsset(Tool):  #WRITE
         assets = data.get("assets", {}).values()
 
         #Check for the existence of the asset
-        asset_exists = any(asset.get("asset_id") == report_asset_id for asset in assets.values()
+        asset_exists = any(asset.get("asset_id") == report_asset_id for asset in assets.values())
         if not asset_exists:
             payload = {"error": f"Asset with ID '{report_asset_id}' not found"}
             out = json.dumps(payload)

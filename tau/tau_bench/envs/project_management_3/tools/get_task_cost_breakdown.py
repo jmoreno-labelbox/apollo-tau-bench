@@ -69,7 +69,7 @@ class GetTaskCostBreakdown(Tool):
             for e in expenses.values() if e.get("task_id") == task_id and e.get("status") == "approved"
         ]
 
-        total_expense_cost = sum(e.get("amount", 0) for e in task_expenses.values()
+        total_expense_cost = sum(e.get("amount", 0) for e in task_expenses.values())
 
         story_points = task.get("story_points", 1)
         total_cost = total_personnel_cost + total_expense_cost

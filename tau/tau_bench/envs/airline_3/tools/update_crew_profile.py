@@ -37,7 +37,7 @@ class UpdateCrewProfile(Tool):
         target_crew = None
         crew_index = None
 
-        for i, crew in enumerate(crew_members.values():
+        for i, crew in enumerate(crew_members.values()):
             if crew.get("crew_member_id") == crew_id:
                 target_crew = crew
                 crew_index = i

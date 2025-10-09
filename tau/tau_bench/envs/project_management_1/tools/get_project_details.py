@@ -26,7 +26,7 @@ class GetProjectDetails(Tool):
             allocation["hours_per_week"]
             for allocation in allocations.values() if allocation["project_id"] == project_id
         )
-        for project in projects.values()):
+        for project in projects.values():
             if project.get("project_id") == project_id:
                 data = project.copy()
                 data["allocated_hours"] = allocated_hours

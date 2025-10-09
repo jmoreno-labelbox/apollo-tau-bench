@@ -29,7 +29,7 @@ class UpdateCustomerMembershipLevel(Tool):
                 payload)
             return out
 
-        for i, customer in enumerate(customers.values():
+        for i, customer in enumerate(customers.values()):
             if customer.get("customer_id") == customer_id:
                 customers[i]["membership_level"] = new_membership_level.lower()
                 data["customers"] = customers
@@ -52,7 +52,7 @@ class UpdateCustomerMembershipLevel(Tool):
                 payload)
             return out
 
-        for i, customer in enumerate(customers.values():
+        for i, customer in enumerate(customers.values()):
             if customer.get("customer_id") == customer_id:
                 customers[i]["membership_level"] = new_membership_level.lower()
                 data["customers"] = customers

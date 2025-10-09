@@ -19,7 +19,7 @@ class RetrieveScheduledPaymentsTool(Tool):
         scheduled_payments = data.get('scheduled_payments', {}).values()
         results = []
 
-        for payment in scheduled_payments.values()):
+        for payment in scheduled_payments.values():
             if payment.get('customer_id') != customer_id:
                 continue
             if payment.get('from_account_id', None) != source_account_id:

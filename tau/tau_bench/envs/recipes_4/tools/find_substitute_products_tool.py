@@ -73,7 +73,7 @@ class FindSubstituteProductsTool(Tool):
             )
 
         #2. Pre-condition Check
-        if not any(s.get("store_id") == store_id for s in data.get("stores", {}).values():
+        if not any(s.get("store_id") == store_id for s in data.get("stores", {}).values()):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Store", "entity_id": store_id}
             )

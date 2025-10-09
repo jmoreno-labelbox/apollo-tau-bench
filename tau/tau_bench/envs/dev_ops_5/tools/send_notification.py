@@ -29,7 +29,7 @@ class SendNotification(Tool):
         if not notifications:
             new_id_num = 1
         else:
-            new_id_num = max(int(n["id"].split("_")[1]) for n in notifications.values() + 1
+            new_id_num = max(int(n["id"].split("_")[1]) for n in notifications.values() + 1)
         new_id = f"notification_{new_id_num:03d}"
 
         # Construct the new notification object

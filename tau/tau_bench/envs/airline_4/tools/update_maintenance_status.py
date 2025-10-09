@@ -54,7 +54,7 @@ class UpdateMaintenanceStatus(Tool):
         target_entry = None
         entry_index = None
 
-        for i, entry in enumerate(maintenance_logs.values():
+        for i, entry in enumerate(maintenance_logs.values()):
             if entry.get("log_id") == log_id:
                 target_entry = entry
                 entry_index = i

@@ -31,7 +31,7 @@ class CalculateSprintBurndown(Tool):
 
         sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
 
-        total_points = sum(t.get("story_points", 0) for t in sprint_tasks.values()
+        total_points = sum(t.get("story_points", 0) for t in sprint_tasks.values())
         completed_points = sum(
             t.get("story_points", 0) for t in sprint_tasks if t.get("status") == "done"
         )

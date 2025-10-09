@@ -17,7 +17,7 @@ class CheckPullRequestMergeability(Tool):
         pass
         pull_requests = data.get("pull_requests", {}).values()
 
-        for pr_entry in pull_requests.values()):
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)

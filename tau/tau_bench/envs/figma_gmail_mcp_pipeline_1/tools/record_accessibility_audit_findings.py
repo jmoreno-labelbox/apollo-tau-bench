@@ -68,7 +68,7 @@ class RecordAccessibilityAuditFindings(Tool):  #WRITE
 
         #Check if the audit_id is present
         audits = data.get("audits", {}).values()
-        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values()
+        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values())
         if not audit_exists:
             payload = {"error": f"Audit with ID '{audit_id}' not found"}
             out = json.dumps(payload)

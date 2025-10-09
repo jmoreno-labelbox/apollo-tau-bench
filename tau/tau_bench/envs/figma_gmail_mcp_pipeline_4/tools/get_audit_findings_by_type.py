@@ -32,7 +32,7 @@ class GetAuditFindingsByType(Tool):
 
         # Handle design system findings
         if not violation_type:  # Check design system findings only if no violation_type is given
-            for finding in audit_findings_ds.values()):
+            for finding in audit_findings_ds.values():
                 if finding_type and finding.get("finding_type") != finding_type:
                     continue
                 if severity and finding.get("severity") != severity:
@@ -44,7 +44,7 @@ class GetAuditFindingsByType(Tool):
 
         # Handle accessibility findings
         if not finding_type:  # Check accessibility findings only if no finding_type is given
-            for finding in audit_findings_a11y.values()):
+            for finding in audit_findings_a11y.values():
                 if violation_type and finding.get("violation_type") != violation_type:
                     continue
                 if severity and finding.get("severity") != severity:

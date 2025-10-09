@@ -46,7 +46,7 @@ class AnalyzeAttachmentFileInventoryTool(Tool):
             ]
 
         # Evaluation
-        total_size = sum(att.get("size_bytes", 0) for att in attachments.values()
+        total_size = sum(att.get("size_bytes", 0) for att in attachments.values())
         file_type_distribution = {}
         for att in attachments:
             mime_type = att.get("mime_type", "unknown")

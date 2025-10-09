@@ -88,7 +88,7 @@ class ApplyClusterPlanStep(Tool):
                 tag_norm = (
                     tag if tag.startswith("[") and tag.endswith("]") else f"[{tag}]"
                 )
-                for r in rules.values()):
+                for r in rules.values():
                     if r.get("security_group_id") == sg_id and r.get("port") == 6379:
                         d = r.get("description", "")
                         if tag_norm not in d:

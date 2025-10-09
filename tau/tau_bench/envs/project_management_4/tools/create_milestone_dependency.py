@@ -96,8 +96,8 @@ class CreateMilestoneDependency(Tool):
         milestone_dependencies = data.get("milestone_dependencies", {}).values()
         milestones = data.get("milestones", {}).values()
 
-        pred_exists = any(m.get("milestone_id") == predecessor_id for m in milestones.values()
-        succ_exists = any(m.get("milestone_id") == successor_id for m in milestones.values()
+        pred_exists = any(m.get("milestone_id") == predecessor_id for m in milestones.values())
+        succ_exists = any(m.get("milestone_id") == successor_id for m in milestones.values())
 
         if not pred_exists or not succ_exists:
             payload = {"error": "One or both milestones not found"}

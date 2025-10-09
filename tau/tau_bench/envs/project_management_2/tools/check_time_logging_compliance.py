@@ -68,7 +68,7 @@ class CheckTimeLoggingCompliance(Tool):
                         log
                         for log in time_logs.values() if log.get("task_id") == task.get("task_id")
                     ]
-                    total_hours = sum(log.get("hours", 0) for log in task_logs.values()
+                    total_hours = sum(log.get("hours", 0) for log in task_logs.values())
                     required_hours = task.get("story_points", 0) * 2 * 0.5
 
                     if total_hours < required_hours:

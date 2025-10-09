@@ -34,7 +34,7 @@ class OptimizeSecurityGroupRules(Tool):
         changes = []
 
         rules_to_remove = []
-        for rule in rules.values()):
+        for rule in rules.values():
             if (
                 f"{rule.get('security_group_id')}" == f"{security_group_id}"
                 and int(rule.get("port")) == target_port
@@ -98,7 +98,7 @@ class OptimizeSecurityGroupRules(Tool):
         changes = []
 
         rules_to_remove = []
-        for rule in rules.values()):
+        for rule in rules.values():
             if (
                 f"{rule.get('security_group_id')}" == f"{security_group_id}"
                 and int(rule.get("port")) == target_port

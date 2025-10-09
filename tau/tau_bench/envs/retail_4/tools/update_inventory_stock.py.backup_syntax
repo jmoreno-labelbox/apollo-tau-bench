@@ -1,0 +1,324 @@
+from tau_bench.envs.tool import Tool
+import json
+from datetime import datetime
+from typing import Any
+
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db)
+    return db
+
+class UpdateInventoryStock(Tool):
+    @staticmethod
+    def invoke(
+        data: dict[str, Any],
+        supplier_id: str,
+        item_id: str = None,
+        item_ids: list[str] = None,
+        new_stock_level: int = None,
+        new_stock_levels: list[int] = None,
+        stock_action: str = "set",
+        exclude_unavailable: bool = False,
+    ) -> str:
+        """
+        Update inventory stock levels for supplier items (single item or batch update)
+        Optionally excludes non-available items from processing
+
+        Writes to: suppliers.json (updates item_stock levels)
+        Data Sources: suppliers.json (supplier_id, item_stock), products.json (item availability)
+        """
+        pass
+        #Validate that at least one item identifier is provided
+        if not item_id and not item_ids:
+            payload = {
+                    "error": "Either item_id or item_ids must be provided",
+                    "status": "failed",
+                }
+            out = json.dumps(
+                payload)
+            return out
+
+        #Build the list of items to process
+        items_to_process = []
+        if item_id:
+            items_to_process.append(item_id)
+        if item_ids:
+            items_to_process.extend(item_ids)
+
+        #Remove duplicates while preserving order
+        items_to_process = list(dict.fromkeys(items_to_process))
+
+        if not items_to_process:
+            payload = {"error": "No valid item IDs provided", "status": "failed"}
+            out = json.dumps(
+                payload)
+            return out
+
+        #Handle stock levels - can be single value or list
+        stock_levels_list = []
+        if new_stock_level is not None and new_stock_levels is not None:
+            payload = {
+                    "error": "Cannot specify both new_stock_level and new_stock_levels. Use one or the other.",
+                    "status": "failed",
+                }
+            out = json.dumps(
+                payload)
+            return out
+        elif new_stock_level is not None:
+            if new_stock_level < 0:
+                payload = {"error": "Stock level cannot be negative", "status": "failed"}
+                out = json.dumps(
+                    payload)
+                return out
+            #Single stock level for all items
+            stock_levels_list = [new_stock_level] * len(items_to_process)
+        elif new_stock_levels is not None:
+            if len(new_stock_levels) != len(items_to_process):
+                payload = {
+                        "error": f"Number of stock levels ({len(new_stock_levels)}) must match number of items ({len(items_to_process)})",
+                        "status": "failed",
+                    }
+                out = json.dumps(
+                    payload)
+                return out
+            #Validate all stock levels are non-negative
+            for i, level in enumerate(new_stock_levels):
+                if level < 0:
+                    payload = {
+                            "error": f"Stock level at index {i} cannot be negative: {level}",
+                            "status": "failed",
+                        }
+                    out = json.dumps(
+                        payload)
+                    return out
+            stock_levels_list = new_stock_levels
+        else:
+            payload = {
+                    "error": "Either new_stock_level or new_stock_levels must be provided",
+                    "status": "failed",
+                }
+            out = json.dumps(
+                payload)
+            return out
+
+        valid_actions = ["set", "add", "subtract"]
+        if stock_action not in valid_actions:
+            payload = {
+                    "error": f"Invalid stock action '{stock_action}'. Valid actions: {', '.join(valid_actions)}",
+                    "status": "failed",
+                }
+            out = json.dumps(
+                payload)
+            return out
+
+        suppliers = data.get("suppliers", {}).values()
+        supplier_to_update = None
+        supplier_index = None
+
+        #Find the supplier
+        for i, supplier in enumerate(suppliers.values():
+            if supplier.get("supplier_id") == supplier_id:
+                supplier_to_update = supplier
+                supplier_index = i
+                break
+
+        if not supplier_to_update:
+            payload = {"error": f"Supplier {supplier_id} not found", "status": "failed"}
+            out = json.dumps(
+                payload)
+            return out
+
+        #Get product availability information if exclude_unavailable is True
+        item_availability_map = {}
+        if exclude_unavailable:
+            products = data.get("products", {}).values()
+            for product in products.values():
+                variants = product.get("variants", {}).values()
+                for variant_id, variant_info in variants.items():
+                    item_availability_map[variant_id] = variant_info.get(
+                        "available", False
+                    )
+
+        #Validate all items exist in supplier's stock and filter by availability if needed
+        item_stock = supplier_to_update.get("item_stock", {}).values()
+        missing_items = []
+        unavailable_items = []
+        filtered_items = []
+
+        for i, item in enumerate(items_to_process):
+            if item not in item_stock:
+                missing_items.append(item)
+                continue
+
+            #Check availability if exclude_unavailable is True
+            if exclude_unavailable:
+                is_available = item_availability_map.get(item, False)
+                if not is_available:
+                    unavailable_items.append(item)
+                    continue
+
+            #Item passes all filters
+            filtered_items.append((item, stock_levels_list[i]))
+
+        if missing_items:
+            payload = {
+                    "error": f"Items not found in supplier {supplier_id} inventory: {', '.join(missing_items)}",
+                    "status": "failed",
+                }
+            out = json.dumps(
+                payload)
+            return out
+
+        if not filtered_items:
+            error_message = "No items to process"
+            if exclude_unavailable and unavailable_items:
+                error_message += f". All items are marked as unavailable: {', '.join(unavailable_items)}"
+            payload = {
+                    "error": error_message,
+                    "status": "failed",
+                    "unavailable_items": (
+                        unavailable_items if exclude_unavailable else []
+                    ),
+                }
+            out = json.dumps(
+                payload)
+            return out
+
+        #WRITE OPERATION: Update stock levels for filtered items
+        update_results = []
+        for item, stock_level_to_apply in filtered_items:
+            old_stock = item_stock[item]
+
+            #Handle different stock statuses
+            if old_stock in ["discontinued", "out_of_stock"]:
+                if stock_action in ["add", "subtract"]:
+                    update_results.append(
+                        {
+                            "item_id": item,
+                            "status": "error",
+                            "message": f"Cannot modify stock for {old_stock} item",
+                            "previous_stock": old_stock,
+                            "new_stock": old_stock,  #No change
+                        }
+                    )
+                    continue
+                #Allow "set" to restore from discontinued/out_of_stock
+                item_stock[item] = stock_level_to_apply
+                new_stock_value = stock_level_to_apply
+            else:
+                #Numeric stock levels
+                old_stock_num = (
+                    int(old_stock)
+                    if isinstance(old_stock, (int, str)) and str(old_stock).isdigit()
+                    else 0
+                )
+
+                if stock_action == "set":
+                    item_stock[item] = stock_level_to_apply
+                    new_stock_value = stock_level_to_apply
+                elif stock_action == "add":
+                    new_value = old_stock_num + stock_level_to_apply
+                    item_stock[item] = new_value
+                    new_stock_value = new_value
+                elif stock_action == "subtract":
+                    new_value = max(0, old_stock_num - stock_level_to_apply)
+                    item_stock[item] = new_value if new_value > 0 else "out_of_stock"
+                    new_stock_value = item_stock[item]
+
+            update_results.append(
+                {
+                    "item_id": item,
+                    "status": "success",
+                    "previous_stock": old_stock,
+                    "new_stock": new_stock_value,
+                    "action_performed": stock_action,
+                    "action_value": stock_level_to_apply,
+                }
+            )
+
+        supplier_to_update["item_stock"] = item_stock
+        supplier_to_update["stock_updated"] = datetime.now().isoformat()
+
+        #Update the supplier in the data structure
+        data["suppliers"][supplier_index] = supplier_to_update
+
+        #Calculate summary statistics
+        successful_updates = [r for r in update_results.values() if r["status"] == "success"]
+        failed_updates = [r for r in update_results.values() if r["status"] == "error"]
+
+        result = {
+            "status": "success",
+            "supplier_id": supplier_id,
+            "supplier_name": supplier_to_update.get("name"),
+            "filtering_summary": {
+                "exclude_unavailable": exclude_unavailable,
+                "total_items_requested": len(items_to_process),
+                "items_filtered_out": (
+                    len(unavailable_items) if exclude_unavailable else 0
+                ),
+                "unavailable_items": unavailable_items if exclude_unavailable else [],
+                "items_processed": len(filtered_items),
+            },
+            "batch_update_summary": {
+                "total_items_processed": len(filtered_items),
+                "successful_updates": len(successful_updates),
+                "failed_updates": len(failed_updates),
+                "stock_action": stock_action,
+            },
+            "update_details": update_results,
+            "stock_updated": supplier_to_update["stock_updated"],
+        }
+        payload = result
+        out = json.dumps(payload)
+        return out
+
+    @staticmethod
+    def get_info() -> dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "UpdateInventoryStock",
+                "description": "Update inventory stock levels for supplier items (single item or batch update). Optionally excludes non-available items from processing.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "supplier_id": {
+                            "type": "string",
+                            "description": "Supplier identifier (e.g., '#SUP0001')",
+                        },
+                        "item_id": {
+                            "type": "string",
+                            "description": "Single item identifier (optional if using item_ids)",
+                        },
+                        "item_ids": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "description": "List of item identifiers for batch update (optional if using item_id)",
+                        },
+                        "new_stock_level": {
+                            "type": "integer",
+                            "description": "New stock level for single item or all items (optional if using new_stock_levels)",
+                        },
+                        "new_stock_levels": {
+                            "type": "array",
+                            "items": {"type": "integer"},
+                            "description": "List of stock levels corresponding to each item in item_ids (optional if using new_stock_level)",
+                        },
+                        "stock_action": {
+                            "type": "string",
+                            "description": "Action: 'set', 'add', or 'subtract'",
+                            "default": "set",
+                        },
+                        "exclude_unavailable": {
+                            "type": "boolean",
+                            "description": "Optional flag to exclude items marked as unavailable in the product catalog from stock updates",
+                            "default": False,
+                        },
+                    },
+                    "required": ["supplier_id"],
+                },
+            },
+        }

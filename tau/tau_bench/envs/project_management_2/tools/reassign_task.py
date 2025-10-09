@@ -77,7 +77,7 @@ class ReassignTask(Tool):
                     and t.get("status") != "done"
                     and t.get("task_id") != task_id
                 ]
-                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values()
+                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values())
 
                 if current_points + task.get("story_points", 0) > 25:
                     payload = {

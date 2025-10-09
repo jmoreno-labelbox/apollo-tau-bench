@@ -28,7 +28,7 @@ class SetDeviceState(Tool):
             # attempt to use sensors if devices are not available
             sensors = data.get("sensors", {}).values()
             sensor_found = False
-            for sensor in sensors.values()):
+            for sensor in sensors.values():
                 if sensor.get("id") == device_id:
                     sensor["state"].update(state_update)
                     sensor["state"]["last_updated"] = _now_iso()

@@ -16,7 +16,7 @@ class MapHourlyRates(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], project_id_list: list[str] = None) -> str:
         project_ids = project_id_list or []
-        projects = _by_key(data.get("projects", {}).values()), "project_id")
+        projects = _by_key(data.get("projects", {}).values(), "project_id")
         rate_map = {
             pid: (
                 projects.get(pid, {}).values().get("override_hourly_rate")

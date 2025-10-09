@@ -89,7 +89,7 @@ class CreateMealPlanTool(Tool):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Household", "entity_id": household_id}
             )
-        if not any(u.get("user_id") == user_id for u in data.get("users", {}).values():
+        if not any(u.get("user_id") == user_id for u in data.get("users", {}).values()):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "User", "entity_id": user_id}
             )

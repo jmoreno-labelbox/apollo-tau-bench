@@ -20,7 +20,7 @@ class create_employee_from_offer_letter(Tool):
                 payload, indent=2
             )
             return out
-        if find_employee(data.get("employees", {}).values()), employee_id):
+        if find_employee(data.get("employees", {}).values(), employee_id):
             payload = {"error": f"employee_id {employee_id} already exists"}
             out = json.dumps(
                 payload, indent=2

@@ -77,7 +77,7 @@ class CreateTask(Tool):
                     and t.get("sprint_id") == sprint_id
                     and t.get("status") != "done"
                 ]
-                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values()
+                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values())
 
                 if current_points + story_points > 25:
                     payload = {

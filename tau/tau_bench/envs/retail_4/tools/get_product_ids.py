@@ -50,7 +50,7 @@ class GetProductIds:
             )
 
             order_found = False
-            for order in orders.values()):
+            for order in orders.values():
                 if (
                     order.get("order_id") == formatted_order_id
                     and order.get("user_id") == user_id

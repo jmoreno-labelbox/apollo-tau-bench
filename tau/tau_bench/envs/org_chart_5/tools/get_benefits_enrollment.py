@@ -15,7 +15,7 @@ class get_benefits_enrollment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, department_id: str = None) -> str:
         if employee_id:
-            employee = find_employee(data.get("employees", {}).values()), employee_id)
+            employee = find_employee(data.get("employees", {}).values(), employee_id)
             if not employee:
                 payload = {"error": f"employee_id {employee_id} not found"}
                 out = json.dumps(

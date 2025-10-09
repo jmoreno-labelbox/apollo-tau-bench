@@ -18,7 +18,7 @@ class GetNextOrderId(Tool):
         if not orders:
             next_id = 9017
         else:
-            max_id = max(int(o.get("order_id", "0")) for o in orders.values()
+            max_id = max(int(o.get("order_id", "0")) for o in orders.values())
             next_id = max_id + 1
         payload = {"next_order_id": f"{next_id}"}
         out = json.dumps(payload, indent=2)

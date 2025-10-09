@@ -37,7 +37,7 @@ class GetEmployeeWorkload(Tool):
                 [t for t in employee_tasks.values() if t.get("status") == "blocked"]
             )
 
-        total_story_points = sum(t.get("story_points", 0) for t in active_tasks.values()
+        total_story_points = sum(t.get("story_points", 0) for t in active_tasks.values())
 
         status_breakdown = {
             "todo": len([t for t in employee_tasks.values() if t.get("status") == "todo"]),

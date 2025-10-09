@@ -39,7 +39,7 @@ class GetUser(Tool):
 
         # If user_id is given, perform a search using user_id
         if user_id:
-            user = _find_by_id(data.get("users", {}).values()), "user_id", user_id)
+            user = _find_by_id(data.get("users", {}).values(), "user_id", user_id)
             return (
                 json.dumps(user) if user else _not_found(f"user_id {user_id} not found")
             )

@@ -84,8 +84,8 @@ class GetProjectTimeline(Tool):
             timeline["milestones"].append(milestone_info)
 
         if project_milestones:
-            earliest_start = min(m.get("start_date") for m in project_milestones.values()
-            latest_end = max(m.get("target_date") for m in project_milestones.values()
+            earliest_start = min(m.get("start_date") for m in project_milestones.values())
+            latest_end = max(m.get("target_date") for m in project_milestones.values())
 
             timeline["timeline_metrics"] = {
                 "total_milestones": len(project_milestones),

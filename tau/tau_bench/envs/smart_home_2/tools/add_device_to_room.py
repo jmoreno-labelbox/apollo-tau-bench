@@ -22,7 +22,7 @@ class AddDeviceToRoom(Tool):
             out = json.dumps(payload, indent=2)
             return out
         # check if the device is present
-        if not _find(data.get("devices", {}).values()), device_id)[1]:
+        if not _find(data.get("devices", {}).values(), device_id)[1]:
             payload = {"error": f"device '{device_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out

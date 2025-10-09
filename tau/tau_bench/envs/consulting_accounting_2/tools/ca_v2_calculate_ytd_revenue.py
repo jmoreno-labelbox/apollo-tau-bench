@@ -21,7 +21,7 @@ class CaV2CalculateYtdRevenue(Tool):
             inv for inv in invoices.values() if inv.get("invoice_date", "").startswith(year)
         ]
 
-        total_revenue = sum(inv.get("subtotal", 0) for inv in ytd_invoices.values()
+        total_revenue = sum(inv.get("subtotal", 0) for inv in ytd_invoices.values())
         tax_reserve = round(total_revenue * tax_rate, 2)
 
         revenue_by_month = {}

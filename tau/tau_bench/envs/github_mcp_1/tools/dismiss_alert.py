@@ -43,7 +43,7 @@ class DismissAlert(Tool):
             return out
 
         # Load alerts DB
-        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}).values()
+        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}).values())
         if not isinstance(alerts_db, list):
             payload = {
                     "error": "Invalid DB: expected a list at data['code_scanning_alerts']."

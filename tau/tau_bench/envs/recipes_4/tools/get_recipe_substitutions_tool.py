@@ -77,7 +77,7 @@ class GetRecipeSubstitutionsTool(Tool):
             )
 
         #2. Pre-condition Checks
-        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values():
+        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values()):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id}
             )

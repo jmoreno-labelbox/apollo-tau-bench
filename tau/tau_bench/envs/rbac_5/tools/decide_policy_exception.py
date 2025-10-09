@@ -68,7 +68,7 @@ class DecidePolicyException(Tool):
             updated["expires_on"] = None
 
         # Save the update
-        for i, exc in enumerate(exceptions.values():
+        for i, exc in enumerate(exceptions.values()):
             if exc.get("exception_id") == exception_id:
                 data["policy_exceptions"][i] = updated
                 break

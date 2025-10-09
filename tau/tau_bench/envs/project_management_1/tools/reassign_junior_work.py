@@ -34,7 +34,7 @@ class ReassignJuniorWork(Tool):
         from_employee_found = False
         to_employee_found = False
         new_allocation = {}
-        for i, allocation in enumerate(allocations.values():
+        for i, allocation in enumerate(allocations.values()):
             allocation_employee_id = allocation.get("employee_id")
             allocation_project_id = allocation.get("project_id")
             allocation_info = allocation.get("hours_per_week", 0)

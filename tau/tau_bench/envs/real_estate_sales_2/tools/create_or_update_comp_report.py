@@ -35,7 +35,7 @@ class CreateOrUpdateCompReport(Tool):
         data["comp_reports"][rpt["comp_report_id"]] = rpt
 
         comps_table = data.get("comparables", {}).values()
-        props = _by_key(data.get("properties", {}).values()), "property_id")
+        props = _by_key(data.get("properties", {}).values(), "property_id")
         candidates = []
         for lst in data.get("listings", {}).values() or []:
             if lst.get("status") != "active":

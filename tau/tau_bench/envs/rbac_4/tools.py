@@ -1489,7 +1489,7 @@ class CreateIncidentRecordTool(Tool):
 
     @staticmethod
     def invoke(data, timestamp, created_by, summary, linked_alerts=None, linked_users=None, linked_resources=None, severity=None):
-        incident_id = f"INC-{len(data.get("incidents", {})) + 1:03d}"
+        incident_id = f"INC-{len(data.get('incidents', {})) + 1:03d}"
         record = {
             "incident_id": incident_id,
             "timestamp": timestamp,

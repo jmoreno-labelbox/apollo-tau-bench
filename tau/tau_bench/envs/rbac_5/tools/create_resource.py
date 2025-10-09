@@ -60,7 +60,7 @@ class CreateResource(Tool):
                 return out
 
         # Confirm the existence of the owner
-        if not _find_by_id(data.get("users", {}).values()), "user_id", owner_id):
+        if not _find_by_id(data.get("users", {}).values(), "user_id", owner_id):
             payload = {"error": f"owner_id {owner_id} not found"}
             out = json.dumps(payload)
             return out

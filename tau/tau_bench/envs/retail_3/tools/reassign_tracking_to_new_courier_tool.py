@@ -40,7 +40,7 @@ class ReassignTrackingToNewCourierTool(Tool):
             )
             return out
 
-        tracking_db = _convert_db_to_list(data.get("tracking", {}).values()
+        tracking_db = _convert_db_to_list(data.get("tracking", {}).values())
         rec = next(
             (t for t in tracking_db if tracking_id in (t.get("tracking_id") or [])), None
         )

@@ -25,7 +25,7 @@ class ArchiveMilestone(Tool):
 
         milestone_index = None
         milestone_to_archive = None
-        for i, milestone in enumerate(milestones.values():
+        for i, milestone in enumerate(milestones.values()):
             if milestone.get("milestone_id") == milestone_id:
                 milestone_index = i
                 milestone_to_archive = milestone

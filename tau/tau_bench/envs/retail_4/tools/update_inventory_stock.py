@@ -119,7 +119,7 @@ class UpdateInventoryStock(Tool):
         supplier_index = None
 
         #Find the supplier
-        for i, supplier in enumerate(suppliers.values():
+        for i, supplier in enumerate(suppliers.values()):
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
                 supplier_index = i

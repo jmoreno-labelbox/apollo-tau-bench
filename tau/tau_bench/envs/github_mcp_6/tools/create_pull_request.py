@@ -172,7 +172,7 @@ class CreatePullRequest(Tool):
 
         #Identify commits present in the head branch but absent in the base
         commits_in_pr = []
-        for commit_entry in commits_data.values()):
+        for commit_entry in commits_data.values():
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 if head in commit_entry.get("branch_names", []):
                     head_branch_idx = commit_entry["branch_names"].index(head)

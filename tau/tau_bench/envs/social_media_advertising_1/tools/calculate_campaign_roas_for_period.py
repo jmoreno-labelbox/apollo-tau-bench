@@ -26,7 +26,7 @@ class CalculateCampaignROASForPeriod(Tool):
         total_revenue = 0
         total_spend = 0
 
-        for insight in insights.values()):
+        for insight in insights.values():
             if (
                 insight.get("adset_id") in adset_ids
                 and start_date <= insight.get("date") <= end_date

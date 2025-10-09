@@ -24,7 +24,7 @@ class RenderOnboardingWelcome(Tool):
     @staticmethod
     def _candidate_exists(data: dict[str, Any], cand_id: str) -> bool:
         pass
-        return any(r.get("candidate_id") == cand_id for r in data.get("candidates", {}).values()
+        return any(r.get("candidate_id") == cand_id for r in data.get("candidates", {}).values())
 
     @staticmethod
     def _get_template_text(data: dict[str, Any]) -> str:

@@ -48,7 +48,7 @@ class CreateRepository(Tool):
         # Collision handling: if (owner, repo_name) exists, try single '_v2' suffix
         def _exists(o: str, n: str) -> bool:
             pass
-            return any(r.get("owner") == o and r.get("repo_name") == n for r in repos.values()
+            return any(r.get("owner") == o and r.get("repo_name") == n for r in repos.values())
 
         if _exists(owner, repo_name):
             candidate = f"{repo_name}_v2"

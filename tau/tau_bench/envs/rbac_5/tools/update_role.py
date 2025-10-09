@@ -31,7 +31,7 @@ class UpdateRole(Tool):
 
         roles = data.get("roles", {}).values()
         role_index = None
-        for i, role in enumerate(roles.values():
+        for i, role in enumerate(roles.values()):
             if role.get("role_id") == role_id:
                 role_index = i
                 break

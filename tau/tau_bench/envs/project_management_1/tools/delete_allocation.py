@@ -22,7 +22,7 @@ class DeleteAllocation(Tool):
 
         allocations = data.get("allocations", {}).values()
 
-        for i, allocation in enumerate(allocations.values():
+        for i, allocation in enumerate(allocations.values()):
             if allocation.get("allocation_id") == allocation_id:
                 removed_allocation = allocations.pop(i)
                 payload = {"success": True, "removed_allocation": removed_allocation}

@@ -34,7 +34,7 @@ class ListUserSessionsTool(Tool):
             return out
 
         results = []
-        for s in sessions.values()):
+        for s in sessions.values():
             if s.get("user_id") != user_id:
                 continue
             if active_only and s.get("end_time") is not None:

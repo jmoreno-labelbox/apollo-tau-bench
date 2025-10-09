@@ -30,7 +30,7 @@ class GetInventoryLevel(Tool):
             out = json.dumps(payload)
             return out
 
-        total_quantity = sum(inv.get("quantity", 0) for inv in inventory_records.values()
+        total_quantity = sum(inv.get("quantity", 0) for inv in inventory_records.values())
         total_reserved = sum(
             inv.get("reserved_quantity", 0) for inv in inventory_records
         )

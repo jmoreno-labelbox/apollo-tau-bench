@@ -113,7 +113,7 @@ class CheckChangeConflicts(Tool):
                         }
                     )
 
-        has_rule_violations = any(c.get("rule_violation") for c in conflicts.values()
+        has_rule_violations = any(c.get("rule_violation") for c in conflicts.values())
         payload = {
                 "cr_id": cr_id,
                 "conflicts_found": len(conflicts),

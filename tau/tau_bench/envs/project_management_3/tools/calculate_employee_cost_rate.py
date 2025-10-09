@@ -59,7 +59,7 @@ class CalculateEmployeeCostRate(Tool):
             a
             for a in allocations.values() if a.get("employee_id") == employee_id and a.get("status") == "active"
         ]
-        total_hours = sum(a.get("hours_per_week", 0) for a in active_allocations.values()
+        total_hours = sum(a.get("hours_per_week", 0) for a in active_allocations.values())
 
         cost_rates = {
             "weekly_rate": round(fully_loaded_rate * 40, 2),

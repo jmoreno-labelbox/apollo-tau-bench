@@ -38,7 +38,7 @@ class ApprovePR(Tool):
             return out
 
         #Load PR DB (expects list at data['pull_requests'])
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values())
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
             out = json.dumps(

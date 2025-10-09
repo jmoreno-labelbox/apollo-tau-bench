@@ -61,7 +61,7 @@ class GetReservationDetails(Tool):
         flights = target_reservation.get("flights", [])
         #Utilize the reservation's total_cost if present (includes upgrades), otherwise total the flight prices
         calculated_total = target_reservation.get(
-            "total_cost", sum(flight.get("price", 0) for flight in flights.values()
+            "total_cost", sum(flight.get("price", 0) for flight in flights.values())
         )
         trip_summary = {
             "total_flights": len(flights),
@@ -80,7 +80,7 @@ class GetReservationDetails(Tool):
 
         #Retrieve payment information
         payment_history = target_reservation.get("payment_history", [])
-        total_paid = sum(payment.get("amount", 0) for payment in payment_history.values()
+        total_paid = sum(payment.get("amount", 0) for payment in payment_history.values())
 
         #Formulate an improved response
         response = {

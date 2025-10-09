@@ -109,7 +109,7 @@ class ReconcileSprintExpenses(Tool):
             else 0
         )
 
-        total_personnel_cost = sum(emp["cost"] for emp in cost_by_employee.values()
+        total_personnel_cost = sum(emp["cost"] for emp in cost_by_employee.values())
 
         reconciliation = {
             "sprint_id": sprint_id,

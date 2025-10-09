@@ -37,7 +37,7 @@ class make_transaction(Tool):
                 sku = product["sku"]
 
                 #Acquire the promotional information
-                for promotion in promotions.values()):
+                for promotion in promotions.values():
                     if sku in promotion["applicable_skus"]:
                         break
 

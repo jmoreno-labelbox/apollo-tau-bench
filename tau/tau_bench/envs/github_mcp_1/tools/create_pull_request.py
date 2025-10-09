@@ -70,7 +70,7 @@ class CreatePullRequest(Tool):
             return out
 
         # Load PR DB (supports dict with 'pull_requests' or top-level list)
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values())
 
         # Find or create repo bucket
         rec = next(

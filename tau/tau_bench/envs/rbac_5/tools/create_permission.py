@@ -32,7 +32,7 @@ class CreatePermission(Tool):
             return out
 
         # Confirm the resource is present
-        if not _find_by_id(data.get("resources", {}).values()), "resource_id", resource_id):
+        if not _find_by_id(data.get("resources", {}).values(), "resource_id", resource_id):
             payload = {"error": f"resource_id {resource_id} not found"}
             out = json.dumps(payload)
             return out

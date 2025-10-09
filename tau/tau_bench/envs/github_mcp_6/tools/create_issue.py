@@ -39,7 +39,7 @@ class CreateIssue(Tool):
 
         #Locate the existing issue entry for this repository
         repo_issues = None
-        for issue_entry in issues_data.values()):
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 repo_issues = issue_entry
                 break

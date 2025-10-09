@@ -30,7 +30,7 @@ class AddPaymentMethod(Tool):
         user_to_update = None
         user_index = None
 
-        for i, user in enumerate(users.values():
+        for i, user in enumerate(users.values()):
             if user.get("user_id") == user_id:
                 user_to_update = user
                 user_index = i

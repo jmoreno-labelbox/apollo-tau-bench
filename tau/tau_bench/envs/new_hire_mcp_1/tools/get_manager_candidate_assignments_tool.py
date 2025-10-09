@@ -26,7 +26,7 @@ class GetManagerCandidateAssignmentsTool(Tool):
             ]
 
         manager_workload = {}
-        for candidate in candidates.values()):
+        for candidate in candidates.values():
             manager = candidate.get("manager_email_nullable")
             if manager:
                 if manager not in manager_workload:

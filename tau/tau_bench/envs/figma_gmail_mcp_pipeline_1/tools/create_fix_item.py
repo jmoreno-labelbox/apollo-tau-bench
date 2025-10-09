@@ -27,7 +27,7 @@ class CreateFixItem(Tool):  #WRITE
 
         #Verify the existence of the plan
         fix_plans = data.get("fix_plans", {}).values()
-        plan_exists = any(plan.get("plan_id") == plan_id for plan in fix_plans.values()
+        plan_exists = any(plan.get("plan_id") == plan_id for plan in fix_plans.values())
         if not plan_exists:
             payload = {"error": f"Fix plan with ID '{plan_id}' not found"}
             out = json.dumps(payload)

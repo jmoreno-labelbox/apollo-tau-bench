@@ -29,7 +29,7 @@ class ListRecentMealHistory(Tool):
                 if int(h.get("household_id")) == int(household_id)
             ]
             if hh:
-                md = max(str(h["plan_date"]) for h in hh.values()
+                md = max(str(h["plan_date"]) for h in hh.values())
                 y, m, d = (int(x) for x in md.split("-"))
                 end = date(y, m, d)
             else:

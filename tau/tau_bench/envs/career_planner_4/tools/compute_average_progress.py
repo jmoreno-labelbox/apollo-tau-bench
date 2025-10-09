@@ -22,7 +22,7 @@ class ComputeAverageProgress(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        total_progress = sum(p.get("current_progress_percent", 0) for p in user_courses.values()
+        total_progress = sum(p.get("current_progress_percent", 0) for p in user_courses.values())
         average = total_progress / len(user_courses)
         payload = {"average_progress": average, "user_id": user_id}
         out = json.dumps(payload, indent=2)

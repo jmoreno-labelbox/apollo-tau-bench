@@ -860,7 +860,7 @@ class CaV2CreateInvoice(Tool):
 
         # Generate invoice entry
         new_invoice = {
-            "invoice_id": invoice_id or f"INV{len(data.get("invoices", {})) + 1:03d}",
+            "invoice_id": invoice_id or f"INV{len(data.get('invoices', {})) + 1:03d}",
             "invoice_number": invoice_number,
             "publisher_id": publisher_id,
             "invoice_date": invoice_date,
@@ -1299,7 +1299,7 @@ class CaV2CreateDashboardSnapshot(Tool):
 
         snapshot = {
             "snapshot_id": snapshot_id
-            or f"SNAP{len(data.get("dashboard_snapshots", {})) + 1:03d}",
+            or f"SNAP{len(data.get('dashboard_snapshots', {})) + 1:03d}",
             "snapshot_date": snapshot_date,
             "ytd_revenue": ytd_revenue or 0.0,
             "ytd_tax_reserve": ytd_tax_reserve or 0.0,

@@ -39,7 +39,7 @@ class GetSupplierOrderHistory(Tool):
 
         # Compute summary statistics
         total_orders = len(supplier_orders)
-        total_value = sum(o["total_cost"] for o in supplier_orders.values()
+        total_value = sum(o["total_cost"] for o in supplier_orders.values())
         pending_orders = len([o for o in supplier_orders.values() if o["status"] == "pending"])
         payload = {
             "supplier": {

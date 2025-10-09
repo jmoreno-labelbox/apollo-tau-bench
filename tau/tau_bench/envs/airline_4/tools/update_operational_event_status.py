@@ -46,7 +46,7 @@ class UpdateOperationalEventStatus(Tool):
         target_event = None
         event_index = None
 
-        for i, event in enumerate(operational_events.values():
+        for i, event in enumerate(operational_events.values()):
             if event.get("event_id") == event_id:
                 target_event = event
                 event_index = i

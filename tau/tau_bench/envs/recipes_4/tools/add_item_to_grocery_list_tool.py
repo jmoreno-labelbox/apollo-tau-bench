@@ -107,7 +107,7 @@ class AddItemToGroceryListTool(Tool):
             )
 
         #2. Pre-condition Checks
-        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", {}).values():
+        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", {}).values()):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "GroceryList", "entity_id": list_id}
             )

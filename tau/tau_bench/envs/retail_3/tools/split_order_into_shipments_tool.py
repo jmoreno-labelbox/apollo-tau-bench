@@ -50,7 +50,7 @@ class SplitOrderIntoShipmentsTool(Tool):
             return out
 
         couriers = data.get("couriers", {}).values()
-        tracking_db = _convert_db_to_list(data.get("tracking", {}).values()
+        tracking_db = _convert_db_to_list(data.get("tracking", {}).values())
         items_len = len(order.get("items", []))
         created = []
 

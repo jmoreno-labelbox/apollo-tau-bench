@@ -38,7 +38,7 @@ class CaV2CalculateHoursWorkedInPeriod(Tool):
                     filtered_entries.append(entry)
 
         # Compute overall totals
-        total_hours = sum(entry.get("hours_worked", 0) for entry in filtered_entries.values()
+        total_hours = sum(entry.get("hours_worked", 0) for entry in filtered_entries.values())
 
         # Categorize by project
         hours_by_project = {}

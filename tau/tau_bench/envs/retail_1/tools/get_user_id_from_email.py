@@ -16,7 +16,7 @@ class GetUserIdFromEmail(Tool):  #READ
     @staticmethod
     def invoke(data: dict[str, Any], email: str) -> str:
         pass
-        db = _convert_db_to_list(data.get("users", {}).values()
+        db = _convert_db_to_list(data.get("users", {}).values())
         filter_params = {"email": email}
 
         user = [row for row in db.values() if _match(row, filter_params)]

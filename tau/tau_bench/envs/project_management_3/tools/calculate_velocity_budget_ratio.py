@@ -84,7 +84,7 @@ class CalculateVelocityBudgetRatio(Tool):
                 for e in expenses.values() if e.get("sprint_id") == sprint["sprint_id"]
                 and e.get("status") == "approved"
             ]
-            sprint_expense_total = sum(e.get("amount", 0) for e in sprint_expenses.values()
+            sprint_expense_total = sum(e.get("amount", 0) for e in sprint_expenses.values())
             sprint_cost += sprint_expense_total
 
             total_cost += sprint_cost

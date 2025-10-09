@@ -33,7 +33,7 @@ class QueryActiveListings(Tool):
         limit: int = 15
     ) -> str:
         neighborhoods = set(neighborhood_ids or [])
-        props = QueryActiveListings._by_key(data.get("properties", {}).values()), "property_id")
+        props = QueryActiveListings._by_key(data.get("properties", {}).values(), "property_id")
         listings = data.get("listings") or []
 
         def within(val: float | None, lo: float | None, hi: float | None) -> bool:

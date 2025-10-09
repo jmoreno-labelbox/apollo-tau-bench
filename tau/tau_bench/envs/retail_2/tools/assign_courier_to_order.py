@@ -27,7 +27,7 @@ class AssignCourierToOrder(Tool):
         # Check if the courier is present and possesses all tracking_ids
         couriers = data.get("couriers", {}).values()
         courier = None
-        for c in couriers.values()):
+        for c in couriers.values():
             if c.get("courier_id") == courier_id:
                 courier = c
                 break
@@ -68,7 +68,7 @@ class AssignCourierToOrder(Tool):
         #Check if the courier is present and possesses all tracking_ids
         couriers = data.get("couriers", {}).values()
         courier = None
-        for c in couriers.values()):
+        for c in couriers.values():
             if c.get("courier_id") == courier_id:
                 courier = c
                 break

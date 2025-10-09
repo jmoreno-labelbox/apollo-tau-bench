@@ -41,7 +41,7 @@ class UpdateReservation(Tool):
         target_reservation = None
         reservation_index = None
 
-        for i, reservation in enumerate(reservations.values():
+        for i, reservation in enumerate(reservations.values()):
             if reservation.get("reservation_id") == reservation_id:
                 target_reservation = reservation
                 reservation_index = i
@@ -59,7 +59,7 @@ class UpdateReservation(Tool):
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users.values():
+        for i, user in enumerate(users.values()):
             user_reservations = user.get("reservations", [])
             if reservation_id in user_reservations:
                 target_user = user

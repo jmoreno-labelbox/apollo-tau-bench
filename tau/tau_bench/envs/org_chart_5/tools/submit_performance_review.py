@@ -14,7 +14,7 @@ def _convert_db_to_list(db):
 class submit_performance_review(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, review_data: dict[str, Any] = None) -> str:
-        employee = find_employee(data.get("employees", {}).values()), employee_id)
+        employee = find_employee(data.get("employees", {}).values(), employee_id)
         if not employee:
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(

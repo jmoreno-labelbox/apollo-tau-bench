@@ -17,7 +17,7 @@ class GetCustomersInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = _convert_db_to_list(data.get("customers", {}).values()
+        db = _convert_db_to_list(data.get("customers", {}).values())
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db

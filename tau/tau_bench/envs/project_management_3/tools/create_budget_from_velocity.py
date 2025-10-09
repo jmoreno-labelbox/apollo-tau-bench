@@ -50,7 +50,7 @@ class CreateBudgetFromVelocity(Tool):
             avg_velocity = 40
             avg_cost_per_point = 500
         else:
-            total_velocity = sum(s.get("velocity", 0) for s in team_sprints.values()
+            total_velocity = sum(s.get("velocity", 0) for s in team_sprints.values())
             total_sprints = len(team_sprints)
             avg_velocity = total_velocity / total_sprints if total_sprints > 0 else 40
 

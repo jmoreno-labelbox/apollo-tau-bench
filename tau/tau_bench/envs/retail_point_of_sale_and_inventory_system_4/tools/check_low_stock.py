@@ -13,7 +13,7 @@ def _convert_db_to_list(db):
 class CheckLowStock(Tool):  #CREATE
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str, current_time: str) -> str:
-        db = _convert_db_to_list(data.get("inventory", {}).values()
+        db = _convert_db_to_list(data.get("inventory", {}).values())
         low_stock_skus = []
         for row in db:
             if row.get("store_id") == store_id:

@@ -29,11 +29,11 @@ class EnsureUserRole(Tool):
         assigned_on = assigned_on or get_current_timestamp()
 
         # Presence validations
-        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("roles", {}).values()), "role_id", role_id):
+        if not _find_by_id(data.get("roles", {}).values(), "role_id", role_id):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload)
             return out

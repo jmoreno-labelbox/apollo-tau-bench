@@ -46,7 +46,7 @@ class UpdateHubSpotTicket(Tool):
 
         tickets = data.get("hubspot_tickets", {}).values()
         idx = None
-        for i, t in enumerate(tickets.values():
+        for i, t in enumerate(tickets.values()):
             if t.get("ticket_id") == ticket_id:
                 idx = i
                 break
@@ -68,7 +68,7 @@ class UpdateHubSpotTicket(Tool):
 
         # Confirm the assignee
         if assignee_id is not None:
-            if not _find_by_id(data.get("users", {}).values()), "user_id", assignee_id):
+            if not _find_by_id(data.get("users", {}).values(), "user_id", assignee_id):
                 payload = {"error": f"assignee_id {assignee_id} not found"}
                 out = json.dumps(payload)
                 return out

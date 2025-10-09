@@ -33,7 +33,7 @@ class UpdateSession(Tool):
         # Locate the session
         sessions = data.get("sessions", {}).values()
         session_index = None
-        for i, session in enumerate(sessions.values():
+        for i, session in enumerate(sessions.values()):
             if session.get("session_id") == session_id:
                 session_index = i
                 break

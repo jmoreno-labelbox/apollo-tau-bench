@@ -95,7 +95,7 @@ class RequestOrderReturn(Tool):
         order_to_return = None
         order_index = None
 
-        for i, order in enumerate(orders.values():
+        for i, order in enumerate(orders.values()):
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_return = order
                 order_index = i

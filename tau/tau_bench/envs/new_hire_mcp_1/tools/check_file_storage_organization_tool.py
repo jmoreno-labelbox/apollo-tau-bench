@@ -27,7 +27,7 @@ class CheckFileStorageOrganizationTool(Tool):
         # Evaluate duplicates based on content_text
         content_map = {}
         duplicates = []
-        for file in files.values()):
+        for file in files.values():
             content = file.get("content_text")
             if content:
                 if content in content_map:

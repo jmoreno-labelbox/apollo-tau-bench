@@ -13,7 +13,7 @@ class CheckNoPurchases(Tool):
             out = json.dumps(payload)
             return out
 
-        all_zeros = all(purchase == 0 for purchase in purchases_list.values()
+        all_zeros = all(purchase == 0 for purchase in purchases_list.values())
         payload = {"all_zeros": all_zeros}
         out = json.dumps(payload)
         return out

@@ -46,7 +46,7 @@ class CalculateTeamCapacity(Tool):
                 member_tasks = [
                     t for t in sprint_tasks if t.get("assignee_id") == member_id
                 ]
-                member_points = sum(t.get("story_points", 0) for t in member_tasks.values()
+                member_points = sum(t.get("story_points", 0) for t in member_tasks.values())
                 member_loads[member_id] = {
                     "story_points": member_points,
                     "task_count": len(member_tasks),

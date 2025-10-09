@@ -13,7 +13,7 @@ def _convert_db_to_list(db):
 class RemoveDeviceFromRoom(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], room_id: str, device_id: str) -> str:
-        _, room = _find(data.get("rooms", {}).values()), room_id)
+        _, room = _find(data.get("rooms", {}).values(), room_id)
         if not room:
             payload = {"error": f"room '{room_id}' not found"}
             out = json.dumps(payload, indent=2)

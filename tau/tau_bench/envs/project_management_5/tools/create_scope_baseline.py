@@ -64,7 +64,7 @@ class CreateScopeBaseline(Tool):
         if baseline_id is None:
             baseline_id = f"bl_{uuid.uuid4().hex[:8]}"
 
-        total_hours = sum(d.get("estimated_hours", 0) for d in deliverables.values()
+        total_hours = sum(d.get("estimated_hours", 0) for d in deliverables.values())
 
         new_baseline = {
             "baseline_id": baseline_id,

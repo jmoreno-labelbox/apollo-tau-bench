@@ -24,8 +24,8 @@ class get_org_diversity_metrics(Tool):
                 e for e in employees_to_scan.values() if e.get("level_id") == level
             ]
 
-        gender_counts = Counter(e.get("gender") for e in employees_to_scan.values()
-        ethnicity_counts = Counter(e.get("ethnicity_code") for e in employees_to_scan.values()
+        gender_counts = Counter(e.get("gender") for e in employees_to_scan.values())
+        ethnicity_counts = Counter(e.get("ethnicity_code") for e in employees_to_scan.values())
 
         metrics = {
             "filter_department": department_id,

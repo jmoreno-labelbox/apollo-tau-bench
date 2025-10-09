@@ -100,7 +100,7 @@ class AssignCourier(Tool):
         couriers = data.get("couriers", {}).values()
         eligible_couriers = []
 
-        for courier in couriers.values()):
+        for courier in couriers.values():
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
                 eligible_data["couriers"][courier_id] = courier

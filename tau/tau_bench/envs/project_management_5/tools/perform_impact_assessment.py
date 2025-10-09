@@ -55,7 +55,7 @@ class PerformImpactAssessment(Tool):
                 a
                 for a in allocations.values() if a.get("employee_id") == emp_id and a.get("status") == "active"
             ]
-            total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values()
+            total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values())
             if total_hours + req.get("hours_per_week", 0) > 40:
                 resource_conflicts.append(emp_id)
 

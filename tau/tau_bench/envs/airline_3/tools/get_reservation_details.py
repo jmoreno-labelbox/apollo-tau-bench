@@ -64,7 +64,7 @@ class GetReservationDetails(Tool):
 
         flights = target_reservation.get("flights", [])
         calculated_total = target_reservation.get(
-            "total_cost", sum(flight.get("price", 0) for flight in flights.values()
+            "total_cost", sum(flight.get("price", 0) for flight in flights.values())
         )
         trip_summary = {
             "total_flights": len(flights),
@@ -80,7 +80,7 @@ class GetReservationDetails(Tool):
         baggage_cost = nonfree_baggages * 57
 
         payment_history = target_reservation.get("payment_history", [])
-        total_paid = sum(payment.get("amount", 0) for payment in payment_history.values()
+        total_paid = sum(payment.get("amount", 0) for payment in payment_history.values())
 
         # Get ready an improved response
         response = {

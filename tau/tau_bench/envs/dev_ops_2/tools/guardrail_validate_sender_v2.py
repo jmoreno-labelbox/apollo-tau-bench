@@ -12,7 +12,7 @@ class GuardrailValidateSenderV2(Tool):
         if not run:
             return _error(f"Run '{run_id}' not found.")
         #Check if the branch is present in the branches dataset
-        allowed = any(b.get("name") == run.get("branch") for b in branches.values()
+        allowed = any(b.get("name") == run.get("branch") for b in branches.values())
         run["validated"] = bool(allowed)
         payload = {"validated": bool(allowed)}
         out = json.dumps(payload, indent=2)

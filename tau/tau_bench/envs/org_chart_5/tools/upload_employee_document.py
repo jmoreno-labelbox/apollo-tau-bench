@@ -29,7 +29,7 @@ class upload_employee_document(Tool):
             None,
         )
         if not emp_doc_record:
-            employee = find_employee(data.get("employees", {}).values()), employee_id)
+            employee = find_employee(data.get("employees", {}).values(), employee_id)
             employee_name = (
                 f"{employee.get('first_name')} {employee.get('last_name')}"
                 if employee

@@ -263,7 +263,7 @@ class submit_performance_review(Tool):
         new_review["employee_id"] = employee_id
         if "review_id" not in new_review:
             new_review["review_id"] = (
-                f"PR_NEW_{len(data.get("performance_reviews", {})) + 1}"
+                f"PR_NEW_{len(data.get('performance_reviews', {})) + 1}"
             )
 
         data["performance_reviews"][new_review["performance_review_id"]] = new_review
@@ -365,7 +365,7 @@ class request_leave(Tool):
         new_leave = leave_data.copy()
         new_leave["employee_id"] = employee_id
         if "leave_id" not in new_leave:
-            new_leave["leave_id"] = f"LV_NEW_{len(data.get("leave_records", {})) + 1}"
+            new_leave["leave_id"] = f"LV_NEW_{len(data.get('leave_records', {})) + 1}"
 
         data["leave_records"][new_leave["leave_record_id"]] = new_leave
         payload = {"success": f"Leave {new_leave['leave_id']} requested for {employee_id}"}

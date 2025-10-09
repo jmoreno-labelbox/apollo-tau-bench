@@ -87,12 +87,12 @@ class GetUserReservations(Tool):
         reservations = data.get("reservations", {}).values()
         user_reservations = []
 
-        for reservation in reservations.values()):
+        for reservation in reservations.values():
             if reservation.get("user_id") == user_id:
                 #Generate a summary for each reservation
                 flights = reservation.get("flights", [])
                 passengers = reservation.get("passengers", [])
-                total_cost = sum(flight.get("price", 0) for flight in flights.values()
+                total_cost = sum(flight.get("price", 0) for flight in flights.values())
 
                 reservation_summary = {
                     "reservation_id": reservation.get("reservation_id"),

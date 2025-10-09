@@ -36,7 +36,7 @@ class UpdateSupplyOrderTerms(Tool):
         supply_order_to_update = None
         order_index = None
 
-        for i, order in enumerate(supply_orders.values():
+        for i, order in enumerate(supply_orders.values()):
             if order.get("supply_order_id") == supply_order_id:
                 supply_order_to_update = order
                 order_index = i

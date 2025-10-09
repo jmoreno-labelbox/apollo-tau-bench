@@ -39,7 +39,7 @@ class TransactionPriceInfo(Tool):
                 sku = product["sku"]
 
                 #Retrieve the promotional details
-                for promotion in promotions.values()):
+                for promotion in promotions.values():
                     if sku in promotion["applicable_skus"]:
                         break
 

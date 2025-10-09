@@ -18,7 +18,7 @@ class DeleteRepository(Tool):
         repositories = data.get("repositories", {}).values()
 
         #Locate and delete the repository
-        for i, repository in enumerate(repositories.values():
+        for i, repository in enumerate(repositories.values()):
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 repositories.pop(i)
 

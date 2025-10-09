@@ -45,7 +45,7 @@ class UpdateUserMembership(Tool):
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users.values():
+        for i, user in enumerate(users.values()):
             if user.get("email") == user_email:
                 target_user = user
                 user_index = i

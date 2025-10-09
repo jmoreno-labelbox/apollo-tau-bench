@@ -17,7 +17,7 @@ class GetPromotionsInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = _convert_db_to_list(data.get("promotions", {}).values()
+        db = _convert_db_to_list(data.get("promotions", {}).values())
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db

@@ -126,7 +126,7 @@ class UpdateOrderStatus(Tool):
             )
 
             order_found = False
-            for i, order in enumerate(orders.values():
+            for i, order in enumerate(orders.values()):
                 if order.get("order_id") == formatted_order_id:
                     order_found = True
                     old_status = order.get("status")
