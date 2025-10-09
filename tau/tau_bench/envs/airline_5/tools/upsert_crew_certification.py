@@ -1,5 +1,5 @@
-from tau_bench.envs.tool import Tool
 from __future__ import annotations
+from tau_bench.envs.tool import Tool
 import json
 from datetime import date, datetime, timedelta  #required for fallback window enlargement
 from decimal import ROUND_HALF_UP, Decimal

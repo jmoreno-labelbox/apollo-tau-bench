@@ -57,7 +57,7 @@ def run_smoke_test(
     user_model: str,
     task_split: str = "test",
     num_trials: int = 1,
-    max_concurrency: int = 1,
+    max_concurrency: int = 8,
     timeout: int = 300,
 ) -> Dict[str, Any]:
     """
@@ -232,8 +232,8 @@ Examples:
     parser.add_argument(
         "--max-concurrency",
         type=int,
-        default=1,
-        help="Max concurrency for each test (default: 1)",
+        default=8,
+        help="Max concurrency for each test (default: 8)",
     )
     parser.add_argument(
         "--timeout",

@@ -12,7 +12,6 @@ API_KEY_ENV_VAR = "OPENAI_API_KEY"
 PRICE_PER_INPUT_TOKEN_MAP = {
     "gpt-4o-2024-08-06": 2.5 / 1000000,
     "gpt-4o": 5 / 1000000,
-    "gpt-4o-2024-08-06": 2.5 / 1000000,
     "gpt-4o-2024-05-13": 5 / 1000000,
     "gpt-4-turbo": 10 / 1000000,
     "gpt-4-turbo-2024-04-09": 10 / 1000000,

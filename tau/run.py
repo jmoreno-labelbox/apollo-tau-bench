@@ -70,7 +70,7 @@ def parse_args() -> RunConfig:
     parser.add_argument(
         "--max-concurrency",
         type=int,
-        default=1,
+        default=2,
         help="Number of tasks to run in parallel",
     )
     parser.add_argument("--seed", type=int, default=10)

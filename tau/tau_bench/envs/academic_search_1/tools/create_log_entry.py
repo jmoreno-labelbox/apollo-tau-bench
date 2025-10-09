@@ -28,8 +28,8 @@ class CreateLogEntry(Tool):
             return out
         users, articles, logs = (
             data.get("users", {}).values()),
-            data.get("articles", {}).values()),
-            data.get("research_logs", {}).values()),
+            data.get("articles", {}).values(),
+            data.get("research_logs", {}).values(),
         )
         if not any(u["person_id"] == user_id for u in users.values()):
             payload = {"error": f"User with ID '{user_id}' not found."}

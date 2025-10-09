@@ -1951,7 +1951,7 @@ class BuildAuditDetailsForBucket(Tool):
         subject_id = _sid(subject_id)
         staged = _ws(data).get(subject_id, {"events": []}).get("events", [])
         try:
-            from rules import build_audit_details as _build
+            from .rules import build_audit_details as _build
 
             details = _build(bucket=bucket, subject_id=subject_id, staged_events=staged)
         except Exception:

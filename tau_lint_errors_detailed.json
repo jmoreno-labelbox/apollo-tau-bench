@@ -1,0 +1,89 @@
+{
+  "syntax_errors": {
+    "future_imports": [
+      "tau/tau_bench/envs/airline_5/tools/adjust_fare_class_pricing.py",
+      "tau/tau_bench/envs/airline_5/tools/adjust_seasonal_pricing.py",
+      "tau/tau_bench/envs/airline_5/tools/apply_discount_to_flight.py",
+      "tau/tau_bench/envs/airline_5/tools/assign_aircraft_to_flight.py",
+      "tau/tau_bench/envs/airline_5/tools/bulk_upgrade_ticket_prices.py",
+      "tau/tau_bench/envs/airline_5/tools/compute_cheapest_by_date_for_route.py",
+      "tau/tau_bench/envs/airline_5/tools/get_aircraft_by_tail_number.py",
+      "tau/tau_bench/envs/airline_5/tools/get_aircraft_profile.py",
+      "tau/tau_bench/envs/airline_5/tools/get_available_seat.py",
+      "tau/tau_bench/envs/airline_5/tools/get_average_ticket_price.py",
+      "tau/tau_bench/envs/airline_5/tools/get_cheapest_flight_from_reservation.py",
+      "tau/tau_bench/envs/airline_5/tools/get_crew_certifications.py",
+      "tau/tau_bench/envs/airline_5/tools/get_current_ticket_price.py",
+      "tau/tau_bench/envs/airline_5/tools/get_flight_schedule.py",
+      "tau/tau_bench/envs/airline_5/tools/get_flight_status_by_date.py",
+      "tau/tau_bench/envs/airline_5/tools/get_flown_revenue_for_flight.py",
+      "tau/tau_bench/envs/airline_5/tools/get_historical_ticket_prices.py",
+      "tau/tau_bench/envs/airline_5/tools/get_operational_events.py",
+      "tau/tau_bench/envs/airline_5/tools/get_price_change_history.py",
+      "tau/tau_bench/envs/airline_5/tools/list_aircraft_at_airport.py",
+      "tau/tau_bench/envs/airline_5/tools/list_all_fares_by_route.py",
+      "tau/tau_bench/envs/airline_5/tools/list_operating_dates.py",
+      "tau/tau_bench/envs/airline_5/tools/log_upgrade_no_charge.py",
+      "tau/tau_bench/envs/airline_5/tools/remove_discount_from_flight.py",
+      "tau/tau_bench/envs/airline_5/tools/reposition_aircraft.py",
+      "tau/tau_bench/envs/airline_5/tools/reprice_reservation.py",
+      "tau/tau_bench/envs/airline_5/tools/set_ticket_price.py",
+      "tau/tau_bench/envs/airline_5/tools/update_aircraft_status.py",
+      "tau/tau_bench/envs/airline_5/tools/update_flight_inventory_and_prices.py",
+      "tau/tau_bench/envs/airline_5/tools/update_flight_schedule.py",
+      "tau/tau_bench/envs/airline_5/tools/upsert_crew_certification.py"
+    ],
+    "line_continuation": [
+      "tau/tau_bench/envs/airline_3/tasks.py",
+      "tau/tau_bench/envs/digital_commerce_3/tools/configure_shipping_rules.py",
+      "tau/tau_bench/envs/project_management_1/tools/create_project.py",
+      "tau/tau_bench/envs/project_management_1/tools/create_rotation_schedule.py",
+      "tau/tau_bench/envs/project_management_4/tools/update_buffer_consumption.py",
+      "tau/tau_bench/envs/rbac_1/tools/create_role.py",
+      "tau/tau_bench/envs/retail_1/tools/create_bulk_order.py",
+      "tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_6/tools/create_customer.py",
+      "tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_6/tools/find_customers.py",
+      "tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_6/tools/find_products.py",
+      "tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_6/tools/get_profit_margins.py",
+      "tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_6/tools/make_transaction.py",
+      "tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_6/tools/update_customer.py"
+    ],
+    "unterminated_strings": [
+      "tau/tau_bench/envs/banking_services_6/tasks.py",
+      "tau/tau_bench/envs/github_mcp_2/tasks.py"
+    ],
+    "indentation": [
+      "tau/tau_bench/envs/academic_search_1/tools/create_log_entry.py"
+    ],
+    "other": [
+      "tau/tau_bench/envs/github_mcp_5/tools/search_code_tool.py"
+    ]
+  },
+  "import_errors": [
+    {
+      "file": "tau/tau_bench/envs/digital_commerce_4/tools.py",
+      "line": 1954,
+      "issue": "Unable to import 'rules' - should use relative import 'from .rules import'"
+    },
+    {
+      "file": "tau/tau_bench/envs/digital_commerce_4/tools/build_audit_details_for_bucket.py",
+      "line": 11,
+      "issue": "Unable to import 'rules' - should use relative import 'from .rules import'"
+    }
+  ],
+  "code_quality": {
+    "duplicate_keys": [
+      {
+        "file": "tau/tau_bench/model_utils/model/openai.py",
+        "lines": [
+          13,
+          15
+        ],
+        "key": "gpt-4o-2024-08-06",
+        "dict": "PRICE_PER_INPUT_TOKEN_MAP"
+      }
+    ],
+    "common_undefined_names": {},
+    "files_with_most_issues": []
+  }
+}

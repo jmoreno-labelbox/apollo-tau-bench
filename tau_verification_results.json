@@ -1,0 +1,18 @@
+{
+  "critical_issues": 5022,
+  "syntax_errors": 48,
+  "import_errors": 4974,
+  "module_import_failures": 0,
+  "missing_init_files": 0,
+  "code_quality_issues": 18422,
+  "code_quality_breakdown": {
+    "undefined name": 11950,
+    "imported but unused": 5843,
+    "redefinition": 184,
+    "other": 445
+  },
+  "specific_issues": {
+    "duplicate_dict_key": false,
+    "javascript_literals": false
+  }
+}

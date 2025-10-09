@@ -2542,8 +2542,7 @@ tasks = [
                 {"crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments"},
                 {"aircraft_status": "Aircraft AC003 status updated to Maintenance"}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "user_34",
@@ -2629,8 +2628,7 @@ tasks = [
                 {"crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"},
                 {"operational_events": "Operational events and disruptions for period from 2024-05-16 to 2024-05-21 showing coordination requirements"}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "user_35",
@@ -2700,8 +2698,7 @@ tasks = [
                 {"aircraft_status": "Aircraft AC004 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC004', new_status 'Maintenance' for maintenance scheduling"},
                 {"crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days retrieved via get_crew_certification_status with certification_type 'A320', expiry_threshold_days 30 for certification monitoring"}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "user_36",
@@ -2787,12 +2784,11 @@ tasks = [
                 {"crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"},
                 {"operational_events": "Operational events and disruptions for period from 2024-05-10 to 2024-05-12 showing coordination requirements"}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "user_37",
-        "instruction": \You are 'crew.manager@airlineops.com'. The operations team needs to optimize crew scheduling and operational readiness for the upcoming flight schedule. You need to finalize crew arrangements with the following details:\n- Crew member: CM015 (status: Active)- Crew member: CM020 (status: Active)- Role update: Update CM015's role to Captain- Availability check: Captain crew members (Active status)- Availability check: Flight Attendant crew members (Active status)- Certification verification: A320 aircraft type- Expiry threshold: 30 days for certification monitoring- Notes: Crew activation and certification verification completed for operational readiness.\"",
+        "instruction": "You are 'crew.manager@airlineops.com'. The operations team needs to optimize crew scheduling and operational readiness for the upcoming flight schedule. You need to finalize crew arrangements with the following details:\n- Crew member: CM015 (status: Active)- Crew member: CM020 (status: Active)- Role update: Update CM015's role to Captain- Availability check: Captain crew members (Active status)- Availability check: Flight Attendant crew members (Active status)- Certification verification: A320 aircraft type- Expiry threshold: 30 days for certification monitoring- Notes: Crew activation and certification verification completed for operational readiness.",
         "actions": [
             {
                 "name": "GetCrewMemberInfo",
@@ -3403,8 +3399,7 @@ tasks = [
                 {"crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for optimal crew placement"},
                 {"aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for maintenance coordination"}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "user_46",
@@ -3482,8 +3477,7 @@ tasks = [
                 {"aircraft_status": "Aircraft AC004 status updated to Maintenance"},
                 {"crew_certifications": "Crew certification status for B787-9 aircraft showing 0 crew members with certifications expiring within 30 days"}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "user_47",
@@ -3552,73 +3546,72 @@ tasks = [
                 {"crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments retrieved via get_crew_availability with role 'Flight Attendant', status 'Active' for comprehensive crew coordination"},
                 {"crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for optimal crew placement"}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "user_48",
-        "instruction": \You are a crew management coordinator responsible for optimizing crew scheduling and operational readiness. You need to manage the following crew management tasks:\n- Crew Member: CM015 (status update to Active)\n- Crew Member: CM020 (status update to Active)\n- Crew Role: Captain (assignment for CM015)\n- Aircraft: AC003 (Maintenance status)\n- Certification: A320 (30-day expiry threshold)\n- Availability Check: Captain (Active status)\n- Availability Check: Flight Attendant (Active status)\n- Operational Period: 2024-05-21 to 2024-05-23\n- Notes: Crew management coordination completed with status updates, role assignments, aircraft maintenance scheduling, certification monitoring, and operational event tracking\"",
+        "instruction": "You are a crew management coordinator responsible for optimizing crew scheduling and operational readiness. You need to manage the following crew management tasks:\n- Crew Member: CM015 (status update to Active)\n- Crew Member: CM020 (status update to Active)\n- Crew Role: Captain (assignment for CM015)\n- Aircraft: AC003 (Maintenance status)\n- Certification: A320 (30-day expiry threshold)\n- Availability Check: Captain (Active status)\n- Availability Check: Flight Attendant (Active status)\n- Operational Period: 2024-05-21 to 2024-05-23\n- Notes: Crew management coordination completed with status updates, role assignments, aircraft maintenance scheduling, certification monitoring, and operational event tracking",
         "actions": [
             {
                 "name": "GetCrewMemberInfo",
                 "arguments": {
                     "crew_id": "CM015"
-                },
+                }
             },
             {
                 "name": "GetCrewMemberInfo",
                 "arguments": {
                     "crew_id": "CM020"
-                },
+                }
             },
             {
                 "name": "UpdateCrewMemberStatus",
                 "arguments": {
                     "crew_member_id": "CM015",
                     "new_status": "Active"
-                },
+                }
             },
             {
                 "name": "UpdateCrewMemberStatus",
                 "arguments": {
                     "crew_member_id": "CM020",
                     "new_status": "Active"
-                },
+                }
             },
             {
                 "name": "GetCrewAvailability",
                 "arguments": {
                     "role": "Captain",
                     "status": "Active"
-                },
+                }
             },
             {
                 "name": "GetCrewAvailability",
                 "arguments": {
                     "role": "Flight Attendant",
                     "status": "Active"
-                },
+                }
             },
             {
                 "name": "UpdateCrew",
                 "arguments": {
                     "crew_id": "CM015",
                     "role": "Captain"
-                },
+                }
             },
             {
                 "name": "UpdateAircraftStatus",
                 "arguments": {
                     "aircraft_id": "AC003",
                     "new_status": "Maintenance"
-                },
+                }
             },
             {
                 "name": "GetCrewCertificationStatus",
                 "arguments": {
                     "certification_type": "A320",
                     "expiry_threshold_days": 30
-                },
+                }
             },
             {
                 "name": "GetOperationalEvents",
@@ -3629,18 +3622,17 @@ tasks = [
             }
         ],
         "outputs": [
-                {"crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft"},
-                {"crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft"},
-                {"crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active"},
-                {"crew_availability_captains": "Current availability of active Captain crew members for operational assignments"},
-                {"crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments"},
-                {"crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments"},
-                {"aircraft_status": "Aircraft AC003 status updated to Maintenance"},
-                {"crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"},
-                {"operational_events": "Operational events and disruptions for period from 2024-05-21 to 2024-05-23 showing coordination requirements"}
+            {"crew_details_15": "Crew member CM015 (Olivia Johnson) - Captain based at ORD airport, currently Active status, with flight experience on B737 aircraft"},
+            {"crew_details_20": "Crew member CM020 (Mohamed Lopez) - Flight Attendant based at CLT airport, currently On Leave status, with flight experience on A320 aircraft"},
+            {"crew_updates": "Crew member CM015 status updated to Active, CM020 status updated to Active"},
+            {"crew_availability_captains": "Current availability of active Captain crew members for operational assignments"},
+            {"crew_availability_flight_attendants": "Current availability of active Flight Attendant crew members for operational assignments"},
+            {"crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments"},
+            {"aircraft_status": "Aircraft AC003 status updated to Maintenance"},
+            {"crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"},
+            {"operational_events": "Operational events and disruptions for period from 2024-05-21 to 2024-05-23 showing coordination requirements"}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "user_49",
@@ -3718,8 +3710,7 @@ tasks = [
                 "aircraft_model_info:B787-9",
                 "crew_availability_checked:Flight_Attendant:Active"
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "user_50",
@@ -3789,8 +3780,7 @@ tasks = [
                 {"aircraft_status": "Aircraft AC003 status updated to Maintenance"},
                 {"crew_certifications": "Crew certification status for A320 aircraft showing 0 crew members with certifications expiring within 30 days"}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "user_51",
@@ -3860,12 +3850,11 @@ tasks = [
                 {"crew_assignment": "Crew member CM015 role successfully updated to Captain for operational assignments via update_crew with crew_id 'CM015', role 'Captain' for strategic crew management"},
                 {"aircraft_status": "Aircraft AC003 status updated to Maintenance via update_aircraft_status with aircraft_id 'AC003', new_status 'Maintenance' for maintenance scheduling"}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "user_52",
-        "instruction": \You are a crew management coordinator responsible for optimizing crew scheduling and operational readiness. You need to manage the following crew management tasks:\n- Crew Member: CM015 (status update to Active)\n- Crew Member: CM020 (status update to Active)\n- Crew Role: Captain (assignment for CM015)\n- Aircraft: AC003 (Maintenance status)\n- Certification: A320 (30-day expiry threshold)\n- Availability Check: Captain (Active status)\n- Availability Check: Flight Attendant (Active status)\n- Operational Period: 2024-03-25 to 2024-03-31\n- Maintenance Type: A-Check\n- Notes: Crew management coordination completed with status updates, role assignments, and operational monitoring\"",
+        "instruction": "You are a crew management coordinator responsible for optimizing crew scheduling and operational readiness. You need to manage the following crew management tasks:\n- Crew Member: CM015 (status update to Active)\n- Crew Member: CM020 (status update to Active)\n- Crew Role: Captain (assignment for CM015)\n- Aircraft: AC003 (Maintenance status)\n- Certification: A320 (30-day expiry threshold)\n- Availability Check: Captain (Active status)\n- Availability Check: Flight Attendant (Active status)\n- Operational Period: 2024-03-25 to 2024-03-31\n- Maintenance Type: A-Check\n- Notes: Crew management coordination completed with status updates, role assignments, and operational monitoring",
         "actions": [
             {
                 "name": "GetCrewMemberInfo",
@@ -4745,7 +4734,7 @@ tasks = [
     {
         "annotator": 0,
         "user_id": "user_63",
-        "instruction": \You are 'crew.manager@airlineops.com'. The operations team needs to optimize crew scheduling and operational readiness for the upcoming flight schedule. You need to finalize crew arrangements with the following details:\n- Crew member: CM015 (status: Active)\n- Crew member: CM020 (status: Active)\n- Role assignment: Captain for CM015\n- Availability check: Captain crew members (Active status)\n- Availability check: Flight Attendant crew members (Active status)\n- Certification verification: A320 aircraft type\n- Expiry threshold: 30 days for certification monitoring\n- Crew assignment retrieval: Current assignments for CM015\n- Notes: Crew activation, role assignment, availability verification, certification monitoring, and assignment retrieval completed for comprehensive operational readiness.\"",
+        "instruction": "You are 'crew.manager@airlineops.com'. The operations team needs to optimize crew scheduling and operational readiness for the upcoming flight schedule. You need to finalize crew arrangements with the following details:\n- Crew member: CM015 (status: Active)\n- Crew member: CM020 (status: Active)\n- Role assignment: Captain for CM015\n- Availability check: Captain crew members (Active status)\n- Availability check: Flight Attendant crew members (Active status)\n- Certification verification: A320 aircraft type\n- Expiry threshold: 30 days for certification monitoring\n- Crew assignment retrieval: Current assignments for CM015\n- Notes: Crew activation, role assignment, availability verification, certification monitoring, and assignment retrieval completed for comprehensive operational readiness.",
         "actions": [
             {
                 "name": "GetCrewMemberInfo",
@@ -5589,7 +5578,7 @@ tasks = [
     {
         "annotator": 0,
         "user_id": "user_74",
-        "instruction": \You are 'crew.manager@airlineops.com'. Crew members CM025 need to be activated for operational assignments with role updates and home base modifications. You need to finalize their arrangements with the following details:\n- Crew member: CM025 (status update to Active)- Role assignment: CM025 promoted to Captain- Availability check: Active Captains for operational assignments- Home base update: CM025 assigned to LAX airport- Aircraft status update: AC001 to Active for operational readiness- Notes: Crew members activated, role assigned, home base updated, and aircraft status verified for operational readiness.\"",
+        "instruction": "You are 'crew.manager@airlineops.com'. Crew members CM025 need to be activated for operational assignments with role updates and home base modifications. You need to finalize their arrangements with the following details:\n- Crew member: CM025 (status update to Active)- Role assignment: CM025 promoted to Captain- Availability check: Active Captains for operational assignments- Home base update: CM025 assigned to LAX airport- Aircraft status update: AC001 to Active for operational readiness- Notes: Crew members activated, role assigned, home base updated, and aircraft status verified for operational readiness.",
         "actions": [
             {
                 "name": "GetCrewMemberInfo",
