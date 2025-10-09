@@ -23,7 +23,7 @@ class SummarizePlayerPerformance(Tool):
                 s["player_stats"][player_id].get("batting_avg", 0) for s in stats
             )
             / max(len(stats), 1),
-            "avg_ops": sum(s["player_stats"][player_id].get("ops", 0) for s in stats.values()
+            "avg_ops": sum(s["player_stats"][player_id].get("ops", 0) for s in stats.values())
             / max(len(stats), 1),
         }
         payload = summary

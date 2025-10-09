@@ -49,7 +49,7 @@ class InitialCommit(Tool):
             return out
 
         # Load commits DB (supports either {"commits": [...]} or a top-level list)
-        commits_db = _convert_db_to_list(data.get("commits", {}).values()
+        commits_db = _convert_db_to_list(data.get("commits", {}).values())
         if isinstance(commits_db, list):
             pass
         elif isinstance(data, list):
