@@ -105,6 +105,8 @@ class GetEntity(Tool):
 class QueryEntities(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], entity_type: str = None, filters: dict[str, Any] = None) -> str:
+        if filters is None:
+            filters = {}
         collection = data.get(entity_type, {}).values()
         matches: list[dict[str, Any]] = []
         for item in collection:
@@ -331,9 +333,9 @@ class ModifyDeviceStateTimer(Tool):
     @staticmethod
     def invoke(
         data: dict[str, Any],
-        device_id: str,
-        schedule_end: str,
-        update: dict[str, Any],
+        device_id: str = None,
+        schedule_end: str = None,
+        update: dict[str, Any] = None,
         schedule_at: str | None = None,
         rrule: str | None = None,
         timestamp: str | None = None,
@@ -483,7 +485,7 @@ class AddDeviceToRoom(Tool):
 class RemoveDeviceFromRoom(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], room_id: str, device_id: str) -> str:
-        _, room = _find(data.get("rooms", {}).values()), room_id
+        _, room = _find(data.get("rooms", {}).values(), room_id)
         if not room:
             payload = {"error": f"room '{room_id}' not found"}
             out = json.dumps(payload, indent=2)

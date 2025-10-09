@@ -4433,7 +4433,7 @@ class UpdateAircraftStatus(Tool):
         *,
         aircraft_id: str | None = None,
         tail_number: str | None = None,
-        status: str,
+        status: str = None,
         reason: str | None = None
     ) -> str:
         new_status = _norm_status(status) if isinstance(status, str) else ""
