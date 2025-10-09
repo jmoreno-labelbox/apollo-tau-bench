@@ -7584,7 +7584,7 @@ class UpdateSupplierProduct(Tool):
         # Add product to supplier's product list if not already present
         product_added = False
         if product_id not in supplier_products:
-            supplier_data["products"][product_id] = product_id
+            supplier_id["products"][product_id] = product_id
             supplier_to_update["products"] = supplier_products
             product_added = True
 

@@ -203,7 +203,7 @@ class LookupRoleProfile(Tool):
 class AddUserToGroups(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], account_id: str, group_ids: list[str]) -> str:
-        audit_log = data.setdefault("group_membership_audit", [])
+        audit_log = _get_table(data, "group_membership_audit")
         added_groups = []
         for group_id in group_ids:
             audit_id = _get_next_id(audit_log, "audit_id", "gma")
@@ -290,8 +290,8 @@ class CheckLicenseAvailability(Tool):
 class AssignLicense(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], account_id: str = None, employee_id: str = None, license_id: str = None) -> str:
-        assignments = data.setdefault("license_assignments", [])
-        assignment_id = _get_next_id(assignments, "assignment_id", "lca")
+        assignments = _get_table(data, "license_assignments")
+        _id_var = _get_next_id(assignments, "assignment_id", "lca")
         new_assignment = {
             "assignment_id": assignment_id,
             "account_id": account_id,
@@ -459,7 +459,7 @@ class CreateDeviceWorkflow(Tool):
         if status is None:
             status = "pending_pickup" if process == "onboarding" else "pending_return"
 
-        workflows = data.setdefault("device_workflow", [])
+        workflows = _get_table(data, "device_workflow")
 
         if not workflow_id:
             workflow_id = _get_next_id(workflows, "workflow_id", "dwf")
@@ -506,7 +506,7 @@ class CreateDeviceWorkflow(Tool):
 class CreateJiraTicket(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], issue_type: str = None, summary: str = None, priority: str = "P2") -> str:
-        tickets = data.setdefault("jira_tickets", [])
+        tickets = _get_table(data, "jira_tickets")
         jira_id = f"ITSD-{1001 + len(tickets)}"
         new_ticket = {
             "jira_id": jira_id,
@@ -551,8 +551,8 @@ class CreateAuditRecord(Tool):
         actor: str = "SYSTEM",
         timestamp: str = FIXED_NOW
     ) -> str:
-        audit_table = data.setdefault("lifecycle_audit", [])
-        audit_id = _get_next_id(audit_table, "audit_id", "lcaud")
+        audit_table = _get_table(data, "lifecycle_audit")
+        _id_var = _get_next_id(audit_table, "audit_id", "lcaud")
         audit_table.append(
             {
                 "audit_id": audit_id,
@@ -701,7 +701,7 @@ class RevokeLicense(Tool):
 class RemoveUserFromGroups(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], account_id: str, group_ids: list[str]) -> str:
-        audit_log = data.setdefault("group_membership_audit", [])
+        audit_log = _get_table(data, "group_membership_audit")
         removed_groups = []
         for group_id in group_ids:
             audit_id = _get_next_id(audit_log, "audit_id", "gma")
@@ -748,7 +748,7 @@ class ArchiveMailbox(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str) -> str:
         mailboxes = data.get("mailboxes", {}).values()
-        archives = data.setdefault("data_archives", [])
+        archives = _get_table(data, "data_archives")
         mailbox = next(
             (m for m in mailboxes.values() if m.get("employee_id") == employee_id), None
         )
@@ -945,7 +945,7 @@ class GenerateReportPDF(Tool):
 class SaveMetricsToDatabase(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], metrics_path: str = None, database_table: str = None, report_date: str = None) -> str:
-        metrics_db = data.setdefault("daily_metrics", [])
+        metrics_db = _get_table(data, "daily_metrics")
         run_id = f"run_{report_date.replace('-', '')}"
         new_metric = {
             "run_id": run_id,
@@ -1112,7 +1112,7 @@ class SaveReportToMetricsDB(Tool):
         timestamp: Any = None,
     ) -> str:
         report_date = FIXED_NOW.split("T")[0]
-        metrics_db = data.setdefault("daily_metrics", [])
+        metrics_db = _get_table(data, "daily_metrics")
         run_id = f"run_{report_date.replace('-', '')}"
         new_metric = {"run_id": run_id, "report_date": report_date, **kpis}
         metrics_db[run_id] = new_metric
@@ -1171,8 +1171,8 @@ class NotifyTeamOfReport(Tool):
 class ScheduleDeviceReturn(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, asset_id: str = None) -> str:
-        workflows = data.setdefault("device_workflow", [])
-        workflow_id = _get_next_id(workflows, "workflow_id", "dwf")
+        workflows = _get_table(data, "device_workflow")
+        _id_var = _get_next_id(workflows, "workflow_id", "dwf")
         return_code = f"RT{workflow_id[-4:]}"
         new_workflow = {
             "workflow_id": workflow_id,
@@ -1282,8 +1282,8 @@ class ValidateMemoFields(Tool):
 class CreateMailbox(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, upn: str = None) -> str:
-        mailboxes = data.setdefault("mailboxes", [])
-        mailbox_id = _get_next_id(mailboxes, "mailbox_id", "mbx")
+        mailboxes = _get_table(data, "mailboxes")
+        _id_var = _get_next_id(mailboxes, "mailbox_id", "mbx")
         new_mailbox = {
             "mailbox_id": mailbox_id,
             "employee_id": employee_id,
@@ -1413,8 +1413,8 @@ class NotifyManager(Tool):
 class AddMemoToLifecycleQueue(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], memo_id: str = None, hr_id: str = None, event_type: str = None) -> str:
-        queue = data.setdefault("lifecycle_queue", [])
-        lifecycle_id = _get_next_id(queue, "lifecycle_id", "lcq")
+        queue = _get_table(data, "lifecycle_queue")
+        _id_var = _get_next_id(queue, "lifecycle_id", "lcq")
         new_entry = {
             "lifecycle_id": lifecycle_id,
             "memo_id": memo_id,
@@ -1683,8 +1683,8 @@ class CreateDataArchiveEntry(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, system: str = None, 
                retention_label: str = None, location_uri: str = None) -> str:
-        archives = data.setdefault("data_archives", [])
-        archive_id = _get_next_id(archives, "archive_id", "arch")
+        archives = _get_table(data, "data_archives")
+        _id_var = _get_next_id(archives, "archive_id", "arch")
         new_archive = {
             "archive_id": archive_id,
             "employee_id": employee_id,

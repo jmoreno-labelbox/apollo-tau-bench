@@ -358,7 +358,9 @@ class CreateFeatures(Tool):
             ],
         }
 
-        data.setdefault("features", []).append(feature_entry)
+        table = data.setdefault("features", {})
+        key = f"{len(table)}"
+        table[key] = feature_entry
         payload = feature_entry
         out = json.dumps(payload)
         return out
@@ -401,7 +403,9 @@ class SetModelConfig(Tool):
             "config_json_path": f"/configs/model_config_{config_id}.json",
         }
 
-        data.setdefault("model_config", []).append(config_entry)
+        table = data.setdefault("model_config", {})
+        key = f"{len(table)}"
+        table[key] = config_entry
         payload = config_entry
         out = json.dumps(payload)
         return out
@@ -447,7 +451,9 @@ class CreateModel(Tool):
             "feature_names": features_id,
             "train_metrics_json_path_nullable": f"/metrics/{model_id}_train_metrics.json",
         }
-        data.setdefault("models", []).append(model_entry)
+        table = data.setdefault("models", {})
+        key = f"{len(table)}"
+        table[key] = model_entry
         payload = model_entry
         out = json.dumps(payload)
         return out
@@ -493,7 +499,9 @@ class GetModel(Tool):
             "feature_names": features_id,
             "train_metrics_json_path_nullable": f"/metrics/{model_id}_train_metrics.json",
         }
-        data.setdefault("models", []).append(model_entry)
+        table = data.setdefault("models", {})
+        key = f"{len(table)}"
+        table[key] = model_entry
         payload = model_entry
         out = json.dumps(payload)
         return out
@@ -925,7 +933,9 @@ class EnrichNotion(Tool):
             "zotero_id": zotero_id,
         }
 
-        data.setdefault("zotero_metadata", []).append(entry)
+        table = data.setdefault("zotero_metadata", {})
+        key = f"{len(table)}"
+        table[key] = entry
         payload = entry
         out = json.dumps(payload)
         return out
@@ -1004,7 +1014,9 @@ class StartEtlRun(Tool):
             "status": "completed",
             "processed_path": processed_path,
         }
-        data.setdefault("etl_runs", []).append(etl_entry)
+        table = data.setdefault("etl_runs", {})
+        key = f"{len(table)}"
+        table[key] = etl_entry
         payload = {"status": "completed", **etl_entry}
         out = json.dumps(payload)
         return out

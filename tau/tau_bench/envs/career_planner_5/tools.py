@@ -310,7 +310,9 @@ class EnrollInCourse(Tool):
             "completion_date": None,
             "current_progress_percent": 0,
         }
-        data.setdefault("user_course_progress", []).append(enrollment)
+        table = data.setdefault("user_course_progress", {})
+        key = f"{len(table)}"
+        table[key] = enrollment
         payload = {"success": f"User {user_id} enrolled in course {course_id}"}
         out = json.dumps(
             payload, indent=2
@@ -1027,7 +1029,9 @@ class AddUserCertification(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str, cert: dict) -> str:
         cert["user_id"] = user_id
-        data.setdefault("user_certification", []).append(cert)
+        table = data.setdefault("user_certification", {})
+        key = f"{len(table)}"
+        table[key] = cert
         payload = {"success": f"Certification {cert['cert_name']} added for user {user_id}"}
         out = json.dumps(
             payload, indent=2,

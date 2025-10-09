@@ -434,7 +434,9 @@ class ShortlistSuccessorCandidate(Tool):
             "status": "shortlisted",
             "shortlist_date": shortlist_date,
         }
-        data.setdefault("hr_workflows", []).append(entry)
+        table = data.setdefault("hr_workflows", {})
+        key = f"{len(table)}"
+        table[key] = entry
         payload = {"message": "Candidate shortlisted.", "record": entry}
         out = json.dumps(
             payload, indent=2
@@ -531,7 +533,9 @@ class AssignCourseToUser(Tool):
             "assigned_date": assigned_date,
         }
 
-        data.setdefault("user_course_progress", []).append(progress_entry)
+        table = data.setdefault("user_course_progress", {})
+        key = f"{len(table)}"
+        table[key] = progress_entry
         payload = {"message": "Course assigned to user.", "entry": progress_entry}
         out = json.dumps(
             payload, indent=2
@@ -898,7 +902,9 @@ class LogTeamTraining(Tool):
         }
         # This line locates the 'team_training_log' array in the data and appends the new entry.
         # If the array is absent, it initializes it first.
-        data.setdefault("team_training_log", []).append(entry)
+        table = data.setdefault("team_training_log", {})
+        key = f"{len(table)}"
+        table[key] = entry
         payload = {"message": "Training logged.", "entry": entry}
         out = json.dumps(payload, indent=2)
         return out

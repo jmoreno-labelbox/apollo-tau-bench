@@ -369,7 +369,7 @@ class ListLowStockProducts(Tool):
                     "threshold": threshold,
                     "category": product.get("category") if product else "Unknown",
                 }
-                low_stock_data["products"][low_stock_info["product_id"]] = low_stock_info
+                low_stock_products["products"][low_stock_info["product_id"]] = low_stock_info
         payload = {
                 "low_stock_products": low_stock_products,
                 "count": len(low_stock_products),
@@ -1226,7 +1226,7 @@ class ProcessReturn(Tool):
             "status": "completed",
         }
 
-        data["transactions"][transaction_id] = return_transaction
+        data["transactions"][original_transaction_id] = return_transaction
         data["transactions"] = transactions
         payload = return_transaction
         out = json.dumps(payload, indent=2)

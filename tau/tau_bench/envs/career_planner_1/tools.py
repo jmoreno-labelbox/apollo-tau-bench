@@ -682,7 +682,9 @@ class RecommendSkillTraining(Tool):
             "skill": skill,
             "timestamp": datetime.now().isoformat(),
         }
-        data.setdefault("training_recommendations", []).append(recommendation)
+        table = data.setdefault("training_recommendations", {})
+        key = f"{len(table)}"
+        table[key] = recommendation
         return f"{user_id} needs {skill} training"
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -1006,7 +1008,9 @@ class EnrollInCourse(Tool):
             "completion_date": None,
             "current_progress_percent": 0,
         }
-        data.setdefault("user_course_progress", []).append(enrollment)
+        table = data.setdefault("user_course_progress", {})
+        key = f"{len(table)}"
+        table[key] = enrollment
         payload = {"success": f"User {user_id} enrolled in course {course_id}"}
         out = json.dumps(
             payload, indent=2
