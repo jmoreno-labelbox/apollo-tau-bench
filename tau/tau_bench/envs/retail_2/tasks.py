@@ -79,12 +79,11 @@ tasks = [
                 {"price_updated_item": "6777246137"},
                 {"new_price": 45.0}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "USER_002",
-        "instruction": \Acting as a logistics manager, oversee a review of an order flagged by the system, #W7303089, for customer Mei Campbell (ZIP: 95170). Although the order was successfully delivered, the tracking details from the 'SpeedWay Delivery' (#COU0001) require an audit for accuracy, and the customer's payment information needs verification. Your responsibility is to perform a thorough audit by accessing the customer\u2019s details, all related payment methods, and the specific payment transaction for this order. Additionally, trace the complete delivery history. As a concluding step, given that the 'Pet Bed' (item #7381052709) in her order has a minimal profit margin, update its price in the product catalog to $199.99 to enhance profitability.\"",
+        "instruction": "Acting as a logistics manager, oversee a review of an order flagged by the system, #W7303089, for customer Mei Campbell (ZIP: 95170). Although the order was successfully delivered, the tracking details from the 'SpeedWay Delivery' (#COU0001) require an audit for accuracy, and the customer's payment information needs verification. Your responsibility is to perform a thorough audit by accessing the customer\u2019s details, all related payment methods, and the specific payment transaction for this order. Additionally, trace the complete delivery history. As a concluding step, given that the 'Pet Bed' (item #7381052709) in her order has a minimal profit margin, update its price in the product catalog to $199.99 to enhance profitability.\"",
         "actions": [
             {
                 "name": "FindUserIdByNameZip",
