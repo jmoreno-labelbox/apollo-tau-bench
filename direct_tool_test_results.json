@@ -1,23 +1,26 @@
 {
-  "airline_4": [],
   "airline_5": [],
-  "academic_search_4": [],
+  "airline_4": [],
+  "airline_3": [],
+  "academic_search_2": [],
+  "academic_search_1": [],
   "academic_search_5": [],
   "airline_1": [],
   "airline_2": [],
-  "airline_3": [],
   "academic_search_3": [],
-  "academic_search_1": [],
-  "academic_search_2": [],
-  "banking_services_2": [],
-  "banking_services_5": [
+  "academic_search_4": [],
+  "banking_services_1": [
     {
-      "tool": "AddNewBeneficiaryForCustomer",
-      "error": "'dict' object has no attribute 'append'"
+      "tool": "AggregateMonthlyExpenses",
+      "error": "string indices must be integers, not 'str'"
     },
     {
-      "tool": "CreateNewAccountForCustomer",
-      "error": "'dict' object has no attribute 'append'"
+      "tool": "DeleteExistingBeneficiary",
+      "error": "string indices must be integers, not 'str'"
+    },
+    {
+      "tool": "DetectSuspiciousActivityAndAlert",
+      "error": "string indices must be integers, not 'str'"
     }
   ],
   "banking_services_6": [
@@ -38,48 +41,17 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "banking_services_1": [
+  "banking_services_5": [
     {
-      "tool": "AggregateMonthlyExpenses",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "DeleteExistingBeneficiary",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "DetectSuspiciousActivityAndAlert",
-      "error": "string indices must be integers, not 'str'"
-    }
-  ],
-  "career_planner_3": [
-    {
-      "tool": "ShortlistSuccessorCandidate",
+      "tool": "AddNewBeneficiaryForCustomer",
       "error": "'dict' object has no attribute 'append'"
     },
     {
-      "tool": "AssignCourseToUser",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "LogTeamTraining",
+      "tool": "CreateNewAccountForCustomer",
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "career_planner_1": [
-    {
-      "tool": "EnrollInCourse",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "AddMentorshipRelationship",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "AddGoal",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
+  "banking_services_2": [],
   "career_planner_2": [
     {
       "tool": "AssignCourse",
@@ -91,24 +63,6 @@
     },
     {
       "tool": "SetPerformanceGoal",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
-  "career_planner_5": [
-    {
-      "tool": "enrollInCourse",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "addGoal",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "addMentorshipRelationship",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "addUserCertification",
       "error": "'dict' object has no attribute 'append'"
     }
   ],
@@ -162,7 +116,53 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
+  "career_planner_3": [
+    {
+      "tool": "ShortlistSuccessorCandidate",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "AssignCourseToUser",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "LogTeamTraining",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
+  "career_planner_5": [
+    {
+      "tool": "enrollInCourse",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "addGoal",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "addMentorshipRelationship",
+      "error": "string indices must be integers, not 'str'"
+    },
+    {
+      "tool": "addUserCertification",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
   "consulting_accounting_1": [],
+  "career_planner_1": [
+    {
+      "tool": "EnrollInCourse",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "AddMentorshipRelationship",
+      "error": "string indices must be integers, not 'str'"
+    },
+    {
+      "tool": "AddGoal",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
   "banking_services_4": [
     {
       "tool": "getScheduledPaymentsDueInRange",
@@ -197,7 +197,6 @@
       "error": "string indices must be integers, not 'str'"
     }
   ],
-  "consulting_accounting_4": [],
   "consulting_accounting_2": [
     {
       "tool": "CaV2CreateInvoice",
@@ -228,6 +227,7 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
+  "consulting_accounting_4": [],
   "consulting_accounting_5": [
     {
       "tool": "LogInvoiceAuditEvent",
@@ -279,6 +279,8 @@
     }
   ],
   "consulting_accounting_6": [],
+  "data_science_1": [],
+  "data_science_6": [],
   "data_science_4": [
     {
       "tool": "createFeatures",
@@ -309,6 +311,7 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
+  "data_science_3": [],
   "data_science_2": [
     {
       "tool": "addFileDirectoryRecord",
@@ -327,17 +330,14 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "data_science_3": [],
-  "data_science_1": [],
   "data_science_5": [],
-  "data_science_6": [],
-  "dev_ops_1": [],
-  "dev_ops_2": [],
   "digital_commerce_2": [],
   "digital_commerce_1": [],
-  "dev_ops_3": [],
-  "digital_commerce_4": [],
   "digital_commerce_3": [],
+  "dev_ops_1": [],
+  "digital_commerce_4": [],
+  "dev_ops_3": [],
+  "dev_ops_2": [],
   "dev_ops_4": [
     {
       "tool": "StartAutomationRun",
@@ -356,7 +356,7 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "digital_commerce_5": [],
+  "figma_gmail_mcp_pipeline_4": [],
   "figma_gmail_mcp_pipeline_1": [
     {
       "tool": "SaveReleaseDiffs",
@@ -370,12 +370,19 @@
       "error": "'str' object has no attribute 'get'"
     }
   ],
+  "digital_commerce_5": [],
   "figma_gmail_mcp_pipeline_5": [],
   "dev_ops_6": [],
-  "figma_gmail_mcp_pipeline_6": [],
   "figma_gmail_mcp_pipeline_2": [],
-  "figma_gmail_mcp_pipeline_4": [],
+  "figma_gmail_mcp_pipeline_6": [],
   "file_system_1": [],
+  "github_mcp_1": [],
+  "github_mcp_7": [
+    {
+      "tool": "appendTerminal",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
   "github_mcp_2": [
     {
       "tool": "ListCommits",
@@ -390,13 +397,6 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "github_mcp_7": [
-    {
-      "tool": "appendTerminal",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
-  "github_mcp_1": [],
   "github_mcp_5": [],
   "github_mcp_6": [],
   "file_system_9": [
@@ -437,6 +437,7 @@
       "error": "string indices must be integers, not 'str'"
     }
   ],
+  "logistics_supply_chain_1": [],
   "file_system_8": [
     {
       "tool": "createTmuxSession",
@@ -445,9 +446,6 @@
   ],
   "logistics_supply_chain_2": [],
   "logistics_supply_chain_3": [],
-  "logistics_supply_chain_1": [],
-  "logistics_supply_chain_6": [],
-  "new_hire_mcp_2": [],
   "it_help_desk_4": [
     {
       "tool": "AssignLicense",
@@ -474,115 +472,21 @@
       "error": "string indices must be integers, not 'str'"
     }
   ],
-  "logistics_supply_chain_5": [],
   "it_help_desk_5": [],
   "it_help_desk_6": [],
+  "logistics_supply_chain_5": [],
   "new_hire_mcp_1": [
     {
       "tool": "CreateNewCandidateRecord",
       "error": "'str' object has no attribute 'get'"
     }
   ],
+  "logistics_supply_chain_6": [],
+  "new_hire_mcp_2": [],
   "new_hire_mcp_3": [],
-  "org_chart_1": [],
-  "new_hire_mcp_5": [
-    {
-      "tool": "WriteOnboardingFile",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "GetOrCreateEmailLabel",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "CreateAssetRequest",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "WriteAssetRequestFile",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "UpdateAssetRequestStatus",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "WritePendingTasksFile",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "AllocateFirstAvailableAsset",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "ReplyToEmailThread",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "SummarizeAccessChecks",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "AuditAttachmentsForEmail",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "CloseCompletedChecklistItems",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "recordAccessChecksAndNotifyGaps",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
-  "org_chart_4": [],
   "new_hire_mcp_4": [
     {
-      "tool": "GetOrCreateEmailLabel",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "AllocateFirstAvailableAsset",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "WriteOnboardingFile",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "recordAccessChecksAndNotifyGaps",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "ReplyToEmailThread",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "WriteAssetRequestFile",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "CreateAssetRequest",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "WritePendingTasksFile",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "UpdateAssetRequestStatus",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "AuditAttachmentsForEmail",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "CloseCompletedChecklistItems",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "SummarizeAccessChecks",
+      "tool": "upsertCandidateRecord",
       "error": "'str' object has no attribute 'get'"
     },
     {
@@ -598,44 +502,21 @@
       "error": "'str' object has no attribute 'get'"
     }
   ],
-  "org_chart_5": [],
-  "org_chart_2": [],
-  "org_chart_3": [],
-  "rbac_3": [
+  "new_hire_mcp_5": [
     {
-      "tool": "CreateAccessRequest",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "AcknowledgeSiemAlert",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "updateHubspotTicket",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "closeHubspotTicketBasic",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "UpdateHubspotTicketStatus",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "UpdateHubspotTicketAssignee",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "SetUserMfa",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "upsertEmail",
+      "tool": "upsertCandidateRecord",
       "error": "'str' object has no attribute 'get'"
     }
   ],
+  "org_chart_1": [],
+  "org_chart_2": [],
+  "org_chart_4": [],
+  "org_chart_3": [],
+  "org_chart_5": [],
+  "rbac_1": [],
+  "rbac_3": [],
   "rbac_2": [],
+  "rbac_4": [],
   "rbac_5": [
     {
       "tool": "SendEmail",
@@ -650,25 +531,20 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "rbac_1": [],
-  "rbac_4": [],
   "real_estate_sales_1": [],
-  "project_management_2": [],
-  "project_management_3": [],
-  "project_management_1": [],
   "real_estate_sales_2": [
     {
       "tool": "ListClientEmails",
       "error": "'str' object has no attribute 'get'"
     }
   ],
-  "real_estate_sales_4": [],
   "real_estate_sales_3": [
     {
       "tool": "GetEmailsForClient",
       "error": "'str' object has no attribute 'get'"
     }
   ],
+  "real_estate_sales_4": [],
   "real_estate_sales_7": [
     {
       "tool": "GenerateAttachCompReportDocument",
@@ -677,6 +553,9 @@
   ],
   "project_management_4": [],
   "project_management_5": [],
+  "project_management_1": [],
+  "project_management_3": [],
+  "project_management_2": [],
   "recipes_1": [
     {
       "tool": "CreateEmptyGroceryList",
@@ -687,20 +566,20 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "recipes_3": [],
   "recipes_2": [],
+  "recipes_3": [],
   "recipes_4": [],
+  "retail_2": [],
+  "retail_1": [],
   "retail_5": [
     {
       "tool": "getDeliveryEstimate",
       "error": "string indices must be integers, not 'str'"
     }
   ],
-  "retail_1": [],
-  "retail_3": [],
-  "retail_2": [],
-  "retail_4": [],
   "recipes_5": [],
+  "retail_4": [],
+  "retail_3": [],
   "retail_point_of_sale_and_inventory_system_1": [],
   "retail_6": [
     {
@@ -708,30 +587,20 @@
       "error": "'str' object has no attribute 'get'"
     }
   ],
+  "retail_point_of_sale_and_inventory_system_2": [],
   "retail_point_of_sale_and_inventory_system_5": [],
-  "retail_point_of_sale_and_inventory_system_6": [],
+  "smart_home_1": [],
   "retail_point_of_sale_and_inventory_system_4": [
     {
       "tool": "GetTopNCustomersByLoyaltyPoints",
       "error": "string indices must be integers, not 'str'"
     }
   ],
-  "smart_home_1": [],
-  "retail_point_of_sale_and_inventory_system_2": [],
   "smart_home_2": [],
   "smart_home_4": [],
+  "retail_point_of_sale_and_inventory_system_6": [],
   "smart_home_3": [],
   "smart_home_5": [],
-  "social_media_advertising_5": [
-    {
-      "tool": "CreateAutomationRun",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "CreatePlan",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
   "social_media_advertising_1": [
     {
       "tool": "LogBudgetChange",
@@ -746,37 +615,21 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "social_media_advertising_4": [],
-  "social_media_advertising_6": [],
-  "social_media_advertising_2": [],
-  "social_media_advertising_3": [],
-  "sports_analytics_3": [],
-  "sports_analytics_4": [
+  "social_media_advertising_5": [
     {
-      "tool": "makeUmp",
+      "tool": "CreateAutomationRun",
       "error": "'dict' object has no attribute 'append'"
     },
     {
-      "tool": "compareTeamStats",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "playersaims",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "reportings",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "forecastMatchOutcome",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "makeGrades",
+      "tool": "CreatePlan",
       "error": "'dict' object has no attribute 'append'"
     }
   ],
+  "social_media_advertising_2": [],
+  "social_media_advertising_3": [],
+  "social_media_advertising_6": [],
+  "social_media_advertising_4": [],
+  "sports_analytics_3": [],
   "sports_analytics_2": [
     {
       "tool": "WritePlayerDevGoals",
@@ -793,6 +646,16 @@
     {
       "tool": "WriteUmpireGameModel",
       "error": "'dict' object has no attribute 'append'"
+    }
+  ],
+  "sports_analytics_4": [
+    {
+      "tool": "compareTeamStats",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "forecastMatchOutcome",
+      "error": "'str' object has no attribute 'get'"
     }
   ],
   "sports_analytics_5": []
