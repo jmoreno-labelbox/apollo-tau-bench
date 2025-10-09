@@ -1,21 +1,27 @@
-## Tau module quickstart
+## Tau standalone quickstart
 
-### Setup
-- Install from the repository root:
+### 1) Install
+
+Option A: editable install from this `tau/` folder
 
 ```bash
 pip install -e .
 ```
 
-- Copy the env template and fill in your API keys (from the repository root):
+Option B: run without install (ensure imports work)
+
+```bash
+export PYTHONPATH="$PWD${PYTHONPATH:+:$PYTHONPATH}"
+```
+
+### 2) Configure API keys
 
 ```bash
 cp env.template .env
 # edit .env to set OPENAI_API_KEY (and others if needed)
 ```
 
-### Run
-Run the benchmark via the root entrypoint `run.py`.
+### 3) Run
 
 Retail example:
 
@@ -45,5 +51,4 @@ Notes:
 - Results are saved under `results/` with a timestamped filename.
 - Increase `--max-concurrency` to match your API rate limits.
 - For the `few-shot` agent strategy, also pass `--few-shot-displays-path <path-to-jsonl>`.
-
 
