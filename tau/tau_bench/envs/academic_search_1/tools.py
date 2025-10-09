@@ -610,7 +610,7 @@ class CreateProject(Tool):
             else f"proj_{uuid.uuid4().hex[:4]}"
         )
 
-        if any(p["study_id"] == new_id for p in data.get("projects", {}).values():
+        if any(p["study_id"] == new_id for p in data.get("projects", {}).values()):
             payload = {"error": f"Project with ID '{new_id}' already exists."}
             out = json.dumps(payload)
             return out

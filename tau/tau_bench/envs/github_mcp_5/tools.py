@@ -1676,7 +1676,7 @@ class CreateRepositoryTool(Tool):
             return _response("error", str(e), "VALIDATION_ERROR")
 
         repos = data.get("repositories", {}).values()
-        if any(r.get("name") == repo_name for r in repos.values():
+        if any(r.get("name") == repo_name for r in repos.values()):
             return _response(
                 "error",
                 ERROR_MESSAGES["ALREADY_EXISTS"].format(

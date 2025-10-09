@@ -177,7 +177,7 @@ def _log_audit_event(data: dict[str, Any], **kwargs: Any) -> None:
     base_id = DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["audit_logs"]
     max_id = base_id
     if audit_logs_table:
-        max_id = max(int(log.get("audit_id", 0)) for log in audit_logs_table.values()
+        max_id = max(int(log.get("audit_id", 0)) for log in audit_logs_table.values())
     next_id = max_id + 1
 
     #2. Get the current timestamp in ISO 8601 format (UTC)
@@ -1373,7 +1373,7 @@ class GetRecipeSubstitutionsTool(Tool):
             )
 
         #2. Pre-condition Checks
-        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values():
+        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values()):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id}
             )
@@ -1786,7 +1786,7 @@ class LogMealAsPreparedTool(Tool):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Household", "entity_id": household_id}
             )
-        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values():
+        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values()):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id}
             )
@@ -1903,7 +1903,7 @@ class CreateMealPlanTool(Tool):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Household", "entity_id": household_id}
             )
-        if not any(u.get("user_id") == user_id for u in data.get("users", {}).values():
+        if not any(u.get("user_id") == user_id for u in data.get("users", {}).values()):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "User", "entity_id": user_id}
             )
@@ -2074,7 +2074,7 @@ class AddRecipeToMealPlanTool(Tool):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "MealPlan", "entity_id": meal_plan_id}
             )
-        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values():
+        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values()):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id}
             )
@@ -3424,7 +3424,7 @@ class AddItemToGroceryListTool(Tool):
             )
 
         #2. Pre-condition Checks
-        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", {}).values():
+        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", {}).values()):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "GroceryList", "entity_id": list_id}
             )
@@ -3568,11 +3568,11 @@ class CheckProductAvailabilityAtStoreTool(Tool):
             )
 
         #2. Pre-condition Checks
-        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", {}).values():
+        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", {}).values()):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "GroceryList", "entity_id": list_id}
             )
-        if not any(s.get("store_id") == store_id for s in data.get("stores", {}).values():
+        if not any(s.get("store_id") == store_id for s in data.get("stores", {}).values()):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Store", "entity_id": store_id}
             )
@@ -3697,7 +3697,7 @@ class FindSubstituteProductsTool(Tool):
             )
 
         #2. Pre-condition Check
-        if not any(s.get("store_id") == store_id for s in data.get("stores", {}).values():
+        if not any(s.get("store_id") == store_id for s in data.get("stores", {}).values()):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Store", "entity_id": store_id}
             )

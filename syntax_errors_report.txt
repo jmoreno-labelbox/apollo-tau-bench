@@ -1,13 +1,7 @@
-academic_search_1
-  Line: 613
-  Error: invalid syntax
-  Text: if any(p["study_id"] == new_id for p in data.get("projects", {}).values():
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/academic_search_1/tools.py
-
 airline_3
-  Line: 263
+  Line: 280
   Error: invalid syntax
-  Text: for i, reservation in enumerate(reservations.values():
+  Text: for i, user in enumerate(users.values():
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_3/tools.py
 
 airline_4
@@ -16,23 +10,11 @@ airline_4
   Text: "model": aircraft.get("model", {}).values()),
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_4/tools.py
 
-banking_services_2
-  Line: 1906
-  Error: invalid syntax
-  Text: if any(kw in subject or kw in description or kw in category for kw in keywords.values():
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/banking_services_2/tools.py
-
 banking_services_4
-  Line: 913
-  Error: invalid syntax
-  Text: if abs(sum(s['amount'] for s in splits) != abs(orig_txn['amount']):
+  Line: 968
+  Error: '(' was never closed
+  Text: total_balance = sum(a.get('balance', 0) for a in customer_accounts.values()
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/banking_services_4/tools.py
-
-banking_services_5
-  Line: 1596
-  Error: invalid syntax
-  Text: for i, beneficiary in enumerate(beneficiaries.values():
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/banking_services_5/tools.py
 
 career_planner_2
   Line: 219
@@ -52,18 +34,6 @@ consulting_accounting_2
   Text: tax_reserve = round(total_revenue * tax_rate, 2)
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_2/tools.py
 
-consulting_accounting_5
-  Line: 1596
-  Error: '(' was never closed
-  Text: subtotal = sum(line.get("hours", 0) * line.get("rate", 0) for line in lines.values()
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_5/tools.py
-
-consulting_accounting_6
-  Line: 1102
-  Error: '(' was never closed
-  Text: avg_daily_sales = round(
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_6/tools.py
-
 digital_commerce_3
   Line: 2836
   Error: invalid syntax
@@ -77,16 +47,10 @@ figma_gmail_mcp_pipeline_1
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/figma_gmail_mcp_pipeline_1/tools.py
 
 figma_gmail_mcp_pipeline_4
-  Line: 731
+  Line: 740
   Error: invalid syntax
-  Text: if not any(label in thread_labels for label in labels.values():
+  Text: if not any(keyword.lower() in subject for keyword in subject_keywords.values():
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/figma_gmail_mcp_pipeline_4/tools.py
-
-file_system_1
-  Line: 463
-  Error: invalid syntax. Perhaps you forgot a comma?
-  Text: db = _convert_db_to_list(data.get("file_check_db", {}).values()
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/file_system_1/tools.py
 
 github_mcp_1
   Line: 591
@@ -95,9 +59,9 @@ github_mcp_1
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/github_mcp_1/tools.py
 
 github_mcp_5
-  Line: 1679
+  Line: 2444
   Error: invalid syntax
-  Text: if any(r.get("name") == repo_name for r in repos.values():
+  Text: if any(i.get("repo") == repo_name and i.get("title") == title for i in issues.values():
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/github_mcp_5/tools.py
 
 github_mcp_6
@@ -142,12 +106,6 @@ project_management_3
   Text: ]
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_3/tools.py
 
-project_management_4
-  Line: 1809
-  Error: unmatched ')'
-  Text: for milestone in project_milestones.values()):
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_4/tools.py
-
 project_management_5
   Line: 291
   Error: invalid syntax
@@ -166,12 +124,6 @@ rbac_5
   Text: payload = {"resource_id": resource_id, "users": list(acc.values()}
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/rbac_5/tools.py
 
-real_estate_sales_3
-  Line: 20
-  Error: 'return' outside function
-  Text: return {i.get(key): i for i in items or []}
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/real_estate_sales_3/tools.py
-
 real_estate_sales_7
   Line: 1210
   Error: closing parenthesis '}' does not match opening parenthesis '(' on line 1203
@@ -183,18 +135,6 @@ recipes_1
   Error: invalid syntax
   Text: y, m, d = (int(x) for x in md.split("-"))
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/recipes_1/tools.py
-
-recipes_4
-  Line: 181
-  Error: invalid syntax
-  Text: next_id = max_id + 1
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/recipes_4/tools.py
-
-retail_1
-  Line: 73
-  Error: invalid syntax
-  Text: elif isinstance(filters, dict):
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_1/tools.py
 
 retail_3
   Line: 722

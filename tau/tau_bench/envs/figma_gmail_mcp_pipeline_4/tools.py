@@ -728,7 +728,7 @@ class GetGmailThreadsByLabels(Tool):
             # Implement filters
             if labels:
                 thread_labels = thread.get("current_labels", [])
-                if not any(label in thread_labels for label in labels.values():
+                if not any(label in thread_labels for label in labels.values()):
                     continue
 
             if sender_email:

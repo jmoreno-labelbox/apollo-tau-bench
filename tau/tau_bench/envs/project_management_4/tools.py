@@ -1806,7 +1806,7 @@ class CheckMilestoneFloat(Tool):
 
         float_analysis = []
 
-        for milestone in project_milestones.values()):
+        for milestone in project_milestones.values():
             float_days = milestone.get("float_days", 0)
             is_critical = milestone.get("is_critical_path", False)
 
@@ -2103,8 +2103,8 @@ class GetProjectTimeline(Tool):
             timeline["milestones"].append(milestone_info)
 
         if project_milestones:
-            earliest_start = min(m.get("start_date") for m in project_milestones.values()
-            latest_end = max(m.get("target_date") for m in project_milestones.values()
+            earliest_start = min(m.get("start_date") for m in project_milestones.values())
+            latest_end = max(m.get("target_date") for m in project_milestones.values())
 
             timeline["timeline_metrics"] = {
                 "total_milestones": len(project_milestones),
@@ -2387,7 +2387,7 @@ class ArchiveMilestone(Tool):
 
         milestone_index = None
         milestone_to_archive = None
-        for i, milestone in enumerate(milestones.values():
+        for i, milestone in enumerate(milestones.values()):
             if milestone.get("milestone_id") == milestone_id:
                 milestone_index = i
                 milestone_to_archive = milestone

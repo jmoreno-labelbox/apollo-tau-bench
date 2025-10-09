@@ -260,7 +260,7 @@ class UpdateReservation(Tool):
         target_reservation = None
         reservation_index = None
 
-        for i, reservation in enumerate(reservations.values():
+        for i, reservation in enumerate(reservations.values()):
             if reservation.get("reservation_id") == reservation_id:
                 target_reservation = reservation
                 reservation_index = i

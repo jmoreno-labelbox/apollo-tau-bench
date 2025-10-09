@@ -1903,7 +1903,7 @@ class GetAccountChangesFromTicketsTool(Tool):
             category = ticket.get('category', '').lower()
 
             keywords = ["update", "change", "modify", "freeze", "close", "re-open", "unlock", "limit", "restriction", "address", "contact", "status", "name"]
-            if any(kw in subject or kw in description or kw in category for kw in keywords.values():
+            if any(kw in subject or kw in description or kw in category for kw in keywords.values()):
                 change_types.append("change_detected")
 
             changes.append({

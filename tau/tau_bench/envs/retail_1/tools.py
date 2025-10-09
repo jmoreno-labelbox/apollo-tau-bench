@@ -68,7 +68,7 @@ def _match(rows, filters):
 
     if isinstance(filters, list):
         #OR condition for lists; return true if any of them match
-        return any(_match(rows, single_filter) for single_filter in filters.values()
+        return any(_match(rows, single_filter) for single_filter in filters.values())
 
     elif isinstance(filters, dict):
         for filter_key, filter_value in filters.items():
@@ -277,7 +277,7 @@ class UpdatePaymentHistory(Tool):  #WRITE
         payment_info_to_update: dict[str, Any],
     ) -> str:
         pass
-        db = _convert_db_to_list(data.get("orders", {}).values()
+        db = _convert_db_to_list(data.get("orders", {}).values())
         order = [row for row in db.values() if row["order_id"] == order_id]
 
         if len(order) > 1:
@@ -388,7 +388,7 @@ class GetUserIdFromFullNameAndZip(Tool):  #READ
     @staticmethod
     def invoke(data: dict[str, Any], first_name: str, last_name: str, zip: str) -> str:
         pass
-        db = _convert_db_to_list(data.get("users", {}).values()
+        db = _convert_db_to_list(data.get("users", {}).values())
         filter_params = {
             "name": {"first_name": first_name, "last_name": last_name},
             "address": {"zip": zip},
@@ -437,7 +437,7 @@ class GetUserIdFromEmail(Tool):  #READ
     @staticmethod
     def invoke(data: dict[str, Any], email: str) -> str:
         pass
-        db = _convert_db_to_list(data.get("users", {}).values()
+        db = _convert_db_to_list(data.get("users", {}).values())
         filter_params = {"email": email}
 
         user = [row for row in db.values() if _match(row, filter_params)]

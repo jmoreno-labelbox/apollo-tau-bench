@@ -1593,7 +1593,7 @@ class RemoveBeneficiaryByBeneficiaryId(Tool):
             return json.dumps({"error": "customer_id and beneficiary_id are required."}, indent=2)
 
         beneficiaries = data.get("beneficiaries", {}).values()
-        for i, beneficiary in enumerate(beneficiaries.values():
+        for i, beneficiary in enumerate(beneficiaries.values()):
             if (beneficiary.get("beneficiary_id") == beneficiary_id
                     and beneficiary.get("customer_id") == customer_id):
                 del beneficiaries[i]
