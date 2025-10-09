@@ -1356,7 +1356,7 @@ class ComputeUserFillRate(Tool):
             out = json.dumps(payload, indent=2)
             return out
         user_orders = [o for o in data.get("orders", {}).values() if o.get("user_id") == user_id]
-        total = sum(len(o.get("items", [])) for o in user_orders.values()
+        total = sum(len(o.get("items", [])) for o in user_orders.values())
         delivered = 0
         for o in user_orders:
             #tally items in fulfillments that tracking indicates as delivered

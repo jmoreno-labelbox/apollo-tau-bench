@@ -1,63 +1,3 @@
-logistics_supply_chain_5
-  Line: 184
-  Error: invalid syntax
-  Text: if sku and not any(sku in str(value) for value in shipment.values():
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/logistics_supply_chain_5/tools.py
-
-new_hire_mcp_1
-  Line: 1106
-  Error: invalid syntax
-  Text: file_type_distribution = {}
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/new_hire_mcp_1/tools.py
-
-new_hire_mcp_2
-  Line: 29
-  Error: '(' was never closed
-  Text: return (
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/new_hire_mcp_2/tools.py
-
-project_management_1
-  Line: 401
-  Error: closing parenthesis '}' does not match opening parenthesis '(' on line 400
-  Text: }
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_1/tools.py
-
-project_management_2
-  Line: 2400
-  Error: closing parenthesis ']' does not match opening parenthesis '(' on line 2399
-  Text: ]
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_2/tools.py
-
-project_management_3
-  Line: 185
-  Error: closing parenthesis ']' does not match opening parenthesis '(' on line 184
-  Text: ]
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_3/tools.py
-
-project_management_5
-  Line: 291
-  Error: invalid syntax
-  Text: if total_hours + req.get("hours_per_week", 0) > 40:
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_5/tools.py
-
-rbac_4
-  Line: 1932
-  Error: invalid syntax
-  Text: if any(c.get("certification_id") == certification_id for c in certifications.values():
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/rbac_4/tools.py
-
-rbac_5
-  Line: 1167
-  Error: closing parenthesis '}' does not match opening parenthesis '('
-  Text: payload = {"resource_id": resource_id, "users": list(acc.values()}
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/rbac_5/tools.py
-
-real_estate_sales_7
-  Line: 1210
-  Error: closing parenthesis '}' does not match opening parenthesis '(' on line 1203
-  Text: }
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/real_estate_sales_7/tools.py
-
 recipes_1
   Line: 336
   Error: invalid syntax
@@ -87,16 +27,4 @@ retail_6
   Error: '(' was never closed
   Text: total = sum(len(o.get("items", [])) for o in user_orders.values()
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_6/tools.py
-
-retail_point_of_sale_and_inventory_system_2
-  Line: 313
-  Error: invalid syntax
-  Text: total_reserved = sum(
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_2/tools.py
-
-retail_point_of_sale_and_inventory_system_4
-  Line: 57
-  Error: invalid syntax
-  Text: if customer_id:
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_4/tools.py
 

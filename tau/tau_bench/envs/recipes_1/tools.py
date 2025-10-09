@@ -332,7 +332,7 @@ class ListRecentMealHistory(Tool):
                 if int(h.get("household_id")) == int(household_id)
             ]
             if hh:
-                md = max(str(h["plan_date"]) for h in hh.values()
+                md = max(str(h["plan_date"]) for h in hh.values())
                 y, m, d = (int(x) for x in md.split("-"))
                 end = date(y, m, d)
             else:
@@ -462,7 +462,7 @@ class BuildRecipeFilters(Tool):
             cuisines_exclude = []
         if not isinstance(cuisines_exclude, list):
             cuisines_exclude = []
-        ex = ",".join(sorted(str(c) for c in cuisines_exclude)
+        ex = ",".join(sorted(str(c) for c in cuisines_exclude))
         token = f"F:{meal_type}:P{min_protein_g}:PF{1 if peanut_free else 0}:EX{ex}"
         return _json_dump({"filter_token": token})
 

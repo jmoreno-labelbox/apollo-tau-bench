@@ -386,7 +386,7 @@ class AssignCourier(Tool):
         couriers = data.get("couriers", {}).values()
         eligible_couriers = []
 
-        for courier in couriers.values()):
+        for courier in couriers.values():
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
                 eligible_data["couriers"][courier_id] = courier
@@ -659,7 +659,7 @@ class ValidateOrderItems(Tool):
                     "quantity": quantity,
                     "unit_price": unit_price,
                     "item_total": item_total,
-                    "options": variant_found.get("options", {}).values()),
+                    "options": variant_found.get("options", {}),
                     "availability": variant_found.get("available", False),
                 }
             )
@@ -1368,12 +1368,12 @@ class ValidateSupplierCapacity(Tool):
                 cancelled_data["orders"][order_id] = order
 
         # Calculate capacity metrics
-        total_pending_quantity = sum(order.get("quantity", 0) for order in pending_orders.values()
-        total_fulfilled_quantity = sum(order.get("quantity", 0) for order in fulfilled_orders.values()
-        total_cancelled_quantity = sum(order.get("quantity", 0) for order in cancelled_orders.values()
+        total_pending_quantity = sum(order.get("quantity", 0) for order in pending_orders.values())
+        total_fulfilled_quantity = sum(order.get("quantity", 0) for order in fulfilled_orders.values())
+        total_cancelled_quantity = sum(order.get("quantity", 0) for order in cancelled_orders.values())
 
-        total_pending_cost = sum(order.get("total_cost", 0) for order in pending_orders.values()
-        total_fulfilled_cost = sum(order.get("total_cost", 0) for order in fulfilled_orders.values()
+        total_pending_cost = sum(order.get("total_cost", 0) for order in pending_orders.values())
+        total_fulfilled_cost = sum(order.get("total_cost", 0) for order in fulfilled_orders.values())
 
         # Calculate reliability metrics
         total_completed_orders = len(fulfilled_orders) + len(cancelled_orders)
@@ -1543,7 +1543,7 @@ class CalculateShippingCost(Tool):
         couriers = data.get("couriers", {}).values()
         eligible_couriers = []
 
-        for courier in couriers.values()):
+        for courier in couriers.values():
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
                 eligible_data["couriers"][courier_id] = courier
@@ -2231,7 +2231,7 @@ class GenerateOrderSummary(Tool):
                     "quantity": quantity,
                     "unit_price": unit_price,
                     "line_total": line_total,
-                    "options": variant_found.get("options", {}).values()),
+                    "options": variant_found.get("options", {}),
                 }
             )
 
@@ -2345,7 +2345,7 @@ class GenerateOrderSummary(Tool):
             )
 
         #Rule: Maintain data integrity: order totals must match sum of item prices
-        calculated_subtotal = sum(item["line_total"] for item in order_items.values()
+        calculated_subtotal = sum(item["line_total"] for item in order_items.values())
         calculated_payment_total = sum(
             payment["allocated_amount"] for payment in payment_breakdown
         )
@@ -2579,10 +2579,9 @@ class CreateOrder(Tool):
                     "product_id": product_found.get("product_id"),
                     "item_id": item_id,
                     "price": unit_price,
-                    "options": variant_found.get("options", {}).values()),
+                    "options": variant_found.get("options", {}),
                     "quantity": quantity,
-                }
-            )
+                })
 
         #Calculate total before refund deduction
         total_before_refund = subtotal_amount
@@ -2760,7 +2759,7 @@ class CreateOrder(Tool):
         new_order = {
             "order_id": new_order_id,
             "user_id": user_id,
-            "address": user.get("address", {}).values()),
+            "address": user.get("address", {}).values(),
             "items": order_items,
             "fulfillments": [],
             "status": "pending",
@@ -2792,7 +2791,7 @@ class CreateOrder(Tool):
         user["orders"].append(new_order_id)
 
         #Calculate final amounts for response
-        final_payment_amount = sum(p["allocated_amount"] for p in payment_breakdown.values()
+        final_payment_amount = sum(p["allocated_amount"] for p in payment_breakdown.values())
 
         result = {
             "status": "success",
@@ -3000,7 +2999,7 @@ class UpdateOrderStatus(Tool):
             )
 
             order_found = False
-            for i, order in enumerate(orders.values():
+            for i, order in enumerate(orders.values()):
                 if order.get("order_id") == formatted_order_id:
                     order_found = True
                     old_status = order.get("status")
@@ -3151,7 +3150,7 @@ class UpdateSupplyOrderStatus(Tool):
         supply_order_to_update = None
         order_index = None
 
-        for i, order in enumerate(supply_orders.values():
+        for i, order in enumerate(supply_orders.values()):
             if order.get("supply_order_id") == supply_order_id:
                 supply_order_to_update = order
                 order_index = i
@@ -3272,7 +3271,7 @@ class UpdateProductAvailability(Tool):
         product_index = None
 
         # Find the product
-        for i, product in enumerate(products.values():
+        for i, product in enumerate(products.values()):
             if product.get("product_id") == product_id:
                 product_to_update = product
                 product_index = i
@@ -3332,7 +3331,7 @@ class UpdateProductAvailability(Tool):
                 if price_updated
                 else {"updated": False}
             ),
-            "variant_options": variant_to_update.get("options", {}).values()),
+            "variant_options": variant_to_update.get("options", {}).values(),
             "last_updated": variant_to_update["last_updated"],
         }
         payload = result
@@ -3710,7 +3709,7 @@ class CreateSupplyOrder(Tool):
                 valid_items.append(
                     {
                         "item_id": item,
-                        "variant_options": variants[item].get("options", {}).values()),
+                        "variant_options": variants[item].get("options", {}).values(),
                         "current_price": variants[item].get("price", 0),
                         "available": variants[item].get("available", False),
                         "unit_cost": (
@@ -3719,7 +3718,7 @@ class CreateSupplyOrder(Tool):
                             else unit_costs_list[0]
                         ),
                     }
-                )
+                
             else:
                 invalid_items.append(item)
 
@@ -3886,7 +3885,7 @@ class CreateSupplyOrder(Tool):
                 return order_result  #Return error if any order creation fails
 
         #Calculate totals
-        total_orders_cost = sum(order["total_cost"] for order in created_orders.values()
+        total_orders_cost = sum(order["total_cost"] for order in created_orders.values())
         total_quantity_ordered = sum(
             order["total_quantity"] for order in created_orders
         )
@@ -4123,7 +4122,7 @@ class ValidateUserIdentity(Tool):
         #Check if location supports delivery (based on available couriers)
         couriers = data.get("couriers", {}).values()
         supported_countries = set()
-        for courier in couriers.values()):
+        for courier in couriers.values():
             supported_countries.update(courier.get("coverage_area", []))
 
         destination_country = user_address.get("country", "")
@@ -4215,7 +4214,7 @@ class CancelOrder(Tool):
         order_to_cancel = None
         order_index = None
 
-        for i, order in enumerate(orders.values():
+        for i, order in enumerate(orders.values()):
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_cancel = order
                 order_index = i
@@ -4348,7 +4347,7 @@ class UpdateDeliveryAddress(Tool):
         order_to_update = None
         order_index = None
 
-        for i, order in enumerate(orders.values():
+        for i, order in enumerate(orders.values()):
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_update = order
                 order_index = i
@@ -4392,7 +4391,7 @@ class UpdateDeliveryAddress(Tool):
         # Rule: Assign couriers only if destination country matches their coverage areas
         couriers = data.get("couriers", {}).values()
         supported_countries = set()
-        for courier in couriers.values()):
+        for courier in couriers.values():
             supported_countries.update(courier.get("coverage_area", []))
 
         destination_country = new_address.get("country")
@@ -4489,7 +4488,7 @@ class AddPaymentMethod(Tool):
         user_to_update = None
         user_index = None
 
-        for i, user in enumerate(users.values():
+        for i, user in enumerate(users.values()):
             if user.get("user_id") == user_id:
                 user_to_update = user
                 user_index = i
@@ -4631,7 +4630,7 @@ class UpdateUserProfile(Tool):
         user_to_update = None
         user_index = None
 
-        for i, user in enumerate(users.values():
+        for i, user in enumerate(users.values()):
             if user.get("user_id") == user_id:
                 user_to_update = user
                 user_index = i
@@ -4856,7 +4855,7 @@ class RequestOrderReturn(Tool):
         order_to_return = None
         order_index = None
 
-        for i, order in enumerate(orders.values():
+        for i, order in enumerate(orders.values()):
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_return = order
                 order_index = i
@@ -5192,7 +5191,6 @@ class GetPurchasedItems(Tool):
                 "returns_requested": "returns" in target_order,
                 "return_requests": target_order.get("returns", []),
             },
-        }
         payload = result
         out = json.dumps(payload)
         return out
@@ -5355,7 +5353,7 @@ class VerifyGiftCardBalance(Tool):
             return out
 
         #Calculate total gift card balance
-        total_balance = sum(card["balance"] for card in gift_cards.values()
+        total_balance = sum(card["balance"] for card in gift_cards.values())
 
         result = {
             "status": "success",
@@ -5548,9 +5546,9 @@ class GetUserInfo(Tool):
         payload = {
             "status": "success",
             "user_id": user_id,
-            "name": user.get("name", {}).values()),
+            "name": user.get("name", {}).values(),
             "email": user.get("email", ""),
-            "address": user.get("address", {}).values()),
+            "address": user.get("address", {}).values(),
             "total_orders": len(user.get("orders", [])),
         }
         out = json.dumps(payload)
@@ -5596,7 +5594,7 @@ class GetProductInfo(Tool):
                     "product_name": product.get("name"),
                     "price": variant.get("price"),
                     "available": variant.get("available"),
-                    "options": variant.get("options", {}).values()),
+                    "options": variant.get("options", {}).values(),
                 }
                 out = json.dumps(payload)
                 return out
@@ -5705,7 +5703,7 @@ class UpdateSupplierInfo(Tool):
         supplier_index = None
 
         # Find the supplier
-        for i, supplier in enumerate(suppliers.values():
+        for i, supplier in enumerate(suppliers.values()):
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
                 supplier_index = i
@@ -5920,7 +5918,7 @@ class UpdateInventoryStock(Tool):
         supplier_index = None
 
         #Find the supplier
-        for i, supplier in enumerate(suppliers.values():
+        for i, supplier in enumerate(suppliers.values()):
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
                 supplier_index = i
@@ -6150,7 +6148,7 @@ class UpdateSupplyOrderTerms(Tool):
         supply_order_to_update = None
         order_index = None
 
-        for i, order in enumerate(supply_orders.values():
+        for i, order in enumerate(supply_orders.values()):
             if order.get("supply_order_id") == supply_order_id:
                 supply_order_to_update = order
                 order_index = i
@@ -7371,7 +7369,7 @@ class GetItemIdByProduct:
                             "item_id": item_id,
                             "price": variant_info.get("price", 0),
                             "available": is_available,
-                            "options": variant_info.get("options", {}).values()),
+                            "options": variant_info.get("options", {}),
                             "stock_info": {
                                 "stock_status": stock_status,
                                 "total_stock_across_suppliers": total_stock_across_suppliers,
@@ -7645,7 +7643,7 @@ class GetProductItemsPerSupplier:
                     "product_id": product_id,
                     "name": product.get("name"),
                     "category": product.get("category"),
-                    "variants": product.get("variants", {}).values()),
+                    "variants": product.get("variants", {}).values(),
                 }
 
                 # Map each item to its product
@@ -7943,7 +7941,7 @@ class UpdateSupplierProduct(Tool):
         supplier_to_update = None
         supplier_index = None
 
-        for i, supplier in enumerate(suppliers.values():
+        for i, supplier in enumerate(suppliers.values()):
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
                 supplier_index = i
@@ -7996,10 +7994,10 @@ class UpdateSupplierProduct(Tool):
                     "variant_info": {
                         "price": variant_info.get("price", 0),
                         "available": variant_info.get("available", False),
-                        "options": variant_info.get("options", {}).values()),
+                        "options": variant_info.get("options", {}),
                     },
                 }
-            )
+        
 
         supplier_to_update["item_stock"] = item_stock
         supplier_to_update["product_updated"] = datetime.now().isoformat()
@@ -8462,7 +8460,7 @@ class AddToOrder(Tool):
         order_to_update = None
         order_index = None
 
-        for i, order in enumerate(orders.values():
+        for i, order in enumerate(orders.values()):
             if order.get("order_id") == formatted_order_id:
                 order_to_update = order
                 order_index = i
@@ -8596,7 +8594,7 @@ class AddToOrder(Tool):
                 "product_id": product_found.get("product_id"),
                 "item_id": item_id,
                 "price": unit_price,
-                "options": variant_found.get("options", {}).values()),
+                "options": variant_found.get("options", {}),
                 "quantity": quantity,
             }
             order_items.append(new_item)
@@ -8689,7 +8687,7 @@ class AddToOrder(Tool):
 
         # Calculate comprehensive metrics
         total_items_count = len(order_items)
-        total_quantity = sum(item.get("quantity", 1) for item in order_items.values()
+        total_quantity = sum(item.get("quantity", 1) for item in order_items.values())
         new_total_paid = current_total_paid + total_additional_amount
 
         result = {
@@ -8703,7 +8701,7 @@ class AddToOrder(Tool):
                 "quantity": added_quantity,
                 "unit_price": unit_price,
                 "line_total": line_total,
-                "options": variant_found.get("options", {}).values()),
+                "options": variant_found.get("options", {}),
             },
             "action_performed": result_message,
             "current_order_before_addition": {
@@ -9002,7 +9000,7 @@ class AssignTrackingNumber(Tool):
         #Get destination country from first order if not provided
         if not destination_country:
             first_order = valid_orders[0]["order_data"]
-            order_address = first_order.get("address", {}).values()
+            order_address = first_order.get("address", {})
             destination_country = order_address.get("country")
 
             if not destination_country:
@@ -9018,7 +9016,7 @@ class AssignTrackingNumber(Tool):
         couriers = data.get("couriers", {}).values()
         eligible_couriers = []
 
-        for courier in couriers.values()):
+        for courier in couriers.values():
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
                 eligible_data["couriers"][courier_id] = courier
@@ -9117,7 +9115,7 @@ class AssignTrackingNumber(Tool):
                 "tracking_id": assigned_tracking_id,
                 "courier_id": selected_courier.get("courier_id"),
                 "courier_name": selected_courier.get("name"),
-                "courier_contact": selected_courier.get("contact_info", {}).values()),
+                "courier_contact": selected_courier.get("contact_info", {}).values(),
                 "status": "processed",
                 "assigned_date": datetime.now().isoformat(),
                 "destination_country": destination_country,
@@ -9357,7 +9355,7 @@ class GetSupplierInventory:
             product_id = item_to_product_map.get(item_id)
             if product_types and product_id:
                 product_name = (
-                    product_details_map.get(product_id, {}).values()
+                    product_details_map.get(product_id, {})
                     .get("product_name", "")
                     .lower()
                 )
@@ -9379,7 +9377,7 @@ class GetSupplierInventory:
                     ),
                     {},
                 )
-                variant_info = product_variants.get(item_id, {}).values()
+                variant_info = product_variants.get(item_id, {})
 
                 matching_items.append(
                     {
@@ -9396,7 +9394,7 @@ class GetSupplierInventory:
                         ),
                         "price": variant_info.get("price", 0),
                         "available": variant_info.get("available", False),
-                        "options": variant_info.get("options", {}).values()),
+                        "options": variant_info.get("options", {}),
                     }
                 )
 
@@ -9529,7 +9527,7 @@ class SearchGetSupplyOrders:
                 return out
             status_filter = [status]
         elif statuses:
-            invalid_statuses = [s for s in statuses.values() if s not in valid_statuses]
+            invalid_statuses = [s for s in statuses if s not in valid_statuses]
             if invalid_statuses:
                 payload = {
                     "error": f"Invalid statuses: {', '.join(invalid_statuses)}. Valid statuses: {', '.join(valid_statuses)}",
