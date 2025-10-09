@@ -1,14 +1,8 @@
 airline_3
-  Line: 401
+  Line: 948
   Error: invalid syntax
-  Text: for i, flight in enumerate(flights.values():
+  Text: response = {
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_3/tools.py
-
-banking_services_4
-  Line: 968
-  Error: '(' was never closed
-  Text: total_balance = sum(a.get('balance', 0) for a in customer_accounts.values()
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/banking_services_4/tools.py
 
 career_planner_4
   Line: 2906

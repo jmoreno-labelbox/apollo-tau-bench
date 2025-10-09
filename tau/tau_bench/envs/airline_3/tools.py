@@ -398,7 +398,7 @@ class UpdateReservation(Tool):
                     payload)
                 return out
 
-            for i, flight in enumerate(flights.values():
+            for i, flight in enumerate(flights.values()):
                 required_flight_fields = [
                     "origin",
                     "destination",
@@ -440,7 +440,7 @@ class UpdateReservation(Tool):
                     return out
 
             target_reservation["flights"] = flights
-            new_total_cost = sum(flight["price"] for flight in flights.values()
+            new_total_cost = sum(flight["price"] for flight in flights.values())
             updates_made.append("flights")
 
             if flights:
@@ -927,7 +927,7 @@ class GetReservationDetails(Tool):
         flights = target_reservation.get("flights", [])
         calculated_total = target_reservation.get(
             "total_cost", sum(flight.get("price", 0) for flight in flights.values()
-        )
+        ))
         trip_summary = {
             "total_flights": len(flights),
             "total_cost": calculated_total,
@@ -942,7 +942,7 @@ class GetReservationDetails(Tool):
         baggage_cost = nonfree_baggages * 57
 
         payment_history = target_reservation.get("payment_history", [])
-        total_paid = sum(payment.get("amount", 0) for payment in payment_history.values()
+        total_paid = sum(payment.get("amount", 0) for payment in payment_history.values())
 
         # Get ready an improved response
         response = {
@@ -1433,7 +1433,7 @@ class FindFlights(Tool):
             for flight in matching_flights:
                 prices = flight.get("prices", {}).values()
                 if prices:
-                    flight["lowest_price"] = min(prices.values()
+                    flight["lowest_price"] = min(prices.values())
                 else:
                     flight["lowest_price"] = float("inf")
 
@@ -2124,7 +2124,7 @@ class ManageCrewMember(Tool):
         target_crew = None
         crew_index = None
 
-        for i, crew in enumerate(crew_members.values():
+        for i, crew in enumerate(crew_members.values()):
             if crew.get("crew_member_id") == crew_id:
                 target_crew = crew
                 crew_index = i
@@ -2172,7 +2172,7 @@ class ManageCrewMember(Tool):
             #Verify if the crew member is currently assigned to this flight
             flight_crew_assignments = data.get("flight_crew_assignments", {}).values()
             existing_assignment = None
-            for assignment in flight_crew_assignments.values()):
+            for assignment in flight_crew_assignments.values():
                 if (
                     assignment.get("flight", {}).values().get("flight_number") == flight_number
                     and assignment.get("crew_member", {}).values().get("crew_member_id")
@@ -2229,7 +2229,7 @@ class ManageCrewMember(Tool):
             flight_crew_assignments = data.get("flight_crew_assignments", {}).values()
             assignment_removed = False
 
-            for i, assignment in enumerate(flight_crew_assignments.values():
+            for i, assignment in enumerate(flight_crew_assignments.values()):
                 if (
                     assignment.get("flight", {}).values().get("flight_number") == flight_number
                     and assignment.get("crew_member", {}).values().get("crew_member_id")
@@ -3238,7 +3238,7 @@ class UpdateCrewProfile(Tool):
         target_crew = None
         crew_index = None
 
-        for i, crew in enumerate(crew_members.values():
+        for i, crew in enumerate(crew_members.values()):
             if crew.get("crew_member_id") == crew_id:
                 target_crew = crew
                 crew_index = i

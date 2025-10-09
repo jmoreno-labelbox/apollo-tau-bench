@@ -965,7 +965,7 @@ class GetCustomerTotalBalance(Tool):
         if not customer_accounts:
             return json.dumps({'error': 'No accounts found for this customer.'})
 
-        total_balance = sum(a.get('balance', 0) for a in customer_accounts.values()
+        total_balance = sum(a.get('balance', 0) for a in customer_accounts.values())
 
         return json.dumps({
             'customer_id': customer_id,
