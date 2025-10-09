@@ -309,7 +309,7 @@ class GetInventoryLevel(Tool):
             out = json.dumps(payload)
             return out
 
-        total_quantity = sum(inv.get("quantity", 0) for inv in inventory_records.values()
+        total_quantity = sum(inv.get("quantity", 0) for inv in inventory_records.values())
         total_reserved = sum(
             inv.get("reserved_quantity", 0) for inv in inventory_records
         )
@@ -354,7 +354,7 @@ class ListLowStockProducts(Tool):
         products = products if products is not None else data.get("products", {}).values()
         low_stock_products = []
 
-        for inv_record in inventory.values()):
+        for inv_record in inventory.values():
             quantity = inv_record.get("quantity", 0)
             if quantity <= threshold:
                 product = next(
@@ -897,7 +897,7 @@ class UpdateProductPrice(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sku: str, new_price: float) -> str:
         products = data.get("products", {}).values()
-        for i, product in enumerate(products.values():
+        for i, product in enumerate(products.values()):
             if product.get("sku") == sku:
                 products[i]["price"] = new_price
                 data["products"] = products
@@ -1024,7 +1024,7 @@ class UpdateCustomerLoyaltyPoints(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], customer_id: str, points_to_add: int) -> str:
         customers = data.get("customers", {}).values()
-        for i, customer in enumerate(customers.values():
+        for i, customer in enumerate(customers.values()):
             if customer.get("customer_id") == customer_id:
                 current_points = customer.get("loyalty_points", 0)
                 customers[i]["loyalty_points"] = current_points + points_to_add
@@ -1078,7 +1078,7 @@ class UpdateCustomerMembershipLevel(Tool):
                 payload)
             return out
 
-        for i, customer in enumerate(customers.values():
+        for i, customer in enumerate(customers.values()):
             if customer.get("customer_id") == customer_id:
                 customers[i]["membership_level"] = new_membership_level.lower()
                 data["customers"] = customers
@@ -1101,7 +1101,7 @@ class UpdateCustomerMembershipLevel(Tool):
                 payload)
             return out
 
-        for i, customer in enumerate(customers.values():
+        for i, customer in enumerate(customers.values()):
             if customer.get("customer_id") == customer_id:
                 customers[i]["membership_level"] = new_membership_level.lower()
                 data["customers"] = customers
@@ -1382,7 +1382,7 @@ class UpdateTransactionStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        for i, transaction in enumerate(transactions.values():
+        for i, transaction in enumerate(transactions.values()):
             if transaction.get("transaction_id") == transaction_id:
                 transactions[i]["status"] = new_status
                 data["transactions"] = transactions
@@ -1430,7 +1430,7 @@ class UpdateCustomerEmail(Tool):
                 out = json.dumps(payload)
                 return out
 
-        for i, customer in enumerate(customers.values():
+        for i, customer in enumerate(customers.values()):
             if customer.get("customer_id") == customer_id:
                 customers[i]["email"] = new_email
                 data["customers"] = customers
@@ -1608,7 +1608,7 @@ class UpdateEmployeeStatus(Tool):
     def invoke(data: dict[str, Any], employee_id: str, new_status: str) -> str:
         employees = data.get("employees", {}).values()
 
-        for i, employee in enumerate(employees.values():
+        for i, employee in enumerate():
             if employee.get("employee_id") == employee_id:
                 employees[i]["status"] = new_status
                 data["employees"] = employees
@@ -1648,7 +1648,7 @@ class UpdateProductStock(Tool):
     def invoke(data: dict[str, Any], sku: str, new_stock_quantity: int) -> str:
         products = data.get("products", {}).values()
 
-        for i, product in enumerate(products.values():
+        for i, product in enumerate(products.values()):
             if product.get("sku") == sku:
                 products[i]["stock_quantity"] = new_stock_quantity
                 data["products"] = products
@@ -1688,7 +1688,7 @@ class UpdateCustomerAddress(Tool):
     def invoke(data: dict[str, Any], customer_id: str, new_address: str) -> str:
         customers = data.get("customers", {}).values()
 
-        for i, customer in enumerate(customers.values():
+        for i, customer in enumerate(customers.values()):
             if customer.get("customer_id") == customer_id:
                 customers[i]["address"] = new_address
                 data["customers"] = customers
@@ -1728,7 +1728,7 @@ class UpdateCustomerPhoneNumber(Tool):
     def invoke(data: dict[str, Any], customer_id: str, new_phone_number: str) -> str:
         customers = data.get("customers", {}).values()
 
-        for i, customer in enumerate(customers.values():
+        for i, customer in enumerate(customers.values()):
             if customer.get("customer_id") == customer_id:
                 customers[i]["phone_number"] = new_phone_number
                 data["customers"] = customers
@@ -1881,7 +1881,7 @@ class UpdateInventoryQuantity(Tool):
     def invoke(data: dict[str, Any], inventory_id: str, new_quantity: int) -> str:
         inventory = data.get("inventory", {}).values()
 
-        for i, inv_record in enumerate(inventory.values():
+        for i, inv_record in enumerate(inventory.values()):
             if inv_record.get("id") == inventory_id:
                 inventory[i]["quantity"] = new_quantity
                 inventory[i]["updated_at"] = datetime.now().strftime(
@@ -1930,10 +1930,10 @@ class GetInventoryAnalytics(Tool):
             inventory = [inv for inv in inventory.values() if inv.get("store_id") == store_id]
 
         total_items = len(inventory)
-        total_quantity = sum(inv.get("quantity", 0) for inv in inventory.values()
+        total_quantity = sum(inv.get("quantity", 0) for inv in inventory.values())
         total_value = 0.0
 
-        for inv_record in inventory.values()):
+        for inv_record in inventory.values():
             product = next(
                 (p for p in products.values() if p.get("sku") == inv_record.get("sku")), None
             )

@@ -343,7 +343,7 @@ class GetUser(Tool):
 
         # If user_id is given, perform a search using user_id
         if user_id:
-            user = _find_by_id(data.get("users", {}).values()), "user_id", user_id)
+            user = _find_by_id(data.get("users", {}).values(), "user_id", user_id)
             return (
                 json.dumps(user) if user else _not_found(f"user_id {user_id} not found")
             )
@@ -805,7 +805,7 @@ class IsAdmin(Tool):
             return out
 
         # Confirm the existence of the user
-        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
@@ -1237,13 +1237,13 @@ class CanAccessResource(Tool):
             return out
 
         # Confirm the user is present
-        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
 
         # Confirm the resource is present
-        if not _find_by_id(data.get("resources", {}).values()), "resource_id", resource_id):
+        if not _find_by_id(data.get("resources", {}).values(), "resource_id", resource_id):
             payload = {"error": f"resource_id {resource_id} not found"}
             out = json.dumps(payload)
             return out
@@ -1450,17 +1450,17 @@ class GetAccessRequest(Tool):
             out = {"access_request": ar}
             if include_user:
                 uid = ar.get("user_id") or ""
-                user = _find_by_id(data.get("users", {}).values()), "user_id", uid)
+                user = _find_by_id(data.get("users", {}).values(), "user_id", uid)
                 if user is not None:
                     out["user"] = user
             if include_role:
                 rid = ar.get("requested_role_id") or ""
-                role = _find_by_id(data.get("roles", {}).values()), "role_id", rid)
+                role = _find_by_id(data.get("roles", {}).values(), "role_id", rid)
                 if role is not None:
                     out["role"] = role
             if include_resource:
                 res_id = ar.get("resource_id") or ""
-                resource = _find_by_id(data.get("resources", {}).values()), "resource_id", res_id)
+                resource = _find_by_id(data.get("resources", {}).values(), "resource_id", res_id)
                 if resource is not None:
                     out["resource"] = resource
             payload = out
@@ -1614,9 +1614,9 @@ class DecideAccessRequest(Tool):
             return out
 
         # Ensure the target user and role are present
-        user = _find_by_id(data.get("users", {}).values()), "user_id", req.get("user_id") or "")
+        user = _find_by_id(data.get("users", {}).values(), "user_id", req.get("user_id") or "")
         role = _find_by_id(
-            data.get("roles", {}).values()), "role_id", req.get("requested_role_id") or ""
+            data.get("roles", {}).values(), "role_id", req.get("requested_role_id") or ""
         )
         if not user or not role:
             payload = {"error": "target user or requested role does not exist"}
@@ -1738,11 +1738,11 @@ class EnsureUserRole(Tool):
         assigned_on = assigned_on or get_current_timestamp()
 
         # Presence validations
-        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("roles", {}).values()), "role_id", role_id):
+        if not _find_by_id(data.get("roles", {}).values(), "role_id", role_id):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload)
             return out
@@ -1838,11 +1838,11 @@ class UpdateUserRole(Tool):
             return out
 
         # Presence validations
-        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("roles", {}).values()), "role_id", role_id):
+        if not _find_by_id(data.get("roles", {}).values(), "role_id", role_id):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload)
             return out
@@ -2038,7 +2038,7 @@ class CheckSoDConflicts(Tool):
             return out
 
         # Confirm the user is present
-        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
@@ -2421,11 +2421,11 @@ class CreateCertification(Tool):
             return out
 
         # Confirm the presence of the reviewer and resource
-        if not _find_by_id(data.get("users", {}).values()), "user_id", reviewer_id):
+        if not _find_by_id(data.get("users", {}).values(), "user_id", reviewer_id):
             payload = {"error": f"reviewer_id {reviewer_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("resources", {}).values()), "resource_id", resource_id):
+        if not _find_by_id(data.get("resources", {}).values(), "resource_id", resource_id):
             payload = {"error": f"resource_id {resource_id} not found"}
             out = json.dumps(payload)
             return out
@@ -2607,19 +2607,19 @@ class CreatePolicyException(Tool):
             return out
 
         #Confirm the user is present
-        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values(), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
 
         #Confirm the permission is present
-        if not _find_by_id(data.get("permissions", {}).values()), "permission_id", permission_id):
+        if not _find_by_id(data.get("permissions", {}).values(), "permission_id", permission_id):
             payload = {"error": f"permission_id {permission_id} not found"}
             out = json.dumps(payload)
             return out
 
         #Confirm the reviewer is present
-        if not _find_by_id(data.get("users", {}).values()), "user_id", reviewed_by):
+        if not _find_by_id(data.get("users", {}).values(), "user_id", reviewed_by):
             payload = {"error": f"reviewed_by {reviewed_by} not found"}
             out = json.dumps(payload)
             return out
@@ -2871,7 +2871,7 @@ class CreatePermission(Tool):
             return out
 
         # Confirm the resource is present
-        if not _find_by_id(data.get("resources", {}).values()), "resource_id", resource_id):
+        if not _find_by_id(data.get("resources", {}).values(), "resource_id", resource_id):
             payload = {"error": f"resource_id {resource_id} not found"}
             out = json.dumps(payload)
             return out
@@ -3032,11 +3032,11 @@ class AssignPermissionToRole(Tool):
             return out
 
         # Confirm presence
-        if not _find_by_id(data.get("roles", {}).values()), "role_id", role_id):
+        if not _find_by_id(data.get("roles", {}).values(), "role_id", role_id):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("permissions", {}).values()), "permission_id", permission_id):
+        if not _find_by_id(data.get("permissions", {}).values(), "permission_id", permission_id):
             payload = {"error": f"permission_id {permission_id} not found"}
             out = json.dumps(payload)
             return out
@@ -3362,7 +3362,7 @@ class UpdateHubSpotTicket(Tool):
 
         # Confirm the assignee
         if assignee_id is not None:
-            if not _find_by_id(data.get("users", {}).values()), "user_id", assignee_id):
+            if not _find_by_id(data.get("users", {}).values(), "user_id", assignee_id):
                 payload = {"error": f"assignee_id {assignee_id} not found"}
                 out = json.dumps(payload)
                 return out

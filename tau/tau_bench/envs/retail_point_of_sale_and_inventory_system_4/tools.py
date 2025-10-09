@@ -53,7 +53,7 @@ class EditCustomersDb(Tool):  #CREATE
         current_time: str = None,
         delete: bool = False
     ) -> str:
-        db = _convert_db_to_list(data.get("customers", {}).values()
+        db = _convert_db_to_list(data.get("customers", {}).values())
         if customer_id:
             idx, row = _find_by_id(db, "customer_id", customer_id)
             if row:
@@ -134,7 +134,7 @@ class EditCustomersDb(Tool):  #CREATE
             out = json.dumps(payload)
             return out
         pass
-        db = _convert_db_to_list(data.get("customers", {}).values()
+        db = _convert_db_to_list(data.get("customers", {}).values())
         if customer_id:
             idx, row = _find_by_id(db, "customer_id", customer_id)
             if row:
@@ -299,7 +299,7 @@ class GetCustomersInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = _convert_db_to_list(data.get("customers", {}).values()
+        db = _convert_db_to_list(data.get("customers", {}).values())
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -310,20 +310,6 @@ class GetCustomersInfoByParam(Tool):  #VIEW
             for row in filtered_db
         ]
         out = json.dumps(payload)
-        return out
-        pass
-        db = _convert_db_to_list(data.get("customers", {}).values()
-        filtered_db = _filter_db(db, filter_params)
-        if not info_items:
-            payload = filtered_db
-            out = json.dumps(payload)
-            return out
-        payload = [
-                {info_item: row.get(info_item) for info_item in info_items}
-                for row in filtered_db
-            ]
-        out = json.dumps(
-            payload)
         return out
 
     @staticmethod
@@ -388,7 +374,7 @@ class GetTopNCustomersByLoyaltyPoints(Tool):  #VIEW
 class GetCustomersWithBirthdayToday(Tool):  #VIEW
     @staticmethod
     def invoke(data: dict[str, Any], current_day: str) -> str:
-        db = _convert_db_to_list(data.get("customers", {}).values()
+        db = _convert_db_to_list(data.get("customers", {}).values())
         # current_day must follow the "MM-DD" format
         result = []
         for row in db:
@@ -441,73 +427,7 @@ class EditEmployeesDb(Tool):  #CREATE
     ) -> str:
         _nameL = name or ''.lower()
         pass
-        db = _convert_db_to_list(data.get("employees", {}).values()
-        if employee_id:
-            idx, row = _find_by_id(db, "employee_id", employee_id)
-            if row:
-                if delete:
-                    #--- REMOVE ---
-                    del db[idx]
-                    payload = {"result": "deleted"}
-                    out = json.dumps(payload)
-                    return out
-                else:
-                    #--- MODIFY ---
-                    if name is not None:
-                        row["name"] = name
-                    if role is not None:
-                        row["role"] = role
-                    if phone_number is not None:
-                        row["phone_number"] = phone_number
-                    if email is not None:
-                        row["email"] = email
-                    if store_id is not None:
-                        row["store_id"] = store_id
-                    if hire_date is not None:
-                        row["hire_date"] = hire_date
-                    if status is not None:
-                        row["status"] = status
-                    payload = {"result": row}
-                    out = json.dumps(payload)
-                    return out
-            else:
-                payload = {"error": f"Employee {employee_id} not found"}
-                out = json.dumps(payload)
-                return out
-        else:
-            #--- ADD ---
-            if name is None or role is None:
-                payload = {"error": "Missing required field for creation (name, role)"}
-                out = json.dumps(
-                    payload)
-                return out
-            new_row = {
-                "employee_id": (
-                    employee_id
-                    if employee_id is not None
-                    else f"EMP-{1000 + len(db) + 1}"
-                ),
-                "name": name if name is not None else "Unknown",
-                "role": role if role is not None else "Unknown",
-                "phone_number": (
-                    phone_number if phone_number is not None else "No phone"
-                ),
-                "email": (
-                    email
-                    if email is not None
-                    else name.lower().replace(" ", ".") + "@retailpos.com"
-                ),
-                "store_id": store_id if store_id is not None else "Unknown",
-                "hire_date": hire_date if hire_date is not None else "Unknown",
-                "status": status if status is not None else "active",
-            }
-            db.append(new_row)
-            payload = {"result": new_row}
-            out = json.dumps(payload)
-            return out
-        _nameL = name or ''.lower()
-        pass
-        db = _convert_db_to_list(data.get("employees", {}).values()
+        db = _convert_db_to_list(data.get("employees", {}).values())
         if employee_id:
             idx, row = _find_by_id(db, "employee_id", employee_id)
             if row:
@@ -641,7 +561,7 @@ class GetEmployeesInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = _convert_db_to_list(data.get("employees", {}).values()
+        db = _convert_db_to_list(data.get("employees", {}).values())
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -652,20 +572,6 @@ class GetEmployeesInfoByParam(Tool):  #VIEW
             for row in filtered_db
         ]
         out = json.dumps(payload)
-        return out
-        pass
-        db = _convert_db_to_list(data.get("employees", {}).values()
-        filtered_db = _filter_db(db, filter_params)
-        if not info_items:
-            payload = filtered_db
-            out = json.dumps(payload)
-            return out
-        payload = [
-                {info_item: row.get(info_item) for info_item in info_items}
-                for row in filtered_db
-            ]
-        out = json.dumps(
-            payload)
         return out
 
     @staticmethod
@@ -718,7 +624,7 @@ class EditProductsDb(Tool):  #CREATE
         current_time: str = None,
         delete: bool = False
     ) -> str:
-        db = _convert_db_to_list(data.get("products", {}).values()
+        db = _convert_db_to_list(data.get("products", {}).values())
         if sku:
             idx, row = _find_by_id(db, "sku", sku)
             if row:
@@ -924,7 +830,7 @@ class GetProductsInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = _convert_db_to_list(data.get("products", {}).values()
+        db = _convert_db_to_list(data.get("products", {}).values())
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -937,19 +843,6 @@ class GetProductsInfoByParam(Tool):  #VIEW
         out = json.dumps(payload)
         return out
         pass
-        db = _convert_db_to_list(data.get("products", {}).values()
-        filtered_db = _filter_db(db, filter_params)
-        if not info_items:
-            payload = filtered_db
-            out = json.dumps(payload)
-            return out
-        payload = [
-                {info_item: row.get(info_item) for info_item in info_items}
-                for row in filtered_db
-            ]
-        out = json.dumps(
-            payload)
-        return out
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -1037,83 +930,7 @@ class EditInventoryDb(Tool):  #CREATE
         current_time: str = None,
         delete: bool = False
     ) -> str:
-        db = _convert_db_to_list(data.get("inventory", {}).values()
-        if id:
-            idx, row = _find_by_id(db, "id", id)
-            if row:
-                if delete:
-                    #--- REMOVE ---
-                    del db[idx]
-                    payload = {"result": "deleted"}
-                    out = json.dumps(payload)
-                    return out
-                else:
-                    #--- MODIFY ---
-                    if sku is not None:
-                        row["sku"] = sku
-                    if store_id is not None:
-                        row["store_id"] = store_id
-                    if quantity is not None:
-                        row["quantity"] = quantity
-                    if reserved_quantity is not None:
-                        row["reserved_quantity"] = reserved_quantity
-                    if reorder_level is not None:
-                        row["reorder_level"] = reorder_level
-                    if safety_stock is not None:
-                        row["safety_stock"] = safety_stock
-                    if location is not None:
-                        row["location"] = location
-                    if status is not None:
-                        row["status"] = status
-                    if last_stock_count is not None:
-                        row["last_stock_count"] = last_stock_count
-                    if current_time is not None:
-                        row["updated_at"] = current_time
-                    payload = {"result": row}
-                    out = json.dumps(payload)
-                    return out
-            else:
-                payload = {"error": f"Inventory {id} not found"}
-                out = json.dumps(payload)
-                return out
-        else:
-            #--- ADD ---
-            if (
-                sku is None
-                or store_id is None
-                or quantity is None
-                or current_time is None
-            ):
-                payload = {
-                        "error": "Missing required field for creation (sku, store_id, quantity, current_time)"
-                    }
-                out = json.dumps(
-                    payload)
-                return out
-            new_row = {
-                "id": id if id is not None else f"INV-{1000 + len(db) + 5}",
-                "sku": sku,
-                "store_id": store_id,
-                "quantity": quantity,
-                "reserved_quantity": (
-                    reserved_quantity if reserved_quantity is not None else 0
-                ),
-                "reorder_level": reorder_level if reorder_level is not None else 0,
-                "safety_stock": safety_stock if safety_stock is not None else 0,
-                "location": location if location is not None else "Unknown",
-                "status": status if status is not None else "in_stock",
-                "last_stock_count": (
-                    last_stock_count if last_stock_count is not None else "Unknown"
-                ),
-                "created_at": current_time,
-                "updated_at": current_time,
-            }
-            db.append(new_row)
-            payload = {"result": new_row}
-            out = json.dumps(payload)
-            return out
-        pass
-        db = _convert_db_to_list(data.get("inventory", {}).values()
+        db = _convert_db_to_list(data.get("inventory", {}).values())
         if id:
             idx, row = _find_by_id(db, "id", id)
             if row:
@@ -1273,7 +1090,7 @@ class GetInventoryInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = _convert_db_to_list(data.get("inventory", {}).values()
+        db = _convert_db_to_list(data.get("inventory", {}).values())
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -1316,7 +1133,7 @@ class GetInventoryInfoByParam(Tool):  #VIEW
 class CheckLowStock(Tool):  #CREATE
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str, current_time: str) -> str:
-        db = _convert_db_to_list(data.get("inventory", {}).values()
+        db = _convert_db_to_list(data.get("inventory", {}).values())
         low_stock_skus = []
         for row in db:
             if row.get("store_id") == store_id:
@@ -1370,7 +1187,7 @@ class UpdateInventoryItem(Tool):  #CREATE
         quantity_change: int,
         current_time: str
     ) -> str:
-        db = _convert_db_to_list(data.get("inventory", {}).values()
+        db = _convert_db_to_list(data.get("inventory", {}).values())
         filtered_db = _filter_db(db, {"sku": sku, "store_id": store_id})
         if len(filtered_db) == 1:
             row = filtered_db[0]
@@ -1382,21 +1199,6 @@ class UpdateInventoryItem(Tool):  #CREATE
         else:
             payload = {"error": f"Inventory item {sku} in store {store_id} not found"}
             out = json.dumps(payload)
-            return out
-        pass
-        db = _convert_db_to_list(data.get("inventory", {}).values()
-        filtered_db = _filter_db(db, {"sku": sku, "store_id": store_id})
-        if len(filtered_db) == 1:
-            row = filtered_db[0]
-            row["quantity"] = row.get("quantity", 0) + quantity_change
-            row["updated_at"] = current_time
-            payload = {"result": row}
-            out = json.dumps(payload)
-            return out
-        else:
-            payload = {"error": f"Inventory item {sku} in store {store_id} not found"}
-            out = json.dumps(
-                payload)
             return out
 
     @staticmethod
@@ -1446,7 +1248,7 @@ class EditPromotionsDb(Tool):  #CREATE
         times_used: int = None,
         delete: bool = False
     ) -> str:
-        db = _convert_db_to_list(data.get("promotions", {}).values()
+        db = _convert_db_to_list(data.get("promotions", {}).values())
         if promotion_id:
             idx, row = _find_by_id(db, "promotion_id", promotion_id)
             if row:
@@ -1613,7 +1415,7 @@ class GetPromotionsInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = _convert_db_to_list(data.get("promotions", {}).values()
+        db = _convert_db_to_list(data.get("promotions", {}).values())
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -1673,7 +1475,7 @@ class EditTransactionsDb(Tool):  #CREATE
         current_time: str = None,
         delete: bool = False
     ) -> str:
-        db = _convert_db_to_list(data.get("transactions", {}).values()
+        db = _convert_db_to_list(data.get("transactions", {}).values())
         if transaction_id:
             idx, row = _find_by_id(db, "transaction_id", transaction_id)
             if row:
@@ -1857,7 +1659,7 @@ class GetTransactionsInfoByParam(Tool):  #VIEW
         info_items: list[str] = None
     ) -> str:
         pass
-        db = _convert_db_to_list(data.get("transactions", {}).values()
+        db = _convert_db_to_list(data.get("transactions", {}).values())
         # If sku exists in filter_params, filter transactions based on line_items that include that sku
         filter_params_no_sku = filter_params.copy()
         if "sku" in filter_params.keys():
@@ -1881,33 +1683,6 @@ class GetTransactionsInfoByParam(Tool):  #VIEW
             for row in filtered_db
         ]
         out = json.dumps(payload)
-        return out
-        pass
-        db = _convert_db_to_list(data.get("transactions", {}).values()
-        #If sku exists in filter_params, filter transactions based on line_items that include that sku
-        filter_params_no_sku = filter_params.copy()
-        if "sku" in filter_params.keys():
-            db = [
-                transaction
-                for transaction in db
-                if any(
-                    item["sku"] in filter_params["sku"]
-                    for item in transaction.get("line_items", [])
-                )
-            ]
-            del filter_params_no_sku["sku"]  #Eliminate sku from filter_params after it has been utilized
-
-        filtered_db = _filter_db(db, filter_params_no_sku)
-        if not info_items:
-            payload = filtered_db
-            out = json.dumps(payload)
-            return out
-        payload = [
-                {info_item: row.get(info_item) for info_item in info_items}
-                for row in filtered_db
-            ]
-        out = json.dumps(
-            payload)
         return out
 
     @staticmethod
@@ -1998,78 +1773,6 @@ class CreatePurchaseTransaction(Tool):  #CREATE
             inv_item["quantity"] -= quantity
 
         transaction_id = f"TXN-{1000 + len(transactions) + 1}"
-        transaction = {
-            "transaction_id": transaction_id,
-            "store_id": store_id,
-            "employee_id": employee_id,
-            "timestamp": current_time,
-            "total_amount": round(total_amount, 2),
-            "tax_amount": round(total_tax, 2),
-            "payment_method": payment_method,
-            "tax_rate": product["tax_rate"],
-            "discount_total": round(discount_total, 2),
-            "change_given": 0.0,
-            "status": "completed",
-            "customer_id": customer_id,
-            "line_items": line_items,
-        }
-        data["transactions"][transaction_id] = transaction
-        payload = transaction
-        out = json.dumps(payload)
-        return out
-        pass
-        products = {p["sku"]: p for p in data.get("products", {}).values()}
-        inventory = data.get("inventory", {}).values()
-        transactions = data.get("transactions", {}).values()
-
-        line_items = []
-        total_amount = 0.0
-        total_tax = 0.0
-        discount_total = 0.0
-        for sku, quantity in items.items():
-            product = products.get(sku)
-            if not product:
-                payload = {"error": f"Product with SKU {sku} not found."}
-                out = json.dumps(payload)
-                return out
-
-            #Verify stock availability in inventory
-            inv_item = next(
-                (i for i in inventory.values() if i["sku"] == sku and i["store_id"] == store_id),
-                None,
-            )
-            if not inv_item or inv_item.get("quantity", 0) < quantity:
-                payload = {"error": f"Insufficient stock of SKU {sku} in store {store_id}."}
-                out = json.dumps(
-                    payload)
-                return out
-
-            unit_price = product["price"]
-            if product.get("is_discountable", True):
-                discount_rate = product.get("discount_rate", 0.0)
-                #assign 0 if the value is neither a float nor an integer
-                if not isinstance(discount_rate, (float, int)):
-                    discount_rate = 0.0
-            else:
-                discount_rate = 0.0
-            discount = discount_rate * unit_price * quantity
-            tax = unit_price * quantity * product["tax_rate"]
-            line_items.append(
-                {
-                    "sku": sku,
-                    "quantity": quantity,
-                    "unit_price": unit_price,
-                    "discount": discount,
-                }
-            )
-            total_amount += (unit_price * quantity) - discount + tax
-            total_tax += tax
-            discount_total += discount
-
-            #Reduce stock
-            inv_item["quantity"] -= quantity
-
-        transaction_id = f"TXN-{1000+ len(transactions) + 1}"
         transaction = {
             "transaction_id": transaction_id,
             "store_id": store_id,
@@ -2185,47 +1888,6 @@ class CreateRefundTransaction(Tool):  #CREATE
         refund_transaction["line_items"] = [item_info]
 
         # Add entry to transactions table
-        data["transactions"][transaction_id] = refund_transaction
-        payload = refund_transaction
-        out = json.dumps(payload)
-        return out
-        pass
-        transactions = data["transactions"]
-        for transaction in transactions.values():
-            if transaction["transaction_id"] == original_transaction_id:
-                original_transaction = transaction
-                break
-
-        refund_transaction = original_transaction.copy()
-        refund_transaction["transaction_id"] = original_transaction_id + "REFUND" + sku
-        refund_transaction["employee_id"] = employee_id
-        refund_transaction["status"] = "refund"
-        refund_transaction["timestamp"] = current_time
-
-        item_info = {}
-        for item in original_transaction["line_items"]:
-            if item["sku"] == sku:
-                item_info = item
-
-        total_refund_amount = (
-            item_info["unit_price"] * (1 + original_transaction["tax_rate"]) * quantity
-            - item_info["discount"]
-        )
-        refund_transaction["total_amount"] = (
-            total_refund_amount * -1
-        )  #Use negative value for refunds
-
-        total_tax = (
-            item_info["unit_price"] * original_transaction["tax_rate"] * quantity
-        )
-        refund_transaction["tax_amount"] = total_tax
-        refund_transaction["discount_total"] = 0.0
-        refund_transaction["change_given"] = 0.0
-        refund_transaction["status"] = "refund"
-        item_info["quantity"] = quantity
-        refund_transaction["line_items"] = [item_info]
-
-        #Add entry to transactions table
         data["transactions"][transaction_id] = refund_transaction
         payload = refund_transaction
         out = json.dumps(payload)
@@ -2390,43 +2052,6 @@ class FilterAndSortIdsByDate(Tool):
             reverse = (
                 sort_order == "newest"
             )  # Newest indicates highest values first, which is in reverse order
-            sorted_items = sorted(
-                items, key=lambda x: timestamp_to_value(x[1]), reverse=reverse
-            )
-            if top_n is not None:
-                sorted_items = sorted_items[:top_n]
-            result = dict(sorted_items)
-        payload = result
-        out = json.dumps(payload)
-        return out
-        pass
-        #Transform dictionary into a list of tuples (id, date)
-        items = list(ids_dates.items())
-
-        def timestamp_to_value(ts: str) -> str:
-            pass
-            return int(
-                ts.replace("-", "").replace(":", "").replace("T", "").replace("Z", "")
-            )
-
-        #Apply date range filter if specified
-        if filter_start_date or filter_end_date:
-            filtered = []
-            for id_, date in items:
-                date_value = timestamp_to_value(date)
-                if filter_start_date and date_value < timestamp_to_value(
-                    filter_start_date
-                ):
-                    continue
-                if filter_end_date and date_value > timestamp_to_value(filter_end_date):
-                    continue
-                filtered.append((id_, date))
-            result = dict(filtered)
-        else:
-            #Order by date
-            reverse = (
-                sort_order == "newest"
-            )  #Newest indicates highest values first, which is in reverse order
             sorted_items = sorted(
                 items, key=lambda x: timestamp_to_value(x[1]), reverse=reverse
             )
