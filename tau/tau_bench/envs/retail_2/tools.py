@@ -1001,7 +1001,7 @@ class GetTrackingHistory(Tool):
                     "order_id": order_id,
                     "tracking_id": rec.get("tracking_id"),
                     "delivery_carrier": rec.get("delivery_carrier"),
-                    "tracking_history": rec.get("tracking_history", {}).values()),
+                    "tracking_history": rec.get("tracking_history", {}),
                 }
                 out = json.dumps(payload)
                 return out

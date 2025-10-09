@@ -191,7 +191,7 @@ def _log_audit_event(data: dict[str, Any], **kwargs: Any) -> None:
         "entity_type": kwargs.get("entity_type"),
         "entity_id": kwargs.get("entity_id"),
         "action_enum": kwargs.get("action_enum", "custom_action"),
-        "payload_json": kwargs.get("payload_json", {}).values()),
+            "payload_json": kwargs.get("payload_json", {}),
         "created_at": timestamp,
     }
 

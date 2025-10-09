@@ -142,7 +142,7 @@ class CreateOrderTool(Tool):
                             "product_id": pid,
                             "item_id": iid,
                             "price": variant_data.get("price"),
-                            "options": variant_data.get("options", {}).values()),
+                            "options": variant_data.get("options", {}),
                         }
                         break
             if not variant:
@@ -1065,7 +1065,7 @@ class CreateSupplyOrderTool(Tool):
                             "product_id": pid,
                             "item_id": iid,
                             "price": variant_data.get("price"),
-                            "options": variant_data.get("options", {}).values()),
+                            "options": variant_data.get("options", {}),
                         }
                         break
 

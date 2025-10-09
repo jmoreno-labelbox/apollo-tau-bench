@@ -236,7 +236,7 @@ class AllocateInventory(Tool):
                 "quantity_allocated": quantity,
                 "unit_price": unit_price,
                 "total_price": total_price,
-                "variant_options": variant_found.get("options", {}).values()),
+                "variant_options": variant_found.get("options", {}),
                 "status": "success",
             }
 

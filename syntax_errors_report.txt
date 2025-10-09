@@ -185,39 +185,27 @@ recipes_1
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/recipes_1/tools.py
 
 recipes_4
-  Line: 194
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 187
-  Text: "payload_json": kwargs.get("payload_json", {}).values()),
+  Line: 181
+  Error: invalid syntax
+  Text: next_id = max_id + 1
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/recipes_4/tools.py
 
-recipes_5
-  Line: 60
-  Error: '(' was never closed
-  Text: return max(int(r.get(key, default)) for r in records.values()
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/recipes_5/tools.py
-
 retail_1
-  Line: 550
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 546
-  Text: "address": user.get("address", {}).values()),
+  Line: 73
+  Error: invalid syntax
+  Text: elif isinstance(filters, dict):
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_1/tools.py
 
-retail_2
-  Line: 1004
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 1000
-  Text: "tracking_history": rec.get("tracking_history", {}).values()),
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_2/tools.py
-
 retail_3
-  Line: 145
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 140
-  Text: "options": variant_data.get("options", {}).values()),
+  Line: 722
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 717
+  Text: "options": variant.get("options", {}).values()),
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_3/tools.py
 
 retail_4
-  Line: 239
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 232
-  Text: "variant_options": variant_found.get("options", {}).values()),
+  Line: 389
+  Error: unmatched ')'
+  Text: for courier in couriers.values()):
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/retail_4/tools.py
 
 retail_5

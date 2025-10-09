@@ -57,7 +57,7 @@ def _max_id(records: list[dict[str, Any]], key: str, default: int) -> int:
     pass
     if not records:
         return default
-    return max(int(r.get(key, default)) for r in records.values()
+    return max(int(r.get(key, default)) for r in records.values())
 
 
 def _latest_list_for_household(
