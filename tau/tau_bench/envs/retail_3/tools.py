@@ -719,7 +719,7 @@ class AddItemsToOrderTool(Tool):
                 "product_id": pid,
                 "item_id": iid,
                 "price": variant.get("price"),
-                "options": variant.get("options", {}).values()),
+                "options": variant.get("options", {}),
             }
 
             for _ in range(qty):
@@ -1739,7 +1739,7 @@ class SplitOrderIntoShipmentsTool(Tool):
             return out
 
         couriers = data.get("couriers", {}).values()
-        tracking_db = _convert_db_to_list(data.get("tracking", {}).values()
+        tracking_db = _convert_db_to_list(data.get("tracking", {}).values())
         items_len = len(order.get("items", []))
         created = []
 
@@ -2039,7 +2039,7 @@ class ReplaceItemVariantInOrderTool(Tool):
                         "product_id": product_id,
                         "item_id": item_id,
                         "price": variant_details.get("price"),
-                        "options": variant_details.get("options", {}).values()),
+                        "options": variant_details.get("options", {}).values(),
                     }
                     break
         if not new_variant:
@@ -2459,7 +2459,7 @@ class ReassignTrackingToNewCourierTool(Tool):
             )
             return out
 
-        tracking_db = _convert_db_to_list(data.get("tracking", {}).values()
+        tracking_db = _convert_db_to_list(data.get("tracking", {}).values())
         rec = next(
             (t for t in tracking_db if tracking_id in (t.get("tracking_id") or [])), None
         )

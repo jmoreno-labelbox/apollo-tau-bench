@@ -389,7 +389,7 @@ class AssignCourier(Tool):
         for courier in couriers.values():
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
-                eligible_data["couriers"][courier_id] = courier
+                eligible_couriers.append(courier)
 
         if not eligible_couriers:
             payload = {
@@ -1546,7 +1546,7 @@ class CalculateShippingCost(Tool):
         for courier in couriers.values():
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
-                eligible_data["couriers"][courier_id] = courier
+                eligible_couriers.append(courier)
 
         if not eligible_couriers:
             payload = {
@@ -1626,7 +1626,6 @@ class CalculateShippingCost(Tool):
 
             #Apply location-based surcharges (simplified logic)
             city = delivery_location["city"].lower()
-            delivery_location.get("state", "").lower()
 
             #Remote area surcharge for certain locations
             remote_cities = ["anchorage", "honolulu", "fairbanks", "juneau"]
@@ -1660,7 +1659,6 @@ class CalculateShippingCost(Tool):
 
         #Service type adjustments
         service_type_surcharge = 0.0
-        courier_service_types[0] if courier_service_types else "standard"
 
         if "express" in courier_service_types:
             service_type_surcharge = 5.00
@@ -1771,241 +1769,7 @@ class CalculateShippingCost(Tool):
         return out
         eligible_couriers = []
 
-        for courier in couriers.values():
-            coverage_area = courier.get("coverage_area", [])
-            if destination_country in coverage_area:
-                eligible_data["couriers"][courier_id] = courier
-
-        if not eligible_couriers:
-            payload = {
-                    "error": f"No shipping service available to {destination_country}",
-                    "status": "failed",
-                }
-            out = json.dumps(
-                payload)
-            return out
-
-        #Select courier based on courier_id parameter or use automatic selection
-        selected_courier = None
-        courier_selection_method = "automatic"
-
-        if courier_id:
-            #Find the specific courier if provided
-            selected_courier = next(
-                (c for c in eligible_couriers if c.get("courier_id") == courier_id),
-                None,
-            )
-
-            if not selected_courier:
-                payload = {
-                        "error": f"Courier {courier_id} not available for destination {destination_country} or does not exist",
-                        "status": "failed",
-                        "available_couriers": [
-                            {"courier_id": c.get("courier_id"), "name": c.get("name")}
-                            for c in eligible_couriers
-                        ],
-                    }
-                out = json.dumps(
-                    payload)
-                return out
-            courier_selection_method = "specific"
-        else:
-            #Use automatic selection logic (first available courier)
-            selected_courier = eligible_couriers[0]
-
-        #Process location information if provided
-        delivery_location = None
-        location_surcharge = 0.0
-
-        if location:
-            #Validate location has required fields
-            required_location_fields = ["city", "country"]
-            missing_fields = [
-                field for field in required_location_fields if not location.get(field)
-            ]
-
-            if missing_fields:
-                payload = {
-                        "error": f"Location missing required fields: {', '.join(missing_fields)}",
-                        "status": "failed",
-                    }
-                out = json.dumps(
-                    payload)
-                return out
-
-            delivery_location = {
-                "address1": location.get("address1", ""),
-                "address2": location.get("address2", ""),
-                "city": location.get("city"),
-                "state": location.get("state", ""),
-                "zip": location.get("zip", ""),
-                "country": location.get("country"),
-            }
-
-            #Verify location country matches destination_country parameter
-            if delivery_location["country"] != destination_country:
-                payload = {
-                        "error": f"Location country '{delivery_location['country']}' does not match destination_country '{destination_country}'",
-                        "status": "failed",
-                    }
-                out = json.dumps(
-                    payload)
-                return out
-
-            #Apply location-based surcharges (simplified logic)
-            city = delivery_location["city"].lower()
-            delivery_location.get("state", "").lower()
-
-            #Remote area surcharge for certain locations
-            remote_cities = ["anchorage", "honolulu", "fairbanks", "juneau"]
-            if city in remote_cities:
-                location_surcharge += 25.0
-
-            #Rural area surcharge based on ZIP code patterns (simplified)
-            zip_code = delivery_location.get("zip", "")
-            if zip_code and len(zip_code) >= 5:
-                #Example: certain ZIP code ranges might be considered rural
-                if zip_code.startswith(("9999", "0000")):  #Placeholder logic
-                    location_surcharge += 10.0
-
-        #Get courier-specific pricing information
-        courier_base_cost = selected_courier.get("base_cost", 9.99)
-        courier_rating = selected_courier.get("rating", 0)
-        courier_service_types = selected_courier.get("service_types", ["standard"])
-        courier_specialties = selected_courier.get("specialties", [])
-
-        #Calculate courier-specific adjustments
-        courier_adjustment = 0.0
-        service_quality_bonus = 0.0
-
-        #Premium pricing for high-rated couriers
-        if courier_rating >= 4.5:
-            service_quality_bonus = 2.00  #Premium service surcharge
-        elif courier_rating >= 4.0:
-            service_quality_bonus = 1.00  #Good service slight surcharge
-        elif courier_rating < 3.0:
-            courier_adjustment = -1.00  #Discount for lower-rated couriers
-
-        #Service type adjustments
-        service_type_surcharge = 0.0
-        courier_service_types[0] if courier_service_types else "standard"
-
-        if "express" in courier_service_types:
-            service_type_surcharge = 5.00
-        elif "overnight" in courier_service_types:
-            service_type_surcharge = 15.00
-        elif "same-day" in courier_service_types:
-            service_type_surcharge = 25.00
-
-        #Specialty service adjustments
-        specialty_adjustment = 0.0
-        if "urban" in courier_specialties and location:
-            city = delivery_location["city"].lower()
-            major_cities = ["new york", "los angeles", "chicago", "houston", "phoenix"]
-            if city in major_cities:
-                specialty_adjustment = (
-                    -2.00
-                )  #Discount for urban specialists in major cities
-
-        if "rural" in courier_specialties and location:
-            zip_code = delivery_location.get("zip", "")
-            if zip_code and len(zip_code) >= 5:
-                #Rural areas benefit from rural specialists
-                if not zip_code.startswith(
-                    ("100", "200", "300", "400", "500")
-                ):  #Non-major metro areas
-                    specialty_adjustment = -3.00
-
-        #Basic shipping cost calculation with courier-specific base cost
-        base_cost = courier_base_cost
-        weight_cost = total_items * 2.50  #$2.50 per unit weight
-
-        #Rule: High-value orders (>$1000 total) require payment verification before fulfillment
-        insurance_required = order_value > 1000.0
-        insurance_cost = (
-            (order_value * 0.015) if insurance_required else 0
-        )  #1.5% of order value
-
-        #International shipping surcharge
-        international_surcharge = 15.00 if destination_country != "USA" else 0
-
-        #Calculate total shipping cost with all adjustments
-        total_shipping_cost = (
-            base_cost
-            + weight_cost
-            + insurance_cost
-            + international_surcharge
-            + location_surcharge
-            + courier_adjustment
-            + service_quality_bonus
-            + service_type_surcharge
-            + specialty_adjustment
-        )
-
-        #Ensure minimum shipping cost
-        total_shipping_cost = max(total_shipping_cost, 5.00)  #Minimum $5.00 shipping
-
-        result = {
-            "status": "success",
-            "destination_country": destination_country,
-            "delivery_location": delivery_location,
-            "courier_selection": {
-                "selected_courier": {
-                    "courier_id": selected_courier.get("courier_id"),
-                    "name": selected_courier.get("name"),
-                    "rating": courier_rating,
-                    "service_types": courier_service_types,
-                    "specialties": courier_specialties,
-                    "contact_info": selected_courier.get("contact_info"),
-                },
-                "selection_method": courier_selection_method,
-                "courier_requested": courier_id is not None,
-                "alternative_couriers_available": len(eligible_couriers) - 1,
-            },
-            "shipping_breakdown": {
-                "base_cost": courier_base_cost,
-                "weight_cost": round(weight_cost, 2),
-                "insurance_cost": round(insurance_cost, 2),
-                "international_surcharge": international_surcharge,
-                "location_surcharge": round(location_surcharge, 2),
-                "courier_adjustments": {
-                    "courier_base_adjustment": round(courier_adjustment, 2),
-                    "service_quality_bonus": round(service_quality_bonus, 2),
-                    "service_type_surcharge": round(service_type_surcharge, 2),
-                    "specialty_adjustment": round(specialty_adjustment, 2),
-                },
-                "total_cost": round(total_shipping_cost, 2),
-            },
-            "order_details": {
-                "item_total": total_items,
-                "value": order_value,
-                "requires_insurance": insurance_required,
-            },
-            "courier_comparison": {
-                "selected_courier_cost": round(total_shipping_cost, 2),
-                "available_alternatives": len(eligible_couriers) - 1,
-                "cost_factors": {
-                    "courier_rating_impact": (
-                        f"+${service_quality_bonus:.2f}"
-                        if service_quality_bonus > 0
-                        else f"${courier_adjustment:.2f}"
-                    ),
-                    "service_type_impact": (
-                        f"+${service_type_surcharge:.2f}"
-                        if service_type_surcharge > 0
-                        else "$0.00"
-                    ),
-                    "specialty_discount": (
-                        f"${specialty_adjustment:.2f}"
-                        if specialty_adjustment != 0
-                        else "$0.00"
-                    ),
-                },
-            },
-        }
-        payload = result
-        out = json.dumps(payload)
-        return out
+        
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -3531,147 +3295,7 @@ class CreateSupplyOrder(Tool):
             items_to_process,
             products,
         )
-        if quantity <= 0:
-            payload = {"error": "Quantity must be greater than 0", "status": "failed"}
-            out = json.dumps(
-                payload)
-            return out
-
-        #Validate unit_cost (can be float or list of floats)
-        unit_costs_list = []
-        if isinstance(unit_cost, (int, float)):
-            if unit_cost < 0:
-                payload = {"error": "Unit cost cannot be negative", "status": "failed"}
-                out = json.dumps(
-                    payload)
-                return out
-            unit_costs_list = [float(unit_cost)]
-        elif isinstance(unit_cost, list):
-            for i, cost in enumerate(unit_cost):
-                if not isinstance(cost, (int, float)) or cost < 0:
-                    payload = {
-                            "error": f"Unit cost at index {i} must be a non-negative number",
-                            "status": "failed",
-                        }
-                    out = json.dumps(
-                        payload)
-                    return out
-            unit_costs_list = [float(c) for c in unit_cost]
-        else:
-            payload = {
-                    "error": "Unit cost must be a number or list of numbers",
-                    "status": "failed",
-                }
-            out = json.dumps(
-                payload)
-            return out
-
-        #Validate that at least one item identifier is provided
-        if not item_id and not item_ids:
-            payload = {
-                    "error": "Either item_id or item_ids must be provided",
-                    "status": "failed",
-                }
-            out = json.dumps(
-                payload)
-            return out
-
-        #Build the list of items to process
-        items_to_process = []
-        if item_id:
-            items_to_process.append(item_id)
-        if item_ids:
-            items_to_process.extend(item_ids)
-
-        #Remove duplicates while preserving order
-        items_to_process = list(dict.fromkeys(items_to_process))
-
-        if not items_to_process:
-            payload = {"error": "No valid item IDs provided", "status": "failed"}
-            out = json.dumps(
-                payload)
-            return out
-
-        #Validate unit_cost list matches item count for multiple items
-        if len(items_to_process) > 1:
-            if len(unit_costs_list) == 1:
-                #Single unit cost for multiple items - use same cost for all
-                unit_costs_list = unit_costs_list * len(items_to_process)
-            elif len(unit_costs_list) != len(items_to_process):
-                payload = {
-                        "error": f"When providing multiple items ({len(items_to_process)}), unit_cost must be a single value or a list with the same number of values ({len(unit_costs_list)} provided)",
-                        "status": "failed",
-                    }
-                out = json.dumps(
-                    payload)
-                return out
-
-        #Get product information
-        products = data.get("products", {}).values()
-
-        #When item_ids are provided, find product_id for each item
-        if item_ids or not product_id:
-            item_to_product_map = {}
-            products_involved = set()
-
-            for item in items_to_process:
-                product_found = None
-                for product in products.values():
-                    variants = product.get("variants", {}).values()
-                    if item in variants:
-                        product_found = product.get("product_id")
-                        products_involved.add(product_found)
-                        break
-
-                if not product_found:
-                    payload = {
-                            "error": f"Item {item} not found in any product catalog",
-                            "status": "failed",
-                        }
-                    out = json.dumps(
-                        payload)
-                    return out
-
-                item_to_product_map[item] = product_found
-
-            #If single product_id was provided but items belong to different products, show warning
-            if product_id and len(products_involved) > 1:
-                payload = {
-                        "error": f"Items belong to multiple products: {list(products_involved)}. Cannot use single product_id parameter.",
-                        "status": "failed",
-                    }
-                out = json.dumps(
-                    payload)
-                return out
-
-            #If no product_id provided and items span multiple products, handle multi-product order
-            if len(products_involved) > 1:
-                return CreateSupplyOrder._create_multi_product_order(
-                    data,
-                    supplier_id,
-                    quantity,
-                    unit_costs_list,
-                    items_to_process,
-                    item_to_product_map,
-                    products,
-                )
-
-            #Single product case - use the found product_id
-            target_product_id = list(products_involved)[0]
-        else:
-            #product_id was provided, validate it exists
-            target_product_id = product_id
-
-        #Single product order logic
-        return CreateSupplyOrder._create_single_product_order(
-            data,
-            supplier_id,
-            target_product_id,
-            quantity,
-            unit_costs_list,
-            items_to_process,
-            products,
-        )
+       
     
 
     @staticmethod
@@ -3717,7 +3341,7 @@ class CreateSupplyOrder(Tool):
                             if i < len(unit_costs_list)
                             else unit_costs_list[0]
                         ),
-                    }
+                    })
                 
             else:
                 invalid_items.append(item)
@@ -5098,7 +4722,7 @@ class GetPurchasedItems(Tool):
                         additional_details = {
                             "current_availability": variant_info.get("available", False),
                             "current_price": variant_info.get("price", 0),
-                            "full_options": variant_info.get("options", {}).values()),
+                            "full_options": variant_info.get("options", {}).values(),
                             "supplier_id": product.get("supplier_id"),
                         }
                     break
@@ -5170,7 +4794,7 @@ class GetPurchasedItems(Tool):
                 "user_id": user_id,
                 "order_status": order_status,
                 "order_date": order_timestamp,
-                "delivery_address": target_order.get("address", {}).values()),
+                "delivery_address": target_order.get("address", {}).values(),
             },
             "financial_summary": {
                 "total_order_value": round(total_order_value, 2),
@@ -5191,6 +4815,7 @@ class GetPurchasedItems(Tool):
                 "returns_requested": "returns" in target_order,
                 "return_requests": target_order.get("returns", []),
             },
+        }
         payload = result
         out = json.dumps(payload)
         return out
@@ -5546,7 +5171,7 @@ class GetUserInfo(Tool):
         payload = {
             "status": "success",
             "user_id": user_id,
-            "name": user.get("name", {}).values(),
+            "name": user.get("name", ""),
             "email": user.get("email", ""),
             "address": user.get("address", {}).values(),
             "total_orders": len(user.get("orders", [])),
@@ -5763,7 +5388,7 @@ class UpdateSupplierInfo(Tool):
             "supplier_id": supplier_id,
             "supplier_name": supplier_to_update.get("name"),
             "updates_applied": updates_applied,
-            "updated_contact_info": supplier_to_update.get("contact_info", {}).values()),
+            "updated_contact_info": supplier_to_update.get("contact_info", {}).values(),
             "performance_rating": supplier_to_update.get("performance_metrics", {}).values().get(
                 "rating"
             ),
@@ -6311,8 +5936,8 @@ class GetSupplierDetails(Tool):
             "supplier_id": supplier_id,
             "supplier_info": {
                 "name": supplier_found.get("name"),
-                "contact_info": supplier_found.get("contact_info", {}).values()),
-                "performance_metrics": supplier_found.get("performance_metrics", {}).values()),
+                "contact_info": supplier_found.get("contact_info", {}).values(),
+                "performance_metrics": supplier_found.get("performance_metrics", {}).values(),
                 "notes": supplier_found.get("notes", ""),
             },
             "product_portfolio": {
@@ -6407,7 +6032,7 @@ class GetSupplyOrderDetails(Tool):
             if supplier.get("supplier_id") == supplier_id:
                 supplier_info = {
                     "name": supplier.get("name"),
-                    "contact_info": supplier.get("contact_info", {}).values()),
+                    "contact_info": supplier.get("contact_info", {}),
                 }
                 break
 
@@ -6595,7 +6220,7 @@ class SearchSuppliersByProduct:
             supplier_match = {
                 "supplier_id": current_supplier_id,
                 "supplier_name": supplier_name,
-                "contact_info": supplier.get("contact_info", {}).values()),
+                "contact_info": supplier.get("contact_info", {}).values(),
                 "matching_items": [],
             }
 
@@ -6860,7 +6485,7 @@ class GetProductIds:
             )
 
             order_found = False
-            for order in orders.values()):
+            for order in orders.values():
                 if (
                     order.get("order_id") == formatted_order_id
                     and order.get("user_id") == user_id
@@ -7104,7 +6729,7 @@ class GetSupplierByProduct:
                     "contact_info": contact_info,
                     "matching_products": matching_products,
                     "total_matching_products": len(matching_products),
-                    "performance_metrics": supplier.get("performance_metrics", {}).values()),
+                    "performance_metrics": supplier.get("performance_metrics", {}).values(),
                     "last_updated": supplier.get("last_updated", "Never"),
                 }
 
@@ -7726,7 +7351,7 @@ class GetProductItemsPerSupplier:
                                     "available": item_variant_info.get(
                                         "available", False
                                     ),
-                                    "options": item_variant_info.get("options", {}).values()),
+                                    "options": item_variant_info.get("options", {}),
                                 },
                             }
                         )
@@ -7996,7 +7621,7 @@ class UpdateSupplierProduct(Tool):
                         "available": variant_info.get("available", False),
                         "options": variant_info.get("options", {}),
                     },
-                }
+                })
         
 
         supplier_to_update["item_stock"] = item_stock
@@ -8142,7 +7767,7 @@ class GetCourierByName(Tool):
             "courier_details": {
                 "courier_id": best_match.get("courier_id"),
                 "name": best_match.get("name"),
-                "contact_info": best_match.get("contact_info", {}).values()),
+                "contact_info": best_match.get("contact_info", {}).values(),
                 "coverage_area": coverage_area,
                 "service_types": best_match.get("service_types", ["standard"]),
                 "base_cost": best_match.get("base_cost", 0),
@@ -8955,7 +8580,7 @@ class AssignTrackingNumber(Tool):
             )
 
             order_found = False
-            for i, order in enumerate(orders.values():
+            for i, order in enumerate(orders.values()):
                 if order.get("order_id") == formatted_order_id:
                     current_status = order.get("status")
 
@@ -9019,7 +8644,7 @@ class AssignTrackingNumber(Tool):
         for courier in couriers.values():
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
-                eligible_data["couriers"][courier_id] = courier
+                eligible_couriers.append(courier)
 
         if not eligible_couriers:
             payload = {
