@@ -4,6 +4,14 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetDepartmentBudgetOverview(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], department_name: str, fiscal_year: int = datetime.now().year) -> str:

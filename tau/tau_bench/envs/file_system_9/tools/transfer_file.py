@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class TransferFile(Tool):
     """Emulates the transfer of a file by establishing its record on the destination server in file_system.json. Creates the server and directory if they are absent."""
 

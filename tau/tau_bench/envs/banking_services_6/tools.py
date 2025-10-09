@@ -9,6 +9,15 @@ NOW: datetime = datetime(2025, 7, 22, 16, 35, 15, tzinfo=timezone.utc)
 DT_STR_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _get_next_id(prefix: str, existing_ids: List[str]) -> str:
     if not existing_ids:
         return f"{prefix}_1"

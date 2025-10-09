@@ -9,6 +9,15 @@ from tau_bench.envs.tool import Tool
 HARD_TS = "2024-08-15T12:00:00Z"
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _get_hardcoded_template_and_render(
     template_name: str, context: dict[str, Any]
 ) -> dict[str, str]:

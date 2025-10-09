@@ -4,6 +4,14 @@ import os
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class SplitOrderIntoShipmentsTool(Tool):
     """
     Divide an order's items into several shipments, generating tracking and fulfillments.
@@ -42,7 +50,7 @@ class SplitOrderIntoShipmentsTool(Tool):
             return out
 
         couriers = data.get("couriers", [])
-        tracking_db = data.get("tracking", [])
+        tracking_db = _convert_db_to_list(data.get("tracking", {}))
         items_len = len(order.get("items", []))
         created = []
 

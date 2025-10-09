@@ -6,6 +6,14 @@ from collections import Counter
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class FetchSubmissionInfo(Tool):
     """Utility to retrieve submission information for an article or based on submission ID."""
 

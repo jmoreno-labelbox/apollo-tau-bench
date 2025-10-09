@@ -4,6 +4,14 @@ import uuid
 from datetime import datetime, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class ArchiveChanges(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], project_id: str = None, archive_before_date: str = None, archived_by: str = None) -> str:

@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class FindPreviousSuccessfulDeployment(Tool):
     """Locates the most recent successful deployment for a specified pipeline prior to a certain time."""
 

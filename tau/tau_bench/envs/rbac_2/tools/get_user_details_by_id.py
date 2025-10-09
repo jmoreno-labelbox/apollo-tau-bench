@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timezone
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetUserDetailsById(Tool):
     """Fetches complete details of a user by their unique user_id."""
 

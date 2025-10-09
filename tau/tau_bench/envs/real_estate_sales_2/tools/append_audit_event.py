@@ -3,6 +3,14 @@ import json
 from itertools import islice
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class AppendAuditEvent(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], actor_id: str = None, action: str = None, entity_type: str = None, entity_id: str = None, metadata_json: dict = None) -> str:

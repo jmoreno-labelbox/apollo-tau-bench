@@ -7,6 +7,15 @@ from tau_bench.envs.tool import Tool
 _HARD_TS = "2024-06-26 16:05:00+00:00"
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _eq(a: str | None, b: str | None) -> bool:
     pass
     return (a or "") == (b or "")

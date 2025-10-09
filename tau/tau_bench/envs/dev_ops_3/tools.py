@@ -6,6 +6,15 @@ from tau_bench.envs.tool import Tool
 FIXED_TIMESTAMP = "2025-08-14T10:00:00Z"
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _get_next_id(prefix: str, existing_ids: list[str]) -> str:
     """Determines the subsequent sequential ID by identifying the highest current ID for a specified prefix. This approach is more reliable than presuming the list is in order."""
     pass

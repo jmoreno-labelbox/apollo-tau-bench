@@ -6,6 +6,14 @@ import calendar
 from typing import Any, Dict
 import random
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class TransferMoneySameCurrency(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, source_account_id: str = None, 

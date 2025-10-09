@@ -9,6 +9,15 @@ DEFAULT_AUTOMATION_DURATION_MS = 5 * 60 * 1000  #5 minutes
 ID_PREFIX = "AUTO"
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _find_by_id(rows: list[dict[str, Any]], _id: str) -> dict[str, Any] | None:
     pass
     idx = _idx_by_id(rows, _id)

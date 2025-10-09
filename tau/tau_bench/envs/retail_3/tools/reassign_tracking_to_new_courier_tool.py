@@ -4,6 +4,14 @@ import os
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class ReassignTrackingToNewCourierTool(Tool):
     """
     Reassign an existing tracking record to a different courier, creating a new tracking id.
@@ -32,7 +40,7 @@ class ReassignTrackingToNewCourierTool(Tool):
             )
             return out
 
-        tracking_db = data.get("tracking", [])
+        tracking_db = _convert_db_to_list(data.get("tracking", {}))
         rec = next(
             (t for t in tracking_db if tracking_id in (t.get("tracking_id") or [])), None
         )

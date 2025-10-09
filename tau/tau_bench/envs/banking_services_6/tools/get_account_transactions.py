@@ -3,6 +3,14 @@ import json
 from datetime import date, datetime, time, timedelta, timezone
 from typing import Any, Dict, List
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetAccountTransactions(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str, days_history: int = 30, current_date: str = None) -> str:

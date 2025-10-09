@@ -4,6 +4,14 @@ import json
 from datetime import date, datetime, timedelta, timezone
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class RemoveRecipeFromMealPlanTool(Tool):
     """
     A tool to remove a single recipe entry from a meal plan.

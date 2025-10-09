@@ -7,6 +7,15 @@ LAT = 55
 LONG = 55
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 class SetProjectConfig(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], target_city: str = None, forecast_horizon_days: int = None, max_station_distance_km_nullable: float = None) -> str:

@@ -4,6 +4,14 @@ import uuid
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetAuditReportSummary(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], audit_id: str = None, include_details: bool = False, audit_type: str = None) -> str:

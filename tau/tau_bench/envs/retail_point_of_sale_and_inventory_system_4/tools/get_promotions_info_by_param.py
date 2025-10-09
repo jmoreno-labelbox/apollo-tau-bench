@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetPromotionsInfoByParam(Tool):  #VIEW
     @staticmethod
     def invoke(
@@ -9,7 +17,7 @@ class GetPromotionsInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = data.get("promotions", [])
+        db = _convert_db_to_list(data.get("promotions", {}))
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -22,7 +30,7 @@ class GetPromotionsInfoByParam(Tool):  #VIEW
         out = json.dumps(payload)
         return out
         pass
-        db = data.get("promotions", [])
+        db = _convert_db_to_list(data.get("promotions", {}))
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db

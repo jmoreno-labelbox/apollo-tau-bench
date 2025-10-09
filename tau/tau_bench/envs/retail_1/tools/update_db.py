@@ -1,6 +1,16 @@
 from tau_bench.envs.tool import Tool
 import json
 from typing import Any
+from tau_bench.envs.retail_1.tools import _match, _apply_update
+
+
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
 
 class UpdateDB(Tool):  #WRITE
     @staticmethod
@@ -13,7 +23,7 @@ class UpdateDB(Tool):  #WRITE
         update_params: dict[str, Any],
     ) -> str:
         pass
-        db = data.get(database_name, [])
+        db = _convert_db_to_list(data.get(database_name, {}))
         filtered_db = [row for row in db if _match(row, filter_params)]
         for row in filtered_db:
             _apply_update(row, update_params)

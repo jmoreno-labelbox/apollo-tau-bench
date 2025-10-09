@@ -8,6 +8,15 @@ import random
 
 random.seed(42)
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def get_next_customer_id() -> str:
     return f"cust_1"
 

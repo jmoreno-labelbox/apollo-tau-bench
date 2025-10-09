@@ -7,6 +7,14 @@ from typing import Any
 import re
 from datetime import date as _date
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class ComputeCheapestByDateForRoute(Tool):
     """
     Calculate the least expensive flight for each available date for a route, categorized by cabin(s).

@@ -4,6 +4,15 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _filter_db(db, filter_params):
     pass
     def match(row):
@@ -44,7 +53,7 @@ class EditCustomersDb(Tool):  #CREATE
         current_time: str = None,
         delete: bool = False
     ) -> str:
-        db = data.get("customers", [])
+        db = _convert_db_to_list(data.get("customers", {}))
         if customer_id:
             idx, row = _find_by_id(db, "customer_id", customer_id)
             if row:
@@ -125,7 +134,7 @@ class EditCustomersDb(Tool):  #CREATE
             out = json.dumps(payload)
             return out
         pass
-        db = data.get("customers", [])
+        db = _convert_db_to_list(data.get("customers", {}))
         if customer_id:
             idx, row = _find_by_id(db, "customer_id", customer_id)
             if row:
@@ -290,7 +299,7 @@ class GetCustomersInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = data.get("customers", [])
+        db = _convert_db_to_list(data.get("customers", {}))
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -303,7 +312,7 @@ class GetCustomersInfoByParam(Tool):  #VIEW
         out = json.dumps(payload)
         return out
         pass
-        db = data.get("customers", [])
+        db = _convert_db_to_list(data.get("customers", {}))
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -379,7 +388,7 @@ class GetTopNCustomersByLoyaltyPoints(Tool):  #VIEW
 class GetCustomersWithBirthdayToday(Tool):  #VIEW
     @staticmethod
     def invoke(data: dict[str, Any], current_day: str) -> str:
-        db = data.get("customers", [])
+        db = _convert_db_to_list(data.get("customers", {}))
         # current_day must follow the "MM-DD" format
         result = []
         for row in db:
@@ -432,7 +441,7 @@ class EditEmployeesDb(Tool):  #CREATE
     ) -> str:
         _nameL = name or ''.lower()
         pass
-        db = data.get("employees", [])
+        db = _convert_db_to_list(data.get("employees", {}))
         if employee_id:
             idx, row = _find_by_id(db, "employee_id", employee_id)
             if row:
@@ -498,7 +507,7 @@ class EditEmployeesDb(Tool):  #CREATE
             return out
         _nameL = name or ''.lower()
         pass
-        db = data.get("employees", [])
+        db = _convert_db_to_list(data.get("employees", {}))
         if employee_id:
             idx, row = _find_by_id(db, "employee_id", employee_id)
             if row:
@@ -632,7 +641,7 @@ class GetEmployeesInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = data.get("employees", [])
+        db = _convert_db_to_list(data.get("employees", {}))
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -645,7 +654,7 @@ class GetEmployeesInfoByParam(Tool):  #VIEW
         out = json.dumps(payload)
         return out
         pass
-        db = data.get("employees", [])
+        db = _convert_db_to_list(data.get("employees", {}))
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -709,7 +718,7 @@ class EditProductsDb(Tool):  #CREATE
         current_time: str = None,
         delete: bool = False
     ) -> str:
-        db = data.get("products", [])
+        db = _convert_db_to_list(data.get("products", {}))
         if sku:
             idx, row = _find_by_id(db, "sku", sku)
             if row:
@@ -915,7 +924,7 @@ class GetProductsInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = data.get("products", [])
+        db = _convert_db_to_list(data.get("products", {}))
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -928,7 +937,7 @@ class GetProductsInfoByParam(Tool):  #VIEW
         out = json.dumps(payload)
         return out
         pass
-        db = data.get("products", [])
+        db = _convert_db_to_list(data.get("products", {}))
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -1028,7 +1037,7 @@ class EditInventoryDb(Tool):  #CREATE
         current_time: str = None,
         delete: bool = False
     ) -> str:
-        db = data.get("inventory", [])
+        db = _convert_db_to_list(data.get("inventory", {}))
         if id:
             idx, row = _find_by_id(db, "id", id)
             if row:
@@ -1104,7 +1113,7 @@ class EditInventoryDb(Tool):  #CREATE
             out = json.dumps(payload)
             return out
         pass
-        db = data.get("inventory", [])
+        db = _convert_db_to_list(data.get("inventory", {}))
         if id:
             idx, row = _find_by_id(db, "id", id)
             if row:
@@ -1264,7 +1273,7 @@ class GetInventoryInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = data.get("inventory", [])
+        db = _convert_db_to_list(data.get("inventory", {}))
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -1307,7 +1316,7 @@ class GetInventoryInfoByParam(Tool):  #VIEW
 class CheckLowStock(Tool):  #CREATE
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str, current_time: str) -> str:
-        db = data.get("inventory", [])
+        db = _convert_db_to_list(data.get("inventory", {}))
         low_stock_skus = []
         for row in db:
             if row.get("store_id") == store_id:
@@ -1361,7 +1370,7 @@ class UpdateInventoryItem(Tool):  #CREATE
         quantity_change: int,
         current_time: str
     ) -> str:
-        db = data.get("inventory", [])
+        db = _convert_db_to_list(data.get("inventory", {}))
         filtered_db = _filter_db(db, {"sku": sku, "store_id": store_id})
         if len(filtered_db) == 1:
             row = filtered_db[0]
@@ -1375,7 +1384,7 @@ class UpdateInventoryItem(Tool):  #CREATE
             out = json.dumps(payload)
             return out
         pass
-        db = data.get("inventory", [])
+        db = _convert_db_to_list(data.get("inventory", {}))
         filtered_db = _filter_db(db, {"sku": sku, "store_id": store_id})
         if len(filtered_db) == 1:
             row = filtered_db[0]
@@ -1437,7 +1446,7 @@ class EditPromotionsDb(Tool):  #CREATE
         times_used: int = None,
         delete: bool = False
     ) -> str:
-        db = data.get("promotions", [])
+        db = _convert_db_to_list(data.get("promotions", {}))
         if promotion_id:
             idx, row = _find_by_id(db, "promotion_id", promotion_id)
             if row:
@@ -1604,7 +1613,7 @@ class GetPromotionsInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = data.get("promotions", [])
+        db = _convert_db_to_list(data.get("promotions", {}))
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -1664,7 +1673,7 @@ class EditTransactionsDb(Tool):  #CREATE
         current_time: str = None,
         delete: bool = False
     ) -> str:
-        db = data.get("transactions", [])
+        db = _convert_db_to_list(data.get("transactions", {}))
         if transaction_id:
             idx, row = _find_by_id(db, "transaction_id", transaction_id)
             if row:
@@ -1848,7 +1857,7 @@ class GetTransactionsInfoByParam(Tool):  #VIEW
         info_items: list[str] = None
     ) -> str:
         pass
-        db = data.get("transactions", [])
+        db = _convert_db_to_list(data.get("transactions", {}))
         # If sku exists in filter_params, filter transactions based on line_items that include that sku
         filter_params_no_sku = filter_params.copy()
         if "sku" in filter_params.keys():
@@ -1874,7 +1883,7 @@ class GetTransactionsInfoByParam(Tool):  #VIEW
         out = json.dumps(payload)
         return out
         pass
-        db = data.get("transactions", [])
+        db = _convert_db_to_list(data.get("transactions", {}))
         #If sku exists in filter_params, filter transactions based on line_items that include that sku
         filter_params_no_sku = filter_params.copy()
         if "sku" in filter_params.keys():

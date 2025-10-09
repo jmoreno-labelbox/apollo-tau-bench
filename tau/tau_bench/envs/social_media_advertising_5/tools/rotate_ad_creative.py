@@ -4,6 +4,14 @@ import json
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class RotateAdCreative(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], ad_id_to_activate: str = None, ad_id_to_pause: str = None, timestamp: Any = None) -> str:

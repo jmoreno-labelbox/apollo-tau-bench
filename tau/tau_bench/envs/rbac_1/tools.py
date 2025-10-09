@@ -9,6 +9,15 @@ NOW: datetime = datetime(2025, 8, 8, 9, 56, 15, tzinfo=timezone.utc)
 DT_STR_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 class CreateUser(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], username: str = None, email: str = None, department: str = None, status: str = None,

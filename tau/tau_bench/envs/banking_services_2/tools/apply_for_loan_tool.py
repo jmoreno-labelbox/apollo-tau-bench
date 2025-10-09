@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 from typing import Any, Dict
 import json
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class ApplyForLoanTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, loan_type: str = None, 

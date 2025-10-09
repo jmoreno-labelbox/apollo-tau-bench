@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CalculateExpectedArrivalDate(Tool):
     """Determines an expected arrival date based on the supplier's typical lead time."""
 

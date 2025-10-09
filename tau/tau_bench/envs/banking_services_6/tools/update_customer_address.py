@@ -3,6 +3,14 @@ import json
 from datetime import date, datetime, time, timedelta, timezone
 from typing import Any, Dict, List
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class UpdateCustomerAddress(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, street_address: str = None, city: str = None, state: str = None, postal_code: str = None, country: str = None) -> str:

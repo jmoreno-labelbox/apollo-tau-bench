@@ -4,6 +4,14 @@ import hashlib
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class ComputeAndResolveDestinationPathsTool(Tool):
     """Determines destination paths for files according to sorting rules and addresses name conflicts."""
 

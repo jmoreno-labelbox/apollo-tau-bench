@@ -4,6 +4,14 @@ import os
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class MergeOrdersForSameUserTool(Tool):
     """
     Combine items from a source order into a target order when both are associated with the same user.

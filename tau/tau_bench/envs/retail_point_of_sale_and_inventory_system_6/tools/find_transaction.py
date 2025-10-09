@@ -3,6 +3,14 @@ import json
 from collections import OrderedDict, defaultdict
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class find_transaction(Tool):
     """Searches for and retrieves a transaction. If the transaction_id is known, it returns that specific row. If other parameters are provided, it searches for and returns all transactions that match those parameters."""
 

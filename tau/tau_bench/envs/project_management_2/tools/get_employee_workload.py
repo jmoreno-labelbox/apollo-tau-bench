@@ -4,6 +4,14 @@ import uuid
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetEmployeeWorkload(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, sprint_id: str = None, include_blocked: bool = True) -> str:

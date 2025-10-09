@@ -3,6 +3,14 @@ import json
 import random
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CreatePurchaseOrder(Tool):
     """Generates a new purchase order along with a corresponding 'Planned' inbound shipment."""
 

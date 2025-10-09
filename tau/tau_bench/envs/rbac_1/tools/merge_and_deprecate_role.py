@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timezone
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class MergeAndDeprecateRole(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], source_role_id: str = None, target_role_id: str = None, actor_id: str = None) -> str:

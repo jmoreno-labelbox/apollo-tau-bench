@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class SearchNeighborhoods(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], city: str = None, min_avg_price: float = 0, max_avg_price: float = float("inf"),

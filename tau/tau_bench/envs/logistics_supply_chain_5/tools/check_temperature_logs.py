@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timedelta
 from typing import Any, Dict
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CheckTemperatureLogs(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], shipment_id: str = None, required_temp_range: str = None, excursions_flag: bool = False,

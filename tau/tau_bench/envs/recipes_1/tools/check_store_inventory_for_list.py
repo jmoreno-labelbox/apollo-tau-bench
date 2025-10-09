@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CheckStoreInventoryForList(Tool):
     """Mark low/out_of_stock items for a list at a specific store; include the best in-store option if it exists."""
 

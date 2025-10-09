@@ -4,6 +4,14 @@ import hashlib
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class UpdateTaskStatusTool(Tool):
     """Modifies the status of a task in the file_check_db."""
 

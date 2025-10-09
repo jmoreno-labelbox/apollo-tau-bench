@@ -3,6 +3,14 @@ import json
 from collections import OrderedDict, defaultdict
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class make_transaction(Tool):
     """Tool for managing purchases and refunds, adding records to transactions and updating stock as needed."""
 

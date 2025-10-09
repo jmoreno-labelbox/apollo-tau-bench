@@ -5,6 +5,15 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _calculate_hst(subtotal: float, rate: float = 0.13) -> float:
     """Compute HST (13% standard for Ontario)"""
     return round(subtotal * rate, 2)

@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class UpdateFlightStatusByNumberAndDate(Tool):
     """API tool for updating the status and optionally modifying the estimated departure and arrival times of a specific flight on a designated date."""
 

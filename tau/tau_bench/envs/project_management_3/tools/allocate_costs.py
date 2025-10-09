@@ -4,6 +4,14 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class AllocateCosts(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], expense_id: str, allocation_splits: list = [], allocator_id: str = None, fiscal_year: int = datetime.now().year) -> str:

@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CreateUser(Tool):
     """
     Establish a new user account with consistent ID generation.

@@ -4,6 +4,15 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 class GetArchiveInstructionsByID(Tool):
     """Fetches a particular archival task using its ID from the instructions database."""
 
@@ -448,13 +457,13 @@ class FindPendingTasksByType(Tool):
     def invoke(data: dict[str, Any], task_type: str = None) -> str:
         pending_tasks = []
         if task_type == "archive":
-            db = data.get("archive_instructions", [])
+            db = _convert_db_to_list(data.get("archive_instructions", {}))
             pending_tasks = [t for t in db if t.get("status") == "pending"]
         elif task_type == "file_check":
-            db = data.get("file_check_db", [])
+            db = _convert_db_to_list(data.get("file_check_db", {}))
             pending_tasks = [t for t in db if not t.get("completed")]
         elif task_type == "file_organization":
-            db = data.get("file_lists", [])
+            db = _convert_db_to_list(data.get("file_lists", {}))
             op_ids = {f["operation_id"] for f in db if f.get("status") == "pending"}
             all_ops = data.get("directories", [])
             pending_tasks = [op for op in all_ops if op["operation_id"] in op_ids]

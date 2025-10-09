@@ -4,6 +4,14 @@ import re
 from datetime import datetime, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class ResolveSSOAccessIssueTool(Tool):
     """Imitates an IT intervention to address a failed SSO access verification for a candidate."""
 

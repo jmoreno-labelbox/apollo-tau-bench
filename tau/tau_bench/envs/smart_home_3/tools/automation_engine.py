@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class AutomationEngine(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], action: str = "get", rule_id: str = None, trigger_type: str = None, rule_data: dict = None) -> str:

@@ -11,6 +11,15 @@ current_time = "T09:00:00"
 end_time = "T09:10:00"
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _iso_at(date_str: str, time_suffix: str) -> str:
     pass
     return f"{date_str}{time_suffix}"

@@ -3,6 +3,14 @@ import json
 from itertools import islice
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class PersistOutboundEmail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], client_id: str = None, broker_id: str = None, subject: str = None, body_uri: str = None, template_code: str = None, campaign_id: str = None) -> str:

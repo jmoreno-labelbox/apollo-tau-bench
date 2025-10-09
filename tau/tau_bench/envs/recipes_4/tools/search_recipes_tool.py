@@ -4,6 +4,14 @@ import json
 from datetime import date, datetime, timedelta, timezone
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class SearchRecipesTool(Tool):
     """
     A tool to search for recipes based on a combination of filters.

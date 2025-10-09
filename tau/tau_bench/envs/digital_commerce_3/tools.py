@@ -16,6 +16,15 @@ ID_KEYS = {
 }
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _next_numeric_id(existing: list[dict[str, Any]], field: str) -> str:
     pass
     max_id = 0

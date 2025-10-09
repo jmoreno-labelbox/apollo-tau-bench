@@ -4,6 +4,14 @@ import math
 import re
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class FetchListingsByIdsTool(Tool):
     """Retrieves listings for various property_ids, with sales fallback if absent."""
 

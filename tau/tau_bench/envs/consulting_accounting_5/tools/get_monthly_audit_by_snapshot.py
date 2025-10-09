@@ -4,6 +4,14 @@ from datetime import datetime
 from typing import Any, Dict
 from datetime import timedelta
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetMonthlyAuditBySnapshot(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], snapshot_id: str) -> str:

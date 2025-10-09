@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timedelta
 from typing import Any, Dict
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class SearchInboundShipments(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str = None, destination_warehouse_id: str = None, status: str = None) -> str:

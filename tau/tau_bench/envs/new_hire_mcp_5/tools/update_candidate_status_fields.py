@@ -4,6 +4,14 @@ import re
 from datetime import datetime, timezone
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class UpdateCandidateStatusFields(Tool):
     """Update permissible candidate fields (status, invitation timestamps, welcome message id, asset tag link, follow-up timestamp, etc.)."""
 

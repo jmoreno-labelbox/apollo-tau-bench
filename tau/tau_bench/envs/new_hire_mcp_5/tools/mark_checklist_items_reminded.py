@@ -4,6 +4,14 @@ import re
 from datetime import datetime, timezone
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class MarkChecklistItemsReminded(Tool):
     """Update status to 'Reminder Sent', set reminder_sent_flag to true, set reminder_email_message_id_nullable, and update the timestamp."""
 

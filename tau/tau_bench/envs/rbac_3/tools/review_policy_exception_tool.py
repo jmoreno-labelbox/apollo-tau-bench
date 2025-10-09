@@ -4,6 +4,14 @@ from datetime import datetime
 from typing import Any
 from datetime import datetime, timedelta
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class ReviewPolicyExceptionTool(Tool):
     """review_policy_exception
     Deterministically authorize or deny a policy exception record by ID. Reflects the behavior of ReviewAccessRequestTool.

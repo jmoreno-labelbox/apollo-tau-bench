@@ -5,6 +5,14 @@ from collections import Counter
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class RetrieveFundingInfo(Tool):
     """Looks for funding sources using source_name or funding_source_id."""
 

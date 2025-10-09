@@ -7,6 +7,15 @@ from tau_bench.envs.tool import Tool
 NOW: datetime = datetime(2025, 8, 9, 10, 00, 00, tzinfo=timezone.utc)
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 class GetCurrentTime(Tool):
     """Provides a static current date and time formatted as "YYYY-MM-DD HH:MM:SS+00:00". For example, "2025-08-09 10:00:00+00:00"""
 

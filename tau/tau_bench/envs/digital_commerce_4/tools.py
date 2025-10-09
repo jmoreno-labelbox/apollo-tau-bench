@@ -6,6 +6,15 @@ from tau_bench.envs.tool import Tool
 FIXED_NOW = "2025-08-06T12:00:00Z"
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _ws_bucket(data: dict[str, Any], subject_id: str) -> dict[str, Any]:
     pass
     return _ws(data).setdefault(subject_id, {"events": []})

@@ -1,6 +1,16 @@
 from tau_bench.envs.tool import Tool
 import json
 from typing import Any
+from tau_bench.envs.retail_1.tools import _match, _apply_delete
+
+
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
 
 class DeleteFromDB(Tool):  #WRITE
     @staticmethod
@@ -11,7 +21,7 @@ class DeleteFromDB(Tool):  #WRITE
         delete_params: dict[str, Any],
     ) -> str:
         pass
-        db = data.get(database_name, [])
+        db = _convert_db_to_list(data.get(database_name, {}))
         filtered_db = [row for row in db if _match(row, filter_params)]
         filtered_db = _apply_delete(filtered_db, delete_params)
         payload = filtered_db

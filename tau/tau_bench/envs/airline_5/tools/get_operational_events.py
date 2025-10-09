@@ -7,6 +7,14 @@ from typing import Any
 import re
 from datetime import date as _date
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetOperationalEvents(Tool):
     """Enumerate operational events for a flight within a date range; optionally filter by types.
     Provides `excluded_dates` (unique YYYY-MM-DD) for use in pricing filters."""

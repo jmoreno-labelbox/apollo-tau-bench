@@ -2,6 +2,15 @@ from tau_bench.envs.tool import Tool
 from typing import Any, Dict
 import json
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def get_current_timestamp() -> str:
     return "2025-07-31T12:00:00.000000" + "Z" # per rules
 

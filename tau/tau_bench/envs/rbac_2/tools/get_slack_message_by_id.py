@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timezone
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetSlackMessageById(Tool):
     """Fetch the details of a specific Slack message by its ID."""
 

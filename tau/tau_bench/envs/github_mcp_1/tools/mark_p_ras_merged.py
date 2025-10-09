@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class MarkPRasMerged(Tool):
     """
     Marks a pull request as merged, but only if it is currently mergeable.
@@ -34,7 +42,7 @@ class MarkPRasMerged(Tool):
             return out
 
         #Load PR DB
-        pr_db = data.get("pull_requests", [])
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
             out = json.dumps(

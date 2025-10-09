@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetAlertDetails(Tool):
     """
     Return all stored details for a code scanning alert identified by
@@ -30,7 +38,7 @@ class GetAlertDetails(Tool):
             return out
 
         # Load alerts DB
-        alerts_db = data.get("code_scanning_alerts", [])
+        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}))
         if not isinstance(alerts_db, list):
             payload = {
                     "error": "Invalid DB: expected a list at data['code_scanning_alerts']."

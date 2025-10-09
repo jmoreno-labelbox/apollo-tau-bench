@@ -3,6 +3,14 @@ import json
 from collections import Counter
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class update_company_document_content(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], doc_id: str = None, new_content: str = None) -> str:

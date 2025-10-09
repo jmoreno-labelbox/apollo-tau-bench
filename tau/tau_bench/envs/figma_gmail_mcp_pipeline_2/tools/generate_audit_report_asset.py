@@ -4,6 +4,14 @@ import json
 import re
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GenerateAuditReportAsset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], audit_id: str = None, report_storage_ref: str = None, file_size_bytes: int = None) -> str:

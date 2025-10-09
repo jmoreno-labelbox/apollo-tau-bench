@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CreateNewIssue(Tool):
     """
     Create a new issue entry for a repo in the issues DB.
@@ -75,7 +83,7 @@ class CreateNewIssue(Tool):
             return out
 
         # Load issues DB
-        issues_db = data.get("issues", [])
+        issues_db = _convert_db_to_list(data.get("issues", {}))
         if not isinstance(issues_db, list):
             payload = {"error": "Invalid issues DB: expected a list at data['issues']."}
             out = json.dumps(

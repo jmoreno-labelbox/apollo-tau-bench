@@ -7,6 +7,15 @@ from tau_bench.envs.tool import Tool
 #--- READ-ONLY TOOLS ---
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 class FindProductByName(Tool):
     """Locates a product's SKU and additional details using its name."""
 

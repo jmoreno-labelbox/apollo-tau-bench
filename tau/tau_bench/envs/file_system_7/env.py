@@ -2,7 +2,7 @@
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.file_system_7.data import load_data
-from tau_bench.envs.file_system_7.rules import RULES
+from tau_bench.envs.file_system_7.wiki import WIKI
 from tau_bench.envs.file_system_7.tools import TOOLS
 from typing import Optional, Union
 from tau_bench.envs.user import UserStrategy
@@ -26,8 +26,8 @@ class MockFileSystemDomainEnv(Env):
             data_load_func=load_data,
             tools=TOOLS,
             tasks=tasks,
-            wiki="",
-            rules=RULES,
+            wiki=WIKI,
+            rules=[],
             user_strategy=user_strategy,
             user_model=user_model,
             user_provider=user_provider,

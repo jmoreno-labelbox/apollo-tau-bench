@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class InitialCommit(Tool):
     """
     Adds a new commit entry to the commits DB for owner/repo_name/branch_name.
@@ -41,7 +49,7 @@ class InitialCommit(Tool):
             return out
 
         # Load commits DB (supports either {"commits": [...]} or a top-level list)
-        commits_db = data.get("commits", [])
+        commits_db = _convert_db_to_list(data.get("commits", {}))
         if isinstance(commits_db, list):
             pass
         elif isinstance(data, list):

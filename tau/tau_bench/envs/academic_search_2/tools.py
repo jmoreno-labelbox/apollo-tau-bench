@@ -7,6 +7,15 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 class FindResearcherProfiles(Tool):
     """Looks for users based on their name, research area, user_id, or institution."""
 

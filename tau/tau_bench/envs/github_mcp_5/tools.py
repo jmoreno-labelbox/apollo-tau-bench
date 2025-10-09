@@ -13,6 +13,15 @@ random.seed(42)
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def get_data(elements_list, element_name):
     pass
     return next((c for c in elements_list if c["username"] == element_name), None)

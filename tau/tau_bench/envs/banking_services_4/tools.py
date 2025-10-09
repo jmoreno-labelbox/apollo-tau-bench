@@ -6,6 +6,15 @@ import os
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def get_current_timestamp() -> str:
     return "2025-07-31T12:00:00.000000"
 

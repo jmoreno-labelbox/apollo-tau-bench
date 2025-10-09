@@ -4,6 +4,14 @@ from datetime import datetime
 from typing import Any
 from datetime import datetime, timedelta
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class ReviewAccessRequestTool(Tool):
     """Authorize or deny an access request with reviewer comments (deterministic decision_at + returns audit data)."""
 

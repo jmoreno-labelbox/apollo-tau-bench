@@ -4,6 +4,14 @@ import json
 import re
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class NotifyStakeholders(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], thread_id: str = None, body_html: str = None, attachments_asset_ids: list[str] = None) -> str:

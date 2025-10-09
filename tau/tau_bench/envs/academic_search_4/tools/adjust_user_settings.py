@@ -6,6 +6,14 @@ from collections import Counter
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class AdjustUserSettings(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], *, user_id: Any = None, notification_channel: Any = None, ui_theme: Any = None, research_field: Any = None) -> str:

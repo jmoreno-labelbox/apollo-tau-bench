@@ -4,6 +4,14 @@ import re
 from datetime import datetime, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetCandidateWithFullContextTool(Tool):
     """Fetches candidate record along with all associated emails, asset requests, checklist items, and access checks for a complete overview."""
 

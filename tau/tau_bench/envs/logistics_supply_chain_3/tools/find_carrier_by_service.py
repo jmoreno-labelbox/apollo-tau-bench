@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class FindCarrierByService(Tool):
     """Identifies the top-rated, active carrier for a specific transport mode and service level."""
 

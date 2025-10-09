@@ -3,6 +3,14 @@ import json
 from datetime import date, datetime, time, timedelta, timezone
 from typing import Any, Dict, List
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class AddCustomerPhoneNumber(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str, phone_type: str, phone_number: str, is_primary: bool = False) -> str:

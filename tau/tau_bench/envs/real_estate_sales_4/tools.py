@@ -4,6 +4,15 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 class FindListings(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], status: str = None, min_price: float = 0, max_price: float = float("inf"), property_id: str = None) -> str:

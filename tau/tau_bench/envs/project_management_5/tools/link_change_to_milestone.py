@@ -4,6 +4,14 @@ import uuid
 from datetime import datetime, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class LinkChangeToMilestone(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cr_id: str = None, milestone_id: str = None, impact_type: str = "schedule") -> str:

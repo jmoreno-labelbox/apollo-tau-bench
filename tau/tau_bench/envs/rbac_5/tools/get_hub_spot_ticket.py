@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetHubSpotTicket(Tool):
     """
     Retrieve HubSpot tickets using ticket_id or filter by SIEM alert ID (found in description),

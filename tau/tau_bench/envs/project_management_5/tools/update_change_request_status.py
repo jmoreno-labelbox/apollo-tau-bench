@@ -4,6 +4,14 @@ import uuid
 from datetime import datetime, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class UpdateChangeRequestStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cr_id: str = None, new_status: str = None, performed_by: str = None) -> str:

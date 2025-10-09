@@ -145,6 +145,15 @@ INGREDIENT_SUBSTITUTE_MAP = {
 }
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _log_audit_event(data: dict[str, Any], **kwargs: Any) -> None:
     """
     Logs an action to the audit trail.

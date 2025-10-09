@@ -4,6 +4,14 @@ import uuid
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class FindGrants(Tool):
     """
     Utility for locating funding sources based on different criteria, or obtaining details of a specific source by its ID.

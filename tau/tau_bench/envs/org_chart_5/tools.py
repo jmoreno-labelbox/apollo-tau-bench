@@ -5,6 +5,15 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 #Assistance function
 def find_employee(employees: list[dict[str, Any]], employee_id: str) -> dict[str, Any]:
     """Assistance in locating an individual employee by their ID."""

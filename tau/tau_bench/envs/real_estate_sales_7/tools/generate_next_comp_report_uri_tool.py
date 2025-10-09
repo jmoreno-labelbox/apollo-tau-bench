@@ -4,6 +4,14 @@ import math
 import re
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GenerateNextCompReportUriTool(Tool):
     """Creates the next comp_###.pdf URI based on the highest report_id in comp_reports."""
 

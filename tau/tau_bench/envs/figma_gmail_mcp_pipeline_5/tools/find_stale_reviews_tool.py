@@ -3,6 +3,14 @@ import hashlib
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class FindStaleReviewsTool(Tool):
     """Provide cycles that surpass SLA (status not APPROVED) by comparing last_updated with SLA hours."""
 

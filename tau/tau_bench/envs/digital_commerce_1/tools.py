@@ -6,6 +6,15 @@ from tau_bench.envs.tool import Tool
 FIXED_NOW = "2025-08-06T12:00:00Z"
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _stable_id(prefix: str, *parts: str) -> str:
     pass
     base = "-".join(_slugify(p) for p in parts if p is not None and str(p) != "")

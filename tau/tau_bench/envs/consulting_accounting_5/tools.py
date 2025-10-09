@@ -6,6 +6,15 @@ from tau_bench.envs.tool import Tool
 
 #---------------- ACCESS TOOLS ----------------
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 class GetPublisherByName(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], publisher_name: str) -> str:

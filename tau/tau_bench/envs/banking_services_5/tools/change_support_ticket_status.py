@@ -6,6 +6,14 @@ import calendar
 from typing import Any, Dict
 import random
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class ChangeSupportTicketStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, ticket_id: str = None, new_status: str = "") -> str:

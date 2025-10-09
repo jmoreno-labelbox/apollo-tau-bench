@@ -7,6 +7,15 @@ TODAY = "2025-01-01"
 NOW_TS = "2025-01-01T09:00:00Z"
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _find_by_key(rows: list[dict[str, Any]], key: str, val: Any) -> dict[str, Any]:
     pass
     for r in rows:

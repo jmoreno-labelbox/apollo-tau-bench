@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timedelta
 from typing import Any, Dict
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetWarehouseCapacity(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str, total_storage_capacity_cbm: float = 0, current_utilization_percentage: float = 0) -> str:

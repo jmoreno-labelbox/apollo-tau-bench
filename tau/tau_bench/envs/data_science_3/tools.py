@@ -4,6 +4,15 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _index_by(items: list[dict[str, Any]], key: str) -> dict[Any, dict[str, Any]]:
     pass
     return {i.get(key): i for i in items or []}

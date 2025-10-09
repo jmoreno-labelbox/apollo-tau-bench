@@ -3,6 +3,14 @@ import json
 import re
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class DeleteSubnetGroup(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], subnet_group_id: Any, aws_subnet_groups: list = None) -> str:

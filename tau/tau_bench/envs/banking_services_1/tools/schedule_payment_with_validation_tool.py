@@ -4,6 +4,14 @@ import os
 from datetime import datetime, timedelta
 from typing import Any, Dict
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class SchedulePaymentWithValidationTool(Tool):
     """
     Tool for scheduling a future payment with validation of sender's balance.

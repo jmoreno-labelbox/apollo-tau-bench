@@ -4,6 +4,14 @@ import re
 from datetime import datetime, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetCandidatesNeedingOrientationSchedulingTool(Tool):
     """Recognizes candidates prepared for orientation based on their status, access checks, and absent invitation timestamps."""
 

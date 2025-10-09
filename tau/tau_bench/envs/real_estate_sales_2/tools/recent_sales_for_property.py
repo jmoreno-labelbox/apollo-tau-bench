@@ -3,6 +3,14 @@ import json
 from itertools import islice
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class RecentSalesForProperty(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], property_id: str, limit: int = 3) -> str:

@@ -4,6 +4,14 @@ import json
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetAdsetAllocationFromPlan(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], plan_id: str = None, adset_id: str = None) -> str:

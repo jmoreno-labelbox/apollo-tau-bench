@@ -5,6 +5,15 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _next_numeric_suffix(prefix: str, items: list[dict[str, Any]], key: str) -> str:
     pass
     mx = 0

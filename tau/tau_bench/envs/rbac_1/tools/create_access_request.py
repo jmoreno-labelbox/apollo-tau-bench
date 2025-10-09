@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timezone
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CreateAccessRequest(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, resource_id: str = None, requested_role_id: str = None, justification: str = None) -> str:

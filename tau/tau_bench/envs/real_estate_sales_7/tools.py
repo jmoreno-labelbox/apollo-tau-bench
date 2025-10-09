@@ -9,6 +9,15 @@ HARD_TS = "2025-09-15T17:00:00Z"
 HTX_RE = re.compile(r"^HTX\d{3}$")
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _collect_sales_history(
     data: dict[str, Any], property_id: str
 ) -> list[dict[str, Any]]:

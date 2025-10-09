@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class ApprovePR(Tool):
     """
     Appends an 'APPROVE' entry to review_states and review_events for all assigned reviewers
@@ -30,7 +38,7 @@ class ApprovePR(Tool):
             return out
 
         #Load PR DB (expects list at data['pull_requests'])
-        pr_db = data.get("pull_requests", [])
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
             out = json.dumps(

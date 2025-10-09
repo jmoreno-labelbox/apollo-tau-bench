@@ -8,6 +8,15 @@ from tau_bench.envs.tool import Tool
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _gen_order_id(seed: int | None = None) -> str:
     """
     Create a synthetic order ID that aligns with dataset flavor.
@@ -1730,7 +1739,7 @@ class SplitOrderIntoShipmentsTool(Tool):
             return out
 
         couriers = data.get("couriers", [])
-        tracking_db = data.get("tracking", [])
+        tracking_db = _convert_db_to_list(data.get("tracking", {}))
         items_len = len(order.get("items", []))
         created = []
 
@@ -2450,7 +2459,7 @@ class ReassignTrackingToNewCourierTool(Tool):
             )
             return out
 
-        tracking_db = data.get("tracking", [])
+        tracking_db = _convert_db_to_list(data.get("tracking", {}))
         rec = next(
             (t for t in tracking_db if tracking_id in (t.get("tracking_id") or [])), None
         )

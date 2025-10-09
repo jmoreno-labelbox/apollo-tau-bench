@@ -4,6 +4,14 @@ import re
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CalculateTransactionTotals(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], line_items: list = None, promotion_ids: list = None, credit_amount: float = 0.0) -> str:

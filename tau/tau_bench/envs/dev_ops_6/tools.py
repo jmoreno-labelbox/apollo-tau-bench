@@ -6,6 +6,15 @@ from tau_bench.envs.tool import Tool
 FIXED_TS = "2025-01-27T10:00:00Z"
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _table(db: dict[str, Any], name: str) -> list[dict[str, Any]]:
     pass
     return db.get(name, [])

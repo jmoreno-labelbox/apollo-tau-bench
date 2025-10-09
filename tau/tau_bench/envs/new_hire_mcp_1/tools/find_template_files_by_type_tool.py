@@ -4,6 +4,14 @@ import re
 from datetime import datetime, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class FindTemplateFilesByTypeTool(Tool):
     """Looks through the onboarding_files table for accessible templates, filtering by content type and last updated date."""
 

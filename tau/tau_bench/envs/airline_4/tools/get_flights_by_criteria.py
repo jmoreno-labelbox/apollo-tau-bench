@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetFlightsByCriteria(Tool):
     """API tool for fetching flights based on departure date, status, origin, and destination, reflecting the JSON format where each flight contains a 'dates' dictionary indexed by date strings."""
 

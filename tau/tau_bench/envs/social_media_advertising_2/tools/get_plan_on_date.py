@@ -5,6 +5,14 @@ import re
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetPlanOnDate(Tool):
     """Provide a static plan snapshot for a specified date."""
 

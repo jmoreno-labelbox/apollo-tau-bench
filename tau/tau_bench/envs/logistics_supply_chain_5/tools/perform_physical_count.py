@@ -3,6 +3,14 @@ import json
 from datetime import datetime, timedelta
 from typing import Any, Dict
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class PerformPhysicalCount(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str, warehouse_id: str, instruction_amount: int = 0, quantity_available_flag: bool = False) -> str:

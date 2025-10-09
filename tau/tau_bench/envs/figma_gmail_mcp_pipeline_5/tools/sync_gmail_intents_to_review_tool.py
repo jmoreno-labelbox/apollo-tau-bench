@@ -3,6 +3,14 @@ import hashlib
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class SyncGmailIntentsToReviewTool(Tool):
     """Examine thread messages for intent keywords and adjust review status counts (no change in status)."""
 

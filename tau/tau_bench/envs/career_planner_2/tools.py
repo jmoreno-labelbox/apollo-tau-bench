@@ -5,6 +5,15 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 #Tools that are read-only
 class GetUserProfile(Tool):
     """Retrieve an employee's profile using their ID."""

@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class EditCustomersDb(Tool):  #CREATE
     @staticmethod
     def invoke(
@@ -19,7 +27,7 @@ class EditCustomersDb(Tool):  #CREATE
         current_time: str = None,
         delete: bool = False
     ) -> str:
-        db = data.get("customers", [])
+        db = _convert_db_to_list(data.get("customers", {}))
         if customer_id:
             idx, row = _find_by_id(db, "customer_id", customer_id)
             if row:
@@ -100,7 +108,7 @@ class EditCustomersDb(Tool):  #CREATE
             out = json.dumps(payload)
             return out
         pass
-        db = data.get("customers", [])
+        db = _convert_db_to_list(data.get("customers", {}))
         if customer_id:
             idx, row = _find_by_id(db, "customer_id", customer_id)
             if row:

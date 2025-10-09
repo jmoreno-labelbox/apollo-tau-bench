@@ -3,6 +3,14 @@ import json
 from collections import OrderedDict, defaultdict
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CheckLowStockItems(Tool):
     """Tool for reordering items with low stock, capable of ordering for specific stores and items or all at once."""
 

@@ -6,6 +6,15 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 class ScanIncompleteTasksTool(Tool):
     """Utility to examine the file_check_db for unfinished tasks."""
 
@@ -22,7 +31,7 @@ class ScanIncompleteTasksTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], file_list_directory: Any = None) -> str:
-        db = data.get("file_check_db", [])
+        db = _convert_db_to_list(data.get("file_check_db", {}))
         for task in db:
             if not task.get("completed", True):
                 payload = {"task_id": task.get("task_id"), "task": task}

@@ -91,6 +91,15 @@ issue_num = 100
 #return new_files, new_contents, added_files, overwritten_files
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def add_terminal_message(
     data: dict[str, Any], message: str, timestamp: str
 ) -> dict[str, Any]:
@@ -1881,7 +1890,7 @@ class InitialCommit(Tool):
             return out
 
         # Load commits DB (supports either {"commits": [...]} or a top-level list)
-        commits_db = data.get("commits", [])
+        commits_db = _convert_db_to_list(data.get("commits", {}))
         if isinstance(commits_db, list):
             pass
         elif isinstance(data, list):
@@ -2049,7 +2058,7 @@ class MakeCommit(Tool):
         # Load commits DB (prefer dict["commits"], fallback to top-level list)
         commits_db = None
         if isinstance(data, dict):
-            commits_db = data.get("commits", [])
+            commits_db = _convert_db_to_list(data.get("commits", {}))
         elif isinstance(data, list):
             commits_db = data
         else:
@@ -2238,7 +2247,7 @@ class CreatePullRequest(Tool):
             return out
 
         # Load PR DB (supports dict with 'pull_requests' or top-level list)
-        pr_db = data.get("pull_requests", [])
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
 
         # Find or create repo bucket
         rec = next(
@@ -2431,7 +2440,7 @@ class GetPRDetails(Tool):
             return out
 
         # Load PR DB (supports dict with 'pull_requests' or a top-level list)
-        pr_db = data.get("pull_requests", [])
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
 
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
@@ -2552,7 +2561,7 @@ class ListOfPRForRepo(Tool):
             return out
 
         # Load PR DB (supports dict with 'pull_requests' or a top-level list)
-        pr_db = data.get("pull_requests", [])
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
 
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
@@ -2708,7 +2717,7 @@ class AddPullRequestComment(Tool):
             return out
 
         #Load PR DB (expects list at data['pull_requests'])
-        pr_db = data.get("pull_requests", [])
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
             out = json.dumps(
@@ -2991,7 +3000,7 @@ class AssignPullRequestReviewers(Tool):
             return out
 
         # Load PR DB (supports dict with 'pull_requests' or top-level list)
-        pr_db = data.get("pull_requests", [])
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
 
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
@@ -3163,7 +3172,7 @@ class ApprovePR(Tool):
             return out
 
         #Load PR DB (expects list at data['pull_requests'])
-        pr_db = data.get("pull_requests", [])
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
             out = json.dumps(
@@ -3358,7 +3367,7 @@ class ApprovePR(Tool):
 #return json.dumps({"error": "pr_number must be an integer."}, indent=2)
 
 #Load PR DB (expects list at data['pull_requests'])
-#pr_db = data.get("pull_requests", [])
+#pr_db = _convert_db_to_list(data.get("pull_requests", {}))
 #if not isinstance(pr_db, list):
 #return json.dumps({"error": "Invalid pull requests DB: expected a list."}, indent=2)
 
@@ -3595,7 +3604,7 @@ class MarkPRasMerged(Tool):
             return out
 
         #Load PR DB
-        pr_db = data.get("pull_requests", [])
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
             out = json.dumps(
@@ -3798,7 +3807,7 @@ class CreateNewIssue(Tool):
             return out
 
         # Load issues DB
-        issues_db = data.get("issues", [])
+        issues_db = _convert_db_to_list(data.get("issues", {}))
         if not isinstance(issues_db, list):
             payload = {"error": "Invalid issues DB: expected a list at data['issues']."}
             out = json.dumps(
@@ -3961,7 +3970,7 @@ class GetAllIssuesForRepo(Tool):
             return out
 
         # Load issues DB
-        issues_db = data.get("issues", [])
+        issues_db = _convert_db_to_list(data.get("issues", {}))
         if not isinstance(issues_db, list):
             payload = {"error": "Invalid issues DB: expected a list at data['issues']."}
             out = json.dumps(
@@ -4099,7 +4108,7 @@ class AddCommentToIssue(Tool):
             return out
 
         # Load issues DB
-        issues_db = data.get("issues", [])
+        issues_db = _convert_db_to_list(data.get("issues", {}))
         if not isinstance(issues_db, list):
             payload = {"error": "Invalid issues DB: expected a list at data['issues']."}
             out = json.dumps(
@@ -4249,7 +4258,7 @@ class CloseIssue(Tool):
             return out
 
         # Load issues DB
-        issues_db = data.get("issues", [])
+        issues_db = _convert_db_to_list(data.get("issues", {}))
         if not isinstance(issues_db, list):
             payload = {"error": "Invalid issues DB: expected a list at data['issues']."}
             out = json.dumps(
@@ -4406,7 +4415,7 @@ class CreateCodeScanningAlert(Tool):
             return out
 
         # Load alerts DB
-        alerts_db = data.get("code_scanning_alerts", [])
+        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}))
         if not isinstance(alerts_db, list):
             payload = {
                     "error": "Invalid DB: expected a list at data['code_scanning_alerts']."
@@ -4566,7 +4575,7 @@ class GetAlertDetails(Tool):
             return out
 
         # Load alerts DB
-        alerts_db = data.get("code_scanning_alerts", [])
+        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}))
         if not isinstance(alerts_db, list):
             payload = {
                     "error": "Invalid DB: expected a list at data['code_scanning_alerts']."
@@ -4685,7 +4694,7 @@ class ListOpenAlertsForRepo(Tool):
             severity_filter = sev
 
         # Load alerts DB
-        alerts_db = data.get("code_scanning_alerts", [])
+        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}))
         if not isinstance(alerts_db, list):
             payload = {
                 "error": "Invalid DB: expected a list at data['code_scanning_alerts']."
@@ -4820,7 +4829,7 @@ class DismissAlert(Tool):
             return out
 
         # Load alerts DB
-        alerts_db = data.get("code_scanning_alerts", [])
+        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}))
         if not isinstance(alerts_db, list):
             payload = {
                     "error": "Invalid DB: expected a list at data['code_scanning_alerts']."

@@ -4,6 +4,14 @@ import uuid
 from datetime import datetime
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CreateProject(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], *, project_name: Any = None, lead_researcher_id: Any = None, project_id_override: Any = None, linked_articles: list = None, funding_source_id: Any = None) -> str:

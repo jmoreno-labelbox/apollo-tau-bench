@@ -3,6 +3,14 @@ import copy
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class ApplyCreatives(Tool):
     """Rotate creatives according to plan or specified targets: add a new ad, suspend least effective active, activate new;
     update adset metadata; and record a deterministic rotation entry.

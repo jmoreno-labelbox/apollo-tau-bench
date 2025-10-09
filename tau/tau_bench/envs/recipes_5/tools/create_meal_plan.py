@@ -3,6 +3,14 @@ import json
 from datetime import date, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CreateMealPlan(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int = None, created_by_user_id: int = None, week_start_date: str = None) -> str:

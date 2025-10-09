@@ -2,6 +2,14 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CreateCalendarEvent(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], broker_id: str = None, client_id: str = None, title: str = None, start_at: str = None, end_at: str = None, location: str = None, notes: str = None, source: str = None) -> str:

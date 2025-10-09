@@ -3,6 +3,14 @@ import hashlib
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CreateInventoryAdjustment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str, sku: str, amount: int, reason: str = "audit_discrepancy", timestamp: Any = None) -> str:

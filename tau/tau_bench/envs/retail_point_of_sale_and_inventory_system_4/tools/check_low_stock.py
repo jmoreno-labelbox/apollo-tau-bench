@@ -2,10 +2,18 @@ from tau_bench.envs.tool import Tool
 import json
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class CheckLowStock(Tool):  #CREATE
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str, current_time: str) -> str:
-        db = data.get("inventory", [])
+        db = _convert_db_to_list(data.get("inventory", {}))
         low_stock_skus = []
         for row in db:
             if row.get("store_id") == store_id:

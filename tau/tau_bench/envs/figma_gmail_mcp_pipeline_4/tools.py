@@ -6,6 +6,15 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 class UpdateReviewCycleStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cycle_id: str = None, new_status: str = None, approver_id: str = None, comments: str = "", reviewer_email: str = None, status_notes: str = None, completion_notes: str = None, updated_by: str = None) -> str:

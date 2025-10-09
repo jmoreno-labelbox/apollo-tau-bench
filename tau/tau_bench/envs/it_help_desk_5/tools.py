@@ -8,6 +8,15 @@ FIXED_NOW = "2025-08-15T09:00:00+00:00"
 DYNAMIC_NOW = None
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 class GetEmployeeId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], first_name: str = None, last_name: str = None) -> str:

@@ -4,6 +4,15 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
+
 def _apply_delete(db, delete_params):
     pass
     #When db is a dictionary, it returns None if the delete_params correspond to the row, otherwise it returns the row (which could be altered at a deeper level)
@@ -108,7 +117,7 @@ def _apply_update(row, update_params):
 #class GetUsersInfoByParam(Tool): # READ
 #@staticmethod
 #def invoke(data: Dict[str, Any], filter_params: Dict[str, Any], info_items: List[str] = None) -> str:
-#db = data.get("users", [])
+#db = _convert_db_to_list(data.get("users", {}))
 #filtered_db = _filter_db(db, filter_params)
 #if info_items is None:
 #return json.dumps(filtered_db)
@@ -143,7 +152,7 @@ class GetInfoFromDB(Tool):  #READ
         required_fields: list[str] = None,
     ) -> str:
         pass
-        db = data.get(database_name, [])
+        db = _convert_db_to_list(data.get(database_name, {}))
 
         filtered_db = [row for row in db if _match(row, filter_params)]
         if not filtered_db:
@@ -209,7 +218,7 @@ class UpdateDB(Tool):  #WRITE
         update_params: dict[str, Any],
     ) -> str:
         pass
-        db = data.get(database_name, [])
+        db = _convert_db_to_list(data.get(database_name, {}))
         filtered_db = [row for row in db if _match(row, filter_params)]
         for row in filtered_db:
             _apply_update(row, update_params)
@@ -268,7 +277,7 @@ class UpdatePaymentHistory(Tool):  #WRITE
         payment_info_to_update: dict[str, Any],
     ) -> str:
         pass
-        db = data.get("orders", [])
+        db = _convert_db_to_list(data.get("orders", {}))
         order = [row for row in db if row["order_id"] == order_id]
 
         if len(order) > 1:
@@ -339,7 +348,7 @@ class DeleteFromDB(Tool):  #WRITE
         delete_params: dict[str, Any],
     ) -> str:
         pass
-        db = data.get(database_name, [])
+        db = _convert_db_to_list(data.get(database_name, {}))
         filtered_db = [row for row in db if _match(row, filter_params)]
         filtered_db = _apply_delete(filtered_db, delete_params)
         payload = filtered_db
@@ -379,7 +388,7 @@ class GetUserIdFromFullNameAndZip(Tool):  #READ
     @staticmethod
     def invoke(data: dict[str, Any], first_name: str, last_name: str, zip: str) -> str:
         pass
-        db = data.get("users", [])
+        db = _convert_db_to_list(data.get("users", {}))
         filter_params = {
             "name": {"first_name": first_name, "last_name": last_name},
             "address": {"zip": zip},
@@ -428,7 +437,7 @@ class GetUserIdFromEmail(Tool):  #READ
     @staticmethod
     def invoke(data: dict[str, Any], email: str) -> str:
         pass
-        db = data.get("users", [])
+        db = _convert_db_to_list(data.get("users", {}))
         filter_params = {"email": email}
 
         user = [row for row in db if _match(row, filter_params)]

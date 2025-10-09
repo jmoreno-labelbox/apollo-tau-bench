@@ -4,6 +4,14 @@ from datetime import datetime
 from typing import Any
 from datetime import datetime, timedelta
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetRoleNameTool(Tool):
     """get_role_name
     Find a role using role_id and return its role_name and metadata.

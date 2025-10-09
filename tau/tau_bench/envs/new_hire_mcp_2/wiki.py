@@ -1,0 +1,17 @@
+WIKI = """
+"All operations are required to be deterministic, utilizing 2025-01-01 and 2025-01-01T09:00:00Z.",
+    "Updates are permitted solely for existing candidates, inventory assets, and asset requests; creating new instances of these entities is prohibited.",
+    "The system permits creation of emails, email_labels, onboarding_files, attachments, access_checks, mcp_tool_calls, and terminal_log.",
+    "IDs are required to adhere to stable formats; introducing new IDs is permitted exclusively for emails, email_labels, attachments, onboarding_files, access_checks, mcp_tool_calls, and terminal_log.",
+    "Sequential IDs should be generated as max(existing)+1, applying zero-padding to match the width of current rows (default width is 4).",
+    "Onboarding paths are required to follow the format /onboarding/<candidate_slug>, where candidate_slug is converted to lowercase and all non-alphanumeric characters are substituted with underscores.",
+    "Onboarding file writes must ensure idempotency with respect to file_path.",
+    "Emails can be inserted using deterministic message_id values specified in the instruction.",
+    "When applying labels, label_ids for an email must be de-duplicated.",
+    "Assigning an asset sets status='Assigned', while releasing sets status='Available'. No-op outputs are permitted if identifiers are unrecognized.",
+    "Asset requests are modified using request_id; if a request is unrecognized, a deterministic no-op output is generated.",
+    "When checked_ts is absent, insert_access_check assigns checked_ts=NOW_TS.",
+    "Checklist modifications assign updated_ts=NOW_TS; for unknown items, a deterministic no-op output is returned.",
+    "Deterministic sequential IDs are assigned by both insert_terminal_log and record_mcp_tool_call.",
+    "The substring \"error\" must not appear in any tool outputs.",
+"""

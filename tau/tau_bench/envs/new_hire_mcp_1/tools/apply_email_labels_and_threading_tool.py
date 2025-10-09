@@ -4,6 +4,14 @@ import re
 from datetime import datetime, timedelta
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class ApplyEmailLabelsAndThreadingTool(Tool):
     """Refreshes existing records in the `emails` array by altering labels and thread IDs."""
 

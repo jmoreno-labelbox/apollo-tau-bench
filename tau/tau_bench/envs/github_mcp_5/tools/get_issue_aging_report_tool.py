@@ -9,6 +9,14 @@ from typing import Any
 import hashlib
 from datetime import datetime
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class GetIssueAgingReportTool(Tool):
     """
     Generate a deterministic aging report for issues in a repository.

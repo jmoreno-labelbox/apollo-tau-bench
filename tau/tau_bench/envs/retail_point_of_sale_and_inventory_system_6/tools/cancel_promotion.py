@@ -3,6 +3,14 @@ import json
 from collections import OrderedDict, defaultdict
 from typing import Any
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class cancel_promotion(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], promotion_id: str = None) -> str:

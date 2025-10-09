@@ -7,6 +7,14 @@ from typing import Any
 import re
 from datetime import date as _date
 
+
+
+def _convert_db_to_list(db):
+    """Convert database from dict format to list format."""
+    if isinstance(db, dict):
+        return list(db.values())
+    return db
+
 class AssignAircraftToFlight(Tool):
     """
     A utility to allocate a specific aircraft to a flight on a specified date.
