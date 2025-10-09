@@ -100,7 +100,7 @@ class find_products(Tool):
                             "description": "The category of the item. Will do an exact match",
                         },
                         "is_discountable": {
-                            "type": \"boolean\",
+                            "type": "boolean",
                             "description": "If the product can be discounted. Will do an exact match",
                         },
                         "supplier_id": {

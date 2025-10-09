@@ -238,7 +238,7 @@ class make_transaction(Tool):
                             "description": "A list of items being purchased. This should be a json object with a structure like so: [{'sku' : XXX, 'quantity' : 1}, {'barcode' : YYY, 'quantity' : 2}]",
                         },
                         "commit_transaction": {
-                            "type": \"boolean\",
+                            "type": "boolean",
                             "description": "If true, the transaction will be commited and processed. If false, the function will just do a dry run and return the transaction information. Defaults to True",
                         },
                     },

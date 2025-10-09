@@ -168,7 +168,7 @@ class UpdateBufferConsumption(Tool):
                             "description": "Related milestone ID",
                         },
                         "escope": {
-                            "type": \"boolean\",
+                            "type": "boolean",
                             "description": "Flag to indicate if consumption is scope-related",
                         },
                         "change_request_id": {

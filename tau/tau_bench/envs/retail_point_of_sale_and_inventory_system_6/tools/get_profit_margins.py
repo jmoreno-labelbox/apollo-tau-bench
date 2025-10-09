@@ -127,7 +127,7 @@ class get_profit_margins(Tool):
                             "description": "A json list of the skus to get the profit margins for",
                         },
                         "ignore_discounts": {
-                            "type": \"boolean\",
+                            "type": "boolean",
                             "description": "OPTIONAL. To calculate profits on the discounted total or not. Defaults to True",
                         },
                     },

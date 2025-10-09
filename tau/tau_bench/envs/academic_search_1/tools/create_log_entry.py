@@ -26,11 +26,10 @@ class CreateLogEntry(Tool):
             payload = {"error": "user_id and notes are required."}
             out = json.dumps(payload)
             return out
-        users, articles, logs = (
-            data.get("users", {}).values()),
-            data.get("articles", {}).values(),
-            data.get("research_logs", {}).values(),
-        )
+        
+        users = list(data.get("users", {}).values())
+        articles = list(data.get("articles", {}).values())
+        logs = list(data.get("research_logs", {}).values())
         if not any(u["person_id"] == user_id for u in users.values()):
             payload = {"error": f"User with ID '{user_id}' not found."}
             out = json.dumps(payload)

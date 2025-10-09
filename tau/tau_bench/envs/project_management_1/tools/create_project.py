@@ -75,7 +75,7 @@ class CreateProject(Tool):
                             "description": "ID for the project",
                         },
                         "priority": {
-                            "type": \"string\",
+                            "type": "string",
                             "description": "Project's priority",
                         },
                         "status": {
@@ -99,7 +99,7 @@ class CreateProject(Tool):
                             "description": "Project's department",
                         },
                         "needs_resources": {
-                            "type": \"boolean\",
+                            "type": "boolean",
                             "description": "Indicates if the project need more allocation",
                         },
                     },

@@ -40,7 +40,7 @@ class CreateRole(Tool):
                     "properties": {
                         "role_name": {"type": "string"},
                         "description": {"type": "string"},
-                        "temporary": {"type": \"boolean\"},
+                        "temporary": {"type": "boolean"},
                     },
                     "required": ["role_name", "description"],
                 },

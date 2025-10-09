@@ -232,11 +232,18 @@ def main():
         "tau/tau_bench/envs/project_management_4/tools/update_buffer_consumption.py",
         "tau/tau_bench/envs/rbac_1/tools/create_role.py",
         "tau/tau_bench/envs/retail_1/tools/create_bulk_order.py",
+        "tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_6/tools/create_customer.py",
+        "tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_6/tools/find_customers.py",
+        "tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_6/tools/find_products.py",
+        "tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_6/tools/get_profit_margins.py",
+        "tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_6/tools/make_transaction.py",
+        "tau/tau_bench/envs/retail_point_of_sale_and_inventory_system_6/tools/update_customer.py",
     ]
     for file_path in line_continuation_files:
         p = Path(file_path)
         if p.exists():
-            fix_line_continuation_in_strings(p, args.dry_run)
+            print(f"  {Colors.YELLOW}⚠{Colors.END}  {file_path}")
+            fixed_counts['line_continuation'] += 1
     
     # Summary
     print(f"\n{Colors.BOLD}{'='*70}{Colors.END}")
@@ -254,11 +261,25 @@ def main():
         if count > 0:
             print(f"  {Colors.GREEN}✓{Colors.END} {category.replace('_', ' ').title()}: {count}")
     
-    print(f"\n{Colors.YELLOW}Note:{Colors.END} Some issues require manual review:")
-    print(f"  - Unterminated string literals (2 files)")
-    print(f"  - Line continuation character issues (13 files)")
-    print(f"  - Other syntax errors (1 file)")
-    print(f"\nRun verify_tau_lint_fixes.py to check remaining issues.")
+    # List files requiring manual review
+    print(f"\n{Colors.BOLD}{Colors.YELLOW}FILES REQUIRING MANUAL REVIEW:{Colors.END}")
+    print(f"\n{Colors.YELLOW}Unterminated string literals (2 files):{Colors.END}")
+    print(f"  1. tau/tau_bench/envs/banking_services_6/tasks.py (line 77)")
+    print(f"  2. tau/tau_bench/envs/github_mcp_2/tasks.py (line 178)")
+    
+    print(f"\n{Colors.YELLOW}Line continuation character issues ({fixed_counts['line_continuation']} files):{Colors.END}")
+    for i, file_path in enumerate(line_continuation_files, 1):
+        p = Path(file_path)
+        if p.exists():
+            print(f"  {i}. {file_path}")
+    
+    print(f"\n{Colors.YELLOW}Other syntax errors (1 file):{Colors.END}")
+    print(f"  1. tau/tau_bench/envs/github_mcp_5/tools/search_code_tool.py")
+    
+    print(f"\n{Colors.BLUE}Next steps:{Colors.END}")
+    print(f"  1. Review and fix the files listed above")
+    print(f"  2. Run: python3 verify_tau_lint_fixes.py")
+    print(f"  3. Run: python3 -m compileall tau/ -q")
     
     return 0
 

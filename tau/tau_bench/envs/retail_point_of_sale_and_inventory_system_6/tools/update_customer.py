@@ -123,7 +123,7 @@ class update_customer(Tool):
                             "description": "The membership tier of the customer",
                         },
                         "opt_in_marketing": {
-                            "type": \"boolean\",
+                            "type": "boolean",
                             "description": "OPTIONAL. If the customer is opting into marketing",
                         },
                     },

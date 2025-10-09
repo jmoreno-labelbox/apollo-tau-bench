@@ -141,7 +141,7 @@ class find_customers(Tool):
                             "description": "birth date of the customer. Will do an exact match",
                         },
                         "opt_in_marketing": {
-                            "type": \"boolean\",
+                            "type": "boolean",
                             "description": "opt in marketing of the customer. Will do an exact match",
                         },
                         "name": {

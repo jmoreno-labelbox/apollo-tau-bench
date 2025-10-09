@@ -74,15 +74,14 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_chk_1001", "balance": 5230.5, "currency": "USD""},
-                {"account_id": "acc_sav_1002", "balance": 15780.0, "currency": "USD""},
+                {"account_id": "acc_chk_1001", "balance": 5230.5, "currency": "USD"},
+                {"account_id": "acc_sav_1002", "balance": 15780.0, "currency": "USD"},
                 {"total": 21010.5},
                 {"rewards_points": 5200},
-                {"account_id": "acc_chk_1001", "balance": 5130.5"},
-                {"account_id": "acc_sav_1002", "balance": 15880.0"}
+                {"account_id": "acc_chk_1001", "balance": 5130.5},
+                {"account_id": "acc_sav_1002", "balance": 15880.0}
         ]
-    }
-    ,
+    },
     {
         "annotator": 0,
         "user_id": "task_02",
@@ -129,7 +128,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"street_address": "987 Birch St", "city": ""New City", "postal_code": "L1V 2T7""},
+                {"street_address": "987 Birch St", "city": "New City", "postal_code": "L1V 2T7"},
                 {"number": "555-999-8888"},
                 {"transaction_id": "txn_5d4e7g1i-5e7c-8d3g-3e6i-9g1e3f7h8d4d"},
                 {"transaction_id": "txn_4e5f8h2j-6f8d-9e4h-4f7j-1h2f4g8i9e5e"}
@@ -196,7 +195,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_crd_1003", "status": "Closed""}
+                {"account_id": "acc_crd_1003", "status": "Closed"}
         ]
     }
     ,
@@ -265,7 +264,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_id": "app_generated_21", "application_status": "Submitted""},
+                {"application_id": "app_generated_21", "application_status": "Submitted"},
                 {"account_id": "acc_generated_40"}
         ]
     }
@@ -330,7 +329,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"payment_id": "sp_generated_41", "status": ""Active", "amount": 100.00, "beneficiary_id": "bene_generated_11""}
+                {"payment_id": "sp_generated_41", "status": "Active", "amount": 100.00, "beneficiary_id": "bene_generated_11"}
         ]
     }
     ,
@@ -403,8 +402,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"transaction_id": "txn_generated_41", "amount": -300, "status": "Completed""},
-                {"transaction_id": "txn_generated_42", "amount": -250.0, "status": "Completed""}
+                {"transaction_id": "txn_generated_41", "amount": -300, "status": "Completed"},
+                {"transaction_id": "txn_generated_42", "amount": -250.0, "status": "Completed"}
         ]
     }
     ,
@@ -464,8 +463,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
-                {"account_id": "acc_inv_3002", "status": "Frozen""}
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
+                {"account_id": "acc_inv_3002", "status": "Frozen"}
         ]
     }
     ,
@@ -545,7 +544,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": ""Open", "category": ""Account Management", "priority": "Medium""},
+                {"ticket_id": "tkt_generated_10", "status": "Open", "category": "Account Management", "priority": "Medium"},
                 {"account_id": "acc_chk_1001", "balance": 5080.5"},
                 {"account_id": "acc_sav_1002", "balance": 15930.0"}
         ]
@@ -642,7 +641,7 @@ tasks = [
                     "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1",
                     "street_address": "15 Abbey Road",
                     "city": "Manchester",
-                    "state": "",
+                    "state": ",
                     "postal_code": "NW8 9AY",
                     "country": "United Kingdom"
                 },
@@ -679,7 +678,7 @@ tasks = [
                 {"country": "United Kingdom"},
                 {"number": "+44 7890 123456"},
                 {"currency": "GBP", "available_account_types": ["Checking", "Savings", "ISA"]"},
-                {"account_id": "acc_generated_40", "status": "Active""}
+                {"account_id": "acc_generated_40", "status": "Active"}
         ]
     }
     ,
@@ -827,8 +826,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_generated_40", "account_type": ""Credit Card", "status": "Active""},
-                {"loan_id": "loan_stud_004", "status": ""In Grace Period", "current_balance": 25000.0"},
+                {"account_id": "acc_generated_40", "account_type": "Credit Card", "status": "Active"},
+                {"loan_id": "loan_stud_004", "status": "In Grace Period", "current_balance": 25000.0"},
                 {"occupation": "Graduate Student"}
         ]
     }
@@ -992,8 +991,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"beneficiary_id": "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f", "beneficiary_name": ""Dubai International School", "beneficiary_type": ""Business", "relationship": "School""},
-                {"beneficiary_id": "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f", "action": "removed""},
+                {"beneficiary_id": "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f", "beneficiary_name": "Dubai International School", "beneficiary_type": "Business", "relationship": "School"},
+                {"beneficiary_id": "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f", "action": "removed"},
                 {"account_id": "acc_chk_7001", "balance": 149000.0"},
                 {"account_id": "acc_sav_7002", "balance": 751000.0"}
         ]
@@ -1070,7 +1069,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
                 {"current_balance": 45100.9}
         ]
     }
@@ -1139,7 +1138,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {\}paperless_billing": true, "communication_channel": "App"",
+                {\}paperless_billing": true, "communication_channel": "App",
                 {"status": "Frozen"}
         ]
     }
@@ -1272,8 +1271,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"transaction_id": "txn_d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19", "transaction_date": ""2023-10-27T10:10:10Z", "amount": -15000.0, "description": "New Phone""},
-                {"ticket_id": "tkt_generated_10", "status": ""Open", "category": "Security""}
+                {"transaction_id": "txn_d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19", "transaction_date": "2023-10-27T10:10:10Z", "amount": -15000.0, "description": "New Phone"},
+                {"ticket_id": "tkt_generated_10", "status": "Open", "category": "Security"}
         ]
     }
     ,
@@ -1370,7 +1369,7 @@ tasks = [
         ],
         "outputs": [
                 {"status": "Cancelled"},
-                {"payment_id": "sp_generated_41", "status": "Active""},
+                {"payment_id": "sp_generated_41", "status": "Active"},
                 {"current_balance": 7500000.0}
         ]
     }
@@ -1533,7 +1532,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"occupation": "Lead Surgeon", "employer": "Metropolis General Hospital""},
+                {"occupation": "Lead Surgeon", "employer": "Metropolis General Hospital"},
                 {"account_id": "acc_inv_3002", "balance": 150000.0"},
                 {"account_id": "acc_chk_3001", "balance": 12540.25"},
                 {"credit_score": 810}
@@ -1603,7 +1602,7 @@ tasks = [
         "outputs": [
                 {"overdraft_limit": 250.0},
                 {"beneficiary_id": "bene_generated_11"},
-                {"payment_id": "sp_generated_41", "status": "Active""}
+                {"payment_id": "sp_generated_41", "status": "Active"}
         ]
     }
     ,
@@ -1658,7 +1657,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_id": "app_generated_21", "application_status": "Submitted""}
+                {"application_id": "app_generated_21", "application_status": "Submitted"}
         ]
     }
     ,
@@ -1725,7 +1724,7 @@ tasks = [
         ],
         "outputs": [
                 {"communication_channel": "SMS", "paperless_billing": False"},
-                {"transaction_id": "txn_generated_41", "status": "Completed""}
+                {"transaction_id": "txn_generated_41", "status": "Completed"}
         ]
     }
     ,
@@ -1759,7 +1758,7 @@ tasks = [
                     "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",
                     "street_address": "101 Rue de la Paix",
                     "city": "Lyon",
-                    "state": "",
+                    "state": ",
                     "postal_code": "75002",
                     "country": "France"
                 },
@@ -1842,7 +1841,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_chk_11001", "status": "Frozen""}
+                {"account_id": "acc_chk_11001", "status": "Frozen"}
         ]
     }
     ,
@@ -1918,7 +1917,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_pers_013", "current_balance": 500""}
+                {"loan_id": "loan_pers_013", "current_balance": 500"}
         ]
     }
     ,
@@ -1972,7 +1971,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"last_name": "Horvat", "marital_status": "Married""},
+                {"last_name": "Horvat", "marital_status": "Married"},
                 {"number": "+386 51 987 654"},
                 {"balance": 3500.0}
         ]
@@ -2196,7 +2195,7 @@ tasks = [
         ],
         "outputs": [
                 {"interest_rate": 1.5},
-                {"account_id": "acc_sav_2002", "status": "Closed""},
+                {"account_id": "acc_sav_2002", "status": "Closed"},
                 {"account_id": "acc_chk_2001", "balance": 25100.75"}
         ]
     }
@@ -2257,8 +2256,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
-                {"account_id": "acc_crd_9002", "status": "Frozen""}
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
+                {"account_id": "acc_crd_9002", "status": "Frozen"}
         ]
     }
     ,
@@ -2312,7 +2311,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"payment_id": "sp_generated_41", "status": ""Active", "amount": 1500.00"}
+                {"payment_id": "sp_generated_41", "status": "Active", "amount": 1500.00"}
         ]
     }
     ,
@@ -2453,7 +2452,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_id": "app_generated_21", "customer_id": ""customer_generated_27", "application_status": "Submitted""}
+                {"application_id": "app_generated_21", "customer_id": "customer_generated_27", "application_status": "Submitted"}
         ]
     }
     ,
@@ -2535,8 +2534,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"payment_id": "sp_b5d7c6a8-b2c1-d0e9-f8g7-h6i5j4k3l2m1", "status": "Paused""},
-                {"transaction_id": "txn_generated_41", "status": "Completed""},
+                {"payment_id": "sp_b5d7c6a8-b2c1-d0e9-f8g7-h6i5j4k3l2m1", "status": "Paused"},
+                {"transaction_id": "txn_generated_41", "status": "Completed"},
                 {"credit_score": 780}
         ]
     }
@@ -2677,8 +2676,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_sav_17002", "status": "Closed""},
-                {"account_id": "acc_chk_17001", "status": "Closed""}
+                {"account_id": "acc_sav_17002", "status": "Closed"},
+                {"account_id": "acc_chk_17001", "status": "Closed"}
         ]
     }
     ,
@@ -2740,7 +2739,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
                 {"balance": 15000000.0},
                 {"account_id": "acc_chk_10001", "balance": 2500000.0"},
                 {"total": 17500000.0}
@@ -2807,7 +2806,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"payment_id": "sp_generated_41", "status": ""Active", "beneficiary_id": "bene_generated_11""}
+                {"payment_id": "sp_generated_41", "status": "Active", "beneficiary_id": "bene_generated_11"}
         ]
     }
     ,
@@ -2947,7 +2946,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_sav_1002", "status": "Closed""},
+                {"account_id": "acc_sav_1002", "status": "Closed"},
                 {"account_id": "acc_chk_1001", "balance": 21010.5"},
                 {"overdraft_limit": 500.0}
         ]
@@ -3003,7 +3002,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": ""Open", "category": "Security""},
+                {"ticket_id": "tkt_generated_10", "status": "Open", "category": "Security"},
                 {"balance": 22000.0},
                 {"action": "removed"}
         ]
@@ -3077,7 +3076,7 @@ tasks = [
         "outputs": [
                 {"transaction_id": "txn_f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15", "amount": -85.0"},
                 {"account_id": "acc_chk_9001", "balance": 3200.0"},
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
                 {"status": "Frozen"},
                 {"occupation": "Head Pastry Chef"}
         ]
@@ -3150,7 +3149,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_auto_002", "status": ""Paid Off", "current_balance": 0.0"}
+                {"loan_id": "loan_auto_002", "status": "Paid Off", "current_balance": 0.0"}
         ]
     }
     ,
@@ -3195,7 +3194,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"transaction_id": "txn_7a2b5e8g-3c5a-6b1e-1c4g-7e8c1d5f6b2b", "amount": 1500.0, "description": "Monthly Salary""},
+                {"transaction_id": "txn_7a2b5e8g-3c5a-6b1e-1c4g-7e8c1d5f6b2b", "amount": 1500.0, "description": "Monthly Salary"},
                 {"account_id": "acc_chk_1001", "balance": 5230.5"},
                 {"paperless_billing": true}
         ]
@@ -3251,8 +3250,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_mort_001", "loan_type": ""Mortgage", "current_balance": 715240.5"},
-                {"account_id": "acc_chk_3001", "status": ""Frozen", "balance": 12540.25"}
+                {"loan_id": "loan_mort_001", "loan_type": "Mortgage", "current_balance": 715240.5"},
+                {"account_id": "acc_chk_3001", "status": "Frozen", "balance": 12540.25"}
         ]
     }
     ,
@@ -3319,7 +3318,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"last_name": "Doe", "marital_status": "Married""},
+                {"last_name": "Doe", "marital_status": "Married"},
                 {"interest_rate": 1.5},
                 {"balance": 22050.0}
         ]
@@ -3403,7 +3402,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_c1d0e9f8-a9b8-c7d6-e5f4-a3b2c1d0e9f8", "status": "Resolved""},
+                {"ticket_id": "tkt_c1d0e9f8-a9b8-c7d6-e5f4-a3b2c1d0e9f8", "status": "Resolved"},
                 {"account_id": "acc_chk_8001", "balance": 7800.5"},
                 {"account_id": "acc_sav_8002", "balance": 125000.0"},
                 {"current_balance": 179800.0}
@@ -3467,8 +3466,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_generated_40", "status": "Active""},
-                {"payment_id": "sp_generated_41", "status": "Active""}
+                {"account_id": "acc_generated_40", "status": "Active"},
+                {"payment_id": "sp_generated_41", "status": "Active"}
         ]
     }
     ,
@@ -3627,7 +3626,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_id": "app_d3e4f5a6-b7c8-d9e0-f1a2-b3c4d5e6f7g8", "application_status": "Withdrawn""},
+                {"application_id": "app_d3e4f5a6-b7c8-d9e0-f1a2-b3c4d5e6f7g8", "application_status": "Withdrawn"},
                 {"account_id": "acc_chk_4001", "balance": 1200.5"},
                 {"employer": "University Library"},
                 {"credit_score": 690},
@@ -3683,7 +3682,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"occupation": "Self-Employed", "employer": "Private Practice""},
+                {"occupation": "Self-Employed", "employer": "Private Practice"},
                 {"current_balance": 715240.5}
         ]
     }
@@ -3855,7 +3854,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
                 {"overdraft_limit": 250.0}
         ]
     }
@@ -3974,7 +3973,7 @@ tasks = [
                 {"overdraft_limit": "500.00"},
                 {"account_id": "acc_sav_1002", "balance": 15780.0"},
                 {"credit_score": 780},
-                {"type": "Work", "number": "310-555-1234""}
+                {"type": "Work", "number": "310-555-1234"}
         ]
     }
     ,
@@ -4039,7 +4038,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
                 {"balance": 3100.75}
         ]
     }
@@ -4111,7 +4110,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_pers_008", "status": ""Active", "current_balance": 2750.75"},
+                {"loan_id": "loan_pers_008", "status": "Active", "current_balance": 2750.75"},
                 {"account_id": "acc_chk_9001", "balance",: 700"}
         ]
     }
@@ -4250,10 +4249,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_stud_004", "status": "In Grace Period""},
+                {"loan_id": "loan_stud_004", "status": "In Grace Period"},
                 {"available_account_types": [\Checking", "Savings", "Credit Card", "Investment"]"},
                 {"balance": 1200.5},
-                {"payment_id": "sp_e2g4b3f5-e9f8-g7h6-i5j4-k3l2m1n0o9p5", "status": "Cancelled""}
+                {"payment_id": "sp_e2g4b3f5-e9f8-g7h6-i5j4-k3l2m1n0o9p5", "status": "Cancelled"}
         ]
     }
     ,
@@ -4334,7 +4333,7 @@ tasks = [
         ],
         "outputs": [
                 {"status": "Frozen"},
-                {"ticket_id": "tkt_generated_10", "status": "Open""}
+                {"ticket_id": "tkt_generated_10", "status": "Open"}
         ]
     }
     ,
@@ -4469,7 +4468,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f", "action": "removed""},
+                {"beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f", "action": "removed"},
                 {"transaction_id": "txn_5d4e7g1i-5e7c-8d3g-3e6i-9g1e3f7h8d4d"},
                 {"transaction_id": "txn_4e5f8h2j-6f8d-9e4h-4f7j-1h2f4g8i9e5e"},
                 {"transaction_id": "txn_0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d"},
@@ -4538,7 +4537,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"payment_id": "sp_generated_41", "status": ""Active", "amount": 75.00"},
+                {"payment_id": "sp_generated_41", "status": "Active", "amount": 75.00"},
                 {"credit_limit": 10000.0},
                 {"credit_score": 780}
         ]
@@ -4639,7 +4638,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
                 {"current_balance": 5150.75}
         ]
     }
@@ -4779,7 +4778,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
                 {"balance": 3100.75},
                 {"account_id": "acc_sav_2002", "balance": 22000.0"},
                 {"credit_score": 820}
@@ -4864,7 +4863,7 @@ tasks = [
         ],
         "outputs": [
                 {"account_id": "acc_generated_40", "balance": 2000.0"},
-                {"payment_id": "sp_generated_41", "status": "Active""}
+                {"payment_id": "sp_generated_41", "status": "Active"}
         ]
     }
     ,
@@ -4945,7 +4944,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": ""Open", "priority": "Low""},
+                {"ticket_id": "tkt_generated_10", "status": "Open", "priority": "Low"},
                 {"rewards_points": 5200},
                 {"balance": -2500.0},
                 {"total": 18510.5},
@@ -5005,8 +5004,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_e9f8c7d6-c7d6-e5f4-a3b2-c1d0e9f8g7h6", "status": "Open""},
-                {"beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f", "beneficiary_name": "Kenji Tanaka""},
+                {"ticket_id": "tkt_e9f8c7d6-c7d6-e5f4-a3b2-c1d0e9f8g7h6", "status": "Open"},
+                {"beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f", "beneficiary_name": "Kenji Tanaka"},
                 {"balance": 3100.75},
                 {"marital_status": "Divorced"}
         ]
@@ -5144,7 +5143,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_id": "app_e4f5a6b7-c8d9-e0f1-a2b3-c4d5e6f7g8h9", "application_status": "Withdrawn""},
+                {"application_id": "app_e4f5a6b7-c8d9-e0f1-a2b3-c4d5e6f7g8h9", "application_status": "Withdrawn"},
                 {"balance": -500.0},
                 {"marital_status": "Engaged"},
                 {"paperless_billing": true}
@@ -5264,7 +5263,7 @@ tasks = [
         ],
         "outputs": [
                 {"application_status": "Submitted"},
-                {"payment_id": "sp_generated_41", "status": "Active""}
+                {"payment_id": "sp_generated_41", "status": "Active"}
         ]
     }
     ,
@@ -5398,7 +5397,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_auto_002", "status": "Active""},
+                {"loan_id": "loan_auto_002", "status": "Active"},
                 {"transaction_id": "txn_9c2a3b7e-1a3e-4b8c-8a2e-5c6a8b3d4e9f"},
                 {"transaction_id": "txn_8b1c4d6f-2b4f-5a9d-9b3f-6d7b9c4e5a1a"},
                 {"transaction_id": "txn_f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21"},
@@ -5463,7 +5462,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open""}
+                {"ticket_id": "tkt_generated_10", "status": "Open"}
         ]
     }
     ,
@@ -5552,7 +5551,7 @@ tasks = [
                 {"customer_id": "customer_generated_27"},
                 {"account_id": "acc_generated_40"},
                 {"beneficiary_id": "bene_generated_11"},
-                {"payment_id": "sp_generated_41", "status": "Active""}
+                {"payment_id": "sp_generated_41", "status": "Active"}
         ]
     }
     ,
@@ -5750,7 +5749,7 @@ tasks = [
         "outputs": [
                 {"customer_id": "customer_generated_27"},
                 {"account_id": "acc_generated_40"},
-                {"application_id": "app_generated_21", "application_status": "Submitted""}
+                {"application_id": "app_generated_21", "application_status": "Submitted"}
         ]
     }
     ,
@@ -5805,7 +5804,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
                 {"balance": 22000.0},
                 {"security_question": "What is your favorite childhood book?"},
                 {"paperless_billing": true}
@@ -5879,7 +5878,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": ""Open", "category": "Loan""},
+                {"ticket_id": "tkt_generated_10", "status": "Open", "category": "Loan"},
                 {"balance": 12540.25},
                 {"credit_score": 810},
                 {"account_id": "acc_inv_3002", "balance": 150000.0"},
@@ -5922,7 +5921,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"type": \Home", "number": "111-555-9999""},
+                {"type": \Home", "number": "111-555-9999"},
                 {"payment_id": "sp_b3a2c1d9-8e7f-6a5b-4c3d-2e1f0a9b8c7d"},
                 {"payment_id": "sp_c1d9b3a2-7f6a-5b4c-3d2e-1f0a9b8c7d6e"},
                 {"payment_id": "sp_d9b3a2c1-f0a9-b8c7-d6e5-f4a3b2c1d0e9"},
@@ -5985,7 +5984,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
                 {"account_id": "acc_chk_1001", "balance": 5230.5"},
                 {"account_id": "acc_sav_1002", "balance": 15780.0"},
                 {"credit_score": 780}
@@ -6081,8 +6080,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_pers_003", "status": "Paid Off""},
-                {"application_id": "app_generated_21", "application_status": "Submitted""},
+                {"loan_id": "loan_pers_003", "status": "Paid Off"},
+                {"application_id": "app_generated_21", "application_status": "Submitted"},
                 {"balance": 22000.0},
                 {"paperless_billing": true},
                 {"total": 25100.75}
@@ -6144,7 +6143,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
                 {"balance": 12540.25},
                 {"account_id": "acc_inv_3002", "balance": 150000.0"}
         ]
@@ -6287,7 +6286,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"mailing_address": {\street_address": ""123 Main St", "city": ""Anytown", "state": ""CA", "postal_code": ""90210", "country": "USA"}"},
+                {"mailing_address": {\street_address": "123 Main St", "city": "Anytown", "state": "CA", "postal_code": "90210", "country": "USA"}"},
                 {"current_balance": 15670.8},
                 {"paperless_billing": true}
         ]
@@ -6474,7 +6473,7 @@ tasks = [
             }
         ],
         "outputs": [
-                ""number": "+33 7 88 99 00 11"",
+                "number": "+33 7 88 99 00 11",
                 {"transaction_id": "txn_6e7f8g9h-0i1j-2k3l-4m5n-6o7p8q9r0s1t"},
                 {"balance": -500.0}
         ]
@@ -6544,7 +6543,7 @@ tasks = [
                 {"transaction_id": "txn_f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21"},
                 {"transaction_id": "txn_7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k"},
                 {"interest_rate": 1.25},
-                {"ticket_id": "tkt_generated_10", "status": "Open""},
+                {"ticket_id": "tkt_generated_10", "status": "Open"},
                 {"occupation": "Senior Software Engineer"}
         ]
     }
@@ -6610,7 +6609,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"beneficiary_id": "bene_6d5e4f3a-2b1c-9d8e-7f6a-5b4c3d2e1f0a", "action": "removed""},
+                {"beneficiary_id": "bene_6d5e4f3a-2b1c-9d8e-7f6a-5b4c3d2e1f0a", "action": "removed"},
                 {"current_balance": 714240.5}
         ]
     }
@@ -6661,7 +6660,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_pers_003", "status": "Paid Off""},
+                {"loan_id": "loan_pers_003", "status": "Paid Off"},
                 {"occupation": "Senior Graphic Designer"},
                 {"balance": 22000.0}
         ]
@@ -6752,7 +6751,7 @@ tasks = [
                 {"customer_id": "customer_generated_27"},
                 {"account_id": "acc_generated_40"},
                 {"beneficiary_id": "bene_generated_11"},
-                {"payment_id": "sp_generated_41", "status": "Active""}
+                {"payment_id": "sp_generated_41", "status": "Active"}
         ]
     }
     ,
@@ -6802,7 +6801,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {\}paperless_billing": true, "communication_channel": "App"",
+                {"paperless_billing": true, "communication_channel": "App"},
                 {"balance": 5230.5},
                 {"credit_score": 780}
         ]
@@ -6868,8 +6867,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_chk_2001", "status": "Closed""},
-                {"account_id": "acc_sav_2002", "balance": 25100.75"},
+                {"account_id": "acc_chk_2001", "status": "Closed"},
+                {"account_id": "acc_sav_2002", "balance": 25100.75},
                 {"account_id": "acc_sav_2002"},
                 {"credit_score": 820}
         ]

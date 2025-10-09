@@ -146,7 +146,7 @@ class create_customer(Tool):
                             "description": "OPTIONAL. The membership tier the customer is starting on. This will default to 'basic'.",
                         },
                         "opt_in_marketing": {
-                            "type": \"boolean\",
+                            "type": "boolean",
                             "description": "OPTIONAL. If the customer is opting into marketing. This will default to False",
                         },
                     },
