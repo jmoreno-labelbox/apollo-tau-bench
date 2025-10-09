@@ -2441,7 +2441,7 @@ class CreateIssueTool(Tool):
             return _response("error", str(e), "VALIDATION_ERROR")
 
         issues = data.get("issues", {}).values()
-        if any(i.get("repo") == repo_name and i.get("title") == title for i in issues.values():
+        if any(i.get("repo") == repo_name and i.get("title") == title for i in issues.values()):
             return _response(
                 "error",
                 ERROR_MESSAGES["ALREADY_EXISTS"].format(

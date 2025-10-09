@@ -4,19 +4,18 @@ from typing import Any
 from tau_bench.envs.tool import Tool
 
 
-
-
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
 def _load_table(data: dict[str, Any], table: str) -> list[dict[str, Any]]:
-    pass
-    #return result
-    return data.get(table, {}).values()
+    result = data.get(table, {})
+    if isinstance(result, dict):
+        return list(result.values())
+    return result
 
 
 #begin tool class
@@ -29,11 +28,10 @@ class GetTrends(Tool):
         payload = {"trend_analysis": f"trends_min_{min_sample_size}"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -64,11 +62,10 @@ class Pitchers(Tool):
         payload = {"probable_pitcher_ids": []}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -99,11 +96,10 @@ class MakeVids(Tool):
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -136,7 +132,7 @@ class Curated(Tool):
         game_pk: Any = None,
         pitcher_id: Any = None
     ) -> str:
-        curated = data.get("curated_insights", {}).values()
+        curated = _load_table(data, "curated_insights")
         curated.append(
             {
                 "report_id": report_id,
@@ -149,11 +145,10 @@ class Curated(Tool):
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -186,20 +181,15 @@ class Pdf(Tool):
     def invoke(data: dict[str, Any], game_pk: str = None, report_type: str = None, insights: Any = None, draft_status: str = None, label: str = None) -> str:
         if not game_pk or not report_type:
             payload = {"report_s3_path": "s3://reports/UNKNOWN/UNKNOWN_report.pdf"}
-            out = json.dumps(
-                payload, indent=2
-            )
+            out = json.dumps(payload, indent=2)
             return out
         payload = {"report_s3_path": f"s3://reports/{game_pk}/{report_type}_report.pdf"}
-        out = json.dumps(
-            payload, indent=2,
-        )
+        out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -226,37 +216,29 @@ class NextSet(Tool):
         # Deterministic adjustments for consistent evaluation
         if current_date == "2024-07-24":
             payload = {"next_game_pk": "2024000013", "opponent_team_id": 13}
-            out = json.dumps(
-                payload, indent=2
-            )
+            out = json.dumps(payload, indent=2)
             return out
         if current_date == "2024-09-19":
             payload = {"next_game_pk": "2024000059", "opponent_team_id": 13}
-            out = json.dumps(
-                payload, indent=2
-            )
+            out = json.dumps(payload, indent=2)
             return out
         if current_date == "2024-09-30":
             payload = {"next_game_pk": "2024000070", "opponent_team_id": 7}
-            out = json.dumps(
-                payload, indent=2
-            )
+            out = json.dumps(payload, indent=2)
             return out
         if current_date == "2024-10-01":
             payload = {"next_game_pk": "2024000071", "opponent_team_id": 5}
-            out = json.dumps(
-                payload, indent=2
-            )
+            out = json.dumps(payload, indent=2)
             return out
-        games = data.get("games", {}).values()
+        games = _load_table(data, "games")
         candidates = [
             g
-            for g in games.values() if g.get("game_status") == "Scheduled"
+            for g in games if g.get("game_status") == "Scheduled"
             and g.get("game_date") >= current_date
         ]
         if not candidates:
             candidates = sorted(
-                [g for g in games.values() if g.get("game_date") >= current_date],
+                [g for g in games if g.get("game_date") >= current_date],
                 key=lambda x: x.get("game_date"),
             )
         else:
@@ -270,15 +252,12 @@ class NextSet(Tool):
         away_id = game.get("away_team_id")
         opponent_id = away_id if home_id <= away_id else home_id
         payload = {"next_game_pk": str(game.get("game_pk")), "opponent_team_id": opponent_id}
-        out = json.dumps(
-            payload, indent=2,
-        )
+        out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -297,17 +276,14 @@ class NextSet(Tool):
 class Spatial(Tool):
     @staticmethod
     #primary invocation function
-    def invoke(data: dict[str, Any],
-    source_table: Any = None,
-    ) -> str:
+    def invoke(data: dict[str, Any], source_table: Any = None) -> str:
         payload = {"grid": "12x12_catcher_view"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -327,10 +303,10 @@ class IngestLog(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], ingestion_log: dict = None, source_name: str = None, status_code: int = None, logs_ingested: int = None) -> str:
-        logs = data.get("ingestion_logs", {}).values()
+        logs = _load_table(data, "ingestion_logs")
         # Support both dict and individual parameters
         if ingestion_log is not None:
-            data["ingestion_logs"][ingestion_log["ingestion_log_id"]] = ingestion_log
+            logs.append(ingestion_log)
         else:
             log_entry = {}
             if source_name is not None:
@@ -339,15 +315,14 @@ class IngestLog(Tool):
                 log_entry['status_code'] = status_code
             if logs_ingested is not None:
                 log_entry['logs_ingested'] = logs_ingested
-            data["ingestion_logs"][log_entry["ingestion_log_id"]] = log_entry
+            logs.append(log_entry)
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -371,22 +346,19 @@ class MonitorPlayerFatigue(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], player_id: str = None) -> str:
-        workloads = data.get("player_workload", {}).values()
-        workload = next((w for w in workloads.values() if w.get("player_id") == player_id), {}).values()
+        workloads = _load_table(data, "player_workload")
+        workload = next((w for w in workloads if w.get("player_id") == player_id), {})
         fatigue_score = (
             workload.get("innings_pitched", 0) * 0.5
             + workload.get("pitches_thrown", 0) * 0.1
         )
         payload = {"player_id": player_id, "fatigue_score": fatigue_score}
-        out = json.dumps(
-            payload, indent=2
-        )
+        out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -405,22 +377,16 @@ class MonitorPlayerFatigue(Tool):
 class Pitches(Tool):
     @staticmethod
     #primary invocation function
-    def invoke(data: dict[str, Any], pitcher_ids: list[str] = None, time_window: str = None,
-    team_id: Any = None,
-    game_pk: Any = None,
-    ) -> str:
+    def invoke(data: dict[str, Any], pitcher_ids: list[str] = None, time_window: str = None, team_id: Any = None, game_pk: Any = None) -> str:
         if pitcher_ids is None:
             pitcher_ids = []
         payload = {"performance_data_df": f"df_{'_'.join(pitcher_ids)}_{time_window}"}
-        out = json.dumps(
-            payload, indent=2,
-        )
+        out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -443,17 +409,13 @@ class MatchupAnal(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], opponent_team: str = None, our_lineup: Any = None, team_id: Any = None) -> str:
-        pass
         payload = {"matchup_analysis": f"matchups_vs_team_{opponent_team}"}
-        out = json.dumps(
-            payload, indent=2
-        )
+        out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -476,11 +438,11 @@ class Artif(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], game_pk: str = None, artifact_name: str = None) -> str:
-        artifacts = data.get("spatial_artifacts", {}).values()
+        artifacts = _load_table(data, "spatial_artifacts")
         rec = next(
             (
                 a
-                for a in artifacts.values() if str(a.get("game_pk")) == str(game_pk)
+                for a in artifacts if str(a.get("game_pk")) == str(game_pk)
                 and a.get("artifact_name") == artifact_name
             ),
             None,
@@ -488,11 +450,10 @@ class Artif(Tool):
         payload = rec or {}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -517,7 +478,7 @@ class Umpiregame(Tool):
     def invoke(data: dict[str, Any], game_pk: str = None, zone_shift_x: float = None, zone_shift_z: float = None, calibration_error_pct: float = None) -> str:
         data.setdefault("umpire_game_models", []).append(
             {
-                "umpire_game_id": f"ump_{len(data.get("umpire_game_models", {}))+1}",
+                "umpire_game_id": f"ump_{len(data.get('umpire_game_models', []))+1}",
                 "game_pk": game_pk,
                 "zone_shift_x": zone_shift_x,
                 "zone_shift_z": zone_shift_z,
@@ -527,11 +488,10 @@ class Umpiregame(Tool):
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -557,15 +517,12 @@ class VIdeoRen(Tool):
     #primary invocation function
     def invoke(data: dict[str, Any], manifest: Any = None, tool: str = None) -> str:
         payload = {"video_links": ["portal://playlist/opponent_pitcher_tendencies"]}
-        out = json.dumps(
-            payload, indent=2
-        )
+        out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -587,18 +544,14 @@ class VIdeoRen(Tool):
 class DbMod(Tool):
     @staticmethod
     #primary invocation function
-    def invoke(data: dict[str, Any],
-    tags: Any = None,
-    date: Any = None,
-    ) -> str:
+    def invoke(data: dict[str, Any], tags: Any = None, date: Any = None) -> str:
         payload = {"dbt_run_status": "success"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -621,32 +574,28 @@ class ForecastMatchOutcome(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], home_team_id: str = None, away_team_id: str = None, tags: Any = None) -> str:
-        pass
         home_team = home_team_id
         away_team = away_team_id
         # Dummy deterministic model: the team with a higher average runs wins
-        games = data.get("games", {}).values()
+        games = _load_table(data, "games")
 
         def avg_runs(team):
-            pass
             team_games = [
                 g
-                for g in games.values() if g.get("home_team_id") == team or g.get("away_team_id") == team
+                for g in games if g.get("home_team_id") == team or g.get("away_team_id") == team
             ]
-            # return result
             return sum(
-                g.get("final_score", {}).values().get(str(team), 0) for g in team_games
+                g.get("final_score", {}).get(str(team), 0) for g in team_games
             ) / max(len(team_games), 1)
 
         winner = home_team if avg_runs(home_team) >= avg_runs(away_team) else away_team
         payload = {"predicted_winner": winner}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -669,10 +618,10 @@ class EventDay(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], event: dict[str, Any] = None, game_pk: Any = None, leverage_index: Any = None, is_manual_alert: Any = None, suggestion_text: str = None) -> str:
-        events = data.get("game_day_events", {}).values()
+        events = _load_table(data, "game_day_events")
         # Support both event dict and individual parameters
         if event is not None:
-            data["game_day_events"][event["game_day_event_id"]] = event
+            events.append(event)
         else:
             # Build event from individual parameters
             event_obj = {}
@@ -684,15 +633,14 @@ class EventDay(Tool):
                 event_obj['is_manual_alert'] = is_manual_alert
             if suggestion_text is not None:
                 event_obj['suggestion_text'] = suggestion_text
-            data["game_day_events"][event_obj["game_day_event_id"]] = event_obj
+            events.append(event_obj)
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -722,9 +670,9 @@ class AllGames(Tool):
         batch_results = {}
 
         # Retrieve actual data from JSON files
-        pitches = data.get("pitches", {}).values()
-        games = data.get("games", {}).values()
-        players = data.get("players", {}).values()
+        pitches = _load_table(data, "pitches")
+        games = _load_table(data, "games")
+        players = _load_table(data, "players")
 
         for window in windows:
             if "PA" in window:  # Window for plate appearances
@@ -739,7 +687,7 @@ class AllGames(Tool):
                         if p.get("exit_velocity")
                     )
                     / max(
-                        len([p for p in filtered_pitches.values() if p.get("exit_velocity")]), 1
+                        len([p for p in filtered_pitches if p.get("exit_velocity")]), 1
                     ),
                     "pitch_types": list(
                         {
@@ -780,15 +728,12 @@ class AllGames(Tool):
             "windows_processed": len(windows),
             "results": batch_results,
         }
-        out = json.dumps(
-            payload, indent=2,
-        )
+        out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -817,11 +762,10 @@ class VideoCreation(Tool):
         payload = {"video_manifest": "manifest_001"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -844,11 +788,10 @@ class AllRules(Tool):
         payload = {"flagged_insights_dataframe": "flags_table"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -889,11 +832,10 @@ class CreateReps(Tool):
         payload = {"report_id": report_id}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -927,11 +869,10 @@ class AllStats(Tool):
         payload = {"metrics_table": "key_metrics"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -954,11 +895,10 @@ class Pithcmapping(Tool):
         payload = {"canonical_table": "pitches_canonical"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -979,15 +919,12 @@ class Aims(Tool):
     #primary invocation function
     def invoke(data: dict[str, Any], goal_count_per_player: int = 2) -> str:
         payload = {"player_goals": f"goals_per_player_{goal_count_per_player}"}
-        out = json.dumps(
-            payload, indent=2
-        )
+        out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1007,8 +944,8 @@ class SummarizePlayerPerformance(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], player_id: str = None) -> str:
-        games = data.get("games", {}).values()
-        stats = [g for g in games.values() if player_id in g.get("player_stats", {}).values()]
+        games = _load_table(data, "games")
+        stats = [g for g in games if player_id in g.get("player_stats", {})]
         summary = {
             "player_id": player_id,
             "games_played": len(stats),
@@ -1016,17 +953,16 @@ class SummarizePlayerPerformance(Tool):
                 s["player_stats"][player_id].get("batting_avg", 0) for s in stats
             )
             / max(len(stats), 1),
-            "avg_ops": sum(s["player_stats"][player_id].get("ops", 0) for s in stats.values()
+            "avg_ops": sum(s["player_stats"][player_id].get("ops", 0) for s in stats)
             / max(len(stats), 1),
         }
         payload = summary
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1047,15 +983,12 @@ class InsightAction(Tool):
     #primary invocation function
     def invoke(data: dict[str, Any], source_table: str = None) -> str:
         payload = {"filtered": True, "filtered_table": "flags_actionable"}
-        out = json.dumps(
-            payload, indent=2
-        )
+        out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1078,15 +1011,12 @@ class InsightLev(Tool):
             "filtered_table": "flags_leverage",
             "leverage_threshold": threshold,
         }
-        out = json.dumps(
-            payload, indent=2,
-        )
+        out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1117,11 +1047,10 @@ class Spatials(Tool):
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1145,29 +1074,24 @@ class CompareTeamStats(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], team_a: str = None, team_b: str = None) -> str:
-        pass
-        games = data.get("games", {}).values()
+        games = _load_table(data, "games")
 
         def avg_runs(team):
-            pass
             team_games = [
                 g
-                for g in games.values() if g.get("home_team_id") == team or g.get("away_team_id") == team
+                for g in games if g.get("home_team_id") == team or g.get("away_team_id") == team
             ]
-            #return result
             return sum(
-                g.get("final_score", {}).values().get(str(team), 0) for g in team_games
+                g.get("final_score", {}).get(str(team), 0) for g in team_games
             ) / max(len(team_games), 1)
+        
         payload = {"team_a_avg_runs": avg_runs(team_a), "team_b_avg_runs": avg_runs(team_b)}
-        out = json.dumps(
-            payload, indent=2,
-        )
+        out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1193,11 +1117,10 @@ class QualityChecks(Tool):
         payload = {"qc_status": "passed"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1222,11 +1145,10 @@ class Filtering(Tool):
         payload = {"filtered_stats": f"stats_{method}"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1251,7 +1173,7 @@ class Developments(Tool):
     def invoke(data: dict[str, Any], week_of: str = None, active_players: list = None) -> str:
         data.setdefault("player_dev_goals", []).append(
             {
-                "goal_id": f"goal_{len(data.get("player_dev_goals", {}))+1}",
+                "goal_id": f"goal_{len(data.get('player_dev_goals', []))+1}",
                 "week_of": week_of,
                 "active_players": active_players,
             }
@@ -1259,11 +1181,10 @@ class Developments(Tool):
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1288,7 +1209,7 @@ class DevelopmentsReports(Tool):
     def invoke(data: dict[str, Any], week_of: str = None, report_count: int = None) -> str:
         data.setdefault("player_dev_reports", []).append(
             {
-                "dev_report_id": f"dev_{len(data.get("player_dev_reports", {}))+1}",
+                "dev_report_id": f"dev_{len(data.get('player_dev_reports', []))+1}",
                 "week_of": week_of,
                 "report_count": report_count,
             }
@@ -1296,11 +1217,10 @@ class DevelopmentsReports(Tool):
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1322,10 +1242,7 @@ class DevelopmentsReports(Tool):
 class Workflows(Tool):
     @staticmethod
     #primary invocation function
-    def invoke(data: dict[str, Any], dag_name: str = None, status: str = None, report_id: str = None,
-    game_pk: Any = None,
-    final_output: str = None,
-    ) -> str:
+    def invoke(data: dict[str, Any], dag_name: str = None, status: str = None, report_id: str = None, game_pk: Any = None, final_output: str = None) -> str:
         runs = _load_table(data, "workflow_runs")
         run = {
             "dag_name": dag_name,
@@ -1336,11 +1253,10 @@ class Workflows(Tool):
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1367,11 +1283,10 @@ class FliteringSamples(Tool):
         payload = {"filtered_insights": "flags_filtered_sample"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1394,18 +1309,15 @@ class TrackInjuryReports(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], player_id: str = None) -> str:
-        injuries = data.get("injury_reports", {}).values()
-        player_injuries = [i for i in injuries.values() if i.get("player_id") == player_id]
+        injuries = _load_table(data, "injury_reports")
+        player_injuries = [i for i in injuries if i.get("player_id") == player_id]
         payload = {"player_id": player_id, "injury_history": player_injuries}
-        out = json.dumps(
-            payload, indent=2
-        )
+        out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1430,11 +1342,10 @@ class SendingToSlack(Tool):
         payload = {"post_status": "posted"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {
@@ -1464,7 +1375,7 @@ class ExecData(Tool):
     def invoke(data: dict[str, Any], game_pk: str = None, grades_count: int = None) -> str:
         data.setdefault("pitch_execution_grades", []).append(
             {
-                "grade_id": f"grade_{len(data.get("pitch_execution_grades", {}))+1}",
+                "grade_id": f"grade_{len(data.get('pitch_execution_grades', []))+1}",
                 "game_pk": game_pk,
                 "grades_count": grades_count,
             }
@@ -1472,11 +1383,10 @@ class ExecData(Tool):
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
+    
     @staticmethod
     #metadata information
     def get_info() -> dict[str, Any]:
-        pass
-        #return result
         return {
             "type": "function",
             "function": {

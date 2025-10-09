@@ -127,7 +127,7 @@ class AddDevice(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        if any(d.get("id") == new_device_id for d in devices.values():
+        if any(d.get("id") == new_device_id for d in devices.values()):
             payload = {"error": f"Device with ID '{new_device_id}' already exists."}
             out = json.dumps(
                 payload, indent=2,
@@ -423,7 +423,7 @@ class CreateScene(Tool):
             payload = {"error": "New scene must have an 'id'."}
             out = json.dumps(payload, indent=2)
             return out
-        if any(s.get("id") == new_scene_id for s in scenes.values():
+        if any(s.get("id") == new_scene_id for s in scenes.values()):
             payload = {"error": f"Scene with ID '{new_scene_id}' already exists."}
             out = json.dumps(
                 payload, indent=2,

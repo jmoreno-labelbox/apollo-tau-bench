@@ -2116,7 +2116,7 @@ class GetPullRequestStatus(Tool):
                     result = {
                         "state": (
                             "success"
-                            if all(check["state"] == "success" for check in checks.values()
+                            if all(check["state"] == "success" for check in checks)
                             else "pending"
                         ),
                         "total_count": len(checks),
@@ -3109,7 +3109,7 @@ class ListIssues(Tool):
                         continue
 
                     #Apply filter based on labels (if provided and not empty)
-                    if labels and not any(label in issue_labels for label in labels.values():
+                    if labels and not any(label in issue_labels for label in labels.values()):
                         continue
 
                     issues.append(
@@ -3226,7 +3226,7 @@ class DeleteRepository(Tool):
         repositories = data.get("repositories", {}).values()
 
         #Locate and delete the repository
-        for i, repository in enumerate(repositories.values():
+        for i, repository in enumerate(repositories.values()):
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 repositories.pop(i)
 

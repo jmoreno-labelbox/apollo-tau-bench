@@ -2459,7 +2459,7 @@ class CheckNoPurchases(Tool):
             out = json.dumps(payload)
             return out
 
-        all_zeros = all(purchase == 0 for purchase in purchases_list.values()
+        all_zeros = all(purchase == 0 for purchase in purchases_list.values())
         payload = {"all_zeros": all_zeros}
         out = json.dumps(payload)
         return out
@@ -2588,7 +2588,7 @@ class CalculateCampaignROASForPeriod(Tool):
         total_revenue = 0
         total_spend = 0
 
-        for insight in insights.values()):
+        for insight in insights.values():
             if (
                 insight.get("adset_id") in adset_ids
                 and start_date <= insight.get("date") <= end_date
@@ -3008,7 +3008,7 @@ class AddPlan(Tool):
             out = json.dumps(payload)
             return out
 
-        total_budget = sum(alloc.get("budget", 0) for alloc in allocations.values()
+        total_budget = sum(alloc.get("budget", 0) for alloc in allocations.values())
 
         new_plan = {
             "plan_id": plan_id,

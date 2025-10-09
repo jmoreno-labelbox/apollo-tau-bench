@@ -1,9 +1,3 @@
-airline_3
-  Line: 948
-  Error: invalid syntax
-  Text: response = {
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_3/tools.py
-
 career_planner_4
   Line: 2906
   Error: '(' was never closed
