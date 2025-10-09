@@ -425,7 +425,7 @@ class ComputeChecksumTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], log_name: str) -> str:
+    def invoke(data: dict[str, Any], log_name: str = None) -> str:
         if log_name not in data:
             payload = {"error": f"Log '{log_name}' not found."}
             out = json.dumps(payload)
@@ -460,7 +460,7 @@ class CopyFileToHostTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], log_name: str) -> str:
+    def invoke(data: dict[str, Any], log_name: str = None) -> str:
         checksum_name = f"{log_name}.sha256"
         if log_name not in data or checksum_name not in data:
             payload = {"error": "Log or checksum not found for copying."}
@@ -498,7 +498,7 @@ class VerifyLocalChecksumTool(Tool):
         }
 
     @staticmethod
-    def invoke(data: dict[str, Any], log_name: str) -> str:
+    def invoke(data: dict[str, Any], log_name: str = None) -> str:
         checksum_name = f"{log_name}.sha256"
         if log_name not in data or checksum_name not in data:
             payload = {"error": "Log or checksum not found for copying."}

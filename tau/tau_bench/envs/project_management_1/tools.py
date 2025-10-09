@@ -2061,9 +2061,9 @@ class CreateProject(Tool):
     @staticmethod
     def invoke(
         data: dict[str, Any],
-        project_name: str,
-        department: str,
-        required_hours_per_week: int,
+        project_name: str = None,
+        department: str = None,
+        required_hours_per_week: int = None,
         status: str = "active",
         priority: str = "low",
         need_resources: str = "true",

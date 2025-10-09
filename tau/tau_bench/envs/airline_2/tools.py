@@ -919,7 +919,7 @@ class DelayFlightActualTimesForDate(Tool):
                         "delay_minutes": {"type": "integer"},
                         "also_mark_status": {"type": "string"},
                     },
-                    "required": ["flight_number", "date", "delay_minutesdelay_minutes"],
+                    "required": ["flight_number", "date", "delay_minutes"],
                 },
             },
         }

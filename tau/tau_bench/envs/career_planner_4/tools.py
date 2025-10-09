@@ -1527,8 +1527,8 @@ class GetUserCourseProgress(Tool):
     def invoke(
         data,
         user_id: str,
-        prefix: str,
-        course_id: str):
+        course_id: str,
+        prefix: str = None):
         payload = {"user_course_progress": {"status": "Not Completed", "grade": 0}}
         out = json.dumps(
             payload,
@@ -1747,7 +1747,7 @@ class CheckGoalProgressThreshold(Tool):
 
 class CalculateProgressIncrement(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], current_progress: Any, increment: int) -> str:
+    def invoke(data: dict[str, Any], current_progress: Any = None, increment: int = 0) -> str:
         if current_progress == "get_from_goal":
             # This will be calculated dynamically according to the goal
             calculated_value = min(100, increment)  # Streamlined

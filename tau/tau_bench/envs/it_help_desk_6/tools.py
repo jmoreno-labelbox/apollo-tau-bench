@@ -1168,8 +1168,8 @@ class CreateDeviceWorkflow(Tool):
         asset_id: str,
         process: str,
         status: str,
-        pickup_code: str | None,
-        created_at: str,
+        pickup_code: str | None = None,
+        created_at: str = None,
         completed_at: str | None = None,
     ) -> str:
         pass

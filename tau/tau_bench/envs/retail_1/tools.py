@@ -479,7 +479,7 @@ class GetUserIdFromEmail(Tool):  #READ
 class CreateOrder(Tool):
     @staticmethod
     def invoke(
-        data: dict[str, Any], user_id: str, item_ids: list[str], payment_method_id: str
+        data: dict[str, Any], user_id: str = None, item_ids: list[str] = None, payment_method_id: str = None
     ) -> str:
         pass
         users = data["users"]

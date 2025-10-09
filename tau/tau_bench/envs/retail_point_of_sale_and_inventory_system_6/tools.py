@@ -272,7 +272,7 @@ class FindCheckOutEmployee(Tool):
     ]
 
     @staticmethod
-    def invoke(data: dict[str, Any], store_id: str, ignore_ids: list[str] = None) -> str:
+    def invoke(data: dict[str, Any], store_id: str = None, ignore_ids: list[str] = None) -> str:
         employees = data.get("employees", {}).values()
 
         if ignore_ids is None:
@@ -1562,7 +1562,7 @@ class create_employee(Tool):
     @staticmethod
     def invoke(
         data: dict[str, Any],
-        timestamp: str,
+        timestamp: str = None,
         name: str = None,
         phone_number: str = None,
         email: str = None,

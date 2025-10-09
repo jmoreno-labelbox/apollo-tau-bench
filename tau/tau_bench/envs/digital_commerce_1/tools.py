@@ -2210,7 +2210,7 @@ class UpsertContextRule(Tool):
         segment_name: str,
         rule_name_hint: str,
         attributes: dict[str, Any],
-        bind_to_offer_code: str | None
+        bind_to_offer_code: str | None = None
     ) -> str:
         rules = _ensure_table(data, "context_rules")
         binds = _ensure_table(data, "context_rule_bindings")

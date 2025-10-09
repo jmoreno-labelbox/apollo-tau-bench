@@ -104,7 +104,7 @@ class GetEntity(Tool):
 #-----------------------------------------------------------------
 class QueryEntities(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], entity_type: str, filters: dict[str, Any]) -> str:
+    def invoke(data: dict[str, Any], entity_type: str = None, filters: dict[str, Any] = None) -> str:
         collection = data.get(entity_type, {}).values()
         matches: list[dict[str, Any]] = []
         for item in collection:
@@ -150,7 +150,7 @@ class QueryEntities(Tool):
 #-----------------------------------------------------------------
 class UpsertDevice(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], device: dict[str, Any]) -> str:
+    def invoke(data: dict[str, Any], device: dict[str, Any] = None) -> str:
         if not device or not isinstance(device, dict):
             payload = {"error": "device object required"}
             out = json.dumps(payload, indent=2)

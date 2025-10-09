@@ -249,9 +249,9 @@ class UpdateDeviceStateTimer(Tool):
     @staticmethod
     def invoke(
         data: dict[str, Any],
-        device_id: str,
-        timestamp_end: str,
-        update: dict[str, Any],
+        device_id: str = None,
+        timestamp_end: str = None,
+        update: dict[str, Any] = None,
         rrule: str | None = None
     ) -> str:
         devices: list[dict[str, Any]] = data.get("devices", {}).values()
