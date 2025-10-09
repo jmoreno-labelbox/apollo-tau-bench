@@ -901,21 +901,14 @@ class RecordGeocodingResult(Tool):
     @staticmethod
     def invoke(
         data: dict[str, Any],
-        query_city: str,
-        latitude: float,
-        longitude: float,
-        canonical_name: str,
-        provider: str,
-        query_ts: str
+        record: dict[str, Any]
     ) -> str:
-        record = {
-            "query_city": query_city,
-            "latitude": latitude,
-            "longitude": longitude,
-            "canonical_name": canonical_name,
-            "provider": provider,
-            "query_ts": query_ts
-        }
+        query_city = record.get("query_city")
+        latitude = record.get("latitude")
+        longitude = record.get("longitude")
+        canonical_name = record.get("canonical_name")
+        provider = record.get("provider")
+        query_ts = record.get("query_ts")
         if not {
             "query_city",
             "latitude",
@@ -954,21 +947,23 @@ class InsertWeatherForecast(Tool):
     @staticmethod
     def invoke(
         data: dict[str, Any],
-        city: str,
-        latitude: float,
-        longitude: float,
-        variables: list[str],
-        timezone: str,
-        horizon_days: int,
-        start_ts: str,
-        end_ts: str,
-        timestamps: list[str],
-        provider: str,
-        fetched_ts: str,
-        precipitation_mm_hr_nullable: list[float] = None,
-        temperature_2m_c_nullable: list[float] = None,
-        wind_speed_10m_ms_nullable: list[float] = None,
+        record: dict[str, Any]
     ) -> str:
+        city = record.get("city")
+        latitude = record.get("latitude")
+        longitude = record.get("longitude")
+        variables = record.get("variables")
+        timezone = record.get("timezone")
+        horizon_days = record.get("horizon_days")
+        start_ts = record.get("start_ts")
+        end_ts = record.get("end_ts")
+        timestamps = record.get("timestamps")
+        provider = record.get("provider")
+        fetched_ts = record.get("fetched_ts")
+        precipitation_mm_hr_nullable = record.get("precipitation_mm_hr_nullable")
+        temperature_2m_c_nullable = record.get("temperature_2m_c_nullable")
+        wind_speed_10m_ms_nullable = record.get("wind_speed_10m_ms_nullable")
+        
         req = {
             "city",
             "latitude",
@@ -1047,15 +1042,13 @@ class RegisterEtlRun(Tool):
     """Adds an etl_runs record."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], run_id: str, input_paths: Any, output_paths: Any, status: str, started_ts: Any) -> str:
+    def invoke(data: dict[str, Any], record: dict[str, Any]) -> str:
+        run_id = record.get("run_id")
+        input_paths = record.get("input_paths")
+        output_paths = record.get("output_paths")
+        status = record.get("status")
+        started_ts = record.get("started_ts")
         req = {"run_id", "input_paths", "output_paths", "status", "started_ts"}
-        record = {
-            "run_id": run_id,
-            "input_paths": input_paths,
-            "output_paths": output_paths,
-            "status": status,
-            "started_ts": started_ts
-        }
         if not req.issubset(set(record.keys())):
             payload = {"error": "missing required fields"}
             out = json.dumps(payload)
@@ -1087,14 +1080,15 @@ class RegisterProcessedTimeseries(Tool):
     @staticmethod
     def invoke(
         data: dict[str, Any],
-        csv_path: str = None,
-        columns: list[str] = None,
-        row_count: int = None,
-        min_timestamp: str = None,
-        max_timestamp: str = None,
-        file_hash_sha256: str = None,
-        created_ts: str = None
+        record: dict[str, Any]
     ) -> str:
+        csv_path = record.get("csv_path")
+        columns = record.get("columns")
+        row_count = record.get("row_count")
+        min_timestamp = record.get("min_timestamp")
+        max_timestamp = record.get("max_timestamp")
+        file_hash_sha256 = record.get("file_hash_sha256")
+        created_ts = record.get("created_ts")
         req = {
             "csv_path",
             "columns",
@@ -1215,8 +1209,9 @@ class SaveModelConfig(Tool):
     """Adds a model_config record."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], saved_json_path: str = None, created_ts: str = None) -> str:
-        record = {"saved_json_path": saved_json_path, "created_ts": created_ts}
+    def invoke(data: dict[str, Any], record: dict[str, Any]) -> str:
+        saved_json_path = record.get("saved_json_path")
+        created_ts = record.get("created_ts")
         req = {"saved_json_path", "created_ts"}
         if not req.issubset(set(record.keys())):
             payload = {"error": "missing required fields"}
@@ -1355,20 +1350,18 @@ class SavePredictionsRecord(Tool):
     """Adds a predictions record."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], model_name: str, predictions_csv_path: str, row_count: int, columns: list, generated_ts: str) -> str:
+    def invoke(data: dict[str, Any], record: dict[str, Any]) -> str:
+        model_name = record.get("model_name")
+        predictions_csv_path = record.get("predictions_csv_path")
+        row_count = record.get("row_count")
+        columns = record.get("columns")
+        generated_ts = record.get("generated_ts")
         req = {
             "model_name",
             "predictions_csv_path",
             "row_count",
             "columns",
             "generated_ts",
-        }
-        record = {
-            "model_name": model_name,
-            "predictions_csv_path": predictions_csv_path,
-            "row_count": row_count,
-            "columns": columns,
-            "generated_ts": generated_ts,
         }
         if not req.issubset(set(record.keys())):
             payload = {"error": "missing required fields"}
@@ -1403,13 +1396,11 @@ class SaveMetricsRecord(Tool):
     """Adds a metrics record."""
 
     @staticmethod
-    def invoke(data: dict[str, Any], model_name: str, metrics_csv_path: str, generated_ts: str) -> str:
+    def invoke(data: dict[str, Any], record: dict[str, Any]) -> str:
+        model_name = record.get("model_name")
+        metrics_csv_path = record.get("metrics_csv_path")
+        generated_ts = record.get("generated_ts")
         req = {"model_name", "metrics_csv_path", "generated_ts"}
-        record = {
-            "model_name": model_name,
-            "metrics_csv_path": metrics_csv_path,
-            "generated_ts": generated_ts
-        }
         if not req.issubset(set(record.keys())):
             payload = {"error": "missing required fields"}
             out = json.dumps(payload)

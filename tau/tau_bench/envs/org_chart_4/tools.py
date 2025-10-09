@@ -311,9 +311,9 @@ class get_leave_records(Tool):
 #CREATE APIS
 class add_employee(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], employee_id: str) -> str:
+    def invoke(data: dict[str, Any], employee: dict[str, Any]) -> str:
         employees = data.setdefault("employees", [])
-        employee = {"employee_id": employee_id}
+        employee_id = employee.get("employee_id")
         data["employees"][employee_id] = employee
         payload = {"success": True, "employee_id": employee_id}
         out = json.dumps(
@@ -422,9 +422,9 @@ class delete_employee(Tool):
 
 class add_department(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], department_id: str) -> str:
+    def invoke(data: dict[str, Any], department: dict[str, Any]) -> str:
         departments = data.setdefault("departments", [])
-        department = {"department_id": department_id}
+        department_id = department.get("department_id")
         data["departments"][department_id] = department
         payload = {"success": True, "department_id": department_id}
         out = json.dumps(

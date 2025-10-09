@@ -1,24 +1,24 @@
 {
-  "airline_4": [],
-  "airline_2": [
-    {
-      "tool": "DelayFlightActualTimesForDate",
-      "error": "DelayFlightActualTimesForDate.invoke() missing 1 required positional argument: 'delay_minutes'"
-    }
-  ],
-  "airline_3": [],
+  "academic_search_1": [],
+  "academic_search_5": [],
+  "academic_search_2": [],
+  "academic_search_3": [],
   "airline_5": [
     {
       "tool": "UpdateAircraftStatus",
       "error": "UpdateAircraftStatus.invoke() missing 1 required keyword-only argument: 'status'"
     }
   ],
-  "academic_search_3": [],
-  "academic_search_2": [],
-  "academic_search_1": [],
-  "academic_search_5": [],
   "airline_1": [],
   "academic_search_4": [],
+  "airline_2": [
+    {
+      "tool": "DelayFlightActualTimesForDate",
+      "error": "DelayFlightActualTimesForDate.invoke() missing 1 required positional argument: 'delay_minutes'"
+    }
+  ],
+  "airline_4": [],
+  "airline_3": [],
   "banking_services_1": [
     {
       "tool": "AggregateMonthlyExpenses",
@@ -33,21 +33,17 @@
       "error": "string indices must be integers, not 'str'"
     }
   ],
-  "career_planner_1": [
+  "banking_services_2": [],
+  "banking_services_5": [
     {
-      "tool": "EnrollInCourse",
+      "tool": "AddNewBeneficiaryForCustomer",
       "error": "'dict' object has no attribute 'append'"
     },
     {
-      "tool": "AddMentorshipRelationship",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "AddGoal",
+      "tool": "CreateNewAccountForCustomer",
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "banking_services_2": [],
   "banking_services_6": [
     {
       "tool": "AddBeneficiary",
@@ -66,48 +62,18 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "banking_services_5": [
+  "career_planner_1": [
     {
-      "tool": "AddNewBeneficiaryForCustomer",
+      "tool": "EnrollInCourse",
       "error": "'dict' object has no attribute 'append'"
     },
     {
-      "tool": "CreateNewAccountForCustomer",
+      "tool": "AddMentorshipRelationship",
+      "error": "string indices must be integers, not 'str'"
+    },
+    {
+      "tool": "AddGoal",
       "error": "'dict' object has no attribute 'append'"
-    }
-  ],
-  "banking_services_4": [
-    {
-      "tool": "getScheduledPaymentsDueInRange",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "reassignRelationshipManager",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "deactivateAccountByRequest",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "updateScheduledPaymentAmount",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "addEmployerToCustomerProfile",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "enforceKycRefreshForCustomer",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "closeActiveAccount",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "ApplyTransactionAdjustment",
-      "error": "string indices must be integers, not 'str'"
     }
   ],
   "career_planner_5": [
@@ -125,6 +91,50 @@
     },
     {
       "tool": "addUserCertification",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
+  "consulting_accounting_2": [
+    {
+      "tool": "CaV2CreateInvoice",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "CaV2CreateInvoiceLine",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "CaV2CreateInvoiceAuditEntry",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "CaV2CreateDashboardSnapshot",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "CaV2CreateProjectRevenue",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "CaV2CreateMonthlyRevenue",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "CaV2CreateSchedulerRun",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
+  "career_planner_3": [
+    {
+      "tool": "ShortlistSuccessorCandidate",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "AssignCourseToUser",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "LogTeamTraining",
       "error": "'dict' object has no attribute 'append'"
     }
   ],
@@ -205,51 +215,40 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "consulting_accounting_2": [
+  "banking_services_4": [
     {
-      "tool": "CaV2CreateInvoice",
-      "error": "'dict' object has no attribute 'append'"
+      "tool": "getScheduledPaymentsDueInRange",
+      "error": "string indices must be integers, not 'str'"
     },
     {
-      "tool": "CaV2CreateInvoiceLine",
-      "error": "'dict' object has no attribute 'append'"
+      "tool": "reassignRelationshipManager",
+      "error": "string indices must be integers, not 'str'"
     },
     {
-      "tool": "CaV2CreateInvoiceAuditEntry",
-      "error": "'dict' object has no attribute 'append'"
+      "tool": "deactivateAccountByRequest",
+      "error": "string indices must be integers, not 'str'"
     },
     {
-      "tool": "CaV2CreateDashboardSnapshot",
-      "error": "'dict' object has no attribute 'append'"
+      "tool": "updateScheduledPaymentAmount",
+      "error": "string indices must be integers, not 'str'"
     },
     {
-      "tool": "CaV2CreateProjectRevenue",
-      "error": "'dict' object has no attribute 'append'"
+      "tool": "addEmployerToCustomerProfile",
+      "error": "string indices must be integers, not 'str'"
     },
     {
-      "tool": "CaV2CreateMonthlyRevenue",
-      "error": "'dict' object has no attribute 'append'"
+      "tool": "enforceKycRefreshForCustomer",
+      "error": "string indices must be integers, not 'str'"
     },
     {
-      "tool": "CaV2CreateSchedulerRun",
-      "error": "'dict' object has no attribute 'append'"
+      "tool": "closeActiveAccount",
+      "error": "string indices must be integers, not 'str'"
+    },
+    {
+      "tool": "ApplyTransactionAdjustment",
+      "error": "string indices must be integers, not 'str'"
     }
   ],
-  "career_planner_3": [
-    {
-      "tool": "ShortlistSuccessorCandidate",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "AssignCourseToUser",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "LogTeamTraining",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
-  "consulting_accounting_4": [],
   "consulting_accounting_5": [
     {
       "tool": "LogInvoiceAuditEvent",
@@ -300,49 +299,11 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
+  "consulting_accounting_4": [],
   "consulting_accounting_6": [],
-  "data_science_1": [],
-  "data_science_2": [
-    {
-      "tool": "addFileDirectoryRecord",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "upsertFileStoreText",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "recordGeocodingResult",
-      "error": "RecordGeocodingResult.invoke() got an unexpected keyword argument 'record'"
-    },
-    {
-      "tool": "insertWeatherForecast",
-      "error": "InsertWeatherForecast.invoke() got an unexpected keyword argument 'record'"
-    },
-    {
-      "tool": "registerEtlRun",
-      "error": "RegisterEtlRun.invoke() got an unexpected keyword argument 'record'"
-    },
-    {
-      "tool": "registerProcessedTimeseries",
-      "error": "RegisterProcessedTimeseries.invoke() got an unexpected keyword argument 'record'"
-    },
-    {
-      "tool": "saveModelConfig",
-      "error": "SaveModelConfig.invoke() got an unexpected keyword argument 'record'"
-    },
-    {
-      "tool": "savePredictionsRecord",
-      "error": "SavePredictionsRecord.invoke() got an unexpected keyword argument 'record'"
-    },
-    {
-      "tool": "saveMetricsRecord",
-      "error": "SaveMetricsRecord.invoke() got an unexpected keyword argument 'record'"
-    }
-  ],
-  "data_science_3": [],
-  "data_science_5": [],
   "data_science_6": [],
+  "data_science_1": [],
+  "data_science_3": [],
   "data_science_4": [
     {
       "tool": "setWeatherForecast",
@@ -377,7 +338,37 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
+  "data_science_2": [
+    {
+      "tool": "addFileDirectoryRecord",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "upsertFileStoreText",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "insertWeatherForecast",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "registerProcessedTimeseries",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
+  "data_science_5": [],
   "dev_ops_1": [],
+  "dev_ops_3": [],
+  "dev_ops_2": [],
+  "digital_commerce_1": [
+    {
+      "tool": "UpsertContextRule",
+      "error": "UpsertContextRule.invoke() missing 1 required positional argument: 'bind_to_offer_code'"
+    }
+  ],
+  "digital_commerce_3": [],
+  "digital_commerce_2": [],
+  "digital_commerce_4": [],
   "dev_ops_4": [
     {
       "tool": "StartAutomationRun",
@@ -396,29 +387,6 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "dev_ops_2": [],
-  "digital_commerce_1": [
-    {
-      "tool": "UpsertContextRule",
-      "error": "UpsertContextRule.invoke() missing 1 required positional argument: 'bind_to_offer_code'"
-    }
-  ],
-  "dev_ops_3": [],
-  "digital_commerce_2": [],
-  "digital_commerce_3": [],
-  "dev_ops_5": [
-    {
-      "tool": "updateAssetValidationStatus",
-      "error": "UpdateAssetValidationStatus.invoke() got an unexpected keyword argument 'validation_status'"
-    },
-    {
-      "tool": "updateAlertState",
-      "error": "UpdateAlertState.invoke() got an unexpected keyword argument 'state'"
-    }
-  ],
-  "digital_commerce_4": [],
-  "digital_commerce_5": [],
-  "dev_ops_6": [],
   "figma_gmail_mcp_pipeline_1": [
     {
       "tool": "CreateGmailMessage",
@@ -433,14 +401,33 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "figma_gmail_mcp_pipeline_4": [],
-  "figma_gmail_mcp_pipeline_5": [],
-  "file_system_1": [],
+  "digital_commerce_5": [],
+  "dev_ops_6": [],
+  "dev_ops_5": [],
   "figma_gmail_mcp_pipeline_2": [],
   "figma_gmail_mcp_pipeline_3": [
     {
       "tool": "FindGmailThreads",
       "error": "'str' object has no attribute 'get'"
+    }
+  ],
+  "figma_gmail_mcp_pipeline_6": [],
+  "figma_gmail_mcp_pipeline_4": [],
+  "figma_gmail_mcp_pipeline_5": [],
+  "file_system_1": [],
+  "github_mcp_1": [],
+  "github_mcp_2": [
+    {
+      "tool": "ListCommits",
+      "error": "string indices must be integers, not 'str'"
+    },
+    {
+      "tool": "ListCodeScanningAlerts",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "AppendTerminal",
+      "error": "'dict' object has no attribute 'append'"
     }
   ],
   "file_system_8": [
@@ -461,31 +448,9 @@
       "error": "VerifyLocalChecksumTool.invoke() missing 1 required positional argument: 'log_name'"
     }
   ],
-  "file_system_7": [
-    {
-      "tool": "CreateTmuxSession",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
-  "figma_gmail_mcp_pipeline_6": [],
-  "github_mcp_1": [],
   "file_system_9": [
     {
       "tool": "LogTaskStart",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
-  "github_mcp_2": [
-    {
-      "tool": "ListCommits",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "ListCodeScanningAlerts",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "AppendTerminal",
       "error": "'dict' object has no attribute 'append'"
     }
   ],
@@ -495,10 +460,14 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "github_mcp_5": [],
+  "file_system_7": [
+    {
+      "tool": "CreateTmuxSession",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
   "github_mcp_6": [],
-  "logistics_supply_chain_2": [],
-  "it_help_desk_5": [],
+  "github_mcp_5": [],
   "it_help_desk_2": [
     {
       "tool": "AssignLicense",
@@ -526,12 +495,6 @@
     }
   ],
   "logistics_supply_chain_1": [],
-  "it_help_desk_6": [
-    {
-      "tool": "CreateDeviceWorkflow",
-      "error": "CreateDeviceWorkflow.invoke() missing 1 required positional argument: 'pickup_code'"
-    }
-  ],
   "it_help_desk_4": [
     {
       "tool": "AssignLicense",
@@ -558,6 +521,8 @@
       "error": "string indices must be integers, not 'str'"
     }
   ],
+  "logistics_supply_chain_5": [],
+  "logistics_supply_chain_3": [],
   "logistics_supply_chain_6": [],
   "new_hire_mcp_1": [
     {
@@ -569,60 +534,15 @@
       "error": "CreateOrientationInvitationEmailsTool.invoke() got an unexpected keyword argument 'orientation_template_name'"
     }
   ],
-  "logistics_supply_chain_5": [],
-  "logistics_supply_chain_3": [],
-  "new_hire_mcp_3": [],
-  "new_hire_mcp_2": [],
-  "new_hire_mcp_5": [
+  "logistics_supply_chain_2": [],
+  "it_help_desk_5": [],
+  "it_help_desk_6": [
     {
-      "tool": "WriteOnboardingFile",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "GetOrCreateEmailLabel",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "CreateAssetRequest",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "WriteAssetRequestFile",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "UpdateAssetRequestStatus",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "WritePendingTasksFile",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "AllocateFirstAvailableAsset",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "ReplyToEmailThread",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "SummarizeAccessChecks",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "AuditAttachmentsForEmail",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "CloseCompletedChecklistItems",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "recordAccessChecksAndNotifyGaps",
-      "error": "'dict' object has no attribute 'append'"
+      "tool": "CreateDeviceWorkflow",
+      "error": "CreateDeviceWorkflow.invoke() missing 1 required positional argument: 'pickup_code'"
     }
   ],
+  "new_hire_mcp_2": [],
   "new_hire_mcp_4": [
     {
       "tool": "GetOrCreateEmailLabel",
@@ -685,42 +605,63 @@
       "error": "'str' object has no attribute 'get'"
     }
   ],
+  "new_hire_mcp_3": [],
   "org_chart_2": [],
+  "new_hire_mcp_5": [
+    {
+      "tool": "WriteOnboardingFile",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "GetOrCreateEmailLabel",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "CreateAssetRequest",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "WriteAssetRequestFile",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "UpdateAssetRequestStatus",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "WritePendingTasksFile",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "AllocateFirstAvailableAsset",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "ReplyToEmailThread",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "SummarizeAccessChecks",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "AuditAttachmentsForEmail",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "CloseCompletedChecklistItems",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "recordAccessChecksAndNotifyGaps",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
   "org_chart_1": [],
-  "org_chart_5": [],
-  "org_chart_4": [
-    {
-      "tool": "addEmployee",
-      "error": "add_employee.invoke() got an unexpected keyword argument 'employee'. Did you mean 'employee_id'?"
-    },
-    {
-      "tool": "addDepartment",
-      "error": "add_department.invoke() got an unexpected keyword argument 'department'. Did you mean 'department_id'?"
-    }
-  ],
   "org_chart_3": [],
+  "org_chart_4": [],
+  "org_chart_5": [],
   "rbac_1": [],
-  "rbac_2": [
-    {
-      "tool": "CreatePolicyException",
-      "error": "CreatePolicyException.invoke() got an unexpected keyword argument 'expires_at'. Did you mean 'expires_on'?"
-    }
-  ],
-  "rbac_4": [],
-  "rbac_5": [
-    {
-      "tool": "SendEmail",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "PostSlackMessage",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "CreateAuditLogEntry",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
   "rbac_3": [
     {
       "tool": "CreateAccessRequest",
@@ -755,20 +696,32 @@
       "error": "'str' object has no attribute 'get'"
     }
   ],
-  "project_management_2": [],
-  "project_management_1": [
+  "rbac_4": [],
+  "rbac_5": [
     {
-      "tool": "CreateProject",
-      "error": "CreateProject.invoke() missing 1 required positional argument: 'project_name'"
+      "tool": "SendEmail",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "PostSlackMessage",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "CreateAuditLogEntry",
+      "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "project_management_3": [],
-  "real_estate_sales_1": [],
-  "project_management_4": [],
-  "project_management_5": [],
-  "real_estate_sales_3": [
+  "rbac_2": [
     {
-      "tool": "GetEmailsForClient",
+      "tool": "CreatePolicyException",
+      "error": "CreatePolicyException.invoke() got an unexpected keyword argument 'expires_at'. Did you mean 'expires_on'?"
+    }
+  ],
+  "project_management_4": [],
+  "real_estate_sales_1": [],
+  "real_estate_sales_7": [
+    {
+      "tool": "GenerateAttachCompReportDocument",
       "error": "'str' object has no attribute 'get'"
     }
   ],
@@ -778,16 +731,35 @@
       "error": "'str' object has no attribute 'get'"
     }
   ],
-  "real_estate_sales_7": [
-    {
-      "tool": "GenerateAttachCompReportDocument",
-      "error": "'str' object has no attribute 'get'"
-    }
-  ],
   "real_estate_sales_4": [
     {
       "tool": "findListingsInNeighborhoods",
       "error": "FindListings.invoke() got an unexpected keyword argument 'neighborhood_ids'"
+    }
+  ],
+  "real_estate_sales_3": [
+    {
+      "tool": "GetEmailsForClient",
+      "error": "'str' object has no attribute 'get'"
+    }
+  ],
+  "project_management_2": [],
+  "project_management_5": [],
+  "project_management_1": [
+    {
+      "tool": "CreateProject",
+      "error": "CreateProject.invoke() missing 1 required positional argument: 'project_name'"
+    }
+  ],
+  "project_management_3": [],
+  "recipes_1": [
+    {
+      "tool": "CreateEmptyGroceryList",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "LogAuditEvent",
+      "error": "'dict' object has no attribute 'append'"
     }
   ],
   "retail_1": [
@@ -800,20 +772,8 @@
       "error": "ProcessItemExchange.invoke() got an unexpected keyword argument 'item_id'. Did you mean 'item_ids'?"
     }
   ],
-  "recipes_1": [
-    {
-      "tool": "CreateEmptyGroceryList",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "LogAuditEvent",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
-  "recipes_5": [],
-  "recipes_2": [],
-  "recipes_4": [],
   "retail_2": [],
+  "recipes_4": [],
   "recipes_3": [
     {
       "tool": "listRecipes",
@@ -830,37 +790,22 @@
       "error": "AttachCourierByNameTool.invoke() got an unexpected keyword argument 'tracking_id'"
     }
   ],
-  "retail_point_of_sale_and_inventory_system_6": [
-    {
-      "tool": "createEmployee",
-      "error": "create_employee.invoke() missing 1 required positional argument: 'timestamp'"
-    },
-    {
-      "tool": "FindCheckOutEmployee",
-      "error": "FindCheckOutEmployee.invoke() missing 1 required positional argument: 'store_id'"
-    }
-  ],
-  "retail_4": [],
-  "retail_point_of_sale_and_inventory_system_2": [],
-  "retail_point_of_sale_and_inventory_system_1": [],
-  "retail_6": [
-    {
-      "tool": "placeSupplyOrder",
-      "error": "'str' object has no attribute 'get'"
-    }
-  ],
   "retail_5": [
     {
       "tool": "getDeliveryEstimate",
       "error": "string indices must be integers, not 'str'"
     }
   ],
-  "retail_point_of_sale_and_inventory_system_5": [
+  "retail_4": [],
+  "recipes_5": [],
+  "recipes_2": [],
+  "retail_6": [
     {
-      "tool": "compareInventoryCounts",
-      "error": "CompareInventoryCounts.invoke() got an unexpected keyword argument 'sku'"
+      "tool": "placeSupplyOrder",
+      "error": "'str' object has no attribute 'get'"
     }
   ],
+  "retail_point_of_sale_and_inventory_system_2": [],
   "smart_home_1": [
     {
       "tool": "UpdateDeviceStateTimer",
@@ -881,6 +826,18 @@
       "error": "CreatePurchaseTransaction.invoke() missing 1 required positional argument: 'current_time'"
     }
   ],
+  "retail_point_of_sale_and_inventory_system_6": [
+    {
+      "tool": "createEmployee",
+      "error": "create_employee.invoke() missing 1 required positional argument: 'timestamp'"
+    },
+    {
+      "tool": "FindCheckOutEmployee",
+      "error": "FindCheckOutEmployee.invoke() missing 1 required positional argument: 'store_id'"
+    }
+  ],
+  "retail_point_of_sale_and_inventory_system_1": [],
+  "smart_home_4": [],
   "smart_home_2": [
     {
       "tool": "QueryEntities",
@@ -899,8 +856,14 @@
       "error": "_find() missing 1 required positional argument: 'entity_id'"
     }
   ],
-  "smart_home_3": [],
   "smart_home_5": [],
+  "smart_home_3": [],
+  "retail_point_of_sale_and_inventory_system_5": [
+    {
+      "tool": "compareInventoryCounts",
+      "error": "CompareInventoryCounts.invoke() got an unexpected keyword argument 'sku'"
+    }
+  ],
   "social_media_advertising_1": [
     {
       "tool": "LogBudgetChange",
@@ -915,11 +878,7 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "smart_home_4": [],
   "social_media_advertising_4": [],
-  "social_media_advertising_6": [],
-  "social_media_advertising_2": [],
-  "social_media_advertising_3": [],
   "social_media_advertising_5": [
     {
       "tool": "CreateAutomationRun",
@@ -930,6 +889,9 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
+  "social_media_advertising_2": [],
+  "social_media_advertising_6": [],
+  "social_media_advertising_3": [],
   "sports_analytics_2": [
     {
       "tool": "WritePlayerDevGoals",

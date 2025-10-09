@@ -511,21 +511,20 @@ class UpdateAssetValidationStatus(Tool):
 
     def invoke(
         data: dict[str, Any],
-        asset_id: str = None,
-        id: Any = None,
-        new_status: str = None
+        id: str = None,
+        validation_status: str = None
     ) -> str:
         assets = data.get("asset_catalog", {}).values()
         for asset in assets.values():
-            if asset.get("id") == asset_id:
-                asset["validation_status"] = new_status
+            if asset.get("id") == id:
+                asset["validation_status"] = validation_status
                 payload = {
                     "status": "success",
-                    "message": f"Validation status for asset '{asset_id}' updated to '{new_status}'.",
+                    "message": f"Validation status for asset '{id}' updated to '{validation_status}'.",
                 }
                 out = json.dumps(payload)
                 return out
-        payload = {"error": f"Asset with ID '{asset_id}' not found."}
+        payload = {"error": f"Asset with ID '{id}' not found."}
         out = json.dumps(payload)
         return out
     @staticmethod
@@ -1458,21 +1457,20 @@ class UpdateAlertState(Tool):
 
     def invoke(
         data: dict[str, Any],
-        alert_id: str = None,
-        id: Any = None,
-        new_state: str = None
+        id: str = None,
+        state: str = None
     ) -> str:
         alerts = data.get("alerts", {}).values()
         for alert in alerts.values():
-            if alert.get("id") == alert_id:
-                alert["state"] = new_state
+            if alert.get("id") == id:
+                alert["state"] = state
                 payload = {
                     "status": "success",
-                    "message": f"State for alert '{alert_id}' updated to '{new_state}'.",
+                    "message": f"State for alert '{id}' updated to '{state}'.",
                 }
                 out = json.dumps(payload)
                 return out
-        payload = {"error": f"Alert with ID '{alert_id}' not found."}
+        payload = {"error": f"Alert with ID '{id}' not found."}
         out = json.dumps(payload)
         return out
     @staticmethod

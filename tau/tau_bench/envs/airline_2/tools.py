@@ -565,7 +565,6 @@ class CreateOperationalEvent(Tool):
         }
         events[new_id] = rec
         return _j(rec)
-        return _j(rec)
 
     @staticmethod
     def get_info() -> dict[str, Any]:
