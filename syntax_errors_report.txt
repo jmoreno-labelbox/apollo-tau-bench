@@ -46,28 +46,16 @@ career_planner_4
   Text: average = total_progress / len(user_courses)
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/career_planner_4/tools.py
 
-consulting_accounting_1
-  Line: 900
-  Error: unmatched ')'
-  Text: subtotal = sum(float(l.get("line_amount", 0.0)) for l in invoice_lines.values()))
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_1/tools.py
-
 consulting_accounting_2
   Line: 626
   Error: invalid syntax
   Text: tax_reserve = round(total_revenue * tax_rate, 2)
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_2/tools.py
 
-consulting_accounting_4
-  Line: 21
-  Error: 'return' outside function
-  Text: return {i.get(key): i for i in items or []}
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_4/tools.py
-
 consulting_accounting_5
-  Line: 1562
-  Error: invalid syntax. Perhaps you forgot a comma?
-  Text: avg_daily_sales = round((sum(float(i.get("subtotal", 0)) for i in invs.values() / max(1, window_months * 30)), 2)
+  Line: 1596
+  Error: '(' was never closed
+  Text: subtotal = sum(line.get("hours", 0) * line.get("rate", 0) for line in lines.values()
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_5/tools.py
 
 consulting_accounting_6
@@ -76,29 +64,11 @@ consulting_accounting_6
   Text: avg_daily_sales = round(
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/consulting_accounting_6/tools.py
 
-data_science_3
-  Line: 20
-  Error: 'return' outside function
-  Text: return {i.get(key): i for i in items or []}
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/data_science_3/tools.py
-
-digital_commerce_2
-  Line: 1819
-  Error: invalid syntax
-  Text: if not any(g.get("subnet_group_id") == subnet_group_id for g in groups.values():
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/digital_commerce_2/tools.py
-
 digital_commerce_3
   Line: 2836
   Error: invalid syntax
   Text: avg_order_value = (
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/digital_commerce_3/tools.py
-
-digital_commerce_4
-  Line: 1582
-  Error: invalid syntax
-  Text: all_match = all(c["matches"] for c in checks.values() if checks else False
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/digital_commerce_4/tools.py
 
 figma_gmail_mcp_pipeline_1
   Line: 1531
@@ -107,33 +77,27 @@ figma_gmail_mcp_pipeline_1
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/figma_gmail_mcp_pipeline_1/tools.py
 
 figma_gmail_mcp_pipeline_4
-  Line: 205
+  Line: 731
   Error: invalid syntax
-  Text: if not any(tag in artifact_tags for tag in tags.values():
+  Text: if not any(label in thread_labels for label in labels.values():
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/figma_gmail_mcp_pipeline_4/tools.py
 
 file_system_1
-  Line: 460
+  Line: 463
   Error: invalid syntax. Perhaps you forgot a comma?
-  Text: db = _convert_db_to_list(data.get("archive_instructions", {}).values()
+  Text: db = _convert_db_to_list(data.get("file_check_db", {}).values()
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/file_system_1/tools.py
 
-file_system_8
-  Line: 100
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 95
-  Text: "users": instruction_data.get("user_filter", {}).values()),
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/file_system_8/tools.py
-
 github_mcp_1
-  Line: 495
-  Error: expected 'else' after 'if' expression
-  Text: for i, r in enumerate(repos.values()
+  Line: 591
+  Error: invalid syntax
+  Text: if _exists(owner, repo_name):
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/github_mcp_1/tools.py
 
 github_mcp_5
-  Line: 669
-  Error: unmatched ')'
-  Text: ):
+  Line: 1679
+  Error: invalid syntax
+  Text: if any(r.get("name") == repo_name for r in repos.values():
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/github_mcp_5/tools.py
 
 github_mcp_6
@@ -143,9 +107,9 @@ github_mcp_6
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/github_mcp_6/tools.py
 
 logistics_supply_chain_5
-  Line: 1212
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 1209
-  Text: "performance_metrics": carrier.get("performance_metrics", {}).values()),
+  Line: 184
+  Error: invalid syntax
+  Text: if sku and not any(sku in str(value) for value in shipment.values():
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/logistics_supply_chain_5/tools.py
 
 new_hire_mcp_1
@@ -159,12 +123,6 @@ new_hire_mcp_2
   Error: '(' was never closed
   Text: return (
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/new_hire_mcp_2/tools.py
-
-org_chart_5
-  Line: 671
-  Error: invalid syntax
-  Text: ethnicity_counts = Counter(e.get("ethnicity_code") for e in employees_to_scan.values()
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/org_chart_5/tools.py
 
 project_management_1
   Line: 401
@@ -185,52 +143,34 @@ project_management_3
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_3/tools.py
 
 project_management_4
-  Line: 399
-  Error: invalid syntax
-  Text: succ_exists = any(m.get("milestone_id") == successor_id for m in milestones.values()
+  Line: 1809
+  Error: unmatched ')'
+  Text: for milestone in project_milestones.values()):
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_4/tools.py
 
 project_management_5
-  Line: 1989
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 1986
-  Text: "impact": cr.get("impact_assessment", {}).values()),
+  Line: 291
+  Error: invalid syntax
+  Text: if total_hours + req.get("hours_per_week", 0) > 40:
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/project_management_5/tools.py
 
-rbac_2
-  Line: 699
-  Error: invalid syntax
-  Text: for i, assignment in enumerate(user_roles.values():
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/rbac_2/tools.py
-
-rbac_3
-  Line: 241
-  Error: cannot assign to function call here. Maybe you meant '==' instead of '='?
-  Text: _get_table(data, "user_roles") = kept
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/rbac_3/tools.py
-
 rbac_4
-  Line: 1404
+  Line: 1932
   Error: invalid syntax
-  Text: if keywords and not any(kw in msg["message"] for kw in keywords.values():
+  Text: if any(c.get("certification_id") == certification_id for c in certifications.values():
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/rbac_4/tools.py
 
 rbac_5
-  Line: 949
-  Error: unmatched ')'
-  Text: if not _find_by_id(data.get("users", {}).values()), "user_id", owner_id):
+  Line: 1167
+  Error: closing parenthesis '}' does not match opening parenthesis '('
+  Text: payload = {"resource_id": resource_id, "users": list(acc.values()}
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/rbac_5/tools.py
 
 real_estate_sales_3
-  Line: 1210
-  Error: '(' was never closed
-  Text: ok = all(h["minutes"] <= max_minutes for h in hops.values()
+  Line: 20
+  Error: 'return' outside function
+  Text: return {i.get(key): i for i in items or []}
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/real_estate_sales_3/tools.py
-
-real_estate_sales_4
-  Line: 230
-  Error: '(' was never closed
-  Text: property_exists = any(l.get("property_id") == property_id for l in listings.values()
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/real_estate_sales_4/tools.py
 
 real_estate_sales_7
   Line: 1210

@@ -238,7 +238,7 @@ class RevokeUserRoleTool(Tool):
                 kept.append(assignment)
 
         if removed:
-            _get_table(data, "user_roles") = kept
+            data["user_roles"] = kept
 
         # Set up information for the audit log
         action_details = "REMOVED" if removed else "NOOP"

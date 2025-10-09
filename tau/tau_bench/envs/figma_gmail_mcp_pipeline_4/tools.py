@@ -202,7 +202,7 @@ class GetFigmaArtifactsByStatus(Tool):
 
             if tags:
                 artifact_tags = artifact.get("current_tags", [])
-                if not any(tag in artifact_tags for tag in tags.values():
+                if not any(tag in artifact_tags for tag in tags.values()):
                     continue
 
             # Augment with review cycle details

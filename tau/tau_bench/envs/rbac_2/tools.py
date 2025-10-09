@@ -696,7 +696,7 @@ class RevokeRoleFromUser(Tool):
             user_roles = []
 
         index = -1
-        for i, assignment in enumerate(user_roles.values():
+        for i, assignment in enumerate(user_roles.values()):
             if assignment.get("user_role_id") == user_role_id:
                 index = i
                 break

@@ -1986,7 +1986,7 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": cr.get("impact_assessment", {}).values()),
+                        "impact": cr.get("impact_assessment", {}),
                     }
                 )
             elif cr.get("change_type") == "scope_reduction":
@@ -1994,7 +1994,7 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": cr.get("impact_assessment", {}).values()),
+                        "impact": cr.get("impact_assessment", {}),
                     }
                 )
             elif cr.get("change_type") == "requirement_change":
@@ -2002,7 +2002,7 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": cr.get("impact_assessment", {}).values()),
+                        "impact": cr.get("impact_assessment", {}),
                     }
                 )
 

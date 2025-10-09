@@ -492,7 +492,7 @@ class DeleteRepository(Tool):
         idx = next(
             (
                 i
-                for i, r in enumerate(repos.values()
+                for i, r in enumerate(repos.values())
                 if r.get("owner") == owner and r.get("repo_name") == repo_name
             ),
             None,

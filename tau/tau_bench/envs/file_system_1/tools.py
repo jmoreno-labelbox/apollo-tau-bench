@@ -457,7 +457,7 @@ class FindPendingTasksByType(Tool):
     def invoke(data: dict[str, Any], task_type: str = None) -> str:
         pending_tasks = []
         if task_type == "archive":
-            db = _convert_db_to_list(data.get("archive_instructions", {}).values()
+            db = _convert_db_to_list(data.get("archive_instructions", {}).values())
             pending_tasks = [t for t in db.values() if t.get("status") == "pending"]
         elif task_type == "file_check":
             db = _convert_db_to_list(data.get("file_check_db", {}).values()

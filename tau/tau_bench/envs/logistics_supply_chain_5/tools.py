@@ -1209,7 +1209,7 @@ class GetCarrierPerformance(Tool):
         performance_data = {
             "carrier_scac": carrier_scac,
             "carrier_name": carrier.get("carrier_name"),
-            "performance_metrics": carrier.get("performance_metrics", {}).values()),
+            "performance_metrics": carrier.get("performance_metrics", {}),
             "supported_modes": carrier.get("supported_modes", []),
             "service_levels": carrier.get("service_levels", []),
             "regional_coverage": carrier.get("regional_coverage"),

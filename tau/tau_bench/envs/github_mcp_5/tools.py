@@ -665,7 +665,7 @@ class SearchCodeTool(Tool):
         # Search code based on file contents
         found_occurrences = []
         for file_path, file_content in zip(
-            repository.get("file_paths", {}).values()), repository.get("file_contents", {}).values()
+            repository.get("file_paths", {}).values(), repository.get("file_contents", {}).values()
         ):
             if query in file_content:
                 # Code snippet contains the keyword

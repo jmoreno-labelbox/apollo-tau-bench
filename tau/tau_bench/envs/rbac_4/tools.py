@@ -1401,7 +1401,7 @@ class SearchSlackMessagesTool(Tool):
                 continue
             if end_time and msg["timestamp"] > end_time:
                 continue
-            if keywords and not any(kw in msg["message"] for kw in keywords.values():
+            if keywords and not any(kw in msg["message"] for kw in keywords.values()):
                 continue
             if regex and not re.search(regex, msg["message"]):
                 continue
