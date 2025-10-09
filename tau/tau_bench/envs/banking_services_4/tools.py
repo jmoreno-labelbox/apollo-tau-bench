@@ -11,7 +11,7 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
@@ -95,6 +95,7 @@ class GetScheduledPaymentsDueInRange(Tool):
         if not start_date or not end_date:
             return json.dumps({'error': 'start_date and end_date are required'})
         payments = load_json('scheduled_payments.json')
+        payments = _convert_db_to_list(payments)
         results = []
         for p in payments:
             if p['status'] != 'Active':
@@ -313,6 +314,7 @@ class GetTotalDepositsOverPeriod(Tool):
         if not account_ids or not start_date or not end_date:
             return json.dumps({'error': 'account_ids, start_date, and end_date are required'})
         transactions = load_json('transactions.json')
+        transactions = _convert_db_to_list(transactions)
         total = 0.0
         for t in transactions:
             if t['account_id'] in account_ids and t['transaction_type'] == 'Deposit':
@@ -372,6 +374,7 @@ class ReassignRelationshipManager(Tool):
         if not customer_id or not relationship_manager_id:
             return json.dumps({'error': 'customer_id and relationship_manager_id are required'})
         customers = load_json('customers.json')
+        customers = _convert_db_to_list(customers)
         updated = False
         for c in customers:
             if c['customer_id'] == customer_id:
@@ -406,6 +409,7 @@ class DeactivateAccountByRequest(Tool):
         if not account_id:
             return json.dumps({'error': 'account_id is required'})
         accounts = load_json('accounts.json')
+        accounts = _convert_db_to_list(accounts)
         updated = False
         for a in accounts:
             if a['account_id'] == account_id:
@@ -509,6 +513,7 @@ class UpdateScheduledPaymentAmount(Tool):
         if not payment_id or amount is None:
             return json.dumps({'error': 'payment_id and amount are required'})
         payments = load_json('scheduled_payments.json')
+        payments = _convert_db_to_list(payments)
         updated = False
         for p in payments:
             if p['payment_id'] == payment_id:
@@ -579,6 +584,7 @@ class AddEmployerToCustomerProfile(Tool):
         if not customer_id or not employer:
             return json.dumps({'error': 'customer_id and employer are required'})
         customers = load_json('customers.json')
+        customers = _convert_db_to_list(customers)
         updated = False
         for c in customers:
             if c['customer_id'] == customer_id:
@@ -1335,6 +1341,7 @@ class ApplyTransactionAdjustment(Tool):
             return json.dumps({"error": "account_id, amount, and reason are required"})
 
         accounts = load_json("accounts.json")
+        accounts = _convert_db_to_list(accounts)
         for account in accounts:
             if account["account_id"] == account_id:
                 account["balance"] += amount
