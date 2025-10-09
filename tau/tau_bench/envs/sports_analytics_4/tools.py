@@ -11,6 +11,12 @@ def _convert_db_to_list(db):
     return db
 
 
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
+
+
 def _load_table(data: dict[str, Any], table: str) -> list[dict[str, Any]]:
     result = data.get(table, {})
     if isinstance(result, dict):
@@ -476,7 +482,7 @@ class Umpiregame(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], game_pk: str = None, zone_shift_x: float = None, zone_shift_z: float = None, calibration_error_pct: float = None) -> str:
-        data.setdefault("umpire_game_models", []).append(
+        _get_table(data, "umpire_game_models").append(
             {
                 "umpire_game_id": f"ump_{len(data.get('umpire_game_models', []))+1}",
                 "game_pk": game_pk,
@@ -1036,7 +1042,7 @@ class Spatials(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], game_pk: Any = None, artifact_name: str = None, qc_status: str = "passed") -> str:
-        artifacts = data.setdefault("spatial_artifacts", [])
+        artifacts = _get_table(data, "spatial_artifacts")
         artifacts.append(
             {
                 "game_pk": game_pk,
@@ -1171,7 +1177,7 @@ class Developments(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], week_of: str = None, active_players: list = None) -> str:
-        data.setdefault("player_dev_goals", []).append(
+        _get_table(data, "player_dev_goals").append(
             {
                 "goal_id": f"goal_{len(data.get('player_dev_goals', []))+1}",
                 "week_of": week_of,
@@ -1207,7 +1213,7 @@ class DevelopmentsReports(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], week_of: str = None, report_count: int = None) -> str:
-        data.setdefault("player_dev_reports", []).append(
+        _get_table(data, "player_dev_reports").append(
             {
                 "dev_report_id": f"dev_{len(data.get('player_dev_reports', []))+1}",
                 "week_of": week_of,
@@ -1373,7 +1379,7 @@ class ExecData(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], game_pk: str = None, grades_count: int = None) -> str:
-        data.setdefault("pitch_execution_grades", []).append(
+        _get_table(data, "pitch_execution_grades").append(
             {
                 "grade_id": f"grade_{len(data.get('pitch_execution_grades', []))+1}",
                 "game_pk": game_pk,

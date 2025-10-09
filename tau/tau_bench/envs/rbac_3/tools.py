@@ -46,7 +46,7 @@ class GetAccessRequestTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        requests: list[dict[str, Any]] = data.get("access_requests", {}).values()
+        requests: list[dict[str, Any]] = _get_table(data, "access_requests")
         rec = next((r for r in requests.values() if r.get("request_id") == request_id), None)
         if rec is None:
             payload = {"error": f"Access request {request_id} not found"}
@@ -99,7 +99,7 @@ class ReviewAccessRequestTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], request_id: str = None, reviewer_id: str = None, approve: bool = None, notes: str = None) -> str:
-        requests = data.get("access_requests", {}).values()
+        requests = _get_table(data, "access_requests")
         for req in requests.values():
             if req.get("request_id") == request_id:
                 req["status"] = "APPROVED" if approve else "REJECTED"
@@ -108,7 +108,7 @@ class ReviewAccessRequestTool(Tool):
                 req["decision_at"] = _HARD_TS
                 # Idempotent audit record to prevent downstream lists/filters from appearing
                 # clear out
-                logs = data.setdefault("audit_logs", [])
+                logs = _get_table(data, "audit_logs")
                 log_id = f"LOG-{request_id}-decision"
                 audit_entry = {
                     "log_id": log_id,
@@ -182,7 +182,7 @@ class GetUserRolesTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         roles: list[str] = []
-        assignments = data.get("user_roles", {}).values()
+        assignments = _get_table(data, "user_roles")
         for assignment in assignments.values():
             if assignment.get("user_id") == user_id and not assignment.get(
                 "expires_on"
@@ -223,7 +223,7 @@ class RevokeUserRoleTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None, revoked_by: str = None) -> str:
-        assignments = data.get("user_roles", {}).values()
+        assignments = _get_table(data, "user_roles")
         removed = False
 
         kept: list[dict[str, Any]] = []
@@ -315,7 +315,7 @@ class ListAuditLogsTool(Tool):
         date_from = date_from
         date_to = date_to
 
-        logs = data.get("audit_logs", {}).values()
+        logs = _get_table(data, "audit_logs")
         out = []
 
         dt_from = _parse_iso(date_from)
@@ -385,7 +385,7 @@ class ListActiveSessionsTool(Tool):
     def invoke(data: dict[str, Any], user_id: str = None, param1: str = None, param2: str = None) -> str:
         # Support param1 as alias for user_id
         user_id = user_id or param1
-        sessions = data.get("sessions", {}).values()
+        sessions = _get_table(data, "sessions")
         active = [s for s in sessions.values() if not s.get("end_time")]
         if user_id:
             active = [s for s in active.values() if s.get("user_id") == user_id]
@@ -442,7 +442,7 @@ class CreateAccessRequestTool(Tool):
             "decision_notes": None,
             "decision_at": None,
         }
-        ar = data.setdefault("access_requests", [])
+        ar = _get_table(data, "access_requests")
         existing = next(
             (r for r in ar if r.get("request_id") == req["request_id"]), None
         )
@@ -489,7 +489,7 @@ class ListAccessRequestsByStatusTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], status: str) -> str:
-        out = [r for r in data.get("access_requests", {}).values() if r.get("status") == status]
+        out = [r for r in _get_table(data, "access_requests") if r.get("status") == status]
         out = sorted(
             out, key=lambda r: (r.get("submitted_at") or "", r.get("request_id") or "")
         )
@@ -523,7 +523,7 @@ class ListAccessRequestsByUserTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str) -> str:
         out = [
-            r for r in data.get("access_requests", {}).values() if r.get("user_id") == user_id
+            r for r in _get_table(data, "access_requests") if r.get("user_id") == user_id
         ]
         out = sorted(
             out, key=lambda r: (r.get("submitted_at") or "", r.get("request_id") or "")
@@ -560,7 +560,7 @@ class AssignUserRoleTool(Tool):
         expires_on: str = None,
         assigned_on: str = None
     ) -> str:
-        roles = data.setdefault("user_roles", [])
+        roles = _get_table(data, "user_roles")
         existing_active = next(
             (
                 r
@@ -627,8 +627,8 @@ class ListRolePermissionsTool(Tool):
     def invoke(data: dict[str, Any], role_id: str = None, param1: str = None, param2: str = None) -> str:
         # Support both role_id and param1 (alias)
         role_id = role_id or param1
-        role_perms = data.get("role_permissions", {}).values()
-        perms = data.get("permissions", {}).values()
+        role_perms = _get_table(data, "role_permissions")
+        perms = _get_table(data, "permissions")
         perm_map = {p.get("permission_id"): p for p in perms.values()}
         out = []
         for rp in role_perms.values():
@@ -674,7 +674,7 @@ class GetRoleNameTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        roles: list[dict[str, Any]] = data.get("roles", {}).values()
+        roles: list[dict[str, Any]] = _get_table(data, "roles")
         rec = next((r for r in roles.values() if r.get("role_id") == role_id), None)
         if not rec:
             payload = {"error": f"Role {role_id} not found"}
@@ -730,7 +730,7 @@ class AppendAuditLogTool(Tool):
             "timestamp": _HARD_TS,
             "details": details,
         }
-        logs = data.setdefault("audit_logs", [])
+        logs = _get_table(data, "audit_logs")
         existing = next((l for l in logs.values() if l.get("log_id") == entry["log_id"]), None)
         if existing is None:
             _get_table(data, "audit_logs")[entry["audit_log_id"]] = entry
@@ -804,7 +804,7 @@ class LogRevokeDecisionTool(Tool):
             "details": details,
         }
 
-        logs: list[dict[str, Any]] = data.setdefault("audit_logs", [])
+        logs: list[dict[str, Any]] = _get_table(data, "audit_logs")
         existing = next((l for l in logs.values() if l.get("log_id") == log_id), None)
         if existing:
             existing.update(entry)
@@ -1045,7 +1045,7 @@ class SendEmailTool(Tool):
 
         # If the receiver is not specified, attempt to determine it from user_id
         if not receiver and user_id:
-            users: list[dict[str, Any]] = data.get("users", {}).values()
+            users: list[dict[str, Any]] = _get_table(data, "users")
             user = next((u for u in users if u.get("user_id") == user_id), None)
             if not user or not user.get("email"):
                 payload = {"error": f"Could not resolve email for user_id {user_id}"}
@@ -1220,7 +1220,7 @@ class GetUsersByRoleTool(Tool):
     def invoke(data: dict[str, Any], role_id: str = None) -> str:
         result = [
             ur.get("user_id")
-            for ur in data.get("user_roles", {}).values()
+            for ur in _get_table(data, "user_roles")
             if ur.get("role_id") == role_id and not ur.get("expires_on")
         ]
         payload = {"role_id": role_id, "user_ids": sorted(result)}
@@ -1330,7 +1330,7 @@ class CompleteCertificationTool(Tool):
         cert_id = certification_id
         reviewer_id = reviewer_id
 
-        certs = data.get("certifications", {}).values()
+        certs = _get_table(data, "certifications")
         c = None
         for x in certs.values():
             if x.get("certification_id") == cert_id:
@@ -1377,7 +1377,7 @@ class StartCertificationTool(Tool):
     def invoke(data: dict[str, Any], certification_id: str, reviewer_id: str = None) -> str:
         cert_id = certification_id
         reviewer_id = reviewer_id
-        certs = data.get("certifications", {}).values()
+        certs = _get_table(data, "certifications")
         c = None
         for x in certs.values():
             if x.get("certification_id") == cert_id:
@@ -1421,7 +1421,7 @@ class ListCertificationsByStatusTool(Tool):
     def invoke(data: dict[str, Any], status: str = None, certification_id: str = None) -> str:
         out = [
             c
-            for c in data.get("certifications", {}).values()
+            for c in _get_table(data, "certifications")
             if (status is None or c.get("status") == status)
             and (
                 certification_id is None
@@ -1468,11 +1468,11 @@ class GetPermissionsForUserTool(Tool):
     def invoke(data: dict[str, Any], user_id: str) -> str:
         roles_active = [
             r.get("role_id")
-            for r in data.get("user_roles", {}).values()
+            for r in _get_table(data, "user_roles")
             if r.get("user_id") == user_id and not r.get("expires_on")
         ]
-        role_perms = data.get("role_permissions", {}).values()
-        perms = data.get("permissions", {}).values()
+        role_perms = _get_table(data, "role_permissions")
+        perms = _get_table(data, "permissions")
         perm_map = {p.get("permission_id"): p for p in perms.values()}
         seen = set()
         result: list[dict[str, Any]] = []
@@ -1532,7 +1532,7 @@ class CheckUserStatusTool(Tool):
     @staticmethod
     def _admin_like_roles(data: dict[str, Any]) -> set:
         pass
-        roles = data.get("roles", {}).values()
+        roles = _get_table(data, "roles")
         admin_like = set()
         for r in roles.values():
             name = (r.get("role_name") or "").lower()
@@ -1556,7 +1556,7 @@ class CheckUserStatusTool(Tool):
         pass
         role_permissions = [
             rp.get("permission_id")
-            for rp in data.get("role_permissions", {}).values()
+            for rp in _get_table(data, "role_permissions")
             if rp.get("role_id") == role_id
         ]
 
@@ -1564,7 +1564,7 @@ class CheckUserStatusTool(Tool):
             permission = next(
                 (
                     p
-                    for p in data.get("permissions", {}).values()
+                    for p in _get_table(data, "permissions")
                     if p.get("permission_id") == perm_id
                 ),
                 None,
@@ -1583,7 +1583,7 @@ class CheckUserStatusTool(Tool):
         if resource_id:
             required_certs = [
                 cert
-                for cert in data.get("certifications", {}).values()
+                for cert in _get_table(data, "certifications")
                 if cert.get("resource_id") == resource_id
             ]
 
@@ -1608,7 +1608,7 @@ class CheckUserStatusTool(Tool):
     ) -> tuple:
         """Verify certifications either linked to role_id (if available) or implied through the role's resources. Returns (has_requirements, all_completed, reviewer_id)."""
         pass
-        certs = data.get("certifications", {}).values()
+        certs = _get_table(data, "certifications")
         required = []
         if role_id:
             required = [c for c in certs.values() if c.get("role_id") == role_id]
@@ -1638,7 +1638,7 @@ class CheckUserStatusTool(Tool):
             ur.get("user_id") == reviewer_id
             and ur.get("role_id") in lead_roles
             and not ur.get("expires_on")
-            for ur in data.get("user_roles", {}).values()
+            for ur in _get_table(data, "user_roles")
         )
 
     @staticmethod
@@ -1650,7 +1650,7 @@ class CheckUserStatusTool(Tool):
         #Retrieve permissions for the specified role
         role_permissions = [
             rp.get("permission_id")
-            for rp in data.get("role_permissions", {}).values()
+            for rp in _get_table(data, "role_permissions")
             if rp.get("role_id") == role_id
         ]
 
@@ -1659,7 +1659,7 @@ class CheckUserStatusTool(Tool):
             exception = next(
                 (
                     pe
-                    for pe in data.get("policy_exceptions", {}).values()
+                    for pe in _get_table(data, "policy_exceptions")
                     if (
                         pe.get("user_id") == user_id
                         and pe.get("permission_id") == perm_id
@@ -1703,7 +1703,7 @@ class CheckUserStatusTool(Tool):
                 ur.get("user_id") == user_id
                 and ur.get("role_id") == role_id
                 and not ur.get("expires_on")
-                for ur in data.get("user_roles", {}).values()
+                for ur in _get_table(data, "user_roles")
             )
             if not active_assignment:
                 payload = {
@@ -1721,12 +1721,12 @@ class CheckUserStatusTool(Tool):
             # Identify resource IDs for role permissions
             role_perm_ids = [
                 rp.get("permission_id")
-                for rp in data.get("role_permissions", {}).values()
+                for rp in _get_table(data, "role_permissions")
                 if rp.get("role_id") == role_id
             ]
             perm_resource_ids = [
                 p.get("resource_id")
-                for p in data.get("permissions", {}).values()
+                for p in _get_table(data, "permissions")
                 if p.get("permission_id") in role_perm_ids
             ]
 
@@ -1798,7 +1798,7 @@ class CheckUserStatusTool(Tool):
         req = next(
             (
                 r
-                for r in data.get("access_requests", {}).values()
+                for r in _get_table(data, "access_requests")
                 if r.get("request_id") == request_id
             ),
             None,
@@ -1844,7 +1844,7 @@ class CheckUserStatusTool(Tool):
         # Roles currently from the database
         current_roles = [
             ur.get("role_id")
-            for ur in data.get("user_roles", {}).values()
+            for ur in _get_table(data, "user_roles")
             if ur.get("user_id") == user_id and not ur.get("expires_on")
         ]
 
@@ -1973,7 +1973,7 @@ class AssignRoleOnApprovalTool(Tool):
             )
 
         # Find the access request
-        requests = data.get("access_requests", {}).values()
+        requests = _get_table(data, "access_requests")
         req = next((r for r in requests.values() if r.get("request_id") == request_id), None)
         if not req:
             return _json.dumps(
@@ -1989,7 +1989,7 @@ class AssignRoleOnApprovalTool(Tool):
                 indent=2,
             )
 
-        assignments: list[dict[str, Any]] = data.setdefault("user_roles", [])
+        assignments: list[dict[str, Any]] = _get_table(data, "user_roles")
 
         # Attempt to locate an active existing assignment
         existing = next(
@@ -2120,7 +2120,7 @@ class ListPolicyExceptionsTool(Tool):
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        exceptions: list[dict[str, Any]] = data.get("policy_exceptions", {}).values()
+        exceptions: list[dict[str, Any]] = _get_table(data, "policy_exceptions")
         out: list[dict[str, Any]] = []
 
         for rec in exceptions.values():
@@ -2318,7 +2318,7 @@ class GetUserEmailTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        users: list[dict[str, Any]] = data.get("users", {}).values()
+        users: list[dict[str, Any]] = _get_table(data, "users")
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
@@ -2366,7 +2366,7 @@ class ListEmailsTool(Tool):
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        emails: list[dict[str, Any]] = data.get("emails", {}).values()
+        emails: list[dict[str, Any]] = _get_table(data, "emails")
         out: list[dict[str, Any]] = []
 
         for e in emails:
@@ -2442,7 +2442,7 @@ class ListSiemAlertsTool(Tool):
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        alerts: list[dict[str, Any]] = data.get("siem_alerts", {}).values()
+        alerts: list[dict[str, Any]] = _get_table(data, "siem_alerts")
         out: list[dict[str, Any]] = []
         for a in alerts:
             if user_id and not _eq(a.get("user_id"), user_id):
@@ -2518,14 +2518,14 @@ class AcknowledgeSiemAlertTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        alerts: list[dict[str, Any]] = data.setdefault("siem_alerts", [])
+        alerts: list[dict[str, Any]] = _get_table(data, "siem_alerts")
         rec = next((a for a in alerts if a.get("alert_id") == alert_id), None)
         if not rec:
             payload = {"error": f"Alert {alert_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
 
-        acks: list[dict[str, Any]] = data.setdefault("siem_acknowledgments", [])
+        acks: list[dict[str, Any]] = _get_table(data, "siem_acknowledgments")
         ack = next((x for x in acks if x.get("alert_id") == alert_id), None)
         if not ack:
             ack = {"alert_id": alert_id}
@@ -2592,7 +2592,7 @@ class ListHubspotTicketsTool(Tool):
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        tickets: list[dict[str, Any]] = data.get("hubspot_tickets", {}).values()
+        tickets: list[dict[str, Any]] = _get_table(data, "hubspot_tickets")
         out: list[dict[str, Any]] = []
         for t in tickets:
             if ticket_id and not _eq(t.get("ticket_id"), ticket_id):
@@ -2683,7 +2683,7 @@ class UpdateHubspotTicketTool(Tool):
             "category": category,
         }
 
-        tickets: list[dict[str, Any]] = data.setdefault("hubspot_tickets", [])
+        tickets: list[dict[str, Any]] = _get_table(data, "hubspot_tickets")
         t = next((x for x in tickets if x.get("ticket_id") == ticket_id), None)
         if not t:
             payload = {"error": f"Ticket {ticket_id} not found"}
@@ -2705,7 +2705,7 @@ class UpdateHubspotTicketTool(Tool):
 
         audit_entry = None
         if actor_id:
-            logs = data.setdefault("audit_logs", [])
+            logs = _get_table(data, "audit_logs")
             log_id = f"LOG-{ticket_id}-update"
 
             parts = []
@@ -2787,7 +2787,7 @@ class ListSlackMessagesTool(Tool):
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        msgs: list[dict[str, Any]] = data.get("slack_messages", {}).values()
+        msgs: list[dict[str, Any]] = _get_table(data, "slack_messages")
         out: list[dict[str, Any]] = []
         for m in msgs:
             if channel and not _eq(m.get("channel"), channel):
@@ -2844,7 +2844,7 @@ class ListUsersByMfaTool(Tool):
     def invoke(data: dict[str, Any], enabled: bool = None, status: str = None,
     user_id: Any = None,
     ) -> str:
-        users: list[dict[str, Any]] = data.get("users", {}).values()
+        users: list[dict[str, Any]] = _get_table(data, "users")
         out: list[dict[str, Any]] = []
 
         def _effective_enabled_and_source(
@@ -2909,7 +2909,7 @@ class SetUserMfaTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        users: list[dict[str, Any]] = data.setdefault("users", [])
+        users: list[dict[str, Any]] = _get_table(data, "users")
         u = next((x for x in users if x.get("user_id") == user_id), None)
         if not u:
             payload = {"error": f"User {user_id} not found"}
@@ -2987,7 +2987,7 @@ class UpsertEmailTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        emails: list[dict[str, Any]] = data.setdefault("emails", [])
+        emails: list[dict[str, Any]] = _get_table(data, "emails")
         rec = next((e for e in emails if e.get("email_id") == email_id), None)
 
         if rec is None:
@@ -3057,7 +3057,7 @@ class ReviewPolicyExceptionTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], exception_id: str = None, reviewer_id: str = None, approve: bool = None, notes: str = None) -> str:
-        exceptions = data.get("policy_exceptions", {}).values()
+        exceptions = _get_table(data, "policy_exceptions")
         for pe in exceptions.values():
             if pe.get("exception_id") == exception_id:
                 pe["status"] = "APPROVED" if approve else "DENIED"
@@ -3066,7 +3066,7 @@ class ReviewPolicyExceptionTool(Tool):
                 if notes:
                     pe["decision_notes"] = notes
                 # examine
-                logs = data.setdefault("audit_logs", [])
+                logs = _get_table(data, "audit_logs")
                 log_id = f"LOG-{exception_id}-decision"
                 audit_entry = {
                     "log_id": log_id,
@@ -3173,7 +3173,7 @@ class ProcessAccessRequestE2ETool(Tool):
         req = next(
             (
                 r
-                for r in data.get("access_requests", {}).values()
+                for r in _get_table(data, "access_requests")
                 if r.get("request_id") == request_id
             ),
             None,
@@ -3182,12 +3182,12 @@ class ProcessAccessRequestE2ETool(Tool):
 
         roles_after = [
             ur.get("role_id")
-            for ur in data.get("user_roles", {}).values()
+            for ur in _get_table(data, "user_roles")
             if user_id and ur.get("user_id") == user_id and not ur.get("expires_on")
         ]
         sessions_after = [
             s
-            for s in data.get("sessions", {}).values()
+            for s in _get_table(data, "sessions")
             if user_id and s.get("user_id") == user_id and not s.get("end_time")
         ]
 
@@ -3267,12 +3267,12 @@ class RevokeRoleE2ETool(Tool):
 
         roles_after = [
             ur.get("role_id")
-            for ur in data.get("user_roles", {}).values()
+            for ur in _get_table(data, "user_roles")
             if ur.get("user_id") == user_id and not ur.get("expires_on")
         ]
         sessions_after = [
             s
-            for s in data.get("sessions", {}).values()
+            for s in _get_table(data, "sessions")
             if s.get("user_id") == user_id and not s.get("end_time")
         ]
 
@@ -3385,7 +3385,7 @@ class CompleteCertificationsAndAuditTool(Tool):
             return out
 
         completed: list[str] = []
-        for cert in data.get("certifications", {}).values():
+        for cert in _get_table(data, "certifications"):
             if cert.get("status") == "IN_PROGRESS":
                 cert["status"] = "COMPLETED"
                 cert["completed_on"] = _HARD_TS

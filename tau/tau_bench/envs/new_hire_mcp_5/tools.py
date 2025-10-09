@@ -28,6 +28,12 @@ def _convert_db_to_list(db):
     return db
 
 
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
+
+
 def _next_seq(rows, key, prefix):
     pass
     mx = 0
@@ -61,7 +67,7 @@ def _ensure_list(v):
 def _get_or_create_label_id(db: dict[str, Any], name: str) -> str:
     """Provide label_id for `name`; generate the next sequential id (label_1, label_2, ...) if it does not exist."""
     pass
-    labels = db.setdefault("email_labels", [])
+    labels = _get_table(db, "email_labels")
     for lab in labels:
         if lab.get("name") == name:
             return lab["label_id"]
@@ -92,7 +98,7 @@ class FindCandidateByEmail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate_email: str, start_date: str) -> str:
         row = {}
-        for _row in data.get("candidates", {}).values():
+        for _row in _get_table(data, "candidates"):
             if _row.get("candidate_email") == candidate_email and _row.get("start_date") == start_date:
                 row = _row
 
@@ -130,7 +136,7 @@ class ReadAssetRequest(Tool):
     @staticmethod
     def invoke(data, request_id) -> str:
         row = next(
-            (r for r in data.get("asset_requests", {}).values() if r.get("request_id") == request_id),
+            (r for r in _get_table(data, "asset_requests") if r.get("request_id") == request_id),
             None,
         )
         payload = {"asset_request": row} if row else {"error": f"request_id {request_id} not found"}
@@ -180,9 +186,9 @@ class UpsertCandidateRecord(Tool):
         onboarding_status = onboarding_status
         created_ts = _fixed_ts(created_ts)
 
-        candidates = data.setdefault("candidates", [])
+        candidates = _get_table(data, "candidates")
         row = {}
-        for _row in data.get("candidates", {}).values():
+        for _row in _get_table(data, "candidates"):
             if _row.get("candidate_email") == email and _row.get("start_date") == start:
                 row = _row
         if row:
@@ -250,7 +256,7 @@ class GetCandidateDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str) -> str:
         cand_id = candidate_id
-        for row in data.get("candidates", {}).values():
+        for row in _get_table(data, "candidates"):
             if row.get("candidate_id") == cand_id:
                 payload = {"candidate": row}
                 out = json.dumps(payload, indent=2)
@@ -280,7 +286,7 @@ class UpdateCandidateStatusFields(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str, fields: dict[str, Any] = {}) -> str:
         cand_id = candidate_id
-        for row in data.get("candidates", {}).values():
+        for row in _get_table(data, "candidates"):
             if row.get("candidate_id") == cand_id:
                 for k, v in fields.items():
                     if v is None:
@@ -320,7 +326,7 @@ class SearchAttachmentsByFilename(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], filename: str) -> str:
         matches = [
-            a for a in data.get("attachments", {}).values() if a.get("filename") == filename
+            a for a in _get_table(data, "attachments") if a.get("filename") == filename
         ]
         payload = {"matches": matches}
         out = json.dumps(payload, indent=2)
@@ -346,7 +352,7 @@ class ReadOnboardingFile(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], file_path: str) -> str:
-        for f in data.get("onboarding_files", {}).values():
+        for f in _get_table(data, "onboarding_files"):
             if f.get("file_path") == file_path:
                 payload = {"file": f}
                 out = json.dumps(payload, indent=2)
@@ -382,12 +388,12 @@ class RenderOnboardingWelcome(Tool):
     @staticmethod
     def _candidate_exists(data: dict[str, Any], cand_id: str) -> bool:
         pass
-        return any(r.get("candidate_id") == cand_id for r in data.get("candidates", {}).values())
+        return any(r.get("candidate_id") == cand_id for r in _get_table(data, "candidates"))
 
     @staticmethod
     def _get_template_text(data: dict[str, Any]) -> str:
         pass
-        for f in data.get("onboarding_files", {}).values():
+        for f in _get_table(data, "onboarding_files"):
             if f.get("file_path") == TEMPLATE_WELCOME_PATH:
                 return f.get("content_text", "")
         return ""
@@ -480,7 +486,7 @@ class WriteOnboardingFile(Tool):
         created_ts = _fixed_ts(created_ts)
         updated_ts = _fixed_ts(updated_ts)
 
-        files = data.setdefault("onboarding_files", [])
+        files = _get_table(data, "onboarding_files")
         for f in files:
             if f.get("file_path") == file_path and f.get("candidate_id") == cand_id:
                 f["content_text"] = content_text
@@ -565,10 +571,10 @@ class GenerateAndSendEmail(Tool):
         except Exception:
             dts = date_ts or datetime.now(timezone.utc).isoformat()
 
-        emails = db.setdefault("emails", [])
-        attachments = db.setdefault("attachments", [])
-        labels_tbl = db.setdefault("email_labels", [])
-        files_tbl = db.setdefault("onboarding_files", [])
+        emails = _get_table(db, "emails")
+        attachments = _get_table(db, "attachments")
+        labels_tbl = _get_table(db, "email_labels")
+        files_tbl = _get_table(db, "onboarding_files")
 
         def _ensure_list(x):
             return x if isinstance(x, list) else ([] if x is None else [x])
@@ -826,7 +832,7 @@ class ListCandidateEmails(Tool):
         cand_id = candidate_id
         rows = [
             e
-            for e in data.get("emails", {}).values()
+            for e in _get_table(data, "emails")
             if e.get("candidate_id_nullable") == cand_id
         ]
         payload = {"emails": rows}
@@ -863,7 +869,7 @@ class CreateAssetRequest(Tool):
         asset_type = asset_type
         status = status
         ts = _fixed_ts(requested_ts)
-        reqs = db.setdefault("asset_requests", [])
+        reqs = _get_table(db, "asset_requests")
 
         row = next(
             (
@@ -975,7 +981,7 @@ class AssignAssetToCandidate(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], asset_tag: str, candidate_id: str) -> str:
-        inv = data.get("inventory_assets", {}).values()
+        inv = _get_table(data, "inventory_assets")
         row = next((a for a in inv.values() if a.get("asset_tag") == asset_tag), None)
         if not row:
             payload = {"error": f"asset_tag {asset_tag} not found"}
@@ -984,7 +990,7 @@ class AssignAssetToCandidate(Tool):
 
         row["assigned_candidate_id_nullable"] = candidate_id
         row["status"] = "allocated"
-        for c in data.get("candidates", {}).values():
+        for c in _get_table(data, "candidates"):
             if c.get("candidate_id") == candidate_id:
                 c["allocated_asset_tag_nullable"] = asset_tag
         payload = {"asset_tag": asset_tag, "assigned_to": candidate_id}
@@ -1014,7 +1020,7 @@ class RecordAccessChecks(Tool):
     def invoke(data, candidate_id: str, checks: list = None) -> str:
         if checks is None:
             checks = []
-        rows = data.setdefault("access_checks", [])
+        rows = _get_table(data, "access_checks")
         ids = []
         for i, chk in enumerate(checks):
             payload = {
@@ -1107,7 +1113,7 @@ class SearchChecklistItems(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str, status: str = None, due_date_lte: str = None, message_id: Any = None) -> str:
         rows = []
-        for it in data.get("checklist_items", {}).values():
+        for it in _get_table(data, "checklist_items"):
             if it.get("candidate_id") != candidate_id:
                 continue
             if status and it.get("status") != status:
@@ -1192,7 +1198,7 @@ class MarkChecklistItemsReminded(Tool):
         updated_ts = _fixed_ts(updated_ts)
 
         updated = 0
-        for it in data.get("checklist_items", {}).values():
+        for it in _get_table(data, "checklist_items"):
             if it.get("item_id") in item_ids:
                 it["status"] = "Reminder Sent"
                 it["reminder_sent_flag"] = True
@@ -1257,7 +1263,7 @@ class UpdateAssetRequestStatus(Tool):
         status: str = None,
         updated_ts: str = None,
     ) -> str:
-        reqs = db.setdefault("asset_requests", [])
+        reqs = _get_table(db, "asset_requests")
         row = None
         if request_id:
             row = next(
@@ -1464,7 +1470,7 @@ class ReplyToEmailThread(Tool):
         if not body and task in TASK_TEMPLATES:
             body = _fill(TASK_TEMPLATES[task], cand_row)
 
-        emails = db.setdefault("emails", [])
+        emails = _get_table(db, "emails")
         msg_id = _next_seq(emails, "message_id", "msg")
         thread_id = (
             (base.get("thread_id_nullable") or base.get("message_id")) if base else None
@@ -1746,11 +1752,11 @@ class RecordAccessChecksAndNotifyGaps(Tool):
         checks = checks or []
         to_emails = to_emails or ["it-assets@example.com"]
 
-        rows = db.setdefault("access_checks", [])
+        rows = _get_table(db, "access_checks")
         rows.append(
             {"candidate_id": candidate_id, "checks": checks, "recorded_ts": date_ts}
         )
-        emails = db.setdefault("emails", [])
+        emails = _get_table(db, "emails")
 
         def _next_id(rows, key, prefix):
             mx = 0
