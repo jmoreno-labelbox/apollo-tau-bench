@@ -1,0 +1,18 @@
+{
+  "env_name": "banking_services_2",
+  "errors": [
+    {
+      "tool": "TransferFunds",
+      "error": "TransferFundsTool.invoke() missing 1 required positional argument: 'amount'"
+    }
+  ],
+  "tools_exists": true,
+  "data_exists": false,
+  "issues_found": [
+    {
+      "type": "MISSING_ARGUMENT",
+      "tool": "TransferFunds",
+      "message": "TransferFundsTool.invoke() missing 1 required positional argument: 'amount'"
+    }
+  ]
+}

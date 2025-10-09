@@ -40,7 +40,14 @@ def _branch_index(repo: dict[str, Any], branch: str | None) -> int:
 
 def _issues(data: dict[str, Any]) -> list[dict[str, Any]]:
     pass
-    return data.setdefault("issues", [])
+    table = data.get("issues", {})
+
+    if isinstance(table, dict):
+
+        return list(table.values())
+
+    return table if isinstance(table, list) else []
+
 
 
 def get_next_alert_number() -> int:

@@ -1,0 +1,63 @@
+{
+  "env_name": "banking_services_1",
+  "errors": [
+    {
+      "tool": "AggregateMonthlyExpenses",
+      "error": "string indices must be integers"
+    },
+    {
+      "tool": "CancelScheduledPayment",
+      "error": "string indices must be integers"
+    },
+    {
+      "tool": "DeleteExistingBeneficiary",
+      "error": "string indices must be integers"
+    },
+    {
+      "tool": "DetectSuspiciousActivityAndAlert",
+      "error": "string indices must be integers"
+    },
+    {
+      "tool": "GetAccountTransactionHistory",
+      "error": "string indices must be integers"
+    },
+    {
+      "tool": "GetCustomerProfile",
+      "error": "string indices must be integers"
+    }
+  ],
+  "tools_exists": true,
+  "data_exists": false,
+  "issues_found": [
+    {
+      "type": "STRING_INDEXED",
+      "tool": "AggregateMonthlyExpenses",
+      "message": "Tool is indexing a string as if it were a dict"
+    },
+    {
+      "type": "STRING_INDEXED",
+      "tool": "CancelScheduledPayment",
+      "message": "Tool is indexing a string as if it were a dict"
+    },
+    {
+      "type": "STRING_INDEXED",
+      "tool": "DeleteExistingBeneficiary",
+      "message": "Tool is indexing a string as if it were a dict"
+    },
+    {
+      "type": "STRING_INDEXED",
+      "tool": "DetectSuspiciousActivityAndAlert",
+      "message": "Tool is indexing a string as if it were a dict"
+    },
+    {
+      "type": "STRING_INDEXED",
+      "tool": "GetAccountTransactionHistory",
+      "message": "Tool is indexing a string as if it were a dict"
+    },
+    {
+      "type": "STRING_INDEXED",
+      "tool": "GetCustomerProfile",
+      "message": "Tool is indexing a string as if it were a dict"
+    }
+  ]
+}

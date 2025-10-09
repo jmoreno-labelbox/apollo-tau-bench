@@ -22,7 +22,14 @@ def _error(msg: str) -> str:
 
 def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
     pass
-    return data.setdefault(name, [])
+    table = data.get(name, {})
+
+    if isinstance(table, dict):
+
+        return list(table.values())
+
+    return table if isinstance(table, list) else []
+
 
 
 def _max_int_suffix(

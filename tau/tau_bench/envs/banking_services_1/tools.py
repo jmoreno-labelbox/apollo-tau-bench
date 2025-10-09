@@ -690,7 +690,7 @@ class GetCustomerProfileTool(Tool):
             return json.dumps({"error": "customer_id is required"}, indent=2)
 
         customers = load_json("customers.json")
-        for c in customers:
+        for c in customers.values():
             if c["customer_id"] == customer_id:
                 profile = {
                     "name": f"{c['personal_info']['first_name']} {c['personal_info']['last_name']}",
@@ -1381,7 +1381,7 @@ class CancelScheduledPaymentTool(Tool):
         if not payment_id:
             return json.dumps({"error": "payment_id is required"}, indent=2)
         payments = load_json("scheduled_payments.json")
-        for p in payments:
+        for p in payments.values():
             if p["payment_id"] == payment_id:
                 p["status"] = "Cancelled"
                 p["cancelled_at"] = get_current_timestamp()
@@ -1635,7 +1635,7 @@ class GetAccountTransactionHistoryTool(Tool):
         end_cutoff = datetime.strptime(end_date, "%Y-%m-%d") if end_date else datetime.now()
 
         filtered = []
-        for t in transactions:
+        for t in transactions.values():
             if t["account_id"] != account_id:
                 continue
             try:

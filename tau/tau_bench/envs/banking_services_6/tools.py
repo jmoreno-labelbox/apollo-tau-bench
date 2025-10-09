@@ -376,7 +376,7 @@ class CreateLoanApplication(Tool):
     def invoke(data: Dict[str, Any], customer_id: str, loan_type: str = None, amount: float = None, 
                term: int = None, purpose: str = None, annual_income: float = None) -> str:
         application_id = _get_next_loan_application_id(data)
-        customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
+        customer = next((c for c in data['customers'].values() if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
 
@@ -481,7 +481,7 @@ class CreateScheduledPayment(Tool):
                 "source_account_id": source_account_id,
                 "beneficiary_id": beneficiary_id,
                 "amount": amount,
-                "currency": next((a['currency'] for a in data['accounts'] if a['account_id'] == source_account_id), "EUR"),
+                "currency": next((a['currency'] for a in data['accounts'].values() if a['account_id'] == source_account_id), "EUR"),
                 "frequency": frequency,
                 "start_date": start_date,
                 "next_payment_date": start_date,
@@ -573,7 +573,7 @@ class CreateSupportTicket(Tool):
 class GetBeneficiaryByName(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, beneficiary_name: str = None) -> str:
-        beneficiary = next((b for b in data['beneficiaries'] if b['customer_id'] == customer_id and b['beneficiary_name'].lower().strip() == beneficiary_name.lower().strip()),
+        beneficiary = next((b for b in data['beneficiaries'].values() if b['customer_id'] == customer_id and b['beneficiary_name'].lower().strip() == beneficiary_name.lower().strip()),
                            None)
         if beneficiary:
             return json.dumps(beneficiary)
@@ -624,7 +624,7 @@ class GetBeneficiaryDetails(Tool):
 class GetCustomerFinancialProfile(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
+        customer = next((c for c in data['customers'].values() if c['customer_id'] == customer_id), None)
         if customer and "financial_profile" in customer:
             return json.dumps(customer['financial_profile'])
         return json.dumps({"error": "Customer or financial profile not found"})
@@ -647,7 +647,7 @@ class GetCustomerFinancialProfile(Tool):
 class GetAccountDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None) -> str:
-        account = next((a for a in data['accounts'] if a['account_id'] == account_id), None)
+        account = next((a for a in data['accounts'].values() if a['account_id'] == account_id), None)
         if account:
             return json.dumps(account)
         return json.dumps({"error": "Account not found"})
@@ -670,7 +670,7 @@ class GetAccountDetails(Tool):
 class GetLoanDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], loan_id: str = None) -> str:
-        loan = next((l for l in data['loans'] if l['loan_id'] == loan_id), None)
+        loan = next((l for l in data['loans'].values() if l['loan_id'] == loan_id), None)
         if loan:
             return json.dumps(loan)
         return json.dumps({"error": "Loan not found"})
@@ -804,7 +804,7 @@ class CreateAccount(Tool):
     def invoke(data: Dict[str, Any], customer_id: str = None, account_type: str = None, currency: str = None) -> str:
         account_id = _get_next_account_id(data)
 
-        customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
+        customer = next((c for c in data['customers'].values() if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
 
@@ -886,7 +886,7 @@ class UpdateCustomerPersonalInfo(Tool):
         field: str = None,
         value: Any = None
     ) -> str:
-        customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
+        customer = next((c for c in data['customers'].values() if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
 
@@ -918,7 +918,7 @@ class UpdateCustomerPersonalInfo(Tool):
 class ListBeneficiaries(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        customer_beneficiaries = [b for b in data['beneficiaries'] if b['customer_id'] == customer_id]
+        customer_beneficiaries = [b for b in data['beneficiaries'].values() if b['customer_id'] == customer_id]
         return json.dumps(customer_beneficiaries)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -939,7 +939,7 @@ class ListBeneficiaries(Tool):
 class UpdateCustomerPreferences(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, paperless_billing: bool = None, communication_channel: str = None) -> str:
-        customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
+        customer = next((c for c in data['customers'].values() if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
 
@@ -975,7 +975,7 @@ class UpdateCustomerPreferences(Tool):
 class UpdateCustomerSecurityQuestion(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, security_question: str = None) -> str:
-        customer = next((c for c in data['customers'] if c['customer_id'] == customer_id), None)
+        customer = next((c for c in data['customers'].values() if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found"})
 
@@ -1088,7 +1088,7 @@ class GetAccountTransactions(Tool):
 class UpdateScheduledPaymentStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], payment_id: str = None, new_status: str = None) -> str:
-        payment = next((p for p in data['scheduled_payments'] if p['payment_id'] == payment_id), None)
+        payment = next((p for p in data['scheduled_payments'].values() if p['payment_id'] == payment_id), None)
         if not payment:
             return json.dumps({"error": "Scheduled payment not found."})
 
@@ -1116,7 +1116,7 @@ class UpdateScheduledPaymentStatus(Tool):
 class GetScheduledPaymentDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], payment_id: str = None) -> str:
-        payment = next((p for p in data['scheduled_payments'] if p['payment_id'] == payment_id), None)
+        payment = next((p for p in data['scheduled_payments'].values() if p['payment_id'] == payment_id), None)
         if payment:
             return json.dumps(payment)
         return json.dumps({"error": "Scheduled payment not found."})
@@ -1369,8 +1369,8 @@ class CreateScheduledInternalTransfer(Tool):
                start_date: str = None) -> str:
         payment_id = _get_next_scheduled_payment_id(data)
 
-        source_account = next((a for a in data['accounts'] if a['account_id'] == source_account_id and a['customer_id'] == customer_id), None)
-        dest_account = next((a for a in data['accounts'] if a['account_id'] == destination_account_id and a['customer_id'] == customer_id), None)
+        source_account = next((a for a in data['accounts'].values() if a['account_id'] == source_account_id and a['customer_id'] == customer_id), None)
+        dest_account = next((a for a in data['accounts'].values() if a['account_id'] == destination_account_id and a['customer_id'] == customer_id), None)
 
         if not source_account or not dest_account:
             return json.dumps({"error": "One or both accounts not found or do not belong to the customer."})

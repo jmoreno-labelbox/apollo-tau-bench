@@ -1,0 +1,324 @@
+{
+  "env_name": "dev_ops_2",
+  "errors": [
+    {
+      "tool": "IngestCiWebhookV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "GuardrailValidateSenderV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "AttachArtifactsIndexV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "ReduceLogWindowV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "SymbolicateMinidumpV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "SimilarIncidentLookupV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "EnumerateSuspectsV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "LaunchTargetedBisectV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "DraftFixDiffV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "OpenAutoBranchV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "CommitPatchToBranchV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "OpenDraftPrV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "getProjectKeyV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "linkTicketV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "CreateOrUpdateTicketV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "TriggerSmokeValidationV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "RecordAutomationRunV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "ListChangedAssetsV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "DeterministicAutofixV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "PersistQaOutcomeV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "IngestIssueWebhookV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "NormalizeBugV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "SummarizeBugV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "ComputeImpactV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "ResolveOwnerV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "UpdateBugFieldsV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "FindCanonicalDuplicateV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "LookupRelationV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "FindOwnershipPathV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "DetectChangedStringsV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "WriteLocaleBundleV2",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "CreateTmsJobV2",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "SynthesizeTempVoV2",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "AnnotatePrWithQaV2",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "SetAssetQaCheckV2",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
+  "tools_exists": true,
+  "data_exists": false,
+  "issues_found": [
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "IngestCiWebhookV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "GuardrailValidateSenderV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "AttachArtifactsIndexV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "ReduceLogWindowV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "SymbolicateMinidumpV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "SimilarIncidentLookupV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "EnumerateSuspectsV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "LaunchTargetedBisectV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "DraftFixDiffV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "OpenAutoBranchV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "CommitPatchToBranchV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "OpenDraftPrV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "getProjectKeyV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "linkTicketV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "CreateOrUpdateTicketV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "TriggerSmokeValidationV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "RecordAutomationRunV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "ListChangedAssetsV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "DeterministicAutofixV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "PersistQaOutcomeV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "IngestIssueWebhookV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "NormalizeBugV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "SummarizeBugV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "ComputeImpactV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "ResolveOwnerV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "UpdateBugFieldsV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "FindCanonicalDuplicateV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "LookupRelationV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "FindOwnershipPathV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "DetectChangedStringsV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "DICT_USED_AS_LIST",
+      "tool": "WriteLocaleBundleV2",
+      "message": "Tool is treating a dict as a list"
+    },
+    {
+      "type": "STR_USED_AS_DICT",
+      "tool": "CreateTmsJobV2",
+      "message": "Tool is treating a string as a dict"
+    },
+    {
+      "type": "DICT_USED_AS_LIST",
+      "tool": "SynthesizeTempVoV2",
+      "message": "Tool is treating a dict as a list"
+    },
+    {
+      "type": "DICT_USED_AS_LIST",
+      "tool": "AnnotatePrWithQaV2",
+      "message": "Tool is treating a dict as a list"
+    },
+    {
+      "type": "DICT_USED_AS_LIST",
+      "tool": "SetAssetQaCheckV2",
+      "message": "Tool is treating a dict as a list"
+    }
+  ]
+}

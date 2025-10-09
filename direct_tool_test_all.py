@@ -44,10 +44,14 @@ def test_environment_tools(env_name):
                             test_params[param] = 'test_id'
                         elif param_type == 'integer':
                             test_params[param] = 1
+                        elif param_type == 'number':
+                            test_params[param] = 1.0
                         elif param_type == 'array':
                             test_params[param] = []
                         elif param_type == 'object':
                             test_params[param] = {}
+                        elif param_type == 'boolean':
+                            test_params[param] = False
                 
                 # Invoke tool
                 result = tool.invoke(data, **test_params)

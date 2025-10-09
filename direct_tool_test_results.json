@@ -1,42 +1,26 @@
 {
-  "academic_search_1": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "unexpected indent (tools.py, line 107)"
-    }
-  ],
-  "academic_search_4": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 165)"
-    }
-  ],
-  "academic_search_3": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 968 (tools.py, line 969)"
-    }
-  ],
-  "academic_search_2": [],
-  "academic_search_5": [],
-  "airline_5": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 5085 (tools.py, line 5089)"
-    }
-  ],
-  "airline_4": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 4366 (tools.py, line 4371)"
-    }
-  ],
   "airline_3": [
     {
       "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 1394 (tools.py, line 1406)"
+      "error": "invalid syntax (tools.py, line 263)"
     }
   ],
+  "airline_1": [],
+  "airline_4": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 4453 (tools.py, line 4456)"
+    }
+  ],
+  "academic_search_4": [],
+  "academic_search_3": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "f-string: unmatched '(' (tools.py, line 289)"
+    }
+  ],
+  "academic_search_5": [],
+  "academic_search_2": [],
   "airline_2": [
     {
       "tool": "CreateOperationalEvent",
@@ -51,98 +35,18 @@
       "error": "DelayFlightActualTimesForDate.invoke() missing 1 required positional argument: 'delay_minutes'"
     }
   ],
-  "airline_1": [
+  "academic_search_1": [],
+  "airline_5": [
     {
-      "tool": "LOAD_ERROR",
-      "error": "unmatched ')' (tools.py, line 1521)"
+      "tool": "UpdateAircraftStatus",
+      "error": "UpdateAircraftStatus.invoke() missing 1 required keyword-only argument: 'status'"
     }
   ],
-  "banking_services_2": [
+  "banking_services_2": [],
+  "career_planner_4": [
     {
       "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 1511)"
-    }
-  ],
-  "career_planner_2": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ']' does not match opening parenthesis '(' on line 218 (tools.py, line 219)"
-    }
-  ],
-  "banking_services_5": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 1596)"
-    }
-  ],
-  "banking_services_6": [
-    {
-      "tool": "AddBeneficiary",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "CreateAccount",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "CreateCustomer",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "CreateLoanApplication",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "CreateScheduledInternalTransfer",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "CreateScheduledPayment",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "CreateSupportTicket",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "GetAccountDetails",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "GetBeneficiaryByName",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "GetCustomerFinancialProfile",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "GetLoanDetails",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "GetScheduledPaymentDetails",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "ListBeneficiaries",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "UpdateCustomerPersonalInfo",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "UpdateCustomerPreferences",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "UpdateCustomerSecurityQuestion",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "UpdateScheduledPaymentStatus",
-      "error": "string indices must be integers, not 'str'"
+      "error": "invalid syntax (tools.py, line 2377)"
     }
   ],
   "banking_services_4": [
@@ -151,30 +55,66 @@
       "error": "invalid syntax (tools.py, line 913)"
     }
   ],
+  "career_planner_2": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "closing parenthesis ']' does not match opening parenthesis '(' on line 218 (tools.py, line 219)"
+    }
+  ],
+  "banking_services_6": [
+    {
+      "tool": "AddBeneficiary",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "CreateCustomer",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "CreateScheduledPayment",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "CreateSupportTicket",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
   "banking_services_1": [
     {
       "tool": "AggregateMonthlyExpenses",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "CancelScheduledPayment",
-      "error": "string indices must be integers, not 'str'"
+      "error": "string indices must be integers"
     },
     {
       "tool": "DeleteExistingBeneficiary",
-      "error": "string indices must be integers, not 'str'"
+      "error": "string indices must be integers"
     },
     {
       "tool": "DetectSuspiciousActivityAndAlert",
-      "error": "string indices must be integers, not 'str'"
+      "error": "string indices must be integers"
+    }
+  ],
+  "career_planner_1": [
+    {
+      "tool": "EnrollInCourse",
+      "error": "'dict' object has no attribute 'append'"
     },
     {
-      "tool": "GetAccountTransactionHistory",
-      "error": "string indices must be integers, not 'str'"
+      "tool": "AddMentorshipRelationship",
+      "error": "string indices must be integers"
     },
     {
-      "tool": "GetCustomerProfile",
-      "error": "string indices must be integers, not 'str'"
+      "tool": "AddGoal",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
+  "banking_services_5": [
+    {
+      "tool": "AddNewBeneficiaryForCustomer",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "CreateNewAccountForCustomer",
+      "error": "'dict' object has no attribute 'append'"
     }
   ],
   "career_planner_3": [
@@ -191,50 +131,6 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "career_planner_4": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 2377)"
-    }
-  ],
-  "career_planner_1": [
-    {
-      "tool": "EnrollInCourse",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "AddMentorshipRelationship",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "AddGoal",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
-  "consulting_accounting_2": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 626)"
-    }
-  ],
-  "consulting_accounting_1": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "unmatched ')' (tools.py, line 900)"
-    }
-  ],
-  "consulting_accounting_6": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "'(' was never closed (tools.py, line 1102)"
-    }
-  ],
-  "consulting_accounting_5": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "invalid syntax. Perhaps you forgot a comma? (tools.py, line 1562)"
-    }
-  ],
   "career_planner_5": [
     {
       "tool": "enrollInCourse",
@@ -246,29 +142,71 @@
     },
     {
       "tool": "addMentorshipRelationship",
-      "error": "string indices must be integers, not 'str'"
+      "error": "string indices must be integers"
     },
     {
       "tool": "addUserCertification",
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "data_science_3": [
+  "consulting_accounting_5": [
     {
       "tool": "LOAD_ERROR",
-      "error": "'return' outside function (tools.py, line 20)"
+      "error": "'(' was never closed (tools.py, line 1596)"
     }
   ],
-  "consulting_accounting_4": [
+  "consulting_accounting_2": [
     {
       "tool": "LOAD_ERROR",
-      "error": "'(' was never closed (tools.py, line 1060)"
+      "error": "invalid syntax (tools.py, line 626)"
     }
   ],
-  "dev_ops_5": [
+  "consulting_accounting_1": [
+    {
+      "tool": "CreateAuditEntry",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
+  "consulting_accounting_6": [
     {
       "tool": "LOAD_ERROR",
-      "error": "'(' was never closed (tools.py, line 2629)"
+      "error": "'(' was never closed (tools.py, line 1102)"
+    }
+  ],
+  "consulting_accounting_4": [],
+  "data_science_3": [],
+  "data_science_4": [
+    {
+      "tool": "setWeatherForecast",
+      "error": "SetWeatherForecast.invoke() got an unexpected keyword argument 'longitude'"
+    },
+    {
+      "tool": "createFeatures",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "setModelConfig",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "createModel",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "getModel",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "enrichNotion",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "appendTerminalLog",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "startEtlRun",
+      "error": "'dict' object has no attribute 'append'"
     }
   ],
   "data_science_2": [
@@ -301,10 +239,6 @@
       "error": "SaveModelConfig.invoke() got an unexpected keyword argument 'record'"
     },
     {
-      "tool": "CreateTimeBasedDatasetSplit",
-      "error": "CreateTimeBasedDatasetSplit.invoke() missing 1 required positional argument: 'test_fraction'"
-    },
-    {
       "tool": "savePredictionsRecord",
       "error": "SavePredictionsRecord.invoke() got an unexpected keyword argument 'record'"
     },
@@ -313,231 +247,31 @@
       "error": "SaveMetricsRecord.invoke() got an unexpected keyword argument 'record'"
     }
   ],
-  "data_science_6": [],
-  "data_science_4": [
-    {
-      "tool": "createFeatures",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "setModelConfig",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "createModel",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "getModel",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "enrichNotion",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "appendTerminalLog",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "startEtlRun",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
   "data_science_1": [],
   "data_science_5": [],
-  "digital_commerce_2": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 1819)"
-    }
-  ],
+  "data_science_6": [],
   "digital_commerce_3": [
     {
       "tool": "LOAD_ERROR",
       "error": "invalid syntax (tools.py, line 2836)"
     }
   ],
-  "digital_commerce_1": [
-    {
-      "tool": "ConfigureTraceSampling",
-      "error": "ConfigureTraceSampling.invoke() missing 1 required positional argument: 'sample_rate'"
-    },
-    {
-      "tool": "upsertOffer",
-      "error": "UpsertOffer.invoke() missing 1 required positional argument: 'active'"
-    },
-    {
-      "tool": "UpsertPromotion",
-      "error": "UpsertPromotion.invoke() missing 1 required positional argument: 'active'"
-    },
-    {
-      "tool": "UpsertContextRule",
-      "error": "UpsertContextRule.invoke() missing 1 required positional argument: 'bind_to_offer_code'"
-    }
-  ],
-  "digital_commerce_4": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 1582)"
-    }
-  ],
-  "dev_ops_1": [
-    {
-      "tool": "LinkDuplicateIssue",
-      "error": "LinkDuplicateIssue.invoke() missing 1 required positional argument: 'confidence'"
-    }
-  ],
-  "dev_ops_2": [
-    {
-      "tool": "IngestCiWebhookV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "GuardrailValidateSenderV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "AttachArtifactsIndexV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "ReduceLogWindowV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "SymbolicateMinidumpV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "SimilarIncidentLookupV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "EnumerateSuspectsV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "LaunchTargetedBisectV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "DraftFixDiffV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "OpenAutoBranchV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "CommitPatchToBranchV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "OpenDraftPrV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "getProjectKeyV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "linkTicketV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "CreateOrUpdateTicketV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "TriggerSmokeValidationV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "RecordAutomationRunV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "ListChangedAssetsV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "DeterministicAutofixV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "PersistQaOutcomeV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "IngestIssueWebhookV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "NormalizeBugV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "SummarizeBugV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "ComputeImpactV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "ResolveOwnerV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "UpdateBugFieldsV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "FindCanonicalDuplicateV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "LookupRelationV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "FindOwnershipPathV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "DetectChangedStringsV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "WriteLocaleBundleV2",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "CreateTmsJobV2",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "SynthesizeTempVoV2",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "AnnotatePrWithQaV2",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "SetAssetQaCheckV2",
-      "error": "'dict' object has no attribute 'append'"
-    }
-  ],
+  "dev_ops_1": [],
+  "dev_ops_2": [],
   "figma_gmail_mcp_pipeline_1": [
     {
       "tool": "LOAD_ERROR",
       "error": "invalid syntax (tools.py, line 1531)"
     }
   ],
+  "digital_commerce_2": [],
   "dev_ops_3": [],
-  "dev_ops_6": [],
+  "digital_commerce_1": [
+    {
+      "tool": "UpsertContextRule",
+      "error": "UpsertContextRule.invoke() missing 1 required positional argument: 'bind_to_offer_code'"
+    }
+  ],
   "dev_ops_4": [
     {
       "tool": "StartAutomationRun",
@@ -556,37 +290,25 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "digital_commerce_5": [
+  "dev_ops_5": [
     {
-      "tool": "RefundOrderPartial",
-      "error": "RefundOrderPartial.invoke() missing 1 required positional argument: 'amount'"
+      "tool": "updateAssetValidationStatus",
+      "error": "UpdateAssetValidationStatus.invoke() got an unexpected keyword argument 'validation_status'"
+    },
+    {
+      "tool": "updateAlertState",
+      "error": "UpdateAlertState.invoke() got an unexpected keyword argument 'state'"
     }
   ],
-  "figma_gmail_mcp_pipeline_4": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 205)"
-    }
-  ],
+  "digital_commerce_4": [],
+  "digital_commerce_5": [],
+  "dev_ops_6": [],
   "file_system_1": [
     {
       "tool": "LOAD_ERROR",
-      "error": "invalid syntax. Perhaps you forgot a comma? (tools.py, line 460)"
+      "error": "invalid syntax. Perhaps you forgot a comma? (tools.py, line 463)"
     }
   ],
-  "figma_gmail_mcp_pipeline_2": [
-    {
-      "tool": "AddComment",
-      "error": "AddComment.invoke() missing 1 required positional argument: 'resolved_flag'"
-    }
-  ],
-  "github_mcp_1": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "expected 'else' after 'if' expression (tools.py, line 495)"
-    }
-  ],
-  "figma_gmail_mcp_pipeline_5": [],
   "figma_gmail_mcp_pipeline_6": [],
   "figma_gmail_mcp_pipeline_3": [
     {
@@ -594,42 +316,60 @@
       "error": "'str' object has no attribute 'get'"
     }
   ],
-  "github_mcp_5": [
+  "figma_gmail_mcp_pipeline_5": [],
+  "figma_gmail_mcp_pipeline_4": [
     {
       "tool": "LOAD_ERROR",
-      "error": "unmatched ')' (tools.py, line 669)"
+      "error": "invalid syntax (tools.py, line 731)"
+    }
+  ],
+  "file_system_7": [
+    {
+      "tool": "CreateTmuxSession",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
+  "github_mcp_1": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "invalid syntax (tools.py, line 591)"
     }
   ],
   "file_system_8": [
     {
+      "tool": "createTmuxSession",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "ComputeChecksum",
+      "error": "ComputeChecksumTool.invoke() missing 1 required positional argument: 'log_name'"
+    },
+    {
+      "tool": "CopyFileToHost",
+      "error": "CopyFileToHostTool.invoke() missing 1 required positional argument: 'log_name'"
+    },
+    {
+      "tool": "VerifyLocalChecksum",
+      "error": "VerifyLocalChecksumTool.invoke() missing 1 required positional argument: 'log_name'"
+    }
+  ],
+  "file_system_9": [
+    {
+      "tool": "LogTaskStart",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
+  "figma_gmail_mcp_pipeline_2": [],
+  "github_mcp_5": [
+    {
       "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 95 (tools.py, line 100)"
+      "error": "invalid syntax (tools.py, line 1679)"
     }
   ],
   "github_mcp_2": [
     {
-      "tool": "UpdateIssue",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "ListIssuesByLabel",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "GetIssue",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
-      "tool": "AddLabelToIssue",
-      "error": "'str' object has no attribute 'get'"
-    },
-    {
       "tool": "ListCommits",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "SearchIssues",
-      "error": "'str' object has no attribute 'get'"
+      "error": "string indices must be integers"
     },
     {
       "tool": "ListCodeScanningAlerts",
@@ -640,10 +380,10 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "file_system_9": [
+  "github_mcp_6": [
     {
-      "tool": "LogTaskStart",
-      "error": "'dict' object has no attribute 'append'"
+      "tool": "LOAD_ERROR",
+      "error": "closing parenthesis '}' does not match opening parenthesis '(' on line 2117 (tools.py, line 2124)"
     }
   ],
   "github_mcp_7": [
@@ -652,35 +392,20 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "github_mcp_6": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "closing parenthesis '}' does not match opening parenthesis '(' on line 2117 (tools.py, line 2124)"
-    }
-  ],
-  "file_system_7": [
-    {
-      "tool": "CreateTmuxSession",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "UpdateTaskStatus",
-      "error": "UpdateTaskStatusTool.invoke() missing 1 required positional argument: 'completed'"
-    }
-  ],
-  "logistics_supply_chain_2": [],
-  "it_help_desk_4": [
+  "it_help_desk_5": [],
+  "logistics_supply_chain_1": [],
+  "it_help_desk_2": [
     {
       "tool": "AssignLicense",
-      "error": "string indices must be integers, not 'str'"
+      "error": "string indices must be integers"
     },
     {
       "tool": "CreateDeviceWorkflow",
-      "error": "string indices must be integers, not 'str'"
+      "error": "string indices must be integers"
     },
     {
       "tool": "CreateAuditRecord",
-      "error": "string indices must be integers, not 'str'"
+      "error": "string indices must be integers"
     },
     {
       "tool": "SaveReportToMetricsDb",
@@ -688,132 +413,202 @@
     },
     {
       "tool": "createMailbox",
-      "error": "string indices must be integers, not 'str'"
+      "error": "string indices must be integers"
     },
     {
       "tool": "AddMemoToLifecycleQueue",
-      "error": "string indices must be integers, not 'str'"
+      "error": "string indices must be integers"
     },
     {
       "tool": "createDataArchiveEntry",
-      "error": "string indices must be integers, not 'str'"
+      "error": "string indices must be integers"
     }
   ],
-  "logistics_supply_chain_1": [],
-  "it_help_desk_5": [],
+  "it_help_desk_4": [
+    {
+      "tool": "AssignLicense",
+      "error": "string indices must be integers"
+    },
+    {
+      "tool": "CreateDeviceWorkflow",
+      "error": "string indices must be integers"
+    },
+    {
+      "tool": "CreateAuditRecord",
+      "error": "string indices must be integers"
+    },
+    {
+      "tool": "SaveReportToMetricsDb",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "createMailbox",
+      "error": "string indices must be integers"
+    },
+    {
+      "tool": "AddMemoToLifecycleQueue",
+      "error": "string indices must be integers"
+    },
+    {
+      "tool": "createDataArchiveEntry",
+      "error": "string indices must be integers"
+    }
+  ],
+  "logistics_supply_chain_3": [],
   "it_help_desk_6": [
     {
       "tool": "CreateDeviceWorkflow",
       "error": "CreateDeviceWorkflow.invoke() missing 1 required positional argument: 'pickup_code'"
     }
   ],
-  "it_help_desk_2": [
-    {
-      "tool": "AssignLicense",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "CreateDeviceWorkflow",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "CreateAuditRecord",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "SaveReportToMetricsDb",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "createMailbox",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "AddMemoToLifecycleQueue",
-      "error": "string indices must be integers, not 'str'"
-    },
-    {
-      "tool": "createDataArchiveEntry",
-      "error": "string indices must be integers, not 'str'"
-    }
-  ],
-  "logistics_supply_chain_5": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 1209 (tools.py, line 1212)"
-    }
-  ],
-  "logistics_supply_chain_3": [],
+  "logistics_supply_chain_2": [],
   "logistics_supply_chain_6": [],
-  "new_hire_mcp_2": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "'(' was never closed (tools.py, line 29)"
-    }
-  ],
   "new_hire_mcp_1": [
     {
       "tool": "LOAD_ERROR",
       "error": "invalid syntax (tools.py, line 1106)"
     }
   ],
-  "new_hire_mcp_4": [
+  "logistics_supply_chain_5": [
     {
       "tool": "LOAD_ERROR",
-      "error": "'(' was never closed (tools.py, line 977)"
+      "error": "invalid syntax (tools.py, line 184)"
     }
   ],
-  "org_chart_5": [
+  "new_hire_mcp_2": [
     {
       "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 671)"
+      "error": "'(' was never closed (tools.py, line 29)"
     }
   ],
-  "org_chart_1": [],
   "new_hire_mcp_3": [],
   "new_hire_mcp_5": [
     {
-      "tool": "LOAD_ERROR",
-      "error": "'(' was never closed (tools.py, line 385)"
-    }
-  ],
-  "project_management_3": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ']' does not match opening parenthesis '(' on line 184 (tools.py, line 185)"
-    }
-  ],
-  "org_chart_2": [],
-  "org_chart_3": [
-    {
-      "tool": "ConditionalBenefitMaintenance",
-      "error": "conditional_benefit_maintenance.invoke() missing 1 required positional argument: 'equity_threshold'"
+      "tool": "WriteOnboardingFile",
+      "error": "'str' object has no attribute 'get'"
     },
     {
-      "tool": "ConditionalBonusTargetNormalization",
-      "error": "conditional_bonus_target_normalization.invoke() missing 1 required positional argument: 'target_bonus_pct'"
+      "tool": "GetOrCreateEmailLabel",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "CreateAssetRequest",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "WriteAssetRequestFile",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "UpdateAssetRequestStatus",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "WritePendingTasksFile",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "AllocateFirstAvailableAsset",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "ReplyToEmailThread",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "SummarizeAccessChecks",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "AuditAttachmentsForEmail",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "CloseCompletedChecklistItems",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "recordAccessChecksAndNotifyGaps",
+      "error": "'dict' object has no attribute 'append'"
+    }
+  ],
+  "org_chart_3": [],
+  "new_hire_mcp_4": [
+    {
+      "tool": "GetOrCreateEmailLabel",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "AllocateFirstAvailableAsset",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "WriteOnboardingFile",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "recordAccessChecksAndNotifyGaps",
+      "error": "'dict' object has no attribute 'append'"
+    },
+    {
+      "tool": "ReplyToEmailThread",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "WriteAssetRequestFile",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "CreateAssetRequest",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "WritePendingTasksFile",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "UpdateAssetRequestStatus",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "AuditAttachmentsForEmail",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "CloseCompletedChecklistItems",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "SummarizeAccessChecks",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "createCandidate",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "addChecklistItemForCandidate",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "createOnboardingFile",
+      "error": "'str' object has no attribute 'get'"
     }
   ],
   "org_chart_4": [
     {
       "tool": "addEmployee",
-      "error": "add_employee.invoke() got an unexpected keyword argument 'employee'. Did you mean 'employee_id'?"
+      "error": "add_employee.invoke() got an unexpected keyword argument 'employee'"
     },
     {
       "tool": "addDepartment",
-      "error": "add_department.invoke() got an unexpected keyword argument 'department'. Did you mean 'department_id'?"
+      "error": "add_department.invoke() got an unexpected keyword argument 'department'"
     }
   ],
-  "project_management_2": [
+  "org_chart_5": [
     {
       "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ']' does not match opening parenthesis '(' on line 2399 (tools.py, line 2400)"
-    }
-  ],
-  "project_management_5": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 1986 (tools.py, line 1989)"
+      "error": "f-string: unmatched '(' (tools.py, line 266)"
     }
   ],
   "project_management_1": [
@@ -822,40 +617,95 @@
       "error": "closing parenthesis '}' does not match opening parenthesis '(' on line 400 (tools.py, line 401)"
     }
   ],
-  "project_management_4": [
+  "org_chart_1": [],
+  "org_chart_2": [],
+  "project_management_2": [
     {
       "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 399)"
+      "error": "closing parenthesis ']' does not match opening parenthesis '(' on line 2399 (tools.py, line 2400)"
     }
   ],
-  "rbac_3": [
+  "project_management_3": [
     {
       "tool": "LOAD_ERROR",
-      "error": "cannot assign to function call here. Maybe you meant '==' instead of '='? (tools.py, line 241)"
-    }
-  ],
-  "rbac_2": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 699)"
+      "error": "closing parenthesis ']' does not match opening parenthesis '(' on line 184 (tools.py, line 185)"
     }
   ],
   "rbac_5": [
     {
       "tool": "LOAD_ERROR",
-      "error": "unmatched ')' (tools.py, line 949)"
+      "error": "closing parenthesis '}' does not match opening parenthesis '(' (tools.py, line 1167)"
+    }
+  ],
+  "project_management_4": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "unmatched ')' (tools.py, line 1809)"
+    }
+  ],
+  "rbac_1": [],
+  "project_management_5": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "invalid syntax (tools.py, line 291)"
+    }
+  ],
+  "rbac_3": [
+    {
+      "tool": "CreateAccessRequest",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "AcknowledgeSiemAlert",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "updateHubspotTicket",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "closeHubspotTicketBasic",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "UpdateHubspotTicketStatus",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "UpdateHubspotTicketAssignee",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "SetUserMfa",
+      "error": "'str' object has no attribute 'get'"
+    },
+    {
+      "tool": "upsertEmail",
+      "error": "'str' object has no attribute 'get'"
+    }
+  ],
+  "rbac_2": [
+    {
+      "tool": "CreatePolicyException",
+      "error": "CreatePolicyException.invoke() got an unexpected keyword argument 'expires_at'"
+    }
+  ],
+  "rbac_4": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "f-string: unmatched '(' (tools.py, line 1492)"
+    }
+  ],
+  "real_estate_sales_3": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "'return' outside function (tools.py, line 20)"
     }
   ],
   "real_estate_sales_2": [
     {
-      "tool": "LOAD_ERROR",
-      "error": "'(' was never closed (tools.py, line 45)"
-    }
-  ],
-  "real_estate_sales_1": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "'(' was never closed (tools.py, line 245)"
+      "tool": "ListClientEmails",
+      "error": "'str' object has no attribute 'get'"
     }
   ],
   "real_estate_sales_7": [
@@ -864,41 +714,11 @@
       "error": "closing parenthesis '}' does not match opening parenthesis '(' on line 1203 (tools.py, line 1210)"
     }
   ],
-  "rbac_4": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 1404)"
-    }
-  ],
+  "real_estate_sales_1": [],
   "real_estate_sales_4": [
     {
-      "tool": "LOAD_ERROR",
-      "error": "'(' was never closed (tools.py, line 230)"
-    }
-  ],
-  "rbac_1": [],
-  "recipes_5": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "'(' was never closed (tools.py, line 60)"
-    }
-  ],
-  "real_estate_sales_3": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "'(' was never closed (tools.py, line 1210)"
-    }
-  ],
-  "retail_2": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 1000 (tools.py, line 1004)"
-    }
-  ],
-  "recipes_4": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 187 (tools.py, line 194)"
+      "tool": "findListingsInNeighborhoods",
+      "error": "FindListings.invoke() got an unexpected keyword argument 'neighborhood_ids'"
     }
   ],
   "recipes_1": [
@@ -907,33 +727,45 @@
       "error": "invalid syntax (tools.py, line 336)"
     }
   ],
+  "recipes_4": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "invalid syntax (tools.py, line 181)"
+    }
+  ],
   "recipes_3": [
     {
       "tool": "listRecipes",
       "error": "ListRecipes.invoke() got an unexpected keyword argument 'filters'"
-    },
+    }
+  ],
+  "recipes_2": [],
+  "recipes_5": [],
+  "retail_2": [],
+  "retail_1": [
     {
-      "tool": "UpdateInventoryQuantity",
-      "error": "UpdateInventoryQuantity.invoke() missing 1 required positional argument: 'delta'"
-    },
-    {
-      "tool": "AppendMealHistory",
-      "error": "AppendMealHistory.invoke() missing 1 required positional argument: 'was_prepared'"
+      "tool": "LOAD_ERROR",
+      "error": "invalid syntax (tools.py, line 73)"
     }
   ],
   "retail_3": [
     {
       "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 140 (tools.py, line 145)"
+      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 717 (tools.py, line 722)"
     }
   ],
-  "retail_1": [
+  "retail_6": [
     {
       "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 546 (tools.py, line 550)"
+      "error": "'(' was never closed (tools.py, line 1359)"
     }
   ],
-  "recipes_2": [],
+  "retail_4": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "unmatched ')' (tools.py, line 389)"
+    }
+  ],
   "retail_point_of_sale_and_inventory_system_1": [],
   "retail_5": [
     {
@@ -953,12 +785,13 @@
       "error": "invalid syntax (tools.py, line 57)"
     }
   ],
-  "smart_home_2": [
+  "retail_point_of_sale_and_inventory_system_5": [
     {
-      "tool": "LOAD_ERROR",
-      "error": "unmatched ')' (tools.py, line 572)"
+      "tool": "compareInventoryCounts",
+      "error": "CompareInventoryCounts.invoke() got an unexpected keyword argument 'sku'"
     }
   ],
+  "smart_home_4": [],
   "retail_point_of_sale_and_inventory_system_6": [
     {
       "tool": "createEmployee",
@@ -969,44 +802,10 @@
       "error": "FindCheckOutEmployee.invoke() missing 1 required positional argument: 'store_id'"
     }
   ],
-  "retail_4": [
+  "smart_home_3": [
     {
       "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 232 (tools.py, line 239)"
-    }
-  ],
-  "retail_6": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "'(' was never closed (tools.py, line 1359)"
-    }
-  ],
-  "smart_home_5": [
-    {
-      "tool": "LOAD_ERROR",
-      "error": "invalid syntax (tools.py, line 130)"
-    }
-  ],
-  "retail_point_of_sale_and_inventory_system_5": [
-    {
-      "tool": "compareInventoryCounts",
-      "error": "CompareInventoryCounts.invoke() got an unexpected keyword argument 'sku'"
-    },
-    {
-      "tool": "CreateInventoryAdjustment",
-      "error": "CreateInventoryAdjustment.invoke() missing 1 required positional argument: 'amount'"
-    },
-    {
-      "tool": "CreateTransferOrder",
-      "error": "CreateTransferOrder.invoke() missing 1 required positional argument: 'quantity'"
-    },
-    {
-      "tool": "LogTransfer",
-      "error": "LogTransfer.invoke() missing 1 required positional argument: 'quantity'"
-    },
-    {
-      "tool": "ComputeDiscrepancyAmount",
-      "error": "ComputeDiscrepancyAmount.invoke() missing 1 required positional argument: 'unit_cost'"
+      "error": "closing parenthesis ']' does not match opening parenthesis '(' on line 362 (tools.py, line 363)"
     }
   ],
   "smart_home_1": [
@@ -1015,25 +814,10 @@
       "error": "UpdateDeviceStateTimer.invoke() missing 1 required positional argument: 'timestamp_end'"
     }
   ],
-  "smart_home_4": [],
-  "smart_home_3": [
+  "smart_home_2": [
     {
       "tool": "LOAD_ERROR",
-      "error": "closing parenthesis ']' does not match opening parenthesis '(' on line 362 (tools.py, line 363)"
-    }
-  ],
-  "social_media_advertising_6": [
-    {
-      "tool": "createAdset",
-      "error": "CreateAdset.invoke() missing 1 required positional argument: 'daily_budget'"
-    },
-    {
-      "tool": "updateAdsetBudget",
-      "error": "UpdateAdsetBudget.invoke() missing 1 required positional argument: 'new_budget'"
-    },
-    {
-      "tool": "findUnderperformingAdsets",
-      "error": "FindUnderperformingAdsets.invoke() missing 1 required positional argument: 'min_roas'"
+      "error": "unmatched ')' (tools.py, line 572)"
     }
   ],
   "social_media_advertising_1": [
@@ -1042,58 +826,28 @@
       "error": "invalid syntax (tools.py, line 2463)"
     }
   ],
+  "smart_home_5": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "invalid syntax (tools.py, line 130)"
+    }
+  ],
+  "social_media_advertising_4": [],
+  "sports_analytics_2": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "f-string: unmatched '(' (tools.py, line 1219)"
+    }
+  ],
   "sports_analytics_4": [
     {
       "tool": "LOAD_ERROR",
       "error": "closing parenthesis '}' does not match opening parenthesis '(' on line 1019 (tools.py, line 1021)"
     }
   ],
-  "social_media_advertising_3": [
-    {
-      "tool": "UpdateAdsetBudget",
-      "error": "UpdateAdsetBudget.invoke() missing 1 required positional argument: 'new_budget'"
-    }
-  ],
-  "social_media_advertising_4": [],
-  "sports_analytics_3": [
-    {
-      "tool": "getPlayerInsightsByPlayeridAndType",
-      "error": "GetPlayerInsightsByPlayeridAndType.invoke() got an unexpected keyword argument 'type'"
-    }
-  ],
-  "social_media_advertising_2": [
-    {
-      "tool": "SetAdsetBudget",
-      "error": "SetAdsetBudget.invoke() missing 1 required positional argument: 'new_budget'"
-    }
-  ],
-  "sports_analytics_5": [
-    {
-      "tool": "CreateAutoBookmarkEvent",
-      "error": "CreateAutoBookmarkEvent.invoke() missing 1 required positional argument: 'leverage_index'"
-    },
-    {
-      "tool": "WritePitchExecutionGrade",
-      "error": "WritePitchExecutionGrade.invoke() missing 1 required positional argument: 'miss_distance_inches'"
-    },
-    {
-      "tool": "FilterTrends",
-      "error": "FilterTrends.invoke() missing 1 required positional argument: 'fdr_threshold'"
-    }
-  ],
+  "social_media_advertising_2": [],
+  "social_media_advertising_3": [],
   "social_media_advertising_5": [
-    {
-      "tool": "ValidateAllocationsAgainstPolicy",
-      "error": "ValidateAllocationsAgainstPolicy.invoke() missing 1 required positional argument: 'total_budget'"
-    },
-    {
-      "tool": "UpdateAdsetBudget",
-      "error": "UpdateAdsetBudget.invoke() missing 1 required positional argument: 'new_budget'"
-    },
-    {
-      "tool": "FindUnderperformingAdsets",
-      "error": "FindUnderperformingAdsets.invoke() missing 1 required positional argument: 'roas_threshold'"
-    },
     {
       "tool": "CreateAutomationRun",
       "error": "'dict' object has no attribute 'append'"
@@ -1103,22 +857,12 @@
       "error": "'dict' object has no attribute 'append'"
     }
   ],
-  "sports_analytics_2": [
+  "social_media_advertising_6": [],
+  "sports_analytics_3": [
     {
-      "tool": "WritePlayerDevGoals",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "WritePlayerDevReports",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "WritePitchExecutionGrades",
-      "error": "'dict' object has no attribute 'append'"
-    },
-    {
-      "tool": "WriteUmpireGameModel",
-      "error": "'dict' object has no attribute 'append'"
+      "tool": "getPlayerInsightsByPlayeridAndType",
+      "error": "GetPlayerInsightsByPlayeridAndType.invoke() got an unexpected keyword argument 'type'"
     }
-  ]
+  ],
+  "sports_analytics_5": []
 }

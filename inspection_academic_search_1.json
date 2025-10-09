@@ -1,0 +1,35 @@
+{
+  "env_name": "academic_search_1",
+  "errors": [
+    {
+      "tool": "LOAD_ERROR",
+      "error": "invalid syntax (tools.py, line 613)"
+    }
+  ],
+  "tools_exists": true,
+  "data_exists": false,
+  "issues_found": [
+    {
+      "type": "SYNTAX_ERROR",
+      "message": "invalid syntax (tools.py, line 613)",
+      "file": "tools.py",
+      "line": 613,
+      "context": {
+        "lines": [
+          "            if project_id_override\n",
+          "            else f\"proj_{uuid.uuid4().hex[:4]}\"\n",
+          "        )\n",
+          "\n",
+          "        if any(p[\"study_id\"] == new_id for p in data.get(\"projects\", {}).values():\n",
+          "            payload = {\"error\": f\"Project with ID '{new_id}' already exists.\"}\n",
+          "            out = json.dumps(payload)\n",
+          "            return out\n",
+          "\n",
+          "        new_project = {\n"
+        ],
+        "start_line": 609,
+        "error_line": 613
+      }
+    }
+  ]
+}
