@@ -11,13 +11,14 @@ FIXED_TS = "2025-01-27T10:00:00Z"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
 def _table(db: dict[str, Any], name: str) -> list[dict[str, Any]]:
     pass
-    return db.get(name, [])
+    table = db.get(name, [])
+    return _convert_db_to_list(table)
 
 
 def _ok(payload: dict[str, Any]) -> str:
@@ -29,7 +30,8 @@ def _ok(payload: dict[str, Any]) -> str:
 
 def _loc_table(db: dict[str, Any]) -> list[dict[str, Any]]:
     pass
-    return db.get("loc_strings") or db.get("loc_strongs") or []
+    table = db.get("loc_strings") or db.get("loc_strongs") or []
+    return _convert_db_to_list(table)
 
 
 def _err(msg: str) -> str:

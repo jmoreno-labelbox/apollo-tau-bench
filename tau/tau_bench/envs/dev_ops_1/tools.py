@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
@@ -20,7 +20,8 @@ def _error(msg: str) -> str:
 
 
 def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
-    return data.setdefault(name, [])
+    table = data.setdefault(name, [])
+    return _convert_db_to_list(table)
 
 
 def _max_int_suffix(

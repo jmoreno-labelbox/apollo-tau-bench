@@ -12,8 +12,14 @@ _HARD_TS = "2024-06-26 16:05:00+00:00"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
+
+
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
 
 
 def _eq(a: str | None, b: str | None) -> bool:
@@ -116,7 +122,7 @@ class ReviewAccessRequestTool(Tool):
                 if existing:
                     existing.update(audit_entry)
                 else:
-                    data["audit_logs"][audit_entry["audit_log_id"]] = audit_entry
+                    _get_table(data, "audit_logs")[audit_entry["audit_log_id"]] = audit_entry
                 out = dict(req)
                 out["audit_log"] = audit_entry
                 # Include subject and body as specified
@@ -232,7 +238,7 @@ class RevokeUserRoleTool(Tool):
                 kept.append(assignment)
 
         if removed:
-            data["user_roles"] = kept
+            _get_table(data, "user_roles") = kept
 
         # Set up information for the audit log
         action_details = "REMOVED" if removed else "NOOP"
@@ -581,7 +587,7 @@ class AssignUserRoleTool(Tool):
                     "assigned_on": _HARD_TS,
                     "expires_on": expires_on,
                 }
-                data["roles"][role_id] = record
+                _get_table(data, "roles")[role_id] = record
         payload = record
         out = json.dumps(payload, indent=2)
         return out
@@ -727,7 +733,7 @@ class AppendAuditLogTool(Tool):
         logs = data.setdefault("audit_logs", [])
         existing = next((l for l in logs.values() if l.get("log_id") == entry["log_id"]), None)
         if existing is None:
-            data["audit_logs"][entry["audit_log_id"]] = entry
+            _get_table(data, "audit_logs")[entry["audit_log_id"]] = entry
             out = entry
         else:
             out = existing
@@ -804,7 +810,7 @@ class LogRevokeDecisionTool(Tool):
             existing.update(entry)
             out = existing
         else:
-            data["audit_logs"][entry["audit_log_id"]] = entry
+            _get_table(data, "audit_logs")[entry["audit_log_id"]] = entry
             out = entry
         payload = out
         out = json.dumps(payload, indent=2)
@@ -2033,7 +2039,7 @@ class AssignRoleOnApprovalTool(Tool):
             "assigned_on": _HARD_TS,
             "expires_on": None,
         }
-        data["user_roles"][user_role_id] = record
+        _get_table(data, "user_roles")[user_role_id] = record
 
         out = {
             "user_role_id": user_role_id,
@@ -2727,7 +2733,7 @@ class UpdateHubspotTicketTool(Tool):
             if existing:
                 existing.update(audit_entry)
             else:
-                data["audit_logs"][audit_entry["audit_log_id"]] = audit_entry
+                _get_table(data, "audit_logs")[audit_entry["audit_log_id"]] = audit_entry
 
         out = dict(t)
         if audit_entry:
@@ -3074,7 +3080,7 @@ class ReviewPolicyExceptionTool(Tool):
                 if existing:
                     existing.update(audit_entry)
                 else:
-                    data["audit_logs"][audit_entry["audit_log_id"]] = audit_entry
+                    _get_table(data, "audit_logs")[audit_entry["audit_log_id"]] = audit_entry
                 out = dict(pe)
                 out["audit_log"] = audit_entry
                 payload = out

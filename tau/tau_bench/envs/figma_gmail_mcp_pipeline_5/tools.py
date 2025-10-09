@@ -12,7 +12,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
@@ -54,7 +54,8 @@ def _det_id(prefix: str, parts: list[str], length: int = 8) -> str:
 
 def _safe_table(data: dict[str, Any], table: str) -> list[dict[str, Any]]:
     """Retrieve or generate a list table."""
-    return data.setdefault(table, [])
+    tbl = data.setdefault(table, [])
+    return _convert_db_to_list(tbl)
 
 #------------------------- Helpers & Conventions -------------------------
 

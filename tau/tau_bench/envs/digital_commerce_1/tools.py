@@ -11,8 +11,14 @@ FIXED_NOW = "2025-08-06T12:00:00Z"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
+
+
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
 
 
 def _stable_id(prefix: str, *parts: str) -> str:
@@ -101,7 +107,7 @@ def _ensure_table(db: dict[str, Any], name: str):
     pass
     if name not in db:
         db[name] = []
-    return db[name]
+    return _convert_db_to_list(db[name])
 
 
 def _json(x: Any) -> str:
@@ -2338,7 +2344,7 @@ class UpsertContextRule(Tool):
 class GetCacheCluster(Tool):
     @staticmethod
     def invoke(data, cluster_id: str, endpoint_url: str = None, instance_type: str = None, security_group_id: str = None, status: str = None) -> str:
-        rows = data.setdefault("aws_elasticache_clusters", [])
+        rows = _get_table(data, "aws_elasticache_clusters")
         row = next((r for r in rows if str(r.get("cluster_id")) == cluster_id), None)
         if not row:
             raise ValueError(f"cache cluster not found: {cluster_id}")
@@ -2371,7 +2377,7 @@ class GetCacheCluster(Tool):
 class GetOfferByCode(Tool):
     @staticmethod
     def invoke(data, offer_code: str, offer_id: str = None, id: str = None, discount_type: str = None, discount_value: float = None, is_active: bool = None, active: bool = False) -> str:
-        rows = data.setdefault("offers", [])
+        rows = _get_table(data, "offers")
         row = next((r for r in rows if str(r.get("offer_code")) == offer_code), None)
         if not row:
             raise ValueError(f"offer not found: {offer_code}")
@@ -2404,7 +2410,7 @@ class GetOfferByCode(Tool):
 class GetPricebookByName(Tool):
     @staticmethod
     def invoke(data, pricebook_name: str) -> str:
-        rows = data.setdefault("pricebooks", [])
+        rows = _get_table(data, "pricebooks")
         row = next(
             (
                 r
@@ -2444,7 +2450,7 @@ class GetPricebookByName(Tool):
 class GetProductByName(Tool):
     @staticmethod
     def invoke(data, name: str) -> str:
-        rows = data.setdefault("products", [])
+        rows = _get_table(data, "products")
         row = next((r for r in rows if str(r.get("name")) == name), None)
         if not row:
             raise ValueError(f"product not found: {name}")
@@ -2475,7 +2481,7 @@ class GetProductByName(Tool):
 class GetSecurityGroupRules(Tool):
     @staticmethod
     def invoke(data, security_group_id: str) -> str:
-        rows = data.setdefault("aws_security_group_rules", [])
+        rows = _get_table(data, "aws_security_group_rules")
         rules = [
             r for r in rows if str(r.get("security_group_id")) == security_group_id
         ]

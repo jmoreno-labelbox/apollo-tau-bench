@@ -11,8 +11,14 @@ FIXED_NOW = "2025-08-15T13:00:00Z"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
+
+
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
 
 
 def _get_next_id(table: list[dict[str, Any]], key: str, prefix: str) -> str:
@@ -33,7 +39,7 @@ class IngestHrMemo(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], memo_id: str, memo_json: dict[str, Any]) -> str:
         row = {"memo_id": memo_id, **memo_json}
-        _append_row(data["hr_memos"], row)
+        _append_row(_get_table(data, "hr_memos"), row)
         payload = {"status": "ok", "memo": row}
         out = json.dumps(payload)
         return out
@@ -67,7 +73,7 @@ class FindEmployees(Tool):
         manager_id: str | None = None
     ) -> str:
         results = _find_all(
-            data["employees"],
+            _get_table(data, "employees"),
             department=department,
             job_title=job_title,
             status=status,
@@ -195,7 +201,7 @@ class AssignLicense(Tool):
             "status": "active",
             "assigned_at": FIXED_NOW,
         }
-        data["license_assignments"][new_assignment["license_assignment_id"]] = new_assignment
+        _get_table(data, "license_assignments")[new_assignment["license_assignment_id"]] = new_assignment
         payload = new_assignment
         out = json.dumps(payload, indent=2)
         return out
@@ -411,7 +417,7 @@ class CreateJiraTicket(Tool):
             "created_at": FIXED_NOW,
             "updated_at": FIXED_NOW,
         }
-        data["tickets"][new_ticket["ticket_id"]] = new_ticket
+        _get_table(data, "tickets")[new_ticket["ticket_id"]] = new_ticket
         payload = new_ticket
         out = json.dumps(payload, indent=2)
         return out
@@ -660,7 +666,7 @@ class ArchiveMailbox(Tool):
             "retention_policy": mailbox["retention_policy"],
             "created_at": FIXED_NOW,
         }
-        data["archives"][archive_id] = new_archive
+        _get_table(data, "archives")[archive_id] = new_archive
         payload = new_archive
         out = json.dumps(payload, indent=2)
         return out
@@ -1180,7 +1186,7 @@ class CreateMailbox(Tool):
             "retention_policy": "std_2y",
             "created_at": FIXED_NOW,
         }
-        data["mailboxes"][new_mailbox["mailboxe_id"]] = new_mailbox
+        _get_table(data, "mailboxes")[new_mailbox["mailboxe_id"]] = new_mailbox
         payload = new_mailbox
         out = json.dumps(payload, indent=2)
         return out
@@ -1307,7 +1313,7 @@ class AddMemoToLifecycleQueue(Tool):
             "status": "queued",
             "created_at": FIXED_NOW,
         }
-        data["lifecycle_queue"][new_entry["lifecycle_queue_id"]] = new_entry
+        _get_table(data, "lifecycle_queue")[new_entry["lifecycle_queue_id"]] = new_entry
         payload = new_entry
         out = json.dumps(payload, indent=2)
         return out
@@ -1573,7 +1579,7 @@ class CreateDataArchiveEntry(Tool):
             "retention_label": retention_label,
             "created_at": FIXED_NOW,
         }
-        data["archives"][archive_id] = new_archive
+        _get_table(data, "archives")[archive_id] = new_archive
         payload = new_archive
         out = json.dumps(payload, indent=2)
         return out
@@ -1780,7 +1786,7 @@ def _find_one(
 class GetEmployeeById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str) -> str:
-        emp = _find_one(data["employees"], employee_id=employee_id)
+        emp = _find_one(_get_table(data, "employees"), employee_id=employee_id)
         payload = {"status": "ok", "employee": emp}
         out = json.dumps(payload)
         return out
@@ -1810,9 +1816,9 @@ class GetDirectoryAccount(Tool):
     ) -> str:
         acct = None
         if account_id:
-            acct = _find_one(data["directory_accounts"], account_id=account_id)
+            acct = _find_one(_get_table(data, "directory_accounts"), account_id=account_id)
         elif employee_id:
-            acct = _find_one(data["directory_accounts"], employee_id=employee_id)
+            acct = _find_one(_get_table(data, "directory_accounts"), employee_id=employee_id)
         payload = {"status": "ok", "account": acct}
         out = json.dumps(payload)
         return out
@@ -1847,7 +1853,7 @@ class FindAssets(Tool):
         mdm_enrolled: bool | None = None
     ) -> str:
         results = []
-        for a in data["it_assets"].values():
+        for a in _get_table(data, "it_assets").values():
             if asset_type and a["asset_type"] != asset_type:
                 continue
             if status and a["status"] != status:
@@ -1893,7 +1899,7 @@ class GetLicenseAssignments(Tool):
         account_id: str | None = None
     ) -> str:
         results: list[dict[str, Any]] = []
-        for a in data["license_assignments"].values():
+        for a in _get_table(data, "license_assignments").values():
             if employee_id and a["employee_id"] != employee_id:
                 continue
             if account_id and a["account_id"] != account_id:
@@ -1931,9 +1937,9 @@ class GetMailbox(Tool):
     ) -> str:
         mbx = None
         if mailbox_id:
-            mbx = _find_one(data["mailboxes"], mailbox_id=mailbox_id)
+            mbx = _find_one(_get_table(data, "mailboxes"), mailbox_id=mailbox_id)
         elif employee_id:
-            mbx = _find_one(data["mailboxes"], employee_id=employee_id)
+            mbx = _find_one(_get_table(data, "mailboxes"), employee_id=employee_id)
         payload = {"status": "ok", "mailbox": mbx}
         out = json.dumps(payload)
         return out
@@ -1985,7 +1991,7 @@ class RequestAssetReturn(Tool):
             "created_at": due_ts,
             "completed_at": None,
         }
-        _append_row(data["device_workflow"], row)
+        _append_row(_get_table(data, "device_workflow"), row)
         payload = {"status": "ok", "workflow": row}
         out = json.dumps(payload)
         return out
@@ -2019,7 +2025,7 @@ class UpdateAssetStatus(Tool):
         status: str,
         mdm_enrolled: bool | None = None
     ) -> str:
-        asset = _find_one(data["it_assets"], asset_id=asset_id)
+        asset = _find_one(_get_table(data, "it_assets"), asset_id=asset_id)
         if not asset:
             payload = {"status": "error", "reason": "asset_not_found"}
             out = json.dumps(payload)
@@ -2055,7 +2061,7 @@ class GetBaselineForRole(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], department: str, job_title: str) -> str:
         row = _find_one(
-            data["rbac_group_map"], department=department, job_title=job_title
+            _get_table(data, "rbac_group_map"), department=department, job_title=job_title
         )
         if not row:
             payload = {"status": "error", "reason": "rbac_baseline_not_found"}
@@ -2103,7 +2109,7 @@ class ScheduleMdmAction(Tool):
             "created_at": when,
             "completed_at": None,
         }
-        _append_row(data["device_workflow"], row)
+        _append_row(_get_table(data, "device_workflow"), row)
         payload = {"status": "ok", "workflow": row}
         out = json.dumps(payload)
         return out
@@ -2148,9 +2154,9 @@ class EnqueueLifecycleEvent(Tool):
             "status": status,
             "created_at": created_at,
         }
-        _append_row(data["lifecycle_queue"], row)
+        _append_row(_get_table(data, "lifecycle_queue"), row)
         _append_row(
-            data["lifecycle_audit"],
+            _get_table(data, "lifecycle_audit"),
             {
                 "audit_id": f"lcaud_{lifecycle_id}_created",
                 "lifecycle_id": lifecycle_id,
@@ -2205,7 +2211,7 @@ class RecordLifecycleAudit(Tool):
             "timestamp": timestamp,
             "actor": actor,
         }
-        _append_row(data["lifecycle_audit"], row)
+        _append_row(_get_table(data, "lifecycle_audit"), row)
         payload = {"status": "ok", "audit": row}
         out = json.dumps(payload)
         return out
@@ -2217,7 +2223,7 @@ class RecordLifecycleAudit(Tool):
             "timestamp": timestamp,
             "actor": actor,
         }
-        _append_row(data["lifecycle_audit"], row)
+        _append_row(_get_table(data, "lifecycle_audit"), row)
         payload = {"status": "ok", "audit": row}
         out = json.dumps(payload)
         return out
@@ -2252,7 +2258,7 @@ class SetAccountGroups(Tool):
         actor: str,
         timestamp: str
     ) -> str:
-        acct = _find_one(data["directory_accounts"], account_id=account_id)
+        acct = _find_one(_get_table(data, "directory_accounts"), account_id=account_id)
         if not acct:
             payload = {"status": "error", "reason": "account_not_found"}
             out = json.dumps(payload)
@@ -2264,7 +2270,7 @@ class SetAccountGroups(Tool):
         acct["group_ids"] = sorted(group_ids)
         if not to_add and not to_remove:
             _append_row(
-                data["group_membership_audit"],
+                _get_table(data, "group_membership_audit"),
                 {
                     "audit_id": f"gma_{account_id}_nochange_{timestamp}",
                     "account_id": account_id,
@@ -2276,7 +2282,7 @@ class SetAccountGroups(Tool):
             )
         for gid in to_add:
             _append_row(
-                data["group_membership_audit"],
+                _get_table(data, "group_membership_audit"),
                 {
                     "audit_id": f"gma_{account_id}_{gid}_add_{timestamp}",
                     "account_id": account_id,
@@ -2288,7 +2294,7 @@ class SetAccountGroups(Tool):
             )
         for gid in to_remove:
             _append_row(
-                data["group_membership_audit"],
+                _get_table(data, "group_membership_audit"),
                 {
                     "audit_id": f"gma_{account_id}_{gid}_remove_{timestamp}",
                     "account_id": account_id,
@@ -2302,7 +2308,7 @@ class SetAccountGroups(Tool):
         out = json.dumps(payload)
         return out
         pass
-        acct = _find_one(data["directory_accounts"], account_id=account_id)
+        acct = _find_one(_get_table(data, "directory_accounts"), account_id=account_id)
         if not acct:
             payload = {"status": "error", "reason": "account_not_found"}
             out = json.dumps(payload)
@@ -2314,7 +2320,7 @@ class SetAccountGroups(Tool):
         acct["group_ids"] = sorted(group_ids)
         if not to_add and not to_remove:
             _append_row(
-                data["group_membership_audit"],
+                _get_table(data, "group_membership_audit"),
                 {
                     "audit_id": f"gma_{account_id}_nochange_{timestamp}",
                     "account_id": account_id,
@@ -2326,7 +2332,7 @@ class SetAccountGroups(Tool):
             )
         for gid in to_add:
             _append_row(
-                data["group_membership_audit"],
+                _get_table(data, "group_membership_audit"),
                 {
                     "audit_id": f"gma_{account_id}_{gid}_add_{timestamp}",
                     "account_id": account_id,
@@ -2338,7 +2344,7 @@ class SetAccountGroups(Tool):
             )
         for gid in to_remove:
             _append_row(
-                data["group_membership_audit"],
+                _get_table(data, "group_membership_audit"),
                 {
                     "audit_id": f"gma_{account_id}_{gid}_remove_{timestamp}",
                     "account_id": account_id,
@@ -2384,7 +2390,7 @@ class EnsureLicenseCapacityOrOpenJira(Tool):
         priority: str,
         created_at: str
     ) -> str:
-        inv = _find_one(data["license_inventory"], license_id=license_id)
+        inv = _find_one(_get_table(data, "license_inventory"), license_id=license_id)
         if not inv:
             payload = {"status": "error", "reason": "license_not_found"}
             out = json.dumps(payload)
@@ -2405,12 +2411,12 @@ class EnsureLicenseCapacityOrOpenJira(Tool):
             "created_at": created_at,
             "updated_at": created_at,
         }
-        _append_row(data["jira_tickets"], jira)
+        _append_row(_get_table(data, "jira_tickets"), jira)
         payload = {"status": "ok", "capacity": False, "jira": jira}
         out = json.dumps(payload)
         return out
         pass
-        inv = _find_one(data["license_inventory"], license_id=license_id)
+        inv = _find_one(_get_table(data, "license_inventory"), license_id=license_id)
         if not inv:
             payload = {"status": "error", "reason": "license_not_found"}
             out = json.dumps(payload)
@@ -2431,7 +2437,7 @@ class EnsureLicenseCapacityOrOpenJira(Tool):
             "created_at": created_at,
             "updated_at": created_at,
         }
-        _append_row(data["jira_tickets"], jira)
+        _append_row(_get_table(data, "jira_tickets"), jira)
         payload = {"status": "ok", "capacity": False, "jira": jira}
         out = json.dumps(payload)
         return out
@@ -2469,14 +2475,14 @@ class UpdateLifecycleStatus(Tool):
     def invoke(
         data: dict[str, Any], lifecycle_id: str, status: str, timestamp: str, actor: str
     ) -> str:
-        row = _find_one(data["lifecycle_queue"], lifecycle_id=lifecycle_id)
+        row = _find_one(_get_table(data, "lifecycle_queue"), lifecycle_id=lifecycle_id)
         if not row:
             payload = {"status": "error", "reason": "lifecycle_not_found"}
             out = json.dumps(payload)
             return out
         row["status"] = status
         _append_row(
-            data["lifecycle_audit"],
+            _get_table(data, "lifecycle_audit"),
             {
                 "audit_id": f"lcaud_{lifecycle_id}_{status}",
                 "lifecycle_id": lifecycle_id,
@@ -2489,14 +2495,14 @@ class UpdateLifecycleStatus(Tool):
         out = json.dumps(payload)
         return out
         pass
-        row = _find_one(data["lifecycle_queue"], lifecycle_id=lifecycle_id)
+        row = _find_one(_get_table(data, "lifecycle_queue"), lifecycle_id=lifecycle_id)
         if not row:
             payload = {"status": "error", "reason": "lifecycle_not_found"}
             out = json.dumps(payload)
             return out
         row["status"] = status
         _append_row(
-            data["lifecycle_audit"],
+            _get_table(data, "lifecycle_audit"),
             {
                 "audit_id": f"lcaud_{lifecycle_id}_{status}",
                 "lifecycle_id": lifecycle_id,
@@ -2540,7 +2546,7 @@ class UpsertAppAccount(Tool):
         status: str,
         created_at: str
     ) -> str:
-        row = _find_one(data["app_accounts"], app_account_id=app_account_id)
+        row = _find_one(_get_table(data, "app_accounts"), app_account_id=app_account_id)
         if row:
             _update_row(row, {"status": status})
         else:
@@ -2551,12 +2557,12 @@ class UpsertAppAccount(Tool):
                 "status": status,
                 "created_at": created_at,
             }
-            _append_row(data["app_accounts"], row)
+            _append_row(_get_table(data, "app_accounts"), row)
         payload = {"status": "ok", "app_account": row}
         out = json.dumps(payload)
         return out
         pass
-        row = _find_one(data["app_accounts"], app_account_id=app_account_id)
+        row = _find_one(_get_table(data, "app_accounts"), app_account_id=app_account_id)
         if row:
             _update_row(row, {"status": status})
         else:
@@ -2567,7 +2573,7 @@ class UpsertAppAccount(Tool):
                 "status": status,
                 "created_at": created_at,
             }
-            _append_row(data["app_accounts"], row)
+            _append_row(_get_table(data, "app_accounts"), row)
         payload = {"status": "ok", "app_account": row}
         out = json.dumps(payload)
         return out
@@ -2704,7 +2710,7 @@ class CreateDirectoryAccount(Tool):
             "created_at": FIXED_NOW,
             "disabled_at": None,
         }
-        data["accounts"][account_id] = new_account
+        _get_table(data, "accounts")[account_id] = new_account
         payload = new_account
         out = json.dumps(payload, indent=2)
         return out
