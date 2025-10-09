@@ -62,7 +62,7 @@ class GetAccessRequest(Tool):
                     out["role"] = role
             if include_resource:
                 res_id = ar.get("resource_id") or ""
-                resource = _find_by_id(data.get("resources", {}).values(), "resource_id", res_id)
+                resource = _find_by_id(data.get("resources", {}).values()), "resource_id", res_id)
                 if resource is not None:
                     out["resource"] = resource
             payload = out

@@ -1,6 +1,6 @@
 {
-  "total_syntax_errors": 64,
-  "files_with_errors": 64,
+  "total_syntax_errors": 55,
+  "files_with_errors": 55,
   "errors_by_file": {
     "tau/tau_bench/envs/career_planner_4/tools/bulk_check_team_courses.py": [
       {
@@ -18,44 +18,20 @@
         "raw": "tau/tau_bench/envs/consulting_accounting_4/tools/compute_collection_kp_is.py:21: '(' was never closed at \"avg_daily_sales = round(\""
       }
     ],
-    "tau/tau_bench/envs/career_planner_5/tasks.py": [
-      {
-        "filepath": "tau/tau_bench/envs/career_planner_5/tasks.py",
-        "line": 69,
-        "error": "leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers at \"\"annotator\": pra-01,\"",
-        "raw": "tau/tau_bench/envs/career_planner_5/tasks.py:69: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers at \"\"annotator\": pra-01,\""
-      }
-    ],
     "tau/tau_bench/envs/consulting_accounting_2/tools.py": [
       {
         "filepath": "tau/tau_bench/envs/consulting_accounting_2/tools.py",
-        "line": 1429,
-        "error": "f-string: unmatched '(' at \"or f\"SNAP{len(data.get(\"dashboard_snapshots\", {})) + 1:03d}\",\"",
-        "raw": "tau/tau_bench/envs/consulting_accounting_2/tools.py:1429: f-string: unmatched '(' at \"or f\"SNAP{len(data.get(\"dashboard_snapshots\", {})) + 1:03d}\",\""
+        "line": 1474,
+        "error": "f-string: unmatched '(' at \"\"run_id\": run_id or f\"RUN{len(data.get(\"scheduler_runs\", {})) + 1:03d}\",\"",
+        "raw": "tau/tau_bench/envs/consulting_accounting_2/tools.py:1474: f-string: unmatched '(' at \"\"run_id\": run_id or f\"RUN{len(data.get(\"scheduler_runs\", {})) + 1:03d}\",\""
       }
     ],
     "tau/tau_bench/envs/banking_services_4/tools/split_transaction_between_accounts.py": [
       {
         "filepath": "tau/tau_bench/envs/banking_services_4/tools/split_transaction_between_accounts.py",
         "line": 17,
-        "error": "invalid syntax at \"if abs(sum(s['amount'] for s in splits) != abs(orig_txn['amount']):)\"",
-        "raw": "tau/tau_bench/envs/banking_services_4/tools/split_transaction_between_accounts.py:17: invalid syntax at \"if abs(sum(s['amount'] for s in splits) != abs(orig_txn['amount']):)\""
-      }
-    ],
-    "tau/tau_bench/envs/rbac_5/tools/ensure_user_role.py": [
-      {
-        "filepath": "tau/tau_bench/envs/rbac_5/tools/ensure_user_role.py",
-        "line": 44,
-        "error": "invalid syntax at \"for i, ur in enumerate(assignments.values():\"",
-        "raw": "tau/tau_bench/envs/rbac_5/tools/ensure_user_role.py:44: invalid syntax at \"for i, ur in enumerate(assignments.values():\""
-      }
-    ],
-    "tau/tau_bench/envs/rbac_5/tools/create_policy_exception.py": [
-      {
-        "filepath": "tau/tau_bench/envs/rbac_5/tools/create_policy_exception.py",
-        "line": 49,
-        "error": "unmatched ')' at \"if not _find_by_id(data.get(\"users\", {}).values()), \"user_id\", reviewed_by):\"",
-        "raw": "tau/tau_bench/envs/rbac_5/tools/create_policy_exception.py:49: unmatched ')' at \"if not _find_by_id(data.get(\"users\", {}).values()), \"user_id\", reviewed_by):\""
+        "error": "unmatched ')' at \"if abs(sum(s['amount'] for s in splits)) != abs(orig_txn['amount']):)\"",
+        "raw": "tau/tau_bench/envs/banking_services_4/tools/split_transaction_between_accounts.py:17: unmatched ')' at \"if abs(sum(s['amount'] for s in splits)) != abs(orig_txn['amount']):)\""
       }
     ],
     "tau/tau_bench/envs/rbac_5/tools/decide_access_request.py": [
@@ -64,14 +40,6 @@
         "line": 93,
         "error": "unmatched ')' at \")\"",
         "raw": "tau/tau_bench/envs/rbac_5/tools/decide_access_request.py:93: unmatched ')' at \")\""
-      }
-    ],
-    "tau/tau_bench/envs/rbac_5/tools/update_user_role.py": [
-      {
-        "filepath": "tau/tau_bench/envs/rbac_5/tools/update_user_role.py",
-        "line": 58,
-        "error": "invalid syntax at \"for i, ur in enumerate(assignments.values():\"",
-        "raw": "tau/tau_bench/envs/rbac_5/tools/update_user_role.py:58: invalid syntax at \"for i, ur in enumerate(assignments.values():\""
       }
     ],
     "tau/tau_bench/envs/rbac_5/tools/assign_permission_to_role.py": [
@@ -88,14 +56,6 @@
         "line": 77,
         "error": "'{' was never closed at \"payload = {\"resource_id\": resource_id, \"users\": list(acc.values())\"",
         "raw": "tau/tau_bench/envs/rbac_5/tools/list_users_with_access_to_resource.py:77: '{' was never closed at \"payload = {\"resource_id\": resource_id, \"users\": list(acc.values())\""
-      }
-    ],
-    "tau/tau_bench/envs/rbac_5/tools/get_access_request.py": [
-      {
-        "filepath": "tau/tau_bench/envs/rbac_5/tools/get_access_request.py",
-        "line": 65,
-        "error": "unmatched ')' at \"resource = _find_by_id(data.get(\"resources\", {}).values()), \"resource_id\", res_id)\"",
-        "raw": "tau/tau_bench/envs/rbac_5/tools/get_access_request.py:65: unmatched ')' at \"resource = _find_by_id(data.get(\"resources\", {}).values()), \"resource_id\", res_id)\""
       }
     ],
     "tau/tau_bench/envs/sports_analytics_2/tools.py": [
@@ -146,14 +106,6 @@
         "raw": "tau/tau_bench/envs/airline_3/tools/find_flights.py:123: '(' was never closed at \"flight[\"lowest_price\"] = min(prices.values()\""
       }
     ],
-    "tau/tau_bench/envs/airline_3/tools/manage_crew_member.py": [
-      {
-        "filepath": "tau/tau_bench/envs/airline_3/tools/manage_crew_member.py",
-        "line": 174,
-        "error": "invalid syntax at \"for i, assignment in enumerate(flight_crew_assignments.values():\"",
-        "raw": "tau/tau_bench/envs/airline_3/tools/manage_crew_member.py:174: invalid syntax at \"for i, assignment in enumerate(flight_crew_assignments.values():\""
-      }
-    ],
     "tau/tau_bench/envs/airline_5/tools/update_flight_inventory_and_prices.py": [
       {
         "filepath": "tau/tau_bench/envs/airline_5/tools/update_flight_inventory_and_prices.py",
@@ -165,17 +117,17 @@
     "tau/tau_bench/envs/project_management_2/tools/bulk_move_tasks_to_sprint.py": [
       {
         "filepath": "tau/tau_bench/envs/project_management_2/tools/bulk_move_tasks_to_sprint.py",
-        "line": 67,
-        "error": "invalid syntax at \"capacity_limit = avg_velocity * 0.8\"",
-        "raw": "tau/tau_bench/envs/project_management_2/tools/bulk_move_tasks_to_sprint.py:67: invalid syntax at \"capacity_limit = avg_velocity * 0.8\""
+        "line": 72,
+        "error": "'(' was never closed at \"current_points = sum(t.get(\"story_points\", 0) for t in sprint_tasks.values()\"",
+        "raw": "tau/tau_bench/envs/project_management_2/tools/bulk_move_tasks_to_sprint.py:72: '(' was never closed at \"current_points = sum(t.get(\"story_points\", 0) for t in sprint_tasks.values()\""
       }
     ],
     "tau/tau_bench/envs/project_management_2/tools/assign_task_to_sprint.py": [
       {
         "filepath": "tau/tau_bench/envs/project_management_2/tools/assign_task_to_sprint.py",
-        "line": 74,
-        "error": "invalid syntax at \"capacity_limit = avg_velocity * 0.8\"",
-        "raw": "tau/tau_bench/envs/project_management_2/tools/assign_task_to_sprint.py:74: invalid syntax at \"capacity_limit = avg_velocity * 0.8\""
+        "line": 80,
+        "error": "'(' was never closed at \"current_points = sum(t.get(\"story_points\", 0) for t in sprint_tasks.values()\"",
+        "raw": "tau/tau_bench/envs/project_management_2/tools/assign_task_to_sprint.py:80: '(' was never closed at \"current_points = sum(t.get(\"story_points\", 0) for t in sprint_tasks.values()\""
       }
     ],
     "tau/tau_bench/envs/project_management_2/tools/generate_sprint_report.py": [
@@ -274,22 +226,6 @@
         "raw": "tau/tau_bench/envs/recipes_1/tools/build_recipe_filters.py:20: '(' was never closed at \"ex = \",\".join(sorted(str(c) for c in cuisines_exclude)\""
       }
     ],
-    "tau/tau_bench/envs/retail_4/tools/update_product_availability.py": [
-      {
-        "filepath": "tau/tau_bench/envs/retail_4/tools/update_product_availability.py",
-        "line": 33,
-        "error": "invalid syntax at \"for i, product in enumerate(products.values():\"",
-        "raw": "tau/tau_bench/envs/retail_4/tools/update_product_availability.py:33: invalid syntax at \"for i, product in enumerate(products.values():\""
-      }
-    ],
-    "tau/tau_bench/envs/retail_4/tools/update_supplier_info.py": [
-      {
-        "filepath": "tau/tau_bench/envs/retail_4/tools/update_supplier_info.py",
-        "line": 34,
-        "error": "invalid syntax at \"for i, supplier in enumerate(suppliers.values():\"",
-        "raw": "tau/tau_bench/envs/retail_4/tools/update_supplier_info.py:34: invalid syntax at \"for i, supplier in enumerate(suppliers.values():\""
-      }
-    ],
     "tau/tau_bench/envs/retail_4/tools/create_order.py": [
       {
         "filepath": "tau/tau_bench/envs/retail_4/tools/create_order.py",
@@ -333,9 +269,9 @@
     "tau/tau_bench/envs/retail_4/tools/assign_tracking_number.py": [
       {
         "filepath": "tau/tau_bench/envs/retail_4/tools/assign_tracking_number.py",
-        "line": 86,
-        "error": "invalid syntax at \"for i, order in enumerate(orders.values():\"",
-        "raw": "tau/tau_bench/envs/retail_4/tools/assign_tracking_number.py:86: invalid syntax at \"for i, order in enumerate(orders.values():\""
+        "line": 147,
+        "error": "unmatched ')' at \"for courier in couriers.values()):\"",
+        "raw": "tau/tau_bench/envs/retail_4/tools/assign_tracking_number.py:147: unmatched ')' at \"for courier in couriers.values()):\""
       }
     ],
     "tau/tau_bench/envs/retail_4/tools/add_to_order.py": [
@@ -360,14 +296,6 @@
         "line": 73,
         "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 70 at \"\"performance_metrics\": supplier_found.get(\"performance_metrics\", {}).values()),\"",
         "raw": "tau/tau_bench/envs/retail_4/tools/get_supplier_details.py:73: closing parenthesis ')' does not match opening parenthesis '{' on line 70 at \"\"performance_metrics\": supplier_found.get(\"performance_metrics\", {}).values()),\""
-      }
-    ],
-    "tau/tau_bench/envs/retail_4/tools/update_supplier_product.py": [
-      {
-        "filepath": "tau/tau_bench/envs/retail_4/tools/update_supplier_product.py",
-        "line": 104,
-        "error": "invalid syntax at \"for i, supplier in enumerate(suppliers.values():\"",
-        "raw": "tau/tau_bench/envs/retail_4/tools/update_supplier_product.py:104: invalid syntax at \"for i, supplier in enumerate(suppliers.values():\""
       }
     ],
     "tau/tau_bench/envs/retail_4/tools/create_supply_order.py": [
@@ -529,46 +457,22 @@
       "raw": "tau/tau_bench/envs/consulting_accounting_4/tools/compute_collection_kp_is.py:21: '(' was never closed at \"avg_daily_sales = round(\""
     },
     {
-      "filepath": "tau/tau_bench/envs/career_planner_5/tasks.py",
-      "line": 69,
-      "error": "leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers at \"\"annotator\": pra-01,\"",
-      "raw": "tau/tau_bench/envs/career_planner_5/tasks.py:69: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers at \"\"annotator\": pra-01,\""
-    },
-    {
       "filepath": "tau/tau_bench/envs/consulting_accounting_2/tools.py",
-      "line": 1429,
-      "error": "f-string: unmatched '(' at \"or f\"SNAP{len(data.get(\"dashboard_snapshots\", {})) + 1:03d}\",\"",
-      "raw": "tau/tau_bench/envs/consulting_accounting_2/tools.py:1429: f-string: unmatched '(' at \"or f\"SNAP{len(data.get(\"dashboard_snapshots\", {})) + 1:03d}\",\""
+      "line": 1474,
+      "error": "f-string: unmatched '(' at \"\"run_id\": run_id or f\"RUN{len(data.get(\"scheduler_runs\", {})) + 1:03d}\",\"",
+      "raw": "tau/tau_bench/envs/consulting_accounting_2/tools.py:1474: f-string: unmatched '(' at \"\"run_id\": run_id or f\"RUN{len(data.get(\"scheduler_runs\", {})) + 1:03d}\",\""
     },
     {
       "filepath": "tau/tau_bench/envs/banking_services_4/tools/split_transaction_between_accounts.py",
       "line": 17,
-      "error": "invalid syntax at \"if abs(sum(s['amount'] for s in splits) != abs(orig_txn['amount']):)\"",
-      "raw": "tau/tau_bench/envs/banking_services_4/tools/split_transaction_between_accounts.py:17: invalid syntax at \"if abs(sum(s['amount'] for s in splits) != abs(orig_txn['amount']):)\""
-    },
-    {
-      "filepath": "tau/tau_bench/envs/rbac_5/tools/ensure_user_role.py",
-      "line": 44,
-      "error": "invalid syntax at \"for i, ur in enumerate(assignments.values():\"",
-      "raw": "tau/tau_bench/envs/rbac_5/tools/ensure_user_role.py:44: invalid syntax at \"for i, ur in enumerate(assignments.values():\""
-    },
-    {
-      "filepath": "tau/tau_bench/envs/rbac_5/tools/create_policy_exception.py",
-      "line": 49,
-      "error": "unmatched ')' at \"if not _find_by_id(data.get(\"users\", {}).values()), \"user_id\", reviewed_by):\"",
-      "raw": "tau/tau_bench/envs/rbac_5/tools/create_policy_exception.py:49: unmatched ')' at \"if not _find_by_id(data.get(\"users\", {}).values()), \"user_id\", reviewed_by):\""
+      "error": "unmatched ')' at \"if abs(sum(s['amount'] for s in splits)) != abs(orig_txn['amount']):)\"",
+      "raw": "tau/tau_bench/envs/banking_services_4/tools/split_transaction_between_accounts.py:17: unmatched ')' at \"if abs(sum(s['amount'] for s in splits)) != abs(orig_txn['amount']):)\""
     },
     {
       "filepath": "tau/tau_bench/envs/rbac_5/tools/decide_access_request.py",
       "line": 93,
       "error": "unmatched ')' at \")\"",
       "raw": "tau/tau_bench/envs/rbac_5/tools/decide_access_request.py:93: unmatched ')' at \")\""
-    },
-    {
-      "filepath": "tau/tau_bench/envs/rbac_5/tools/update_user_role.py",
-      "line": 58,
-      "error": "invalid syntax at \"for i, ur in enumerate(assignments.values():\"",
-      "raw": "tau/tau_bench/envs/rbac_5/tools/update_user_role.py:58: invalid syntax at \"for i, ur in enumerate(assignments.values():\""
     },
     {
       "filepath": "tau/tau_bench/envs/rbac_5/tools/assign_permission_to_role.py",
@@ -581,12 +485,6 @@
       "line": 77,
       "error": "'{' was never closed at \"payload = {\"resource_id\": resource_id, \"users\": list(acc.values())\"",
       "raw": "tau/tau_bench/envs/rbac_5/tools/list_users_with_access_to_resource.py:77: '{' was never closed at \"payload = {\"resource_id\": resource_id, \"users\": list(acc.values())\""
-    },
-    {
-      "filepath": "tau/tau_bench/envs/rbac_5/tools/get_access_request.py",
-      "line": 65,
-      "error": "unmatched ')' at \"resource = _find_by_id(data.get(\"resources\", {}).values()), \"resource_id\", res_id)\"",
-      "raw": "tau/tau_bench/envs/rbac_5/tools/get_access_request.py:65: unmatched ')' at \"resource = _find_by_id(data.get(\"resources\", {}).values()), \"resource_id\", res_id)\""
     },
     {
       "filepath": "tau/tau_bench/envs/sports_analytics_2/tools.py",
@@ -625,12 +523,6 @@
       "raw": "tau/tau_bench/envs/airline_3/tools/find_flights.py:123: '(' was never closed at \"flight[\"lowest_price\"] = min(prices.values()\""
     },
     {
-      "filepath": "tau/tau_bench/envs/airline_3/tools/manage_crew_member.py",
-      "line": 174,
-      "error": "invalid syntax at \"for i, assignment in enumerate(flight_crew_assignments.values():\"",
-      "raw": "tau/tau_bench/envs/airline_3/tools/manage_crew_member.py:174: invalid syntax at \"for i, assignment in enumerate(flight_crew_assignments.values():\""
-    },
-    {
       "filepath": "tau/tau_bench/envs/airline_5/tools/update_flight_inventory_and_prices.py",
       "line": 125,
       "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 120 at \"\"prices\": date_info.get(\"prices\", {}).values()),\"",
@@ -638,15 +530,15 @@
     },
     {
       "filepath": "tau/tau_bench/envs/project_management_2/tools/bulk_move_tasks_to_sprint.py",
-      "line": 67,
-      "error": "invalid syntax at \"capacity_limit = avg_velocity * 0.8\"",
-      "raw": "tau/tau_bench/envs/project_management_2/tools/bulk_move_tasks_to_sprint.py:67: invalid syntax at \"capacity_limit = avg_velocity * 0.8\""
+      "line": 72,
+      "error": "'(' was never closed at \"current_points = sum(t.get(\"story_points\", 0) for t in sprint_tasks.values()\"",
+      "raw": "tau/tau_bench/envs/project_management_2/tools/bulk_move_tasks_to_sprint.py:72: '(' was never closed at \"current_points = sum(t.get(\"story_points\", 0) for t in sprint_tasks.values()\""
     },
     {
       "filepath": "tau/tau_bench/envs/project_management_2/tools/assign_task_to_sprint.py",
-      "line": 74,
-      "error": "invalid syntax at \"capacity_limit = avg_velocity * 0.8\"",
-      "raw": "tau/tau_bench/envs/project_management_2/tools/assign_task_to_sprint.py:74: invalid syntax at \"capacity_limit = avg_velocity * 0.8\""
+      "line": 80,
+      "error": "'(' was never closed at \"current_points = sum(t.get(\"story_points\", 0) for t in sprint_tasks.values()\"",
+      "raw": "tau/tau_bench/envs/project_management_2/tools/assign_task_to_sprint.py:80: '(' was never closed at \"current_points = sum(t.get(\"story_points\", 0) for t in sprint_tasks.values()\""
     },
     {
       "filepath": "tau/tau_bench/envs/project_management_2/tools/generate_sprint_report.py",
@@ -721,18 +613,6 @@
       "raw": "tau/tau_bench/envs/recipes_1/tools/build_recipe_filters.py:20: '(' was never closed at \"ex = \",\".join(sorted(str(c) for c in cuisines_exclude)\""
     },
     {
-      "filepath": "tau/tau_bench/envs/retail_4/tools/update_product_availability.py",
-      "line": 33,
-      "error": "invalid syntax at \"for i, product in enumerate(products.values():\"",
-      "raw": "tau/tau_bench/envs/retail_4/tools/update_product_availability.py:33: invalid syntax at \"for i, product in enumerate(products.values():\""
-    },
-    {
-      "filepath": "tau/tau_bench/envs/retail_4/tools/update_supplier_info.py",
-      "line": 34,
-      "error": "invalid syntax at \"for i, supplier in enumerate(suppliers.values():\"",
-      "raw": "tau/tau_bench/envs/retail_4/tools/update_supplier_info.py:34: invalid syntax at \"for i, supplier in enumerate(suppliers.values():\""
-    },
-    {
       "filepath": "tau/tau_bench/envs/retail_4/tools/create_order.py",
       "line": 343,
       "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 340 at \"\"address\": user.get(\"address\", {}).values()),\"",
@@ -764,9 +644,9 @@
     },
     {
       "filepath": "tau/tau_bench/envs/retail_4/tools/assign_tracking_number.py",
-      "line": 86,
-      "error": "invalid syntax at \"for i, order in enumerate(orders.values():\"",
-      "raw": "tau/tau_bench/envs/retail_4/tools/assign_tracking_number.py:86: invalid syntax at \"for i, order in enumerate(orders.values():\""
+      "line": 147,
+      "error": "unmatched ')' at \"for courier in couriers.values()):\"",
+      "raw": "tau/tau_bench/envs/retail_4/tools/assign_tracking_number.py:147: unmatched ')' at \"for courier in couriers.values()):\""
     },
     {
       "filepath": "tau/tau_bench/envs/retail_4/tools/add_to_order.py",
@@ -785,12 +665,6 @@
       "line": 73,
       "error": "closing parenthesis ')' does not match opening parenthesis '{' on line 70 at \"\"performance_metrics\": supplier_found.get(\"performance_metrics\", {}).values()),\"",
       "raw": "tau/tau_bench/envs/retail_4/tools/get_supplier_details.py:73: closing parenthesis ')' does not match opening parenthesis '{' on line 70 at \"\"performance_metrics\": supplier_found.get(\"performance_metrics\", {}).values()),\""
-    },
-    {
-      "filepath": "tau/tau_bench/envs/retail_4/tools/update_supplier_product.py",
-      "line": 104,
-      "error": "invalid syntax at \"for i, supplier in enumerate(suppliers.values():\"",
-      "raw": "tau/tau_bench/envs/retail_4/tools/update_supplier_product.py:104: invalid syntax at \"for i, supplier in enumerate(suppliers.values():\""
     },
     {
       "filepath": "tau/tau_bench/envs/retail_4/tools/create_supply_order.py",

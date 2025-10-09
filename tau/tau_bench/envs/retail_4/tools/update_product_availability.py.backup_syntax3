@@ -30,7 +30,7 @@ class UpdateProductAvailability(Tool):
         product_index = None
 
         # Find the product
-        for i, product in enumerate(products.values()):
+        for i, product in enumerate(products.values():
             if product.get("product_id") == product_id:
                 product_to_update = product
                 product_index = i

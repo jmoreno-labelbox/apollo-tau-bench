@@ -66,7 +66,7 @@ tasks = [
     }
     ,
     {
-        "annotator": pra-1,
+        "annotator": pra-01,
         "user_id": "res_02",
         "instruction": "Place Ava Nguyen in the Analytics Team and set up a mentorship link with mentor M100, concentrating on analytics and career advancement. Next, inform him with this message: 'Welcome to the Analytics Team! You have been assigned a mentor to support your career growth.', and then inform HR with the following message: 'Ava Nguyen has been added to the Analytics Team and assigned mentor.'",
         "actions": [

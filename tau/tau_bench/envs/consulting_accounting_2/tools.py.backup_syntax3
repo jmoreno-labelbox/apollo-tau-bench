@@ -1426,7 +1426,7 @@ class CaV2CreateMonthlyRevenue(Tool):
         monthly_revenue = {
             "row_id": row_id or f"REV{len(data.get('monthly_revenue', {})) + 1:03d}",
             "snapshot_id": snapshot_id
-            or f"SNAP{len(data.get('dashboard_snapshots', {})) + 1:03d}",
+            or f"SNAP{len(data.get("dashboard_snapshots", {})) + 1:03d}",
             "month_year": month_year,
             "revenue": revenue,
             "tax_reserve": tax_reserve,

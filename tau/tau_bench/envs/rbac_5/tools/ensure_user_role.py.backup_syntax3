@@ -41,7 +41,7 @@ class EnsureUserRole(Tool):
         assignments = data.get("user_roles", {}).values()
         existing = None
         existing_index = None
-        for i, ur in enumerate(assignments.values()):
+        for i, ur in enumerate(assignments.values():
             if ur.get("user_id") == user_id and ur.get("role_id") == role_id:
                 existing = ur
                 existing_index = i
