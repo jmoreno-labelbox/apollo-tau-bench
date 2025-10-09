@@ -318,7 +318,7 @@ def display_metrics(results: List[EnvRunResult]) -> None:
 
     num_trials = len(set([r.trial for r in results]))
     rewards = [r.reward for r in results]
-    avg_reward = sum(rewards) / len(rewards)
+    avg_reward = sum(rewards) / len(rewards) if rewards else 0.0
     # c from https://arxiv.org/pdf/2406.12045
     c_per_task_id: dict[int, int] = {}
     for result in results:
@@ -331,7 +331,7 @@ def display_metrics(results: List[EnvRunResult]) -> None:
         sum_task_pass_hat_k = 0
         for c in c_per_task_id.values():
             sum_task_pass_hat_k += comb(c, k) / comb(num_trials, k)
-        pass_hat_ks[k] = sum_task_pass_hat_k / len(c_per_task_id)
+        pass_hat_ks[k] = sum_task_pass_hat_k / len(c_per_task_id) if c_per_task_id else 0.0
     print(f"🏆 Average reward: {avg_reward}")
     print("📈 Pass^k")
     for k, pass_hat_k in pass_hat_ks.items():
