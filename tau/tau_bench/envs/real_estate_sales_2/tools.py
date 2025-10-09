@@ -83,7 +83,7 @@ class FetchClientPrefs(Tool):
         prefs = next(
             (
                 p
-                for p in data.get("client_preferences", {}).values()
+                for p in _get_table(data, "client_preferences")
                 if p.get("client_id") == client_id
             ),
             None,
@@ -155,7 +155,7 @@ class LookupPropertyWithLatestListing(Tool):
         prop = next(
             (
                 p
-                for p in data.get("properties", {}).values()
+                for p in _get_table(data, "properties")
                 if p.get("property_id") == property_id
             ),
             None,
@@ -167,7 +167,7 @@ class LookupPropertyWithLatestListing(Tool):
             )
             return out
         listings = [
-            l for l in data.get("listings", {}).values() if l.get("property_id") == property_id
+            l for l in _get_table(data, "listings") if l.get("property_id") == property_id
         ]
         listing = None
         if listings:
@@ -216,7 +216,7 @@ class QueryActiveListings(Tool):
         limit: int = 15
     ) -> str:
         neighborhoods = set(neighborhood_ids or [])
-        props = QueryActiveListings._by_key(data.get("properties", {}).values(), "property_id")
+        props = QueryActiveListings._by_key(_get_table(data, "properties"), "property_id")
         listings = data.get("listings") or []
 
         def within(val: float | None, lo: float | None, hi: float | None) -> bool:
@@ -335,7 +335,7 @@ class FetchNeighborhood(Tool):
         n = next(
             (
                 n
-                for n in data.get("neighborhoods", {}).values()
+                for n in _get_table(data, "neighborhoods")
                 if n.get("neighborhood_id") == neighborhood_id
             ),
             None,
@@ -372,7 +372,7 @@ class ListAdjacentNeighborhoods(Tool):
         n = next(
             (
                 n
-                for n in data.get("neighborhoods", {}).values()
+                for n in _get_table(data, "neighborhoods")
                 if n.get("neighborhood_id") == nid
             ),
             None,
@@ -406,7 +406,7 @@ class FetchBrokerProfile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], broker_id: str = None) -> str:
         br = next(
-            (b for b in data.get("brokers", {}).values() if b.get("broker_id") == broker_id),
+            (b for b in _get_table(data, "brokers") if b.get("broker_id") == broker_id),
             None,
         )
         if not br:
@@ -453,7 +453,7 @@ class EstimateMortgagePayment(Tool):
         region = region_override or profile.get("region")
 
         best = None
-        for r in data.get("mortgage_rates", {}).values() or []:
+        for r in _get_table(data, "mortgage_rates") or []:
             if region and r.get("region") != region:
                 continue
             if r.get("term_years") != term_years:
@@ -510,7 +510,7 @@ class RecentSalesForProperty(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], property_id: str, limit: int = 3) -> str:
         sales = [
-            s for s in data.get("sales", {}).values() if s.get("property_id") == property_id
+            s for s in _get_table(data, "sales") if s.get("property_id") == property_id
         ]
         sales = sorted(sales, key=lambda s: s.get("sale_date") or "", reverse=True)[
             :limit
@@ -546,7 +546,7 @@ class CreateOrUpdateCompReport(Tool):
         created_by_broker_id: str,
         final_status: str = "draft"
     ) -> str:
-        reports = data.get("comp_reports", {}).values()
+        reports = _get_table(data, "comp_reports")
         new_report_id = _next_auto_id(reports, "report_id")
         doc_uri = f"https://test.storage.com/reports/comp_{new_report_id:03d}.pdf"
         rpt = {
@@ -560,10 +560,10 @@ class CreateOrUpdateCompReport(Tool):
         }
         _get_table(data, "comp_reports")[rpt["comp_report_id"]] = rpt
 
-        comps_table = data.get("comparables", {}).values()
-        props = _by_key(data.get("properties", {}).values(), "property_id")
+        comps_table = _get_table(data, "comparables")
+        props = _by_key(_get_table(data, "properties"), "property_id")
         candidates = []
-        for lst in data.get("listings", {}).values() or []:
+        for lst in _get_table(data, "listings") or []:
             if lst.get("status") != "active":
                 continue
             pid = lst.get("property_id")
@@ -582,7 +582,7 @@ class CreateOrUpdateCompReport(Tool):
             comp_id = _next_auto_id(comps_table, "comp_id")
             comps_table.append({"comp_id": comp_id, "report_id": new_report_id, **comp})
 
-        documents = data.get("documents", {}).values()
+        documents = _get_table(data, "documents")
         new_doc_id = _next_auto_id(documents, "document_id")
         documents.append(
             {
@@ -596,7 +596,7 @@ class CreateOrUpdateCompReport(Tool):
             }
         )
 
-        audits = data.get("audit_events", {}).values()
+        audits = _get_table(data, "audit_events")
         new_audit_id = _next_auto_id(audits, "event_id")
         audits.append(
             {
@@ -652,7 +652,7 @@ class ReadCompReportBundle(Tool):
         rpt = next(
             (
                 r
-                for r in data.get("comp_reports", {}).values()
+                for r in _get_table(data, "comp_reports")
                 if r.get("report_id") == report_id
             ),
             None,
@@ -663,12 +663,12 @@ class ReadCompReportBundle(Tool):
             return out
         comps = [
             c
-            for c in data.get("comparables", {}).values()
+            for c in _get_table(data, "comparables")
             if c.get("report_id") == report_id
         ]
         docs = [
             d
-            for d in data.get("documents", {}).values()
+            for d in _get_table(data, "documents")
             if d.get("entity_type") == "comp_report"
             and d.get("entity_id") == report_id
         ]
@@ -699,7 +699,7 @@ class SetCompReportStatus(Tool):
         rpt = next(
             (
                 r
-                for r in data.get("comp_reports", {}).values()
+                for r in _get_table(data, "comp_reports")
                 if r.get("report_id") == int(report_id)
             ),
             None,
@@ -736,7 +736,7 @@ class NewCampaignCreator(Tool):
     def invoke(data: dict[str, Any], name: str = None, ctype: str = None, created_by: str = None,
     type: Any = None,
     ) -> str:
-        c = data.get("campaigns", {}).values()
+        c = _get_table(data, "campaigns")
         new_id = _next_auto_id(c, "campaign_id")
         row = {
             "campaign_id": new_id,
@@ -774,7 +774,7 @@ class ReadCampaign(Tool):
     def invoke(data: dict[str, Any], campaign_id: str = None, type: Any = None) -> str:
         cid = campaign_id
         c = next(
-            (x for x in data.get("campaigns", {}).values() if x.get("campaign_id") == cid), None
+            (x for x in _get_table(data, "campaigns") if x.get("campaign_id") == cid), None
         )
         if not c:
             payload = {"error": f"campaign_id {cid} not found"}
@@ -840,7 +840,7 @@ class ComposeClientEmail(Tool):
 class PersistOutboundEmail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], client_id: str = None, broker_id: str = None, subject: str = None, body_uri: str = None, template_code: str = None, campaign_id: str = None) -> str:
-        emails = data.get("emails", {}).values()
+        emails = _get_table(data, "emails")
         new_email_id = _next_auto_id(emails, "email_id")
         row = {
             "email_id": new_email_id,
@@ -888,7 +888,7 @@ class PersistOutboundEmail(Tool):
 class ListClientEmails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], client_id: str = None) -> str:
-        rows = [e for e in (data.get("emails") or []) if e.get("client_id") == client_id]
+        rows = [e for e in _get_table(data, "emails") if e.get("client_id") == client_id]
         payload = {"client_id": client_id, "emails": rows}
         out = json.dumps(payload, indent=2)
         return out
@@ -921,7 +921,7 @@ class InsertCalendarEvent(Tool):
         notes: str = None,
         source: str = None
     ) -> str:
-        events = data.get("calendar_events", {}).values()
+        events = _get_table(data, "calendar_events")
         new_id = _next_auto_id(events, "event_id")
         row = {
             "event_id": new_id,
@@ -974,7 +974,7 @@ class InsertCalendarEvent(Tool):
 class ListClientCalendarEvents(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], client_id: str = None) -> str:
-        rows = [e for e in data.get("calendar_events", {}).values() if e.get("client_id") == client_id]
+        rows = [e for e in _get_table(data, "calendar_events") if e.get("client_id") == client_id]
         payload = {"client_id": client_id, "events": rows}
         out = json.dumps(payload, indent=2)
         return out
@@ -999,7 +999,7 @@ class OpenHousesForProperties(Tool):
     def invoke(data: dict[str, Any], property_ids: list[int] = None, date_from: str = None, date_to: str = None) -> str:
         pids = set(property_ids or [])
         rows = []
-        for oh in data.get("open_houses", {}).values() or []:
+        for oh in _get_table(data, "open_houses") or []:
             if pids and oh.get("property_id") not in pids:
                 continue
             dt = oh.get("start_at", "")
@@ -1041,7 +1041,7 @@ class PersistViewingRoute(Tool):
         map_url: str = None, 
         created_by_broker_id: str = None
     ) -> str:
-        routes = data.get("routes", {}).values()
+        routes = _get_table(data, "routes")
         new_id = _next_auto_id(routes, "route_id")
         row = {
             "route_id": new_id,
@@ -1090,7 +1090,7 @@ class ReadRoute(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], route_id: str = None) -> str:
         rid = route_id
-        r = next((x for x in data.get("routes", {}).values() if x.get("route_id") == rid), None)
+        r = next((x for x in _get_table(data, "routes") if x.get("route_id") == rid), None)
         if not r:
             payload = {"error": f"route_id {rid} not found"}
             out = json.dumps(payload, indent=2)
@@ -1148,7 +1148,7 @@ class DraftSellerBrokerBatch(Tool):
 class AppendAuditEvent(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], actor_id: str = None, action: str = None, entity_type: str = None, entity_id: str = None, metadata_json: dict = None) -> str:
-        audits = data.get("audit_events", {}).values()
+        audits = _get_table(data, "audit_events")
         new_id = _next_auto_id(audits, "event_id")
         row = {
             "event_id": new_id,
@@ -1189,9 +1189,9 @@ class GatherListingsWithProperties(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], listing_ids: list[int] = None) -> str:
         ids = set(listing_ids or [])
-        props = _by_key(data.get("properties", {}).values(), "property_id")
+        props = _by_key(_get_table(data, "properties"), "property_id")
         out: list[dict[str, Any]] = []
-        for lst in data.get("listings", {}).values() or []:
+        for lst in _get_table(data, "listings") or []:
             if ids and lst.get("listing_id") not in ids:
                 continue
             pr = props.get(lst.get("property_id")) or {}
@@ -1222,12 +1222,12 @@ class OpenHouseWindowsByNeighborhoods(Tool):
     def invoke(data: dict[str, Any], neighborhood_ids: list[int] = None) -> str:
         nids = set(neighborhood_ids or [])
         props = [
-            p for p in data.get("properties", {}).values() if p.get("neighborhood_id") in nids
+            p for p in _get_table(data, "properties") if p.get("neighborhood_id") in nids
         ]
         prop_ids = {p.get("property_id") for p in props}
         rows = [
             oh
-            for oh in data.get("open_houses", {}).values()
+            for oh in _get_table(data, "open_houses")
             if oh.get("property_id") in prop_ids
         ]
         payload = {"neighborhood_ids": list(nids), "open_houses": rows}
@@ -1259,7 +1259,7 @@ class OpenHouseWindowsByNeighborhoods(Tool):
 class CreateBriefingDoc(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], client_id: int, broker_id: int, version_tag: str = "v1") -> str:
-        documents = data.get("documents", {}).values()
+        documents = _get_table(data, "documents")
         new_id = _next_auto_id(documents, "document_id")
         file_uri = f"https://test.storage.com/details/client_briefing_{client_id:03d}_{version_tag}.pdf"
         row = {
@@ -1300,7 +1300,7 @@ class LinkDocumentToClient(Tool):
     def invoke(data: dict[str, Any], client_id: str, doc_type: str = "briefing_doc", file_uri: str = None, created_by: str = None,
     document_id: Any = None,
     ) -> str:
-        documents = data.get("documents", {}).values()
+        documents = _get_table(data, "documents")
         new_id = _next_auto_id(documents, "document_id")
         row = {
             "document_id": new_id,

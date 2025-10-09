@@ -110,7 +110,7 @@ class find_gmail_threads(Tool):
             "participant_email": participant_email
         })
         rows = []
-        threads = _ensure(data, "gmail_threads", [])
+        threads = _get_table(data, "gmail_threads")
         label_q = p.get("label_contains")
         subj_q = p.get("subject_contains")
         party_q = p.get("participant_email")
